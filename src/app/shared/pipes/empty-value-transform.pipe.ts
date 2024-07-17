@@ -5,7 +5,7 @@ import { Constants } from 'shared/constants/constants';
   name: 'emptyValueTransform'
 })
 export class EmptyValueTransformPipe implements PipeTransform {
-  transform(value: string, args: string): string {
+  public transform(value: string, args: string): string {
     if (!value) {
       if (args === Constants.DASH_VALUE) {
         return Constants.DASH;

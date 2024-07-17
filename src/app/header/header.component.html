@@ -4,17 +4,18 @@
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
-          <a class="info-link" [routerLink]="'./info/about'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/about'">
             {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}
-          </a>
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/rules'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/rules'">
             {{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate | uppercase }}
-          </a>
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/support'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
+            <mat-icon>support</mat-icon>
             {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
-          </a>
+          </button>
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
@@ -46,7 +47,7 @@
 <app-progress-bar></app-progress-bar>
 
 <ng-template #mobileNavTmpl>
-  <app-navigation-mobile-bar></app-navigation-mobile-bar>
+  <app-navigation-mobile-bar [ngClass]="'nav-mobile'"></app-navigation-mobile-bar>
 </ng-template>
 
 <ng-template #logoTmpl>
@@ -64,9 +65,9 @@
     <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
-      <mat-icon>account_circle</mat-icon>
+      <mat-icon class="account-circle">account_circle</mat-icon>
       {{ userShortName }}
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
     </button>
   </ng-container>
 
@@ -145,9 +146,14 @@
   </ng-template>
 
   <ng-template #unregisteredView>
-    <a [routerLink]="['./create-provider', ModeConstants.NEW]">
+    <a [routerLink]="['./create-provider', ModeConstants.NEW]" *ngIf="user.role === Role.provider">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.PROVIDER_REGISTRATION' | translate }}
+      </button>
+    </a>
+    <a [routerLink]="['./create-parent', ModeConstants.NEW]" *ngIf="user.role === Role.parent">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.USER_REGISTRATION' | translate }}
       </button>
     </a>
   </ng-template>

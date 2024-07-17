@@ -1,23 +1,38 @@
-.mat-icon-button {
-  margin-right: 10px;
-}
-
 :host::ng-deep .mat-icon {
   position: relative;
   overflow: visible;
-
-  height: auto;
-  width: auto;
   font-size: 30px;
   top: -1px;
 
+  @media (min-width: 750px) {
+    height: auto;
+    width: auto;
+  }
+
   .mat-badge-content {
+    right: -20px !important;
+    top: -5px;
     background-color: #f5bc4a;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    line-height: 15px;
+    z-index: 10;
   }
 }
 
 .icon-mobile {
-  top: 10px;
+  top: 8px;
+  margin-left: 73px;
+}
+
+.btn-notifications {
+  margin-left: -8px;
+}
+
+.notifications-icon {
+  margin-left: 5px;
+  margin-right: 15px;
 }
 
 .full-width {

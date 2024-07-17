@@ -24,7 +24,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   public readonly validationConstants = ValidationConstants;
   public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 
   public startTimeFormControl = new FormControl('');
   public endTimeFormControl = new FormControl('');

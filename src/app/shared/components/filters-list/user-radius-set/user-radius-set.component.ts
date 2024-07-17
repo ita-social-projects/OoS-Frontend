@@ -22,18 +22,20 @@ export class UserRadiusSetComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setValue(this.defaultRadiusInKm);
     this.currentRadius.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new FilterChange()));
   }
 
-  radiusHandler(event: ChangeContext): void {
-    event.pointerType && this.setValue(event.highValue);
+  public radiusHandler(event: ChangeContext): void {
+    if (event.pointerType) {
+      this.setValue(event.highValue);
+    }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

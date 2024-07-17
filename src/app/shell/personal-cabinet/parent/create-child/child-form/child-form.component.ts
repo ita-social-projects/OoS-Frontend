@@ -20,9 +20,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit, OnDestroy {
-  public readonly validationConstants = ValidationConstants;
-  private readonly NONE_SOCIAL_GROUP_ID = 6;
-
   @Input()
   public ChildFormGroup: FormGroup;
   @Input()
@@ -40,13 +37,17 @@ export class ChildFormComponent implements OnInit, OnDestroy {
   @ViewChild('chipList')
   private chipList: MatChipList;
 
+  public readonly validationConstants = ValidationConstants;
+
   public socialGroupControl: FormControl = new FormControl([]);
   public dateFilter: RegExp = DATE_REGEX;
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly NONE_SOCIAL_GROUP_ID = 6;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private translateService: TranslateService,

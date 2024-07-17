@@ -8,8 +8,8 @@ import { Provider } from '../../../../shared/models/provider.model';
   styleUrls: ['./provider-about.component.scss']
 })
 export class ProviderAboutComponent {
-  readonly ownershipTypesEnum = OwnershipTypesEnum;
-  readonly institutionTypesEnum = InstitutionTypesEnum;
+  @Input() public provider: Provider;
 
-  @Input() provider: Provider;
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
 }

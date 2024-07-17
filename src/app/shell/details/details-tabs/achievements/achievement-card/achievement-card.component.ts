@@ -10,20 +10,20 @@ import { Workshop } from 'shared/models/workshop.model';
   styleUrls: ['./achievement-card.component.scss']
 })
 export class AchievementCardComponent {
-  @Input() achievement: Achievement;
-  @Input() achievementsTypes: AchievementType[];
-  @Input() workshop: Workshop;
-  @Input() isAllowedEdit: boolean;
+  @Input() public achievement: Achievement;
+  @Input() public achievementsTypes: AchievementType[];
+  @Input() public workshop: Workshop;
+  @Input() public isAllowedEdit: boolean;
 
-  @Output() deleteAchievement = new EventEmitter<Achievement>();
+  @Output() public deleteAchievement = new EventEmitter<Achievement>();
 
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  showMore = false;
+  public showMore = false;
 
   constructor() {}
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteAchievement.emit(this.achievement);
   }
 }

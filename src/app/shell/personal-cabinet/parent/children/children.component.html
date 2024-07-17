@@ -4,7 +4,9 @@
     <span class="text">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</span>
   </ng-container>
 
-  <a [routerLink]="['/create-child', ModeConstants.NEW]">
+  <a
+    [routerLink]="childrenCards.totalAmount < 20 ? ['/create-child', ModeConstants.NEW] : []"
+    [class.disabled-anchor]="childrenCards.totalAmount >= 20">
     <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">
       {{ 'BUTTONS.ADD_CHILDREN' | translate }}
     </button>

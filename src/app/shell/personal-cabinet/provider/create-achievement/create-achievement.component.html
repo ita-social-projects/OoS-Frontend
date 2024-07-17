@@ -7,7 +7,9 @@
     </app-workshop-card>
     <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="AchievementFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <label class="step-label" for="achievement-type"> {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span> </label>
+        <label class="step-label" for="achievement-type">
+          {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span>
+        </label>
         <mat-form-field appearance="none" id="achievement-type">
           <mat-select
             formControlName="achievementTypeId"
@@ -16,14 +18,21 @@
             class="step-input"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
             <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id">
-              <div class="truncated-text" showTooltipIfTruncated [matTooltip]="achievement.title" matTooltipClass="tooltip" matTooltipPosition="right">
+              <div
+                class="truncated-text"
+                showTooltipIfTruncated
+                [matTooltip]="achievement.title"
+                matTooltipClass="tooltip"
+                matTooltipPosition="right">
                 {{ achievement.title }}
               </div>
             </mat-option>
           </mat-select>
         </mat-form-field>
         <app-validation-hint [validationFormControl]="achievementTypeIdFormControl"></app-validation-hint>
-        <label class="step-label" for="participants"> {{ 'FORMS.LABELS.PARTICIPANTS' | translate }}<span class="step-required">*</span> </label>
+        <label class="step-label" for="participants">
+          {{ 'FORMS.LABELS.PARTICIPANTS' | translate }}<span class="step-required">*</span>
+        </label>
         <ng-container *ngIf="approvedChildren">
           <ng-container *ngIf="approvedChildren.totalAmount; else noChildren">
             <mat-form-field appearance="none" id="participants">
@@ -41,7 +50,12 @@
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
                       (removed)="onRemoveItem(child, 'children')">
-                      <div class="truncated-text" showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip" matTooltipPosition="left">
+                      <div
+                        class="truncated-text"
+                        showTooltipIfTruncated
+                        [matTooltip]="child | getFullName"
+                        matTooltipClass="tooltip"
+                        matTooltipPosition="left">
                         {{ child | getFullName }}
                       </div>
                       <mat-icon matChipRemove>cancel</mat-icon>
@@ -49,7 +63,12 @@
                   </mat-chip-list>
                 </mat-select-trigger>
                 <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option">
-                  <div class="truncated-text" showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
+                  <div
+                    class="truncated-text"
+                    showTooltipIfTruncated
+                    [matTooltip]="child | getFullName"
+                    matTooltipClass="tooltip"
+                    matTooltipPosition="right">
                     {{ child | getFullName }}
                   </div>
                 </mat-option>
@@ -62,7 +81,9 @@
           <span class="warning-message"> {{ 'BANNERS.ADD_ACHIEVEMENT_PARTICIPANTS' | translate }} </span>
         </ng-template>
 
-        <label class="step-label" *ngIf="!editMode" for="teachers"> {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span> </label>
+        <label class="step-label" *ngIf="!editMode" for="teachers">
+          {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span>
+        </label>
 
         <ng-container *ngIf="achievement">
           <div class="edit-wrapper">
@@ -86,7 +107,12 @@
               <mat-select-trigger>
                 <mat-chip-list #chipList>
                   <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
-                    <div class="truncated-text" showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip" matTooltipPosition="left">
+                    <div
+                      class="truncated-text"
+                      showTooltipIfTruncated
+                      [matTooltip]="teacher | getFullName"
+                      matTooltipClass="tooltip"
+                      matTooltipPosition="left">
                       {{ teacher | getFullName }}
                     </div>
                     <mat-icon matChipRemove>cancel</mat-icon>
@@ -95,7 +121,12 @@
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
                 <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option">
-                  <div class="truncated-text" showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
+                  <div
+                    class="truncated-text"
+                    showTooltipIfTruncated
+                    [matTooltip]="teacher | getFullName"
+                    matTooltipClass="tooltip"
+                    matTooltipPosition="right">
                     {{ teacher | getFullName }}
                   </div>
                 </mat-option>
@@ -115,6 +146,8 @@
             id="achievement-date"
             matInput
             [matDatepicker]="picker"
+            [min]="minDate"
+            [max]="maxDate"
             formControlName="achievementDate"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -123,7 +156,9 @@
         <app-validation-hint [validationFormControl]="AchievementFormGroup.get('achievementDate')" [minMaxDate]="true">
         </app-validation-hint>
         <div class="step-label-combined">
-          <label class="step-label" for="achievement-description"> {{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}<span class="step-required">*</span> </label>
+          <label class="step-label" for="achievement-description">
+            {{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}<span class="step-required">*</span>
+          </label>
           <span class="step-characters-count">
             {{ AchievementFormGroup.get('title').value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
           </span>

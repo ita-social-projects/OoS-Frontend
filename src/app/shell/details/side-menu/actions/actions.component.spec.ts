@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { User } from 'shared/models/user.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { Role } from 'shared/enum/role';
+// eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';

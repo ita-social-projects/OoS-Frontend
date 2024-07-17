@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+// eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -77,7 +78,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
     this.parent$.pipe(takeUntil(this.destroy$)).subscribe((parent) => (this.parentId = parent.id));
     this.selectedProvider$.pipe(takeUntil(this.destroy$)).subscribe((provider) => (this.selectedProviderId = provider.id));
-    this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    if (this.parentId) {
+      this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    }
     this.isBlocked$.pipe(takeUntil(this.destroy$)).subscribe((blockedParent) => (this.isBlocked = blockedParent !== null));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
@@ -93,7 +96,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   public onOpenDialog(type: ModalConfirmationDescription): void {
-    if (this.role === Role.unauthorized) {
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (this.role === Role.unauthorized || !isRegistered) {
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
         restoreFocus: false,
