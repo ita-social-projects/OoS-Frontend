@@ -4,18 +4,18 @@
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
-          <a class="info-link" [routerLink]="'./info/about'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/about'">
             {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}
-          </a>
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/rules'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/rules'">
             {{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate | uppercase }}
-          </a>
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/support'">
+          <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
             <mat-icon>support</mat-icon>
             {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
-          </a>
+          </button>
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
