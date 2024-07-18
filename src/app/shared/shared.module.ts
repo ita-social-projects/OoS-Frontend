@@ -6,7 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
@@ -164,7 +164,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NgxSliderModule,
     NgxMatTimepickerModule,
     NgxMatIntlTelInputComponent,
-    ImageCropperModule,
+    ImageCropperComponent,
     TranslateModule,
     CdkAccordionModule
   ],
@@ -231,7 +231,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     PhoneFormControlComponent,
-    InfoMenuComponent
+    InfoMenuComponent,
+    ImageCarouselComponent
   ]
 })
 export class SharedModule {}

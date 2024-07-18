@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
@@ -40,10 +40,13 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   public touched = false;
   public disabled = false;
 
-  public onChange: FilesToVoid;
-  public onTouched: VoidToVoid;
+  public onChange: FilesToVoid = () => {};
+  public onTouched: VoidToVoid = () => {};
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private changeDetection: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.onResize(window);
@@ -60,6 +63,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     const myReader = new FileReader();
     myReader.onload = (): void => {
       this.decodedImages.push(new DecodedImage(myReader.result as string, file as File));
+      this.changeDetection.detectChanges();
     };
     return myReader.readAsDataURL(file);
   }
@@ -76,9 +80,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.decodedImages.splice(imageIndex, 1);
         if (img.imgFile) {
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
-        }
-        if (this.imageIdsFormControl) {
-          this.imageIdsFormControl.value.splice(imageIndex, 1);
         }
         this.onChange(this.selectedImages);
       }
@@ -131,7 +132,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
     dialogRef.afterClosed().subscribe((image: File) => {
       this.markAsTouched();
-      if (!this.disabled && image) {
+      if (image) {
         this.imageDecoder(image);
         this.selectedImages.push(image);
         this.onChange(this.selectedImages);

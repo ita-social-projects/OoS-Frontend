@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
-
 import { Cropper } from 'shared/models/cropper';
 
 @Component({
@@ -28,13 +27,13 @@ export class ImageCropperModalComponent {
     this.dialogRef.close(this.imageFile);
   }
 
-  public fileChangeEvent(event: string): void {
+  public fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
 
   public imageCropped(event: ImageCroppedEvent): void {
-    this.imageFile = base64ToFile(event.base64);
-    this.croppedImage = event.base64;
+    this.croppedImage = event.objectUrl;
+    this.imageFile = event.blob;
   }
 
   public imageLoaded(image: LoadedImage): void {
@@ -43,5 +42,6 @@ export class ImageCropperModalComponent {
   }
 
   public loadImageFailed(): void {}
+
   public cropperReady(): void {}
 }
