@@ -175,7 +175,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
+      availableSeats: new FormControl(
+        {
+          value: null,
+          disabled: true
+        },
+        [Validators.required, Validators.min(this.minSeats)]
+      ),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });

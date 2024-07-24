@@ -1,10 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { Store } from '@ngxs/store';
 
 import { Constants } from 'shared/constants/constants';
 import { Cropper } from 'shared/models/cropper';
 import { DecodedImage } from 'shared/models/image.model';
+import { ShowMessageBar } from 'shared/store/app.actions';
 import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
@@ -23,7 +25,7 @@ type VoidToVoid = () => void;
     }
   ]
 })
-export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
+export class ImageFormControlComponent implements OnInit, ImageFormControlComponent, ControlValueAccessor {
   @Input() public imgMaxAmount: number;
   @Input() public imageIdsFormControl: FormControl;
   @Input() public label: string;
@@ -45,7 +47,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   constructor(
     public dialog: MatDialog,
-    private changeDetection: ChangeDetectorRef
+    private changeDetection: ChangeDetectorRef,
+    private store: Store
   ) {}
 
   public ngOnInit(): void {
@@ -57,21 +60,13 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   /**
    * This methods decodes the file for its correct displaying
-   * @param file: File
    */
-  public imageDecoder(file: Blob): void {
+  public imageDecoder(file: Blob, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
     const myReader = new FileReader();
-    myReader.onload = (): void => {
-      this.decodedImages.push(new DecodedImage(myReader.result as string, file as File));
-      this.changeDetection.detectChanges();
-    };
+    myReader.onload = onLoad;
     return myReader.readAsDataURL(file);
   }
 
-  /**
-   * This method remove already added img from the list of images
-   * @param string word
-   */
   public onRemoveImg(img: DecodedImage): void {
     this.markAsTouched();
     if (!this.disabled) {
@@ -95,15 +90,18 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   public registerOnChange(onChange: FilesToVoid): void {
     this.onChange = onChange;
   }
+
   public registerOnTouched(onTouched: VoidToVoid): void {
     this.onTouched = onTouched;
   }
+
   public markAsTouched(): void {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
+
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
@@ -119,25 +117,47 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     }
   }
 
-  public fileChangeEvent(event: string): void {
-    const dialogRef = this.dialog.open(ImageCropperModalComponent, {
-      width: Constants.MODAL_MEDIUM,
-      maxHeight: '95vh',
-      height: 'auto',
-      data: {
-        image: event,
-        cropperConfig: this.cropperConfig
-      }
-    });
+  public fileChangeEvent(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.imageDecoder(target.files[0], (ev: ProgressEvent<FileReader>) => {
+      const img = new Image();
+      img.src = ev.target.result as string;
 
-    dialogRef.afterClosed().subscribe((image: File) => {
-      this.markAsTouched();
-      if (image) {
-        this.imageDecoder(image);
-        this.selectedImages.push(image);
-        this.onChange(this.selectedImages);
-      }
-      this.inputImage.nativeElement.value = '';
+      const onImageLoad = () => {
+        const config = this.cropperConfig;
+        console.log(img.width);
+        if (img.width > config.cropperMinWidth && img.height > config.cropperMinHeight) {
+          const dialogRef = this.dialog.open(ImageCropperModalComponent, {
+            width: Constants.MODAL_MEDIUM,
+            maxHeight: '95vh',
+            height: 'auto',
+            data: {
+              image: event,
+              cropperConfig: this.cropperConfig
+            }
+          });
+
+          dialogRef.afterClosed().subscribe((image: File) => {
+            this.markAsTouched();
+            if (image) {
+              this.imageDecoder(image, (ev: ProgressEvent<FileReader>) => {
+                this.decodedImages.push(new DecodedImage(ev.target.result as string, image));
+                this.changeDetection.detectChanges();
+              });
+              this.selectedImages.push(image);
+              this.onChange(this.selectedImages);
+            }
+            this.inputImage.nativeElement.value = '';
+          });
+        } else {
+          this.inputImage.nativeElement.value = '';
+          this.store.dispatch(new ShowMessageBar({ message: 'Зображення недостатнього розміру.', type: 'error' }));
+        }
+      };
+
+      img.addEventListener('load', onImageLoad);
     });
   }
+
+  public writeValue(obj: any): void {}
 }

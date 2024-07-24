@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { Cropper } from 'shared/models/cropper';
 
 @Component({
@@ -41,7 +41,9 @@ export class ImageCropperModalComponent {
     this.invalidMinRequirements = height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth;
   }
 
-  public loadImageFailed(): void {}
+  public loadImageFailed(): void {
+    console.log('Failed');
+  }
 
   public cropperReady(): void {}
 }
