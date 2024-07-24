@@ -42,4 +42,39 @@ describe('SearchbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call "performSearch" and "saveSearchResult" with "onValueEnter"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+    const saveSearchResultsSpy = jest.spyOn(component, 'saveSearchResults');
+
+    component.onValueEnter();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+    expect(saveSearchResultsSpy).toHaveBeenCalled();
+  });
+
+  it('should call "performSearch" with "onValueSelected"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+
+    component.onValueSelect();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+  });
+
+
+  it('should emit invalidCharacterDetected when handleInvalidCharacter is called', () => {
+    jest.spyOn(component.invalidCharacterDetected, 'emit');
+
+    component.handleInvalidCharacter();
+
+    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
+  });
+
+  it('should emit validCharacterDetected when handleValidCharacter is called', () => {
+    jest.spyOn(component.validCharacterDetected, 'emit');
+
+    component.handleValidCharacter();
+
+    expect(component.validCharacterDetected.emit).toHaveBeenCalled();
+  });
 });
