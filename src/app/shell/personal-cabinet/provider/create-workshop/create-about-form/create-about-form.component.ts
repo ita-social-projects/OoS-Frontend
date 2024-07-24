@@ -131,8 +131,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
       this.priceRadioBtn.setValue(true);
     } else {
-      this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(null, 'disable', false);
+      this.setPriceControlValue(0, 'disable', false);
+      this.setPayRateControlValue(PayRateType.None, 'disable', false);
     }
 
     if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
@@ -160,7 +160,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      shortTitle: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)]),
+      shortTitle: new FormControl('', [
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.required,
+        Validators.pattern(MUST_CONTAIN_LETTERS),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+      ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
       minAge: new FormControl(null, [Validators.required]),
@@ -172,7 +177,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-      payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
@@ -197,10 +202,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.markFormAsDirtyOnUserInteraction();
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
-        this.setPayRateControlValue(this.workshop?.payRate ? this.workshop.payRate : null, 'enable');
+        this.setPayRateControlValue(this.workshop?.payRate || PayRateType.None, 'enable');
       } else {
-        this.setPriceControlValue(null, 'disable');
-        this.setPayRateControlValue(null, 'disable');
+        this.setPriceControlValue();
+        this.setPayRateControlValue();
         this.payRateControl.markAsUntouched();
       }
     });
@@ -236,8 +241,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method sets 0 as value for payRate when the price is null,
-   * otherwise it sets either workshop value, or null for selecting new value
+   * This method sets 0 as value for payRate when the price is 0,
+   * otherwise it sets either workshop value, or PayRateType.None for selecting new value
    */
   private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = true): void {
     this.payRateControl[action]({ emitEvent });
