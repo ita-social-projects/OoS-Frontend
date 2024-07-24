@@ -61,7 +61,6 @@ describe('SearchbarComponent', () => {
     expect(performSearchSpy).toHaveBeenCalled();
   });
 
-
   it('should emit invalidCharacterDetected when handleInvalidCharacter is called', () => {
     jest.spyOn(component.invalidCharacterDetected, 'emit');
 

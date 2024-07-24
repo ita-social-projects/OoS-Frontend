@@ -1,11 +1,11 @@
-import { SearchFieldValidationDirective } from './search-field-validation.directive';
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { SearchFieldValidationDirective } from './search-field-validation.directive';
 
 @Component({
-  template: `<input appSearchFieldValidation>`
+  template: '<input appSearchFieldValidation/>'
 })
 class TestComponent {}
 
@@ -32,7 +32,9 @@ describe('SearchFieldValidationDirective', () => {
   });
 
   it('should remove invalid characters from input value', () => {
-    const directiveInstance = fixture.debugElement.query(By.directive(SearchFieldValidationDirective)).injector.get(SearchFieldValidationDirective);
+    const directiveInstance = fixture.debugElement
+      .query(By.directive(SearchFieldValidationDirective))
+      .injector.get(SearchFieldValidationDirective);
     jest.spyOn(directiveInstance.invalidCharacterDetected, 'emit');
     jest.spyOn(directiveInstance.validCharacterDetected, 'emit');
 
@@ -46,7 +48,9 @@ describe('SearchFieldValidationDirective', () => {
   });
 
   it('should emit validCharacterDetected event when only valid characters are input', () => {
-    const directiveInstance = fixture.debugElement.query(By.directive(SearchFieldValidationDirective)).injector.get(SearchFieldValidationDirective);
+    const directiveInstance = fixture.debugElement
+      .query(By.directive(SearchFieldValidationDirective))
+      .injector.get(SearchFieldValidationDirective);
     jest.spyOn(directiveInstance.invalidCharacterDetected, 'emit');
     jest.spyOn(directiveInstance.validCharacterDetected, 'emit');
 
@@ -60,7 +64,9 @@ describe('SearchFieldValidationDirective', () => {
   });
 
   it('should stop propagation of the input event when invalid characters are detected', () => {
-    const directiveInstance = fixture.debugElement.query(By.directive(SearchFieldValidationDirective)).injector.get(SearchFieldValidationDirective);
+    const directiveInstance = fixture.debugElement
+      .query(By.directive(SearchFieldValidationDirective))
+      .injector.get(SearchFieldValidationDirective);
     const event = new Event('input');
     jest.spyOn(event, 'stopPropagation');
     inputEl.value = 'Test@123';
