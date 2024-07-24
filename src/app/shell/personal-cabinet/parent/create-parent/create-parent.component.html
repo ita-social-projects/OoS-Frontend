@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">
-        {{'FORMS.HEADERS.NEW_USER' | translate | uppercase }}
+        {{ 'FORMS.HEADERS.NEW_USER' | translate | uppercase }}
       </h3>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
@@ -46,11 +46,17 @@
           </mat-checkbox>
         </div>
       </form>
-
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
-      <button class="btn" [disabled]="!isAgreed || !isNotRobot || userCreateFormGroup.invalid" mat-button type="submit" (click)="onSubmit()">{{ 'BUTTONS.SAVE' | translate | uppercase }}</button>
+      <button
+        class="btn"
+        [disabled]="!isAgreed || !isNotRobot || userCreateFormGroup.invalid"
+        mat-button
+        type="submit"
+        (click)="onSubmit()">
+        {{ 'BUTTONS.SAVE' | translate | uppercase }}
+      </button>
     </div>
   </div>
 </div>

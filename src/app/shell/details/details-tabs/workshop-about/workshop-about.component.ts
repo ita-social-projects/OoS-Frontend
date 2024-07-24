@@ -12,10 +12,11 @@ import { Workshop } from 'shared/models/workshop.model';
   styleUrls: ['./workshop-about.component.scss']
 })
 export class WorkshopAboutComponent {
-  readonly workingDays = WorkingDays;
-  readonly workingDaysReverse = WorkingDaysReverse;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
+  @Input() public workshop!: Workshop;
 
-  @Input() workshop!: Workshop;
-  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public readonly workingDays = WorkingDays;
+  public readonly workingDaysReverse = WorkingDaysReverse;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 }

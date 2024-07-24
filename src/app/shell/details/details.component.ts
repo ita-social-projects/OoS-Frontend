@@ -20,28 +20,26 @@ import { SharedUserState } from '../../shared/store/shared-user.state';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  public readonly entityType = EntityType;
-
   @Select(AppState.isMobileScreen)
   private isMobileScreen$: Observable<boolean>;
-  public isMobileScreen: boolean;
-
   @Select(SharedUserState.selectedWorkshop)
   private workshop$: Observable<Workshop>;
-  public workshop: Workshop;
-
   @Select(SharedUserState.selectedProvider)
   private provider$: Observable<Provider>;
-  public provider: Provider;
-
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
-  public role: Role;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly entityType = EntityType;
+
+  public isMobileScreen: boolean;
+  public workshop: Workshop;
+  public provider: Provider;
+  public role: Role;
 
   public entity: EntityType;
   public displayActionCard: boolean;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -88,6 +86,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
+    if (this.entity === EntityType.workshop) {
+      this.store.dispatch(new GetWorkshopById(id));
+    } else {
+      this.store.dispatch(new GetProviderById(id));
+    }
   }
 }

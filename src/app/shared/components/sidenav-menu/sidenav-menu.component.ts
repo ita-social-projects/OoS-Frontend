@@ -24,18 +24,7 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./sidenav-menu.component.scss']
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
-  public readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
-  public readonly Languages: typeof Languages = Languages;
-  public readonly Role = Role;
-  public readonly RoleLinks = RoleLinks;
-  public readonly title = 'out-of-school';
-
   @Input() public isMobileView: boolean;
-
-  public showModalReg = false;
-  public visibleSidenav: boolean;
-  public user: User;
-  public selectedLanguage: string;
 
   @Select(NavigationState.sidenavOpenTrue)
   public sidenavOpenTrue$: Observable<boolean>;
@@ -47,6 +36,17 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   public isAuthorized$: Observable<string>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+
+  public readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
+  public readonly Languages: typeof Languages = Languages;
+  public readonly Role = Role;
+  public readonly RoleLinks = RoleLinks;
+  public readonly title = 'out-of-school';
+
+  public showModalReg = false;
+  public visibleSidenav: boolean;
+  public user: User;
+  public selectedLanguage: string;
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 

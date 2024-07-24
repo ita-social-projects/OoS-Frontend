@@ -11,25 +11,25 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./child-card.component.scss']
 })
 export class ChildCardComponent implements OnInit {
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  readonly constants = Constants;
-  readonly YearDeclination = YearDeclination;
+  @Input() public child: Child;
 
-  @Input() child: Child;
+  @Output() public deleteChild = new EventEmitter<Child>();
 
-  @Output() deleteChild = new EventEmitter<Child>();
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly constants = Constants;
+  public readonly YearDeclination = YearDeclination;
 
   public childFullName: string;
 
-  get childAge(): number {
+  public get childAge(): number {
     return Util.getChildAge(this.child);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.childFullName = Util.getFullName(this.child);
   }
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteChild.emit(this.child);
   }
 }

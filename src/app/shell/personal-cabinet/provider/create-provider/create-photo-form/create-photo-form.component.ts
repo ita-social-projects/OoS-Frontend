@@ -12,6 +12,11 @@ import { Provider, ProviderSectionItem } from '../../../../../shared/models/prov
   styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public passPhotoFormGroup = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
 
   public readonly cropperConfig = {
@@ -25,19 +30,10 @@ export class CreatePhotoFormComponent implements OnInit {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() public provider: Provider;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public passPhotoFormGroup = new EventEmitter();
-
-  private editFormGroup: FormGroup;
-
   public PhotoFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
 
-  public get providerSectionItemsControl(): AbstractControl {
-    return this.PhotoFormGroup.get('providerSectionItems');
-  }
+  private editFormGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,6 +47,10 @@ export class CreatePhotoFormComponent implements OnInit {
       facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)])
     });
+  }
+
+  public get providerSectionItemsControl(): AbstractControl {
+    return this.PhotoFormGroup.get('providerSectionItems');
   }
 
   public ngOnInit(): void {

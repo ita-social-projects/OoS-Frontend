@@ -1,0 +1,3 @@
+{
+  "*.{ts,scss,html}": ["yarn lint:fix"]
+}

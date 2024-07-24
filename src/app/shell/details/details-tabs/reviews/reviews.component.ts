@@ -35,39 +35,40 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
-  readonly noResultReviews = NoResultsTitle.noReviews;
-  readonly Role: typeof Role = Role;
-  readonly ReviewDeclination = ReviewDeclination;
-
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() public workshop: Workshop;
+  @Input() public role: string;
 
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
+  public parent$: Observable<Parent>;
   @Select(ParentState.isAllowedToReview)
-  isAllowedToReview$: Observable<boolean>;
+  public isAllowedToReview$: Observable<boolean>;
   @Select(ParentState.isReviewed)
-  isReviewed$: Observable<boolean>;
+  public isReviewed$: Observable<boolean>;
 
   @Select(MetaDataState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
   @Select(MetaDataState.rating)
-  rating$: Observable<SearchResponse<Rate[]>>;
-  rating: SearchResponse<Rate[]>;
+  public rating$: Observable<SearchResponse<Rate[]>>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly noResultReviews = NoResultsTitle.noReviews;
+  public readonly Role: typeof Role = Role;
+  public readonly ReviewDeclination = ReviewDeclination;
 
-  parent: Parent;
-  isAllowedToReview: boolean;
-  isReviewed: boolean;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  rateParameters: RateParameters = {
+  public rating: SearchResponse<Rate[]>;
+
+  public parent: Parent;
+  public isAllowedToReview: boolean;
+  public isReviewed: boolean;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public rateParameters: RateParameters = {
     entityId: '',
     entityType: EntityType.workshop,
     size: PaginationConstants.RATINGS_PER_PAGE
   };
-  alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
-  mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
+  public alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
+  public mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -76,7 +77,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     private translateService: TranslateService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.rateParameters.entityId = this.workshop.id;
     this.getRates();
 
@@ -126,9 +127,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteRatingById(rate.id));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new DeleteRatingById(rate.id)));
   }
 
   public itemsPerPageChange(itemsPerPage: number): void {
@@ -141,7 +143,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.getRates();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new ClearRatings());

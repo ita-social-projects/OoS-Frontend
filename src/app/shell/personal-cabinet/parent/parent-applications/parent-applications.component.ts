@@ -27,15 +27,16 @@ import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.componen
   templateUrl: './parent-applications.component.html'
 })
 export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-  readonly ChildDeclination = ChildDeclination;
-
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
-  parent: Parent;
+  public parent$: Observable<Parent>;
   @Select(ParentState.truncatedItems)
-  truncatedItems$: Observable<TruncatedItem[]>;
+  public truncatedItems$: Observable<TruncatedItem[]>;
 
-  applicationParams: ApplicationFilterParameters = {
+  public readonly ChildDeclination = ChildDeclination;
+
+  public parent: Parent;
+
+  public applicationParams: ApplicationFilterParameters = {
     property: ApplicationEntityType.parent,
     statuses: [],
     workshops: [],
@@ -53,28 +54,18 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     super(store, matDialog);
   }
 
-  init(): void {
+  public init(): void {
     this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
       this.parent = parent;
       this.getParentChildren();
     });
   }
 
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Applications,
-        isActive: false,
-        disable: true
-      })
-    );
-  }
-
   /**
    * This method changes status of emitted event to "left"
    * @param application: Application
    */
-  onLeave(application: Application): void {
+  public onLeave(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -89,7 +80,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     });
   }
 
-  onGetApplications(): void {
+  public onGetApplications(): void {
     this.store.dispatch(new GetApplicationsByPropertyId(this.parent.id, this.applicationParams));
   }
 
@@ -97,19 +88,29 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
    * This applies selected IDs as filtering parameter to get list of applications
    * @param IDs: string[]
    */
-  onEntitiesSelect(IDs: string[]): void {
+  public onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.children = IDs;
     this.onGetApplications();
   }
 
-  private getParentChildren(isParent: boolean = false): void {
-    this.store.dispatch(new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent }));
-  }
-
-  onSendMessage(application: Application): void {
+  public onSendMessage(application: Application): void {
     this.router.navigate(['/personal-cabinet/messages/', application.id], {
       queryParams: { mode: ModeConstants.APPLICATION },
       replaceUrl: false
     });
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Applications,
+        isActive: false,
+        disable: true
+      })
+    );
+  }
+
+  private getParentChildren(isParent: boolean = false): void {
+    this.store.dispatch(new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent }));
   }
 }

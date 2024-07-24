@@ -1,13 +1,26 @@
 <form class="search-bar">
-  <mat-form-field appPlaceholderStyling class="input-wrapper" floatLabel="never" appearance="none" fxLayout="row"
+  <mat-form-field
+    appPlaceholderStyling
+    class="input-wrapper"
+    floatLabel="never"
+    appearance="none"
+    fxLayout="row"
     fxLayoutAlign="space-between center">
-    <input matInput type="text" class="search-input"
-      placeholder="{{ 'ENTER_THE_NAME_OF_THE_GROUP_SCHOOL' | translate }}" disableOptionCentering autocomplete="off"
-      appTrimValue [formControl]="searchValueFormControl" [matAutocomplete]="autoSearch"
-      (keyup.enter)="onValueEnter()" appSearchFieldValidation (invalidCharacterDetected)="handleInvalidCharacter()"
+    <input
+      matInput
+      type="text"
+      class="search-input"
+      placeholder="{{ 'ENTER_THE_NAME_OF_THE_GROUP_SCHOOL' | translate }}"
+      disableOptionCentering
+      autocomplete="off"
+      appTrimValue
+      [formControl]="searchValueFormControl"
+      [matAutocomplete]="autoSearch"
+      (keyup.enter)="onValueEnter()"
+      appSearchFieldValidation
+      (invalidCharacterDetected)="handleInvalidCharacter()"
       (validCharacterDetected)="handleValidCharacter()"/>
-    <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel"
-      (optionSelected)="onValueSelect()">
+    <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
         {{ result }}
       </mat-option>

@@ -52,10 +52,15 @@
       "APPLICATIONS": "applications",
       "APPLICATION_ABLATIVE": "application"
     },
+    "APPLICATION_ACCEPTED_FOR_SELECTION": {
+      "APPLICATION_ACCEPTED_FOR_SELECTION": "application accepted for selection",
+      "APPLICATIONS_ACCEPTED_FOR_SELECTION": "applications accepted for selection",
+      "APPLICATION_ACCEPTED_FOR_SELECTION_ABLATIVE": "applications accepted for selection"
+    },
     "APPLICATION_APPROVED": {
-      "APPLICATION_ACCEPTED": "application accepted",
-      "APPLICATIONS_ACCEPTED": "applications accepted",
-      "APPLICATION_ACCEPTED_ABLATIVE": "applications accepted"
+      "APPLICATION_APPROVED": "application approved",
+      "APPLICATIONS_APPROVED": "applications approved",
+      "APPLICATION_APPROVED_ABLATIVE": "applications approved"
     },
     "APPLICATION_CHANGES": {
       "CHANGE_IN_APPLICATIONS": "change in applications",
