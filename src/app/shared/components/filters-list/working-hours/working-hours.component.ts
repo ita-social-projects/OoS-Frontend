@@ -61,14 +61,14 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.startTimeFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((time: string) => {
-        this.store.dispatch(new SetStartTime(time?.split(':')[0]));
+        this.store.dispatch(new SetStartTime(time));
         this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
       });
 
     this.endTimeFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((time: string) => {
-        this.store.dispatch(new SetEndTime(time?.split(':')[0]));
+        this.store.dispatch(new SetEndTime(time));
         this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
       });
 
