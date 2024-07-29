@@ -105,9 +105,7 @@
   </mat-card-content>
 
   <ng-template #whenParentIsBlocked>
-    <mat-card-content
-      *ngIf="userRole !== Role.provider && application.isBlockedByProvider"
-      class="card-block card-block__buttons"></mat-card-content>
+    <mat-card-content class="card-block card-block__buttons"></mat-card-content>
   </ng-template>
 
   <ng-container *ngIf="!isMobileView; then actionsBlock"></ng-container>

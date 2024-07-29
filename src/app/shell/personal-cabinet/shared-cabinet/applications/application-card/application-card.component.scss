@@ -93,7 +93,7 @@
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .organization {
@@ -109,11 +109,11 @@
 
 @media (max-width: 1220px) {
   .card-block {
-    width: auto;
     &__buttons {
       flex-direction: column;
       justify-content: center;
       gap: 10px;
+      width: 176px;
     }
   }
 }
