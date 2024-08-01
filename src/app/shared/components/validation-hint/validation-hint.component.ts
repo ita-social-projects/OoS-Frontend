@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { control } from 'leaflet';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
@@ -18,7 +19,7 @@ import {
   templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
+  @Input() public validationFormControl: FormControl | FormGroup; // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
@@ -51,30 +52,43 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
-    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-      const errors = this.validationFormControl.errors;
+    if (this.validationFormControl instanceof FormControl) {
+      this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+        this.updateValidationState(this.validationFormControl as FormControl);
+      });
+    } else if (this.validationFormControl instanceof FormGroup) {
+      this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+        for (const key in (this.validationFormControl as FormGroup).controls) {
+          const formControl = this.validationFormControl.get(key);
+          this.updateValidationState(formControl as FormControl);
+        }
+      });
+    }
+  }
 
-      // Makes the control touched, so that the user can see the result of the check without needing to unfocus
-      if (!this.validationFormControl.touched) {
-        this.validationFormControl.markAsTouched();
-      }
+  public updateValidationState(formControl: FormControl): void {
+    const errors = formControl.errors;
 
-      // Check is the field required and empty
-      this.required = errors?.required && !this.validationFormControl.value;
+    // Makes the control touched, so that the user can see the result of the check without needing to unfocus
+    if (!formControl.touched) {
+      formControl.markAsTouched();
+    }
 
-      // Check Date Picker Format
-      if (this.minMaxDate) {
-        this.checkMatDatePicker();
-      }
+    // Check is the field required and empty
+    this.required = errors?.required && !formControl.value;
 
-      // Check errors from validators
-      this.checkValidationErrors(errors);
+    // Check Date Picker Format
+    if (this.minMaxDate) {
+      this.checkMatDatePicker();
+    }
 
-      // Check errors for invalid text field
-      this.checkInvalidText(errors);
+    // Check errors from validators
+    this.checkValidationErrors(errors);
 
-      this.cdr.detectChanges();
-    });
+    // Check errors for invalid text field
+    this.checkInvalidText(errors);
+
+    this.cdr.detectChanges();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

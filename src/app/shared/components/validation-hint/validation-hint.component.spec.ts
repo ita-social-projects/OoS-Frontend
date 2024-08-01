@@ -81,7 +81,7 @@ describe('ValidationHintComponent', () => {
     let control: FormControl;
 
     beforeEach(() => {
-      control = component.validationFormControl;
+      control = component.validationFormControl as FormControl;
     });
 
     it('should assign to invalidEmail if email error is present', () => {
@@ -206,7 +206,7 @@ describe('ValidationHintComponent', () => {
     let formControlHasErrorSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      control = component.validationFormControl;
+      control = component.validationFormControl as FormControl;
       formControlHasErrorSpy = jest.spyOn(control, 'hasError');
     });
 
