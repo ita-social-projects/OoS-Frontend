@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SharedModule } from '../../shared/shared.module';
+import { ContactsCardComponent } from '../../shared/components/contacts-card/contacts.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { WorkshopAboutComponent } from './details-tabs/workshop-about/workshop-about.component';
@@ -12,7 +13,6 @@ import { ProviderAboutComponent } from './details-tabs/provider-about/provider-a
 import { WorkshopTeachersComponent } from './details-tabs/workshop-teachers/workshop-teachers.component';
 import { ReviewsComponent } from './details-tabs/reviews/reviews.component';
 import { ActionsComponent } from './side-menu/actions/actions.component';
-import { ContactsComponent } from './side-menu/contacts/contacts.component';
 import { AllProviderWorkshopsComponent } from './details-tabs/all-provider-workshops/all-provider-workshops.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { ProviderDetailsComponent } from './provider-details/provider-details.component';
@@ -28,7 +28,7 @@ import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-c
     WorkshopTeachersComponent,
     ReviewsComponent,
     ActionsComponent,
-    ContactsComponent,
+    ContactsCardComponent,
     AllProviderWorkshopsComponent,
     WorkshopDetailsComponent,
     ProviderDetailsComponent,

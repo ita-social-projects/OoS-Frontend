@@ -3,11 +3,24 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Address } from 'shared/models/address.model';
 
 @Component({
-  selector: 'app-contacts',
+  selector: 'app-contacts-card',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsCardComponent implements OnInit {
+  public contactsDataMock = {
+    phoneList: [
+      { type: 'home', phone: '6666666666' },
+      { type: 'work', phone: '3333333333' }
+    ],
+    emailList: [
+      { type: 'manager', email: 'some@gmial.com' },
+      { type: 'employee', email: 'any@gmail.com' }
+    ],
+    facebook: 'string',
+    instagram: 'string',
+    website: 'string'
+  };
   @Input() public address: Address;
   @Input() public contactsData: {
     phone: string;
