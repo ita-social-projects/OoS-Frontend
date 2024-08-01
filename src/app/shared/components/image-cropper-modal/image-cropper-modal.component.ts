@@ -17,7 +17,7 @@ export class ImageCropperModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      image: string;
+      image: Event;
       cropperConfig: Cropper;
     },
     public dialogRef: MatDialogRef<ImageCropperModalComponent>

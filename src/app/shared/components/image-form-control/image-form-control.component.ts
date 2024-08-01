@@ -58,9 +58,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     }
   }
 
-  /**
-   * This methods decodes the file for its correct displaying
-   */
   public imageDecoder(file: Blob, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
     const myReader = new FileReader();
     myReader.onload = onLoad;
@@ -122,42 +119,56 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     this.imageDecoder(target.files[0], (ev: ProgressEvent<FileReader>) => {
       const img = new Image();
       img.src = ev.target.result as string;
-
-      const onImageLoad = () => {
+      img.onload = () => {
         const config = this.cropperConfig;
         console.log(img.width);
-        if (img.width > config.cropperMinWidth && img.height > config.cropperMinHeight) {
-          const dialogRef = this.dialog.open(ImageCropperModalComponent, {
-            width: Constants.MODAL_MEDIUM,
-            maxHeight: '95vh',
-            height: 'auto',
-            data: {
-              image: event,
-              cropperConfig: this.cropperConfig
-            }
-          });
-
-          dialogRef.afterClosed().subscribe((image: File) => {
-            this.markAsTouched();
-            if (image) {
-              this.imageDecoder(image, (ev: ProgressEvent<FileReader>) => {
-                this.decodedImages.push(new DecodedImage(ev.target.result as string, image));
-                this.changeDetection.detectChanges();
-              });
-              this.selectedImages.push(image);
-              this.onChange(this.selectedImages);
-            }
-            this.inputImage.nativeElement.value = '';
-          });
-        } else {
+        if (img.width < config.cropperMinWidth || img.height < config.cropperMinHeight) {
+          this.store.dispatch(
+            new ShowMessageBar({
+              message: `Мінімальний розмір зображення: ${config.cropperMinWidth}px у ширину та ${config.cropperMinHeight}px у висоту.`,
+              type: 'error'
+            })
+          );
           this.inputImage.nativeElement.value = '';
-          this.store.dispatch(new ShowMessageBar({ message: 'Зображення недостатнього розміру.', type: 'error' }));
+        } else if (img.width > config.cropperMaxWidth || img.height > config.cropperMaxHeight) {
+          this.store.dispatch(
+            new ShowMessageBar({
+              message: `Максимальний розмір зображення: ${config.cropperMaxWidth}px у ширину та ${config.cropperMaxHeight}px у висоту.`,
+              type: 'error'
+            })
+          );
+          this.inputImage.nativeElement.value = '';
+        } else {
+          this.openCropperModal(event);
         }
       };
-
-      img.addEventListener('load', onImageLoad);
     });
   }
 
-  public writeValue(obj: any): void {}
+  public writeValue(_obj: any): void {}
+
+  public openCropperModal(event: Event) {
+    const dialogRef = this.dialog.open(ImageCropperModalComponent, {
+      width: Constants.MODAL_MEDIUM,
+      maxHeight: '95vh',
+      height: 'auto',
+      data: {
+        image: event,
+        cropperConfig: this.cropperConfig
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((image: File) => {
+      this.markAsTouched();
+      if (image) {
+        this.imageDecoder(image, (ev: ProgressEvent<FileReader>) => {
+          this.decodedImages.push(new DecodedImage(ev.target.result as string, image));
+          this.changeDetection.detectChanges();
+        });
+        this.selectedImages.push(image);
+        this.onChange(this.selectedImages);
+      }
+      this.inputImage.nativeElement.value = '';
+    });
+  }
 }
