@@ -58,8 +58,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     } else if (this.validationFormControl instanceof FormGroup) {
       this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
         for (const key in (this.validationFormControl as FormGroup).controls) {
-          const formControl = this.validationFormControl.get(key);
-          this.updateValidationState(formControl as FormControl);
+          if (Object.hasOwn((this.validationFormControl as FormGroup).controls, key)) {
+            const formControl = this.validationFormControl.get(key);
+            this.updateValidationState(formControl as FormControl);
+          }
         }
       });
     }
