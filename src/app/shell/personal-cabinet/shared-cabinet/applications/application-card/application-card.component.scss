@@ -2,6 +2,12 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
+  width: 100%;
+
+  &:first-child {
+    width: 100%;
+  }
+
   &__parent {
     flex: 2;
   }
@@ -87,7 +93,7 @@
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .organization {
@@ -107,6 +113,7 @@
       flex-direction: column;
       justify-content: center;
       gap: 10px;
+      width: 176px;
     }
   }
 }
@@ -128,6 +135,12 @@
         }
       }
     }
+
+    &__buttons {
+      justify-content: flex-start;
+      flex-direction: row;
+      padding-left: 0 !important;
+    }
   }
 
   .text {
@@ -142,14 +155,11 @@
 }
 
 @media (max-width: 530px) {
-  .title {
-    min-width: 180px;
-  }
-
   .card {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    padding-right: 0;
   }
 
   .card-block {
@@ -163,11 +173,12 @@
       max-width: none;
       width: 100%;
       flex-direction: row;
-      justify-content: center;
+      justify-content: flex-start !important;
     }
 
     &__actions {
       align-items: flex-start;
+      padding-left: 0 !important;
     }
   }
 

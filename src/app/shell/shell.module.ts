@@ -31,6 +31,7 @@ import { ResultComponent } from './result/result.component';
 import { WorkshopCardsListComponent } from './result/workshop-cards-list/workshop-cards-list.component';
 import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
 import { ShellRoutingModule } from './shell-routing.module';
+import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ShellRoutingModule } from './shell-routing.module';
     ProviderGuard,
     ParentGuard,
     CreateProviderGuard,
+    CreateParentGuard,
     IsMobileGuard,
     NotProviderAdminGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },

@@ -1,4 +1,5 @@
 import { MatDateFormats } from '@angular/material/core';
+import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { WorkingDays } from 'shared/enum/enumUA/working-hours';
@@ -148,3 +149,12 @@ export class ModeConstants {
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
+
+export const NoInteractTooltipOptions: MatTooltipDefaultOptions = {
+  showDelay: 0,
+  hideDelay: 0,
+  touchGestures: 'auto',
+  position: 'before',
+  touchendHideDelay: 0,
+  disableTooltipInteractivity: true
+};

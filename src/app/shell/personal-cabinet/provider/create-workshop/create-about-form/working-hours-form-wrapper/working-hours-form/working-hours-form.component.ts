@@ -22,7 +22,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Output() public dataChanged = new EventEmitter<void>();
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
-  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public workingDays: Set<string> = new Set<string>();
   public workdaysFormControl = new FormControl(['']);
   public startTimeFormControl = new FormControl('');

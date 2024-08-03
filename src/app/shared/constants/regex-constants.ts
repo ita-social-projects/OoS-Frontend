@@ -28,6 +28,7 @@ export const STREET_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ0-9'’`.\s
 
 // Regex for house number
 export const HOUSE_REGEX: RegExp =
+  // eslint-disable-next-line max-len
   /^(?!.*[\/\-.]$)(?!\d+.*\/.*\/)(?!\d+.*-.*-)(?!\d+.*\..*\.)\d+(?:[А-Яа-яЇїІіЄєЁёҐґ]*)?(?:(?:[\/\-.])?(?:[\dА-Яа-яЇїІіЄєЁёҐґ]+(?:[А-Яа-яЇїІіЄєЁёҐґ]+)*)?)*(?:\s+[А-Яа-яЇїІіЄєЁёҐґ]*\.\s*[0-9А-Яа-яЇїІіЄєЁёҐґ]+\s*)?$/;
 
 // Regex for section name, it checks that the first char is a letter

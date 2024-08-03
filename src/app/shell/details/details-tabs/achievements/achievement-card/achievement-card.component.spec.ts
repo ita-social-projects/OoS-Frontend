@@ -36,8 +36,6 @@ describe('AchievementCardComponent', () => {
       children: [],
       teachers: []
     } as Achievement;
-    component.isAllowedEdit;
-    component.workshop;
     fixture.detectChanges();
   });
 

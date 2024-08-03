@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
@@ -118,6 +118,40 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * This method fills inputs with information of edited workshop
+   */
+  public activateEditMode(): void {
+    this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
+    if (this.workshop.coverImageId) {
+      this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
+    }
+    if (this.workshop.price) {
+      this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
+      this.priceRadioBtn.setValue(true);
+    } else {
+      this.setPriceControlValue(0, 'disable', false);
+      this.setPayRateControlValue(PayRateType.None, 'disable', false);
+    }
+
+    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
+      this.setAvailableSeatsControlValue(null, 'disable', false);
+    } else {
+      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
+      this.availableSeatsRadioBtnControl.setValue(false);
+    }
+
+    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
+    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, [
+      Validators.pattern(MUST_CONTAIN_LETTERS),
+      Validators.required
+    ]);
+    if (this.workshop.competitiveSelection) {
+      this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
+    }
+  }
+
   private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [
@@ -126,7 +160,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      shortTitle: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)]),
+      shortTitle: new FormControl('', [
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.required,
+        Validators.pattern(MUST_CONTAIN_LETTERS),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+      ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
       minAge: new FormControl(null, [Validators.required]),
@@ -138,7 +177,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-      payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
@@ -163,10 +202,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.markFormAsDirtyOnUserInteraction();
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
-        this.setPayRateControlValue(this.workshop?.payRate ? this.workshop.payRate : null, 'enable');
+        this.setPayRateControlValue(this.workshop?.payRate || PayRateType.None, 'enable');
       } else {
-        this.setPriceControlValue(null, 'disable');
-        this.setPayRateControlValue(null, 'disable');
+        this.setPriceControlValue();
+        this.setPayRateControlValue();
         this.payRateControl.markAsUntouched();
       }
     });
@@ -196,16 +235,16 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
   }
 
-  private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPriceControlValue(price: number = 0, action: string = 'disable', emitEvent: boolean = true): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
   }
 
   /**
-   * This method sets null as value for payRate when the price is null,
-   * otherwise it sets either workshop value, or null for selecting new value
+   * This method sets 0 as value for payRate when the price is 0,
+   * otherwise it sets either workshop value, or PayRateType.None for selecting new value
    */
-  private setPayRateControlValue(payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = true): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   }
@@ -230,40 +269,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method fills inputs with information of edited workshop
-   */
-  public activateEditMode(): void {
-    this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-    if (this.workshop.coverImageId) {
-      this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
-    }
-    if (this.workshop.price) {
-      this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
-      this.priceRadioBtn.setValue(true);
-    } else {
-      this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(null, 'disable', false);
-    }
-
-    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
-      this.setAvailableSeatsControlValue(null, 'disable', false);
-    } else {
-      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
-      this.availableSeatsRadioBtnControl.setValue(false);
-    }
-
-    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
-    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, [
-      Validators.pattern(MUST_CONTAIN_LETTERS),
-      Validators.required
-    ]);
-    if (this.workshop.competitiveSelection) {
-      this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
-    }
-  }
-
-  /**
    * This method makes input enable if radiobutton value
    * is true and sets the value to the FormGroup
    */
@@ -278,14 +283,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       }
     });
-
-    if (this.AboutFormGroup.get('competitiveSelectionDescription')) {
-      this.AboutFormGroup.get('competitiveSelectionDescription')
-        .valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$))
-        .subscribe((disabilityOptionsDesc: string) => {
-          console.log('New description:', disabilityOptionsDesc);
-        });
-    }
   }
 
   private showHintAboutClosingWorkshop(): void {

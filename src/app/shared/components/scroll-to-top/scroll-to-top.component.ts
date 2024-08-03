@@ -10,6 +10,8 @@ export class ScrollToTopComponent implements OnInit {
   public showScrollButton: boolean;
   public readonly constants: typeof Constants = Constants;
 
+  constructor() {}
+
   @HostListener('window:scroll')
   public checkScroll(): void {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -23,8 +25,6 @@ export class ScrollToTopComponent implements OnInit {
       behavior: 'smooth'
     });
   }
-
-  constructor() {}
 
   public ngOnInit(): void {}
 }

@@ -12,8 +12,16 @@
       <p class="filter-text">
         {{ 'FROM' | translate }}
       </p>
-      <input matInput class="age-input" type="number" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
-        appMinMax [directiveFormControl]="minAgeFormControl" [min]="validationConstants.AGE_MIN"
+      <input
+        matInput
+        class="age-input"
+        type="number"
+        [formControl]="minAgeFormControl"
+        appDigitOnly
+        maxlength="2"
+        appMinMax
+        [directiveFormControl]="minAgeFormControl"
+        [min]="validationConstants.AGE_MIN"
         [max]="(maxAgeFormControl.value ? maxAgeFormControl.value : validationConstants.BIRTH_AGE_MAX) - 1"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
@@ -24,10 +32,18 @@
       <p class="filter-text">
         {{ 'TO' | translate }}
       </p>
-      <input matInput class="age-input" type="number" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
-        appMinMax [directiveFormControl]="maxAgeFormControl"
+      <input
+        matInput
+        class="age-input"
+        type="number"
+        [formControl]="maxAgeFormControl"
+        appDigitOnly
+        maxlength="2"
+        appMinMax
+        [directiveFormControl]="maxAgeFormControl"
         [min]="minAgeFormControl.value !== undefined ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
-        [max]="validationConstants.BIRTH_AGE_MAX" autocomplete="off" />
+        [max]="validationConstants.BIRTH_AGE_MAX"
+        autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
     </div>
   </mat-form-field>

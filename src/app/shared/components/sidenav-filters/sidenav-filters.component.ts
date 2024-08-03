@@ -12,9 +12,10 @@ import { NavigationState } from '../../store/navigation.state';
 export class SidenavFiltersComponent implements OnInit, OnDestroy {
   @Select(NavigationState.filtersSidenavOpenTrue)
   public filtersSidenavOpenTrue$: Observable<boolean>;
-  public visibleFiltersSidenav: boolean;
 
   @Input() public isMobileView: boolean;
+
+  public visibleFiltersSidenav: boolean;
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 

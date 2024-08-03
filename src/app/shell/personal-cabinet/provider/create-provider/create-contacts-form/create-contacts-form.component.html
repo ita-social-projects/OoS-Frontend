@@ -2,7 +2,9 @@
 <div class="step" fxLayout="column" fxLayoutAlign="center space-between">
   <h4 class="step-title">{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h4>
   <div class="address-wrapper address-wrapper-border">
-    <app-create-address-form [addressFormGroup]="legalAddressFormGroup" [searchFormGroup]="searchLegalFormGroup"
+    <app-create-address-form
+      [addressFormGroup]="legalAddressFormGroup"
+      [searchFormGroup]="searchLegalFormGroup"
       [address]="provider?.legalAddress">
     </app-create-address-form>
   </div>
@@ -17,10 +19,11 @@
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div class="step" fxLayout="column" fxLayoutAlign="center space-between"
-  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+<div class="step" fxLayout="column" fxLayoutAlign="center space-between" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
   <div class="address-wrapper">
-    <app-create-address-form [addressFormGroup]="actualAddressFormGroup" [searchFormGroup]="searchActualFormGroup"
+    <app-create-address-form
+      [addressFormGroup]="actualAddressFormGroup"
+      [searchFormGroup]="searchActualFormGroup"
       [address]="provider?.actualAddress">
     </app-create-address-form>
   </div>

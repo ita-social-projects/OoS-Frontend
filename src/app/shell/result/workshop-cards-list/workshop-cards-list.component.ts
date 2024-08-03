@@ -20,24 +20,24 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
-  readonly noResultWorkshops = NoResultsTitle.noResult;
-  readonly Role = Role;
-
-  @Input() workshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() paginationParameters: PaginationParameters;
-  @Input() role: string;
-  @Input() currentPage: PaginationElement;
+  @Input() public workshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() public paginationParameters: PaginationParameters;
+  @Input() public role: string;
+  @Input() public currentPage: PaginationElement;
 
   @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
+  public isLoadingResultPage$: Observable<boolean>;
 
-  parent: boolean;
-  workshops: SearchResponse<WorkshopCard[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly noResultWorkshops = NoResultsTitle.noResult;
+  public readonly Role = Role;
+
+  public parent: boolean;
+  public workshops: SearchResponse<WorkshopCard[]>;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.workshops$
       .pipe(
         takeUntil(this.destroy$),
@@ -46,17 +46,17 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

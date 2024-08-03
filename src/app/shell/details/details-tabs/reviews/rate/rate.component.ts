@@ -7,8 +7,8 @@ import { Rate } from 'shared/models/rating';
   styleUrls: ['./rate.component.scss']
 })
 export class RateComponent {
-  @Input() rate: Rate;
-  @Output() deleteRate = new EventEmitter<Rate>();
+  @Input() public rate: Rate;
+  @Output() public deleteRate = new EventEmitter<Rate>();
 
   constructor() {}
 

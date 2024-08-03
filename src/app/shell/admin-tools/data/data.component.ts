@@ -26,8 +26,14 @@ export class DataComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.addNavPath();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new DeleteNavPath());
   }
 
   private addNavPath(): void {
@@ -61,11 +67,5 @@ export class DataComponent implements OnInit, OnDestroy {
         )
       );
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new DeleteNavPath());
   }
 }

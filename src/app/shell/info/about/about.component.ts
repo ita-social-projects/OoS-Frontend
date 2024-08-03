@@ -16,14 +16,14 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit, OnDestroy {
-  readonly noData = NoResultsTitle.noInfo;
-
   @Select(AdminState.aboutPortal)
-  platformInformation$: Observable<CompanyInformation>;
+  public platformInformation$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
 
-  platformInformation: CompanyInformation;
+  public readonly noData = NoResultsTitle.noInfo;
+
+  public platformInformation: CompanyInformation;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -32,7 +32,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(
       new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.AboutPortal, isActive: false, disable: true }))
     );
@@ -40,7 +40,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.platformInformation$.pipe(takeUntil(this.destroy$)).subscribe((info: CompanyInformation) => (this.platformInformation = info));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -73,9 +73,7 @@
           *matCellDef="let element"
           [ngClass]="{ 'application-status': isApplicationHistoryType }"
           class="{{ element.oldValue }}">
-          {{
-            (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue) | emptyValueTransform: DASH_VALUE | translate
-          }}
+          {{ getCustomLogValue(element, 'oldValue') | emptyValueTransform: DASH_VALUE | translate }}
         </td>
       </ng-container>
 
@@ -86,9 +84,7 @@
           *matCellDef="let element"
           [ngClass]="{ 'application-status': isApplicationHistoryType }"
           class="{{ element.newValue }}">
-          {{
-            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) | emptyValueTransform: DASH_VALUE | translate
-          }}
+          {{ getCustomLogValue(element, 'newValue') | emptyValueTransform: DASH_VALUE | translate }}
         </td>
       </ng-container>
 

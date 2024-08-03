@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
@@ -22,28 +22,29 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
-  readonly noDirections = NoResultsTitle.noResult;
-  readonly ModeConstants = ModeConstants;
-
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  public filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  filterFormControl = new FormControl('', [Validators.maxLength(200)]);
-  isEditMode: true;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalAmount: number;
-  directionsParameters: DirectionParameters = {
+  public readonly noDirections = NoResultsTitle.noResult;
+  public readonly ModeConstants = ModeConstants;
+
+  public filterFormControl = new FormControl('', [Validators.maxLength(200)]);
+  public isEditMode: true;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public totalAmount: number;
+  public directionsParameters: DirectionParameters = {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
     private matDialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getDirections();
 
     this.filterFormControl.valueChanges
@@ -67,17 +68,17 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getDirections();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.directionsParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onDelete(direction: Direction): void {
+  public onDelete(direction: Direction): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -86,12 +87,13 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteDirectionById(direction.id, this.directionsParameters));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new DeleteDirectionById(direction.id, this.directionsParameters)));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

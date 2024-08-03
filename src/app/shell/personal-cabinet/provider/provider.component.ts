@@ -15,10 +15,11 @@ import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 })
 export abstract class ProviderComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
-  provider: Provider;
+  public provider$: Observable<Provider>;
   @Select(ProviderState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
+
+  public provider: Provider;
 
   constructor(
     protected store: Store,
@@ -27,15 +28,15 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
     super(store, matDialog);
   }
 
-  protected abstract initProviderData(): void;
-
   /**
    * This method subscribe on provider and get its workshops
    */
-  init(): void {
+  protected init(): void {
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
       this.initProviderData();
     });
   }
+
+  protected abstract initProviderData(): void;
 }

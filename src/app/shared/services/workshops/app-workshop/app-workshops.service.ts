@@ -87,10 +87,10 @@ export class AppWorkshopsService {
       params = params.set('IsAppropriateAge', 'true');
     }
     if (filters.startTime) {
-      params = params.set('StartHour', filters.startTime);
+      params = params.set('MinStartTime', filters.startTime);
     }
     if (filters.endTime) {
-      params = params.set('EndHour', filters.endTime);
+      params = params.set('MaxStartTime', filters.endTime);
     }
     if (filters.workingDays.length) {
       filters.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));

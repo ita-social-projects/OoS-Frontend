@@ -30,14 +30,14 @@ import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.componen
   templateUrl: './provider-applications.component.html'
 })
 export class ProviderApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-  public readonly WorkshopDeclination = WorkshopDeclination;
-
   @Select(ProviderState.truncated)
   public workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
+
+  public readonly WorkshopDeclination = WorkshopDeclination;
+
   public provider: Provider;
-  private providerId: string;
 
   public applicationParams: ApplicationFilterParameters = {
     property: null,
@@ -49,6 +49,8 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     from: 0
   };
 
+  private providerId: string;
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
@@ -56,35 +58,6 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     private actions$: Actions
   ) {
     super(store, matDialog);
-  }
-
-  protected init(): void {
-    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
-      this.provider = provider;
-      switch (this.subrole) {
-        case Subrole.None:
-          this.applicationParams.property = ApplicationEntityType.provider;
-          this.providerId = provider.id;
-          break;
-        case Subrole.ProviderDeputy:
-        case Subrole.ProviderAdmin:
-          this.applicationParams.property = ApplicationEntityType.ProviderAdmin;
-          this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
-          break;
-      }
-      this.getProviderWorkshops();
-    });
-    this.actions$.pipe(ofActionSuccessful(BlockParent, UnBlockParent), takeUntil(this.destroy$)).subscribe(() => this.onGetApplications());
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Applications,
-        isActive: false,
-        disable: true
-      })
-    );
   }
 
   /**
@@ -174,7 +147,36 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     this.onGetApplications();
   }
 
-  public onGetApplications(): void {
+  protected init(): void {
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
+      switch (this.subrole) {
+        case Subrole.None:
+          this.applicationParams.property = ApplicationEntityType.provider;
+          this.providerId = provider.id;
+          break;
+        case Subrole.ProviderDeputy:
+        case Subrole.ProviderAdmin:
+          this.applicationParams.property = ApplicationEntityType.ProviderAdmin;
+          this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
+          break;
+      }
+      this.getProviderWorkshops();
+    });
+    this.actions$.pipe(ofActionSuccessful(BlockParent, UnBlockParent), takeUntil(this.destroy$)).subscribe(() => this.onGetApplications());
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Applications,
+        isActive: false,
+        disable: true
+      })
+    );
+  }
+
+  private onGetApplications(): void {
     this.store.dispatch(new GetApplicationsByPropertyId(this.providerId, this.applicationParams));
   }
 
