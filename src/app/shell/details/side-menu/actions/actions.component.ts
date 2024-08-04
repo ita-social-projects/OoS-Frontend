@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 // eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
@@ -76,11 +76,17 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.parent$.pipe(takeUntil(this.destroy$)).subscribe((parent) => (this.parentId = parent.id));
-    this.selectedProvider$.pipe(takeUntil(this.destroy$)).subscribe((provider) => (this.selectedProviderId = provider.id));
-    if (this.parentId) {
-      this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
-    }
+    combineLatest([
+      this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)),
+      this.selectedProvider$.pipe(takeUntil(this.destroy$))
+    ]).subscribe(([parent, provider]) => {
+      this.parentId = parent.id;
+      this.selectedProviderId = provider.id;
+
+      if (this.parentId) {
+        this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+      }
+    });
     this.isBlocked$.pipe(takeUntil(this.destroy$)).subscribe((blockedParent) => (this.isBlocked = blockedParent !== null));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))

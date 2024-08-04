@@ -1,7 +1,7 @@
 import { Codeficator } from './codeficator.model';
 
 export class Address {
-  id?: number;
+  id = 0;
   street: string;
   buildingNumber: string;
   latitude: number;

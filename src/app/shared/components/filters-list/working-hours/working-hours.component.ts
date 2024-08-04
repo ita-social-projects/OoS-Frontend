@@ -37,21 +37,14 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   @Input()
   public set workingHours(filter: WorkingHoursFilter) {
-    let { endTime, startTime } = filter;
+    const { startTime, endTime } = filter;
     const { workingDays, isStrictWorkdays, isAppropriateHours } = filter;
 
     this.selectedWorkingDays = workingDays;
     this.days.forEach((day) => {
       day.selected = this.selectedWorkingDays.some((el) => el === this.workingDaysReverse[day.value]);
     });
-    if (endTime) {
-      endTime = endTime + ':00';
-    }
     this.endTimeFormControl.setValue(endTime, { emitEvent: false });
-
-    if (startTime) {
-      startTime = startTime + ':00';
-    }
     this.startTimeFormControl.setValue(startTime, { emitEvent: false });
     this.isStrictWorkdaysControl.setValue(isStrictWorkdays, { emitEvent: false });
     this.isAppropriateHoursControl.setValue(isAppropriateHours, { emitEvent: false });
@@ -61,14 +54,14 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.startTimeFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((time: string) => {
-        this.store.dispatch(new SetStartTime(time?.split(':')[0]));
+        this.store.dispatch(new SetStartTime(time));
         this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
       });
 
     this.endTimeFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((time: string) => {
-        this.store.dispatch(new SetEndTime(time?.split(':')[0]));
+        this.store.dispatch(new SetEndTime(time));
         this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
       });
 
