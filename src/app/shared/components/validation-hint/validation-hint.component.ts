@@ -51,20 +51,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
-    if (this.validationFormControl instanceof FormControl) {
-      this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+      if (this.validationFormControl instanceof FormGroup) {
+        Object.keys(this.validationFormControl.controls).forEach((key) => {
+          this.updateValidationState(this.validationFormControl.get(key) as FormControl);
+        });
+      } else {
         this.updateValidationState(this.validationFormControl as FormControl);
-      });
-    } else if (this.validationFormControl instanceof FormGroup) {
-      this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-        for (const key in (this.validationFormControl as FormGroup).controls) {
-          if (Object.hasOwn((this.validationFormControl as FormGroup).controls, key)) {
-            const formControl = this.validationFormControl.get(key);
-            this.updateValidationState(formControl as FormControl);
-          }
-        }
-      });
-    }
+      }
+    });
   }
 
   public updateValidationState(formControl: FormControl): void {
