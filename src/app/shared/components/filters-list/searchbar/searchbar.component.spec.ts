@@ -60,20 +60,4 @@ describe('SearchbarComponent', () => {
 
     expect(performSearchSpy).toHaveBeenCalled();
   });
-
-  it('should emit invalidCharacterDetected when handleInvalidCharacter is called', () => {
-    jest.spyOn(component.invalidCharacterDetected, 'emit');
-
-    component.handleInvalidCharacter();
-
-    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
-  });
-
-  it('should emit validCharacterDetected when handleValidCharacter is called', () => {
-    jest.spyOn(component.validCharacterDetected, 'emit');
-
-    component.handleValidCharacter();
-
-    expect(component.validCharacterDetected.emit).toHaveBeenCalled();
-  });
 });
