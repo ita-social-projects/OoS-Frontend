@@ -26,7 +26,7 @@
     #CurSelectedWorkshop
     class="workshop-details-cards"
     fxLayout="row"
-    (@triggerName.done)="triggerNameDone($event)"
+    (@triggerName.done)="triggerNameDone()"
     [@triggerName]="currentWorkShopIndex"
     [style.left.vw]="left"
     (touchstart)="swipe($event, 'start')"

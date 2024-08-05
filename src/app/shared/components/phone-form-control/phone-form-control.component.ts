@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
@@ -11,12 +11,16 @@ import { Subject, startWith, takeUntil } from 'rxjs';
   styleUrls: ['./phone-form-control.component.scss']
 })
 export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
-  @Input() public parentFormControl: FormControl;
+  @Input() public parentFormControl: AbstractControl;
 
   @ViewChild(NgxMatIntlTelInputComponent) private inputComponent: NgxMatIntlTelInputComponent;
 
   private countries: Country[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public get parentControl(): FormControl {
+    return this.parentFormControl as FormControl;
+  }
 
   @HostListener('document:keypress')
   public handleKeyboardEvent(): void {
