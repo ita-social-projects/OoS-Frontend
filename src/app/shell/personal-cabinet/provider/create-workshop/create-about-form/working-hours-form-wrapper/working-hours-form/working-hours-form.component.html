@@ -1,61 +1,63 @@
 <form class="step">
-  <div class="days">
-    <div
-      fxLayout="row"
-      fxLayoutAlign="space-between"
-      [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
-      <div
-        *ngFor="let day of days"
-        fxLayout="row"
-        fxLayoutAlign="center center"
-        (click)="onToggleDays(day)"
-        [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'">
-        {{ day.value | translate }}
+  <div fxLayout="column">
+    <div fxLayout="row">
+      <div class="days">
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between"
+          [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
+          <div
+            *ngFor="let day of days"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            (click)="onToggleDays(day)"
+            [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'">
+            {{ day.value | translate }}
+          </div>
+        </div>
       </div>
-    </div>
-    <app-validation-hint [validationFormControl]="workdaysFormControl"></app-validation-hint>
-  </div>
 
-  <div class="time-input-wrapper">
-    <div fxLayout="column" fxLayoutAlign="start start">
-      <div class="time-input" fxLayout="row " fxLayoutAlign="start center">
-        <p class="text">{{ 'FROM' | translate }}</p>
-        <input
-          class="input step-input start-time-input"
-          type="text"
-          matInput
-          [ngxMatTimepicker]="timepickerStart"
-          [format]="24"
-          readonly
-          required
-          [formControl]="startTimeFormControl"
-          [max]="getMaxTime()"
-          autocomplete="none" />
-      </div>
-      <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
-    </div>
+      <div class="time-input-wrapper">
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <div class="time-input" fxLayout="row " fxLayoutAlign="start center">
+            <p class="text">{{ 'FROM' | translate }}</p>
+            <input
+              class="input step-input start-time-input"
+              type="text"
+              matInput
+              [ngxMatTimepicker]="timepickerStart"
+              [format]="24"
+              readonly
+              required
+              [formControl]="startTimeFormControl"
+              [max]="getMaxTime()"
+              autocomplete="off" />
+          </div>
+        </div>
 
-    <div fxLayout="column" fxLayoutAlign="start start">
-      <div class="time-input" fxLayout="row" fxLayoutAlign="start center">
-        <p class="text">{{ 'TO' | translate }}</p>
-        <input
-          class="input step-input finish-time-input"
-          type="text"
-          matInput
-          [ngxMatTimepicker]="timepickerEnd"
-          [format]="24"
-          readonly
-          required
-          [formControl]="endTimeFormControl"
-          [min]="getMinTime()"
-          [max]="ValidationConstants.MAX_TIME"
-          autocomplete="none" />
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <div class="time-input" fxLayout="row" fxLayoutAlign="start center">
+            <p class="text">{{ 'TO' | translate }}</p>
+            <input
+              class="input step-input finish-time-input"
+              type="text"
+              matInput
+              [ngxMatTimepicker]="timepickerEnd"
+              [format]="24"
+              readonly
+              required
+              [formControl]="endTimeFormControl"
+              [min]="getMinTime()"
+              [max]="ValidationConstants.MAX_TIME"
+              autocomplete="off" />
+          </div>
+        </div>
+        <div class="delete-block" fxLayout="row" fxLayoutAlign="start start" *ngIf="workingHoursAmount > 1">
+          <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+        </div>
       </div>
-      <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
     </div>
-    <div class="delete-block" fxLayout="row" fxLayoutAlign="start start" *ngIf="workingHoursAmount > 1">
-      <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
-    </div>
+    <app-validation-hint [validationFormControl]="workingHoursForm"></app-validation-hint>
   </div>
 </form>
 
