@@ -6,7 +6,7 @@
 </div>
 
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
-  <div class="card-wrapper" *ngIf="workshops?.totalAmount; else isEmptyList">
+  <div class="card-wrapper" *ngIf="workshops?.totalAmount">
     <app-workshop-card
       class="card"
       *ngFor="let workshop of workshops.entities"

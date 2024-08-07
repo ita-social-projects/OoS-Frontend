@@ -16,7 +16,7 @@
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
-      <mat-form-field *ngIf="isTechAdmin" floatLabel="never" appearance="none">
+      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
         <mat-select
           disableOptionCentering
           formControlName="institution"
@@ -31,7 +31,7 @@
     </div>
     <div class="region-filters-area">
       <div class="filter-dropdown institution-filter">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" floatLabel="never" appearance="none">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
           <mat-select
             disableOptionCentering
             formControlName="region"
@@ -45,7 +45,7 @@
         </mat-form-field>
       </div>
       <div class="filter-dropdown">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" floatLabel="never" appearance="none">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
           <mat-select
             [compareWith]="compareCodeficators"
             disableOptionCentering
