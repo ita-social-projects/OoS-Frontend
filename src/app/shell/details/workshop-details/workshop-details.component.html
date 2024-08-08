@@ -68,11 +68,16 @@
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
         <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
-      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+      <!-- <mat-tab  [disabled]="role === Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}"></mat-tab> -->
+      <!-- <mat-tab *ngIf="role === Role.unauthorized"  class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}"> -->
+      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
         <app-achievements [workshop]="workshop"></app-achievements>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Contacts | translate | uppercase }}">
+        <app-contacts-card [workshop]="workshop" [provider]="provider"></app-contacts-card>
       </mat-tab>
     </mat-tab-group>
   </div>

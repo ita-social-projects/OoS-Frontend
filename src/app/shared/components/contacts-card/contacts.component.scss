@@ -1,7 +1,14 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 
-.container .contact-info {
+.container{
   max-width: 100%;
+} 
+a{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #3849f9;
+}
+.contact-info {
   a {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -17,7 +24,14 @@
     }
   }
 }
-.container .extended-contact{
+.communication-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 20px 0;
+
+}
+.extended-contact{
   &-phone,
   &-email{
     display: flex;
@@ -46,8 +60,8 @@
     }
   }
 }
-@media (max-width: 1280px) {
-  .container{
-    width: inherit;
-  }
-}
+// @media (max-width: 1280px) {
+//   .container{
+//     width: inherit;
+//   }
+// }

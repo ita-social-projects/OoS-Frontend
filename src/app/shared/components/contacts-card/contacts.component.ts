@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { Address } from 'shared/models/address.model';
+import { Workshop } from '../../../shared/models/workshop.model';
+import { Provider } from '../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-contacts-card',
@@ -8,6 +9,8 @@ import { Address } from 'shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsCardComponent implements OnInit {
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
   public contactsDataMock = {
     phoneList: [
       { type: 'home', phone: '6666666666' },
@@ -21,8 +24,9 @@ export class ContactsCardComponent implements OnInit {
     instagram: 'string',
     website: 'string'
   };
-  @Input() public address: Address;
-  @Input() public contactsData: {
+  panelOpenState = false;
+  public address: Address;
+  public contactsData: {
     phone: string;
     email: string;
     facebook: string;
@@ -36,8 +40,19 @@ export class ContactsCardComponent implements OnInit {
     return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
   }
 
-  public ngOnInit(): void {}
-
+  public ngOnInit(): void {
+    this.getContactsData();
+  }
+  private getContactsData(): void {
+    this.contactsData = {
+      phone: this.workshop?.phone || this.provider.phoneNumber,
+      email: this.workshop?.email || this.provider.email,
+      facebook: this.workshop?.facebook || this.provider.facebook,
+      instagram: this.workshop?.instagram || this.provider.instagram,
+      website: this.workshop?.website || this.provider.website
+    };
+    this.address = { ...(this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress) };
+  }
   /* Detects device and opens map*/
   public mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {

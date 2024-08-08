@@ -1,4 +1,4 @@
-<div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="0.1rem">
+<!-- <div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="0.1rem">
   <h4 class="card-title">{{ 'CONTACTS' | translate }}</h4>
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
@@ -46,4 +46,121 @@
       <img src="assets/icons/facebook.png" alt="facebook" />
     </a>
   </div>
+</div> -->
+
+<div class="expansion" style="padding: 50px 0;">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">location_on</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          <div class="address-block" style="display: flex;align-items: center;">
+            <p class="contact-info">
+              <span fxLayout="row wrap" fxLayoutAlign="start">
+                <span class="address-city">{{ address.codeficatorAddressDto?.settlement }}, </span>
+                <span class="address-street" showTooltipIfTruncated [matTooltip]="getFullAddress" matTooltipClass="tooltip">{{
+                  address.street
+                }}</span>
+                <span>, {{ address.buildingNumber }}</span>
+              </span>
+            </p>
+            <a (click)="mapLink()" target="_blank" class="map">{{ 'SHOW_ON_THE_MAP' | translate }}</a>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    <mat-panel-description>
+      <div class="communication-info">
+        <div class="extended-contact-phone">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">call</mat-icon>
+          <div class="phone-list">
+            <div class="contact-info-extended" *ngFor="let contact of contactsDataMock.phoneList">
+              <span> - {{contact.type}}</span>
+              <a href="tel:{{ contact.phone }}" rel="noopener">{{ contact.phone }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="extended-contact-email">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">mail</mat-icon>
+          <div class="email-list">
+            <div class="contact-info-extended" *ngFor="let contact of contactsDataMock.emailList">
+              <span> - {{contact.type}}</span>
+              <a href="mailto:{{ contact.email }}" target="_blank">{{ contact.email }}</a>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="contactsData.website" class="contact-info">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">language</mat-icon>
+          <a [href]="contactsData.website" target="_blank" rel="noopener">{{ contactsData.website }}</a>
+        </p>
+        <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
+          <a *ngIf="contactsData.instagram" href="{{ contactsData.instagram }}" class="link" target="_blank" rel="noopener">
+            <img src="assets/icons/inst.png" alt="instagram" />
+          </a>
+          <a *ngIf="contactsData.facebook" href="{{ contactsData.facebook }}" class="link" target="_blank" rel="noopener">
+            <img src="assets/icons/facebook.png" alt="facebook" />
+          </a>
+        </div>
+      </div>
+    </mat-panel-description>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">location_on</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          <div class="address-block" style="display: flex;align-items: center;">
+            <p class="contact-info">
+              <span fxLayout="row wrap" fxLayoutAlign="start">
+                <span class="address-city">{{ address.codeficatorAddressDto?.settlement }}, </span>
+                <span class="address-street" showTooltipIfTruncated [matTooltip]="getFullAddress" matTooltipClass="tooltip">{{
+                  address.street
+                }}</span>
+                <span>, {{ address.buildingNumber }}</span>
+              </span>
+            </p>
+            <a (click)="mapLink()" target="_blank" class="map">{{ 'SHOW_ON_THE_MAP' | translate }}</a>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    <mat-panel-description>
+      <div class="communication-info">
+        <div class="extended-contact-phone">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">call</mat-icon>
+          <div class="phone-list">
+            <div class="contact-info-extended" *ngFor="let contact of contactsDataMock.phoneList">
+              <span> - {{contact.type}}</span>
+              <a href="tel:{{ contact.phone }}" rel="noopener">{{ contact.phone }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="extended-contact-email">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">mail</mat-icon>
+          <div class="email-list">
+            <div class="contact-info-extended" *ngFor="let contact of contactsDataMock.emailList">
+              <span> - {{contact.type}}</span>
+              <a href="mailto:{{ contact.email }}" target="_blank">{{ contact.email }}</a>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="contactsData.website" class="contact-info">
+          <mat-icon class="card_icon" style="color: #aaaaaa;font-size: 16px;">language</mat-icon>
+          <a [href]="contactsData.website" target="_blank" rel="noopener">{{ contactsData.website }}</a>
+        </p>
+        <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
+          <a *ngIf="contactsData.instagram" href="{{ contactsData.instagram }}" class="link" target="_blank" rel="noopener">
+            <img src="assets/icons/inst.png" alt="instagram" />
+          </a>
+          <a *ngIf="contactsData.facebook" href="{{ contactsData.facebook }}" class="link" target="_blank" rel="noopener">
+            <img src="assets/icons/facebook.png" alt="facebook" />
+          </a>
+        </div>
+      </div>
+    </mat-panel-description>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
