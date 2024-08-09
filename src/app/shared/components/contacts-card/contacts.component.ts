@@ -11,19 +11,70 @@ import { Provider } from '../../../shared/models/provider.model';
 export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
-  public contactsDataMock = {
-    phoneList: [
-      { type: 'home', phone: '6666666666' },
-      { type: 'work', phone: '3333333333' }
-    ],
-    emailList: [
-      { type: 'manager', email: 'some@gmial.com' },
-      { type: 'employee', email: 'any@gmail.com' }
-    ],
-    facebook: 'string',
-    instagram: 'string',
-    website: 'string'
-  };
+
+  public mockData = [
+    {
+      addressType: 'Home',
+      address: 'м.Київ вул.Юного Професора Астрофізики та Соціальної політики по вивченню пінгвінів 2',
+      contacts: [
+        {
+          type: 'Директор',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com', 'any@gmail.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'string'
+        },
+        {
+          type: 'Вчитель Петро',
+          phoneList: ['6666666666'],
+          emailList: ['manager@gff.com', 'some@gmial.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'www.cookies.com'
+        },
+        {
+          type: 'Вчителька Оля',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'string'
+        }
+      ]
+    },
+    {
+      addressType: 'Work',
+      address: 'м.Київ вул.Шевченка 2',
+      contacts: [
+        {
+          type: 'Директор',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com', 'any@gmail.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'string'
+        },
+        {
+          type: 'Вчитель Петро',
+          phoneList: ['6666666666'],
+          emailList: ['manager', 'some@gmial.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'string'
+        },
+        {
+          type: 'Вчителька Оля',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com'],
+          facebook: 'string',
+          instagram: 'string',
+          website: 'string'
+        }
+      ]
+    }
+  ];
+
   panelOpenState = false;
   public address: Address;
   public contactsData: {

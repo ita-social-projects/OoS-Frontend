@@ -1,5 +1,7 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 
+
+// версія моя -----------------------------------------------------------------------
 .container{
   max-width: 100%;
 } 
@@ -8,41 +10,54 @@ a{
   text-overflow: ellipsis;
   color: #3849f9;
 }
+.description-width{
+  width: 45%;
+}
+.address-block{
+  display: flex;
+  align-items: center;
+  width: 60%;
+  .contact-info{
+    max-width: 100%;
+    span{
+      display: block;
+      max-width: inherit;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    
+  }
+}
+.container-left{
+      .contact-type-card{
+        .card-title{
+          margin: 5px 0 10px;
+        }
+        .contact-info-extended{
+          display: flex;
+          margin: 10px 0 0 5px;
+          align-items: flex-start;
+        }
+      }
+    }
 .contact-info {
   a {
     overflow: hidden;
     text-overflow: ellipsis;
     
   }
-  &-extended {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    a{
-      margin-left: 20px;
-      color: #3849f9;
-    }
-  }
-}
-.communication-info{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin: 20px 0;
-
-}
-.extended-contact{
-  &-phone,
-  &-email{
-    display: flex;
-  }
-  
 }
 .mat-icon {
   width: 16px;
   height: 16px;
   margin-right: 8px;
   overflow: unset;
+}
+.card_icon{
+  color: #aaaaaa;
+  font-size: 16px;
+  
 }
 
 .address {
@@ -60,8 +75,8 @@ a{
     }
   }
 }
-// @media (max-width: 1280px) {
-//   .container{
-//     width: inherit;
-//   }
-// }
+@media (max-width: 1280px) {
+  .container{
+    width: inherit;
+  }
+}
