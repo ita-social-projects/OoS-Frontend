@@ -34,6 +34,7 @@ import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-
 import { ResultComponent } from './result/result.component';
 import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
+import { CreateCompetitiveComponent } from './personal-cabinet/provider/create-competitive/create-competitive.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -168,6 +169,13 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canDeactivate: [CreateGuard],
     canLoad: [CreateParentGuard]
+  },
+  {
+    path: 'create-competitive/:param',
+    component: CreateCompetitiveComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
   },
   { path: '**', component: ErrorPageComponent }
 ];
