@@ -36,6 +36,7 @@ import { ProviderPositionsComponent } from './provider-positions/provider-positi
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { CreatePositionFormComponent } from './create-position/position-form/create-position-form.component';
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
+import { CreateCompetitiveComponent } from './create-competitive/create-competitive.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ProviderEmployeesComponent } from './provider-employees/provider-employ
     ProviderEmployeesUploadComponent,
     ProviderStudySubjectsComponent,
     CreateStudySubjectComponent,
+    CreateCompetitiveComponent,
     CreateAdditionalAboutFormComponent,
     ProviderPositionsComponent,
     CreatePositionComponent,
