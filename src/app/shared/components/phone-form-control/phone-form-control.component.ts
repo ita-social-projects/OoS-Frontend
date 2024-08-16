@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
@@ -10,7 +10,7 @@ import { Subject, startWith, takeUntil } from 'rxjs';
   templateUrl: './phone-form-control.component.html',
   styleUrls: ['./phone-form-control.component.scss']
 })
-export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
+export class PhoneFormControlComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public parentFormControl: AbstractControl;
 
   @ViewChild(NgxMatIntlTelInputComponent) private inputComponent: NgxMatIntlTelInputComponent;
@@ -30,8 +30,14 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  public ngOnInit(): void {
+    this.parentControl.addValidators((): ValidationErrors | null =>
+      this.isCountryBanned(this.inputComponent?.selectedCountry?.iso2) ? { validatePhoneNumber: true } : null
+    );
+  }
+
   public ngAfterViewInit(): void {
-    this.inputComponent.allCountries = this.inputComponent.allCountries.filter((country) => country.iso2 !== 'ru');
+    this.inputComponent.allCountries = this.inputComponent.allCountries.filter((country) => !this.isCountryBanned(country.iso2));
     this.countries = [...this.inputComponent.allCountries];
 
     this.inputComponent.getCountry = (code: string): Country =>
@@ -59,5 +65,9 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private isCountryBanned(countryCode: string): boolean {
+    return ['ru', 'by', 'UN'].includes(countryCode);
   }
 }
