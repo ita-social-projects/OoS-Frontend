@@ -41,13 +41,26 @@
   height: 40px;
 }
 
-mat-error {
-  &.invalid-input {
-    text-align: center;
+.invalid-input {
+  align-self: center;
+  max-width: 100%;
+  display: flex;
+}
+
+:host ::ng-deep .invalid-input {
+  small {
+    min-width: 0;
+    font-size: small !important;
     text-overflow: ellipsis;
-    overflow: hidden;
     white-space: nowrap;
-    align-self: center;
-    width: 90%;
+    vertical-align: middle;
+    overflow: hidden;
   }
+}
+
+.validation-hint-wrapper {
+  align-self: center;
+  display: flex;
+  width: 90%;
+  justify-content: center;
 }
