@@ -29,7 +29,8 @@ import { ProviderApplicationsComponent } from './provider-applications/provider-
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderRoutingModule } from './provider-routing.module';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
-import { CreateCompetitiveComponent } from './create-competitive/create-competitive.component';
+import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateRequiredFormComponent } from './create-competition/create-required-form/create-required-form.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { CreateCompetitiveComponent } from './create-competitive/create-competit
     ProviderWorkshopsComponent,
     WorkingHoursFormWrapperComponent,
     CreateAddressFormComponent,
-    CreateCompetitiveComponent
+    CreateCompetitionComponent,
+    CreateRequiredFormComponent
   ],
   imports: [
     CommonModule,

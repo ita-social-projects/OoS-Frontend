@@ -13,6 +13,11 @@ export class GetWorkshopById {
   constructor(public payload: string) {}
 }
 
+export class GetCompetitionById {
+  static readonly type = '[user] get Competition By Competition Id';
+  constructor(public payload: string) {}
+}
+
 export class GetAllApplications {
   static readonly type = '[admin] Get All Applications';
   constructor(public params: ApplicationFilterParameters) {}
@@ -20,6 +25,11 @@ export class GetAllApplications {
 
 export class OnGetWorkshopByIdFail {
   static readonly type = '[user] get Workshop By Workshop Id fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnGetCompetitionByIdFail {
+  static readonly type = '[user] get Competition by Competition Id fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 

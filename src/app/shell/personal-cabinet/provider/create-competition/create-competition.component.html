@@ -1,0 +1,39 @@
+<ng-container *ngIf="provider">
+  <div class="create-form" *ngIf="(editMode && competition) || !editMode">
+    <div class="wrapper">
+      <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+        <h3 class="wrapper-title">
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_COMPETITION' : 'FORMS.HEADERS.NEW_COMPETITION') | translate }}
+        </h3>
+        <p class="wrapper-text">
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
+          {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
+        </p>
+      </div>
+
+      <mat-horizontal-stepper linear>
+        <mat-step [stepControl]="RequiredFormGroup">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
+          </ng-template>
+          <app-create-required-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [competition]="competition"
+            [isImagesFeature]="isImagesFeature"
+            [provider]="provider"
+            (PassRequiredFormGroup)="onReceiveRequiredFormGroup($event)">
+          </app-create-required-form>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="RequiredFormGroup.invalid">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</ng-container>

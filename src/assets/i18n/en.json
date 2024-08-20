@@ -138,7 +138,9 @@
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
       "PROVIDER_REGISTRATION": "Provider registration",
-      "USER_REGISTRATION": "User registration"
+      "USER_REGISTRATION": "User registration",
+      "NEW_COMPETITION": "Add new competition event",
+      "EDIT_COMPETITION": "Edit competition event"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -300,6 +302,12 @@
         "DELETE": "Removing the administrator",
         "BLOCK": "Administrator lock"
       }
+    },
+    "TYPE_OF_COMPETITION": {
+      "EDUCATIONAL_PROJECT": "Educational project",
+      "COMPETITION": "Competition (without stages)",
+      "PARENT_COMPETITION": "Parent competition (has stage competitions)",
+      "COMPETITION_STAGE": "Stage competition (has parent competition)"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -340,7 +348,9 @@
       "SUBHEADER_TITLE": "Title",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
       "ADD_ACHIEVEMENT": "ADD ACHIEVEMENT",
-      "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login"
+      "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login",
+      "NEW_COMPETITION": "NEW COMPETITION",
+      "EDIT_COMPETITION": "EDIT COMPETITION"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",

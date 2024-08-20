@@ -34,7 +34,7 @@ import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-
 import { ResultComponent } from './result/result.component';
 import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
-import { CreateCompetitiveComponent } from './personal-cabinet/provider/create-competitive/create-competitive.component';
+import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -171,8 +171,8 @@ const routes: Routes = [
     canLoad: [CreateParentGuard]
   },
   {
-    path: 'create-competitive/:param',
-    component: CreateCompetitiveComponent,
+    path: 'create-competition/:param',
+    component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
