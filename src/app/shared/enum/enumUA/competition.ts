@@ -1,0 +1,6 @@
+export enum TypeOfCompetitionEnum {
+  EducationalProject = 'ENUM.TYPE_OF_COMPETITION.EDUCATIONAL_PROJECT',
+  Competition = 'ENUM.TYPE_OF_COMPETITION.COMPETITION',
+  ParentCompetition = 'ENUM.TYPE_OF_COMPETITION.PARENT_COMPETITION',
+  CompetitionStage = 'ENUM.TYPE_OF_COMPETITION.COMPETITION_STAGE'
+}

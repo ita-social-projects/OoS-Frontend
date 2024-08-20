@@ -8,11 +8,13 @@ import { EMPTY_RESULT } from 'shared/constants/constants';
 import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application } from 'shared/models/application.model';
+import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { ShowMessageBar } from './app.actions';
@@ -21,9 +23,11 @@ import { RegistrationState } from './registration.state';
 import {
   GetAllApplications,
   GetApplicationsByPropertyId,
+  GetCompetitionById,
   GetProviderById,
   GetWorkshopById,
   GetWorkshopsByProviderId,
+  OnGetCompetitionByIdFail,
   OnGetProviderByIdFail,
   OnGetWorkshopByIdFail,
   OnUpdateApplicationFail,
@@ -38,6 +42,7 @@ export interface SharedUserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
+  selectedCompetition: Competition;
 }
 
 @State<SharedUserStateModel>({
@@ -47,13 +52,15 @@ export interface SharedUserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applicationCards: null
+    applicationCards: null,
+    selectedCompetition: null
   }
 })
 @Injectable()
 export class SharedUserState {
   constructor(
     private userWorkshopService: UserWorkshopService,
+    private userCompetitionService: UserCompetitionService,
     private applicationService: ApplicationService,
     private adminService: AdminService,
     private providerService: ProviderService,
@@ -81,6 +88,11 @@ export class SharedUserState {
   }
 
   @Selector()
+  static selectedCompetition(state: SharedUserStateModel): Competition {
+    return state.selectedCompetition;
+  }
+
+  @Selector()
   static applications(state: SharedUserStateModel): SearchResponse<Application[]> {
     return state.applicationCards;
   }
@@ -91,6 +103,18 @@ export class SharedUserState {
     return this.userWorkshopService.getWorkshopById(payload).pipe(
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
+    );
+  }
+
+  @Action(GetCompetitionById)
+  getCompetitionById(
+    { patchState, dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: GetCompetitionById
+  ): Observable<Competition | void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.getCompetitionById(payload).pipe(
+      tap((Competition: Competition) => patchState({ selectedCompetition: Competition, isLoading: false })),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetCompetitionByIdFail(error)))
     );
   }
 
@@ -118,6 +142,12 @@ export class SharedUserState {
         type: 'error'
       })
     );
+  }
+
+  @Action(OnGetCompetitionByIdFail)
+  onGetCompetitionByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetCompetitionByIdFail): void {
+    patchState({ selectedCompetition: null, isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetProviderById)

@@ -37,7 +37,7 @@ import { CreateParentComponent } from './personal-cabinet/parent/create-parent/c
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
 import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
-import { CreateCompetitiveComponent } from './personal-cabinet/provider/create-competitive/create-competitive.component';
+import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -189,8 +189,8 @@ const routes: Routes = [
   },
   { path: 'server-error', component: ServerErrorPageComponent },
   {
-    path: 'create-competitive/:param',
-    component: CreateCompetitiveComponent,
+    path: 'create-competition/:param',
+    component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
