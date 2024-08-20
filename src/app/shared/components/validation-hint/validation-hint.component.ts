@@ -111,7 +111,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
     } else if (this.isSearchBar) {
       this.invalidSearch = errors?.length !== 0;
-      console.log(this.invalidSearch);
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }

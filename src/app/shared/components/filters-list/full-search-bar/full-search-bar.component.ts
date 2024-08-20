@@ -8,7 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class FullSearchBarComponent {
   @Input() public styleClass: string;
-  displayErrorFormControl: FormControl = new FormControl(true, Validators.requiredTrue);
+  public displayErrorFormControl: FormControl = new FormControl(true, Validators.requiredTrue);
 
   public showErrorMessage(): void {
     this.displayErrorFormControl.setValue(false);

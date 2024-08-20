@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { FullSearchBarComponent } from './full-search-bar.component';
 
 describe('FullSearchBarComponent', () => {
@@ -10,7 +11,7 @@ describe('FullSearchBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule],
+      imports: [MatIconModule, TranslateModule.forRoot()],
       declarations: [FullSearchBarComponent, MockCityFilterComponent, MockSearchBarComponent]
     }).compileComponents();
   });
@@ -25,14 +26,14 @@ describe('FullSearchBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set `displayErrorMessage` to true', () => {
+  it('should set `displayErrorFormControl` to false', () => {
     component.showErrorMessage();
-    expect(component.displayErrorMessage).toBe(true);
+    expect(component.displayErrorFormControl.value).toBe(false);
   });
 
-  it('should set `displayErrorMessage` to false', () => {
+  it('should set `displayErrorFormControl` to true', () => {
     component.hideErrorMessage();
-    expect(component.displayErrorMessage).toBe(false);
+    expect(component.displayErrorFormControl.value).toBe(true);
   });
 });
 @Component({
