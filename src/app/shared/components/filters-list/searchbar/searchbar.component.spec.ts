@@ -60,4 +60,17 @@ describe('SearchbarComponent', () => {
 
     expect(performSearchSpy).toHaveBeenCalled();
   });
+
+  it('should replace invalid characters and update the FormControl value', () => {
+    jest.spyOn(component.searchValueFormControl, 'setValue');
+    jest.spyOn(component.invalidCharacterDetected, 'emit');
+
+    const inputValue = 'Test@Value#123';
+    const expectedValue = 'TestValue123';
+
+    component.handleInvalidCharacter(inputValue);
+
+    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue);
+    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
+  });
 });
