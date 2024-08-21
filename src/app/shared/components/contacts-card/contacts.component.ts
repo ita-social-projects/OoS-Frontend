@@ -14,62 +14,80 @@ export class ContactsCardComponent implements OnInit {
 
   public mockData = [
     {
-      addressType: 'Home',
+      addressTitle: 'Home',
+      addressType: 'Фактична',
       address: 'м.Київ вул.Юного Професора Астрофізики та Соціальної політики по вивченню пінгвінів 2',
       contacts: [
         {
           type: 'Директор',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com', 'any@gmail.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'string'
+          phoneList: ['6666666666'],
+          emailList: [],
+          facebook: [],
+          instagram: [],
+          websiteList: []
         },
         {
           type: 'Вчитель Петро',
           phoneList: ['6666666666'],
           emailList: ['manager@gff.com', 'some@gmial.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'www.cookies.com'
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['www.cookies.com', 'www.pancake.com']
         },
         {
           type: 'Вчителька Оля',
           phoneList: ['6666666666', '3333333333'],
           emailList: ['some@gmial.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'string'
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring']
+        },
+        {
+          type: 'Вчителька Оля',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com'],
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['string']
+        },
+        {
+          type: 'Вчителька Оля',
+          phoneList: ['6666666666', '3333333333'],
+          emailList: ['some@gmial.com'],
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['string']
         }
       ]
     },
     {
-      addressType: 'Work',
+      addressTitle: 'Робота',
+      addressType: 'Юридична',
       address: 'м.Київ вул.Шевченка 2',
       contacts: [
         {
           type: 'Директор',
           phoneList: ['6666666666', '3333333333'],
           emailList: ['some@gmial.com', 'any@gmail.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'string'
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['string']
         },
         {
           type: 'Вчитель Петро',
           phoneList: ['6666666666'],
           emailList: ['manager', 'some@gmial.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'string'
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['string']
         },
         {
           type: 'Вчителька Оля',
           phoneList: ['6666666666', '3333333333'],
           emailList: ['some@gmial.com'],
-          facebook: 'string',
-          instagram: 'string',
-          website: 'string'
+          facebook: ['string'],
+          instagram: ['string'],
+          websiteList: ['string']
         }
       ]
     }

@@ -1,10 +1,11 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 
-
-// версія моя -----------------------------------------------------------------------
 .container{
   max-width: 100%;
 } 
+.expansion{
+  padding: 50px 0;
+}
 a{
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,15 +30,29 @@ a{
     
   }
 }
+.address-type-title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
 .container-left{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
       .contact-type-card{
+        width: 25%;
+        margin: 10px 0;
+        
         .card-title{
-          margin: 5px 0 10px;
+          margin: 5px 0 10px 5px;
         }
         .contact-info-extended{
           display: flex;
           margin: 10px 0 0 5px;
-          align-items: flex-start;
+          align-items: center;
         }
       }
     }
