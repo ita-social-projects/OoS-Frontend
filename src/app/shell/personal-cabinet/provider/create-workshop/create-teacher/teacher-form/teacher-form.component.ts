@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -12,7 +12,7 @@ import { Util } from 'shared/utils/utils';
 })
 export class TeacherFormComponent {
   @Input() public index: number;
-  @Input() public TeacherFormGroup: FormGroup;
+  @Input() public TeacherFormGroup: AbstractControl;
   @Input() public teacherAmount: number;
   @Input() public isImagesFeature: boolean;
 
@@ -34,6 +34,10 @@ export class TeacherFormComponent {
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor() {}
+
+  public get TeacherForm(): FormGroup {
+    return this.TeacherFormGroup as FormGroup;
+  }
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);

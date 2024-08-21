@@ -19,13 +19,13 @@ import { EditInsHierarchyModel } from '../edit-ins-hierarchy-model';
   styleUrls: ['./directions-institution-hierarchies-edit-form.component.scss']
 })
 export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterViewInit {
-  @ViewChild('editForm') editForm: ElementRef;
-  @ViewChild('select') select: MatSelect;
+  @Select(MetaDataState.directions) public directions$: Observable<Direction[]>;
 
-  @Select(MetaDataState.directions) directions$: Observable<Direction[]>;
+  @ViewChild('editForm') private editForm: ElementRef;
+  @ViewChild('select') private select: MatSelect;
 
-  readonly ministryControl: string = 'Ministry';
-  readonly userDirectionsControl: string = 'USER_DIRECTIONS';
+  public readonly ministryControl: string = 'Ministry';
+  public readonly userDirectionsControl: string = 'USER_DIRECTIONS';
 
   public editDirectionFormGroup: FormGroup;
   public directionsControl: FormControl = new FormControl([]);
@@ -43,6 +43,57 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
     this.store.dispatch(new GetDirections());
     this.lastInsHierarchy = this.getLastInsHierarchy();
     this.buildForm();
+  }
+
+  public ngAfterViewInit(): void {
+    asyncScheduler.schedule(() => {
+      if (this.editForm) {
+        this.lastInputFocus();
+      }
+    }, 0);
+  }
+
+  public onCancel(): void {
+    this.closeDialog();
+  }
+
+  public onSubmit(): void {
+    for (let i = 0; i < this.data.columns.length; ++i) {
+      const fieldName = this.data.columns[i];
+      const field = this.editDirectionFormGroup.controls[fieldName];
+      if (field.value !== this.data.element.name[i]) {
+        const editedInsHierarchy = this.data.element.insHierarchies[i];
+        editedInsHierarchy.title = field.value;
+        this.editedInsHierarchies.push(editedInsHierarchy);
+      }
+    }
+
+    if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {
+      let editedInsHierarchy = this.editedInsHierarchies.find((ins: InstituitionHierarchy) => ins.id === this.lastInsHierarchy.id);
+      if (editedInsHierarchy) {
+        editedInsHierarchy.directions = this.directionsControl.value;
+      } else {
+        editedInsHierarchy = this.lastInsHierarchy;
+        editedInsHierarchy.directions = this.directionsControl.value;
+        this.editedInsHierarchies.push(editedInsHierarchy);
+      }
+    }
+
+    forkJoin(this.editedInsHierarchies.map((ins: InstituitionHierarchy) => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
+      this.store.dispatch(new GetAllInstitutionsHierarchy());
+      this.reloadPage();
+    });
+
+    this.closeDialog();
+  }
+
+  public compareItems(item1: DataItem, item2: DataItem): boolean {
+    return item1.id === item2.id;
+  }
+
+  public onRemoveItem(direction: DataItem): void {
+    this.directionsControl.value.splice(this.directionsControl.value.indexOf(direction), 1);
+    this.select.options.find((option: MatOption) => option.value.id === direction.id).deselect();
   }
 
   private buildForm(): void {
@@ -105,56 +156,5 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
       array1.length === array2.length &&
       array1.every((first: Direction) => array2.some((second: Direction) => Object.keys(first).every((key) => first[key] === second[key])))
     );
-  }
-
-  public ngAfterViewInit(): void {
-    asyncScheduler.schedule(() => {
-      if (this.editForm) {
-        this.lastInputFocus();
-      }
-    }, 0);
-  }
-
-  public onCancel(): void {
-    this.closeDialog();
-  }
-
-  public onSubmit(): void {
-    for (let i = 0; i < this.data.columns.length; ++i) {
-      const fieldName = this.data.columns[i];
-      const field = this.editDirectionFormGroup.controls[fieldName];
-      if (field.value != this.data.element.name[i]) {
-        const editedInsHierarchy = this.data.element.insHierarchies[i];
-        editedInsHierarchy.title = field.value;
-        this.editedInsHierarchies.push(editedInsHierarchy);
-      }
-    }
-
-    if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {
-      let editedInsHierarchy = this.editedInsHierarchies.find((ins: InstituitionHierarchy) => ins.id === this.lastInsHierarchy.id);
-      if (editedInsHierarchy) {
-        editedInsHierarchy.directions = this.directionsControl.value;
-      } else {
-        editedInsHierarchy = this.lastInsHierarchy;
-        editedInsHierarchy.directions = this.directionsControl.value;
-        this.editedInsHierarchies.push(editedInsHierarchy);
-      }
-    }
-
-    forkJoin(this.editedInsHierarchies.map((ins: InstituitionHierarchy) => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
-      this.store.dispatch(new GetAllInstitutionsHierarchy());
-      this.reloadPage();
-    });
-
-    this.closeDialog();
-  }
-
-  public compareItems(item1: DataItem, item2: DataItem): boolean {
-    return item1.id === item2.id;
-  }
-
-  public onRemoveItem(direction: DataItem): void {
-    this.directionsControl.value.splice(this.directionsControl.value.indexOf(direction), 1);
-    this.select.options.find((option: MatOption) => option.value.id === direction.id).deselect();
   }
 }

@@ -16,13 +16,24 @@
       padding: 4px 24px 4px 24px !important;
     }
 
-    a:first-child {
+    a.wide-link {
       padding: 4px 12px 4px 12px !important;
     }
 
     .active {
       color: #3849f9;
-      border-bottom: 2px solid #3849f9;
+
+      &::after {
+        background-color: #3849f9;
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 2px;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, 0);
+        width: 50px;
+      }
     }
   }
 

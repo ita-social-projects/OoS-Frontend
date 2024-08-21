@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
 import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
@@ -20,11 +20,8 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit, OnDestroy {
-  public readonly validationConstants = ValidationConstants;
-  private readonly NONE_SOCIAL_GROUP_ID = 6;
-
   @Input()
-  public ChildFormGroup: FormGroup;
+  public ChildFormGroup: AbstractControl;
   @Input()
   public index: number;
   @Input()
@@ -40,18 +37,26 @@ export class ChildFormComponent implements OnInit, OnDestroy {
   @ViewChild('chipList')
   private chipList: MatChipList;
 
+  public readonly validationConstants = ValidationConstants;
+
   public socialGroupControl: FormControl = new FormControl([]);
   public dateFilter: RegExp = DATE_REGEX;
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly NONE_SOCIAL_GROUP_ID = 6;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private translateService: TranslateService,
     private store: Store
   ) {}
+
+  public get ChildForm(): FormGroup {
+    return this.ChildFormGroup as FormGroup;
+  }
 
   public ngOnInit(): void {
     this.socialGroupControl = this.ChildFormGroup.get('socialGroups') as FormControl;

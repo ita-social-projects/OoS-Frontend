@@ -1,4 +1,5 @@
-<ng-container *ngTemplateOutlet="
+<ng-container
+  *ngTemplateOutlet="
     searchAddressTmpl;
     context: {
       $implicit: {
@@ -8,7 +9,8 @@
       }
     }
   "></ng-container>
-<ng-container *ngTemplateOutlet="
+<ng-container
+  *ngTemplateOutlet="
     addressControlsTmlp;
     context: {
       $implicit: {
@@ -22,14 +24,19 @@
 <!-- SEARCH SETTLEMENT TEMPLATE-->
 <ng-template #searchAddressTmpl let-context>
   <label class="step-label">{{ 'FORMS.LABELS.SETTLEMENT' | translate }}<span class="step-required">*</span> </label>
-  <div class="custom-input-autocomplete"
-    [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
-    <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
-      <input matInput type="text" appTrimValue [formControl]="context.searchControl" [matAutocomplete]="auto"
-        (focusout)="onFocusOut()" />
-      <mat-autocomplete #auto="matAutocomplete" disableOptionCentering panelClass="dropdown-panel"
-        [displayWith]="displaySettlementNameFn" (optionSelected)="onSelectSettlement($event)">
-        <mat-option class="dropdown-option" *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator"
+  <div class="custom-input-autocomplete" [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
+    <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
+      <input matInput type="text" appTrimValue [formControl]="context.searchControl" [matAutocomplete]="auto" (focusout)="onFocusOut()" />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        disableOptionCentering
+        panelClass="dropdown-panel"
+        [displayWith]="displaySettlementNameFn"
+        (optionSelected)="onSelectSettlement($event)">
+        <mat-option
+          class="dropdown-option"
+          *ngFor="let codeficator of codeficatorSearch$ | async"
+          [value]="codeficator"
           [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
           {{ codeficator.settlement | translate }} <br />
           <span class="option-sub-text">{{ codeficator.fullName }}</span>
@@ -37,8 +44,10 @@
       </mat-autocomplete>
     </mat-form-field>
   </div>
-  <app-validation-hint [validationFormControl]="context.searchControl"
-    [minCharacters]="ValidationConstants.INPUT_LENGTH_3" [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+  <app-validation-hint
+    [validationFormControl]="context.searchControl"
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
   <p *ngIf="context.settlementControl.value" class="additional-text">
     {{ context.settlementControl.value?.fullName }}
@@ -52,17 +61,20 @@
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue />
     </mat-form-field>
-    <app-validation-hint [validationFormControl]="context.streetControl"
-      [minCharacters]="ValidationConstants.INPUT_LENGTH_1" [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+    <app-validation-hint
+      [validationFormControl]="context.streetControl"
+      [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
     </app-validation-hint>
 
     <label class="step-label">{{ 'FORMS.LABELS.BUILDING' | translate }}<span class="step-required">*</span> </label>
     <mat-form-field>
-      <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none"
-        appTrimValue />
+      <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue />
     </mat-form-field>
-    <app-validation-hint [validationFormControl]="context.buildingNumberControl"
-      [minCharacters]="ValidationConstants.INPUT_LENGTH_1" [maxCharacters]="ValidationConstants.INPUT_LENGTH_15">
+    <app-validation-hint
+      [validationFormControl]="context.buildingNumberControl"
+      [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="ValidationConstants.INPUT_LENGTH_15">
     </app-validation-hint>
   </form>
 </ng-template>

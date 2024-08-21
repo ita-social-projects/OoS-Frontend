@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
-  @Input() public workingHoursForm: FormGroup;
+  @Input() public workingHoursForm: AbstractControl;
   @Input() public index: number;
   @Input() public workingHoursAmount: number;
 
@@ -22,7 +22,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Output() public dataChanged = new EventEmitter<void>();
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
-  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public workingDays: Set<string> = new Set<string>();
   public workdaysFormControl = new FormControl(['']);
   public startTimeFormControl = new FormControl('');

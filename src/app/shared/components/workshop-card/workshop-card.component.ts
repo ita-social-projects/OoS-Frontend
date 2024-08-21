@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { ParentState } from 'shared-store/parent.state';
+// eslint-disable-next-line max-len
 import { WorkshopSeatsLackModalComponent } from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
 import { Constants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -31,6 +32,17 @@ import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warn
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
+  @Input() public isCabinetView = false;
+  @Input() public isHorizontalView = false;
+  @Input() public isCreateFormView = false;
+
+  @Output() public deleteWorkshop = new EventEmitter<WorkshopBaseCard>();
+
+  @Select(ParentState.favoriteWorkshops)
+  public favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(RegistrationState.role)
+  public role$: Observable<Role>;
+
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
@@ -47,36 +59,26 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public canChangeWorkshopStatus: boolean;
   public workshopData: WorkshopBaseCard;
 
-  @Input()
-  public set workshop(workshop: WorkshopBaseCard) {
-    this.workshopData = workshop;
-    this.imagesService.setWorkshopCoverImage(workshop);
-  }
-
-  @Input() public isCabinetView = false;
-  @Input() public isHorizontalView = false;
-  @Input() public isCreateFormView = false;
-
-  @Output() public deleteWorkshop = new EventEmitter<WorkshopBaseCard>();
-
-  @Select(ParentState.favoriteWorkshops)
-  public favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(RegistrationState.role)
-  public role$: Observable<Role>;
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   private favoriteWorkshopId: string;
-
-  public get canOpenWorkshopRecruitment(): boolean {
-    return (this.workshopData as WorkshopProviderViewCard).takenSeats < (this.workshopData as WorkshopProviderViewCard).availableSeats;
-  }
 
   constructor(
     private store: Store,
     private dialog: MatDialog,
     private imagesService: ImagesService
   ) {}
+
+  public get canOpenWorkshopRecruitment(): boolean {
+    return (this.workshopData as WorkshopProviderViewCard).takenSeats < (this.workshopData as WorkshopProviderViewCard).availableSeats;
+  }
+
+  @Input()
+  public set workshop(workshop: WorkshopBaseCard) {
+    this.workshopData = workshop;
+    this.imagesService.setWorkshopCoverImage(workshop);
+  }
 
   public ngOnInit(): void {
     if (this.isCabinetView) {

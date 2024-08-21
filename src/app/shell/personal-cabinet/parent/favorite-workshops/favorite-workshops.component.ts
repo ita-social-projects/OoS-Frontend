@@ -24,13 +24,11 @@ import { ParentComponent } from '../parent.component';
   styleUrls: ['./favorite-workshops.component.scss']
 })
 export class FavoriteWorkshopsComponent extends ParentComponent implements OnInit, OnDestroy {
-  readonly Role = Role;
-  readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
-
   @Select(ParentState.favoriteWorkshopsCard)
   public favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  private totalAmount: number;
+  public readonly Role = Role;
+  public readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   public paginationParameters: PaginationParameters = {
     size: PaginationConstants.WORKSHOPS_PER_PAGE,
@@ -38,22 +36,14 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
 
+  private totalAmount: number;
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions
   ) {
     super(store, matDialog);
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Favorite,
-        isActive: false,
-        disable: true
-      })
-    );
   }
 
   public initParentData(): void {
@@ -77,6 +67,16 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Favorite,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
   private getWorkshops(): void {

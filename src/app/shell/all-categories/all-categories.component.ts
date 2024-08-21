@@ -20,12 +20,12 @@ import { Util } from 'shared/utils/utils';
 })
 export class AllCategoriesComponent implements OnInit, OnDestroy {
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  public filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalAmount: number;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  directionsParameters: DirectionParameters = {
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public totalAmount: number;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public directionsParameters: DirectionParameters = {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
@@ -35,7 +35,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
     public navigationBarService: NavigationBarService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getDirections();
     this.filteredDirections$
       .pipe(takeUntil(this.destroy$))
@@ -45,17 +45,17 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getDirections();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.directionsParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new DeleteNavPath());

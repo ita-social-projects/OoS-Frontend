@@ -47,7 +47,7 @@
       </app-validation-hint>
 
       <label class="step-label">{{ 'FORMS.LABELS.SUBORDINATION' | translate }}<span class="step-required">*</span></label>
-      <mat-form-field floatLabel="never" appearance="none">
+      <mat-form-field appearance="fill">
         <mat-select
           [compareWith]="compareInstitutions"
           disableOptionCentering
@@ -63,7 +63,7 @@
       <app-validation-hint [validationFormControl]="institutionFormControl"></app-validation-hint>
       <ng-container *ngIf="isRegionAdmin || isAreaAdmin">
         <label class="step-label">{{ 'FORMS.LABELS.REGION' | translate }}<span class="step-required">*</span></label>
-        <mat-form-field floatLabel="never" appearance="none">
+        <mat-form-field appearance="fill">
           <mat-select
             [compareWith]="compareCodeficators"
             disableOptionCentering
@@ -82,7 +82,7 @@
         <label class="step-label">
           {{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}<span class="step-required">*</span>
         </label>
-        <mat-form-field floatLabel="never" appearance="none">
+        <mat-form-field appearance="fill">
           <mat-select
             [compareWith]="compareCodeficators"
             disableOptionCentering
@@ -98,7 +98,7 @@
         <app-validation-hint [validationFormControl]="territorialCommunityFormControl"></app-validation-hint>
       </ng-container>
       <label class="step-label"> {{ 'FORMS.LABELS.EMAIL' | translate }} <span class="step-required">*</span></label>
-      <mat-form-field appearance="none">
+      <mat-form-field appearance="fill">
         <input
           matInput
           class="step-input"

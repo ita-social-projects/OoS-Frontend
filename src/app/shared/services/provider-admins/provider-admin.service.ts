@@ -16,14 +16,14 @@ export class ProviderAdminService {
    * This method get provider admin by id
    * @param id string
    */
-  getProviderAdminById(id: string): Observable<ProviderAdmin> {
+  public getProviderAdminById(id: string): Observable<ProviderAdmin> {
     return this.http.get<ProviderAdmin>(`/api/v1/ProviderAdmin/GetProviderAdminById/${id}`);
   }
 
   /**
    * This method get provider admisn with filter parameters
    */
-  getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {
+  public getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {
     const params = new HttpParams()
       .set('deputyOnly', `${filterParams.deputyOnly}`)
       .set('assistantsOnly', `${filterParams.assistantsOnly}`)
@@ -40,7 +40,7 @@ export class ProviderAdminService {
    * This method create Provider Admin
    * @param providerAdmin: ProviderAdmin
    */
-  createProviderAdmin(providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
+  public createProviderAdmin(providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
     return this.http.post<ProviderAdmin>('/api/v1/ProviderAdmin/Create', providerAdmin);
   }
 
@@ -49,7 +49,7 @@ export class ProviderAdminService {
    * @param providerAdminId: string
    * @param providerId: string
    */
-  deleteProviderAdmin(providerAdminId: string, providerId: string): Observable<void> {
+  public deleteProviderAdmin(providerAdminId: string, providerId: string): Observable<void> {
     const params = new HttpParams().set('providerAdminId', `${providerAdminId}`).set('providerId', `${providerId}`);
 
     return this.http.delete<void>('/api/v1/ProviderAdmin/Delete', { params });
@@ -59,7 +59,7 @@ export class ProviderAdminService {
    * This method delete Provider Admin
    * @param providerAdminBlockParams: ProviderAdminBlockData
    */
-  blockProviderAdmin(providerAdminBlockParams: ProviderAdminBlockData): Observable<void> {
+  public blockProviderAdmin(providerAdminBlockParams: ProviderAdminBlockData): Observable<void> {
     const params = new HttpParams()
       .set('providerAdminId', `${providerAdminBlockParams.userId}`)
       .set('providerId', `${providerAdminBlockParams.providerId}`)
@@ -73,7 +73,7 @@ export class ProviderAdminService {
    * @param providerId: string
    * @param providerAdmin: ProviderAdmin
    */
-  updateProviderAdmin(providerId: string, providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
+  public updateProviderAdmin(providerId: string, providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
     const params = new HttpParams().set('providerId', `${providerId}`);
 
     return this.http.put<ProviderAdmin>('/api/v1/ProviderAdmin/Update', providerAdmin, { params });
@@ -83,7 +83,7 @@ export class ProviderAdminService {
    * This method reinvates provider admin
    * @param providerAdmin: ProviderAdmin
    */
-  reinvateProviderAdmin(providerAdmin: ProviderAdmin): Observable<void> {
+  public reinvateProviderAdmin(providerAdmin: ProviderAdmin): Observable<void> {
     return this.http.put<void>(`/api/v1/ProviderAdmin/Reinvite/${providerAdmin.id}`, providerAdmin);
   }
 }

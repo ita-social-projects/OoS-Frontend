@@ -2,7 +2,11 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input formControlName="searchBarFilter" matInput type="text" class="search"
+      <input
+        formControlName="searchBarFilter"
+        matInput
+        type="text"
+        class="search"
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
     </div>
     <div class="reset" (click)="onResetFilters()" *ngIf="!isAreaAdmin">
@@ -12,9 +16,13 @@
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
-      <mat-form-field *ngIf="isTechAdmin" floatLabel="never" appearance="none">
-        <mat-select disableOptionCentering formControlName="institution" panelClass="dropdown-panel"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}" class="select">
+      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
+        <mat-select
+          disableOptionCentering
+          formControlName="institution"
+          panelClass="dropdown-panel"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
+          class="select">
           <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
             {{ institution.title }}
           </mat-option>
@@ -23,9 +31,13 @@
     </div>
     <div class="region-filters-area">
       <div class="filter-dropdown institution-filter">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" floatLabel="never" appearance="none">
-          <mat-select disableOptionCentering formControlName="region" panelClass="dropdown-panel"
-            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}" class="select">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
+          <mat-select
+            disableOptionCentering
+            formControlName="region"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
+            class="select">
             <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
               {{ region.fullName | translate }}
             </mat-option>
@@ -33,12 +45,15 @@
         </mat-form-field>
       </div>
       <div class="filter-dropdown">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" floatLabel="never" appearance="none">
-          <mat-select [compareWith]="compareCodeficators" disableOptionCentering formControlName="area"
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
+          <mat-select
+            [compareWith]="compareCodeficators"
+            disableOptionCentering
+            formControlName="area"
             panelClass="dropdown-panel"
-            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}" class="select">
-            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator"
-              class="dropdown-option">
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
+            class="select">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">
               {{ codeficator.territorialCommunity }}
             </mat-option>
           </mat-select>
@@ -53,8 +68,7 @@
     <div class="wrapper-provider-list">
       <div class="wrapper-provider-list-container">
         <div class="table-container mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-            appStretchTable>
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
             <ng-container matColumnDef="fullTitle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
                 {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
@@ -118,21 +132,22 @@
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
-              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header
-                sortActionDescription="Sort by status">
+              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="!element.isBlocked; else BlockStatus">
                   <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
-                    <ng-container *ngTemplateOutlet="
+                    <ng-container
+                      *ngTemplateOutlet="
                         ProviderStatusTmpl;
                         context: { $implicit: element.status, titles: providerStatusTitles }
                       "></ng-container>
                   </ng-container>
 
                   <ng-container *ngIf="element.ownership === ownershipTypes.Private">
-                    <ng-container *ngTemplateOutlet="
+                    <ng-container
+                      *ngTemplateOutlet="
                         ProviderStatusTmpl;
                         context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
                       "></ng-container>
@@ -164,18 +179,24 @@
                 <mat-menu #actions="matMenu" class="header_menu">
                   <ng-container *ngIf="!element.isBlocked">
                     <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
-                      <button *ngIf="element.status !== providerStatuses.Approved" mat-menu-item
+                      <button
+                        *ngIf="element.status !== providerStatuses.Approved"
+                        mat-menu-item
                         (click)="onChangeStatus(element, providerStatuses.Approved)">
                         {{ 'BUTTONS.CONFIRM' | translate }}
                       </button>
-                      <button *ngIf="element.status !== providerStatuses.Editing" mat-menu-item
+                      <button
+                        *ngIf="element.status !== providerStatuses.Editing"
+                        mat-menu-item
                         (click)="onChangeStatus(element, providerStatuses.Editing)">
                         {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
                       </button>
                     </ng-container>
 
                     <ng-container *ngIf="element.ownership === ownershipTypes.Private">
-                      <button *ngIf="element.licenseStatus === licenseStatuses.Pending" mat-menu-item
+                      <button
+                        *ngIf="element.licenseStatus === licenseStatuses.Pending"
+                        mat-menu-item
                         (click)="onLicenseApprove(element.id)">
                         {{ 'BUTTONS.CONFIRM_LICENSE' | translate }}
                       </button>
@@ -197,14 +218,19 @@
           </table>
         </div>
         <div *ngIf="isInfoDisplayed" class="container">
-          <app-provider-info [provider]="provider" [isProviderView]="false"
+          <app-provider-info
+            [provider]="provider"
+            [isProviderView]="false"
             (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-provider-info>
         </div>
       </div>
     </div>
     <div class="paginator">
-      <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage"
-        [itemsPerPage]="providerParameters.size" (pageChange)="onPageChange($event)"
+      <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="providerParameters.size"
+        (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </div>

@@ -4,9 +4,16 @@
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
     </button>
-    <mat-form-field floatLabel="never" appearance="none">
-      <input matInput type="text" maxlength="200" [formControl]="directionSearchFormControl" class="search" matInput
-        placeholder="{{ 'SEARCH_BY_DIRECTIONS' | translate }}" autocomplete="off" />
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="text"
+        maxlength="200"
+        [formControl]="directionSearchFormControl"
+        class="search"
+        matInput
+        placeholder="{{ 'SEARCH_BY_DIRECTIONS' | translate }}"
+        autocomplete="off" />
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>

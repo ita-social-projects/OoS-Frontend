@@ -7,9 +7,7 @@
     {{ workshop.price }} {{ 'UAH' | translate }}/{{ PayRateTypeEnum[workshop.payRate] | translate }}
   </h4>
   <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
-  <a
-    [ngClass]="{ disable: hideApplicationSubmission }"
-    (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
+  <a [ngClass]="{ disable: hideApplicationSubmission }" (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
       class="button button-application"
       mat-raised-button
@@ -20,8 +18,7 @@
     </button>
   </a>
 
-  <a
-    (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
+  <a (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
     <button mat-raised-button class="button button-msg"><mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}</button>
   </a>
 

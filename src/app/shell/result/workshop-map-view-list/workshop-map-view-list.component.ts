@@ -84,16 +84,16 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
         const swipe = direction[0] < 0 ? 'next' : 'previous';
         this.direct = swipe;
-        if (swipe === 'next') {
-          this.selectedWorkshops.length - 1 > this.currentWorkShopIndex && this.currentWorkShopIndex++;
-        } else {
-          this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--;
+        if (swipe === 'next' && this.selectedWorkshops.length - 1 > this.currentWorkShopIndex) {
+          this.currentWorkShopIndex++;
+        } else if (this.currentWorkShopIndex >= 1) {
+          this.currentWorkShopIndex--;
         }
       }
     }
   }
 
-  public triggerNameDone(e: AnimationEvent): void {
+  public triggerNameDone(): void {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
       this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) - 92;
     }

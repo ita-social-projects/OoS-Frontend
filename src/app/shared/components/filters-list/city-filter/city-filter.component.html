@@ -1,13 +1,32 @@
-<mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
-  <input #searchInput class="input-filter" matInput type="text" appTrimValue [formControl]="settlementSearchControl"
-    [matAutocomplete]="auto" (focusout)="onFocusOut($event)" />
-  <mat-autocomplete [panelWidth]="300" #auto="matAutocomplete" disableOptionCentering panelClass="dropdown-panel"
-    [displayWith]="displaySettlementNameFn" (optionSelected)="onSelectedCity($event)">
-    <mat-option class="dropdown-option" *ngFor="let codeficator of codeficatorSearch" [value]="codeficator"
+<mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
+  <input
+    #searchInput
+    class="input-filter"
+    matInput
+    type="text"
+    appTrimValue
+    [formControl]="settlementSearchControl"
+    [matAutocomplete]="auto"
+    (focusout)="onFocusOut($event)" />
+  <mat-autocomplete
+    [panelWidth]="300"
+    #auto="matAutocomplete"
+    disableOptionCentering
+    panelClass="dropdown-panel"
+    [displayWith]="displaySettlementNameFn"
+    (optionSelected)="onSelectedCity($event)">
+    <mat-option
+      class="dropdown-option"
+      *ngFor="let codeficator of codeficatorSearch"
+      [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <div class="dropdown-option-trimmed" [matTooltip]="codeficator.fullName" matTooltipClass="tooltip"
-        showTooltipIfTruncated matTooltipPosition="below">
+      <div
+        class="dropdown-option-trimmed"
+        [matTooltip]="codeficator.fullName"
+        matTooltipClass="tooltip"
+        showTooltipIfTruncated
+        matTooltipPosition="below">
         <span class="option-sub-text">{{ codeficator.fullName }}</span>
       </div>
     </mat-option>
@@ -24,7 +43,8 @@
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <p fxFlex="93%">
         {{ 'YOU_ARE_IN_A_SETTLEMENT' | translate }}
-        <span>{{ settlement?.settlement }}</span>?
+        <span>{{ settlement?.settlement }}</span
+        >?
       </p>
       <mat-icon (click)="isDisplayed = false" fxFlex="7%">clear</mat-icon>
     </div>

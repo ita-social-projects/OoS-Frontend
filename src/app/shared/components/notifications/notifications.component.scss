@@ -1,20 +1,28 @@
-.mat-icon-button {
-  margin-right: 10px;
-}
-
 :host::ng-deep .mat-icon {
   position: relative;
   overflow: visible;
   font-size: 30px;
   top: -1px;
 
+  @media (min-width: 750px) {
+    height: auto;
+    width: auto;
+  }
+
   .mat-badge-content {
+    right: -20px !important;
+    top: -5px;
     background-color: #f5bc4a;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    line-height: 15px;
+    z-index: 10;
   }
 }
 
 .icon-mobile {
-  top: 11px;
+  top: 8px;
   margin-left: 73px;
 }
 

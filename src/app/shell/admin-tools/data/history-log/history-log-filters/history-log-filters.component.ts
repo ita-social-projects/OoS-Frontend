@@ -72,6 +72,10 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
     this.dateFromFilters.emit(dateFilters);
   }
 
+  public setFormControlDependsOnTab(controlName: string): FormControl {
+    return this.filtersForm.controls[controlName] as FormControl;
+  }
+
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
     switch (tabName) {
       case HistoryLogTypes.Providers:
@@ -119,8 +123,7 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
     const { dateFrom, dateTo, ...restFilters } = this.filtersForm.value;
 
     if (dateFrom && dateTo) {
-      const filtersWithEditedTime = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
-      Object.assign(filtersWithEditedTime, restFilters);
+      const filtersWithEditedTime = { ...this.setTimePeriodEqualToWholeDay(dateFrom, dateTo), ...restFilters };
       this.filterData.emit(filtersWithEditedTime);
     } else {
       this.filterData.emit(this.filtersForm.value);
