@@ -1,3 +1,6 @@
 {
-  "*.{ts,scss,html}": ["yarn lint:fix"]
+  "*.{ts,html}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
 }
