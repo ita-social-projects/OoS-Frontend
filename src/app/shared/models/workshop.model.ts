@@ -41,6 +41,7 @@ export abstract class WorkshopBase {
   providerId: string;
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
+  tagIds: number[];
 
   constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -66,6 +67,7 @@ export abstract class WorkshopBase {
     this.teachers = teachers;
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
+    this.tagIds = description.tagIds;
 
     if (id) {
       this.id = id;
@@ -216,4 +218,5 @@ interface Description {
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];
+  tagIds: number[];
 }
