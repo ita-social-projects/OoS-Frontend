@@ -13,6 +13,8 @@
     "test-watch": "jest --watch",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix & prettier --write .",
+    "eslint:fix": "eslint --fix",
+    "prettier:fix": "prettier --write",
     "e2e": "ng e2e"
   },
   "private": true,
