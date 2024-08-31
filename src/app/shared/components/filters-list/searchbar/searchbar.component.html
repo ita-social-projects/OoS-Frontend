@@ -16,7 +16,6 @@
       [formControl]="searchValueFormControl"
       [matAutocomplete]="autoSearch"
       (keyup.enter)="onValueEnter()" />
-
     <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
         {{ result }}
