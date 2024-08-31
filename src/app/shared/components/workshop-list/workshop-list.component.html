@@ -1,0 +1,282 @@
+<form class="wrapper-header" [formGroup]="filterGroup">
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        formControlName="searchBarFilter"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
+    </div>
+    <div class="reset" (click)="onResetFilters()" *ngIf="!isAreaAdmin || !isModerator">
+      <mat-icon class="reset__icon">refresh</mat-icon>
+      <span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
+    </div>
+  </div>
+  <div class="filters-area">
+    <div class="filter-dropdown">
+      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
+        <mat-select
+          disableOptionCentering
+          formControlName="institution"
+          panelClass="dropdown-panel"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
+          class="select">
+          <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+            {{ institution.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="region-filters-area">
+      <div class="filter-dropdown institution-filter">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
+          <mat-select
+            disableOptionCentering
+            formControlName="region"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
+            class="select">
+            <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
+              {{ region.fullName | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="filter-dropdown">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
+          <mat-select
+            [compareWith]="compareCodeficators"
+            disableOptionCentering
+            formControlName="area"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
+            class="select">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">
+              {{ codeficator.territorialCommunity }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-container *ngIf="!(isLoadingCabinet$ | async)">
+  <ng-container *ngIf="totalEntities; else isEmptyList">
+    <div class="wrapper-workshop-list">
+      <div class="wrapper-workshop-list-container">
+        <div class="table-container mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by workshop title">
+                {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.title | emptyValueTransform | translate }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerTitle">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by provider title">
+                {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.providerTitle | emptyValueTransform | translate }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerOwnership">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by provider ownership">
+                {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span>
+                  {{ OwnershipTypeEnum[element.providerOwnership] | emptyValueTransform | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="formOfLearning">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by form of learning">
+                {{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span>
+                  {{ FormOfLearningEnum[element.formOfLearning] | emptyValueTransform | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="seats">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by seats">
+                {{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span>
+                  {{ element.takenSeats }}
+                  <ng-container *ngIf="element.availableSeats !== UNLIMITED_SEATS"> / {{ element.availableSeats }} </ng-container>
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="edrpouIpn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
+                {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform | translate }}</td>
+            </ng-container> -->
+
+            <!-- <ng-container matColumnDef="license">
+              <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
+              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform | translate }}</td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="city">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
+                {{ 'FORMS.LABELS.SETTLEMENT' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.address?.codeficatorAddressDto?.settlement | emptyValueTransform | translate }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="street">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">
+                {{ 'FORMS.LABELS.ADDRESS' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.address | getAddress: ModeConstants.SHORT | emptyValueTransform | translate }}
+              </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+                {{ 'FORMS.LABELS.EMAIL' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+            </ng-container> -->
+
+            <!-- <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
+                {{ 'FORMS.LABELS.PHONE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phone }}</td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="status" stickyEnd>
+              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+                {{ 'FORMS.LABELS.STATUS' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="!element.isBlocked; else BlockStatus">
+                  <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
+                    <ng-container
+                      *ngTemplateOutlet="
+                        WorkshopStatusTmpl;
+                        context: { $implicit: element.status, titles: providerStatusTitles }
+                      "></ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="element.ownership === ownershipTypes.Private">
+                    <ng-container
+                      *ngTemplateOutlet="
+                        WorkshopStatusTmpl;
+                        context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
+                      "></ng-container>
+                  </ng-container>
+                </ng-container>
+
+                <ng-template #BlockStatus>
+                  <ng-container
+                    *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"></ng-container>
+                </ng-template>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rating" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td class="star-column" mat-cell *matCellDef="let element">
+                <div class="icons">
+                  <button mat-icon-button [matMenuTriggerFor]="actions">
+                    <mat-icon class="action-icon">more_vert</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onViewWorkshopInfo(element)">
+                    <mat-icon class="action-icon">remove_red_eye</mat-icon>
+                  </button>
+                  <a mat-icon-button [routerLink]="['/details/workshop/', element.id]">
+                    <mat-icon class="action-icon">arrow_forward</mat-icon>
+                  </a>
+                </div>
+
+                <mat-menu #actions="matMenu" class="header_menu">
+                  <ng-container *ngIf="!element.isBlocked">
+                    <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
+                      <button
+                        *ngIf="element.status !== providerStatuses.Approved"
+                        mat-menu-item
+                        (click)="onChangeStatus(element, providerStatuses.Approved)">
+                        {{ 'BUTTONS.CONFIRM' | translate }}
+                      </button>
+                      <button
+                        *ngIf="element.status !== providerStatuses.Editing"
+                        mat-menu-item
+                        (click)="onChangeStatus(element, providerStatuses.Editing)">
+                        {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
+                      </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="element.ownership === ownershipTypes.Private">
+                      <button
+                        *ngIf="element.licenseStatus === licenseStatuses.Pending"
+                        mat-menu-item
+                        (click)="onLicenseApprove(element.id)">
+                        {{ 'BUTTONS.CONFIRM_LICENSE' | translate }}
+                      </button>
+                    </ng-container>
+                  </ng-container>
+
+                  <button mat-menu-item (click)="onBlock(element)">
+                    {{ (element.isBlocked ? 'BUTTONS.UNBLOCK' : 'BUTTONS.BLOCK') | translate }}
+                    <!-- {{ 'ENUM.ROLE_LINKS.WORKSHOP' | translate }} -->
+                    <!-- TODO: Add translation for the button -->
+                  </button>
+
+                  <button mat-menu-item (click)="onDelete(element)">{{ 'BUTTONS.DELETE' | translate }}</button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <div *ngIf="isInfoDisplayed" class="container">
+          <!-- <app-workshop-info
+            [workshop]="workshop"
+            [isWorkshopView]="false"
+            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-workshop-info> -->
+          <!-- TODO: Implement Workshop preview -->
+        </div>
+      </div>
+    </div>
+    <div class="paginator">
+      <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="workshopParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noWorkshops"></app-no-result-card>
+</ng-template>
+
+<ng-template #WorkshopStatusTmpl let-status let-titles="titles">
+  <div class="workshop-list-status {{ status }}">
+    <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
+    <!-- <span>{{ titles[status] || 'ENUM.WORKSHOP_STATUSES.BLOCK' | translate }}</span> -->
+    <!-- TODO: Add translation for the statuses -->
+  </div>
+</ng-template>

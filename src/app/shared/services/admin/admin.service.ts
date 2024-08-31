@@ -9,6 +9,7 @@ import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-a
 import { Provider, ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
+import { Workshop, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class AdminService {
   }
 
   public getAllProviders(parameters: ProviderParameters): Observable<SearchResponse<Provider[]>> {
-    const options = { params: this.setProviderParams(parameters) };
+    const options = { params: this.setProviderWorkshopParams(parameters) };
 
     return this.http.get<SearchResponse<Provider[]>>(`${this.baseApiUrl}/GetProviderByFilter`, options);
   }
@@ -46,6 +47,12 @@ export class AdminService {
 
   public blockProvider(provider: ProviderBlock): Observable<void> {
     return this.http.put<void>(`${this.baseApiUrl}/BlockProvider`, provider);
+  }
+
+  public getAllWorkshops(parameters: WorkshopFilterAdministration): Observable<SearchResponse<Workshop[]>> {
+    const options = { params: this.setProviderWorkshopParams(parameters) };
+
+    return this.http.get<SearchResponse<Workshop[]>>(`${this.baseApiUrl}/GetWorkshopsByFilter`, options);
   }
 
   private setMinistryAdminParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {
@@ -72,7 +79,7 @@ export class AdminService {
     return params;
   }
 
-  private setProviderParams(parameters: ProviderParameters): HttpParams {
+  private setProviderWorkshopParams(parameters: ProviderParameters | WorkshopFilterAdministration): HttpParams {
     let params = this.setDefaultParams(parameters);
 
     if (parameters.institutionId) {

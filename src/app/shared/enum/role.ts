@@ -9,7 +9,8 @@ export enum Role {
   techAdmin = 'techadmin',
   ministryAdmin = 'ministryadmin',
   regionAdmin = 'regionadmin',
-  areaAdmin = 'areaadmin'
+  areaAdmin = 'areaadmin',
+  moderator = 'moderator'
 }
 
 export enum UserTabParams {

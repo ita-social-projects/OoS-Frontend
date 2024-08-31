@@ -239,11 +239,13 @@ export interface AdditionalAbout {
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
-  groupType: string;
-  price: number;
-  payRate: PayRateType;
-  areThereBenefits: boolean;
-  preferentialTermsOfParticipation: string;
+  workshopType: string;
+}
+
+export interface WorkshopFilterAdministration extends PaginationParameters {
+  searchString?: string;
+  institutionId?: string;
+  catottgId?: number;
 }
 
 export interface Description {

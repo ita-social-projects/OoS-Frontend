@@ -89,6 +89,7 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
+import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 
 @NgModule({
   declarations: [
@@ -164,6 +165,7 @@ import { CreateContactsComponent } from './base-components/create-contacts/creat
     CustomCarouselDirective,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
+    WorkshopListComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
@@ -256,6 +258,7 @@ import { CreateContactsComponent } from './base-components/create-contacts/creat
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
+    WorkshopListComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
