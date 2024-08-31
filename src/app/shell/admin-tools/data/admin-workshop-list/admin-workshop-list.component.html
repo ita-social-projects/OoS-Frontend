@@ -1,0 +1,5 @@
+<app-workshop-list
+  [workshops]="workshops$ | async"
+  [setWorkshopFiltersByDefault]="setWorkshopsFiltersByDefault"
+  (getWorkshopsByFilter)="onGetWorkshopsByFilter($event)">
+</app-workshop-list>
