@@ -42,4 +42,35 @@ describe('SearchbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call "performSearch" and "saveSearchResult" with "onValueEnter"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+    const saveSearchResultsSpy = jest.spyOn(component, 'saveSearchResults');
+
+    component.onValueEnter();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+    expect(saveSearchResultsSpy).toHaveBeenCalled();
+  });
+
+  it('should call "performSearch" with "onValueSelected"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+
+    component.onValueSelect();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+  });
+
+  it('should replace invalid characters and update the FormControl value', () => {
+    jest.spyOn(component.searchValueFormControl, 'setValue');
+    jest.spyOn(component.invalidCharacterDetected, 'emit');
+
+    const inputValue = 'Test@Value#123';
+    const expectedValue = 'TestValue123';
+
+    component.handleInvalidCharacter(inputValue);
+
+    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue);
+    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
+  });
 });

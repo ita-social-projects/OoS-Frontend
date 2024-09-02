@@ -24,6 +24,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public maxCharacters: number;
   @Input() public isPhoneNumber: boolean; // required to display validation for phone number
   @Input() public isEdrpouIpn: boolean;
+  @Input() public isSearchBar: boolean = false;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
@@ -45,6 +46,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
   public mustContainLetters: boolean;
+  public invalidSearch: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -71,7 +73,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // Check is the field required and empty
-    this.required = errors?.required && !formControl.value;
+    if (!this.isSearchBar) {
+      this.required = errors?.required && !formControl.value;
+    }
 
     // Check Date Picker Format
     if (this.minMaxDate) {
@@ -105,6 +109,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
     } else if (this.isEdrpouIpn) {
       this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
+    } else if (this.isSearchBar) {
+      this.invalidSearch = errors?.length !== 0;
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }

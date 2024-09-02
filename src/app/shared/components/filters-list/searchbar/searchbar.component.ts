@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -17,13 +17,16 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
+  @Output() public invalidCharacterDetected = new EventEmitter<void>();
+  @Output() public validCharacterDetected = new EventEmitter<void>();
+
   @Select(NavigationState.navigationPaths)
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern('^[A-Za-zА-Яа-я0-9`.,№"\']*$')]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
@@ -51,7 +54,10 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         map((value: string) => value.trim()),
         tap((value: string) => this.filter(value))
       )
-      .subscribe((value: string) => (this.searchedText = value));
+      .subscribe((value: string) => {
+        this.searchedText = value;
+        this.handleInvalidCharacter(value);
+      });
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
@@ -76,6 +82,16 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   public onValueSelect(): void {
     this.performSearch();
+  }
+
+  public handleInvalidCharacter(value: string): void {
+    const validValue = value?.replace(/[^A-Za-zА-Яа-я0-9`.,№"']/g, '');
+    if (validValue !== value) {
+      this.searchValueFormControl.setValue(validValue);
+      this.invalidCharacterDetected.emit();
+    } else {
+      this.validCharacterDetected.emit();
+    }
   }
 
   private performSearch(): void {
