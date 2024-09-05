@@ -31,4 +31,18 @@
   .mat-input-element:disabled {
     color: #444444;
   }
+
+  @media (max-width: 900px) {
+    .slider-row {
+      flex-direction: column;
+    }
+
+    .current-radius {
+      margin-left: 0;
+    }
+
+    .filter-slider {
+      margin-right: 30px;
+    }
+  }
 }

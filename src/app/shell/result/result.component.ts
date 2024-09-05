@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
@@ -55,6 +55,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  public marginLeft: string = '0';
 
   constructor(
     private store: Store,
@@ -70,6 +71,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setViewType();
     this.setInitialSubscriptions();
     this.setFiltersFromQueryParamsWhenMapView();
+    this.calculateMarginLeft();
   }
 
   public ngAfterViewInit(): void {
@@ -82,6 +84,19 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.unsubscribe();
   }
 
+  public calculateMarginLeft(): void {
+    if (this.isFiltersSidenavOpen) {
+      this.marginLeft = window.innerWidth < 900 ? '250px' : '340px';
+    } else {
+      this.marginLeft = '0';
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.calculateMarginLeft();
+  }
+
   public viewHandler(value: ResultViewType): void {
     this.currentViewType = value;
     this.store.dispatch(new SetMapView(this.currentViewType === ResultViewType.Map));
@@ -89,6 +104,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
+    this.isFiltersSidenavOpen = !this.isFiltersSidenavOpen; // Оновлюємо локальну змінну
+    this.calculateMarginLeft(); // Перераховуємо значення margin-left після зміни стану
   }
 
   private addNavPath(): void {
@@ -122,7 +139,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
+    this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
+      this.isFiltersSidenavOpen = val;
+      this.calculateMarginLeft(); // Перераховуємо значення margin-left при зміні стану
+    });
   }
 
   private setFiltersFromQueryParamsWhenMapView(): void {
