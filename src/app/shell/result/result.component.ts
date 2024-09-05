@@ -93,7 +93,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
+  onResize(event: Event): void {
     this.calculateMarginLeft();
   }
 
