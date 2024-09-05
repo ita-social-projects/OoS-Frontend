@@ -12,6 +12,7 @@
     <ng-container *ngIf="invalidEdrpouIpn; then invalidEdrpouIpnTmpl"></ng-container>
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
     <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
+    <ng-container *ngIf="invalidSearch; then invalidSearchTmpl"></ng-container>
     <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
     <ng-container
       *ngIf="
@@ -81,3 +82,5 @@
 <ng-template #minNumberValueTmpl>
   {{ 'FORMS.VALIDATIONS.LESS_THAN_PARTICIPANTS' | translate }}
 </ng-template>
+
+<ng-template #invalidSearchTmpl> {{ 'FORMS.VALIDATIONS.INVALID_SEARCH' | translate }}<br /> </ng-template>
