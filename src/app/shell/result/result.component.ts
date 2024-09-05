@@ -104,8 +104,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
-    this.isFiltersSidenavOpen = !this.isFiltersSidenavOpen; // Оновлюємо локальну змінну
-    this.calculateMarginLeft(); // Перераховуємо значення margin-left після зміни стану
+    this.isFiltersSidenavOpen = !this.isFiltersSidenavOpen;
+    this.calculateMarginLeft();
   }
 
   private addNavPath(): void {
@@ -141,7 +141,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
       this.isFiltersSidenavOpen = val;
-      this.calculateMarginLeft(); // Перераховуємо значення margin-left при зміні стану
+      this.calculateMarginLeft();
     });
   }
 
