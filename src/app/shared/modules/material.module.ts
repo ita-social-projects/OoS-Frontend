@@ -7,6 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
@@ -57,7 +58,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatProgressBarModule,
     MatTableModule,
     MatSortModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule {}

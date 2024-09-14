@@ -25,6 +25,9 @@
     <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/statistics'">
       {{ 'ENUM.NAV_BAR_NAME.STATISTICS' | translate | uppercase }}
     </a>
+    <a *ngIf="canManageImports(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/import-export'">
+      {{ 'ENUM.NAV_BAR_NAME.IMPORT-EXPORT_PROVIDERS' | translate | uppercase }}
+    </a>
   </nav>
 </div>
 <router-outlet></router-outlet>

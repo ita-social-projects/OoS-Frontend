@@ -23,6 +23,7 @@ import { AdminApplicationsComponent } from './admin-applications/admin-applicati
 import { StatisticsComponent } from './statistics/statistics.component';
 // eslint-disable-next-line max-len
 import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-wrapper/directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
+import { ImportExportModule } from './import-export/import-export.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,16 @@ import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-
     StatisticsComponent,
     DirectionsInstitutionHierarchiesEditFormComponent
   ],
-  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule, TranslateModule, SharedCabinetModule],
+  imports: [
+    CommonModule,
+    ImportExportModule,
+    DataRoutingModule,
+    SharedModule,
+    MaterialModule,
+    FlexLayoutModule,
+    TranslateModule,
+    SharedCabinetModule
+  ],
   exports: [DataComponent]
 })
 export class DataModule {}
