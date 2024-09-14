@@ -11,7 +11,6 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { UsersComponent } from './users/users.component';
 import { UsersGuard } from './users/users.guard';
 import { DirectionsWrapperGuard } from './directions-wrapper/directions-wrapper.guard';
-import { ImportExportComponent } from './import-export/import-export.component';
 
 const routes: Routes = [
   { path: 'provider-list', component: ProviderListComponent },
@@ -20,13 +19,7 @@ const routes: Routes = [
   { path: 'history-log', component: HistoryLogComponent },
   { path: 'directions', component: DirectionsWrapperComponent, canLoad: [DirectionsWrapperGuard] },
   { path: 'applications', component: AdminApplicationsComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  {
-    path: 'import-export',
-    component: ImportExportComponent,
-    canLoad: [UsersGuard],
-    loadChildren: () => import('../data/import-export/import-export.module').then((m) => m.ImportExportModule)
-  }
+  { path: 'statistics', component: StatisticsComponent }
 ];
 
 @NgModule({
