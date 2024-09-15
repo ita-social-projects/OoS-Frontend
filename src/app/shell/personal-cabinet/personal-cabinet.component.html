@@ -38,7 +38,7 @@
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider && subrole !== Subrole.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/upload-employees'">
-        {{ 'загрузка працівників' }}
+        {{ 'ENUM.NAV_BAR_NAME.IMPORT' | translate | uppercase }}
       </a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">

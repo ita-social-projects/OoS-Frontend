@@ -1,105 +1,92 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@angular/core';
-import { isValidPhoneNumber } from 'libphonenumber-js';
-import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
-import { EmailsEdrpousResponse, ProviderId } from 'shared/models/admin-import-export.model';
+import { NO_LATIN_REGEX, RNOKPP_REGEX } from 'shared/constants/regex-constants';
+import { ImportEmployeesChosenRole } from 'shared/enum/enumUA/import-export';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportValidationService {
   constructor() {}
-  public checkForInvalidData(providers: ProviderId[], emailsEdrpous: EmailsEdrpousResponse): void {
-    providers.forEach((elem) => {
+  public checkForInvalidData(items: any[]): void {
+    items.forEach((elem) => {
       elem.errors = {};
-      this.validateDirectorsName(elem);
-      this.validateDirectorsSurname(elem);
-      this.validateProviderName(elem);
-      this.validateOwnership(elem);
-      this.validateIdentifier(elem, emailsEdrpous);
-      this.validateLicenseNumber(elem);
-      this.validateSettlement(elem);
-      this.validateAddress(elem);
-      this.validateEmail(elem, emailsEdrpous);
-      this.validatePhoneNumber(elem);
+      this.validateEmployeeName(elem);
+      this.validateEmployeeSurname(elem);
+      this.validateEmployeeFatherName(elem);
+      this.validateEmployeeRNOKPP(elem);
+      this.validateEmployeeAssignedRole(elem);
     });
   }
 
-  public validateDirectorsName(elem: ProviderId): void {
-    if (!elem.directorsName) {
-      elem.errors.directorsNameEmpty = true;
+  public validateEmployeeName(elem: any): void {
+    this.validateField('employeeName', elem);
+  }
+
+  public validateEmployeeSurname(elem: any): void {
+    this.validateField('employeeSurname', elem);
+  }
+
+  public validateEmployeeFatherName(elem: any): void {
+    this.validateField('employeeFatherName', elem);
+  }
+
+  // public validateEmployeeName(elem: any): void {
+  //   if (!elem.employeeName) {
+  //     elem.errors.employeeNameEmpty = true;
+  //   } else if (elem.employeeName.length <= 2 || elem.employeeName.length > 50) {
+  //     elem.errors.employeeNameLength = true;
+  //   } else if (!NO_LATIN_REGEX.test(elem.employeeName)) {
+  //     elem.errors.employeeNameLanguage = true;
+  //   }
+  // }
+
+  // public validateEmployeeSurname(elem: any): void {
+  //   if (!elem.employeeSurname) {
+  //     elem.errors.employeeSurnameEmpty = true;
+  //   } else if (elem.employeeSurname.length <= 2 || elem.employeeSurname.length > 50) {
+  //     elem.errors.employeeSurnameLength = true;
+  //   } else if (!NO_LATIN_REGEX.test(elem.employeeSurname)) {
+  //     elem.errors.employeeSurnameLanguage = true;
+  //   }
+  // }
+
+  // public validateEmployeeFatherName(elem: any): void {
+  //   if (!elem.employeeFatherName) {
+  //     elem.errors.employeeFatherNameEmpty = true;
+  //   } else if (elem.employeeFatherName.length <= 2 || elem.employeeFatherName.length > 50) {
+  //     elem.errors.employeeFatherNameLength = true;
+  //   } else if (!NO_LATIN_REGEX.test(elem.employeeFatherName)) {
+  //     elem.errors.employeeFatherNameLanguage = true;
+  //   }
+  // }
+
+  public validateEmployeeRNOKPP(elem: any): void {
+    if (!elem.employeeRNOKPP) {
+      elem.errors.employeeRNOKPPEmpty = true;
+    } else if (!RNOKPP_REGEX.test(elem.employeeRNOKPP.toString())) {
+      elem.errors.employeeRNOKPPFormat = true;
     }
   }
 
-  public validateDirectorsSurname(elem: ProviderId): void {
-    if (!elem.directorsSurname) {
-      elem.errors.directorsSurnameEmpty = true;
+  public validateEmployeeAssignedRole(elem: any): void {
+    if (!elem.employeeAssignedRole) {
+      elem.errors.employeeAssignedRoleEmpty = true;
+    } else if (
+      elem.employeeAssignedRole !== ImportEmployeesChosenRole.employee &&
+      elem.employeeAssignedRole !== ImportEmployeesChosenRole.deputyDirector
+    ) {
+      elem.errors.employeeAssignedRoleFormat = true;
     }
   }
 
-  public validateProviderName(elem: ProviderId): void {
-    if (!elem.providerName) {
-      elem.errors.providerNameEmpty = true;
-    } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
-      elem.errors.providerNameLength = true;
-    }
-  }
-
-  public validateOwnership(elem: ProviderId): void {
-    if (!elem.ownership) {
-      elem.errors.ownershipEmpty = true;
-    }
-  }
-
-  public validateIdentifier(elem: ProviderId, emailsEdrpous: EmailsEdrpousResponse): void {
-    if (!elem.identifier) {
-      elem.errors.identifierEmpty = true;
-    } else if (!EDRPOU_IPN_REGEX.test(elem.identifier.toString())) {
-      elem.errors.identifierFormat = true;
-    } else if (emailsEdrpous.edrpous.includes(elem.id)) {
-      elem.errors.identifierDuplicate = true;
-    }
-  }
-
-  // type of license number is number
-  public validateLicenseNumber(elem: ProviderId): void {
-    if (!elem.licenseNumber) {
-      elem.errors.licenseNumberEmpty = true;
-    }
-  }
-
-  public validateSettlement(elem: ProviderId): void {
-    if (!elem.settlement) {
-      elem.errors.settlementEmpty = true;
-    } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
-      elem.errors.settlementLength = true;
-    } else if (!NO_LATIN_REGEX.test(elem.settlement)) {
-      elem.errors.settlementLanguage = true;
-    }
-  }
-
-  public validateAddress(elem: ProviderId): void {
-    if (!elem.address) {
-      elem.errors.addressEmpty = true;
-    } else if (!STREET_REGEX.test(elem.address)) {
-      elem.errors.addressLanguage = true;
-    }
-  }
-
-  public validateEmail(elem: ProviderId, emailsEdrpous: EmailsEdrpousResponse): void {
-    if (!elem.email) {
-      elem.errors.emailEmpty = true;
-    } else if (!EMAIL_REGEX.test(elem.email)) {
-      elem.errors.emailFormat = true;
-    } else if (emailsEdrpous.emails.includes(elem.id)) {
-      elem.errors.emailDuplicate = true;
-    }
-  }
-
-  public validatePhoneNumber(elem: ProviderId): void {
-    if (!elem.phoneNumber) {
-      elem.errors.phoneNumberEmpty = true;
-    } else if (!isValidPhoneNumber(elem.phoneNumber.toString(), 'UA')) {
-      elem.errors.phoneNumberFormat = true;
+  private validateField(fieldName: string, elem: any): void {
+    if (!elem[fieldName]) {
+      elem.errors[`${fieldName}Empty`] = true;
+    } else if (elem[fieldName].length <= 2 || elem[fieldName].length > 50) {
+      elem.errors[`${fieldName}Length`] = true;
+    } else if (!NO_LATIN_REGEX.test(elem[fieldName])) {
+      elem.errors[`${fieldName}Language`] = true;
     }
   }
 }

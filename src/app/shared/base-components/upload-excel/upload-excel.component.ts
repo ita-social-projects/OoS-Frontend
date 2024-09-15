@@ -3,7 +3,6 @@ import { Component, HostListener, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { WINDOW } from 'ngx-window-token';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { ImportEmployeesColumnsNames, ImportEmployeesStandardHeaders } from 'shared/enum/enumUA/tech-admin/import-export';
 import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
 
 @Component({
@@ -17,6 +16,8 @@ export class UploadExcelComponent {
   public isWarningVisible: boolean = false;
   public selectedFile: any = null;
   public isGoTopBtnVisible: boolean;
+  public columnNamesBase: string[];
+  public standardHeadersBase: string[];
   public readonly topPosToStartShowing: number = 250;
 
   public dataSource: any[];
@@ -47,12 +48,21 @@ export class UploadExcelComponent {
     });
   }
 
+  public setColumnNames(columnNames: string[]): void {
+    this.columnNamesBase = columnNames;
+  }
+
+  public setStandardHeaders(headers: string[]): void {
+    this.standardHeadersBase = headers;
+  }
+
   // 2
   public resetValues(): void {
     this.dataSource = null;
     this.dataSourceInvalid = null;
     this.isToggle = false;
     this.isWarningVisible = false;
+    console.log('reset works');
   }
 
   // 3
@@ -70,6 +80,7 @@ export class UploadExcelComponent {
         const currentHeaders = this.getCurrentHeaders(workBook, wsname);
         if (this.checkHeadersIsValid(currentHeaders)) {
           const items = this.getProvidersData(workBook, wsname);
+          console.log(items);
           this.processProvidersData(items);
         }
       } catch (error) {
@@ -93,14 +104,7 @@ export class UploadExcelComponent {
   // rewrite this method in child component
   public getProvidersData(workBook: XLSX.WorkBook, wsname: string): any[] {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], {
-      header: [
-        ImportEmployeesColumnsNames.sequenceNumber,
-        ImportEmployeesColumnsNames.employeeSurname,
-        ImportEmployeesColumnsNames.employeeName,
-        ImportEmployeesColumnsNames.employeeFatherName,
-        ImportEmployeesColumnsNames.employeeRNOKPP,
-        ImportEmployeesColumnsNames.employeeAssignedRole
-      ],
+      header: this.columnNamesBase,
       range: 1
     });
   }
@@ -109,13 +113,12 @@ export class UploadExcelComponent {
    * This method process array of providers
    * 1. check array length ,proper length 100
    * 2. define ID key to each provider
-   * 3. call verifyEmailsEdrpous() method
-   * @param providers
+   * @param items
    */
   public processProvidersData(items: any[]): void {
     const isArrayTruncated = this.showsIsTruncated(items);
-    const providersId: any[] = items.map((elem, index) => ({ ...elem, id: index }));
-    this.handleData(providersId, isArrayTruncated);
+    const itemsId: any[] = items.map((elem, index) => ({ ...elem, id: index }));
+    this.handleData(itemsId, isArrayTruncated);
   }
 
   /**
@@ -125,9 +128,9 @@ export class UploadExcelComponent {
    * @param isArrayTruncated - indicates whether the array was truncated
    */
   public handleData(items: any[], isArrayTruncated: boolean): void {
-    // this.importValidationService.checkForInvalidData(providers);
+    this.importValidationService.checkForInvalidData(items);
     this.dataSource = items;
-    // this.dataSourceInvalid = this.filterInvalidItems(items);
+    this.dataSourceInvalid = this.filterInvalidItems(items);
     this.isLoading = false;
     this.isWarningVisible = isArrayTruncated;
   }
@@ -147,13 +150,12 @@ export class UploadExcelComponent {
   }
 
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
-    const standardHeaders: string[] = Object.values(ImportEmployeesStandardHeaders);
-    const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
+    const isValid = this.standardHeadersBase.every((header, index) => currentHeaders[index].trim() === header);
     if (!isValid) {
       this.isLoading = false;
-      const invalidHeader = currentHeaders.find((header, index) => header !== standardHeaders[index]);
+      const invalidHeader = currentHeaders.find((header, index) => header !== this.standardHeadersBase[index]);
       alert(
-        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",\n\nЗразок:\n${standardHeaders.join(' | ')}`
+        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",\n\nЗразок:\n${this.standardHeadersBase.join(' | ')}`
       );
     }
     return isValid;

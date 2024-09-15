@@ -3,7 +3,7 @@ export enum ImportEmployeesColumnsNames {
   employeeSurname = 'employeeSurname',
   employeeName = 'employeeName',
   employeeFatherName = 'employeeFatherName',
-  employeeRNOKPP = 'RNOKPP',
+  employeeRNOKPP = 'employeeRNOKPP',
   employeeAssignedRole = 'employeeAssignedRole'
 }
 
@@ -14,4 +14,9 @@ export enum ImportEmployeesStandardHeaders {
   employeeFatherName = 'По батькові',
   employeeRNOKPP = 'РНОКПП',
   employeeAssignedRole = 'Призначені ролі'
+}
+
+export enum ImportEmployeesChosenRole {
+  employee = 'Співробітник ЗО',
+  deputyDirector = 'Заступник директора ЗО'
 }

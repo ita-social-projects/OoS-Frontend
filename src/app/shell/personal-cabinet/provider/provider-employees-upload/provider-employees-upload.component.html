@@ -68,7 +68,11 @@
             <td
               mat-cell
               *matCellDef="let element"
-              [ngClass]="{ 'error-field-empty': element.errors.directorsNameEmpty }"
+              [ngClass]="{
+                'error-field-empty': element.errors.employeeSurnameEmpty,
+                'error-field-wrong-length': element.errors.employeeSurnameLength,
+                'error-field-wrong-language':element.errors.employeeSurnameLanguage
+              }"
               [matTooltip]="element.employeeSurname"
               showTooltipIfTruncated
               matTooltipPosition="right"
@@ -81,7 +85,11 @@
             <td
               mat-cell
               *matCellDef="let element"
-              [ngClass]="{ 'error-field-empty': element.errors.directorsSurnameEmpty }"
+              [ngClass]="{
+                'error-field-empty': element.errors.employeeNameEmpty,
+                'error-field-wrong-length': element.errors.employeeNameLength,
+                'error-field-wrong-language':element.errors.employeeNameLanguage
+              }"
               [matTooltip]="element.employeeName"
               showTooltipIfTruncated
               matTooltipPosition="right"
@@ -95,8 +103,9 @@
               mat-cell
               *matCellDef="let element"
               [ngClass]="{
-                'error-field-empty': element.errors.providerNameEmpty,
-                'error-field-wrong-length': element.errors.providerNameLength
+                'error-field-empty': element.errors.employeeFatherNameEmpty,
+                'error-field-wrong-length': element.errors.employeeFatherNameLength,
+                'error-field-wrong-language':element.errors.employeeFatherNameLanguage
               }"
               [matTooltip]="element.employeeFatherName"
               showTooltipIfTruncated
@@ -107,7 +116,13 @@
           </ng-container>
           <ng-container matColumnDef="employeeRNOKPP">
             <th mat-header-cell *matHeaderCellDef>{{ 'РНОКПП' }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'error-field-empty': element.errors.ownershipEmpty }">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'error-field-empty': element.errors.employeeRNOKPPEmpty,
+                'error-field-wrong-format': element.errors.employeeRNOKPPFormat
+              }">
               {{ element.employeeRNOKPP }}
             </td>
           </ng-container>
@@ -117,9 +132,8 @@
               mat-cell
               *matCellDef="let element"
               [ngClass]="{
-                'error-field-empty': element.errors.identifierEmpty,
-                'error-field-duplicate': element.errors.identifierDuplicate,
-                'error-field-wrong-format': element.errors.identifierFormat
+                'error-field-empty': element.errors.employeeAssignedRoleEmpty,
+                'error-field-wrong-format': element.errors.employeeAssignedRoleFormat,
               }">
               {{ element.employeeAssignedRole }}
             </td>
@@ -132,4 +146,3 @@
   </div>
 </ng-container>
 <button *ngIf="isGoTopBtnVisible" class="go-to-top" (click)="gotoTop()"><i class="fas fa-arrow-up"></i></button>
-

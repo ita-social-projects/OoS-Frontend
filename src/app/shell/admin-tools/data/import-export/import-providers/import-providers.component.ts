@@ -7,7 +7,7 @@ import { EDRPOU_IPN_REGEX, EMAIL_REGEX } from 'shared/constants/regex-constants'
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { WINDOW } from 'ngx-window-token';
-import { ImportProvidersColumnsNames, ImportProvidersStandardHeaders } from 'shared/enum/enumUA/tech-admin/import-export';
+import { ImportProvidersColumnsNames, ImportProvidersStandardHeaders } from 'shared/enum/enumUA/import-export';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

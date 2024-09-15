@@ -17,6 +17,9 @@ export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 // Regex for EDRPOU and IPN
 export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;
 
+// Regex for RNOKPP
+export const RNOKPP_REGEX: RegExp = /^(\d{10})$/;
+
 // Regex for non-latin characters
 export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_\s\-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
 
