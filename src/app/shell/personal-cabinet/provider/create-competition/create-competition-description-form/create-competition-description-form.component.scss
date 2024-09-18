@@ -4,7 +4,17 @@
 @import 'src/app/shared/styles/toggle-button.scss';
 @import 'src/app/shared/styles/info-hint.scss';
 
-.seat-input {
+.price-text {
+  width: 65px;
+  display: block;
+}
+
+.price-only-uah,
+.for-only-text {
+  display: none;
+}
+
+.price-input {
   max-width: 100px;
   text-align: center;
 }
@@ -19,7 +29,7 @@
     align-items: initial !important;
   }
 
-  .seat::after {
+  .price::after {
     font-weight: 700;
     color: #aaaaaa;
     padding: 5px;
@@ -27,8 +37,22 @@
     width: 65px;
   }
 
+  .price-text {
+    display: none;
+  }
+
+  .price-only-uah,
+  .for-only-text {
+    display: block;
+  }
+
+  .price,
   .radio-button-wrap {
     place-content: flex-start !important;
+  }
+  .step-input-age {
+    max-width: 100%;
+    height: 40px;
   }
 }
 

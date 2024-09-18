@@ -9,14 +9,21 @@ export enum CompetitionStatus {
 export enum TypeOfCompetition {
   EducationalProject = 'EducationalProject',
   Competition = 'Competition',
-  ParentCompetition = 'MainCompetition',
-  CompetitionStage = 'CompetitionStage'
+  ParentCompetition = 'MainCompetition'
+  // CompetitionStage = 'CompetitionStage'
 }
 
-export enum RegularityOfCompetition {
-  Weekly = 'Weekly',
-  Monthly = 'Monthly',
-  Yearly = 'Yearly',
-  Semiannually = 'Semiannually',
-  Another = 'Another'
+export enum CompetitionCoverage {
+  Local = 'Local',
+  City = 'City',
+  District = 'District',
+  Regional = 'Regional',
+  National = 'National',
+  International = 'International'
+}
+
+export enum FormOfLearning {
+  Offline = 'Offline',
+  Online = 'Online',
+  Mixed = 'Mixed'
 }

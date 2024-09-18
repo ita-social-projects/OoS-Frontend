@@ -47,7 +47,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
 
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
 
   constructor(
     protected store: Store,

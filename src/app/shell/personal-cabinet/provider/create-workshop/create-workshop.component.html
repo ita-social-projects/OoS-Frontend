@@ -6,7 +6,7 @@
           {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
           {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
         </p>
       </div>
@@ -14,7 +14,7 @@
       <mat-horizontal-stepper linear>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</p>
           </ng-template>
           <app-create-about-form
             fxLayout="row"

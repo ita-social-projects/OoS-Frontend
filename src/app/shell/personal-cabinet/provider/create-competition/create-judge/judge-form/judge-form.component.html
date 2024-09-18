@@ -1,0 +1,68 @@
+<form [formGroup]="JudgeForm" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <label class="step-label" for="last-name">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input
+      matInput
+      class="step-input"
+      type="text"
+      formControlName="lastName"
+      appTrimValue
+      (focusout)="onFocusOut('lastName')"
+      id="last-name" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="JudgeFormGroup.get('lastName')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <label class="step-label" for="first-name">{{ 'FORMS.LABELS.FIRST_NAME' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input
+      matInput
+      class="step-input"
+      type="text"
+      formControlName="firstName"
+      appTrimValue
+      (focusout)="onFocusOut('firstName')"
+      id="first-name" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="JudgeFormGroup.get('firstName')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <div class="step-label-combined">
+    <label class="step-label" for="judgeInfo"> {{ 'FORMS.LABELS.JUDGE_INFO' | translate }}</label>
+    <span class="step-characters-count">
+      {{ JudgeFormGroup.get('judgeInfo').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}</span
+    >
+  </div>
+  <mat-form-field appearance="fill">
+    <textarea
+      matInput
+      class="step-textarea"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }} {{
+        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+      }}"
+      formControlName="judgeInfo"
+      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}"
+      appTrimValue
+      (focusout)="onFocusOut('judgeInfo')"
+      id="judgeInfo"></textarea>
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="JudgeFormGroup.get('judgeInfo')"
+    [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
+  </app-validation-hint>
+
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="index !== 0">
+    <button class="btn-reset" mat-button (click)="onDeleteJudge()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_JUDGE_DATA' | translate }}
+    </button>
+  </div>
+
+  <div *ngIf="judgeAmount > 1 && index !== judgeAmount - 1" class="border-bottom"></div>
+</form>
