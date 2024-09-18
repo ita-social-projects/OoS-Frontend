@@ -1,31 +1,40 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
-import { ValidationConstants } from 'shared/constants/validation';
+import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/Competition';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { OwnershipTypes } from 'shared/enum/provider';
+import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
-import { Util } from 'shared/utils/utils';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-create-required-form',
   templateUrl: './create-required-form.component.html',
   styleUrls: ['./create-required-form.component.scss']
 })
-export class CreateRequiredFormComponent implements OnInit {
+export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
   @Input() public provider: Provider;
   @Input() public isImagesFeature: boolean;
   @Output() public PassRequiredFormGroup = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
+  public readonly MIN_SEATS = Constants.MIN_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
-  protected maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
-  protected minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+
+  protected startDate: Date = new Date();
+  protected endDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  protected readonly TypeOfCompetition = TypeOfCompetition;
+  protected readonly InfoMenuType = InfoMenuType;
+  protected readonly ownershipType = OwnershipTypes;
+
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -37,17 +46,25 @@ export class CreateRequiredFormComponent implements OnInit {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
   public RequiredFormGroup: FormGroup;
+  public isShowHintAboutCompetitionAutoClosing: boolean = false;
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
+  public useProviderInfoCtrl: FormControl = new FormControl(false);
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
 
   constructor(private formBuilder: FormBuilder) {}
 
-  public get priceControl(): FormControl {
-    return this.RequiredFormGroup.get('price') as FormControl;
-  }
-
   public get availableSeatsControl(): FormControl {
     return this.RequiredFormGroup.get('availableSeats') as FormControl;
+  }
+
+  public get typeOfCompetitionControl(): FormControl {
+    return this.RequiredFormGroup.get('typeOfCompetition') as FormControl;
+  }
+
+  public get parentCompetitionControl(): FormControl {
+    return this.RequiredFormGroup.get('parentCompetitionControl') as FormControl;
   }
 
   public get minSeats(): number {
@@ -57,8 +74,41 @@ export class CreateRequiredFormComponent implements OnInit {
     return this.competition?.takenSeats;
   }
 
+  private get availableSeats(): number {
+    return this.competition?.availableSeats === undefined || this.competition?.availableSeats === this.UNLIMITED_SEATS
+      ? this.MIN_SEATS
+      : this.competition?.availableSeats;
+  }
+
+  public ngOnInit(): void {
+    this.initForm();
+    this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
+    this.initListeners();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  /**
+   * This method makes AboutFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.RequiredFormGroup.dirty) {
+      this.RequiredFormGroup.markAsDirty({ onlySelf: true });
+    }
+  }
+
+  public sortTime(): number {
+    return 0;
+  }
+
   private initForm(): void {
     this.RequiredFormGroup = this.formBuilder.group({
+      image: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -71,24 +121,79 @@ export class CreateRequiredFormComponent implements OnInit {
         Validators.pattern(MUST_CONTAIN_LETTERS),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
       ]),
-      image: new FormControl(''),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
-      typeOfCompetition: new FormControl(TypeOfCompetition.EducationalProject, [Validators.required])
+      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      email: new FormControl('', [Validators.required, FormValidators.email]),
+      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      competitionDateRangeGroup: this.formBuilder.group({
+        start: new FormControl<Date | null>(null, Validators.required),
+        end: new FormControl<Date | null>(null, Validators.required)
+      }),
+      registrationDateRangeGroup: this.formBuilder.group({
+        start: new FormControl<Date | null>(null),
+        end: new FormControl<Date | null>(null)
+      }),
+      typeOfCompetition: new FormControl<TypeOfCompetition | null>(null, Validators.required),
+      parentCompetitionControl: new FormControl(null),
+      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)])
     });
   }
 
-  public ngOnInit(): void {
-    this.initForm();
-    this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
-    console.log(this.TypeOfCompetition);
+  private initListeners(): void {
+    this.useProviderInfo();
+    this.availableSeatsControlListener();
+    this.showHintAboutClosingCompetition();
   }
 
-  protected readonly TypeOfCompetition = TypeOfCompetition;
-  protected readonly InfoMenuType = InfoMenuType;
-  protected readonly ownershipType = OwnershipTypes;
-  public sortTime() {
-    return 0;
+  /**
+   * This method fills in the info from provider to the workshop if check box is checked
+   */
+  private useProviderInfo(): void {
+    const setValue = (value: string): void => this.RequiredFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value: string): void => this.RequiredFormGroup.get(value).reset();
+
+    this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
+      // eslint-disable-next-line guard-for-in
+      for (const value in ProviderWorkshopSameValues) {
+        if (useProviderInfo) {
+          setValue(value);
+        } else {
+          resetValue(value);
+        }
+      }
+    });
+  }
+
+  /**
+   * This method add listener to availableSeats control and
+   * makes formGroup input enable if radiobutton value is true
+   */
+  private availableSeatsControlListener(): void {
+    this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
+      if (noLimit) {
+        this.setAvailableSeatsControlValue(null, 'disable');
+      } else {
+        this.setAvailableSeatsControlValue(this.availableSeats, 'enable');
+      }
+    });
+  }
+
+  /**
+   * This method sets null as value for available set as when there is no limit,
+   * otherwise it sets either workshop value, or null for selecting new value
+   */
+  private setAvailableSeatsControlValue(availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true): void {
+    this.availableSeatsControl[action]({ emitEvent });
+    this.availableSeatsControl.setValue(availableSeats, { emitEvent });
+  }
+
+  private showHintAboutClosingCompetition(): void {
+    this.RequiredFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
+      if (availableSeats) {
+        this.isShowHintAboutCompetitionAutoClosing = availableSeats === this.competition?.takenSeats;
+      }
+    });
   }
 }

@@ -1,4 +1,8 @@
 <form [formGroup]="RequiredFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl">
+    {{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
+  </mat-checkbox>
+
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
@@ -28,28 +32,98 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
-  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input
-      matInput
-      [min]="minDate"
-      [max]="maxDate"
-      [matDatepicker]="picker"
-      formControlName="dateOfBirth"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+  <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
+  <app-phone-form-control [parentFormControl]="RequiredFormGroup.get('phone')"> </app-phone-form-control>
+  <app-validation-hint
+    [validationFormControl]="RequiredFormGroup.get('phone')"
+    [minCharacters]="validationConstants.PHONE_LENGTH"
+    [isPhoneNumber]="true">
+  </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('email')"></app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="RequiredFormGroup.get('website')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
+
+  <label class="step-label">Facebook</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="RequiredFormGroup.get('facebook')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
+
+  <label class="step-label">Instagram</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="RequiredFormGroup.get('instagram')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
+
+  <div class="border-bottom"></div>
+
+  <label class="step-label">{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
+    <mat-date-range-input [rangePicker]="competitionPicker" formGroupName="competitionDateRangeGroup" [min]="startDate" [max]="endDate">
+      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" />
+      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="competitionPicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #competitionPicker></mat-date-range-picker>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')" [minMaxDate]="true">
+  </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</label>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
+    <mat-date-range-input
+      [rangePicker]="registrationPicker"
+      formGroupName="registrationDateRangeGroup"
+      [min]="startDate"
+      [max]="RequiredFormGroup.get('competitionDateRangeGroup.end').value">
+      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" />
+      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="registrationPicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #registrationPicker></mat-date-range-picker>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('registrationDateRangeGroup')" [minMaxDate]="true">
+  </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span class="step-required">*</span></label>
-  <mat-radio-group formControlName="typeOfCompetition" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
-    <ng-container *ngFor="let typeOfCompetition of TypeOfCompetition | keyvalue: sortTime">
-      <mat-radio-button *ngIf="TypeOfCompetitionEnum[typeOfCompetition.key]" [value]="typeOfCompetition.key">
+  <mat-form-field appearance="fill">
+    <mat-select
+      name="typeOfCompetition"
+      placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      [formControl]="typeOfCompetitionControl"
+      class="step-input">
+      <mat-option
+        *ngFor="let typeOfCompetition of TypeOfCompetition | keyvalue: sortTime"
+        [value]="typeOfCompetition.key"
+        class="dropdown-option">
         {{ TypeOfCompetitionEnum[typeOfCompetition.key] | translate }}
-      </mat-radio-button>
-    </ng-container>
-  </mat-radio-group>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="typeOfCompetitionControl"> </app-validation-hint>
 
   <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
     <div fxLayout="row" fxLayoutAlign="left space-between">
@@ -65,7 +139,7 @@
           <mat-radio-button [value]="false">
             <input
               matInput
-              class="step-input price-input"
+              class="step-input seat-input"
               appDigitOnly
               formControlName="availableSeats"
               type="number"
@@ -73,9 +147,9 @@
               [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
           <app-info-menu
-            *ngIf="isShowHintAboutWorkshopAutoClosing"
+            *ngIf="isShowHintAboutCompetitionAutoClosing"
             [type]="InfoMenuType.Text"
-            [isOpenByDefault]="isShowHintAboutWorkshopAutoClosing">
+            [isOpenByDefault]="isShowHintAboutCompetitionAutoClosing">
             {{ 'FORMS.WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP' | translate }}
           </app-info-menu>
         </div>

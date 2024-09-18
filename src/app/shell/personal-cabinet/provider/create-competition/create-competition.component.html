@@ -6,15 +6,15 @@
           {{ (editMode ? 'FORMS.HEADERS.EDIT_COMPETITION' : 'FORMS.HEADERS.NEW_COMPETITION') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
-          {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
+          {{ 'FORMS.HEADERS.COMPETITION_FORM_DESCRIPTION' | translate }}
         </p>
       </div>
 
       <mat-horizontal-stepper linear>
         <mat-step [stepControl]="RequiredFormGroup">
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</p>
           </ng-template>
           <app-create-required-form
             fxLayout="row"
@@ -28,8 +28,89 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="RequiredFormGroup.invalid">
+            <button class="btn" mat-raised-button matStepperNext [disabled]="RequiredFormGroup?.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
+          </ng-template>
+          <app-create-competition-description-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [competition]="competition"
+            [isImagesFeature]="isImagesFeature"
+            [provider]="provider"
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+          </app-create-competition-description-form>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="AddressFormGroup" [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
+          </ng-template>
+          <app-create-competition-address [address]="competition?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
+          </app-create-competition-address>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="JudgeFormArray"
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.JUDGES' | translate }}</p>
+          </ng-template>
+          <app-create-judge
+            [judges]="competition?.judges"
+            [isImagesFeature]="isImagesFeature"
+            (passJudgeFormArray)="onReceiveJudgeFormArray($event)">
+          </app-create-judge>
+
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button
+              class="btn"
+              mat-raised-button
+              [disabled]="
+                (isLoading$ | async) ||
+                (!RequiredFormGroup.dirty && !DescriptionFormGroup.dirty && !AddressFormGroup.dirty && !JudgeFormArray?.dirty) ||
+                RequiredFormGroup.invalid ||
+                DescriptionFormGroup.invalid ||
+                AddressFormGroup.invalid ||
+                JudgeFormArray?.invalid
+              "
+              type="submit"
+              (click)="onSubmit()">
+              {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>
         </mat-step>

@@ -54,7 +54,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
   public workshop: Workshop;
 
