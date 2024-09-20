@@ -1,28 +1,31 @@
 @import 'src/app/shared/styles/buttons.scss';
 
-:host ::ng-deep .mat-dialog-container {
-  min-width: 411px;
-  min-height: 178px;
-  background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+:host ::ng-deep .mat-mdc-dialog {
+  &-actions {
+    padding-bottom: 8px;
+
+    .mat-button-base + .mat-button-base {
+      margin-left: 1rem !important;
+    }
+  }
+
+  &-title {
+    text-align: center;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-family: Innerspace;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    color: #444444;
+
+    &::before {
+      height: 32px;
+    }
+  }
 }
-:host ::ng-deep .mat-dialog-actions {
-  padding-bottom: 2rem;
-}
-:host ::ng-deep.mat-dialog-actions .mat-button-base + .mat-button-base {
-  margin-left: 1rem !important;
-}
-:host ::ng-deep .mat-dialog-title {
-  text-align: center;
-  margin-bottom: 0;
-  font-family: Innerspace;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 20px;
-  color: #444444;
-}
+
 .confirmation {
   text-align: center;
   font-family: Open Sans;
@@ -37,13 +40,4 @@
 
 .btn {
   margin-top: 1rem;
-}
-@media (max-width: 750px) {
-  :host ::ng-deep .mat-dialog-container {
-    min-width: fit-content;
-    min-height: 178px;
-    background: #ffffff;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-    border-radius: 5px;
-  }
 }
