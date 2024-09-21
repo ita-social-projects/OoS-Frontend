@@ -769,6 +769,8 @@
       "DELETED_WORKSHOP": "Даний гурток видалено!",
       "ADDED_FAV_WORKSHOP": "Гурток додано до 'Улюблених'",
       "DELETED_FAV_WORKSHOP": "Гурток видалено з 'Улюблених'",
+      "CREATE_COMPETITION": "Дякуємо! Новий конкурс успішно доданий.",
+      "UPDATE_COMPETITION": "Конкурс успішно оновлено!",
       "DELETED_NOTIFICATION": "Сповіщення успішно видалено!",
       "CREATE_DIRECTION": "Напрямок успішно створений!",
       "UPDATE_DIRECTION": "Напрямок успішно відредагований!",

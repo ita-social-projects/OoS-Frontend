@@ -80,3 +80,8 @@ export class ResetProviderWorkshopDetails {
   static readonly type = '[user] clear Provider And Workshop Details';
   constructor() {}
 }
+
+export class ResetProviderCompetitionDetails {
+  static readonly type = '[user] clear Provider And Competition Details';
+  constructor() {}
+}

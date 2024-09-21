@@ -767,6 +767,8 @@
       "DELETED_WORKSHOP": "This workshop has been deleted!",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
+      "CREATE_COMPETITION": "Thank you! New competition successfully added.",
+      "UPDATE_COMPETITION": "The competition has been updated successfully!",
       "DELETED_NOTIFICATION": "Notification deleted successfully!",
       "CREATE_DIRECTION": "Direction successfully created!",
       "UPDATE_DIRECTION": "Direction edited successfully!",
