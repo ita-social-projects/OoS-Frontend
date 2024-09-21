@@ -1,9 +1,21 @@
-<div [ngClass]="styleClass" class="search shadow" fxLayout="row" fxLayoutAlign="space-between center">
-  <div class="search-city" fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon class="icon">place</mat-icon>
-    <app-city-filter></app-city-filter>
+<div class="search shadow" fxLayout="column">
+  <div [ngClass]="styleClass" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="search-city" fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon">place</mat-icon>
+      <app-city-filter></app-city-filter>
+    </div>
+    <div class="search-bar-wrap" fxLayoutAlign="space-between center">
+      <app-searchbar
+        class="search-bar"
+        (invalidCharacterDetected)="showErrorMessage()"
+        (validCharacterDetected)="hideErrorMessage()"></app-searchbar>
+    </div>
   </div>
-  <div class="search-bar-wrap" fxLayout="row" fxLayoutAlign="space-between center">
-    <app-searchbar class="search-bar"></app-searchbar>
+  <div class="validation-hint-wrapper">
+    <app-validation-hint
+      [validationFormControl]="displayErrorFormControl"
+      class="invalid-input"
+      [matTooltip]="'FORMS.VALIDATIONS.INVALID_SEARCH' | translate"
+      isSearchBar="true"></app-validation-hint>
   </div>
 </div>

@@ -2,7 +2,7 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
-  width: 100%;
+  max-width: 100%;
 
   &:first-child {
     width: 100%;
@@ -113,7 +113,7 @@
       flex-direction: column;
       justify-content: center;
       gap: 10px;
-      width: 176px;
+      max-width: 176px;
     }
   }
 }

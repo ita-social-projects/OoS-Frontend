@@ -73,6 +73,34 @@
     }
   }
 
+  @media (max-width: 850px) {
+    .support-icon-text {
+      display: none;
+    }
+
+    .lang .mat-icon {
+      margin-right: 0;
+    }
+
+    button {
+      min-width: 36px;
+    }
+
+    .info-link {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 950px) {
+    .user-name {
+      display: none;
+    }
+
+    .menu {
+      margin-left: 10px;
+    }
+  }
+
   &-title {
     margin-top: 70px;
     color: white;
@@ -140,7 +168,13 @@
   padding-right: 0px !important;
   font-family: 'Innerspace';
 
+  @media (max-width: 850px) {
+    display: none;
+    max-width: 36px;
+  }
+
   @media (max-width: 750px) {
+    display: block;
     margin-left: 12px !important;
   }
 }

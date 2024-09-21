@@ -157,6 +157,15 @@ describe('ValidationHintComponent', () => {
 
       expect(component.invalidFieldLength).toBeTruthy();
     });
+
+    it('should assign TRUE to invalidSearch if isSearchBar and errors are present', () => {
+      component.isSearchBar = true;
+      errors = { minlength: true, maxlength: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidSearch).toBeTruthy();
+    });
   });
 
   describe('checkInvalidText method', () => {
