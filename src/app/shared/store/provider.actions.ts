@@ -15,6 +15,7 @@ import {
   WorkshopOtherRequiredProperties
 } from 'shared/models/draftWorkshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
+import { Competition } from 'shared/models/competition.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -610,4 +611,34 @@ export class OnDeleteStudySubjectSuccess {
 export class OnDeleteStudySubjectFail {
   static readonly type = '[provider] delete study subject fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class CreateCompetition {
+  static readonly type = '[provider] create Competition';
+  constructor(public payload: Competition) {}
+}
+
+export class OnCreateCompetitionFail {
+  static readonly type = '[provider] create Competition fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnCreateCompetitionSuccess {
+  static readonly type = '[provider] create Competition success';
+  constructor(public payload: Competition) {}
+}
+
+export class UpdateCompetition {
+  static readonly type = '[provider] update Competition';
+  constructor(public payload: Competition) {}
+}
+
+export class OnUpdateCompetitionFail {
+  static readonly type = '[provider] update Competition fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUpdateCompetitionSuccess {
+  static readonly type = '[provider] update Competition success';
+  constructor(public payload: Competition) {}
 }

@@ -27,12 +27,14 @@ import { UserWorkshopService } from 'shared/services/workshops/user-workshop/use
 import { PositionService } from 'shared/services/position/position.service';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
 import { LanguageListService } from 'shared/services/language-list/language-list.service';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
+import { Competition } from 'shared/models/competition.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -94,6 +96,7 @@ export class ProviderState {
     private readonly achievementsService: AchievementsService,
     private readonly router: Router,
     private readonly userWorkshopService: UserWorkshopService,
+    private readonly userCompetitionService: UserCompetitionService,
     private readonly employeeService: EmployeeService,
     private readonly providerService: ProviderService,
     private readonly applicationService: ApplicationService,
@@ -995,6 +998,64 @@ export class ProviderState {
   @Action(providerActions.OnGetPositionByIdFail)
   onGetPositionByIdFail({ dispatch }: StateContext<ProviderStateModel>, payload: providerActions.OnDeletePositionFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.positionByIdNotFound, type: 'error' }));
+  }
+
+  @Action(providerActions.CreateCompetition)
+  createCompetition(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.CreateCompetition
+  ): Observable<Competition | void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.createCompetition(payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnCreateCompetitionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateCompetitionFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnCreateCompetitionFail)
+  onCreateCompetitionFail(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateCompetitionFail
+  ): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.OnCreateCompetitionSuccess)
+  onCreateCompetitionSuccess(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateCompetitionSuccess
+  ): void {
+    const messageData = Util.getCompetitionMessage(payload, SnackbarText.createCompetition);
+    patchState({ isLoading: false });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['./personal-cabinet/provider/competitions']);
+  }
+
+  @Action(providerActions.UpdateCompetition)
+  updateCompetition(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.UpdateCompetition
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.updateCompetition(payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnUpdateCompetitionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateCompetitionFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnUpdateCompetitionSuccess)
+  onUpdateCompetitionSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnUpdateCompetitionSuccess
+  ): void {
+    const messageData = Util.getCompetitionMessage(payload, SnackbarText.updateCompetition);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['/personal-cabinet/provider/competitions']);
+  }
+
+  @Action(providerActions.OnUpdateCompetitionFail)
+  onUpdateCompetitionFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateCompetitionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnSaveWorkshopStep)

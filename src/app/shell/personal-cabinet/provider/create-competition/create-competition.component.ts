@@ -12,12 +12,13 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetCompetitionById } from 'shared/store/shared-user.actions';
+import { GetCompetitionById, ResetProviderCompetitionDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { Address } from 'shared/models/address.model';
+import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -115,10 +116,10 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
     if (this.editMode) {
       competition = new Competition(requiredInfo, descInfo, address, judges, provider, this.competition.id);
-      // this.store.dispatch(new UpdateCompetition(competition));
+      this.store.dispatch(new UpdateCompetition(competition));
     } else {
       competition = new Competition(requiredInfo, descInfo, address, judges, provider);
-      // this.store.dispatch(new CreateCompetition(competition));
+      this.store.dispatch(new CreateCompetition(competition));
     }
   }
 
@@ -164,7 +165,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    // this.store.dispatch(new ResetProviderCompetitionDetails());
+    this.store.dispatch(new ResetProviderCompetitionDetails());
   }
 
   /**
