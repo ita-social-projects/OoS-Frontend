@@ -14,7 +14,9 @@
 
           <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
             <img src="./../../assets/icons/Support.svg" alt="Support" />
-            {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
+            <span class="support-icon-text">
+              {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
+            </span>
           </button>
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
@@ -26,8 +28,12 @@
               class="lang-option"
               disableOptionCentering
               panelClass="dropdown-panel">
-              <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
-              <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
+              <mat-option class="lang-option-text" value="uk">
+                <span>{{ Languages.uk }}</span>
+              </mat-option>
+              <mat-option class="lang-option-text" value="en">
+                <span>{{ Languages.en }}</span>
+              </mat-option>
             </mat-select>
           </button>
         </div>
@@ -66,7 +72,7 @@
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
       <mat-icon class="account-circle">account_circle</mat-icon>
-      {{ userShortName }}
+      <span class="user-name">{{ userShortName }}</span>
       <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
     </button>
   </ng-container>
