@@ -64,7 +64,7 @@
             <td mat-cell style="min-width: 30px" *matCellDef="let element">{{ dataSource.indexOf(element) + 1 }}</td>
           </ng-container>
           <ng-container matColumnDef="employeeSurname">
-            <th mat-header-cell *matHeaderCellDef>{{ 'Прізвище' }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_SURNAME' | translate }}</th>
             <td
               mat-cell
               *matCellDef="let element"
@@ -81,7 +81,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="employeeName">
-            <th mat-header-cell *matHeaderCellDef>{{ 'Імя' }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_NAME' | translate }}</th>
             <td
               mat-cell
               *matCellDef="let element"
@@ -98,7 +98,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="employeeFatherName">
-            <th mat-header-cell *matHeaderCellDef>{{ 'По батькові' }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_FATHER_NAME' | translate }}</th>
             <td
               mat-cell
               *matCellDef="let element"
@@ -115,7 +115,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="employeeRNOKPP">
-            <th mat-header-cell *matHeaderCellDef>{{ 'РНОКПП' }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_RNOKPP' | translate }}</th>
             <td
               mat-cell
               *matCellDef="let element"
@@ -127,7 +127,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="employeeAssignedRole">
-            <th mat-header-cell *matHeaderCellDef>{{ 'призначені ролі' }}</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_ASSIGNED_ROLE' | translate }}</th>
             <td
               mat-cell
               *matCellDef="let element"

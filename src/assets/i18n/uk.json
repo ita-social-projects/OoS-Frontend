@@ -135,7 +135,6 @@
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
-      "IMPORT-EXPORT_PROVIDERS": "Імпорт/Експорт даних надавачів",
       "IMPORT": "Імпорт даних",
       "EXPORT": "Експорт даних",
       "HISTORY_OF_CHANGES": "Історія змін",
@@ -908,17 +907,13 @@
     "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
     "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
     "FILE_HEADERS_WARNING": "Невідповідність в : ",
-    "PROVIDERS_LIST": {
-      "DIRECTORS_NAME": "Ім'я директора",
-      "DIRECTORS_SURNAME": "Прізвище директора",
-      "PROVIDER_NAME": "Назва закладу",
-      "OWNERSHIP": "Форма власності",
-      "IDENTIFIER": "ЄДРПОУ",
-      "LICENSE_NUMBER": "Ліцензія №",
-      "SETTLEMENT": "Населений пункт",
-      "ADDRESS": "Адреса",
-      "EMAIL": "Електронна пошта",
-      "PHONE_NUMBER": "Телефон"
+    "FILE_HEADERS_EXAMPLE": "Зразок",
+    "EMPLOYEE_LIST": {
+      "EMPLOYEE_NAME": "Ім'я",
+      "EMPLOYEE_SURNAME": "Прізвище",
+      "EMPLOYEE_FATHER_NAME": "По батькові",
+      "EMPLOYEE_RNOKPP": "РНОКПП",
+      "EMPLOYEE_ASSIGNED_ROLE": "Призначені ролі"
     },
     "ERRORS": {
       "ERRORS_TYPES":"Типи помилок",

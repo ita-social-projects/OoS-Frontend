@@ -3,14 +3,16 @@ import { Component, HostListener, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { WINDOW } from 'ngx-window-token';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
+import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
+import { FieldsConfig } from 'shared/models/admin-import-export.model';
 
 @Component({
   selector: 'app-import-providers',
   template: '<div></div>',
   styleUrls: ['./upload-excel.component.scss']
 })
-export class UploadExcelComponent {
+export class UploadExcelComponent<T extends { errors: any }, U extends T & { id: number }> {
+  public extendsComponentConfig: FieldsConfig[];
   public isToggle: boolean;
   public isLoading: boolean = false;
   public isWarningVisible: boolean = false;
@@ -20,8 +22,8 @@ export class UploadExcelComponent {
   public standardHeadersBase: string[];
   public readonly topPosToStartShowing: number = 250;
 
-  public dataSource: any[];
-  public dataSourceInvalid: any[];
+  public dataSource: U[];
+  public dataSourceInvalid: U[];
 
   constructor(
     private importValidationService: ImportValidationService,
@@ -56,16 +58,13 @@ export class UploadExcelComponent {
     this.standardHeadersBase = headers;
   }
 
-  // 2
   public resetValues(): void {
     this.dataSource = null;
     this.dataSourceInvalid = null;
     this.isToggle = false;
     this.isWarningVisible = false;
-    console.log('reset works');
   }
 
-  // 3
   public convertExcelToJSON(file: File): void {
     const reader: FileReader = new FileReader();
     reader.onerror = (): void => {
@@ -79,8 +78,7 @@ export class UploadExcelComponent {
         const wsname = workBook.SheetNames[0];
         const currentHeaders = this.getCurrentHeaders(workBook, wsname);
         if (this.checkHeadersIsValid(currentHeaders)) {
-          const items = this.getProvidersData(workBook, wsname);
-          console.log(items);
+          const items = this.getProvidersData(workBook, wsname) as unknown as T[];
           this.processProvidersData(items);
         }
       } catch (error) {
@@ -90,7 +88,7 @@ export class UploadExcelComponent {
     };
   }
 
-  public getCurrentHeaders(workBook: XLSX.WorkBook, wsname: string): any[] {
+  public getCurrentHeaders(workBook: XLSX.WorkBook, wsname: string): string[] {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], { header: 1 }).shift();
   }
 
@@ -98,11 +96,9 @@ export class UploadExcelComponent {
    * This method get providers from .xlsx file.
    * The "header" option sets the correspondence between the key in the object and the header
    * in the file (header:Director`s name = key:directorsName)the order is strict
-   * Provider[] changed to any[]
    * @returns array of objects,each object is provider`s data
    */
-  // rewrite this method in child component
-  public getProvidersData(workBook: XLSX.WorkBook, wsname: string): any[] {
+  public getProvidersData(workBook: XLSX.WorkBook, wsname: string): T[] {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], {
       header: this.columnNamesBase,
       range: 1
@@ -115,27 +111,27 @@ export class UploadExcelComponent {
    * 2. define ID key to each provider
    * @param items
    */
-  public processProvidersData(items: any[]): void {
+  public processProvidersData(items: T[]): void {
     const isArrayTruncated = this.showsIsTruncated(items);
-    const itemsId: any[] = items.map((elem, index) => ({ ...elem, id: index }));
+    const itemsId = items.map((elem, index) => ({ ...elem, id: index })) as U[];
     this.handleData(itemsId, isArrayTruncated);
   }
 
   /**
-   * This method process array of providers
-   * @param emailsEdrpous - response after verification
-   * @param providers - providers with ID
+   * This method process array of items
+   * @param items - items with ID
    * @param isArrayTruncated - indicates whether the array was truncated
    */
-  public handleData(items: any[], isArrayTruncated: boolean): void {
-    this.importValidationService.checkForInvalidData(items);
+  public handleData(items: U[], isArrayTruncated: boolean): void {
+    console.log('handle data works');
+    this.importValidationService.checkForInvalidData(items, this.extendsComponentConfig);
+    console.log('servise works');
     this.dataSource = items;
     this.dataSourceInvalid = this.filterInvalidItems(items);
     this.isLoading = false;
     this.isWarningVisible = isArrayTruncated;
   }
 
-  // 1
   public onFileSelected(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.selectedFile = target.files[0];
@@ -145,7 +141,7 @@ export class UploadExcelComponent {
     target.value = '';
   }
 
-  public filterInvalidItems(items: any[]): any {
+  public filterInvalidItems(items: U[]): U[] {
     return items.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
 
@@ -155,13 +151,13 @@ export class UploadExcelComponent {
       this.isLoading = false;
       const invalidHeader = currentHeaders.find((header, index) => header !== this.standardHeadersBase[index]);
       alert(
-        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",\n\nЗразок:\n${this.standardHeadersBase.join(' | ')}`
+        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",
+        \n\n${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_EXAMPLE')}:\n${this.standardHeadersBase.join(' | ')}`
       );
     }
     return isValid;
   }
 
-  // 1
   public showsIsTruncated(item: any[]): boolean {
     const cutItems = item.splice(100, item.length);
     return Boolean(cutItems.length);
