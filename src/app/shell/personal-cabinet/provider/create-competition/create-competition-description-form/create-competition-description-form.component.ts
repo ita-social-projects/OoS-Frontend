@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeLast } from 'rxjs';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -68,7 +68,12 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
-    this.store.dispatch(new GetAllByInstitutionAndLevel('c301afc9-585d-4a4b-b2d3-a1e05d18aeb5', 1));
+    this.institutions$.forEach((institutions: Institution[]) => {
+      if (institutions) {
+        const nonGovernmentInstitution: Institution = institutions.filter((institution) => !institution.isGovernment)[0];
+        this.store.dispatch(new GetAllByInstitutionAndLevel(nonGovernmentInstitution.id, nonGovernmentInstitution.numberOfHierarchyLevels));
+      }
+    });
 
     this.initForm();
 
