@@ -27,7 +27,13 @@ export class MessageCardComponent implements AfterViewInit {
   public readonly UserStatusesTitles = UserStatusesTitles;
   public readonly UserStatusIcons = UserStatusIcons;
   public readonly UserStatuses = UserStatuses;
+
   constructor(private translateService: TranslateService) {}
+
+  public get currentLanguage(): string {
+    return this.translateService.currentLang;
+  }
+
   public ngAfterViewInit(): void {
     this.stopPropagationElements.forEach(
       (el: MatIcon) => (el._elementRef.nativeElement.onclick = (event: PointerEvent): void => event.stopPropagation())

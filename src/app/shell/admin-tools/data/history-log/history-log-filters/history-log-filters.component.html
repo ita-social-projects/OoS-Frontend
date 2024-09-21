@@ -13,10 +13,10 @@
       </mat-form-field>
     </div>
     <ng-container *ngFor="let filter of filtersList">
-      <mat-form-field floatLabel="never" appearance="none" class="select-form-field">
+      <mat-form-field class="select-form-field">
         <mat-select
           disableOptionCentering
-          [formControl]="filtersForm.controls[filter.controlName]"
+          [formControl]="setFormControlDependsOnTab(filter.controlName)"
           panelClass="dropdown-panel"
           class="select">
           <ng-container *ngFor="let option of filter.options">

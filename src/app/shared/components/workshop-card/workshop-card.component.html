@@ -12,13 +12,7 @@
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title
-          [matTooltip]="workshopData.title"
-          showTooltipIfTruncated
-          matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPositionBelow"
-          class="card-title"
-          fxLayout="row">
+        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow" class="card-title" fxLayout="row">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
@@ -27,7 +21,7 @@
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           <div class="workshop-title-container">
-            <span>{{ workshopData.title }}</span>
+            <span [matTooltip]="workshopData.title" showTooltipIfTruncated>{{ workshopData.title }}</span>
           </div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">

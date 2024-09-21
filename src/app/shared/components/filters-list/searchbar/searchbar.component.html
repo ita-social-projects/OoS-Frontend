@@ -2,8 +2,7 @@
   <mat-form-field
     appPlaceholderStyling
     class="input-wrapper"
-    floatLabel="never"
-    appearance="none"
+    appearance="fill"
     fxLayout="row"
     fxLayoutAlign="space-between center">
     <input
@@ -17,7 +16,6 @@
       [formControl]="searchValueFormControl"
       [matAutocomplete]="autoSearch"
       (keyup.enter)="onValueEnter()" />
-
     <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
         {{ result }}
