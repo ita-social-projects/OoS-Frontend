@@ -40,6 +40,7 @@ export abstract class CompetitionBase {
   benefits: boolean;
   benefitsOptionsDesc?: string;
   address: Address;
+  chiefJudge: Judge;
   judges: Judge[];
 
   constructor(required: CompetitionRequired, description: Description, address: Address, judges: Judge[], provider: Provider, id?: string) {
@@ -52,7 +53,8 @@ export abstract class CompetitionBase {
     this.typeOfCompetition = required.typeOfCompetition;
     this.availableSeats = required.availableSeats;
     this.address = address;
-    this.judges = judges;
+    this.chiefJudge = judges[0];
+    this.judges = judges.slice(1);
     this.providerId = provider.id;
 
     this.disabilities = Boolean(description.disabilityOptionsDesc);
