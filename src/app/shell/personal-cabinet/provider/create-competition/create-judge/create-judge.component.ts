@@ -22,6 +22,7 @@ const defaultValidators = [
   styleUrls: ['./create-judge.component.scss']
 })
 export class CreateJudgeComponent implements OnInit {
+  @Input() public chiefJudge: Judge;
   @Input() public judges: Judge[];
 
   @Output() public passJudgeFormArray = new EventEmitter();
@@ -34,10 +35,15 @@ export class CreateJudgeComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    if (this.judges?.length) {
-      this.judges.forEach((judge: Judge) => this.onAddJudge(judge));
+    if (this.chiefJudge) {
+      this.onAddJudge(this.chiefJudge);
+      if (this.judges?.length) {
+        this.judges.forEach((judge: Judge) => this.onAddJudge(judge));
+      }
+      this.markFormAsDirtyOnUserInteraction();
+    } else {
+      this.onAddJudge();
     }
-    this.onAddJudge();
   }
 
   /**

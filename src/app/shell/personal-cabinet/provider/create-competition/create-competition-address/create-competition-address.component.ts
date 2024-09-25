@@ -15,7 +15,7 @@ export class CreateCompetitionAddressComponent implements OnInit {
 
   @Output() public passAddressFormGroup = new EventEmitter();
 
-  public readonly validationConstants = ValidationConstants;
+  protected readonly ValidationConstants = ValidationConstants;
 
   public addressFormGroup: FormGroup;
   public searchFormGroup: FormGroup;
@@ -76,6 +76,4 @@ export class CreateCompetitionAddressComponent implements OnInit {
       this.addressFormGroup.markAsDirty({ onlySelf: true });
     }
   }
-
-  protected readonly ValidationConstants = ValidationConstants;
 }

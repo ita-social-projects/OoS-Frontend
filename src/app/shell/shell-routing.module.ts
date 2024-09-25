@@ -177,6 +177,13 @@ const routes: Routes = [
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
+  {
+    path: 'create-competition/:id/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
   { path: '**', component: ErrorPageComponent }
 ];
 

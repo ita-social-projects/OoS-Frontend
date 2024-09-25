@@ -77,6 +77,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     this.initForm();
 
+    if (this.competition) {
+      this.activateEditMode();
+    }
+
     this.onDisabilityOptionCtrlInit();
     this.onSelectionOptionsCtrlInit();
     this.onBenefitsOptionsCtrlInit();
@@ -89,8 +93,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     return this.DescriptionFormGroup.get('category') as FormControl;
   }
 
-  public get competitionCoverageControl(): FormControl {
-    return this.DescriptionFormGroup.get('competitionCoverage') as FormControl;
+  public get coverageControl(): FormControl {
+    return this.DescriptionFormGroup.get('coverage') as FormControl;
   }
 
   public ngOnDestroy(): void {
@@ -172,6 +176,33 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     }
   }
 
+  /**
+   * This method fills inputs with information of edited workshop
+   */
+  public activateEditMode(): void {
+    this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.disabilities) {
+      this.disabilityOptionRadioBtn.setValue(this.competition.disabilities, { emitEvent: false });
+      this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
+    }
+
+    if (this.competition.competitiveSelection) {
+      this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
+      this.DescriptionFormGroup.get('selectionOptionsDesc').enable({ emitEvent: false });
+    }
+
+    if (this.competition.price) {
+      this.priceRadioBtn.setValue(!!this.competition.price, { emitEvent: false });
+      this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
+    }
+
+    if (this.competition.benefits) {
+      this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
+      this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
+    }
+  }
+
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -183,7 +214,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      competitionCoverage: new FormControl(null),
+      coverage: new FormControl(null),
       formOfLearning: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),

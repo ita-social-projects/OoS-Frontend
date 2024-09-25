@@ -53,11 +53,11 @@
   <label class="step-label">{{ 'FORMS.LABELS.COVERAGE' | translate }}</label>
   <mat-form-field appearance="fill">
     <mat-select
-      name="competitionCoverage"
+      name="coverage"
       placeholder="{{ 'FORMS.LABELS.COVERAGE' | translate }}"
       disableOptionCentering
       panelClass="dropdown-panel"
-      [formControl]="competitionCoverageControl"
+      [formControl]="coverageControl"
       class="step-input">
       <mat-option
         *ngFor="let competitionCoverage of CompetitionCoverage | keyvalue: sortTime"
@@ -67,7 +67,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="competitionCoverageControl"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="coverageControl"> </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
   <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">

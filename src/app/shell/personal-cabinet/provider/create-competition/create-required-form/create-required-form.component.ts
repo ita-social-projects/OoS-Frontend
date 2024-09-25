@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 })
 export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
+  @Input() public parentCompetition: string;
   @Input() public provider: Provider;
   @Input() public isImagesFeature: boolean;
   @Output() public PassRequiredFormGroup = new EventEmitter();
@@ -29,8 +30,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
-  protected startDate: Date = new Date();
-  protected endDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
   protected readonly TypeOfCompetition = TypeOfCompetition;
   protected readonly InfoMenuType = InfoMenuType;
   protected readonly ownershipType = OwnershipTypes;
@@ -49,6 +50,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   public isShowHintAboutCompetitionAutoClosing: boolean = false;
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
+  public filteredTypeOfCompetition: { key: string; value: string }[] = [];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
@@ -61,10 +63,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
 
   public get typeOfCompetitionControl(): FormControl {
     return this.RequiredFormGroup.get('typeOfCompetition') as FormControl;
-  }
-
-  public get parentCompetitionControl(): FormControl {
-    return this.RequiredFormGroup.get('parentCompetitionControl') as FormControl;
   }
 
   public get minSeats(): number {
@@ -80,9 +78,26 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       : this.competition?.availableSeats;
   }
 
+  private filterTypeOfCompetition(stage?: boolean): void {
+    this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
+      .filter(([key]) => stage || key !== 'CompetitionStage')
+      .map(([key, value]) => ({ key, value }));
+  }
+
   public ngOnInit(): void {
     this.initForm();
     this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
+
+    this.filterTypeOfCompetition(Boolean(this.parentCompetition));
+
+    if (this.competition) {
+      this.activateEditMode();
+    }
+    if (this.parentCompetition) {
+      this.typeOfCompetitionControl.setValue(TypeOfCompetition.CompetitionStage);
+      this.typeOfCompetitionControl.disable();
+    }
+
     this.initListeners();
   }
 
@@ -102,6 +117,43 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
 
   public sortTime(): number {
     return 0;
+  }
+
+  /**
+   * This method fills inputs with information of edited workshop
+   */
+  public activateEditMode(): void {
+    this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
+    if (this.competition.startDate) {
+      this.minDate = new Date(new Date(this.competition.startDate).setMonth(new Date(this.competition.startDate).getMonth() - 1));
+    }
+
+    if (this.competition.startDate && this.competition.endDate) {
+      this.RequiredFormGroup.get('competitionDateRangeGroup')?.patchValue({
+        start: this.competition.startDate,
+        end: this.competition.endDate
+      });
+
+      this.RequiredFormGroup.get('competitionDateRangeGroup')?.get('start')?.markAsTouched();
+      this.RequiredFormGroup.get('competitionDateRangeGroup')?.get('end')?.markAsTouched();
+    }
+
+    if (this.competition.regStartDate && this.competition.regEndDate) {
+      this.RequiredFormGroup.get('registrationDateRangeGroup')?.patchValue({
+        start: this.competition.regStartDate,
+        end: this.competition.regEndDate
+      });
+
+      this.RequiredFormGroup.get('registrationDateRangeGroup')?.get('start')?.markAsTouched();
+      this.RequiredFormGroup.get('registrationDateRangeGroup')?.get('end')?.markAsTouched();
+    }
+
+    if (this.competition.availableSeats === this.UNLIMITED_SEATS) {
+      this.setAvailableSeatsControlValue(null, 'disable', false);
+    } else {
+      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
+      this.availableSeatsRadioBtnControl.setValue(false);
+    }
   }
 
   private initForm(): void {

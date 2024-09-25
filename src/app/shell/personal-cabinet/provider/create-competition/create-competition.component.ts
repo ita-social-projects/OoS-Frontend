@@ -34,6 +34,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public provider: Provider;
   public competition: Competition;
+  public parentCompetition: string;
 
   public RequiredFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
@@ -59,9 +60,16 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
         filter((provider: Provider) => !!provider)
       )
       .subscribe((provider: Provider) => (this.provider = provider));
+
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
+
+    const id = Boolean(this.route.snapshot.paramMap.get('id'));
+    const param = Boolean(this.route.snapshot.paramMap.get('param'));
+    if (id && param) {
+      this.parentCompetition = this.route.snapshot.paramMap.get('id');
+    }
   }
 
   public ngAfterContentChecked(): void {
@@ -92,7 +100,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public setEditMode(): void {
-    const competitionId = this.route.snapshot.paramMap.get('param');
+    const competitionId = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetCompetitionById(competitionId));
     this.selectedCompetition$
       .pipe(
