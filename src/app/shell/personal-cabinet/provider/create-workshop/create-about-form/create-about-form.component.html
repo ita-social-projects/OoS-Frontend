@@ -46,7 +46,7 @@
   </mat-form-field>
   <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
+  <!-- <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
@@ -76,7 +76,7 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
-  <div class="border-bottom"></div>
+  <div class="border-bottom"></div> -->
 
   <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
@@ -134,14 +134,14 @@
     [workshop]="workshop"
     (dataChangedInChild)="markFormAsDirtyOnUserInteraction()"></app-working-hours-form-wrapper>
 
-  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
+  <!-- <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
   <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
         {{ FormOfLearningEnum[formOfLearning.key] | translate }}
       </mat-radio-button>
     </ng-container>
-  </mat-radio-group>
+  </mat-radio-group> -->
 
   <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
@@ -220,7 +220,7 @@
     </mat-radio-group>
   </div>
 
-  <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
+  <!-- <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
@@ -253,5 +253,11 @@
         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </app-validation-hint>
     </ng-container>
-  </mat-radio-group>
+  </mat-radio-group> -->
+
+  <app-institution-hierarchy
+    [instituitionHierarchyIdFormControl]="AboutFormGroup.get('institutionHierarchyId')"
+    [instituitionIdFormControl]="AboutFormGroup.get('institutionId')"
+    [provider]="provider">
+  </app-institution-hierarchy>
 </form>
