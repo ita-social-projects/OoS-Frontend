@@ -17,12 +17,12 @@ export abstract class CompetitionBase {
   website?: string;
   facebook?: string;
   instagram?: string;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   regStartDate?: Date;
   regEndDate?: Date;
   typeOfCompetition: TypeOfCompetition;
-  parentCompetition?: Competition;
+  parentCompetition?: string;
   availableSeats: number;
   category?: Direction;
   subcategory?: string;
@@ -48,8 +48,8 @@ export abstract class CompetitionBase {
     this.shortTitle = required.shortTitle;
     this.phone = required.phone;
     this.email = required.email;
-    this.startTime = required.competitionDateRangeGroup.start;
-    this.endTime = required.competitionDateRangeGroup.end;
+    this.startDate = required.competitionDateRangeGroup.start;
+    this.endDate = required.competitionDateRangeGroup.end;
     this.typeOfCompetition = required.typeOfCompetition;
     this.availableSeats = required.availableSeats;
     this.address = address;
@@ -154,7 +154,7 @@ export interface CompetitionRequired {
   competitionDateRangeGroup: { start: Date; end: Date };
   registrationDateRangeGroup?: { start: Date; end: Date };
   typeOfCompetition: TypeOfCompetition;
-  parentCompetition?: Competition;
+  parentCompetition?: string;
   availableSeats: number;
   coverImageId?: string;
   coverImage?: File;

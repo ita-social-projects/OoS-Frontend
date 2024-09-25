@@ -20,6 +20,7 @@
             fxLayout="row"
             fxLayoutAlign="center center"
             [competition]="competition"
+            [parentCompetition]="parentCompetition"
             [isImagesFeature]="isImagesFeature"
             [provider]="provider"
             (PassRequiredFormGroup)="onReceiveRequiredFormGroup($event)">
@@ -85,8 +86,8 @@
             <p class="step-name">{{ 'TITLES.JUDGES' | translate }}</p>
           </ng-template>
           <app-create-judge
+            [chiefJudge]="competition?.chiefJudge"
             [judges]="competition?.judges"
-            [isImagesFeature]="isImagesFeature"
             (passJudgeFormArray)="onReceiveJudgeFormArray($event)">
           </app-create-judge>
 

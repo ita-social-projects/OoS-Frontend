@@ -9,8 +9,8 @@ export enum CompetitionStatus {
 export enum TypeOfCompetition {
   EducationalProject = 'EducationalProject',
   Competition = 'Competition',
-  ParentCompetition = 'MainCompetition'
-  // CompetitionStage = 'CompetitionStage'
+  ParentCompetition = 'MainCompetition',
+  CompetitionStage = 'CompetitionStage'
 }
 
 export enum CompetitionCoverage {
