@@ -46,38 +46,6 @@
   </mat-form-field>
   <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"></app-validation-hint>
 
-  <!-- <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('website')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Facebook</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('facebook')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Instagram</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('instagram')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <div class="border-bottom"></div> -->
-
   <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
@@ -133,15 +101,6 @@
     [workingHoursFormArray]="workingHoursFormArray"
     [workshop]="workshop"
     (dataChangedInChild)="markFormAsDirtyOnUserInteraction()"></app-working-hours-form-wrapper>
-
-  <!-- <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
-  <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
-    <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
-      <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
-        {{ FormOfLearningEnum[formOfLearning.key] | translate }}
-      </mat-radio-button>
-    </ng-container>
-  </mat-radio-group> -->
 
   <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
@@ -219,41 +178,6 @@
       <app-validation-hint [validationFormControl]="availableSeatsControl" [minNumberValue]="minSeats"></app-validation-hint>
     </mat-radio-group>
   </div>
-
-  <!-- <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
-  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
-      {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
-    </mat-radio-button>
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">
-      {{ 'WITH_COMPETITIVE_SELECTION' | translate }}
-    </mat-radio-button>
-    <ng-container *ngIf="AboutFormGroup.get('competitiveSelection').value">
-      <div class="step-label-combined">
-        <label class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
-        <label class="step-characters-count">
-          <ng-container *ngIf="AboutFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
-            {{ AboutFormGroup.get('competitiveSelectionDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
-          </ng-container>
-          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
-        </label>
-      </div>
-      <textarea
-        matInput
-        class="step-textarea step-textarea-short"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-        }}"
-        formControlName="competitiveSelectionDescription"
-        [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-      </textarea>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('competitiveSelectionDescription')"
-        [minCharacters]="validationConstants.INPUT_LENGTH_1"
-        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-      </app-validation-hint>
-    </ng-container>
-  </mat-radio-group> -->
 
   <app-institution-hierarchy
     [instituitionHierarchyIdFormControl]="AboutFormGroup.get('institutionHierarchyId')"
