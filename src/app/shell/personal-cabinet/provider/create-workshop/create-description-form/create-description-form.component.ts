@@ -66,17 +66,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       ]),
       keyWords: new FormControl(''),
       institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required),
-      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-      workshopDescriptionItems: this.SectionItemsFormArray,
-      competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
-      ])
+      institutionId: new FormControl('', Validators.required)
     });
   }
 
@@ -226,6 +216,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     } else {
       this.onAddForm();
     }
+
+    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
   /**

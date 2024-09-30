@@ -32,10 +32,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
-  public readonly FormOfLearning = FormOfLearning;
-  public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipType = OwnershipTypes;
-  public readonly Util = Util;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
