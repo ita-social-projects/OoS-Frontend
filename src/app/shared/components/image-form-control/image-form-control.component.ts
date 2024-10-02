@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Constants } from 'shared/constants/constants';
 import { Cropper } from 'shared/models/cropper';
