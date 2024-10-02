@@ -4,21 +4,21 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Address } from 'shared/models/address.model';
 import { MaterialModule } from 'shared/modules/material.module';
-import { ContactsComponent } from './contacts.component';
+import { ContactsCardComponent } from './contacts.component';
 
 describe('ContactsComponent', () => {
-  let component: ContactsComponent;
-  let fixture: ComponentFixture<ContactsComponent>;
+  let component: ContactsCardComponent;
+  let fixture: ComponentFixture<ContactsCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, MaterialModule, TranslateModule.forRoot()],
-      declarations: [ContactsComponent]
+      declarations: [ContactsCardComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContactsComponent);
+    fixture = TestBed.createComponent(ContactsCardComponent);
     component = fixture.componentInstance;
     component.address = { codeficatorAddressDto: {} } as Address;
     component.contactsData = {} as any;
