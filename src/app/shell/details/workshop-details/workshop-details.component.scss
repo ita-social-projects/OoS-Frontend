@@ -12,6 +12,11 @@
 
 .chip {
   margin-left: 0;
+  white-space: nowrap;
+}
+
+.title {
+  margin-right: 16px;
 }
 
 .details-link {
