@@ -65,10 +65,14 @@
   overflow: hidden;
 }
 
-::ng-deep div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
-  justify-content: center !important;
-  flex-flow: wrap-reverse;
-  row-gap: 1rem;
+::ng-deep div.ngx-mat-timepicker-dialog .mat-mdc-dialog-surface {
+  padding: 0;
+
+  div[mat-dialog-actions] {
+    justify-content: center !important;
+    flex-flow: wrap-reverse;
+    row-gap: 1rem;
+  }
 }
 
 @media (max-width: 830px) {

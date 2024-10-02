@@ -68,7 +68,7 @@
     opacity: 0.8;
   }
 }
-::ng-deep.mat-dialog-container {
+::ng-deep .mat-mdc-dialog-container {
   [mat-dialog-actions] {
     display: flex;
     justify-content: center !important;

@@ -36,6 +36,11 @@
             <mat-icon class="icon">school</mat-icon>
             {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
           </span>
+          <span class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ workshop.minAge }} - {{ workshop.maxAge }}
+            {{ 'YEARS' | translate }}
+          </span>
         </div>
         <div fxLayout="column" *ngIf="workshop.competitiveSelection">
           <span fxLayout="row" fxLayoutAlign="start center">
