@@ -21,6 +21,7 @@ import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticReport } from 'shared/models/statistic.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ChildrenService } from 'shared/services/children/children.service';
@@ -30,6 +31,7 @@ import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-ad
 import { PlatformService } from 'shared/services/platform/platform.service';
 import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
 import { StatisticReportsService } from 'shared/services/statistics-reports/statistic-reports.service';
+import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
 import {
   BlockAdminById,
   BlockAreaAdminById,
@@ -60,6 +62,7 @@ import {
   GetDirectionById,
   GetFilteredDirections,
   GetFilteredProviders,
+  GetFilteredWorkshops,
   GetLawsAndRegulations,
   GetMainPageInformation,
   GetMinistryAdminById,
@@ -135,6 +138,7 @@ export interface AdminStateModel {
   providers: SearchResponse<Provider[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
+  workshops: SearchResponse<WorkshopCard[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
@@ -159,6 +163,7 @@ export interface AdminStateModel {
     providers: null,
     providerHistory: null,
     providerAdminHistory: null,
+    workshops: null,
     applicationHistory: null,
     parentsBlockingByAdminHistory: null,
     admins: null,
@@ -169,18 +174,18 @@ export interface AdminStateModel {
 @Injectable()
 export class AdminState {
   constructor(
-    private platformService: PlatformService,
-    private directionsService: DirectionsService,
-    private historyLogService: HistoryLogService,
-    private statisticService: StatisticReportsService,
-    private childrenService: ChildrenService,
-    private adminService: AdminService,
-    private ministryAdminService: MinistryAdminService,
-    private regionAdminService: RegionAdminService,
-    private areaAdminService: AreaAdminService,
-    private router: Router,
-    private location: Location,
-    private store: Store
+    private readonly platformService: PlatformService,
+    private readonly directionsService: DirectionsService,
+    private readonly historyLogService: HistoryLogService,
+    private readonly statisticService: StatisticReportsService,
+    private readonly childrenService: ChildrenService,
+    private readonly adminService: AdminService,
+    private readonly ministryAdminService: MinistryAdminService,
+    private readonly regionAdminService: RegionAdminService,
+    private readonly areaAdminService: AreaAdminService,
+    private readonly router: Router,
+    private readonly location: Location,
+    private readonly store: Store
   ) {}
 
   @Selector()
@@ -246,6 +251,11 @@ export class AdminState {
   @Selector()
   static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
     return state.providerAdminHistory;
+  }
+
+  @Selector()
+  static workshops(state: AdminStateModel): SearchResponse<WorkshopCard[]> {
+    return state.workshops;
   }
 
   @Selector()
@@ -542,6 +552,15 @@ export class AdminState {
         })
       )
     );
+  }
+
+  @Action(GetFilteredWorkshops)
+  getFilteredWorkshops(
+    { patchState }: StateContext<AdminStateModel>,
+    { workshopParameters }: GetFilteredWorkshops
+  ): Observable<SearchResponse<Workshop[]>> {
+    patchState({ isLoading: true });
+    return this.adminService.getAllWorkshops(workshopParameters).pipe(tap((workshops) => patchState({ isLoading: false })));
   }
 
   @Action(GetApplicationHistory)
