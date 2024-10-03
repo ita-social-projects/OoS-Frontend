@@ -133,7 +133,7 @@
             <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
               <button mat-menu-item (click)="sendInvitation.emit({ user, adminType })">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
             </ng-container>
-            <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
+            <button *ngIf="user.role === UserTabsTitles.child" mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>

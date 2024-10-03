@@ -32,10 +32,11 @@
       <div class="table-wrapper">
         <app-users-list
           [statusesTitles]="statusesTitles"
-          [users]="users"
+          [users]="users" 
           [displayedColumns]="displayedColumns"
           (block)="onBlockUnblock($event)"
-          (unblock)="onBlockUnblock($event)">
+          (unblock)="onBlockUnblock($event)"
+          (delete)="onDeleteChild($event)">
         </app-users-list>
       </div>
       <app-paginator
