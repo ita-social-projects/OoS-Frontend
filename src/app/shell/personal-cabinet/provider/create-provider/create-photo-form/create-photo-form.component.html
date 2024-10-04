@@ -14,8 +14,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="PhotoFormGroup.get('website')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Facebook</label>
@@ -24,8 +24,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="PhotoFormGroup.get('facebook')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Instagram</label>
@@ -34,13 +34,13 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="PhotoFormGroup.get('instagram')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
-    [InfoEditFormGroup]="form"
+    [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"

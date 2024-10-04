@@ -1,0 +1,8 @@
+{
+  "*.{ts,html}": [
+    "yarn eslint:fix"
+  ],
+  "*.{ts,scss,html}": [
+    "yarn prettier:fix"
+  ]
+}

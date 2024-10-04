@@ -9,6 +9,7 @@
   margin-bottom: 2rem;
   &-title {
     text-align: center;
+    margin-bottom: 20px !important;
   }
 }
 .step {
@@ -19,15 +20,15 @@
   padding: 0;
 }
 
-.wrapper-title {
-  margin-bottom: 20px !important;
-}
-
 .card-border {
   margin-top: 3em;
 }
 .warning-message {
   color: red;
+}
+
+:host ::ng-deep .mat-standard-chip {
+  max-width: 100%;
 }
 
 .edit-wrapper {
@@ -46,4 +47,10 @@
     margin-right: 0.5rem;
     background-color: #141111;
   }
+}
+
+.truncated-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

@@ -6,7 +6,7 @@ import { Address } from '../models/address.model';
   name: 'getAddress'
 })
 export class GetAddressPipe implements PipeTransform {
-  transform(address: Address, mode: string): string {
+  public transform(address: Address, mode: string): string {
     if (!address) {
       return '';
     }

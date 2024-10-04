@@ -1,11 +1,12 @@
-import { Options } from '@angular-slider/ngx-slider';
+import { Options, ChangeContext } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ValidationConstants } from '../../../constants/validation';
-import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from '../../../store/filter.actions';
+import { ValidationConstants } from 'shared/constants/validation';
+import { PriceFilter } from 'shared/models/filter-list.model';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'shared/store/filter.actions';
 
 @Component({
   selector: 'app-price-filter',
@@ -13,8 +14,23 @@ import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from '../../../store/f
   styleUrls: ['./price-filter.component.scss']
 })
 export class PriceFilterComponent implements OnInit, OnDestroy {
+  public readonly validationConstants = ValidationConstants;
+
+  public isFreeControl = new FormControl(false);
+  public isPaidControl = new FormControl(false);
+
+  public minPriceControl = new FormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(4)]);
+  public maxPriceControl = new FormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(4)]);
+
+  public minValue = ValidationConstants.MIN_PRICE;
+  public maxValue = ValidationConstants.MAX_PRICE;
+  public options: Options = this.getSliderOptions(true);
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private store: Store) {}
+
   @Input()
-  set priceFilter(filter) {
+  public set priceFilter(filter: PriceFilter) {
     const { minPrice, maxPrice, isFree, isPaid } = filter;
     this.minPriceControl.setValue(minPrice, { emitEvent: false });
     this.minValue = minPrice;
@@ -25,25 +41,10 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.options.disabled = !isPaid;
   }
 
-  readonly validationConstants = ValidationConstants;
-
-  isFreeControl = new FormControl(false);
-  isPaidControl = new FormControl(false);
-
-  minPriceControl = new FormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(4)]);
-  maxPriceControl = new FormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(4)]);
-
-  minValue = ValidationConstants.MIN_PRICE;
-  maxValue = ValidationConstants.MAX_PRICE;
-  options: Options = this.getSliderOprions(true);
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(private store: Store) {}
-
   /**
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // We shouldn't disable Price controls if we receive in url query string Paid checkbox as True
     if (!this.isPaidControl.value) {
       this.maxPriceControl.disable();
@@ -62,42 +63,49 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetIsPaid(val));
       this.minPriceControl[func]();
       this.maxPriceControl[func]();
-      this.options = this.getSliderOprions(!val);
+      this.options = this.getSliderOptions(!val);
     });
 
     this.minPriceControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
-      !this.isPaidControl.value && this.isPaidControl.setValue(true);
+      if (!this.isPaidControl.value) {
+        this.isPaidControl.setValue(true);
+      }
       this.store.dispatch(new SetMinPrice(val));
     });
 
     this.maxPriceControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
-      !this.isPaidControl.value && this.isPaidControl.setValue(true);
+      if (!this.isPaidControl.value) {
+        this.isPaidControl.setValue(true);
+      }
       this.store.dispatch(new SetMaxPrice(val));
     });
   }
 
-  getSliderOprions(val): Options {
+  public getSliderOptions(disabled: boolean): Options {
     return {
       floor: ValidationConstants.MIN_PRICE,
       ceil: ValidationConstants.MAX_PRICE,
-      disabled: val
+      disabled
     };
   }
 
-  clearMin(): void {
+  public clearMin(): void {
     this.minPriceControl.reset();
   }
 
-  clearMax(): void {
+  public clearMax(): void {
     this.maxPriceControl.setValue(ValidationConstants.MAX_PRICE);
   }
 
-  priceHandler(e): void {
-    e.pointerType && this.maxPriceControl.setValue(e.highValue);
-    !e.pointerType && this.minPriceControl.setValue(e.value);
+  public priceHandler(e: ChangeContext): void {
+    if (e.pointerType) {
+      this.maxPriceControl.setValue(e.highValue);
+    } else {
+      this.minPriceControl.setValue(e.value);
+    }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

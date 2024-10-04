@@ -1,5 +1,8 @@
 <div class="wrapper">
-  <div *ngIf="isProviderView" fxLayout="row" fxLayoutAlign="end">
+  <div
+    *ngIf="isProviderView && role === Role.provider && (subrole === Subrole.None || subrole === Subrole.ProviderDeputy)"
+    fxLayout="row"
+    fxLayoutAlign="end">
     <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
       <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
     </a>
@@ -45,7 +48,7 @@
       <p>{{ provider.edrpouIpn }}</p>
       <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
       <p>
-        {{ constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}
+        {{ provider.phoneNumber | phone }}
       </p>
       <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
       <p>{{ provider.email }}</p>
@@ -82,7 +85,7 @@
         <h5>{{ 'TITLES.ABOUT_THE_PROVIDER' | translate }}</h5>
         <div *ngFor="let item of provider.providerSectionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
-          <p>{{ item.description }}</p>
+          <p class="line-break">{{ item.description }}</p>
         </div>
       </ng-container>
 

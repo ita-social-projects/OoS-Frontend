@@ -4,8 +4,7 @@
   fxLayoutGap.gt-md="2rem"
   fxLayoutAlign="center space-between"
   [fxLayout]="isMobileScreen ? 'column' : 'row'"
-  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row wrap'"
->
+  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row wrap'">
   <ng-container *ngIf="entity === entityType.workshop; then WorkshopDetails; else ProviderDetails"></ng-container>
 
   <app-side-menu
@@ -14,8 +13,7 @@
     [provider]="provider"
     [role]="role"
     [isMobileScreen]="isMobileScreen"
-    [displayActionCard]="displayActionCard"
-  >
+    [displayActionCard]="displayActionCard">
   </app-side-menu>
 </div>
 
@@ -27,8 +25,7 @@
     [provider]="provider"
     [role]="role"
     [isMobileScreen]="isMobileScreen"
-    [displayActionCard]="displayActionCard"
-  ></app-workshop-details>
+    [displayActionCard]="displayActionCard"></app-workshop-details>
 </ng-template>
 
 <ng-template #ProviderDetails>

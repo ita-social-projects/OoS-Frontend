@@ -5,8 +5,7 @@
     fxLayout="row"
     fxLayoutAlign="center center"
     [value]="rate"
-    (click)="onClick(rate)"
-  >
+    (click)="onClick(rate)">
     <mat-icon *ngIf="modalWindow" class="star-icon-modal" [ngClass]="selectedStars >= rate ? 'selected-star' : ''">
       {{ selectedStars >= rate ? 'star' : 'star_border' }}
     </mat-icon>

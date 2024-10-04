@@ -1,17 +1,19 @@
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+
+import { Provider } from 'shared/models/provider.model';
 import { EntityType, Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
 import { DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from '../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../shared/store/shared-user.state';
-import { PaginationConstants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-details',
@@ -19,31 +21,34 @@ import { PaginationConstants } from '../../shared/constants/constants';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  readonly entityType = EntityType;
-
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
-  isMobileScreen: boolean;
-
+  private isMobileScreen$: Observable<boolean>;
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
-  workshop: Workshop;
-
+  private workshop$: Observable<Workshop>;
   @Select(SharedUserState.selectedProvider)
-  provider$: Observable<Provider>;
-  provider: Provider;
-
+  private provider$: Observable<Provider>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  role: Role;
+  private role$: Observable<Role>;
 
-  entity: EntityType;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  displayActionCard: boolean;
+  public readonly entityType = EntityType;
 
-  constructor(private store: Store, private route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
+  public isMobileScreen: boolean;
+  public workshop: Workshop;
+  public provider: Provider;
+  public role: Role;
 
-  ngOnInit(): void {
+  public entity: EntityType;
+  public displayActionCard: boolean;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    public navigationBarService: NavigationBarService
+  ) {}
+
+  public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
       this.entity = params.entity;
@@ -57,6 +62,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
 
     this.setDataSubscribtion();
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private setDataSubscribtion(): void {
@@ -76,12 +87,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    if (this.entity === EntityType.workshop) {
+      this.store.dispatch(new GetWorkshopById(id));
+    } else {
+      this.store.dispatch(new GetProviderById(id));
+    }
   }
 }

@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SearchbarComponent } from './searchbar.component';
-import { NgxsModule } from '@ngxs/store';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { SearchbarComponent } from './searchbar.component';
 
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;
@@ -40,5 +41,36 @@ describe('SearchbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call "performSearch" and "saveSearchResult" with "onValueEnter"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+    const saveSearchResultsSpy = jest.spyOn(component, 'saveSearchResults');
+
+    component.onValueEnter();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+    expect(saveSearchResultsSpy).toHaveBeenCalled();
+  });
+
+  it('should call "performSearch" with "onValueSelected"', () => {
+    const performSearchSpy = jest.spyOn(component, 'performSearch');
+
+    component.onValueSelect();
+
+    expect(performSearchSpy).toHaveBeenCalled();
+  });
+
+  it('should replace invalid characters and update the FormControl value', () => {
+    jest.spyOn(component.searchValueFormControl, 'setValue');
+    jest.spyOn(component.invalidCharacterDetected, 'emit');
+
+    const inputValue = 'Test@Value#123';
+    const expectedValue = 'TestValue123';
+
+    component.handleInvalidCharacter(inputValue);
+
+    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue);
+    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
   });
 });

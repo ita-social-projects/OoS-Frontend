@@ -3,11 +3,14 @@
 .config {
   p {
     &.important {
-      margin-bottom: 0;
       color: red;
 
       mat-icon {
         overflow: visible;
+      }
+
+      &.label {
+        margin-bottom: 0;
       }
     }
   }

@@ -1,26 +1,33 @@
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
-import { ReviewDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { Role, EntityType } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Parent } from '../../../../shared/models/parent.model';
-import { Rate, RateParameters } from '../../../../shared/models/rating';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating, DeleteRatingById } from '../../../../shared/store/parent.actions';
-import { ParentState } from '../../../../shared/store/parent.state.';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { Util } from '../../../../shared/utils/utils';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { ReviewDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { EntityType, Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Parent } from 'shared/models/parent.model';
+import { Rate, RateParameters } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { ClearRatings, GetRateByEntityId } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import {
+  CreateRating,
+  DeleteRatingById,
+  GetReviewedStatus,
+  GetStatusAllowedToReview,
+  OnCreateRatingSuccess
+} from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-reviews',
@@ -28,39 +35,40 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
-  readonly noResultReviews = NoResultsTitle.noReviews;
-  readonly Role: typeof Role = Role;
-  readonly ReviewDeclination = ReviewDeclination;
-
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() public workshop: Workshop;
+  @Input() public role: string;
 
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
+  public parent$: Observable<Parent>;
   @Select(ParentState.isAllowedToReview)
-  isAllowedToReview$: Observable<boolean>;
+  public isAllowedToReview$: Observable<boolean>;
   @Select(ParentState.isReviewed)
-  isReviewed$: Observable<boolean>;
+  public isReviewed$: Observable<boolean>;
 
   @Select(MetaDataState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
   @Select(MetaDataState.rating)
-  rating$: Observable<SearchResponse<Rate[]>>;
-  rating: SearchResponse<Rate[]>;
+  public rating$: Observable<SearchResponse<Rate[]>>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly noResultReviews = NoResultsTitle.noReviews;
+  public readonly Role: typeof Role = Role;
+  public readonly ReviewDeclination = ReviewDeclination;
 
-  parent: Parent;
-  isAllowedToReview: boolean;
-  isReviewed: boolean;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  rateParameters: RateParameters = {
+  public rating: SearchResponse<Rate[]>;
+
+  public parent: Parent;
+  public isAllowedToReview: boolean;
+  public isReviewed: boolean;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public rateParameters: RateParameters = {
     entityId: '',
     entityType: EntityType.workshop,
     size: PaginationConstants.RATINGS_PER_PAGE
   };
-  alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
-  mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
+  public alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
+  public mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -69,7 +77,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     private translateService: TranslateService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.rateParameters.entityId = this.workshop.id;
     this.getRates();
 
@@ -119,14 +127,15 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteRatingById(rate.id));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new DeleteRatingById(rate.id)));
   }
 
   public itemsPerPageChange(itemsPerPage: number): void {
     this.rateParameters.size = itemsPerPage;
-    this.getRates();
+    this.pageChange(PaginationConstants.firstPage);
   }
 
   public pageChange(page: PaginationElement): void {
@@ -134,7 +143,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.getRates();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new ClearRatings());

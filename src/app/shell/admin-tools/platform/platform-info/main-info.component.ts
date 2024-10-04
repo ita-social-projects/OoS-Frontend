@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AdminTabTypes } from '../../../../shared/enum/admins';
-import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
-import { AdminState } from '../../../../shared/store/admin.state';
+
+import { AdminTabTypes } from 'shared/enum/admins';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { AdminState } from 'shared/store/admin.state';
 
 @Component({
   selector: 'app-main-info',
-  template: '<app-info-card [type]="mainInformation" [platformInfo]="MainInformation$ | async"></app-info-card>'
+  template: '<app-info-card [type]="AdminTabTypes.MainPage" [platformInfo]="mainInformation$ | async"></app-info-card>'
 })
 export class MainInfoComponent {
-  readonly mainInformation = AdminTabTypes.MainPage;
+  @Select(AdminState.mainInformation)
+  public mainInformation$: Observable<CompanyInformation>;
 
-  @Select(AdminState.MainInformation)
-  MainInformation$: Observable<CompanyInformation>;
+  public readonly AdminTabTypes = AdminTabTypes;
 }

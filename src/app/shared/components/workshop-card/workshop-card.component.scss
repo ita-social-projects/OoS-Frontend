@@ -11,6 +11,17 @@
 .provider-content {
   min-height: 2rem;
 }
+.workshop-title-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .icon {
   display: flex;
   flex-direction: row;
@@ -79,6 +90,7 @@
   height: 14px !important;
   overflow: visible !important;
   margin-right: 5px;
+  margin-top: 5px;
   &:hover {
     opacity: 0.5;
   }

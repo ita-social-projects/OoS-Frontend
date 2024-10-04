@@ -1,4 +1,5 @@
 import { Codeficator } from './codeficator.model';
+
 export interface GeolocationPositionError {
   code: number;
   message: string;

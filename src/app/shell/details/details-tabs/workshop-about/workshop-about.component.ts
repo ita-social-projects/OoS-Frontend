@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { WorkingDaysValues } from '../../../../shared/constants/constants';
-import { WorkingDays, WorkingDaysReverse } from '../../../../shared/enum/enumUA/working-hours';
-import { PayRateTypeEnum } from '../../../../shared/enum/enumUA/workshop';
-import { WorkingDaysToggleValue } from '../../../../shared/models/workingHours.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
+
+import { WorkingDaysValues } from 'shared/constants/constants';
+import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
+import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-about',
@@ -11,10 +12,11 @@ import { Workshop } from '../../../../shared/models/workshop.model';
   styleUrls: ['./workshop-about.component.scss']
 })
 export class WorkshopAboutComponent {
-  readonly workingDays = WorkingDays;
-  readonly workingDaysReverse = WorkingDaysReverse;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
+  @Input() public workshop!: Workshop;
 
-  @Input() workshop!: Workshop;
-  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public readonly workingDays = WorkingDays;
+  public readonly workingDaysReverse = WorkingDaysReverse;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 }

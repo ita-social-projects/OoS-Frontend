@@ -1,6 +1,6 @@
 export enum OwnershipTypesEnum {
   State = 'ENUM.OWNERSHIP_TYPE.STATE',
-  Common = 'ENUM.OWNERSHIP_TYPE.COMMON',
+  Common = 'ENUM.OWNERSHIP_TYPE.COMMON'
   // Private = 'ENUM.OWNERSHIP_TYPE.PRIVATE' //TODO: temporary removed for 1st release
 }
 
@@ -8,7 +8,7 @@ export enum InstitutionTypesEnum {
   Complex = 'ENUM.INSTITUTION_TYPE.COMPLEX',
   Profile = 'ENUM.INSTITUTION_TYPE.PROFILE',
   Specialized = 'ENUM.INSTITUTION_TYPE.SPECIALIZED',
-  Other = 'ENUM.INSTITUTION_TYPE.OTHER',
+  Other = 'ENUM.INSTITUTION_TYPE.OTHER'
 }
 
 export enum LicenseStatusEnum {

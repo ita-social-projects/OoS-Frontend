@@ -1,4 +1,4 @@
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 
 export class Direction {
   id: number;
@@ -6,7 +6,7 @@ export class Direction {
   description: string;
   workshopsCount?: number;
 
-  constructor(info) {
+  constructor(info: Direction) {
     if (info.id) {
       this.id = info.id;
     }

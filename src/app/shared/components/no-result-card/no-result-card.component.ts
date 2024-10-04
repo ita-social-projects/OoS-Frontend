@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-no-result-card',
@@ -10,5 +10,5 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['../../styles/list-wrappers.scss']
 })
 export class NoResultCardComponent {
-  @Input() title: string;
+  @Input() public title: string;
 }

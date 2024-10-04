@@ -2,8 +2,9 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from '../../shared/models/category.model';
-import { PaginationElement } from '../../shared/models/paginationElement.model';
+
+import { Direction } from 'shared/models/category.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { AllCategoriesComponent } from './all-categories.component';
 
 describe('AllCategoriesComponent', () => {
@@ -18,8 +19,8 @@ describe('AllCategoriesComponent', () => {
         AllCategoriesComponent,
         MockAllCategoriesSearchbarComponent,
         MockAllCategoriesCardComponent,
-        MockDirectionsPaginatorComponent,
-      ],
+        MockDirectionsPaginatorComponent
+      ]
     }).compileComponents();
   });
 
@@ -36,12 +37,12 @@ describe('AllCategoriesComponent', () => {
 
 @Component({
   selector: 'app-full-search-bar',
-  template: '',
+  template: ''
 })
 class MockAllCategoriesSearchbarComponent {}
 @Component({
   selector: 'app-category-card',
-  template: '',
+  template: ''
 })
 class MockAllCategoriesCardComponent {
   @Input() direction: Direction;
@@ -50,7 +51,7 @@ class MockAllCategoriesCardComponent {
 }
 @Component({
   selector: 'app-paginator',
-  template: '',
+  template: ''
 })
 class MockDirectionsPaginatorComponent {
   @Input() totalEntities: number;

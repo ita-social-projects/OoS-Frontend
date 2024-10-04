@@ -1,15 +1,16 @@
 import { MatDateFormats } from '@angular/material/core';
-import { CodeficatorCategories } from '../enum/codeficator-categories';
-import { WorkingDays } from '../enum/enumUA/working-hours';
-import { Codeficator } from '../models/codeficator.model';
-import { WorkingDaysToggleValue } from '../models/workingHours.model';
+import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
+
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { WorkingDays } from 'shared/enum/enumUA/working-hours';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 /**
  * Constants for OutOfSchool
  */
 export class Constants {
   static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
   static readonly WORKSHOP_MIN_SEATS = 1;
@@ -22,9 +23,13 @@ export class Constants {
   static readonly RATE_FIVE_STAR = 5;
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
+  static readonly FULL_DATE_FORMAT_ONLY_DIGITS = 'dd.MM.yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly SHORT_TIME_24_HOUR_SYSTEM = 'HH:mm';
+
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
+  static readonly DASH_VALUE = 'dash';
+  static readonly DASH = '—';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
@@ -33,6 +38,7 @@ export class Constants {
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_SETTLEMENT = 'EMPTY_BANNERS.NO_SETTLEMENT';
+  static readonly NO_TERRITORIAL_COMMUNITY = 'EMPTY_BANNERS.NO_TERRITORIAL_COMMUNITY';
   static readonly KYIV: Codeficator = {
     id: 31737,
     region: null,
@@ -45,11 +51,13 @@ export class Constants {
     fullName: 'Київ'
   };
 
+  static readonly MAT_TOOL_TIP_POSITION_ABOVE = 'above';
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }
+
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
@@ -135,8 +143,18 @@ export class CropperConfigurationConstants {
 export class ModeConstants {
   static readonly NEW = 'new';
   static readonly WORKSHOP = 'workshop';
+  static readonly APPLICATION = 'application';
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
+
+export const NoInteractTooltipOptions: MatTooltipDefaultOptions = {
+  showDelay: 0,
+  hideDelay: 0,
+  touchGestures: 'auto',
+  position: 'before',
+  touchendHideDelay: 0,
+  disableTooltipInteractivity: true
+};

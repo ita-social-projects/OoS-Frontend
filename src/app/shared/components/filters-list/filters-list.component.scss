@@ -1,6 +1,13 @@
 .filters-wrapper {
   width: 302px;
 }
+
+@media (max-width: 900px) {
+  .filters-wrapper {
+    width: 222px;
+  }
+}
+
 .side-nav-filter {
   width: 100%;
 }

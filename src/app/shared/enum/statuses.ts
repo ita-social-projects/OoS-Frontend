@@ -21,7 +21,7 @@ export enum UserStatuses {
   Blocked = 'Blocked'
 }
 
-// Statuses for Applications
+// Statuses for Provider Applications
 export enum ApplicationStatuses {
   Pending = 'Pending',
   AcceptedForSelection = 'AcceptedForSelection',
@@ -29,7 +29,8 @@ export enum ApplicationStatuses {
   StudyingForYears = 'StudyingForYears',
   Completed = 'Completed',
   Rejected = 'Rejected',
-  Left = 'Left'
+  Left = 'Left',
+  Banned = 'Banned'
 }
 
 // Statuses for user Email Confirmation

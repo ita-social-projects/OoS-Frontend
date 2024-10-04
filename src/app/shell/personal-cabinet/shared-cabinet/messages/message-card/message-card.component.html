@@ -1,31 +1,43 @@
 <mat-card
-  [ngClass]="chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'"
+  class="card"
+  [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
+  [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
   [routerLink]="['./', chatRoom.id]">
-  <mat-card-content class="card-block card-block__message">
+  <mat-card-content class="card-block card-block__message" fxLayout="row" fxLayoutAlign="space-between center">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
-      <p class="text">
-        {{ chatRoom.lastMessage.createdDateTime | date : constants.FULL_DATE_FORMAT }}
-      </p>
+      <p class="workshop-title">{{ chatRoom.workshop.title }}</p>
+      <ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatDateTitle">
+        <p class="text">
+          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '': currentLanguage }}
+        </p>
+      </ng-container>
+      <ng-template #emptyChatDateTitle>
+        <p class="text">
+          {{ 'EMPTY_BANNERS.NO_CHAT_HISTORY' | translate }}
+        </p>
+      </ng-template>
     </div>
-    <h4 class="title">{{ chatRoom.workshop.title }}</h4>
     <div class="last-message text">
-      {{ chatRoom.lastMessage.text }}
+      {{ chatRoom.lastMessage?.text | emptyValueTransform: Constants.DASH_VALUE }}
     </div>
+    <ng-container *ngIf="role === Role.provider && chatRoom.isBlockedByProvider">
+      <div class="statuses {{ UserStatuses.Blocked }}" fxLayoutAlign="center center">
+        <span><i class="status-icon {{ UserStatusIcons[UserStatuses.Blocked] }}"></i></span>
+        <span>{{ UserStatusesTitles[UserStatuses.Blocked] | translate }}</span>
+      </div>
+    </ng-container>
   </mat-card-content>
   <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
-    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions"
-      >more_vert</mat-icon
-    >
+    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions">more_vert</mat-icon>
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
-      <!--
-        TODO: uncomment when value for condition is available
-
-        <button mat-menu-item (click)="onUnBlock()">
-          Розблокувати користувача
-        </button>
-      -->
+      <ng-container *ngIf="chatRoom.isBlockedByProvider; then Unblock; else Block"></ng-container>
+      <ng-template #Block>
+        <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
+      </ng-template>
+      <ng-template #Unblock>
+        <button mat-menu-item (click)="onUnblock()">{{ 'BUTTONS.UNBLOCK_USER' | translate }}</button>
+      </ng-template>
     </mat-menu>
   </mat-card-content>
 </mat-card>

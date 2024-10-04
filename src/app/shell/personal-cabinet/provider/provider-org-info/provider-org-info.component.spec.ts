@@ -1,13 +1,14 @@
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule } from '@ngxs/store';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component, Input, Provider } from '@angular/core';
-import { ProviderComponent } from '../provider.component';
+import { NgxsModule } from '@ngxs/store';
+
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { PhoneTransformPipe } from '../../../../shared/pipes/phone-transform.pipe';
+import { ProviderComponent } from '../provider.component';
 import { ProviderOrgInfoComponent } from './provider-org-info.component';
 
 describe('ProviderOrgInfoComponent', () => {
@@ -17,7 +18,7 @@ describe('ProviderOrgInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), MatIconModule, MatTabsModule, RouterTestingModule, MatDialogModule],
-      declarations: [ProviderOrgInfoComponent, PhoneTransformPipe, MockproviderInfoComponent, ProviderComponent, CabinetDataComponent]
+      declarations: [ProviderOrgInfoComponent, PhonePipe, MockProviderInfoComponent, ProviderComponent, CabinetDataComponent]
     }).compileComponents();
   });
 
@@ -34,7 +35,7 @@ describe('ProviderOrgInfoComponent', () => {
   selector: 'app-provider-info',
   template: ''
 })
-class MockproviderInfoComponent {
+class MockProviderInfoComponent {
   @Input() provider: Provider;
   @Input() isProviderView: boolean;
   @Input() currentStatus;

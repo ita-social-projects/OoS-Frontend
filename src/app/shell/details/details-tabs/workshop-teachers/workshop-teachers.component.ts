@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Teacher } from '../../../../shared/models/teacher.model';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Teacher } from 'shared/models/teacher.model';
 
 @Component({
   selector: 'app-workshop-teachers',
@@ -8,9 +8,9 @@ import { Teacher } from '../../../../shared/models/teacher.model';
   styleUrls: ['./workshop-teachers.component.scss']
 })
 export class WorkshopTeachersComponent {
-  readonly noResultTeachers = NoResultsTitle.noTeachers;
+  @Input() public teachers: Teacher[];
 
-  @Input() teachers: Teacher[];
+  public readonly noResultTeachers = NoResultsTitle.noTeachers;
 
   constructor() {}
 }

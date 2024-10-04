@@ -1,13 +1,14 @@
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from '../../../../shared/constants/constants';
-import { Gender } from '../../../../shared/enum/enumUA/gender';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../shared/enum/role';
-import { User } from '../../../../shared/models/user.model';
-import { RegistrationState } from '../../../../shared/store/registration.state';
+
+import { Constants } from 'shared/constants/constants';
+import { Gender } from 'shared/enum/enumUA/gender';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
+import { User } from 'shared/models/user.model';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -16,23 +17,22 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent implements OnInit, OnDestroy {
-  readonly gender = Gender;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
-  readonly dateFormat = Constants.SHORT_DATE_FORMAT;
-  readonly role = Role;
-
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  public user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+  public role$: Observable<Role>;
 
-  authServer: string = environment.stsServer;
-  culture: string = localStorage.getItem('ui-culture');
-  link: string;
+  public readonly gender = Gender;
+  public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
+  public readonly role = Role;
+
+  public authServer: string = environment.stsServer;
+  public culture: string = localStorage.getItem('ui-culture');
+  public link: string;
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.PersonalInformation,
@@ -42,11 +42,11 @@ export class UserConfigComponent implements OnInit, OnDestroy {
     );
   }
 
-  onRedirect(link: string): void {
+  public onRedirect(link: string): void {
     window.open(`${this.authServer + link}?culture=${this.culture}&ui-culture=${this.culture}`, link, 'height=500,width=500');
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new PopNavPath());
   }
 }

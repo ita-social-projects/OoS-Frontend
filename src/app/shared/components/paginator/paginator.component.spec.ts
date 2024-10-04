@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { PaginationConstants } from '../../constants/constants';
 
+import { PaginationConstants } from 'shared/constants/constants';
 import { PaginatorComponent } from './paginator.component';
 
 describe('PaginatorComponent', () => {

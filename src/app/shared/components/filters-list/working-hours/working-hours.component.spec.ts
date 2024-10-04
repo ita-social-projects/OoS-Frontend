@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkingHoursComponent } from './working-hours.component';
-import { NgxsModule } from '@ngxs/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { MaterialModule } from '../../../modules/material.module';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+
+import { MaterialModule } from 'shared/modules/material.module';
+import { WorkingHoursComponent } from './working-hours.component';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;

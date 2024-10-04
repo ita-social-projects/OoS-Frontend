@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CreateContactsFormComponent } from './create-contacts-form.component';
 import { NgxsModule } from '@ngxs/store';
-import { Address } from '../../../../../shared/models/address.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { Address } from '../../../../../shared/models/address.model';
+import { CreateContactsFormComponent } from './create-contacts-form.component';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -20,9 +20,9 @@ describe('CreateContactsFormComponent', () => {
         MatCheckboxModule,
         NgxsModule.forRoot([]),
         ReactiveFormsModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [CreateContactsFormComponent, MockAddressFormComponent],
+      declarations: [CreateContactsFormComponent, MockAddressFormComponent]
     }).compileComponents();
   });
 
@@ -39,7 +39,7 @@ describe('CreateContactsFormComponent', () => {
 
 @Component({
   selector: 'app-create-address-form',
-  template: '',
+  template: ''
 })
 class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;

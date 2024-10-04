@@ -8,8 +8,7 @@
       class="card"
       *ngFor="let direction of filteredDirections.entities"
       [direction]="direction"
-      [workshopsCount]="direction.workshopsCount"
-    >
+      [workshopsCount]="direction.workshopsCount">
     </app-category-card>
   </div>
   <app-paginator
@@ -17,7 +16,6 @@
     [currentPage]="currentPage"
     [itemsPerPage]="directionsParameters.size"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)"
-  >
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
 </ng-container>

@@ -26,8 +26,8 @@
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
           <p class="card_text">
             <mat-icon class="card_icon">calendar_today</mat-icon>
-            {{ child.dateOfBirth | date : constants.SHORT_DATE_FORMAT }} ({{
-              childAge ? (childAge | translateCases : YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate)
+            {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{
+              childAge ? (childAge | translateCases: YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate)
             }})
           </p>
         </mat-card-content>

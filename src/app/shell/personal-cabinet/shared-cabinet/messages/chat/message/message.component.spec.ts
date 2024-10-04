@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IncomingMessage } from '../../../../../../shared/models/chat.model';
+import { MatIconModule } from '@angular/material/icon';
 
+import { IncomingMessage } from 'shared/models/chat.model';
 import { MessageComponent } from './message.component';
 
 describe('MessageComponent', () => {
@@ -9,6 +10,7 @@ describe('MessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MatIconModule],
       declarations: [MessageComponent]
     }).compileComponents();
 

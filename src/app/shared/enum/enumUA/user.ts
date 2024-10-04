@@ -1,7 +1,7 @@
 export enum UserTabsTitles {
   all = 'ALL',
   parent = 'PARENTS',
-  child = 'CHILDREN',
+  child = 'CHILDREN'
 }
 
 export enum RoleLinks {

@@ -14,16 +14,12 @@
 <div fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <h4>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h4>
   <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">
-    {{ 'FORMS.MATCH_ACTUAL_ADDRESS' | translate }}</mat-checkbox
-  >
+    {{ 'FORMS.MATCH_ACTUAL_ADDRESS' | translate }}
+  </mat-checkbox>
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div
-  class="step"
-  fxLayout="column"
-  fxLayoutAlign="center space-between"
-  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+<div class="step" fxLayout="column" fxLayoutAlign="center space-between" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
   <div class="address-wrapper">
     <app-create-address-form
       [addressFormGroup]="actualAddressFormGroup"

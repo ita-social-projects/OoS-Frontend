@@ -1,5 +1,5 @@
-<ng-container *ngIf="favoriteWorkshopsCard$ | async as favoriteWorkshopsCard">
-  <ng-container *ngIf="favoriteWorkshopsCard.totalAmount; else isEmptyList">
+<ng-container *ngIf="favoriteWorkshopsCard$ | async as favoriteWorkshopsCard; else isEmptyList">
+  <ng-container>
     <div class="card-wrapper">
       <app-workshop-card class="card" *ngFor="let workshop of favoriteWorkshopsCard.entities" [workshop]="workshop"> </app-workshop-card>
     </div>
@@ -8,8 +8,7 @@
       [currentPage]="currentPage"
       [itemsPerPage]="paginationParameters.size"
       (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)"
-    >
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

@@ -10,7 +10,7 @@
 
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
-    [InfoEditFormGroup]="form"
+    [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
@@ -36,12 +36,12 @@
       [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}"
       formControlName="disabilityOptionsDesc"
-      autocomplete="none"
+      autocomplete="off"
       appTrimValue />
     <app-validation-hint
       [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
-      [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+      [minCharacters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="validationConstants.INPUT_LENGTH_256">
     </app-validation-hint>
   </mat-radio-group>
 
@@ -67,16 +67,16 @@
         </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
+      <!-- TODO: Remove ngModel attribute -->
       <input
         [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
-        [disabled]="disabledKeyWordsInput"
         #keyWordsInput
         (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl"
         [matChipInputFor]="chipList"
         (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord"
-        autocomplete="none"
+        autocomplete="off"
         appTrimValue />
     </mat-chip-list>
   </div>

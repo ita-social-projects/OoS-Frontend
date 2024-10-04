@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'textSliceTransform'
 })
 export class TextSliceTransformPipe implements PipeTransform {
-  transform(text: string): string {
+  public transform(text: string): string {
     if (text.length > 10) {
       const result = [];
       if (screen.width < 750) {

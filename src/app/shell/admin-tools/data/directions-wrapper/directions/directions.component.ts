@@ -3,17 +3,18 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { SearchResponse } from '../../../../../shared/models/search.model';
-import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants, ModeConstants } from '../../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../../shared/enum/enumUA/no-results';
-import { Direction, DirectionParameters } from '../../../../../shared/models/category.model';
-import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
-import { GetFilteredDirections, DeleteDirectionById } from '../../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../../shared/store/admin.state';
-import { Util } from '../../../../../shared/utils/utils';
+import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, takeUntil } from 'rxjs/operators';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { DeleteDirectionById, GetFilteredDirections } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-directions',
@@ -21,25 +22,29 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
-  readonly noDirections = NoResultsTitle.noResult;
-  readonly ModeConstants = ModeConstants;
-
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  public filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  filterFormControl = new FormControl('', [Validators.maxLength(200)]);
-  isEditMode: true;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalAmount: number;
-  directionsParameters: DirectionParameters = {
+  public readonly noDirections = NoResultsTitle.noResult;
+  public readonly ModeConstants = ModeConstants;
+
+  public filterFormControl = new FormControl('', [Validators.maxLength(200)]);
+  public isEditMode: true;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public totalAmount: number;
+  public directionsParameters: DirectionParameters = {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
 
-  constructor(private store: Store, private matDialog: MatDialog) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog
+  ) {}
+
+  public ngOnInit(): void {
     this.getDirections();
 
     this.filterFormControl.valueChanges
@@ -63,17 +68,17 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getDirections();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.directionsParameters.size = itemsPerPage;
-    this.getDirections();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onDelete(direction: Direction): void {
+  public onDelete(direction: Direction): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -82,12 +87,13 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteDirectionById(direction.id, this.directionsParameters));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new DeleteDirectionById(direction.id, this.directionsParameters)));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

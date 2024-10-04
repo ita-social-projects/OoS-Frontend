@@ -1,15 +1,15 @@
-import { Observable } from 'rxjs/internal/Observable';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkshopCardsListComponent } from './workshop-cards-list.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
-import { of } from 'rxjs';
-import { NoResultCardComponent } from '../../../shared/components/no-result-card/no-result-card.component';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { Parent } from '../../../shared/models/parent.model';
+import { Observable, of } from 'rxjs';
+
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Parent } from 'shared/models/parent.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;

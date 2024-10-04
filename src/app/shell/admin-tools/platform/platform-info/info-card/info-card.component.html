@@ -2,9 +2,7 @@
   <ng-container *ngIf="platformInfo; else noInfoTmpl">
     <div class="config">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, 'edit']">
-        <button mat-button style="color: #3849f9">
-          <mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}
-        </button>
+        <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
       </a>
       <h3 *ngIf="platformInfo.title.length < 40">{{ platformInfo.title }}</h3>
       <h3 *ngIf="platformInfo.title.length >= 40" style="padding-top: 3rem">{{ platformInfo.title }}</h3>

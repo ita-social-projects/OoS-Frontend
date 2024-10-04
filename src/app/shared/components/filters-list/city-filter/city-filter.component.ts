@@ -1,47 +1,55 @@
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  MatLegacyAutocomplete as MatAutocomplete,
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
+} from '@angular/material/legacy-autocomplete';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-
-import { Coords } from '../../../../shared/models/coords.model';
-import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
-import { FilterChange, SetCoordsByMap } from '../../../../shared/store/filter.actions';
-import { Constants } from '../../../constants/constants';
-import { Codeficator } from '../../../models/codeficator.model';
-import { FilterState } from '../../../store/filter.state';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../store/meta-data.actions';
-import { MetaDataState } from '../../../store/meta-data.state';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
+import { Constants, NoInteractTooltipOptions } from 'shared/constants/constants';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Coords } from 'shared/models/coords.model';
+import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
+import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-city-filter',
   templateUrl: './city-filter.component.html',
-  styleUrls: ['./city-filter.component.scss']
+  styleUrls: ['./city-filter.component.scss'],
+  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: NoInteractTooltipOptions }]
 })
-export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
-  public readonly Constants = Constants;
-  public readonly sliceLength = 25;
-
+export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(FilterState.isConfirmCity)
   public isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
   private settlement$: Observable<Codeficator>;
-  public settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
   private codeficatorSearch$: Observable<Codeficator[]>;
-  public codeficatorSearch: Codeficator[];
 
+  @ViewChild(MatAutocomplete) private codeficatorAutocomplete: MatAutocomplete;
   @ViewChild('searchInput') private searchInput: ElementRef;
+
+  public readonly Constants = Constants;
+  public readonly sliceLength = 25;
+
+  public settlement: Codeficator;
+  public codeficatorSearch: Codeficator[];
+  public settlementSearchControl: FormControl = new FormControl('');
+  public isDisplayed = true;
 
   private isTopCities = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  public settlementSearchControl: FormControl = new FormControl('');
-  public isDispalyed = true;
-
-  constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private geolocationService: GeolocationService
+  ) {}
 
   public ngOnInit(): void {
     this.settlementListener();
@@ -65,22 +73,8 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.codeficatorSearch = searchResult;
       }
     });
-  }
 
-  public ngAfterViewInit(): void {
-    if (this.geolocationService.isCityInStorage()) {
-      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
-    } else {
-      this.geolocationService.handleUserLocation((coords: Coords) => {
-        if (coords) {
-          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-            this.geolocationService.confirmCity(result, false);
-          });
-        } else {
-          this.geolocationService.confirmCity(Constants.KYIV, false);
-        }
-      });
-    }
+    this.setCurrentGeolocation();
   }
 
   public onSelectedCity(event: MatAutocompleteSelectedEvent): void {
@@ -88,30 +82,23 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch([new SetCoordsByMap({ lat: event.option.value.latitude, lng: event.option.value.longitude }), new FilterChange()]);
   }
 
-  /**
-   * This method listen input FocusOut event and update search and settlement controls value
-   * @param auto MatAutocomplete
-   */
   public onFocusOut(event: FocusEvent): void {
-    if (!event.relatedTarget) {
+    if (!event.relatedTarget || !this.codeficatorAutocomplete.panel.nativeElement.contains(event.relatedTarget)) {
       this.settlementSearchControl.setValue(this.settlement.settlement);
     }
   }
 
-  /**
-   * This method handle displayed value for mat-autocomplete dropdown
-   * @param codeficator: Codeficator | string
-   */
   public displaySettlementNameFn(codeficator: Codeficator | string): string {
     return typeof codeficator === 'string' ? codeficator : codeficator?.settlement;
   }
 
   public confirmCity(): void {
     this.geolocationService.confirmCity(this.settlement, true);
+    this.store.dispatch(new FilterChange());
   }
 
   public changeCity(): void {
-    this.isDispalyed = false;
+    this.isDisplayed = false;
     this.settlementSearchControl.setValue(null);
     this.settlement = null;
     this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch), takeUntil(this.destroy$)).subscribe(() => this.setInputFocus());
@@ -145,5 +132,21 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
             .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
         }
       });
+  }
+
+  private setCurrentGeolocation(): void {
+    if (this.geolocationService.isCityInStorage()) {
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
+    } else {
+      this.geolocationService.handleUserLocation((coords: Coords) => {
+        if (coords) {
+          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+            this.geolocationService.confirmCity(result, false);
+          });
+        } else {
+          this.geolocationService.confirmCity(Constants.KYIV, false);
+        }
+      });
+    }
   }
 }

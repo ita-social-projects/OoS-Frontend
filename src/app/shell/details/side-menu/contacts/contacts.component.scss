@@ -11,4 +11,21 @@
   width: 16px;
   height: 16px;
   margin-right: 8px;
+  overflow: unset;
+}
+
+.address {
+  &-city {
+    width: 100%;
+  }
+
+  &-street {
+    max-width: 205px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 750px) {
+      max-width: 100%;
+    }
+  }
 }

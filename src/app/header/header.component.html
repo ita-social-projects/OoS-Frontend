@@ -1,14 +1,23 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
-  <div [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
+  <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
-          <a class="info-link" [routerLink]="'./info/about'"> {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}</a>
+          <button mat-flat-button class="info-link" [routerLink]="'./info/about'">
+            {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/rules'">{{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate | uppercase }}</a>
+          <button mat-flat-button class="info-link" [routerLink]="'./info/rules'">
+            {{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate | uppercase }}
+          </button>
 
-          <a class="info-link" [routerLink]="'./info/support'">{{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}</a>
+          <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
+            <img src="./../../assets/icons/Support.svg" alt="Support" />
+            <span class="support-icon-text">
+              {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
+            </span>
+          </button>
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
@@ -19,13 +28,17 @@
               class="lang-option"
               disableOptionCentering
               panelClass="dropdown-panel">
-              <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
-              <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
+              <mat-option class="lang-option-text" value="uk">
+                <span>{{ Languages.uk }}</span>
+              </mat-option>
+              <mat-option class="lang-option-text" value="en">
+                <span>{{ Languages.en }}</span>
+              </mat-option>
             </mat-select>
           </button>
         </div>
 
-        <ng-conatiner *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
+        <ng-container *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-container>
       </div>
     </div>
     <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
@@ -37,19 +50,14 @@
     </div>
   </div>
 </div>
-
-<ng-template #menuTmpl>
-  <button mat-flat-button class="menu" (click)="onViewChange()">
-    <mat-icon>menu</mat-icon>
-  </button></ng-template
->
+<app-progress-bar></app-progress-bar>
 
 <ng-template #mobileNavTmpl>
-  <app-navigation-mobile-bar></app-navigation-mobile-bar>
+  <app-navigation-mobile-bar [ngClass]="'nav-mobile'"></app-navigation-mobile-bar>
 </ng-template>
 
 <ng-template #logoTmpl>
-  <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля" /></a>
+  <a routerLink="/"><img class="logo" src="assets/images/Logo.svg" alt="Позашкілля" /></a>
 </ng-template>
 
 <ng-template #isUnauthorizedTmpl>
@@ -63,23 +71,53 @@
     <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
-      <mat-icon>account_circle</mat-icon>
-      {{ userShortName }}
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon class="account-circle">account_circle</mat-icon>
+      <span class="user-name">{{ userShortName }}</span>
+      <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
     </button>
   </ng-container>
 
   <mat-menu #log="matMenu" class="menu">
-    <ng-conatiner *ngIf="user.role !== Role.parent && user.role !== Role.provider; then AdminView; else UserView"></ng-conatiner>
+    <ng-container *ngIf="isRoleAdmin(user.role); then adminView; else userView"></ng-container>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
   </mat-menu>
 </ng-template>
-<app-progress-bar></app-progress-bar>
 
-<ng-template #UserView>
-  <ng-container *ngIf="isRegistered$ | async">
+<ng-template #menuTmpl>
+  <button mat-flat-button class="menu" (click)="onViewChange()">
+    <mat-icon>menu</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #adminView>
+  <a [routerLink]="'./personal-cabinet/config'">
+    <button mat-menu-item>
+      {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
+    </button>
+  </a>
+  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTab }">
+    <button mat-menu-item>
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+    </button>
+  </a>
+  <a *ngIf="user.role === Role.ministryAdmin || user.role === Role.regionAdmin" [routerLink]="'./admin-tools/data/admins'">
+    <button mat-menu-item>
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+    </button>
+  </a>
+  <a *ngIf="user.role === Role.areaAdmin" [routerLink]="'./admin-tools/data/provider-list'">
+    <button mat-menu-item>
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+    </button>
+  </a>
+</ng-template>
+
+<ng-template #userView>
+  <ng-container *ngIf="isRegistered$ | async; then registeredView; else unregisteredView"></ng-container>
+
+  <ng-template #registeredView>
     <a [routerLink]="'./personal-cabinet/config'">
       <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</button>
     </a>
@@ -101,7 +139,7 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
-    <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.provider && subrole !== Subrole.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
@@ -111,23 +149,18 @@
         {{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}
       </button>
     </a>
-  </ng-container>
-</ng-template>
+  </ng-template>
 
-<ng-template #AdminView>
-  <a [routerLink]="'./personal-cabinet/config'">
-    <button mat-menu-item>
-      {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
-    </button>
-  </a>
-  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
-    <button mat-menu-item>
-      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
-    </button>
-  </a>
-  <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
-    <button mat-menu-item>
-      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
-    </button>
-  </a>
+  <ng-template #unregisteredView>
+    <a [routerLink]="['./create-provider', ModeConstants.NEW]" *ngIf="user.role === Role.provider">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.PROVIDER_REGISTRATION' | translate }}
+      </button>
+    </a>
+    <a [routerLink]="['./create-parent', ModeConstants.NEW]" *ngIf="user.role === Role.parent">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.USER_REGISTRATION' | translate }}
+      </button>
+    </a>
+  </ng-template>
 </ng-template>

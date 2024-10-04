@@ -1,27 +1,24 @@
-import { Observable, Subject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
-
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeWhile } from 'rxjs/operators';
 
-import { ModeConstants } from '../../../../shared/constants/constants';
-import { FeaturesList } from '../../../../shared/models/featuresList.model';
-import {
-  NavigationBarService
-} from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { MarkFormDirty } from '../../../../shared/store/app.actions';
-import { AppState } from '../../../../shared/store/app.state';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { DeleteNavPath } from '../../../../shared/store/navigation.actions';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { ModeConstants } from 'shared/constants/constants';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { MarkFormDirty } from 'shared/store/app.actions';
+import { AppState } from 'shared/store/app.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { DeleteNavPath } from 'shared/store/navigation.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
   template: ''
 })
-export abstract class CreateFormComponent implements OnInit, OnDestroy {
+export abstract class CreateFormComponent implements OnDestroy {
   @Select(AppState.isDirtyForm)
   public isDirtyForm$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
@@ -34,16 +31,24 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   public isPristine = true;
   public editMode: boolean;
 
-  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
+  constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService
+  ) {}
 
-  public ngOnInit(): void {}
-
-  public abstract setEditMode(): void;
-  public abstract addNavPath(): void;
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new DeleteNavPath());
+  }
 
   protected determineRelease(): void {
     this.featuresList$
-      .pipe(takeWhile(() => this.isPristine))
+      .pipe(
+        filter(Boolean),
+        takeWhile(() => this.isPristine)
+      )
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
@@ -64,23 +69,22 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
 
   /** This method add status change emit of touch event.
    * Validation hint captures touch event and displays validation error.
-   * @param form: FormGroup | FormArray
+   * @param form FormGroup | FormArray
    */
   protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
-    let originalMethod = form.markAsTouched;
+    const originalMethod = form.markAsTouched;
 
     Object.keys(form.controls).forEach((key: string) => {
       const control = form.get(key);
-      control.markAsTouched = function () {
+      control.markAsTouched = function (): void {
         originalMethod.apply(this, arguments);
         (control.statusChanges as EventEmitter<any>).emit();
       };
     });
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new DeleteNavPath());
-  }
+  public abstract setEditMode(): void;
+  public abstract addNavPath(): void;
+  public abstract onSubmit(): void;
+  public abstract onCancel(): void;
 }

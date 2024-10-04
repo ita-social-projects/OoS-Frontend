@@ -15,11 +15,11 @@ p {
   justify-content: space-evenly;
   align-items: stretch;
 
-  &-block {
-    flex: 1;
-  }
   &-new {
     border-left: 5px solid #3849f9;
+  }
+  &-blocked {
+    border-left: 5px solid #c72a21;
   }
 }
 
@@ -50,7 +50,7 @@ p {
     }
   }
   &_icon {
-    color: #AAAAAA;
+    color: #aaaaaa;
     width: 16px;
     height: 16px;
     padding-right: 10px;

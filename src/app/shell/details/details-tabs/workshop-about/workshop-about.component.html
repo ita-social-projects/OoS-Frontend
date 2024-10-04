@@ -3,7 +3,7 @@
     <h5 class="title">{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
     <div *ngFor="let item of workshop.workshopDescriptionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
-      <p>{{ item.description }}</p>
+      <p class="line-break">{{ item.description }}</p>
     </div>
   </ng-container>
   <h5 class="title">{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
@@ -14,7 +14,7 @@
   <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
   <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : ('NOT_AVAILABLE' | translate) }}</p>
 
-  <h5 class="title">{{ 'FORMS.LABELS.DAYS_HOURS' | translate }}</h5>
+  <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
   <div *ngFor="let timeRange of workshop.dateTimeRanges">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutAlign.xs="center start">
       <div fxLayout="row" fxLayoutAlign="space-between">
@@ -23,8 +23,7 @@
           class="toggle"
           fxLayout="row"
           fxLayoutAlign="center center"
-          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }"
-        >
+          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
           {{ day.value | translate }}
         </div>
       </div>

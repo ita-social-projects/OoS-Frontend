@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Constants } from 'shared/constants/constants';
+import { Teacher } from 'shared/models/teacher.model';
+import { Util } from 'shared/utils/utils';
 import { environment } from '../../../../../../environments/environment';
-import { Constants } from '../../../../../shared/constants/constants';
-import { Teacher } from '../../../../../shared/models/teacher.model';
-import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-teacher-card',
@@ -10,16 +10,16 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./teacher-card.component.scss']
 })
 export class TeacherCardComponent implements OnInit {
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  @Input() public teacher: Teacher;
 
-  @Input() teacher: Teacher;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  teacherFullName: string;
-  coverImageUrl: string;
+  public teacherFullName: string;
+  public coverImageUrl: string;
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.teacherFullName = Util.getFullName(this.teacher);
     this.getCoverImageUrl();
   }

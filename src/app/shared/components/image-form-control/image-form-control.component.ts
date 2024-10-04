@@ -1,10 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+
+import { Constants } from 'shared/constants/constants';
+import { Cropper } from 'shared/models/cropper';
+import { DecodedImage } from 'shared/models/image.model';
 import { environment } from '../../../../environments/environment';
-import { Constants } from '../../constants/constants';
-import { Cropper } from '../../models/cropper';
-import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
 type FilesToVoid = (array: File[]) => void;
@@ -23,40 +24,42 @@ type VoidToVoid = () => void;
   ]
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
-  photoFormGroup: FormGroup;
-  gridCols: number;
-  mediumScreen = 500;
-  smallScreen = 366;
-  selectedImages: File[] = [];
-  decodedImages: DecodedImage[] = [];
-  touched = false;
-  disabled = false;
+  @Input() public imgMaxAmount: number;
+  @Input() public imageIdsFormControl: AbstractControl;
+  @Input() public label: string;
+  @Input() public cropperConfig: Partial<Cropper>; // FIXME: Remove Partial type and fix the errors those are related with this Input
 
-  onChange: FilesToVoid;
-  onTouched: VoidToVoid;
+  @ViewChild('inputImage') public inputImage: ElementRef;
 
-  @Input() imgMaxAmount: number;
-  @Input() imageIdsFormControl: FormControl;
-  @Input() label: string;
-  @Input() cropperConfig: Cropper;
+  public photoFormGroup: FormGroup;
+  public gridCols: number;
+  public mediumScreen = 500;
+  public smallScreen = 366;
+  public selectedImages: File[] = [];
+  public decodedImages: DecodedImage[] = [];
+  public touched = false;
+  public disabled = false;
 
-  @ViewChild('inputImage') inputImage: ElementRef;
+  public onChange: FilesToVoid;
+  public onTouched: VoidToVoid;
 
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.onResize(window);
-    this.imageIdsFormControl && this.imageIdsFormControl.value?.length && this.activateEditMode();
+    if (this.imageIdsFormControl?.value?.length) {
+      this.activateEditMode();
+    }
   }
 
   /**
    * This methods decodes the file for its correct displaying
-   * @param file: File)
+   * @param file: File
    */
-  imageDecoder(file: Blob): void {
+  public imageDecoder(file: Blob): void {
     const myReader = new FileReader();
-    myReader.onload = () => {
-      this.decodedImages.push(new DecodedImage(myReader.result, file));
+    myReader.onload = (): void => {
+      this.decodedImages.push(new DecodedImage(myReader.result as string, file as File));
     };
     return myReader.readAsDataURL(file);
   }
@@ -65,7 +68,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
    * This method remove already added img from the list of images
    * @param string word
    */
-  onRemoveImg(img: DecodedImage): void {
+  public onRemoveImg(img: DecodedImage): void {
     this.markAsTouched();
     if (!this.disabled) {
       if (this.decodedImages.indexOf(img) >= 0) {
@@ -82,30 +85,30 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     }
   }
 
-  activateEditMode(): void {
+  public activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
       this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
     });
   }
 
-  registerOnChange(onChange: FilesToVoid): void {
+  public registerOnChange(onChange: FilesToVoid): void {
     this.onChange = onChange;
   }
-  registerOnTouched(onTouched: VoidToVoid): void {
+  public registerOnTouched(onTouched: VoidToVoid): void {
     this.onTouched = onTouched;
   }
-  markAsTouched(): void {
+  public markAsTouched(): void {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
-  setDisabledState(disabled: boolean): void {
+  public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
 
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(screen: Window): void {
+  public onResize(screen: Window): void {
     if (screen.innerWidth >= this.mediumScreen) {
       this.gridCols = 4;
     } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
@@ -115,7 +118,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     }
   }
 
-  fileChangeEvent(event: string): void {
+  public fileChangeEvent(event: string): void {
     const dialogRef = this.dialog.open(ImageCropperModalComponent, {
       width: Constants.MODAL_MEDIUM,
       maxHeight: '95vh',

@@ -1,30 +1,49 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
-import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider, ProviderParameters, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { BlockProviderById, GetFilteredProviders } from '../../../../shared/store/admin.actions';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
-import { SearchResponse } from '../../../../shared/models/search.model';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from '../../../../shared/enum/statuses';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderStatus, UpdateProviderLicenseStatuse } from './../../../../shared/store/provider.actions';
-import { OwnershipTypes } from '../../../../shared/enum/provider';
-import { LicenseStatusTitles, ProviderStatusTitles } from '../../../../shared/enum/enumUA/statuses';
-import { Util } from '../../../../shared/utils/utils';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { ActivatedRoute } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { OwnershipTypes } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Institution } from 'shared/models/institution.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Provider, ProviderParameters, ProviderWithStatus } from 'shared/models/provider.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
+import {
+  BlockProviderById,
+  GetAreaAdminProfile,
+  GetFilteredProviders,
+  GetMinistryAdminProfile,
+  GetRegionAdminProfile
+} from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { FilterState } from 'shared/store/filter.state';
+import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { DeleteProviderById, UpdateProviderLicenseStatus, UpdateProviderStatus } from 'shared/store/provider.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-provider-list',
@@ -32,34 +51,46 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./provider-list.component.scss']
 })
 export class ProviderListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) sort: MatSort;
-
-  readonly noProviders = NoResultsTitle.noResult;
-  readonly ModeConstants = ModeConstants;
-  readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  readonly ownershipTypes = OwnershipTypes;
-  readonly statusIcons = UserStatusIcons;
-  readonly providerStatuses = ProviderStatuses;
-  readonly providerStatusTitles = ProviderStatusTitles;
-
-  readonly blockedStatus = 'Blocked'; //TODO: should be localized
-
-  readonly licenseStatuses = LicenseStatuses;
-  readonly licenseStatusTitles = LicenseStatusTitles;
+  @ViewChild(MatSort) public sort: MatSort;
 
   @Select(AdminState.providers)
-  providers$: Observable<SearchResponse<Provider[]>>;
+  public providers$: Observable<SearchResponse<Provider[]>>;
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(MetaDataState.institutions)
+  public institutions$: Observable<Institution[]>;
+  @Select(FilterState.settlement)
+  public settlement$: Observable<Codeficator>;
+  @Select(MetaDataState.codeficatorSearch)
+  public codeficatorSearch$: Observable<Codeficator[]>;
+  @Select(RegistrationState.role)
+  public role$: Observable<Role>;
+  @Select(AdminState.selectedAdmin)
+  public selectedAdmin$: Observable<BaseAdmin>;
 
-  provider: Provider;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  isInfoDisplayed: boolean;
-  displayedColumns: string[] = [
+  public readonly noProviders = NoResultsTitle.noResult;
+  public readonly ModeConstants = ModeConstants;
+  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly statusIcons = UserStatusIcons;
+  public readonly providerStatuses = ProviderStatuses;
+  public readonly providerStatusTitles = ProviderStatusTitles;
+
+  public readonly blockedStatus = 'Blocked'; // TODO: should be localized
+
+  public readonly licenseStatuses = LicenseStatuses;
+  public readonly licenseStatusTitles = LicenseStatusTitles;
+
+  public selectedAdmin: BaseAdmin;
+  public role: Role;
+  public provider: Provider;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public isInfoDisplayed: boolean;
+  public displayedColumns: string[] = [
     'fullTitle',
     'ownership',
     'edrpouIpn',
-    'licence',
+    'license',
     'city',
     'street',
     'email',
@@ -67,19 +98,87 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'status',
     'star'
   ];
-  filterFormControl: FormControl = new FormControl('');
-  dataSource = new MatTableDataSource([{}]);
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalEntities: number;
-  providerParameters: ProviderParameters = {
+  public filterGroup: FormGroup;
+  public dataSource = new MatTableDataSource([{}]);
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public totalEntities: number;
+  public providerParameters: ProviderParameters = {
     searchString: '',
-    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+    institutionId: '',
+    catottgId: ''
   };
+  public regions$: Observable<Codeficator[]>;
 
-  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
+  constructor(
+    private liveAnnouncer: LiveAnnouncer,
+    protected route: ActivatedRoute,
+    private store: Store,
+    private matDialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {}
 
-  ngOnInit(): void {
-    this.getProviders();
+  public get isTechAdmin(): boolean {
+    return this.role === Role.techAdmin;
+  }
+
+  public get isMinistryAdmin(): boolean {
+    return this.role === Role.ministryAdmin;
+  }
+
+  public get isRegionAdmin(): boolean {
+    return this.role === Role.regionAdmin;
+  }
+
+  public get isAreaAdmin(): boolean {
+    return this.role === Role.areaAdmin;
+  }
+
+  private get searchBarFormControl(): FormControl {
+    return this.filterGroup.get('searchBarFilter') as FormControl;
+  }
+
+  private get institutionFormControl(): FormControl {
+    return this.filterGroup.get('institution') as FormControl;
+  }
+
+  private get regionFormControl(): FormControl {
+    return this.filterGroup.get('region') as FormControl;
+  }
+
+  private get areaFormControl(): FormControl {
+    return this.filterGroup.get('area') as FormControl;
+  }
+
+  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
+    return codeficator1.id === codeficator2.id;
+  }
+
+  public ngOnInit(): void {
+    this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => (this.selectedAdmin = admin));
+
+    this.role$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((role: Role) => {
+          this.role = role;
+
+          switch (role) {
+            case Role.techAdmin:
+              return of(null);
+            case Role.ministryAdmin:
+              return this.store.dispatch(new GetMinistryAdminProfile());
+            case Role.regionAdmin:
+              return this.store.dispatch(new GetRegionAdminProfile());
+            case Role.areaAdmin:
+              return this.store.dispatch(new GetAreaAdminProfile());
+          }
+        })
+      )
+      .subscribe(() => {
+        this.setProviderFilterByDefault();
+        this.getProviders();
+      });
 
     this.store.dispatch(
       new PushNavPath({
@@ -94,29 +193,23 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       this.totalEntities = providers.totalAmount;
     });
 
-    this.filterFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(1000),
-        takeUntil(this.destroy$),
-        map((value: string) => value.trim())
-      )
-      .subscribe((searchString: string) => {
-        this.providerParameters.searchString = searchString;
+    this.filterGroup = this.formBuilder.group({
+      searchBarFilter: new FormControl(''),
+      institution: new FormControl(''),
+      region: new FormControl(''),
+      area: new FormControl('')
+    });
 
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
-      });
+    this.setInformationDependingOnRole();
+    this.subscribeFormControls();
   }
 
-  onViewProviderInfo(provider: Provider): void {
+  public onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
     this.isInfoDisplayed = true;
   }
 
-  announceSortChange(sortState: Sort): void {
+  public announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -124,8 +217,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onChangeStatus(provider: Provider, status: ProviderStatuses): void {
-    const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
+  public onChangeStatus(provider: Provider, status: ProviderStatuses): void {
+    const statusUpdateData = new ProviderWithStatus(provider.id, status);
     if (status === ProviderStatuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.editingProvider }
@@ -141,7 +234,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onLicenseApprove(providerId: string): void {
+  public onLicenseApprove(providerId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       data: { type: ModalConfirmationType.licenseApproved }
     });
@@ -151,12 +244,18 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean))
       .subscribe(() =>
         this.store.dispatch(
-          new UpdateProviderLicenseStatuse({ providerId, licenseStatus: LicenseStatuses.Approved }, this.providerParameters)
+          new UpdateProviderLicenseStatus(
+            {
+              providerId,
+              licenseStatus: LicenseStatuses.Approved
+            },
+            this.providerParameters
+          )
         )
       );
   }
 
-  onDelete(provider: Provider): void {
+  public onDelete(provider: Provider): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -171,17 +270,17 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .subscribe(() => this.store.dispatch(new DeleteProviderById(provider.id, this.providerParameters)));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviders();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.providerParameters.size = itemsPerPage;
-    this.getProviders();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onBlock(provider: Provider): void {
+  public onBlock(provider: Provider): void {
     if (provider.isBlocked) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
@@ -192,7 +291,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       });
 
       dialogRef.afterClosed().subscribe((result: boolean) => {
-        result &&
+        if (result) {
           this.store.dispatch(
             new BlockProviderById(
               {
@@ -202,23 +301,165 @@ export class ProviderListComponent implements OnInit, OnDestroy {
               this.providerParameters
             )
           );
+        }
       });
     } else {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.blockProvider }
       });
-      dialogRef.afterClosed().subscribe((result: string) => {
+      dialogRef.afterClosed().subscribe((result: { reason: string; phoneNumber: string }) => {
         if (result) {
-          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }, this.providerParameters));
+          this.store.dispatch(
+            new BlockProviderById(
+              {
+                id: provider.id,
+                isBlocked: true,
+                blockReason: result.reason,
+                blockPhoneNumber: result.phoneNumber
+              },
+              this.providerParameters
+            )
+          );
         }
       });
     }
   }
 
-  ngOnDestroy(): void {
+  public onResetFilters(): void {
+    const hasFilter = Object.values(this.filterGroup.controls).some((control: AbstractControl) => Boolean(control.value));
+    if (hasFilter) {
+      this.searchBarFormControl.reset('', { emitEvent: false });
+      this.institutionFormControl.reset('');
+      this.regionFormControl.reset('');
+      this.areaFormControl.reset('');
+
+      if (!this.isRegionAdmin) {
+        this.areaFormControl.disable();
+        this.store.dispatch(new ClearCodeficatorSearch());
+      }
+
+      this.setProviderFilterByDefault();
+      this.getProviders();
+    }
+  }
+
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
+  }
+
+  private setInformationDependingOnRole(): void {
+    if (this.isTechAdmin) {
+      this.store.dispatch(new GetAllInstitutions(true));
+    }
+    if (this.isTechAdmin || this.isMinistryAdmin) {
+      this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
+        takeUntil(this.destroy$),
+        map((state) => [...state.metaDataState.codeficatorSearch])
+      );
+      this.areaFormControl.disable();
+    }
+    if (this.isRegionAdmin) {
+      this.selectedAdmin$
+        .pipe(
+          takeUntil(this.destroy$),
+          switchMap((admin: RegionAdmin) =>
+            this.store
+              .dispatch(new GetCodeficatorById(admin.catottgId))
+              .pipe(
+                switchMap((state) =>
+                  this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
+                )
+              )
+          )
+        )
+        .subscribe((state) => {
+          const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
+
+          if (category === CodeficatorCategories.Region) {
+            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+          }
+        });
+
+      this.selectedAdmin$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((admin: RegionAdmin) =>
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
+        );
+    }
+  }
+
+  private subscribeFormControls(): void {
+    this.searchBarFormControl.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(1000),
+        takeUntil(this.destroy$),
+        map((value: string) => value.trim())
+      )
+      .subscribe((searchValue: string) => {
+        this.providerParameters.searchString = searchValue;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+
+    this.institutionFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(() => {
+        this.providerParameters.institutionId = this.institutionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+
+    this.regionFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe((value: Codeficator) => {
+        this.providerParameters.catottgId = this.regionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+        if (value.category === CodeficatorCategories.Region) {
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
+          this.areaFormControl.enable();
+        } else {
+          this.store.dispatch(new ClearCodeficatorSearch());
+          this.areaFormControl.disable();
+        }
+      });
+
+    this.areaFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(() => {
+        this.providerParameters.catottgId = this.areaFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+  }
+
+  private setProviderFilterByDefault(): void {
+    this.providerParameters.searchString = '';
+    this.providerParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
+
+    switch (this.role) {
+      case Role.ministryAdmin:
+        this.providerParameters.institutionId = this.selectedAdmin.institutionId;
+        this.providerParameters.catottgId = '';
+        break;
+      case Role.regionAdmin:
+      case Role.areaAdmin:
+        this.providerParameters.institutionId = this.selectedAdmin.institutionId;
+        this.providerParameters.catottgId = (this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId.toString();
+        break;
+      default:
+        this.providerParameters = {
+          searchString: '',
+          size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+          institutionId: '',
+          catottgId: ''
+        };
+    }
   }
 
   private getProviders(): void {

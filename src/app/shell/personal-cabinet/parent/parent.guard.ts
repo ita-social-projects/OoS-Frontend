@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, UrlTree } from '@angular/router';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Select, Store } from '@ngxs/store';
 import { filter, map } from 'rxjs/operators';
-import { RegistrationState } from '../../../shared/store/registration.state';
-import { Role } from '../../../shared/enum/role';
+
+import { Role } from 'shared/enum/role';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParentGuard implements CanLoad {
+export class ParentGuard {
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  constructor(public store: Store) {}
-
-  canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canLoad(): Observable<boolean> {
     return this.role$.pipe(
       filter((role: string) => role === Role.parent),
       map((role: string) => role === Role.parent)

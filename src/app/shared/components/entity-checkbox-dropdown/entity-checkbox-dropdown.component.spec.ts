@@ -5,9 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
-import { EntityCheckboxDropdownComponent } from './entity-checkbox-dropdown.component';
-import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
+import { EntityCheckboxDropdownComponent } from './entity-checkbox-dropdown.component';
 
 describe('EntityCheckboxDropdownComponent', () => {
   let component: EntityCheckboxDropdownComponent;
@@ -23,7 +23,7 @@ describe('EntityCheckboxDropdownComponent', () => {
         MatOptionModule,
         ReactiveFormsModule,
         FormsModule,
-        BrowserAnimationsModule,
+        BrowserAnimationsModule
       ],
       providers: [TranslateService],
       declarations: [EntityCheckboxDropdownComponent, TranslateCasesPipe]

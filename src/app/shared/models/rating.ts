@@ -1,5 +1,5 @@
-import { EntityType } from '../enum/role';
-import { PaginationParameters } from './queryParameters.model';
+import { EntityType } from 'shared/enum/role';
+import { PaginationParameters } from './query-parameters.model';
 
 export interface Rate {
   id?: number;

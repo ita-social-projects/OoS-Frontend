@@ -18,12 +18,12 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   @Output() public passActualAddressFormGroup = new EventEmitter();
   @Output() public passLegalAddressFormGroup = new EventEmitter();
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public legalAddressFormGroup: FormGroup;
   public actualAddressFormGroup: FormGroup;
   public searchFormGroup: FormGroup;
   public isSameAddressControl: FormControl = new FormControl(false);
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}
 

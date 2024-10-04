@@ -17,6 +17,9 @@ $basen-blue-color: #3849f9;
     line-height: 18px;
   }
 }
+.line-break {
+  white-space: pre-line;
+}
 .edit-icon {
   position: relative;
   color: $basen-blue-color;

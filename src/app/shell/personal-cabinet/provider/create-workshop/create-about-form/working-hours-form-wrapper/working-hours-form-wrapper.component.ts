@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { DateTimeRanges } from '../../../../../../shared/models/workingHours.model';
-import { Workshop } from '../../../../../../shared/models/workshop.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { DateTimeRanges } from 'shared/models/working-hours.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-working-hours-form-wrapper',
@@ -9,19 +10,17 @@ import { Workshop } from '../../../../../../shared/models/workshop.model';
   styleUrls: ['./working-hours-form-wrapper.component.scss']
 })
 export class WorkingHoursFormWrapperComponent implements OnInit {
-  @Input() workshop: Workshop;
-  @Input() workingHoursFormArray: FormArray;
-  workingHoursFormGroup: FormGroup;
+  @Input() public workshop: Workshop;
+  @Input() public workingHoursFormArray: FormArray;
+  @Output() public dataChangedInChild = new EventEmitter<void>();
+
+  public workingHoursFormGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.workshop ? this.activateEditMode() : this.addWorkingHours();
-  }
-
-  private activateEditMode(): void {
-    if (this.workshop.dateTimeRanges.length) {
-      this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
+  public ngOnInit(): void {
+    if (this.workshop) {
+      this.activateEditMode();
     } else {
       this.addWorkingHours();
     }
@@ -30,9 +29,10 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
   /**
    * This method create new FormGroup add new FormGroup to the FormArray
    */
-  addWorkingHours(range?: DateTimeRanges): void {
+  public addWorkingHours(range?: DateTimeRanges): void {
     const formGroup = this.newWorkingHoursForm(range);
     this.workingHoursFormArray.controls.push(formGroup); // for preventing emitting value changes in edit mode on initial value set
+    // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
     this.workingHoursFormArray['_registerControl'](formGroup);
   }
 
@@ -40,8 +40,12 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
    * This method delete FormGroup from the FormArray by index
    * @param index: number
    */
-  deleteWorkingHour(index: number): void {
+  public deleteWorkingHour(index: number): void {
     this.workingHoursFormArray.removeAt(index);
+  }
+
+  public onDataChanged(): void {
+    this.dataChangedInChild.emit();
   }
 
   /**
@@ -60,5 +64,13 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
     }
 
     return this.workingHoursFormGroup;
+  }
+
+  private activateEditMode(): void {
+    if (this.workshop.dateTimeRanges.length) {
+      this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
+    } else {
+      this.addWorkingHours();
+    }
   }
 }

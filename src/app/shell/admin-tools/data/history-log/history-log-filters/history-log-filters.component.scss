@@ -4,9 +4,8 @@
 
 .form-wrapper {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   row-gap: 10px;
-
   flex-wrap: wrap;
 }
 
@@ -30,6 +29,15 @@
     font-weight: 700;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
+
+  mat-form-field {
+    pointer-events: none;
+    max-width: 90%;
+  }
+
+  mat-datepicker-toggle {
+    pointer-events: all;
+  }
 }
 
 .filters-actions {
@@ -41,7 +49,7 @@
 .date {
   min-width: 100px;
   background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
 }
@@ -49,7 +57,7 @@
 :host ::ng-deep .date {
   width: 100%;
   max-width: 250px;
-  padding: 0.35rem 1rem 0.35rem;
+  padding: 0 1rem 0.35rem;
 
   .mat-form-field-flex {
     background-color: transparent;
@@ -85,6 +93,12 @@
   padding: 0;
 }
 
+:host ::ng-deep .select-form-field {
+  .mat-form-field-infix {
+    padding: 0;
+  }
+}
+
 .btn {
   height: 40px;
 }
@@ -102,9 +116,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   cursor: pointer;
-
   margin-left: 15px;
 
   &:hover {
@@ -115,10 +127,10 @@
     transform: rotateY(180deg) rotate(45deg);
     overflow: visible;
   }
+
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-
     color: #444444;
   }
 }
@@ -133,7 +145,7 @@
 
 @media (max-width: 1300px) {
   .filters-wrapper {
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
     row-gap: 10px;
   }
@@ -143,6 +155,7 @@
   .form-wrapper {
     justify-content: center;
   }
+
   .filters-wrapper {
     justify-content: center;
   }
@@ -156,6 +169,7 @@
       margin: 0 0 5px 10px;
     }
   }
+
   .separate-line {
     position: relative;
     top: 10px;

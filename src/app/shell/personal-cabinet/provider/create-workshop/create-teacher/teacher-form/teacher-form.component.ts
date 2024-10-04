@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
-import { CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../../shared/constants/validation';
-import { Util } from '../../../../../../shared/utils/utils';
+import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-teacher-form',
@@ -11,6 +11,13 @@ import { Util } from '../../../../../../shared/utils/utils';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent {
+  @Input() public index: number;
+  @Input() public TeacherFormGroup: AbstractControl;
+  @Input() public teacherAmount: number;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public deleteForm = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -26,16 +33,19 @@ export class TeacherFormComponent {
   public today: Date = new Date();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  @Input() public index: number;
-  @Input() public TeacherFormGroup: FormGroup;
-  @Input() public teacherAmount: number;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public deleteForm = new EventEmitter();
-
   constructor() {}
+
+  public get TeacherForm(): FormGroup {
+    return this.TeacherFormGroup as FormGroup;
+  }
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  public onFocusOut(formControlName: string): void {
+    if (this.TeacherFormGroup.get(formControlName).pristine && !this.TeacherFormGroup.get(formControlName).value) {
+      this.TeacherFormGroup.get(formControlName).setValue(null);
+    }
   }
 }

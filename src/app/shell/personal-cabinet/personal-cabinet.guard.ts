@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Role } from '../../shared/enum/role';
-import { RegistrationState } from '../../shared/store/registration.state';
+
+import { ModeConstants } from 'shared/constants/constants';
+import { Role } from 'shared/enum/role';
+import { User } from 'shared/models/user.model';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalCabinetGuard implements CanLoad, CanActivate {
-  constructor() {}
+export class PersonalCabinetGuard {
+  @Select(RegistrationState.user)
+  private user$: Observable<User>;
 
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
+  constructor(private router: Router) {}
 
-  canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(
-      filter((role: string) => role !== Role.unauthorized),
-      map((role: string) => role !== Role.unauthorized)
-    );
-  }
-
-  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.role$.pipe(
-      filter((role: string) => role !== Role.unauthorized),
-      map((role: string) => role !== Role.unauthorized)
+  public canLoad(): Observable<boolean | UrlTree> {
+    return this.user$.pipe(
+      filter((user: User) => !!user),
+      map((user: User) => {
+        if (user.isRegistered) {
+          return user.isRegistered;
+        } else {
+          return this.router.createUrlTree([user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW]);
+        }
+      })
     );
   }
 }

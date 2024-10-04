@@ -10,33 +10,47 @@
   <div #chat class="chat-card__content content">
     <ng-container *ngFor="let message of messages; index as i">
       <app-message
-        [ngClass]="
-          message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'
-        "
+        [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'"
         [message]="message"
         [isFirstMessage]="messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider"
         [senderName]="message.senderRoleIsProvider === userIsProvider ? userName : companionName"
         [userIsProvider]="userIsProvider">
       </app-message>
     </ng-container>
+    <ng-container *ngIf="(chatRoom$ | async)?.isBlockedByProvider">
+      <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
+        <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
+        <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
+      </div>
+      <p class="pay-attention-block">{{ 'CHAT_PAY_ATTENTION_BLOCK' | translate }}</p>
+    </ng-container>
   </div>
-  <div class="chat-card__footer footer">
-    <!--
-      TODO: Uncomment when we finish sending the file
+  <div class="chat-card__footer footer" fxLayout="column" fxLayoutAlign="start center">
+    <div class="step-label">
+      <label class="step-characters-count"> {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }} </label>
+    </div>
+    <div class="main-functional-block">
+      <!--
+        TODO: Uncomment when we finish sending the file
 
-      <label for="file-input"><mat-icon class="attach-icon">attach_file</mat-icon></label>
-      <input type="file" id="file-input" />
-    -->
-    <textarea
-      type="text"
-      class="search-input"
-      placeholder="{{ 'SEND_A_MESSAGE' | translate }}"
-      cdkTextareaAutosize
-      autocomplete="off"
-      [formControl]="messageControl"></textarea>
-    <button class="btn" mat-button (click)="onSendMessage()">
-      <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
-      <mat-icon>send</mat-icon>
-    </button>
+         <label for="file-input"><mat-icon class="attach-icon">attach_file</mat-icon></label>
+        <input type="file" id="file-input" />
+      -->
+
+      <textarea
+        type="text"
+        class="message-input"
+        placeholder="{{ 'SEND_A_MESSAGE' | translate }}"
+        cdkTextareaAutosize
+        [maxlength]="validationConstants.INPUT_LENGTH_256"
+        autocomplete="off"
+        [formControl]="messageControl"
+        [readonly]="isDisabled"
+        (keydown)="handleKeyDown($event)"></textarea>
+      <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled">
+        <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
   </div>
 </mat-card>

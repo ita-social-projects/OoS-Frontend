@@ -1,13 +1,21 @@
-import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { PersonalCabinetTitle } from '../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../shared/enum/role';
-import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { Util } from '../../shared/utils/utils';
-import { ApplicationStatuses } from '../../shared/enum/statuses';
-import { RoleLinks } from '../../shared/enum/enumUA/user';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Role, Subrole } from 'shared/enum/role';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application } from 'shared/models/application.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { ChatState } from 'shared/store/chat.state';
+import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
+import { GetPendingApplicationsByProviderId } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -15,20 +23,30 @@ import { RoleLinks } from '../../shared/enum/enumUA/user';
   styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  readonly ApplicationStatuses = ApplicationStatuses;
-  readonly roles = RoleLinks;
-  readonly Role = Role;
-  
-  personalCabinetTitle: PersonalCabinetTitle;
-  userRole: Role;
-  subRole: Role;
+  @Select(ProviderState.pendingApplications)
+  public pendingApplications$: Observable<SearchResponse<Application[]>>;
+  @Select(ChatState.unreadMessagesCount)
+  public unreadMessagesCount$: Observable<number>;
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly RoleLinks = RoleLinks;
+  public readonly Role = Role;
+  public readonly Subrole = Subrole;
+  public readonly isRoleAdmin = isRoleAdmin;
 
-  ngOnInit(): void {
+  public personalCabinetTitle: PersonalCabinetTitle;
+  public userRole: Role;
+  public subrole: Subrole;
+
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService
+  ) {}
+
+  public ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
+    this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subrole);
 
     this.store.dispatch(
       new AddNavPath(
@@ -40,9 +58,14 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
+
+    if (this.userRole === Role.provider) {
+      const providerId = this.store.selectSnapshot(RegistrationState.provider).id;
+      this.store.dispatch(new GetPendingApplicationsByProviderId(providerId));
+    }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
 }

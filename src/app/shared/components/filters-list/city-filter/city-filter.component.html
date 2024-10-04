@@ -1,4 +1,4 @@
-<mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
+<mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
   <input
     #searchInput
     class="input-filter"
@@ -9,6 +9,7 @@
     [matAutocomplete]="auto"
     (focusout)="onFocusOut($event)" />
   <mat-autocomplete
+    [panelWidth]="300"
     #auto="matAutocomplete"
     disableOptionCentering
     panelClass="dropdown-panel"
@@ -20,25 +21,32 @@
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      <div
+        class="dropdown-option-trimmed"
+        [matTooltip]="codeficator.fullName"
+        matTooltipClass="tooltip"
+        showTooltipIfTruncated
+        matTooltipPosition="below">
+        <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      </div>
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
-    {{ settlement.fullName | slice: 0:sliceLength }}
+    {{ settlement.fullName | slice: 0 : sliceLength }}
     <span *ngIf="settlement.fullName.length > sliceLength">...</span>
   </p>
 </mat-form-field>
 
 <!-- CITY CONFIRMATION -->
 <div class="confirmation">
-  <div class="city-confirmation" *ngIf="isDispalyed && !(isConfirmCity$ | async)">
+  <div class="city-confirmation" *ngIf="isDisplayed && !(isConfirmCity$ | async)">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <p fxFlex="93%">
         {{ 'YOU_ARE_IN_A_SETTLEMENT' | translate }}
         <span>{{ settlement?.settlement }}</span
         >?
       </p>
-      <mat-icon (click)="isDispalyed = false" fxFlex="7%">clear</mat-icon>
+      <mat-icon (click)="isDisplayed = false" fxFlex="7%">clear</mat-icon>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
       <button mat-button class="button" (click)="confirmCity()">
