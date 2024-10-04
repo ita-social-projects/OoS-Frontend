@@ -5,6 +5,7 @@ export interface Institution {
   id: string;
   title: string;
   numberOfHierarchyLevels: number;
+  isGovernment?: boolean;
 }
 
 export interface InstitutionFieldDescription {

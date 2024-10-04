@@ -29,6 +29,12 @@ import { ProviderApplicationsComponent } from './provider-applications/provider-
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderRoutingModule } from './provider-routing.module';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateRequiredFormComponent } from './create-competition/create-required-form/create-required-form.component';
+import { CreateCompetitionDescriptionFormComponent } from './create-competition/create-competition-description-form/create-competition-description-form.component';
+import { CreateCompetitionAddressComponent } from './create-competition/create-competition-address/create-competition-address.component';
+import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
+import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +55,13 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
     ProviderApplicationsComponent,
     ProviderWorkshopsComponent,
     WorkingHoursFormWrapperComponent,
-    CreateAddressFormComponent
+    CreateAddressFormComponent,
+    CreateCompetitionComponent,
+    CreateRequiredFormComponent,
+    CreateCompetitionDescriptionFormComponent,
+    CreateCompetitionAddressComponent,
+    CreateJudgeComponent,
+    JudgeFormComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +74,6 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
     FormsModule,
     TranslateModule
   ],
-
   providers: [DatePipe, GeolocationService]
 })
 export class ProviderModule {}

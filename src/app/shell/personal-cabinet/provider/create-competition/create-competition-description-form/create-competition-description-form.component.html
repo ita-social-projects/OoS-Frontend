@@ -1,0 +1,259 @@
+<form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <label class="step-label">{{ 'FORMS.LABELS.CATEGORY' | translate }}</label>
+  <mat-form-field appearance="fill">
+    <mat-select
+      name="category"
+      placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      [formControl]="categoryControl"
+      class="step-input">
+      <mat-option *ngFor="let type of instituitionsHierarchy$ | async" [value]="type.id" class="dropdown-option">
+        {{ type.title | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="categoryControl"> </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.SUBCATEGORY' | translate }}</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="subcategory" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('subcategory')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <div class="step-label-combined">
+    <label class="step-label" for="description"> {{ 'FORMS.LABELS.DESCRIPTION' | translate }}</label>
+    <span class="step-characters-count">
+      {{ DescriptionFormGroup.get('description').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</span
+    >
+  </div>
+  <mat-form-field appearance="fill">
+    <textarea
+      matInput
+      class="step-textarea"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+      }}"
+      formControlName="description"
+      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+      appTrimValue
+      (focusout)="onFocusOut('description')"
+      id="description"></textarea>
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('description')"
+    [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+  </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.COVERAGE' | translate }}</label>
+  <mat-form-field appearance="fill">
+    <mat-select
+      name="coverage"
+      placeholder="{{ 'FORMS.LABELS.COVERAGE' | translate }}"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      [formControl]="coverageControl"
+      class="step-input">
+      <mat-option
+        *ngFor="let competitionCoverage of CompetitionCoverage | keyvalue: sortTime"
+        [value]="competitionCoverage.key"
+        class="dropdown-option">
+        {{ CompetitionCoverageEnum[competitionCoverage.key] | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="coverageControl"> </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
+  <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+    <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
+      <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
+        {{ FormOfLearningEnum[formOfLearning.key] | translate }}
+      </mat-radio-button>
+    </ng-container>
+  </mat-radio-group>
+
+  <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
+    <input
+      matInput
+      class="step-input"
+      [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}"
+      formControlName="disabilityOptionsDesc"
+      autocomplete="off"
+      appTrimValue />
+    <app-validation-hint
+      [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
+      [minCharacters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+    </app-validation-hint>
+  </mat-radio-group>
+
+  <div class="step-label-combined">
+    <label class="step-label" for="additionalDescription"> {{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</label>
+    <span class="step-characters-count">
+      {{ DescriptionFormGroup.get('additionalDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</span
+    >
+  </div>
+  <mat-form-field appearance="fill">
+    <textarea
+      matInput
+      class="step-textarea"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+      }}"
+      formControlName="additionalDescription"
+      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+      appTrimValue
+      (focusout)="onFocusOut('additionalDescription')"
+      id="additionalDescription"></textarea>
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('additionalDescription')"
+    [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+  </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</label>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="step-text">{{ 'FROM' | translate }}</p>
+        <mat-form-field>
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="minAge"
+            appDigitOnly
+            maxlength="2"
+            appMinMax
+            [directiveFormControl]="DescriptionFormGroup.get('minAge')"
+            [max]="
+              (DescriptionFormGroup.get('maxAge').value !== null
+                ? DescriptionFormGroup.get('maxAge').value
+                : validationConstants.BIRTH_AGE_MAX) - 1
+            "
+            autocomplete="none" />
+        </mat-form-field>
+      </div>
+      <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('minAge')"></app-validation-hint>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="step-text">{{ 'TO' | translate }}</p>
+        <mat-form-field>
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="maxAge"
+            appDigitOnly
+            maxlength="2"
+            appMinMax
+            [directiveFormControl]="DescriptionFormGroup.get('maxAge')"
+            [max]="validationConstants.BIRTH_AGE_MAX"
+            [min]="
+              DescriptionFormGroup.get('minAge').value !== null || DescriptionFormGroup.get('maxAge').value === 0
+                ? DescriptionFormGroup.get('minAge').value + 1
+                : null
+            "
+            autocomplete="none" />
+        </mat-form-field>
+      </div>
+      <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('maxAge')"></app-validation-hint>
+    </div>
+  </div>
+
+  <label class="step-label"> {{ 'FORMS.LABELS.COMPETITIVE_SELECTION' | translate }}</label>
+  <mat-radio-group [formControl]="selectionOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+    <mat-radio-button #selectionRadio1 name="selectionRadioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
+    <mat-radio-button #selectionRadio2 name="selectionRadioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
+    <div class="step-label-combined" [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }">
+      <label class="step-label" for="selectionOptionsDesc"> {{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</label>
+      <span class="step-characters-count">
+        {{ DescriptionFormGroup.get('selectionOptionsDesc').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+      </span>
+    </div>
+    <mat-form-field appearance="fill">
+      <textarea
+        matInput
+        class="step-textarea"
+        [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
+        formControlName="selectionOptionsDesc"
+        maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+        appTrimValue
+        (focusout)="onFocusOut('selectionOptionsDesc')"
+        id="selectionOptionsDesc"></textarea>
+    </mat-form-field>
+    <app-validation-hint
+      [validationFormControl]="DescriptionFormGroup.get('selectionOptionsDesc')"
+      [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    </app-validation-hint>
+  </mat-radio-group>
+
+  <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}</label>
+  <mat-radio-group [formControl]="priceRadioBtn" color="primary">
+    <mat-radio-button #priceRadio1 name="priceRadioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="container">
+      <div fxLayout="row" fxLayoutAlign="center center" class="price">
+        <mat-radio-button #priceRadio2 name="priceRadioBtn2" [value]="true"
+          ><input
+            matInput
+            class="step-input price-input"
+            appDigitOnly
+            appMinMax
+            formControlName="price"
+            type="number"
+            [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE" />
+        </mat-radio-button>
+        <p class="step-text">{{ 'FORMS.UAH' | translate }}</p>
+      </div>
+    </div>
+  </mat-radio-group>
+
+  <label class="step-label"> {{ 'FORMS.LABELS.COMPETITIVE_BENEFITS' | translate }}</label>
+  <mat-radio-group [formControl]="benefitsOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+    <mat-radio-button #benefitsRadio1 name="benefitsRadioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
+    <mat-radio-button #benefitsRadio2 name="benefitsnRadioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
+    <div class="step-label-combined" [ngClass]="{ 'disabled-field': !benefitsOptionRadioBtn.value }">
+      <label class="step-label" for="benefitsOptionsDesc"> {{ 'FORMS.LABELS.DESCRIPTION_BENEFITS' | translate }}</label>
+      <span class="step-characters-count">
+        {{ DescriptionFormGroup.get('benefitsOptionsDesc').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+      </span>
+    </div>
+    <mat-form-field appearance="fill">
+      <textarea
+        matInput
+        class="step-textarea"
+        [ngClass]="{ 'disabled-field': !benefitsOptionRadioBtn.value }"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
+        formControlName="benefitsOptionsDesc"
+        maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+        appTrimValue
+        (focusout)="onFocusOut('benefitsOptionsDesc')"
+        id="benefitsOptionsDesc"></textarea>
+    </mat-form-field>
+    <app-validation-hint
+      [validationFormControl]="DescriptionFormGroup.get('benefitsOptionsDesc')"
+      [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    </app-validation-hint>
+  </mat-radio-group>
+</form>

@@ -35,7 +35,7 @@
         <div
           fxLayout="row"
           fxLayoutAlign="center center"
-          *ngIf="userRole === Role.provider && application?.workshop.availableSeats !== Constants.WORKSHOP_UNLIMITED_SEATS">
+          *ngIf="userRole === Role.provider && application?.workshop.availableSeats !== Constants.UNLIMITED_SEATS">
           <mat-icon class="text_icon">person</mat-icon>
           <p class="text">
             Доступних місць:&nbsp;
