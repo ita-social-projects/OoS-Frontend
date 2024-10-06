@@ -5,92 +5,8 @@ import { UploadExcelComponent } from './upload-excel.component';
 
 describe('UploadExcelComponent', () => {
   window.alert = jest.fn();
-  const currentHeaders = [
-    'Імя директора',
-    'Прізвище директора',
-    'Назва закладу',
-    'Форма власності',
-    'ЄДРПОУ',
-    'Ліцензія №',
-    'Населений пункт',
-    'Адреса',
-    'Електронна пошта',
-    'Телефон'
-  ];
-  const currentHeadersError = [
-    'Імя директора',
-    'Прізвище директора',
-    'Наз закладу',
-    'Форма власності',
-    'ЄДРПОУ',
-    'Ліцензія №',
-    'Населений пункт',
-    'Адреса',
-    'Електронна пошта',
-    'Телефон'
-  ];
   const example = [{ text: 'example' }];
-  const providersID = [
-    {
-      directorsName: 'Степан',
-      directorsSurname: 'Худий',
-      providerName: 'Клуб спортивного бального танцю',
-      ownership: 'Державна',
-      identifier: 12345678,
-      licenseNumber: 123445,
-      settlement: 'Луцьк',
-      address: 'Шевченка 2',
-      email: 'some@gmail.com',
-      phoneNumber: 660666066,
-      errors: {},
-      id: 0
-    }
-  ];
-  const providers = [
-    {
-      directorsName: 'Степан',
-      directorsSurname: 'Худий',
-      providerName: 'Клуб спортивного бального танцю',
-      ownership: 'Державна',
-      identifier: 12345678,
-      licenseNumber: 123445,
-      settlement: 'Луцьк',
-      address: 'Шевченка 2',
-      email: 'some@gmail.com',
-      phoneNumber: 660666066,
-      errors: {}
-    }
-  ];
-  const providersErrors = [
-    {
-      directorsName: 'Степан',
-      directorsSurname: 'Худий',
-      providerName: 'Клуб спортивного бального танцю',
-      ownership: 'Державна',
-      identifier: 12345678,
-      licenseNumber: 123445,
-      settlement: 'Луцьк',
-      address: 'Шевченка 2',
-      email: 'some@gmail.com',
-      phoneNumber: 660666066,
-      id: 1,
-      errors: { emailFormat: true }
-    },
-    {
-      directorsName: 'Степан',
-      directorsSurname: 'Худий',
-      providerName: 'Клуб спортивного бального танцю',
-      ownership: 'Державна',
-      identifier: 12345678,
-      licenseNumber: 123445,
-      settlement: 'Луцьк',
-      address: 'Шевченка 2',
-      email: 'some@gmail.com',
-      phoneNumber: 660666066,
-      id: 1,
-      errors: {}
-    }
-  ];
+
   let component: UploadExcelComponent<any, any>;
   let fixture: ComponentFixture<UploadExcelComponent<any, any>>;
   beforeEach(async () => {
@@ -101,6 +17,8 @@ describe('UploadExcelComponent', () => {
     fixture = TestBed.createComponent(UploadExcelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.standardHeadersBase = ['Header1', 'Header2', 'Header3']; // Initialize standardHeadersBase
+    component.isLoading = true;
   });
 
   it('should create', () => {
@@ -175,71 +93,106 @@ describe('UploadExcelComponent', () => {
     });
   });
 
-  // describe('filterInvalidProviders method tests', () => {
-  //   it('should return providers with at least one error', () => {
-  //     const result = component.filterInvalidProviders(providersErrors);
-  //     expect(result).toEqual([
-  //       {
-  //         directorsName: 'Степан',
-  //         directorsSurname: 'Худий',
-  //         providerName: 'Клуб спортивного бального танцю',
-  //         ownership: 'Державна',
-  //         identifier: 12345678,
-  //         licenseNumber: 123445,
-  //         settlement: 'Луцьк',
-  //         address: 'Шевченка 2',
-  //         email: 'some@gmail.com',
-  //         phoneNumber: 660666066,
-  //         id: 1,
-  //         errors: { emailFormat: true }
-  //       }
-  //     ]);
-  //   });
-  // });
+  describe('filterInvalidItems method tests', () => {
+    it('should return items with at least one error', () => {
+      const items = [
+        { id: 1, errors: { nameError: null, ageError: null } },
+        { id: 2, errors: { nameError: 'Invalid name', ageError: null } },
+        { id: 3, errors: { nameError: null, ageError: 'Invalid age' } }
+      ];
+      const result = component.filterInvalidItems(items);
 
-  // describe('checkHeadersIsValid method tests', () => {
-  //   it('should return true for valid headers', () => {
-  //     const result = component.checkHeadersIsValid(currentHeaders);
-  //     expect(result).toBe(true);
-  //     expect(component.isLoading).toBeFalsy();
-  //     expect(window.alert).not.toHaveBeenCalled();
-  //   });
+      expect(result.length).toBe(2);
+      expect(result).toEqual([
+        { id: 2, errors: { nameError: 'Invalid name', ageError: null } },
+        { id: 3, errors: { nameError: null, ageError: 'Invalid age' } }
+      ]);
+    });
+  });
 
-  //   it('should return false and show alert for invalid headers', () => {
-  //     const result = component.checkHeadersIsValid(currentHeadersError);
-  //     expect(result).toBe(false);
-  //     expect(component.isLoading).toBe(false);
-  //   });
-  // });
+  describe('checkHeadersIsValid method tests', () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
 
-  // describe('processProvidersData method test', () => {
-  //   it('should process providers data and handle emails EDRPOUs', (done) => {
-  //     const inputProviders = providers;
-  //     const expectedProviders = providersID;
-  //     const mockEmailsEdrpousResponse = { emails: [], edrpous: [] };
-  //     jest.spyOn(component, 'showsIsTruncated').mockReturnValue(true);
-  //     jest.spyOn(component, 'verifyEmailsEdrpous').mockReturnValue(of(mockEmailsEdrpousResponse));
-  //     jest.spyOn(component, 'handleData').mockImplementation(() => {});
-  //     component.processProvidersData(inputProviders);
-  //     expect(component.showsIsTruncated).toHaveBeenCalledWith(inputProviders);
-  //     expect(component.verifyEmailsEdrpous).toHaveBeenCalledWith(expectedProviders);
-  //     component.verifyEmailsEdrpous(expectedProviders).subscribe(() => {
-  //       expect(component.handleData).toHaveBeenCalledWith(mockEmailsEdrpousResponse, expectedProviders, true);
-  //       done();
-  //     });
-  //   });
-  // });
+    it('should return true for valid headers', () => {
+      const currentHeaders = ['Header1', 'Header2', 'Header3'];
 
-  // describe('handleData method test', () => {
-  //   it('should handle data', () => {
-  //     const isCorrectLength = true;
-  //     const mockResponse: EmailsEdrpousResponse = { emails: [], edrpous: [] };
-  //     component.handleData(mockResponse, providersErrors, isCorrectLength);
-  //     expect(component.dataSource).toBe(providersErrors);
-  //     expect(component.isLoading).toBe(false);
-  //     expect(component.isWarningVisible).toBe(isCorrectLength);
-  //   });
-  // });
+      const result = component.checkHeadersIsValid(currentHeaders);
+
+      expect(result).toBe(true);
+      expect(component.isLoading).toBe(true);
+      expect(window.alert).not.toHaveBeenCalled();
+    });
+
+    it('should return false and show alert for invalid headers', () => {
+      const currentHeadersError = ['Header1', 'WrongHeader', 'Header3'];
+
+      const result = component.checkHeadersIsValid(currentHeadersError);
+
+      expect(result).toBe(false);
+      expect(component.isLoading).toBe(false);
+      expect(window.alert).toHaveBeenCalled();
+    });
+
+    it('should return false if headers are partially correct but in the wrong order', () => {
+      const currentHeadersWrongOrder = ['Header3', 'Header1', 'Header2'];
+
+      const result = component.checkHeadersIsValid(currentHeadersWrongOrder);
+
+      expect(result).toBe(false);
+      expect(component.isLoading).toBe(false); // isLoading should be set to false
+      expect(window.alert).toHaveBeenCalled();
+    });
+  });
+
+  describe('processProvidersData method test', () => {
+    it('should process items data correctly', () => {
+      const inputItems = [{ name: 'Item1' }, { name: 'Item2' }];
+
+      const showsIsTruncatedSpy = jest.spyOn(component, 'showsIsTruncated').mockReturnValue(true);
+      const handleDataSpy = jest.spyOn(component, 'handleData').mockImplementation(() => {});
+
+      component.processProvidersData(inputItems);
+
+      expect(showsIsTruncatedSpy).toHaveBeenCalledWith(inputItems);
+
+      const expectedItemsWithIds = inputItems.map((elem, index) => ({ ...elem, id: index }));
+      expect(handleDataSpy).toHaveBeenCalledWith(expectedItemsWithIds, true);
+
+      showsIsTruncatedSpy.mockRestore();
+      handleDataSpy.mockRestore();
+    });
+  });
+
+  describe('handleData method test', () => {
+    let checkForInvalidDataSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      checkForInvalidDataSpy = jest.spyOn((component as any).importValidationService, 'checkForInvalidData').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      checkForInvalidDataSpy.mockRestore(); // Restore the mock after each test
+    });
+
+    it('should handle data correctly, call checkForInvalidData, and set component properties', () => {
+      const isCorrectLength = true;
+      const items = [
+        { id: 1, errors: {} },
+        { id: 2, errors: {} }
+      ];
+
+      component.handleData(items, isCorrectLength);
+
+      expect(checkForInvalidDataSpy).toHaveBeenCalledWith(items, component.extendsComponentConfig);
+
+      expect(component.dataSource).toBe(items);
+      expect(component.dataSourceInvalid).toEqual(component.filterInvalidItems(items));
+      expect(component.isLoading).toBe(false);
+      expect(component.isWarningVisible).toBe(isCorrectLength);
+    });
+  });
 
   describe('onFileSelected method test', () => {
     it('should set selectedFile, set isWaiting to true, reset values, and convert Excel to JSON', () => {

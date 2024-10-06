@@ -26,10 +26,10 @@ export class UploadExcelComponent<T extends { errors: any }, U extends T & { id:
   public dataSourceInvalid: U[];
 
   constructor(
-    private importValidationService: ImportValidationService,
-    private translate: TranslateService,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(WINDOW) private window: Window
+    private readonly importValidationService: ImportValidationService,
+    private readonly translate: TranslateService,
+    @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(WINDOW) private readonly window: Window
   ) {}
 
   @HostListener('window:scroll')
@@ -123,9 +123,7 @@ export class UploadExcelComponent<T extends { errors: any }, U extends T & { id:
    * @param isArrayTruncated - indicates whether the array was truncated
    */
   public handleData(items: U[], isArrayTruncated: boolean): void {
-    console.log('handle data works');
     this.importValidationService.checkForInvalidData(items, this.extendsComponentConfig);
-    console.log('servise works');
     this.dataSource = items;
     this.dataSourceInvalid = this.filterInvalidItems(items);
     this.isLoading = false;

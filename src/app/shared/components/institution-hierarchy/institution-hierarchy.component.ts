@@ -51,7 +51,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
-
     this.isEditMode = !!this.instituitionIdFormControl.value;
 
     this.setInitialInstitution();
@@ -61,6 +60,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     } else {
       this.setFieldsDescriptionSubscribe();
     }
+    this.institutions$.subscribe((data) => console.log(data));
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {
