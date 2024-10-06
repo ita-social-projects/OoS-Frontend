@@ -5,14 +5,14 @@
   <div class="details-wrapper">
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
-          <div fxLayout="column" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayout.lt-sm="column wrap" fxLayoutAlign="start center">
+          <div fxLayout="row" fxLayoutAlign="start center">
             <h1 class="title">{{ workshop.title }}</h1>
-            <h3 class="short-title" *ngIf="workshop.shortTitle" fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
+            <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
+              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+            </ng-container>
           </div>
-          <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-            <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
-          </ng-container>
+          <h3 class="short-title" *ngIf="workshop.shortTitle" fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
         </div>
         <div *ngFor="let directionId of workshop.directionIds">
           <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
@@ -35,6 +35,11 @@
           <span class="icon-text" *ngIf="!workshop.competitiveSelection">
             <mat-icon class="icon">school</mat-icon>
             {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ workshop.minAge }} - {{ workshop.maxAge }}
+            {{ 'YEARS' | translate }}
           </span>
         </div>
         <div fxLayout="column" *ngIf="workshop.competitiveSelection">
