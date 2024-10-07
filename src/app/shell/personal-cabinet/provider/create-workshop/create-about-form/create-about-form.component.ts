@@ -1,24 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
-import { FormOfLearningEnum, PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
+import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-about-form.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -32,10 +30,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
-  public readonly FormOfLearning = FormOfLearning;
-  public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipType = OwnershipTypes;
-  public readonly Util = Util;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,

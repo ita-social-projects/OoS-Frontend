@@ -8,6 +8,9 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
+import { FormOfLearning } from 'shared/enum/workshop';
+import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-description-form',
@@ -24,6 +27,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
 
   public readonly validationConstants = ValidationConstants;
+  public readonly FormOfLearning = FormOfLearning;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Util = Util;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -46,6 +52,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
   public disabledKeyWordsInput = false;
 
+  public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
@@ -58,8 +66,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       ]),
       keyWords: new FormControl(''),
       institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required),
-      workshopDescriptionItems: this.SectionItemsFormArray
+      institutionId: new FormControl('', Validators.required)
     });
   }
 
@@ -74,6 +81,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
+
+    this.onCompetitiveSelectionInit();
   }
 
   /**
@@ -112,6 +121,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  private onCompetitiveSelectionInit(): void {
+    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
+      this.DescriptionFormGroup.get('competitiveSelection').setValue(value);
+      if (!value) {
+        this.DescriptionFormGroup.get('competitiveSelectionDescription').reset();
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -175,8 +193,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method fills inputs with information of edited workshop
    */
-  private activateEditMode(): void {
+  public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+
+    if (this.workshop.competitiveSelection) {
+      this.DescriptionFormGroup.addControl(
+        'competitiveSelectionDescription',
+        new FormControl(this.workshop.competitiveSelectionDescription || '', Validators.required)
+      );
+    }
 
     this.workshop.keywords.forEach((keyWord: string) => {
       this.keyWord = keyWord;
@@ -198,6 +223,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     } else {
       this.onAddForm();
     }
+
+    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
   /**
