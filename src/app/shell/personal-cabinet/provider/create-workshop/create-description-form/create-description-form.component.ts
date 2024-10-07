@@ -193,7 +193,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method fills inputs with information of edited workshop
    */
-  private activateEditMode(): void {
+  public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
     this.workshop.keywords.forEach((keyWord: string) => {

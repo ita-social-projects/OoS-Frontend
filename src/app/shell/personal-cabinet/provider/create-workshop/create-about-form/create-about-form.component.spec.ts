@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { Provider } from 'shared/models/provider.model';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
@@ -54,7 +55,8 @@ describe('CreateAboutFormComponent', () => {
         MockValidationHintAboutComponent,
         MinMaxDirective,
         MockWorkingHoursComponent,
-        MockInfoMenuComponent
+        MockInfoMenuComponent,
+        MockInstitutionHierarchyComponent
       ]
     }).compileComponents();
   });
@@ -65,20 +67,25 @@ describe('CreateAboutFormComponent', () => {
     component.provider = {} as any;
     component.workshop = {} as any;
     component.AboutFormGroup = new FormGroup({
+      useProviderInfoCtrl: new FormControl(false),
       coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       title: new FormControl(''),
+      shortTitle: new FormControl(''),
       phone: new FormControl(''),
       email: new FormControl(''),
       minAge: new FormControl(''),
       maxAge: new FormControl(''),
-      image: new FormControl(''),
       website: new FormControl(''),
       facebook: new FormControl(''),
       instagram: new FormControl(''),
+      formOfLearning: new FormControl(''),
+      competitiveSelection: new FormControl(''),
+      image: new FormControl(''),
       price: new FormControl(''),
-      workingHours: new FormControl(''),
       payRate: new FormControl(''),
-      availableSeats: new FormControl('')
+      availableSeats: new FormControl(''),
+      availableSeatsRadioBtnControl: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -177,4 +184,14 @@ class MockValidationHintAboutComponent {
 class MockInfoMenuComponent {
   @Input() type: InfoMenuType;
   @Input() isOpenByDefault: boolean;
+}
+
+@Component({
+  selector: '<app-institution-hierarchy',
+  template: ''
+})
+class MockInstitutionHierarchyComponent {
+  @Input() institutionHierarchyIdFormControl: FormControl;
+  @Input() institutionIdFormControl: FormControl;
+  @Input() provider: Provider;
 }

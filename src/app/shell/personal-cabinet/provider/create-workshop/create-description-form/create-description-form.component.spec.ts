@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
-import { Provider } from 'shared/models/provider.model';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
 
 describe('CreateDescriptionFormComponent', () => {
@@ -37,13 +36,7 @@ describe('CreateDescriptionFormComponent', () => {
         MatTooltipModule,
         TranslateModule.forRoot()
       ],
-      declarations: [
-        CreateDescriptionFormComponent,
-        ImageFormControlComponent,
-        MockValidationHintAboutComponent,
-        MockInfoFormComponent,
-        MockInstitutionHierarchyComponent
-      ]
+      declarations: [CreateDescriptionFormComponent, ImageFormControlComponent, MockValidationHintAboutComponent, MockInfoFormComponent]
     }).compileComponents();
   });
 
@@ -56,13 +49,35 @@ describe('CreateDescriptionFormComponent', () => {
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl(''),
       keyWords: new FormControl(''),
-      categories: new FormControl('')
+      categories: new FormControl(''),
+      institutionHierarchyId: new FormControl(''),
+      institutionId: new FormControl('')
     });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('activateEditMode', () => {
+    it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
+      component.workshop.competitiveSelection = true;
+      component.workshop.competitiveSelectionDescription = 'Test Description';
+
+      component.activateEditMode();
+
+      expect(component.DescriptionFormGroup.contains('competitiveSelectionDescription')).toBeTruthy();
+      expect(component.DescriptionFormGroup.get('competitiveSelectionDescription').value).toEqual('Test Description');
+    });
+
+    it('should not set competitiveSelectionDescription control if competitiveSelection is false', () => {
+      component.workshop.competitiveSelection = false;
+
+      component.activateEditMode();
+
+      expect(component.DescriptionFormGroup.contains('competitiveSelectionDescription')).toBeFalsy();
+    });
   });
 });
 
@@ -86,14 +101,4 @@ class MockInfoFormComponent {
   @Input() index: number;
   @Input() formAmount: number;
   @Input() maxDescriptionLength: number;
-}
-
-@Component({
-  selector: '<app-institution-hierarchy',
-  template: ''
-})
-class MockInstitutionHierarchyComponent {
-  @Input() institutionHierarchyIdFormControl: FormControl;
-  @Input() institutionIdFormControl: FormControl;
-  @Input() provider: Provider;
 }
