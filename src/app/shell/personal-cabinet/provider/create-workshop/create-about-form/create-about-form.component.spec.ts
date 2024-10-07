@@ -76,10 +76,6 @@ describe('CreateAboutFormComponent', () => {
       email: new FormControl(''),
       minAge: new FormControl(''),
       maxAge: new FormControl(''),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
-      formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
       image: new FormControl(''),
       price: new FormControl(''),
@@ -131,25 +127,6 @@ describe('CreateAboutFormComponent', () => {
       component.AboutFormGroup.controls.availableSeats.setValue(5);
 
       expect(component.isShowHintAboutWorkshopAutoClosing).toBe(false);
-    });
-  });
-  describe('activateEditMode', () => {
-    it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
-      component.workshop.competitiveSelection = true;
-      component.workshop.competitiveSelectionDescription = 'Test Description';
-
-      component.activateEditMode();
-
-      expect(component.AboutFormGroup.contains('competitiveSelectionDescription')).toBeTruthy();
-      expect(component.AboutFormGroup.get('competitiveSelectionDescription').value).toEqual('Test Description');
-    });
-
-    it('should not set competitiveSelectionDescription control if competitiveSelection is false', () => {
-      component.workshop.competitiveSelection = false;
-
-      component.activateEditMode();
-
-      expect(component.AboutFormGroup.contains('competitiveSelectionDescription')).toBeFalsy();
     });
   });
 });

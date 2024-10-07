@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+import { Workshop } from 'shared/models/workshop.model';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
@@ -43,12 +44,23 @@ describe('CreateDescriptionFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateDescriptionFormComponent);
     component = fixture.componentInstance;
+    component.provider = {} as any;
+    component.workshop = {
+      competitiveSelection: false,
+      competitiveSelectionDescription: '',
+      keywords: []
+    } as any;
     component.DescriptionFormGroup = new FormGroup({
       imageFiles: new FormControl(''),
       description: new FormControl(''),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl(''),
       keyWords: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      formOfLearning: new FormControl(''),
+      competitiveSelection: new FormControl(''),
       categories: new FormControl(''),
       institutionHierarchyId: new FormControl(''),
       institutionId: new FormControl('')
@@ -62,8 +74,13 @@ describe('CreateDescriptionFormComponent', () => {
 
   describe('activateEditMode', () => {
     it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
-      component.workshop.competitiveSelection = true;
-      component.workshop.competitiveSelectionDescription = 'Test Description';
+      component.workshop = {
+        competitiveSelection: true, // Ensure competitiveSelection is true
+        competitiveSelectionDescription: 'Test Description', // Provide description
+        keywords: [],
+        withDisabilityOptions: false,
+        workshopDescriptionItems: []
+      } as Workshop;
 
       component.activateEditMode();
 

@@ -196,6 +196,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
+    if (this.workshop.competitiveSelection) {
+      this.DescriptionFormGroup.addControl(
+        'competitiveSelectionDescription',
+        new FormControl(this.workshop.competitiveSelectionDescription || '', Validators.required)
+      );
+    }
+
     this.workshop.keywords.forEach((keyWord: string) => {
       this.keyWord = keyWord;
       this.onKeyWordsInput(false);
