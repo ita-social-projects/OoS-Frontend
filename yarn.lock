@@ -8945,6 +8945,13 @@ ngx-mat-timepicker@^16.2.0:
     ts-luxon "^4.3.2"
     tslib "^2.5.2"
 
+ngx-owl-carousel-o@16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-owl-carousel-o/-/ngx-owl-carousel-o-16.0.0.tgz#7b174e93c24060670f81fee2f8a41d84be2c172c"
+  integrity sha512-dmHByyjE1GhUpwLPJPplS9bBZcj8o4yDhZ/ZF+ZmRBIicn3+0OyAKpw6LiaXVKtWEi+HVdjZkpkaYVaAEoEP7A==
+  dependencies:
+    tslib "^2.3.0"
+
 ngx-pagination@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-6.0.3.tgz#083f77a5c9c3ebf5800fb57a280da71aacc10a18"
