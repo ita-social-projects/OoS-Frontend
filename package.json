@@ -49,8 +49,10 @@
     "ngx-mat-intl-tel-input": "^5.0.0",
     "ngx-mat-timepicker": "^16.2.0",
     "ngx-pagination": "^6.0.3",
+    "ngx-window-token": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.2",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {

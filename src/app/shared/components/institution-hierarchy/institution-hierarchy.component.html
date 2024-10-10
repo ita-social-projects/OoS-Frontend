@@ -12,10 +12,10 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="instituitionIdFormControl"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="instituitionIdFormControl"></app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
-    <ng-container *ngIf="hierarchy.shouldDisplay">
+    <ng-container>
       <label class="step-label">{{ hierarchy.title }} <span class="step-required">*</span></label>
       <mat-form-field appearance="fill">
         <mat-select

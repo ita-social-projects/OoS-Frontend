@@ -1,0 +1,221 @@
+@import 'src/app/shared/styles/buttons.scss';
+
+$duplicatedValue: #fd0707b3;
+$emptyField: #fd07071a;
+$wrongLength: #0d138980;
+$wrongLanguage: #22b01280;
+$wrongFormat: #ffff0080;
+$lengthWarningMessage: #ff0000;
+
+.import-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .submit-btn {
+    margin-left: 1px;
+  }
+  .file-name {
+    margin-left: 1rem;
+  }
+  .btn {
+    text-transform: uppercase;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  .mat-raised-button {
+    border-radius: 20px;
+    height: 40px;
+    margin-bottom: 10px;
+    &:hover {
+      color: white;
+      background-color: #3849f9;
+    }
+  }
+}
+.file-actions {
+  display: flex;
+}
+.errors-menu {
+  display: flex;
+  width: fit-content;
+  .length-warning {
+    max-width: 200px;
+    line-height: 15px;
+    mat-card-subtitle {
+      color: $lengthWarningMessage !important;
+      animation: pulse 3s infinite;
+    }
+  }
+  mat-slide-toggle {
+    padding-top: 5px;
+  }
+  .incorrect-row {
+    color:red;
+  }
+  .incorrect-row-number {
+    color: red;
+  }
+}
+.errors-types {
+  margin: 20px 20px;
+  ul {
+    padding: 0;
+    list-style-type: none;
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      .color-box {
+        width: 30px;
+        height: 15px;
+        border-radius: 50px;
+        border: 1px solid inherit;
+        margin-right: 15px;
+      }
+    }
+  }
+}
+.wrapper-provider-list {
+  position: relative;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.wrapper-provider-list-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+  width: 95%;
+}
+.table-container {
+  width: 100%;
+  height: fit-content;
+}
+.custom-table-style {
+  width: inherit;
+  th,td {
+    padding-left: 5px;
+  }
+  td {
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+.go-to-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  position: fixed; 
+  bottom: 30px; 
+  right: 30px; 
+  z-index: 99;
+  border: none; 
+  outline: none; 
+  background-color: #3849f980;
+  color: white; 
+  cursor: pointer; 
+  padding: 15px; 
+  border-radius: 100px;
+  font-size: 60px;
+  box-shadow: 1px 2px 10px #000000;
+  line-height: 40px;
+  &:hover {
+    background-color: #3849f9;
+  }
+  .fa-arrow-up {
+    transform: scale(0.4);
+  }
+}
+.error-field {
+  &-empty {
+    background-color: $emptyField;
+  }
+  &-duplicate {
+    background-color: $duplicatedValue;
+  }
+  &-wrong-length {
+    background-color: $wrongLength;
+  }
+  &-wrong-format {
+    background-color: $wrongFormat;
+  }
+  &-wrong-language {
+    background-color: $wrongLanguage;
+  }
+}
+.loader-container {
+  height: 50px;
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+}
+.loader {
+  align-self: baseline;
+  margin: 15px;
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: loader 1s infinite linear alternate;
+}
+@keyframes loader {
+    0% {
+      box-shadow: 10px 0 #3849f9, -10px 0 #3849f933;
+      background: #3849f9;
+    }
+    33% {
+      box-shadow: 10px 0 #3849f9, -10px 0 #3849f933;
+      background: #3849f933;
+    }
+    66% {
+      box-shadow: 10px 0 #3849f933,-10px 0 #3849f9;
+      background: #3849f933;
+    }
+    100% {
+      box-shadow: 10px 0 #3849f933,-10px 0 #3849f9;
+      background: #3849f9;
+    }
+}
+@keyframes pulse {
+  0% {
+    color: $lengthWarningMessage;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    color: $lengthWarningMessage;
+  }
+}
+::ng-deep .import-providers-table-tooltip {
+    color: #f6f6f6;
+    background-color: #505050;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 14px 14px 14px 5px;
+    max-width: 300px;
+    padding-left: 8px;
+    padding-right: 8px;
+    overflow: hidden;
+    text-overflow: unset !important;
+    transform: scale(1.3) !important;
+}
+@media screen and (max-width:930px) {
+  .import-buttons {
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .errors-menu {
+    padding-top: 5px;
+  }
+  mat-slide-toggle {
+    position: relative;
+    .incorrect-row {
+      display: none !important;
+    }
+  } 
+}
