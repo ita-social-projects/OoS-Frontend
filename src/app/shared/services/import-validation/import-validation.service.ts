@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@angular/core';
 import { NO_LATIN_REGEX, RNOKPP_REGEX } from 'shared/constants/regex-constants';
 import { ImportEmployeesChosenRole } from 'shared/enum/enumUA/import-export';

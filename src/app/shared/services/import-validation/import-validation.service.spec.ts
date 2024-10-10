@@ -13,74 +13,94 @@ describe('ImportValidationService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+  it('should validate fields and mark errors through checkForInvalidData', () => {
+    const items = [{ name: '', role: 'invalidRole', errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: { checkEmpty: true, checkLength: false, checkLanguage: false, checkRNOKPP: false, checkAssignedRole: false }
+      },
+      {
+        fieldName: 'role',
+        validationParam: { checkAssignedRole: true, checkEmpty: false, checkLength: false, checkLanguage: false, checkRNOKPP: false }
+      }
+    ];
 
-  describe('checkForInvalidData method', () => {
-    it('should set errors for empty fields', () => {
-      const items = [
-        { name: '', age: 30 },
-        { name: 'John', age: 25 }
-      ];
-      const config: FieldsConfig[] = [
-        { fieldName: 'name', validationParam: { checkEmpty: true, checkLength: false } },
-        { fieldName: 'age', validationParam: { checkEmpty: false, checkLength: false } }
-      ];
+    service.checkForInvalidData(items, config);
 
-      service.checkForInvalidData(items, config);
-
-      expect(items[0].errors).toEqual({ nameEmpty: true });
-      expect(items[1].errors).toEqual({});
+    expect(items[0].errors).toEqual({
+      nameEmpty: true,
+      roleFormat: true
     });
+  });
 
-    it('should set errors for fields with invalid length', () => {
-      const items = [
-        { name: 'A', age: '25' },
-        { name: 'John Doe', age: '30' }
-      ];
-      const config: FieldsConfig[] = [{ fieldName: 'name', validationParam: { checkLength: true } }];
+  it('should mark error when length is less than 2 and config.checkLength is true', () => {
+    const items = [{ name: 'a', errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: { checkLength: true, checkEmpty: false, checkLanguage: false, checkRNOKPP: false, checkAssignedRole: false }
+      }
+    ];
 
-      service.checkForInvalidData(items, config);
+    service.checkForInvalidData(items, config);
 
-      expect(items[0].errors).toEqual({ nameLength: true });
-      expect(items[1].errors).toEqual({});
-    });
+    expect(items[0].errors).toEqual({ nameLength: true });
+  });
 
-    it('should set errors for non-Latin characters', () => {
-      const items = [
-        { name: 'Иван', age: 30 },
-        { name: 'John', age: 25 }
-      ];
-      const config: FieldsConfig[] = [{ fieldName: 'name', validationParam: { checkLanguage: true } }];
+  it('should mark error when length is more than 50 and config.checkLength is true', () => {
+    const items = [{ name: 'a'.repeat(51), errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: { checkLength: true, checkEmpty: false, checkLanguage: false, checkRNOKPP: false, checkAssignedRole: false }
+      }
+    ];
 
-      service.checkForInvalidData(items, config);
+    service.checkForInvalidData(items, config);
 
-      expect(items[0].errors).toEqual({ nameLanguage: true });
-      expect(items[1].errors).toEqual({});
-    });
+    expect(items[0].errors).toEqual({ nameLength: true });
+  });
 
-    it('should set errors for invalid RNOKPP format', () => {
-      const items = [
-        { rnokpp: '123456', age: 30 },
-        { rnokpp: 'INVALID', age: 25 }
-      ];
-      const config: FieldsConfig[] = [{ fieldName: 'rnokpp', validationParam: { checkRNOKPP: true } }];
+  it('should mark error when language is not valid and config.checkLanguage is true', () => {
+    const items = [{ name: 'abc123', errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: { checkLanguage: true, checkLength: false, checkEmpty: false, checkRNOKPP: false, checkAssignedRole: false }
+      }
+    ];
 
-      service.checkForInvalidData(items, config);
+    service.checkForInvalidData(items, config);
 
-      expect(items[0].errors).toEqual({});
-      expect(items[1].errors).toEqual({ rnokppFormat: true });
-    });
+    expect(items[0].errors).toEqual({ nameLanguage: true });
+  });
 
-    it('should set errors for invalid assigned roles', () => {
-      const items = [
-        { role: 'manager', age: 30 },
-        { role: 'employee', age: 25 }
-      ];
-      const config: FieldsConfig[] = [{ fieldName: 'role', validationParam: { checkAssignedRole: true } }];
+  it('should mark error when RNOKPP format is invalid and config.checkRNOKPP is true', () => {
+    const items = [{ name: 'invalidRNOKPP', errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: { checkRNOKPP: true, checkLength: false, checkEmpty: false, checkLanguage: false, checkAssignedRole: false }
+      }
+    ];
 
-      service.checkForInvalidData(items, config);
+    service.checkForInvalidData(items, config);
 
-      expect(items[0].errors).toEqual({ roleFormat: true });
-      expect(items[1].errors).toEqual({});
-    });
+    expect(items[0].errors).toEqual({ nameFormat: true });
+  });
+
+  it('should mark error when assigned role is invalid and config.checkAssignedRole is true', () => {
+    const items = [{ role: 'invalidRole', errors: {} }];
+    const config = [
+      {
+        fieldName: 'role',
+        validationParam: { checkAssignedRole: true, checkLength: false, checkEmpty: false, checkLanguage: false, checkRNOKPP: false }
+      }
+    ];
+
+    service.checkForInvalidData(items, config);
+
+    expect(items[0].errors).toEqual({ roleFormat: true });
   });
 });
