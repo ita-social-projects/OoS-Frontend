@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 
 import { Constants } from 'shared/constants/constants';
@@ -42,14 +42,14 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   public touched = false;
   public disabled = false;
 
-  public onChange: FilesToVoid = () => {};
-  public onTouched: VoidToVoid = () => {};
-
   constructor(
     public dialog: MatDialog,
     private changeDetection: ChangeDetectorRef,
     private store: Store
   ) {}
+
+  public onChange: FilesToVoid = () => {};
+  public onTouched: VoidToVoid = () => {};
 
   public ngOnInit(): void {
     this.onResize(window);
@@ -119,9 +119,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     this.imageDecoder(target.files[0], (ev: ProgressEvent<FileReader>) => {
       const img = new Image();
       img.src = ev.target.result as string;
-      img.onload = () => {
+      img.onload = (): void => {
         const config = this.cropperConfig;
-        console.log(img.width);
         if (img.width < config.cropperMinWidth || img.height < config.cropperMinHeight) {
           this.store.dispatch(
             new ShowMessageBar({
@@ -145,9 +144,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     });
   }
 
-  public writeValue(_obj: any): void {}
+  public writeValue(_obj: unknown): void {}
 
-  public openCropperModal(event: Event) {
+  public openCropperModal(event: Event): void {
     const dialogRef = this.dialog.open(ImageCropperModalComponent, {
       width: Constants.MODAL_MEDIUM,
       maxHeight: '95vh',

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 
+import { NgxsModule } from '@ngxs/store';
 import { ImageFormControlComponent } from './image-form-control.component';
 
 describe('ImageFormControlComponent', () => {
@@ -11,7 +12,7 @@ describe('ImageFormControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, MatGridListModule, MatDialogModule],
+      imports: [MatIconModule, MatGridListModule, MatDialogModule, NgxsModule.forRoot()],
       declarations: [ImageFormControlComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

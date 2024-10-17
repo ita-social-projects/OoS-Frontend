@@ -10,7 +10,7 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 export class ImageCarouselComponent implements OnInit {
   @Input() public images: ImgPath[] = [];
 
-  customOptions: OwlOptions = {
+  protected customOptions: OwlOptions = {
     loop: true,
     autoplay: true,
     dots: true,
@@ -23,7 +23,7 @@ export class ImageCarouselComponent implements OnInit {
     }
   };
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.images.length <= 1) {
       this.customOptions = {
         ...this.customOptions,
