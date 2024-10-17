@@ -78,11 +78,13 @@ $theme: mat.define-light-theme(
   )
 );
 
-@include mat.core();
+/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated */
 @include mat.legacy-core();
+@include mat.core();
 
-@include mat.all-component-themes($theme);
+/* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated */
 @include mat.all-legacy-component-themes($theme);
+@include mat.all-component-themes($theme);
 
 @include mat.button-toggle-typography($config);
 @include mat.legacy-button-typography($config);
@@ -216,6 +218,15 @@ a {
   opacity: 0.3;
 }
 
+.mat-mdc-dialog-surface {
+  --mdc-dialog-supporting-text-font: 'Open Sans', serif;
+  padding: 10px 24px 24px;
+
+  .mdc-dialog__title {
+    margin-bottom: 11px;
+  }
+}
+
 .mat-checkbox-inner-container {
   height: 18px !important;
   width: 18px !important;
@@ -308,4 +319,13 @@ input:-webkit-autofill:active {
 
 .mat-form-field-wrapper {
   padding-bottom: 0 !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translateY(0) !important;
 }

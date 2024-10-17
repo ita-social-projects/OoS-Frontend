@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store, ofAction } from '@ngxs/store';
 import { Observable, filter } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

@@ -10,7 +10,7 @@
         <label class="step-label" for="achievement-type">
           {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span>
         </label>
-        <mat-form-field appearance="none" id="achievement-type">
+        <mat-form-field appearance="fill" id="achievement-type">
           <mat-select
             formControlName="achievementTypeId"
             disableOptionCentering
@@ -35,7 +35,7 @@
         </label>
         <ng-container *ngIf="approvedChildren">
           <ng-container *ngIf="approvedChildren.totalAmount; else noChildren">
-            <mat-form-field appearance="none" id="participants">
+            <mat-form-field appearance="fill" id="participants">
               <mat-select
                 multiple
                 disableOptionCentering
@@ -95,7 +95,7 @@
         </ng-container>
 
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
-          <mat-form-field appearance="none" id="teachers">
+          <mat-form-field appearance="fill" id="teachers">
             <mat-select
               multiple
               disableOptionCentering

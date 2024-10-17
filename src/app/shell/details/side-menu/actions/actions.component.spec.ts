@@ -1,25 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MatLegacyDialog as MatDialog
-} from '@angular/material/legacy-dialog';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 
+import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { Role } from 'shared/enum/role';
 // eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
-import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { ModeConstants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
+import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActionsComponent } from './actions.component';
 
 describe('ActionsComponent', () => {

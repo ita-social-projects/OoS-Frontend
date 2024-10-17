@@ -1,6 +1,6 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule, State, Store } from '@ngxs/store';
 
 import { ChildDeclination, WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';

@@ -14,13 +14,10 @@
 .workshop-title-container {
   display: flex;
   align-items: center;
-  height: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   > span {
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
   }
 }

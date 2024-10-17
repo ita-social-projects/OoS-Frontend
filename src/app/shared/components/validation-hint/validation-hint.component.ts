@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
@@ -18,18 +18,19 @@ import {
   templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
+  @Input() public validationFormControl: FormControl | FormGroup; // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
   @Input() public isPhoneNumber: boolean; // required to display validation for phone number
   @Input() public isEdrpouIpn: boolean;
+  @Input() public isSearchBar: boolean = false;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
 
   // For min number validation
-  @Input() public minNumberValue: boolean;
+  @Input() public minNumberValue: number;
 
   public required: boolean;
   public invalidSymbols: boolean;
@@ -45,6 +46,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
   public mustContainLetters: boolean;
+  public invalidSearch: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -52,29 +54,41 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-      const errors = this.validationFormControl.errors;
-
-      // Makes the control touched, so that the user can see the result of the check without needing to unfocus
-      if (!this.validationFormControl.touched) {
-        this.validationFormControl.markAsTouched();
+      if (this.validationFormControl instanceof FormGroup) {
+        Object.keys(this.validationFormControl.controls).forEach((key) => {
+          this.updateValidationState(this.validationFormControl.get(key) as FormControl);
+        });
+      } else {
+        this.updateValidationState(this.validationFormControl as FormControl);
       }
-
-      // Check is the field required and empty
-      this.required = errors?.required && !this.validationFormControl.value;
-
-      // Check Date Picker Format
-      if (this.minMaxDate) {
-        this.checkMatDatePicker();
-      }
-
-      // Check errors from validators
-      this.checkValidationErrors(errors);
-
-      // Check errors for invalid text field
-      this.checkInvalidText(errors);
-
-      this.cdr.detectChanges();
     });
+  }
+
+  public updateValidationState(formControl: FormControl): void {
+    const errors = formControl.errors;
+
+    // Makes the control touched, so that the user can see the result of the check without needing to unfocus
+    if (!formControl.touched) {
+      formControl.markAsTouched();
+    }
+
+    // Check is the field required and empty
+    if (!this.isSearchBar) {
+      this.required = errors?.required && !formControl.value;
+    }
+
+    // Check Date Picker Format
+    if (this.minMaxDate) {
+      this.checkMatDatePicker();
+    }
+
+    // Check errors from validators
+    this.checkValidationErrors(errors);
+
+    // Check errors for invalid text field
+    this.checkInvalidText(errors);
+
+    this.cdr.detectChanges();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -95,6 +109,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
     } else if (this.isEdrpouIpn) {
       this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
+    } else if (this.isSearchBar) {
+      this.invalidSearch = errors?.length !== 0;
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+
 import { Cropper } from 'shared/models/cropper';
 
 @Component({

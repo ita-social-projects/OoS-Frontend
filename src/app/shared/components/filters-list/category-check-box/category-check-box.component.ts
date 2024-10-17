@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyCheckbox as MatCheckbox } from '@angular/material/legacy-checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -62,7 +62,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * @param direction
    * @param event
    */
-  public onDirectionCheck(direction: Direction, event: MatCheckbox): void {
+  public onDirectionCheck(direction: Direction, event: MatCheckboxChange): void {
     if (event.checked) {
       this.selectedDirectionIds.push(direction.id);
     } else {

@@ -27,9 +27,9 @@ type VoidToVoid = () => void;
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent, ControlValueAccessor {
   @Input() public imgMaxAmount: number;
-  @Input() public imageIdsFormControl: FormControl;
+  @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;
-  @Input() public cropperConfig: Cropper;
+  @Input() public cropperConfig: Partial<Cropper>; // FIXME: Remove Partial type and fix the errors those are related with this Input
 
   @ViewChild('inputImage') public inputImage: ElementRef;
 
