@@ -5,6 +5,7 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фото'"
     formControlName="imageFiles"
+    (removeId)="removeImageId($event)"
     [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
   </app-image-form-control>
 

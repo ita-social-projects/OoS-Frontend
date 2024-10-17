@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
@@ -30,6 +30,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;
   @Input() public cropperConfig: Partial<Cropper>; // FIXME: Remove Partial type and fix the errors those are related with this Input
+  @Output() public removeId = new EventEmitter();
 
   @ViewChild('inputImage') public inputImage: ElementRef;
 
@@ -69,6 +70,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     if (!this.disabled) {
       if (this.decodedImages.indexOf(img) >= 0) {
         const imageIndex = this.decodedImages.indexOf(img);
+        this.removeId.emit(this.decodedImages[imageIndex].image.split('/').at(-1));
         this.decodedImages.splice(imageIndex, 1);
         if (img.imgFile) {
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);

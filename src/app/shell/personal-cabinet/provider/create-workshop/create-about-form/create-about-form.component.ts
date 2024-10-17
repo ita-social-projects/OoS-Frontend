@@ -152,6 +152,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  public removeCoverImageId($event: Event): void {
+    this.AboutFormGroup.controls.coverImageId.setValue(null);
+  }
+
   private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [

@@ -172,6 +172,17 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.markFormAsDirtyOnUserInteraction();
   }
 
+  public removeImageId(id: string): void {
+    const imgIds = [...this.DescriptionFormGroup.controls.imageIds.value];
+    const imgIndex = imgIds.indexOf(id);
+
+    if (imgIndex !== -1) {
+      imgIds.splice(imgIndex, 1);
+    }
+
+    this.DescriptionFormGroup.controls.imageIds.setValue(imgIds);
+  }
+
   /**
    * This method fills inputs with information of edited workshop
    */

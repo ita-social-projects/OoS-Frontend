@@ -46,6 +46,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
 
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
+
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
@@ -79,6 +82,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.setEditMode();
     }
 
+    this.featuresList$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((featuresList) => (this.isImagesFeature = featuresList.images));
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
@@ -144,7 +150,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-      this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
       let legalAddress: Address;
       let actualAddress: Address;
       let provider: Provider;
