@@ -43,11 +43,11 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('stepper') public stepper: MatStepper;
 
-  @Select(RegistrationState.provider)
-  private provider$: Observable<Provider>;
-
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
 
   public provider: Provider;
   public isAgreed: boolean;
