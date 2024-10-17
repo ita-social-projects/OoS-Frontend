@@ -78,8 +78,8 @@
       formControlName="typeId"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}">
       <mat-option *ngFor="let type of providerTypes$ | async" [value]="type.id" class="dropdown-option">
-        <div class="dropdown-option-trimmed" [matTooltip]="type.title" matTooltipClass="tooltip" showTooltipIfTruncated>
-          {{ type.title }}
+        <div class="dropdown-option-trimmed" [matTooltip]="type.name" matTooltipClass="tooltip" showTooltipIfTruncated>
+          {{ type.name }}
         </div>
       </mat-option>
     </mat-select>
