@@ -147,7 +147,7 @@ describe('CreateAboutFormComponent', () => {
     });
   });
   describe('removeCoverImageId', () => {
-    it('should set coverImageId control to null', () => {
+    it('should set coverImageId control to null create-about-form', () => {
       component.AboutFormGroup.controls.coverImageId.setValue('someId');
       expect(component.AboutFormGroup.controls.coverImageId.value).toBe('someId');
 
