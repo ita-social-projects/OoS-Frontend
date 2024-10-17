@@ -66,6 +66,7 @@ describe('CreateAboutFormComponent', () => {
     component.workshop = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       title: new FormControl(''),
       phone: new FormControl(''),
       email: new FormControl(''),
@@ -143,6 +144,17 @@ describe('CreateAboutFormComponent', () => {
       component.activateEditMode();
 
       expect(component.AboutFormGroup.contains('competitiveSelectionDescription')).toBeFalsy();
+    });
+  });
+  describe('removeCoverImageId', () => {
+    it('should set coverImageId control to null', () => {
+      component.AboutFormGroup.controls.coverImageId.setValue('someId');
+      expect(component.AboutFormGroup.controls.coverImageId.value).toBe('someId');
+
+      const mockEvent = new Event('click');
+      component.removeCoverImageId(mockEvent);
+
+      expect(component.AboutFormGroup.controls.coverImageId.value).toBeNull();
     });
   });
 });
