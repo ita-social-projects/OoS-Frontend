@@ -58,11 +58,43 @@ describe('CreateDescriptionFormComponent', () => {
       keyWords: new FormControl(''),
       categories: new FormControl('')
     });
+
+    component.DescriptionFormGroup.addControl('imageIds', new FormControl(['id1', 'id2', 'id3']));
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('removeImageId', () => {
+    it('should remove the image ID from the imageIds control', () => {
+      const idToRemove = 'id2';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual(['id1', 'id3']);
+    });
+
+    it('should not modify imageIds control if the ID is not found', () => {
+      const initialIds = component.DescriptionFormGroup.controls.imageIds.value.slice();
+      const idToRemove = 'nonexistentId';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual(initialIds);
+    });
+
+    it('should handle empty imageIds control', () => {
+      component.DescriptionFormGroup.controls.imageIds.setValue([]);
+
+      const idToRemove = 'id2';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual([]);
+    });
   });
 });
 
