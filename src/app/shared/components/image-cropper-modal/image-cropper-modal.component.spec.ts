@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { ImageCropperComponent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
 
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
+import { ShowMessageBar } from 'shared/store/app.actions';
 import { Cropper } from '../../models/cropper';
 import { ImageCropperModalComponent } from './image-cropper-modal.component';
 
 describe('ImageCropperModalComponent', () => {
   let component: ImageCropperModalComponent;
   let fixture: ComponentFixture<ImageCropperModalComponent>;
+  let mockDialogRef: MatDialogRef<ImageCropperModalComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,7 +19,8 @@ describe('ImageCropperModalComponent', () => {
       declarations: [ImageCropperModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
+        { provide: MatDialogRef, useValue: { close: jest.fn() } },
+        { provide: Store, useValue: { dispatch: jest.fn() } }
       ]
     }).compileComponents();
   });
@@ -26,10 +30,73 @@ describe('ImageCropperModalComponent', () => {
     component = fixture.componentInstance;
     component.data.cropperConfig = {} as Cropper;
     component.data.cropperConfig.cropperAspectRatio = 1;
+
+    mockDialogRef = TestBed.inject(MatDialogRef);
+    store = TestBed.inject(Store);
+
+    component.data.cropperConfig.cropperMinWidth = 100;
+    component.data.cropperConfig.cropperMinHeight = 100;
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call dialogRef.close with the imageFile when onConfirm is called', () => {
+    const testImageFile = new File(['test'], 'test-image.png');
+    component.imageFile = testImageFile;
+
+    component.onConfirm();
+
+    expect(mockDialogRef.close).toHaveBeenCalledWith(testImageFile);
+  });
+
+  it('should set croppedImage and imageFile when imageCropped is called', () => {
+    const mockEvent: ImageCroppedEvent = {
+      base64: null,
+      blob: new Blob(['test image'], { type: 'image/png' }),
+      objectUrl: 'http://test.com/test.png',
+      width: 800,
+      height: 600,
+      cropperPosition: { x1: 0, y1: 0, x2: 0, y2: 0 },
+      imagePosition: { x1: 0, y1: 0, x2: 0, y2: 0 }
+    };
+
+    component.imageCropped(mockEvent);
+
+    expect(component.croppedImage).toBe(mockEvent.objectUrl);
+    expect(component.imageFile).toEqual(mockEvent.blob);
+  });
+
+  it('should set invalidMinRequirements to false if image meets the minimum size', () => {
+    const loadedImage: LoadedImage = {
+      original: {
+        size: { width: 150, height: 150 }
+      }
+    } as LoadedImage;
+
+    component.imageLoaded(loadedImage);
+
+    expect(component.invalidMinRequirements).toBeFalsy();
+  });
+
+  it('should set invalidMinRequirements to true if image is smaller than minimum size', () => {
+    const loadedImage: LoadedImage = {
+      original: {
+        size: { width: 50, height: 50 }
+      }
+    } as LoadedImage;
+
+    component.imageLoaded(loadedImage);
+
+    expect(component.invalidMinRequirements).toBeTruthy();
+  });
+
+  it('should dispatch ShowMessageBar action with error message when loadImageFailed is called', () => {
+    component.loadImageFailed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ShowMessageBar({ message: 'Failed to load image', type: 'error' }));
   });
 });
