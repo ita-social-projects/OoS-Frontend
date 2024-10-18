@@ -18,7 +18,7 @@ describe('ImageCropperModalComponent', () => {
       imports: [ImageCropperComponent, MatDialogModule, NgxsModule.forRoot()],
       declarations: [ImageCropperModalComponent],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: { image: null, cropperConfig: {} as Cropper } },
         { provide: MatDialogRef, useValue: { close: jest.fn() } },
         { provide: Store, useValue: { dispatch: jest.fn() } }
       ]
@@ -28,20 +28,32 @@ describe('ImageCropperModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImageCropperModalComponent);
     component = fixture.componentInstance;
-    component.data.cropperConfig = {} as Cropper;
-    component.data.cropperConfig.cropperAspectRatio = 1;
 
     mockDialogRef = TestBed.inject(MatDialogRef);
     store = TestBed.inject(Store);
-
-    component.data.cropperConfig.cropperMinWidth = 100;
-    component.data.cropperConfig.cropperMinHeight = 100;
 
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize with provided MAT_DIALOG_DATA', () => {
+    const testImage = new Event('test');
+    const testCropperConfig = { cropperAspectRatio: 1, cropperMinWidth: 100, cropperMinHeight: 100 } as Cropper;
+
+    const testData = {
+      image: testImage,
+      cropperConfig: testCropperConfig
+    };
+
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: testData });
+    fixture = TestBed.createComponent(ImageCropperModalComponent);
+    component = fixture.componentInstance;
+
+    expect(component.data.image).toBe(testImage);
+    expect(component.data.cropperConfig).toEqual(testCropperConfig);
   });
 
   it('should call dialogRef.close with the imageFile when onConfirm is called', () => {
