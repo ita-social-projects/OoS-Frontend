@@ -1,19 +1,26 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { NgxsModule, State, Store } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { Injectable } from '@angular/core';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { AppStateModel } from 'shared/store/app.state';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ImageFormControlComponent } from './image-form-control.component';
 
 describe('ImageFormControlComponent', () => {
   let component: ImageFormControlComponent;
   let fixture: ComponentFixture<ImageFormControlComponent>;
+  let dispatchSpy: jest.SpyInstance;
+  let store: Store;
+  let fileReaderMock: { onload: any; readAsDataURL?: jest.Mock<any, any, any> };
+  let mockEvent: Event;
+  let imgMock: { onload: any; src?: string; width?: number; height?: number };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, MatGridListModule, MatDialogModule, NgxsModule.forRoot()],
+      imports: [MatIconModule, MatGridListModule, MatDialogModule, NgxsModule.forRoot([MockAppState])],
       declarations: [ImageFormControlComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
@@ -23,9 +30,31 @@ describe('ImageFormControlComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(ImageFormControlComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+    jest.spyOn(component, 'openCropperModal');
+
     fixture.detectChanges();
+
+    component.cropperConfig = {
+      cropperMinWidth: 100,
+      cropperMinHeight: 100,
+      cropperMaxWidth: 200,
+      cropperMaxHeight: 200
+    };
+
+    component.inputImage = { nativeElement: { click: jest.fn() } } as any;
+
+    fileReaderMock = { onload: jest.fn(), readAsDataURL: jest.fn() };
+    mockEvent = {
+      target: {
+        files: [new File(['image'], 'test name', { type: 'image/jpeg' })]
+      }
+    } as any;
   });
 
   it('should create', () => {
@@ -58,7 +87,7 @@ describe('ImageFormControlComponent', () => {
   it('should call fileChangeEvent when file input changes', () => {
     const fileChangeEventSpy = jest.spyOn(component, 'fileChangeEvent');
 
-    const mockEvent = {
+    mockEvent = {
       target: {
         files: [new Blob(['image'], { type: 'image/jpeg' })]
       }
@@ -67,6 +96,59 @@ describe('ImageFormControlComponent', () => {
     component.fileChangeEvent(mockEvent);
 
     expect(fileChangeEventSpy).toHaveBeenCalled();
+  });
+
+  it('should dispatch ShowMessageBar action with small image', () => {
+    const expectedMessageBar = new ShowMessageBar({
+      message: SnackbarText.errorForSmallImg,
+      type: 'error'
+    });
+
+    imgMock = { onload: jest.fn(), src: 'test', width: 10, height: 10 };
+
+    window.FileReader = jest.fn(() => fileReaderMock) as any;
+    window.Image = jest.fn(() => imgMock) as any;
+
+    component.fileChangeEvent(mockEvent);
+    fileReaderMock.onload({ target: { result: 'data:image/jpeg;base64' } });
+    imgMock.onload();
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).toHaveBeenCalledWith(expectedMessageBar);
+  });
+
+  it('should dispatch ShowMessageBar action with big image', () => {
+    const expectedMessageBar = new ShowMessageBar({
+      message: SnackbarText.errorForBigImg,
+      type: 'error'
+    });
+
+    imgMock = { onload: jest.fn(), src: 'test', width: 300, height: 300 };
+
+    window.FileReader = jest.fn(() => fileReaderMock) as any;
+    window.Image = jest.fn(() => imgMock) as any;
+
+    component.fileChangeEvent(mockEvent);
+    fileReaderMock.onload({ target: { result: 'data:image/jpeg;base64' } });
+    imgMock.onload();
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).toHaveBeenCalledWith(expectedMessageBar);
+  });
+
+  it('should openCropperModal', () => {
+    imgMock = { onload: jest.fn(), src: 'test', width: 150, height: 150 };
+
+    window.FileReader = jest.fn(() => fileReaderMock) as any;
+    window.Image = jest.fn(() => imgMock) as any;
+
+    const openCropperModalSpy = jest.spyOn(component, 'openCropperModal');
+
+    component.fileChangeEvent(mockEvent);
+    fileReaderMock.onload({ target: { result: 'data:image/jpeg;base64' } });
+    imgMock.onload();
+
+    expect(openCropperModalSpy).toHaveBeenCalledWith(mockEvent);
   });
 
   it('should decode the image and call the provided callback', () => {
@@ -114,3 +196,14 @@ describe('ImageFormControlComponent', () => {
     expect(() => component.writeValue(null)).not.toThrow();
   });
 });
+
+@State<AppStateModel>({
+  name: 'app',
+  defaults: {
+    isDirtyForm: false,
+    isEditMode: false,
+    isMobileScreen: undefined
+  }
+})
+@Injectable()
+export class MockAppState {}
