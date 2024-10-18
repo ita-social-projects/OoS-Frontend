@@ -7,6 +7,7 @@ import { Constants } from 'shared/constants/constants';
 import { Cropper } from 'shared/models/cropper';
 import { DecodedImage } from 'shared/models/image.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
@@ -60,6 +61,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   }
 
   public imageDecoder(file: Blob, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
+    console.log(file);
     const myReader = new FileReader();
     myReader.onload = onLoad;
     return myReader.readAsDataURL(file);
@@ -126,7 +128,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         if (img.width < config.cropperMinWidth || img.height < config.cropperMinHeight) {
           this.store.dispatch(
             new ShowMessageBar({
-              message: `Мінімальний розмір зображення: ${config.cropperMinWidth}px у ширину та ${config.cropperMinHeight}px у висоту.`,
+              message: SnackbarText.errorForSmallImg,
               type: 'error'
             })
           );
@@ -134,7 +136,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         } else if (img.width > config.cropperMaxWidth || img.height > config.cropperMaxHeight) {
           this.store.dispatch(
             new ShowMessageBar({
-              message: `Максимальний розмір зображення: ${config.cropperMaxWidth}px у ширину та ${config.cropperMaxHeight}px у висоту.`,
+              message: SnackbarText.errorForBigImg,
               type: 'error'
             })
           );
