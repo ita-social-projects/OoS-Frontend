@@ -114,6 +114,10 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     return institution1.id === institution2.id;
   }
 
+  public removeCoverImageId($event: Event): void {
+    this.infoFormGroup.controls.coverImageId.setValue(null);
+  }
+
   private initInfoFormGroup(): void {
     this.infoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
@@ -150,7 +154,9 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ])
+      ]),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl('')
     });
   }
 

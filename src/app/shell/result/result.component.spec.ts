@@ -76,6 +76,15 @@ describe('ResultComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(new FiltersSidenavToggle(!initialSidenavState));
   });
+
+  it('should call calculateMarginLeft on window resize', () => {
+    jest.spyOn(component, 'calculateMarginLeft');
+
+    const event = new Event('resize');
+    window.dispatchEvent(event);
+
+    expect(component.calculateMarginLeft).toHaveBeenCalled();
+  });
 });
 
 @Component({

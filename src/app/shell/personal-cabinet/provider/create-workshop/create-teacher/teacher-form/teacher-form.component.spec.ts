@@ -48,7 +48,9 @@ describe('TeacherFormComponent', () => {
       middleName: new FormControl(''),
       gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -76,6 +78,18 @@ describe('TeacherFormComponent', () => {
 
     expect(getFormControlSpy).toHaveBeenCalledWith(mockedFormControlName);
     expect(setValueSpy).toHaveBeenCalledWith(null);
+  });
+
+  describe('removeCoverImageId', () => {
+    it('should set coverImageId control to null teacher-form', () => {
+      component.TeacherFormGroup.get('coverImageId').setValue('someId');
+      expect(component.TeacherFormGroup.get('coverImageId').value).toBe('someId');
+
+      const mockEvent = new Event('click');
+      component.removeCoverImageId(mockEvent);
+
+      expect(component.TeacherFormGroup.get('coverImageId').value).toBeNull();
+    });
   });
 });
 
