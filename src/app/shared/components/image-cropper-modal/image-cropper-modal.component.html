@@ -8,17 +8,17 @@
       [cropperMaxHeight]="data.cropperConfig.cropperMaxHeight"
       [aspectRatio]="data.cropperConfig.cropperAspectRatio"
       [resizeToHeight]="data.cropperConfig.croppedHeight"
-      format="data.cropperConfig.croppedFormat"
-      imageQuality="data.cropperConfig.croppedQuality"
+      [format]="data.cropperConfig.croppedFormat"
+      [imageQuality]="data.cropperConfig.croppedQuality"
       (imageCropped)="imageCropped($event)"
       (imageLoaded)="imageLoaded($event)"
       (cropperReady)="cropperReady()"
       (loadImageFailed)="loadImageFailed()"></image-cropper>
     <div *ngIf="invalidMinRequirements">
-      <small class="warning"
-        >Зображення недостатнього розміру.<br />Мінімальні розміри: ширина {{ data.cropperConfig.cropperMinWidth }}px, висота
-        {{ data.cropperConfig.cropperMinHeight }}px.</small
-      >
+      <small class="warning">
+        Зображення недостатнього розміру.<br />
+        Мінімальні розміри: ширина {{ data.cropperConfig.cropperMinWidth }}px, висота {{ data.cropperConfig.cropperMinHeight }}px.
+      </small>
     </div>
   </div>
   <div fxFlex="40">

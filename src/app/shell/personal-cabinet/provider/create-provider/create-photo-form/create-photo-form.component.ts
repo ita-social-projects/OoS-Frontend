@@ -79,6 +79,17 @@ export class CreatePhotoFormComponent implements OnInit {
     this.SectionItemsFormArray.removeAt(index);
   }
 
+  public removeImageId(id: string): void {
+    const imgIds = [...this.PhotoFormGroup.controls.imageIds.value];
+    const imgIndex = imgIds.indexOf(id);
+
+    if (imgIndex !== -1) {
+      imgIds.splice(imgIndex, 1);
+    }
+
+    this.PhotoFormGroup.controls.imageIds.setValue(imgIds);
+  }
+
   private activateEditMode(): void {
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.INSTITUTION_ID_ABSENT_VALUE;

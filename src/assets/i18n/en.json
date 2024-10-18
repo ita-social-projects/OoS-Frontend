@@ -790,7 +790,9 @@
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "not enough seats in workshop to enroll application",
           "ACCEPT_REJECTED_ALREADY_APPROVED": "approving of already approved application"
         }
-      }
+      },
+      "ERROR_FOR_SMALL_IMG_SIZE": "Image size is too small.",
+      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
