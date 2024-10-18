@@ -67,6 +67,15 @@ describe('CreateProviderComponent', () => {
     component.ngOnInit();
     expect(component.isImagesFeature).toBe(true);
   });
+
+  it('should select featuresList from the store', () => {
+    component.ngOnInit();
+
+    component.featuresList$.subscribe((featuresList) => {
+      expect(featuresList).toEqual(mockFeaturesList);
+      expect(component.isImagesFeature).toBe(featuresList.images);
+    });
+  });
 });
 
 @Component({
