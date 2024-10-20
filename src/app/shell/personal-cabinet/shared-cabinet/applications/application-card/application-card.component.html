@@ -61,45 +61,47 @@
       <div fxLayout="row" fxLayoutAlign="start center">
         <app-info-status [application]="application"></app-info-status>
       </div>
-      <ng-container *ngIf="userRole === Role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
-        <mat-card-content class="card-block card-block__buttons">
-          <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
-            <ng-container *ngIf="application.status === ApplicationStatuses.Pending">
-              <button class="btn" (click)="acceptForSelection.emit(application)" [class.hidden]="isApproveBtnHidden">
-                <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
-              </button>
+      <div class="workshop_actions" fxLayoutAlign="start center">
+        <ng-container *ngIf="userRole === Role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
+          <mat-card-content class="card-block card-block__buttons">
+            <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
+              <ng-container *ngIf="application.status === ApplicationStatuses.Pending">
+                <button class="btn" (click)="acceptForSelection.emit(application)" [class.hidden]="isApproveBtnHidden">
+                  <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="application.status === ApplicationStatuses.AcceptedForSelection">
+                <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
+                  <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
+                </button>
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="application.status === ApplicationStatuses.AcceptedForSelection">
+            <ng-template #approveButtonBlock>
               <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
                 <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
               </button>
-            </ng-container>
-          </ng-container>
-          <ng-template #approveButtonBlock>
-            <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
-              <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
+            </ng-template>
+            <button
+              class="btn btn-gray"
+              (click)="reject.emit(application)"
+              [ngClass]="
+                (application.status === ApplicationStatuses.Rejected || application.status === ApplicationStatuses.Left) && 'hidden'
+              ">
+              <p>{{ 'BUTTONS.REJECT' | translate }}</p>
             </button>
-          </ng-template>
-          <button
-            class="btn btn-gray"
-            (click)="reject.emit(application)"
-            [ngClass]="
-              (application.status === ApplicationStatuses.Rejected || application.status === ApplicationStatuses.Left) && 'hidden'
-            ">
-            <p>{{ 'BUTTONS.REJECT' | translate }}</p>
-          </button>
+          </mat-card-content>
+        </ng-container>
+        <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="end center" *ngIf="userRole === Role.parent">
+          <div
+            fxLayout="column"
+            fxLayoutAlign="start start"
+            [ngClass]="(application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected) && 'hidden'">
+            <button class="btn btn-gray" (click)="leave.emit(application)">
+              <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
+            </button>
+          </div>
         </mat-card-content>
-      </ng-container>
-      <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="end center" *ngIf="userRole === Role.parent">
-        <div
-          fxLayout="column"
-          fxLayoutAlign="start start"
-          [ngClass]="(application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected) && 'hidden'">
-          <button class="btn btn-gray" (click)="leave.emit(application)">
-            <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
-          </button>
-        </div>
-      </mat-card-content>
+      </div>
     </div>
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
