@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 
 import { Constants } from 'shared/constants/constants';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { InvitationData, UnionTableData } from 'shared/models/users-table';
@@ -34,7 +35,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ViewChild(MatSort)
   private sort: MatSort;
-
+  public readonly UserTabsTitles = UserTabsTitles;
   public readonly userStatuses = UserStatuses;
   public readonly statuses = UserStatusesTitles;
   public readonly statusIcons = UserStatusIcons;
