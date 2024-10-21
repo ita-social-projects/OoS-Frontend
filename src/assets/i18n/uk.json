@@ -407,7 +407,9 @@
       "MINISTRY_SUBMISSION": "Підпорядкування (Міністерство)",
       "USER_DIRECTIONS": "Напрямки для користувача",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
-      "SHORT_TITLE": "Скорочена назва"
+      "SHORT_TITLE": "Скорочена назва",
+      "ADDRESS_TITLE": "Заголовок адреси",
+      "CONTACTS_OWNER": "Власник контактів"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -581,7 +583,11 @@
     "DELETE": "Видалити",
     "GO_BACK": "Повернутись",
     "REGISTER": "Зареєструватися",
-    "ADD_DIRECTION": "Додати напрямок"
+    "ADD_DIRECTION": "Додати напрямок",
+    "ADD_MORE_EMAIL": "Додати ще електронну пошту",
+    "ADD_MORE_PHONE": "Додати ще телефон",
+    "ADD_MORE_CONTACTS": "Додати ще контакти",
+    "ADD_MORE_ADDRESS": "Додати ще адресу"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",

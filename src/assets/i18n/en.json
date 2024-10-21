@@ -407,7 +407,9 @@
       "MINISTRY_SUBMISSION": "Ministry of submission",
       "USER_DIRECTIONS": "Directions for user",
       "TERRITORIAL_COMMUNITY": "Territorial community",
-      "SHORT_TITLE": "Short title"
+      "SHORT_TITLE": "Short title",
+      "ADDRESS_TITLE": "Address title",
+      "CONTACTS_OWNER": "Contacts owner"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -579,7 +581,11 @@
     "DELETE": "Delete",
     "GO_BACK": "Go back",
     "REGISTER": "Register",
-    "ADD_DIRECTION": "Add a direction"
+    "ADD_DIRECTION": "Add a direction",
+    "ADD_MORE_EMAIL": "Add more email",
+    "ADD_MORE_PHONE": "Add more phone",
+    "ADD_MORE_CONTACTS": "Add more contacts",
+    "ADD_MORE_ADDRESS": "Add more address"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
