@@ -34,7 +34,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.providerTypes)
-  public providerTypes$: Observable<Institution[]>;
+  public providerTypes$: Observable<DataItem[]>;
   @Select(MetaDataState.institutionStatuses)
   public institutionStatuses$: Observable<DataItem[]>;
 
