@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
-  stsServer: 'https://auth.oos.dmytrominochkin.cloud',
-  serverUrl: 'https://api.oos.dmytrominochkin.cloud',
-  storageUrl: 'https://storage.googleapis.com/oos-images-63325/',
-
+  stsServer: 'https://pozashkillia-test.iea.gov.ua/auth',
+  serverUrl: 'https://pozashkillia-test.iea.gov.ua/web',
+  storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
 };

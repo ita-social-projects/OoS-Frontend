@@ -1,9 +1,5 @@
-<div *ngIf="provider" fxLayout="column"
-fxLayoutAlign="space-between" fxLayoutGap="1rem">
-  <app-provider-status-banner
-    *ngIf="provider.ownership !== ownershipTypes.Private"
-    [provider]="provider">
-  </app-provider-status-banner>
+<div *ngIf="provider" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+  <app-provider-status-banner *ngIf="provider.ownership !== ownershipTypes.Private" [provider]="provider"> </app-provider-status-banner>
   <div class="container">
     <app-provider-info
       [provider]="provider"

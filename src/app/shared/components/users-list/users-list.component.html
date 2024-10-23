@@ -1,6 +1,12 @@
 <div class="wrapper">
   <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+      aria-describedby="users-table"
+      appStretchTable>
       <!-- Name Column -->
       <ng-container matColumnDef="pib" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
@@ -40,7 +46,7 @@
         <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
           {{ 'FORMS.LABELS.PHONE' | translate }}
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phone }}</td>
       </ng-container>
 
       <!-- Name Column -->
@@ -51,7 +57,27 @@
         <td mat-cell *matCellDef="let element">{{ element.institutionTitle }}</td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Region Column -->
+      <ng-container matColumnDef="region">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by region">
+          <ng-container>
+            {{ 'FORMS.LABELS.REGION' | translate }}
+          </ng-container>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.regionName }}</td>
+      </ng-container>
+
+      <!-- Territorial community Column -->
+      <ng-container matColumnDef="territorialCommunity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by territorial community">
+          <ng-container>
+            {{ 'FORMS.LABELS.TERRITORIAL_COMMUNITY' | translate }}
+          </ng-container>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.catottgName }}</td>
+      </ng-container>
+
+      <!-- Role Column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
           {{ 'FORMS.LABELS.ROLE' | translate }}
@@ -59,20 +85,28 @@
         <td mat-cell *matCellDef="let element">{{ element.role | translate }}</td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Status Column -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
           {{ 'FORMS.LABELS.STATUS' | translate }}
         </th>
         <td mat-cell *matCellDef="let element">
-          <div class="statuses {{ element.status }}">
-            <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
-            <span> {{ statusesTitles[element.status] | translate }}</span>
-          </div>
+          <ng-container *ngIf="element.isBlocked; else notBlockedUser">
+            <div class="statuses {{ userStatuses.Blocked }}">
+              <span><i class="status-icon {{ statusIcons[userStatuses.Blocked] }}"></i></span>
+              <span> {{ statuses[userStatuses.Blocked] | translate }}</span>
+            </div>
+          </ng-container>
+          <ng-template #notBlockedUser>
+            <div class="statuses {{ element.status }}">
+              <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
+              <span> {{ statusesTitles[element.status] | translate }}</span>
+            </div>
+          </ng-template>
         </td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Actions Column -->
       <ng-container matColumnDef="actions" stickyEnd>
         <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
         <td mat-cell *matCellDef="let user">
@@ -80,28 +114,26 @@
             <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="email">
-              <mat-icon class="action-icon">email</mat-icon>
-            </button>
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
+            <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
+            <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
-              <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
+              <button mat-menu-item (click)="block.emit({ user, isBlocking: true })">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="block.emit({user, isBlocked: false})">
+              <button mat-menu-item (click)="unblock.emit({ user, isBlocking: false })">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
+            <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
+              <button mat-menu-item (click)="sendInvitation.emit({ user, adminType })">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+            </ng-container>
             <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
-          </mat-menu>
-          <mat-menu #email="matMenu" class="header_menu">
-            <button mat-menu-item (click)="sendInvitation.emit(user)">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>

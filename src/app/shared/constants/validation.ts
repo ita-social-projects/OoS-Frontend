@@ -1,13 +1,13 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import { HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
+import { EDRPOU_IPN_REGEX, EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from './regex-constants';
 
 export class ValidationConstants {
   // Age
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
-  static readonly BIRTH_AGE_MAX = 120;
   static readonly MAX_AGE_LENGTH = 2;
+  static readonly BIRTH_AGE_MAX = 120;
 
   // Price
   static readonly MIN_PRICE = 1;
@@ -16,23 +16,26 @@ export class ValidationConstants {
 
   // Description length
   static readonly MIN_DESCRIPTION_LENGTH_1 = 1;
-  static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
   static readonly MAX_DESCRIPTION_LENGTH_300 = 300;
+  static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
   static readonly MAX_DESCRIPTION_LENGTH_2000 = 2000;
 
   // Input Length
-  static readonly INPUT_LENGTH_256 = 256;
-  static readonly INPUT_LENGTH_100 = 100;
-  static readonly INPUT_LENGTH_60 = 60;
-  static readonly INPUT_LENGTH_30 = 30;
-  static readonly INPUT_LENGTH_15 = 15;
-  static readonly INPUT_LENGTH_10 = 10;
-  static readonly INPUT_LENGTH_8 = 8;
-  static readonly INPUT_LENGTH_3 = 3;
   static readonly INPUT_LENGTH_1 = 1;
+  static readonly INPUT_LENGTH_3 = 3;
+  static readonly INPUT_LENGTH_8 = 8;
+  static readonly INPUT_LENGTH_10 = 10;
+  static readonly INPUT_LENGTH_15 = 15;
+  static readonly INPUT_LENGTH_30 = 30;
+  static readonly INPUT_LENGTH_60 = 60;
+  static readonly INPUT_LENGTH_100 = 100;
+  static readonly INPUT_LENGTH_256 = 256;
+  static readonly INPUT_LENGTH_500 = 500;
 
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly PHONE_LENGTH = 9;
+  static readonly EDRPOU_LENGTH = 8;
+  static readonly IPN_LENGTH = 10;
 
   // Entity Amount
   static readonly CHILDREN_AMOUNT_MAX = 20;
@@ -66,4 +69,17 @@ export class FormValidators {
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
+
+  static readonly defaultSectionNameValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(SECTION_NAME_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
+  ];
+
+  static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EMAIL_REGEX.test(control.value) ? null : { email: true };
+
+  static readonly edrpouIpn: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EDRPOU_IPN_REGEX.test(control.value) ? null : { edrpouIpn: true };
 }

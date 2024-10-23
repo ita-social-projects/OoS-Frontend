@@ -1,23 +1,29 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">{{
-    getLabelTitle(entities?.length) | translate
-  }}</mat-label>
+  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">
+    {{ getLabelTitle(entities?.length) | translate }}
+  </mat-label>
   <mat-select
-    [disabled]="entities?.length < 1"
     [formControl]="entityControl"
     multiple
     class="dropdown"
     disableOptionCentering
-    panelClass="dropdown-panel application-dropdown"
-  >
-    <mat-select-trigger>
+    panelClass="dropdown-panel application-dropdown">
+    <mat-select-trigger showTooltipIfTruncated>
       <div *ngIf="entityControl.value?.length">
-        <span *ngIf="entityControl.value?.length > 1">
-          {{ entityControl.value?.length | translateCases: declination }} {{ 'SELECTED' | translate }}
-        </span>
-        <span *ngIf="entityControl.value?.length === 1"> {{ entityControl.value[0].title }} </span>
+        <div class="workshops-amount">
+          <span *ngIf="entityControl.value?.length > 1">
+            {{ entityControl.value?.length | translateCases: declination }} {{ 'SELECTED' | translate }}
+          </span>
+        </div>
+        <div class="workshops-amount">
+          <span *ngIf="entityControl.value?.length === 1">
+            {{ entityControl.value[0].title }}
+          </span>
+        </div>
       </div>
     </mat-select-trigger>
-    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ entity.title }} </mat-option>
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity" (click)="setIsUserInteractedToTrue()">
+      {{ entity.title }}
+    </mat-option>
   </mat-select>
 </mat-form-field>

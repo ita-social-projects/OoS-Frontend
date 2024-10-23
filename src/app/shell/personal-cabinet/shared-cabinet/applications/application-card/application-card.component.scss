@@ -2,34 +2,65 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
+  max-width: 100%;
+
+  &:first-child {
+    width: 100%;
+  }
+
   &__parent {
     flex: 2;
   }
+
   &__info {
     display: flex;
     justify-content: space-between;
+
     & > div {
       flex: 1;
+
       &:not(:first-child) {
         padding-left: 8px;
       }
     }
+    .workshop_actions {
+      flex: 0.5;
+    }
+    & > div > .card-block__child-name {
+      min-width: 250px !important;
+      justify-content: flex-start !important;
+
+      & > h4 {
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   }
+
   &__buttons {
-    max-width: 340px;
+    max-width: 410px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
 }
+
 .workshop-description {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  h4 {
+
+  h4,
+  h5 {
     &:not(:last-child) {
       padding-bottom: 8px;
     }
+  }
+
+  h5 {
+    color: #444444;
   }
 }
 
@@ -38,9 +69,10 @@
   justify-content: center;
   align-items: center;
 }
+
 .text {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -50,10 +82,11 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  padding: 0.6rem 1.9rem;
+  padding: 0.6rem 1.7rem;
   margin: 0 8px;
   min-width: 10rem;
   text-transform: uppercase;
+
   &-gray {
     background: #ffffff;
     border: 1px solid #aaaaaa;
@@ -61,28 +94,20 @@
     padding: 0.6rem 1.9rem;
   }
 }
+
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .organization {
   padding-bottom: 8px;
 }
 
-::ng-deep .mat-menu-panel.childInfo-menu {
-  max-width: none;
-  background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 5px !important;
-}
-::ng-deep .childInfo-menu .mat-menu-content {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 18px;
-  margin: 0px !important;
-  padding: 0px !important;
+.text_icon {
+  &:hover {
+    cursor: default;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1220px) {
@@ -91,6 +116,7 @@
       flex-direction: column;
       justify-content: center;
       gap: 10px;
+      max-width: 176px;
     }
   }
 }
@@ -100,56 +126,70 @@
     &__parent {
       flex: 1;
     }
+
     &__info {
       flex-direction: column;
-      align-items: start;
+      align-items: flex-start;
       gap: 12px;
+
       & > div {
         &:not(:first-child) {
           padding-left: 0px;
         }
       }
     }
+
+    &__buttons {
+      justify-content: flex-start;
+      flex-direction: row;
+      padding-left: 0 !important;
+    }
   }
+
   .text {
     &-bold {
       display: none;
     }
   }
+
   .workshop-age {
     display: none;
   }
 }
 
 @media (max-width: 530px) {
-  .title {
-    min-width: 180px;
-  }
   .card {
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     gap: 20px;
+    padding-right: 0;
   }
+
   .card-block {
     &:first-child {
       width: 100%;
       display: flex;
       justify-content: space-between;
     }
+
     &__buttons {
       max-width: none;
       width: 100%;
       flex-direction: row;
-      justify-content: center;
+      justify-content: flex-start !important;
     }
+
     &__actions {
       align-items: flex-start;
+      padding-left: 0 !important;
     }
   }
+
   .btn {
     min-width: 140px;
     margin: 0;
   }
+
   .material-icons {
     margin-top: 2px !important;
   }

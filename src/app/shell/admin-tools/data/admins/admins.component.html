@@ -3,7 +3,6 @@
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        #input
         [formControl]="filterFormControl"
         matInput
         type="text"
@@ -13,32 +12,33 @@
 
     <div>
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-        {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
+        {{ 'BUTTONS.ADD' | translate }}
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #add="matMenu" class="header_menu">
-        <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', AdminRoles.ministryAdmin]"
-          ><button mat-menu-item>{{ 'ENUM.ADMISTRATORS.MINISTRY_ADMIN' | translate }}</button></a
-        >
-        <a [routerLink]="['/create-admin', AdminRoles.regionAdmin]"
-          ><button mat-menu-item>{{ 'ENUM.ADMISTRATORS.REGION_ADMIN' | translate }}</button></a
-        >
-        <a
-          ><button mat-menu-item>{{ 'ENUM.ADMISTRATORS.TERRITORIAL_ADMIN' | translate }}</button></a
-        >
+        <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', AdminRoles.ministryAdmin]">
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.MINISTRY_ADMIN' | translate }}</button>
+        </a>
+        <a *ngIf="canManageInstitution(role)" [routerLink]="['/create-admin', AdminRoles.regionAdmin]">
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.REGION_ADMIN' | translate }}</button>
+        </a>
+        <a *ngIf="canManageRegion(role)" [routerLink]="['/create-admin', AdminRoles.areaAdmin]">
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.AREA_ADMIN' | translate }}</button>
+        </a>
       </mat-menu>
     </div>
   </div>
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{ AdminRolesTitles.ministryAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
+      <mat-tab *ngIf="role === Role.techAdmin" label="{{ AdminRolesTitles.ministryAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.ministryAdmin }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ AdminRolesTitles.regionAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
+      <mat-tab *ngIf="canManageInstitution(role)" label="{{ AdminRolesTitles.regionAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.regionAdmin }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ AdminRolesTitles.territorialCommunityAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>
+      <mat-tab *ngIf="canManageRegion(role)" label="{{ AdminRolesTitles.areaAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.areaAdmin }"></ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -51,11 +51,14 @@
         <app-users-list
           [statusesTitles]="statusesTitles"
           [users]="admins"
+          [adminType]="adminType"
           [isEdit]="true"
           [displayedColumns]="displayedColumns"
           (delete)="onDelete($event)"
-          (block)="onBlock($event)"
-          (update)="onUpdate($event)">
+          (block)="onBlockUnblock($event)"
+          (unblock)="onBlockUnblock($event)"
+          (update)="onUpdate($event)"
+          (sendInvitation)="onSendInvitation($event)">
         </app-users-list>
       </div>
       <app-paginator

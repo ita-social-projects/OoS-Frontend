@@ -1,4 +1,5 @@
 export enum PayRateType {
+  None = 0,
   Classes,
   Month,
   Day,
@@ -13,11 +14,17 @@ export enum WorkshopOpenStatus {
   Closed = 'Closed'
 }
 
-export enum DetailsTabTitlesParams{
+export enum DetailsTabTitlesParams {
   'AboutWorkshop',
   'AboutProvider',
   'Teachers',
   'OtherWorkshops',
   'Reviews',
-  'Achievements',
+  'Achievements'
+}
+
+export enum FormOfLearning {
+  Offline = 'Offline',
+  Online = 'Online',
+  Mixed = 'Mixed'
 }

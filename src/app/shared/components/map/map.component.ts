@@ -1,47 +1,50 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import * as Layer from 'leaflet';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Coords } from '../../models/coords.model';
-import { Address } from '../../models/address.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
+import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { SharedUserState } from '../../store/shared-user.state';
-import { WorkshopMarker } from '../../models/workshopMarker.model';
-import { GeocoderService } from './../../services/geolocation/geocoder.service';
-import { Geocoder } from './../../models/geolocation';
-import { Codeficator } from './../../models/codeficator.model';
-import { FilterState } from '../../store/filter.state';
-import { SearchResponse } from '../../models/search.model';
-import { SetCoordsByMap } from '../../store/filter.actions';
-import { ShowMessageBar } from '../../store/app.actions';
-import { SnackbarText } from '../../enum/enumUA/messageBer';
+import * as Layer from 'leaflet';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { MessageBarType } from 'shared/enum/message-bar';
+import { Address } from 'shared/models/address.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Coords } from 'shared/models/coords.model';
+import { Geocoder } from 'shared/models/geolocation';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopMarker } from 'shared/models/workshop-marker.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
+import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SetCoordsByMap } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy {
-  @Input() addressFormGroup: FormGroup;
-  @Input() settelmentFormGroup: FormGroup;
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input() public addressFormGroup: FormGroup;
+  @Input() public settelmentFormGroup: FormGroup;
 
-  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  @Output() addressSelect = new EventEmitter<Geocoder>();
-  @Output() selectedWorkshopAddress = new EventEmitter<Address>();
+  @Output() public addressSelect = new EventEmitter<Geocoder>();
+  @Output() public selectedWorkshopAddress = new EventEmitter<Address>();
 
   @Select(SharedUserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
+  public selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+  public settlement$: Observable<Codeficator>;
   @Select(FilterState.userRadiusSize)
-  userRadiusSize$: Observable<number>;
+  public userRadiusSize$: Observable<number>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  map: Layer.Map;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public map: Layer.Map;
 
   private singleMarker: Layer.Marker;
   private workshopMarkers: WorkshopMarker[] = [];
@@ -50,8 +53,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private workshops: WorkshopCard[];
   private customCoords: Coords;
   private userMarker: Layer.Marker;
+  private geolocationMarker: Layer.Marker;
   private userRadius: Layer.Circle;
   private radiusSize: number;
+  private delayDuration = 3000;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
@@ -76,8 +81,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     popupAnchor: [-3, -76],
     iconUrl: '/assets/icons/user_dot.svg'
   });
+  private geolocationMarkerIcon: Layer.Icon = Layer.icon({
+    iconSize: [40, 40],
+    shadowSize: [0, 0],
+    iconAnchor: [10, 41],
+    popupAnchor: [9, -40],
+    iconUrl: '/assets/icons/geolocation-marker.svg'
+  });
 
-  constructor(private geocoderService: GeocoderService, private store: Store) {}
+  constructor(
+    private geocoderService: GeocoderService,
+    private store: Store,
+    private geolocationService: GeolocationService,
+    private translateService: TranslateService
+  ) {}
+
+  public ngOnInit(): void {
+    this.changeLanguageOnMarkerPopup();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -85,7 +111,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * Adds onclick event handler which translates map coords into address
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -96,21 +122,46 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           lat: settlement.latitude,
           lng: settlement.longitude
         };
-        this.map || this.initMap();
+        if (!this.map) {
+          this.initMap();
+        }
         this.flyTo(this.defaultCoords);
 
-        // checking if there are filtered workshops on the map for teh result page view
-        if (!!this.filteredWorkshops$) {
+        // checking if there are filtered workshops on the map for the result page view
+        if (this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
-          this.showWarningMessage();
+          this.showWarningMessage(SnackbarText.mapWarning, 'warningBlue', true);
         }
 
-        // checking if user edit workshop information to create adress for workshop
+        // checking if user edit workshop information to create address for workshop
         if (this.addressFormGroup) {
           this.setAddress();
         }
       });
+
+    this.settlement$.pipe(takeUntil(this.destroy$), delay(this.delayDuration), take(1)).subscribe(() => this.setCurrentGeolocation());
+  }
+
+  public setCurrentGeolocation(): void {
+    this.geolocationService.handleUserLocation((coords: Coords) => {
+      if (coords) {
+        this.setGeolocationMarkerOnMap(coords);
+        this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+          if (this.geolocationService.getCityFromStorage()) {
+            if (this.geolocationService.getCityFromStorage().id === result.id) {
+              this.geolocationService.confirmCity(result, true);
+            } else {
+              this.geolocationService.confirmCity(result, false);
+            }
+          } else {
+            this.geolocationService.confirmCity(result, false);
+          }
+        });
+      } else {
+        this.showWarningMessage(SnackbarText.geolocationWarning, 'warningYellow', true);
+      }
+    });
   }
 
   /**
@@ -132,6 +183,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
+      // eslint-disable-next-line @typescript-eslint/quotes
       attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
@@ -143,6 +195,34 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.setMapLocation(L.latlng);
       }
     });
+  }
+
+  private setGeolocationMarkerOnMap(coords: Coords): void {
+    if (this.geolocationMarker) {
+      this.geolocationMarker.remove();
+    }
+    this.translateService
+      .get('GEOLOCATION_MARKER_TITLE')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((popupText: string) => {
+        this.geolocationMarker = Layer.marker(coords, { icon: this.geolocationMarkerIcon, zIndexOffset: 1 })
+          .addTo(this.map)
+          .bindPopup(`<p>${popupText}</p>`)
+          .openPopup();
+      });
+  }
+
+  private changeLanguageOnMarkerPopup(): void {
+    this.translateService.onLangChange
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => this.translateService.get('GEOLOCATION_MARKER_TITLE'))
+      )
+      .subscribe((translation: string) => {
+        if (this.geolocationMarker) {
+          this.geolocationMarker.setPopupContent(`<p>${translation}</p>`);
+        }
+      });
   }
 
   private setFilteredWorkshops(): void {
@@ -157,28 +237,34 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setAddress(): void {
-    const address: Geocoder = this.addressFormGroup.getRawValue();
+    const address: Geocoder & { latitude: number; longitude: number } = this.addressFormGroup.getRawValue();
+
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
+      this.setNewSingleMarker([address.latitude, address.longitude]);
     }
-    this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((address: Geocoder) => {
-      if (this.addressFormGroup.valid) {
-        this.addressDecode(address);
-      }
-    });
+
+    this.addressFormGroup.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((value: Geocoder & { latitude: number; longitude: number }) => {
+        if (this.addressFormGroup.valid) {
+          this.addressDecode(value);
+        } else if (value.catottgId) {
+          this.setNewSingleMarker([value.latitude, value.longitude]);
+        }
+      });
   }
 
   /**
-   * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
+   * uses GeolocationService to translate coords into address and sets emits event to update address in parent component
    * @param coords - type Coords
    */
   private setMapLocation(coords: Coords): void {
-    this.geocoderService.locationDecode(coords, (result: Geocoder) => {
+    this.geocoderService.locationDecode(coords).subscribe((result: Geocoder) => {
       if (result) {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.get('catottgId').value }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
@@ -186,33 +272,40 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private addressDecode(address: Geocoder): void {
-    this.geocoderService.addressDecode(address, (result: Geocoder) => {
-      if (result) {
-        this.setNewSingleMarker([result.lat, result.lon]);
-        this.addressSelect.emit(result);
-      } else {
-        this.addressSelect.emit(null);
-        this.map.removeLayer(this.singleMarker);
-      }
-    });
+    this.geocoderService
+      .addressDecode(address)
+      .pipe(take(1))
+      .subscribe((result: Geocoder) => {
+        if (result) {
+          this.setNewSingleMarker([result.lat, result.lon]);
+          this.addressSelect.emit(result);
+        } else {
+          this.addressSelect.emit(null);
+          this.map.removeLayer(this.singleMarker);
+        }
+      });
   }
 
   /**
-   * This method remove existed marker and set the new marke to the map
+   * This method remove existed marker and set the new mark to the map
    * @param coords - type [number, number]
    */
   private setNewSingleMarker(coords: [number, number]): void {
-    this.singleMarker && this.map.removeLayer(this.singleMarker);
+    if (this.singleMarker) {
+      this.map.removeLayer(this.singleMarker);
+    }
+
     this.singleMarker = this.createMarker(coords);
     this.singleMarker.on('dragend', (event: Layer.LeafletMouseEvent) => {
-      this.setMapLocation(event.target['_latlng']);
+      this.setMapLocation(event.target._latlng);
     });
+
     this.map.addLayer(this.singleMarker);
     this.map.flyTo(coords);
   }
 
   /**
-   * This method remove existed marker and set the new marke to the map
+   * This method remove existed marker and set the new mark to the map
    * @param coords - type [number, number]
    */
   private setWorkshopMarkers(address: Address): void {
@@ -223,9 +316,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find(
-        (workshopMarker: WorkshopMarker) => workshopMarker.marker === event.target
-      );
+      const targetMarker = this.workshopMarkers.find((workshopMarker: WorkshopMarker) => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedWorkshopAddress.emit(address);
@@ -250,11 +341,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    * @param draggable - type boolean
    */
-  private createMarker(coords: [number, number], draggable = true): Layer.Marker {
+  private createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, {
       draggable,
       icon: this.unselectedMarkerIcon,
-      riseOnHover: true
+      riseOnHover: true,
+      zIndexOffset: 3
     });
   }
 
@@ -269,13 +361,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       draggable: true,
       icon: this.userIcon,
       riseOnHover: true,
-      zIndexOffset: 5
+      zIndexOffset: 10
     }).addTo(this.map);
 
     this.userRadius = Layer.circle(this.defaultCoords, {
       color: '#C72A21',
       fillOpacity: 0,
-      radius: 5000 || this.radiusSize,
+      radius: this.radiusSize || 5000,
       className: 'leaflet-grab'
     }).addTo(this.map);
 
@@ -298,17 +390,21 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private clearUserRadius() {
+  private clearUserRadius(): void {
     if (this.userRadius && this.userMarker) {
       this.userRadius.removeFrom(this.map);
       this.userMarker.removeFrom(this.map);
     }
-    this.workshopMarkers && this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
+    if (this.workshopMarkers) {
+      this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
+    }
   }
 
   private subscribeOnUserRadiusSize(): void {
     this.userRadiusSize$.pipe(takeUntil(this.destroy$)).subscribe((value: number) => {
-      this.radiusSize && this.updateUserRadius(value);
+      if (this.radiusSize) {
+        this.updateUserRadius(value);
+      }
       this.radiusSize = value;
     });
   }
@@ -317,18 +413,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.userRadius.setRadius(num);
   }
 
-  private showWarningMessage(): void {
-    this.store.dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.mapWarning,
-        type: 'warningBlue',
-        infinityDuration: true
-      })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  private showWarningMessage(message: SnackbarText, type: MessageBarType, infinityDuration: boolean): void {
+    this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
   }
 }

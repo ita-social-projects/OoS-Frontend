@@ -13,8 +13,7 @@
         [workshop]="workshop"
         [achievementsTypes]="achievementsTypes"
         (deleteAchievement)="onDelete($event)"
-        [isAllowedEdit]="isAllowedEdit"
-      >
+        [isAllowedEdit]="isAllowedEdit">
       </app-achievement-card>
     </ng-container>
   </div>
@@ -24,8 +23,7 @@
       [currentPage]="currentPage"
       [itemsPerPage]="achievementParameters.size"
       (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)"
-    >
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

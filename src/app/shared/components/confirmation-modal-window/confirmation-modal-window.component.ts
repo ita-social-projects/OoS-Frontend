@@ -1,7 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } from '../../enum/modal-confirmation';
+
+import {
+  ModalConfirmationText,
+  ModalConfirmationTitle,
+  ModalConfirmationType,
+  ModalConfirmationTypeWithQuotes
+} from 'shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-confirmation-modal-window',
@@ -9,13 +15,13 @@ import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } 
   styleUrls: ['./confirmation-modal-window.component.scss']
 })
 export class ConfirmationModalWindowComponent implements OnInit {
-  readonly modalConfirmationType = ModalConfirmationType;
-  readonly modalWindow = true;
+  public readonly modalConfirmationType = ModalConfirmationType;
+  public readonly modalWindow = true;
 
-  modalTitle: string;
-  modalConfirmationText: string;
-  modalConfirmationProperty: string;
-  ratingSelectControl: FormControl;
+  public modalTitle: string;
+  public modalConfirmationText: string;
+  public modalConfirmationProperty: string;
+  public ratingSelectControl: FormControl;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -25,11 +31,14 @@ export class ConfirmationModalWindowComponent implements OnInit {
     }
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
     this.modalConfirmationText = ModalConfirmationText[this.data.type];
     if (this.data.property) {
-      this.modalConfirmationProperty = this.data.property;
+      this.modalConfirmationProperty = this.data.property.trim();
+      if (this.data.type in ModalConfirmationTypeWithQuotes) {
+        this.modalConfirmationProperty = `"${this.modalConfirmationProperty}"`;
+      }
     }
   }
 }

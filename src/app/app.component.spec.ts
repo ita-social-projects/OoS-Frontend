@@ -1,18 +1,33 @@
 import { Component, Input } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let store: Store;
+  let mockMatSnackBar: MatSnackBar;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatSidenavModule, MatProgressBarModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MatSidenavModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
+      ],
       declarations: [
         AppComponent,
         MockHeaderComponent,
@@ -25,12 +40,29 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    mockMatSnackBar = TestBed.inject(MatSnackBar);
+    fixture.detectChanges();
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should set isMobileView on resize', () => {
+    jest.spyOn(component, 'onResize');
+
+    window.innerWidth = 500;
+    window.dispatchEvent(new Event('resize'));
+
+    expect(component.onResize).toHaveBeenCalled();
+    expect(component.isMobileView).toBeTruthy();
   });
 });
+
 @Component({
   selector: 'app-header',
   template: ''

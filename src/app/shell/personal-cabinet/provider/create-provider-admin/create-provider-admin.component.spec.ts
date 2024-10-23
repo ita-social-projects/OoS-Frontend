@@ -3,14 +3,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Workshop } from '../../../../shared/models/workshop.model';
+
+import { Workshop } from 'shared/models/workshop.model';
 import { CreateProviderAdminComponent } from './create-provider-admin.component';
 
 describe('CreateProviderAdminComponent', () => {
@@ -29,13 +30,9 @@ describe('CreateProviderAdminComponent', () => {
         RouterTestingModule,
         MatDialogModule,
         NgxsModule.forRoot([]),
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        CreateProviderAdminComponent,
-        MockValidationHintForInputComponent,
-        MockWorkshopChekcboxDropdownComponent,
-      ],
+      declarations: [CreateProviderAdminComponent, MockValidationHintForInputComponent, MockWorkshopChekcboxDropdownComponent]
     }).compileComponents();
   });
 
@@ -47,7 +44,7 @@ describe('CreateProviderAdminComponent', () => {
       middleName: new FormControl(''),
       firstName: new FormControl(''),
       phoneNumber: new FormControl(),
-      email: new FormControl(),
+      email: new FormControl()
     });
   });
 
@@ -58,18 +55,18 @@ describe('CreateProviderAdminComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: '',
+  template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() isPhoneNumber: true;
 }
 
 @Component({
   selector: 'app-entity-checkbox-dropdown',
-  template: '',
+  template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];

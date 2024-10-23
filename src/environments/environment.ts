@@ -4,10 +4,9 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  stsServer: 'https://auth.oos.dmytrominochkin.cloud',
-  serverUrl: 'https://api.oos.dmytrominochkin.cloud',
-  storageUrl: 'https://storage.googleapis.com/oos-images-63325/',
-
+  stsServer: 'https://pozashkillia-test.iea.gov.ua/auth',
+  serverUrl: 'https://pozashkillia-test.iea.gov.ua/web',
+  storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
 };
 /*
  * For easier debugging in development mode, you can import the following file

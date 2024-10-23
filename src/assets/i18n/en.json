@@ -32,19 +32,35 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
+  "DIRECTIONS_FOR_THE_USER": "Directions for the user",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
   "ENUM": {
+    "CHAT_CHANGES": {
+      "CHANGE_IN_MESSAGES": "change in messages",
+      "CHANGES_IN_MESSAGES": "changes in messages",
+      "CHANGE_IN_MESSAGES_ABLATIVE": "changes in messages"
+    },
+    "CHAT_UNREAD": {
+      "UNREAD_MESSAGE": "unread message",
+      "UNREAD_MESSAGES": "unread messages",
+      "UNREAD_MESSAGE_ABLATIVE": "unread messages"
+    },
     "APPLICATION": {
       "APPLICATION": "application",
       "APPLICATIONS": "applications",
       "APPLICATION_ABLATIVE": "application"
     },
+    "APPLICATION_ACCEPTED_FOR_SELECTION": {
+      "APPLICATION_ACCEPTED_FOR_SELECTION": "application accepted for selection",
+      "APPLICATIONS_ACCEPTED_FOR_SELECTION": "applications accepted for selection",
+      "APPLICATION_ACCEPTED_FOR_SELECTION_ABLATIVE": "applications accepted for selection"
+    },
     "APPLICATION_APPROVED": {
-      "APPLICATION_ACCEPTED": "application accepted",
-      "APPLICATIONS_ACCEPTED": "applications accepted",
-      "APPLICATION_ACCEPTED_ABLATIVE": "applications accepted"
+      "APPLICATION_APPROVED": "application approved",
+      "APPLICATIONS_APPROVED": "applications approved",
+      "APPLICATION_APPROVED_ABLATIVE": "applications approved"
     },
     "APPLICATION_CHANGES": {
       "CHANGE_IN_APPLICATIONS": "change in applications",
@@ -82,15 +98,15 @@
       "ADD_PROVIDER_DEPUTY": "Add provider deputy",
       "ADD_PROVIDER_ADMIN": "Add workshop administrator",
       "EDIT_PROVIDER_DEPUTY": "Edit provider deputy",
-      "EDIT_PROVIDER_ADMIN": "Add workshop administrator",
+      "EDIT_PROVIDER_ADMIN": "Edit workshop administrator",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Add ministry administrator",
       "ADD_PROVIDER_REGION_ADMIN": "Add region administrator",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Add territorial community administrator",
+      "ADD_PROVIDER_AREA_ADMIN": "Add territorial community administrator",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Edit ministry administrator",
-      "EDIT_PROVIDER_REGION_ADMIN": "Add region administrator",
-      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Ediit territorial community administrator",
+      "EDIT_PROVIDER_REGION_ADMIN": "Edit region administrator",
+      "EDIT_PROVIDER_AREA_ADMIN": "Edit territorial community administrator",
       "ADMINISTRATION": "Administration",
-      "ADMINS": "Adminstrators",
+      "ADMINS": "Administrators",
       "APPLICATIONS": "Applications",
       "CHAT": "Chat",
       "DIRECTIONS": "Directions",
@@ -120,7 +136,9 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
-      "LAWS_AND_REGULATIONS": "Laws and regulations"
+      "LAWS_AND_REGULATIONS": "Laws and regulations",
+      "PROVIDER_REGISTRATION": "Provider registration",
+      "USER_REGISTRATION": "User registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -147,14 +165,21 @@
       "MONTH": "Month",
       "YEAR": "Year"
     },
+    "FORM_OF_LEARNING": {
+      "OFFLINE": "Offline",
+      "ONLINE": "Online",
+      "MIXED": "Mixed"
+    },
     "PERSONAL_CABINET_TITLE": {
-      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
-      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "USER_PERSONAL_CABINET": "User personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
+      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Technical administrator personal cabinet",
-      "UNKNOWN_ACCOUNT": "Provider personal cabinet",
-      "USER_PERSONAL_CABINET": "User personal cabinet"
+      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
+      "REGION_ADMINISTRATOR_PERSONAL_CABINET": "Region administrator personal cabinet",
+      "AREA_ADMINISTRATOR_PERSONAL_CABINET": "Territorial community administrator personal cabinet",
+      "UNKNOWN_ACCOUNT": "Provider personal cabinet"
     },
     "RECRUITMENT_STATUS": {
       "OPEN": "Open recruitment",
@@ -206,7 +231,8 @@
       "ACCEPTED_FOR_SELECTION": "Accepted for selection",
       "STUDYING_FOR_YEARS": "Studying for 1-11 years",
       "COMPLETED": "Completed",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "BANNED": "Blocked"
     },
     "APPLICATION_DESCRIPTION": {
       "PENDING": "A new application created, awaiting confirmation from the service provider",
@@ -216,7 +242,8 @@
       "ACCEPTED_FOR_SELECTION": "User accepted for competitive selection (with additional information about selection)",
       "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
       "COMPLETED": "User completed studying",
-      "BLOCKED": "The user has violated the Terms of Use of the Platform"
+      "BLOCKED": "The user has violated the Terms of Use of the Platform",
+      "BANNED": "The user has violated the Terms of Use of the Platform"
     },
     "USER_STATUSES": {
       "NEVER_LOGGED": "Never logged",
@@ -236,11 +263,12 @@
       "RECHECK": "Needs reconfirmation"
     },
     "PROVIDER_STATUS_DETAILS": {
-      "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
-      "PENDING": "Your organization is awaiting confirmation by an administrator.",
+      "APPROVED": "Your institution has been approved by the administrator. Now your institution will be visible to other users of the platform and you will be able to edit information about the institution.",
+      "PENDING": "Your institution is awaiting confirmation by an administrator.",
       "BLOCKED": "Unfortunately, the reason for the block was not specified. Please contact the administration.",
+      "BLOCKED_PHONE_NUMBER": "For more info call phone number:",
       "EDITING": "Please make sure that the information about your institution is correct.",
-      "RECHECK": "Your organization is awaiting confirmation by an administrator."
+      "RECHECK": "Your institution is awaiting confirmation by an administrator."
     },
     "LICENSE_STATUSES": {
       "APPROVED": "Approved license",
@@ -256,19 +284,29 @@
       "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
       "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
     },
-    "ADMISTRATORS": {
+    "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Ministry administrator",
       "REGION_ADMIN": "Region administrator",
-      "TERRITORIAL_ADMIN": "Territorial community administrator"
+      "AREA_ADMIN": "Territorial community administrator"
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
-      "ADMINS": "Adminstrators",
-      "APPLICATIONS": "Applications"
+      "ADMINS": "Administrators",
+      "APPLICATIONS": "Applications",
+      "USERS": "Users",
+      "ADMIN_STATUS": {
+        "CREATE": "Creating an administrator",
+        "UPDATE": "Replacement of the administrator",
+        "DELETE": "Removing the administrator",
+        "BLOCK": "Administrator lock"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",
   "FOR_FREE": "For free",
+  "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
+  "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
+  "INFO_ABOUT_SELECTION": "Information about selection",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "MATCH_ACTUAL_ADDRESS": "Actual address matches the legal address",
@@ -297,6 +335,7 @@
       "LEGAL_ADDRESS": "Legal address",
       "ACTUAL_ADDRESS": "Actual address",
       "EDIT": "EDIT",
+      "NEW_USER": "NEW USER REGISTRATION",
       "EDIT_INFO": "EDIT INFORMATION",
       "SUBHEADER_TITLE": "Title",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
@@ -308,7 +347,7 @@
       "AVAILABLE_PLACES": "Number of available places",
       "BIRTHDAY": "Birthday",
       "BUILDING": "Building",
-      "DAYS_HOURS": "Days/Hours",
+      "LESSONS_SCHEDULE": "Lessons schedule",
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
       "LAST_NAME": "Last name",
@@ -316,8 +355,10 @@
       "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
+      "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
+      "FORM_OF_LEARNING": "Form of learning",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "ADDRESS": "Address",
@@ -337,11 +378,12 @@
       "OWNERSHIP": "Ownership",
       "LICENSE": "License",
       "INSTITUTION_CATEGORY": "Provider category",
-      "ORGANIZATION_TYPE": "Organization type",
-      "ORGANIZATION_STATUS": "Organization status",
-      "FULL_ORGANIZATION_NAME": "Full organization name",
-      "SHORT_ORGANIZATION_NAME": "Short organization name",
+      "ORGANIZATION_TYPE": "Institution type",
+      "ORGANIZATION_STATUS": "Institution status",
+      "FULL_ORGANIZATION_NAME": "Full institution name",
+      "SHORT_ORGANIZATION_NAME": "Short institution name",
       "PROVIDER_TITLE": "Provider title",
+      "WORKSHOP_TITLE": "Workshop title",
       "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
       "EDRPO_IPN": "Registration code",
       "IPN": "Individual tax number",
@@ -363,7 +405,9 @@
       "RADIUS": "Radius (km)",
       "REGION": "Region",
       "MINISTRY_SUBMISSION": "Ministry of submission",
-      "USER_DIRECTIONS": "Directions for user"
+      "USER_DIRECTIONS": "Directions for user",
+      "TERRITORIAL_COMMUNITY": "Territorial community",
+      "SHORT_TITLE": "Short title"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -380,42 +424,55 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
       "SELECT_REGION": "Select region",
+      "SELECT_TERRITORIAL_COMMUNITY": "Select territorial community",
       "SELECT_TEACHER": "Select teachers/coaches",
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
-      "SELECT_ORGANIZATION_TYPE": "Select organization type"
+      "SELECT_ORGANIZATION_TYPE": "Select institution type"
     },
     "UAH_FOR": "UAH for",
+    "UAH": "UAH",
+    "FOR": "for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
-      "INVALID_CHARACHTERS": ", please use only cyrillic",
+      "INVALID_CHARACTERS": ", please use only cyrillic",
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
       "INVALID_EMAIL": "Enter a valid email.",
-      "INVALID_HOUSE": ", please use only numbers and cyrillic",
+      "INVALID_EDRPO_IPN_END": " digit number.",
+      "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
+      "INVALID_LENGTH_START_MIN": "This field must contain minimum",
+      "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_MAP": "No such address was found on the map",
-      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - )",
+      "INVALID_STREET": ", please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
+      "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
+      "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
-      "APPLICATION_ALREADY_APPLIED": "The application is already created"
+      "APPLICATION_ALREADY_APPLIED": "The application is already created",
+      "MUST_CONTAIN_LETTERS": "This field must contain at least one letter.",
+      "LESS_THAN_PARTICIPANTS": "You cannot specify the number of available seats less than the current number of participants."
     },
-    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. "
+    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
+    "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
-    "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
+    "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account."
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
@@ -433,6 +490,7 @@
   "RATE": "RATE",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
+  "SEARCH_PHONE_COUNTRY": "Search country by name or dial code",
   "SELECTED": "selected",
   "SELECT_AGE": "Select age",
   "SEND_A_MESSAGE": "Send a message",
@@ -447,6 +505,7 @@
     "CONTACTS": "Contacts",
     "DESCRIPTION": "Description",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops",
+    "WORKSHOPS_OF_THE_PROVIDER": "Workshops",
     "REVIEWS": "Reviews",
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
@@ -460,7 +519,7 @@
   "TRIAL_MESSAGE": "Trial operation mode",
   "ALL_DIRECTIONS": "All categories",
   "TOTAL_PARTICIPANTS": "Total participants",
-  "TYPE_OF_ORGANIZATION": "Organization type",
+  "TYPE_OF_ORGANIZATION": "Institution type",
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
@@ -471,6 +530,7 @@
   "YOU_ARE_IN_A_SETTLEMENT": "Is your location",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "You have already rated this workshop",
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop",
+  "COMPETITIVE_SELECTION": "Competitive selection",
   "BANNERS": {
     "ADD_CHILDREN": "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT": "It is possible to add no more than 20 children",
@@ -484,6 +544,8 @@
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP": "Add workshop",
     "APPROVE_APPLICATION": "Approve",
+    "ACCEPT_TO_COMPETITIVE_SELECTION": "Accept to selection",
+    "ENROLL_TO_WORKSHOP": "Enroll",
     "LEAVE_WORKSHOP": "Leave workshop",
     "REJECT": "Reject",
     "BLOCK_USER": "Block the user",
@@ -499,7 +561,7 @@
     "ADD_ANOTHER_CHILD": "Add another child",
     "ADD_ANOTHER_SECTION": "Add another section",
     "ADD_ANOTHER_TEACHER": "Add another teacher",
-    "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
+    "ADD_MORE_LESSONS_SCHEDULE": "Add more lessons schedule",
     "REMOVE": "Remove",
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
@@ -516,7 +578,8 @@
     "CONFIRM_EDITING": "Send for editing",
     "DELETE": "Delete",
     "GO_BACK": "Go back",
-    "REGISTER": "Register"
+    "REGISTER": "Register",
+    "ADD_DIRECTION": "Add a direction"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -549,7 +612,9 @@
     "NO_MESSAGES": "No messages yet",
     "NO_NOTIFICATIONS": "You don't have any new notifications",
     "NO_SETTLEMENT": "There is no such settlement",
-    "NO_CHILD_WORKSHOPS": "There are no workshops yet"
+    "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
+    "NO_CHILD_WORKSHOPS": "There are no workshops yet",
+    "NO_CHAT_HISTORY": "There are no messages in the chat yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -559,9 +624,26 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
-    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop",
-    "STATUS_CHANGE_TYPE": "Application status change"
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "All",
+      "DEPUTIES": "Deputies",
+      "ASSISTANTS": "Assistants",
+      "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+      "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
+      "BLOCK_ADMIN_OPTION": "Administrator was blocked",
+      "UPDATE_ADMIN_OPTION": "Administrator was updated",
+      "REINVITE_ADMIN_OPTION": "Administrator was reinvited"
+    },
+    "STATUS_CHANGE_TYPE": "Application status change",
+    "USERS_FILTERS": {
+      "ALL": "All",
+      "BLOCKED": "Blocked",
+      "UNBLOCKED": "Unblocked"
+    },
+    "USER_THAT_WAS_BLOCKED": "User that was blocked",
+    "BLOCKING_REASON": "Blocking reason",
+    "USER_WAS_BLOCKED": "Blocked",
+    "USER_WAS_UNBLOCKED": "Unblocked"
   },
   "STATISTICS": {
     "DATE_RANGE": "Time Range",
@@ -581,37 +663,55 @@
     "DELETE_ALL": "Delete all",
     "YOU_HAVE": "You have",
     "PROVIDER_SHORT_DESCRIPTION": {
-      "EDITING": "Your organization needs editing",
-      "APPROVED": "Congratulations! Your organization has been successfully approved"
+      "CREATE": "A new institution has been registered",
+      "EDITING": "Your institution needs editing",
+      "APPROVED": "Congratulations! Your institution has been successfully approved",
+      "BLOCK": "The institution has been blocked",
+      "UNBLOCK": "The institution has been unblocked",
+      "RECHECK": "The institution needs reconfirmation"
     },
     "WORKSHOP_SHORT_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open",
-      "CLOSED": "Workshop recruitment successfully is closed"
+      "CLOSED": "Workshop recruitment is closed",
+      "DELETED": "Workshop is deleted"
     },
     "LICENSE_SHORT_DESCRIPTION": {
-      "APPROVED": "The organization's license has been successfully confirmed by the administrator",
-      "PENDING": "New organization is awaiting license approval",
-      "NOT_PROVIDED": "A new organization was registered without a license"
+      "APPROVED": "The institution's license has been successfully confirmed by the administrator",
+      "PENDING": "New institution is awaiting license approval",
+      "NOT_PROVIDED": "A new institution was registered without a license"
+    },
+    "PARENT_SHORT_DESCRIPTION": {
+      "BLOCKED_BY_PROVIDER": "Blocked by institution",
+      "UNBLOCKED_BY_PROVIDER": "Unblocked by institution"
     },
     "PROVIDER_FULL_DESCRIPTION": {
-      "EDITING": "View the reason for editing and correct the information about the organization",
-      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform."
+      "CREATE": "Review the institution to confirm.",
+      "EDITING": "View the reason for editing and correct the information about the institution.",
+      "APPROVED": "Your institution has been successfully approved by the administrator. Now your institution's workshops will be displayed on the platform.",
+      "BLOCK": "The institution has been blocked. View the reason and the contacts on the institution page.",
+      "UNBLOCK": "The institution has been unblocked. Now workshops of your institution are visible.",
+      "RECHECK": "Review the institution to reconfirm."
     },
     "WORKSHOP_FULL_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",
-      "CLOSED": "Workshop recruitment is closed, now you can not apply for this workshop."
+      "CLOSED": "Workshop recruitment is closed, now you can not apply for this workshop.",
+      "DELETED": "Workshop is deleted, now can not review the workshop or apply for it."
     },
     "LICENSE_FULL_DESCRIPTION": {
       "APPROVED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
       "PENDING": "Once the license status is approved, a confirmation icon will appear on the institution's or workshop's preview page",
       "NOT_PROVIDED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    },
+    "PARENT_FULL_DESCRIPTION": {
+      "BLOCKED_BY_PROVIDER": "Blocked by institution. You can not apply for workshops of this institution. View the reason and the contacts on the institution page.",
+      "UNBLOCKED_BY_PROVIDER": "Unblocked by institution. Now you can apply for workshops of this institution."
     }
   },
   "SERVICE_MESSAGES": {
     "NO_INFO": "no data",
-    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you",
-    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you",
-    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you",
+    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you!",
+    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you!",
+    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you!",
     "MESSAGE_STATUS": {
       "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
@@ -656,59 +756,83 @@
       "CHANGE_PROVIDER_LICENSE_APPROVED": "License successfully approved",
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
+      "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
+      "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
+      "CREATE_USER": "User successfully created",
+      "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
+      "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
       "ERROR": "Unfortunately, an error has occurred",
-      "ERROR_404": "Invalid request sent",
-      "ERROR_403": "Access Denied",
-      "ERROR_401": "User not registered",
-      "ERROR_500": "Server error",
-      "ERROR_MAIL": "Check the data entered. A user with this email already exists",
-      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
-      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map."
+      "ERROR_401": "User not registered.",
+      "ERROR_403": "Access denied.",
+      "ERROR_404": "Invalid request sent.",
+      "ERROR_500": "Server error.",
+      "ERROR_MAIL": "Check the data entered. A user with this email already exists.",
+      "NOT_UNIQUE_DATA": "Check the entered data. Email and registration code must be unique.",
+      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
+      "ERROR_RESPONSE": {
+        "GENERAL": "Request error",
+        "INCORRECT_INPUT_DATA": "Incorrect input data",
+        "COMMON": {
+          "EMAIL_ALREADY_TAKEN": "the email is taken already",
+          "PHONE_NUMBER_ALREADY_TAKEN": "the phone number is taken already"
+        },
+        "PROVIDER_ADMIN": {
+          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"
+        },
+        "APPLICATION": {
+          "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "not enough seats in workshop to enroll application",
+          "ACCEPT_REJECTED_ALREADY_APPROVED": "approving of already approved application"
+        }
+      }
     },
     "MODAL_CONFIRMATIONS": {
-      "BLOCK_PARENT": "Specify the blocking reason",
+      "BLOCK_REASON": "Specify the blocking reason",
       "REJECT": "Specify the reason for rejection",
       "EDITING_PROVIDER": "Specify the reason for editing",
       "DELETE_WORKSHOP": "Are you sure you want to delete the workshop",
-      "DELETE_DIRECTION": "Are you sure you want to delete the direction?",
+      "DELETE_DIRECTION": "Are you sure you want to delete the direction",
       "CREATE_DIRECTION": "Are you sure you want to create the direction?",
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
-      "DELETE_CHILD": "Are you sure you want to delete the child's data?",
+      "CREATE_CHILD_INFORMATION": "Are you sure you want to add child information?",
+      "UPDATE_CHILD_INFORMATION": "Are you sure you want to edit child information?",
+      "UPDATE_PERSONAL_INFORMATION": "Are you sure you want to edit the personal information?",
+      "DELETE_CHILD": "Are you sure you want to delete the child's data",
       "DELETE_ACHIEVEMENT": "Are you sure you want to delete the achievement?",
       "DELETE_RATE": "Are you sure you want to delete the rate?",
       "DELETE_TEACHER": "Are you sure you want to delete teacher's data?",
-      "DELETE_PROVIDER": "Are you sure you want to delete a provider?",
-      "DELETE_PROVIDER_ADMIN": "Are you sure you want to delete the workshop administrator?",
-      "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy?",
-      "BLOCK_PROVIDER_ADMIN": "Are you sure you want to block the workshop administrator?",
-      "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy?",
+      "DELETE_PROVIDER": "Are you sure you want to delete a provider",
+      "DELETE_PROVIDER_ADMIN": "Are you sure you want to delete the workshop administrator",
+      "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy",
+      "BLOCK_PROVIDER_ADMIN": "Are you sure you want to block the workshop administrator",
+      "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy",
       "BLOCK_PROVIDER": "Are you sure you want to block this provider?",
-      "UNBLOCK_PROVIDER_ADMIN": "Are you sure you want to unblock the workshop administrator?",
-      "UNBLOCK_PROVIDER_DEPUTY": "Are you sure you want to unblock the provider deputy?",
-      "UNBLOCK_PROVIDER": "Are you sure you want to unblock the provider?",
+      "UNBLOCK_PROVIDER_ADMIN": "Are you sure you want to unblock the workshop administrator",
+      "UNBLOCK_PROVIDER_DEPUTY": "Are you sure you want to unblock the provider deputy",
+      "UNBLOCK_PROVIDER": "Are you sure you want to unblock the provider",
       "SEND_EDITING_PROVIDER": "Are you sure you want to send the provider for editing?",
       "LEAVE_WORKSHOP": "Are you sure you want to leave the workshop?",
       "LEAVE_PAGE": "Are you sure you want to leave the page?",
       "LEAVE_REGISTRATION": "Are you sure you want to leave your registration? You can return to it later.",
       "RATE": "Please rate this workshop",
-      "CREATE_APPLICATION": "Are you sure you want to apply to the workshop?",
+      "CREATE_APPLICATION": "Are you sure you want to apply to the workshop",
       "CREATE_ACHIEVEMENT": "Are you sure you want to add an achievement?",
       "REJECT_APPLICATION": "Are you sure you want to change the status of the application to 'Rejected'?",
       "CREATE_PROVIDER_DEPUTY": "Are you sure you want to add a provider deputy?",
-      "CREATE_PROVIDER_ADMIN": "Are you sure you want to edit the workshop administrator?",
+      "CREATE_PROVIDER_ADMIN": "Are you sure you want to add the workshop administrator?",
       "UPDATE_PROVIDER_DEPUTY": "Are you sure you want to edit the provider deputy?",
       "UPDATE_PROVIDER_ADMIN": "are you sure you want to edit the workshop administrator?",
       "BLOCK_USER": "Are you sure you want to block the user?",
       "UNBLOCK_USER": "Are you sure you want to unblock the user?",
       "CLOSE_SET": "Are you sure you want to pause the workshop recruitment?",
       "OPEN_SET": "Are you sure you want to open the workshop recruitment?",
-      "DELETE_ADMIN": "Are you sure you want to delete an administrator?",
+      "DELETE_ADMIN": "Are you sure you want to delete an administrator",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
       "CREATE_ADMIN": "Are you sure you want to add a administrator?",
@@ -719,6 +843,9 @@
         "DELETE_DIRECTION": "DELETE DIRECTION?",
         "CREATE_DIRECTION": "CREATE DIRECTION?",
         "UPDATE_DIRECTION": "EDIT DIRECTION?",
+        "CREATE_CHILD_INFORMATION": "ADD CHILD INFORMATION?",
+        "UPDATE_CHILD_INFORMATION": "EDIT CHILD INFORMATION?",
+        "UPDATE_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION?",
         "DELETE_CHILD": "DELETE CHILD DATA?",
         "DELETE_ACHIEVEMENT": "DELETE ACHIEVEMENT?",
         "DELETE_RATE": "DELETE RATE?",
@@ -753,10 +880,15 @@
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",
         "CREATE_ADMIN": "ADD ADMINISTRATOR?",
         "UPDATE_ADMIN": "EDIT ADMINISTRATOR?",
-        "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?"
+        "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?",
+        "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
+        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment."
       }
     }
   },
+  "GEOLOCATION_BUTTON_TITLE": "Find near me",
+  "GEOLOCATION_MARKER_TITLE": "You are here",
+  "CHAT_PAY_ATTENTION_BLOCK": "Please note that you cannot send or receive messages if the user is blocked",
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"

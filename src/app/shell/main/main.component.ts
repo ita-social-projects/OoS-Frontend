@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { WorkshopCard } from '../../shared/models/workshop.model';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { Direction } from '../../shared/models/category.model';
-import { Role } from '../../shared/enum/role';
-import { Codeficator } from '../../shared/models/codeficator.model';
-import { Favorite } from '../../shared/models/favorite.model';
-import { AppState } from '../../shared/store/app.state';
-import { FilterState } from '../../shared/store/filter.state';
-import { GetTopWorkshops, GetTopDirections } from '../../shared/store/main-page.actions';
-import { MainPageState } from '../../shared/store/main-page.state';
-import { ParentState } from '../../shared/store/parent.state.';
-import { Login } from '../../shared/store/registration.actions';
+
+import { Role } from 'shared/enum/role';
+import { Direction } from 'shared/models/category.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Favorite } from 'shared/models/favorite.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { AppState } from 'shared/store/app.state';
+import { FilterState } from 'shared/store/filter.state';
+import { GetTopDirections, GetTopWorkshops } from 'shared/store/main-page.actions';
+import { MainPageState } from 'shared/store/main-page.state';
+import { ParentState } from 'shared/store/parent.state';
+import { Login } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-main',
@@ -21,33 +22,34 @@ import { Login } from '../../shared/store/registration.actions';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  Role = Role;
-
   @Select(MainPageState.topWorkshops)
-  topWorkshops$: Observable<WorkshopCard[]>;
-  topWorkshops: WorkshopCard[];
+  public topWorkshops$: Observable<WorkshopCard[]>;
   @Select(MainPageState.topDirections)
-  topDirections$: Observable<Direction[]>;
-  topDirections: Direction[];
+  public topDirections$: Observable<Direction[]>;
   @Select(MainPageState.isLoadingData)
-  isLoadingData$: Observable<boolean>;
-  isLoadingData: boolean;
+  public isLoadingData$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+  public role$: Observable<Role>;
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+  public favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
-  settlement: Codeficator;
+  public settlement$: Observable<Codeficator>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
-  isMobile: boolean;
+  public isMobileScreen$: Observable<boolean>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly Role = Role;
+
+  public topWorkshops: WorkshopCard[];
+  public topDirections: Direction[];
+  public isLoadingData: boolean;
+  public settlement: Codeficator;
+  public isMobile: boolean;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     combineLatest([this.role$, this.settlement$])
       .pipe(
         filter(([role, settlement]: [Role, Codeficator]) => !!(role && settlement)),
@@ -61,13 +63,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobile: boolean) => (this.isMobile = isMobile));
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  public onRegister(): void {
+    this.store.dispatch(new Login(true));
   }
 
-  onRegister(): void {
-    this.store.dispatch(new Login(true));
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private getData(role: Role): void {

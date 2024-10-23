@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChangeContext } from '@angular-slider/ngx-slider';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { FilterChange, SetRadiusSize } from '../../../store/filter.actions';
+import { FilterChange, SetRadiusSize } from 'shared/store/filter.actions';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -18,22 +18,24 @@ export class UserRadiusSetComponent implements OnInit, OnDestroy {
     disabled: true
   });
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setValue(this.defaultRadiusInKm);
     this.currentRadius.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new FilterChange()));
   }
 
-  radiusHandler(event: ChangeContext): void {
-    event.pointerType && this.setValue(event.highValue);
+  public radiusHandler(event: ChangeContext): void {
+    if (event.pointerType) {
+      this.setValue(event.highValue);
+    }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

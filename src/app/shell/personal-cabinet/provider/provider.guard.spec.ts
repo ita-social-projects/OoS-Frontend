@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ProviderGuard } from './provider.guard';
 import { NgxsModule, Store } from '@ngxs/store';
+import { ProviderGuard } from './provider.guard';
 
 describe('ProviderGuard', () => {
   let guard: ProviderGuard;

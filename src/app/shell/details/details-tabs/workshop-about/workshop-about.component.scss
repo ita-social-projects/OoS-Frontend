@@ -2,16 +2,21 @@
   margin: 2rem 1rem;
 }
 
+.line-break {
+  white-space: pre-line;
+}
+
 .title {
   font-family: 'Innerspace';
   line-height: 14, 6px;
   font-size: 14px;
   font-weight: 700;
   color: black;
+  margin: 1.5rem 0 1rem 0;
 }
 
 .section-title {
-  margin: 1rem 0;
+  margin: 1.5rem 0 1rem 0;
 }
 
 .txt {

@@ -10,6 +10,7 @@
   padding: 0.2rem;
   width: auto;
 }
+
 .input-filter {
   text-transform: capitalize;
   font-family: 'Innerspace';
@@ -18,6 +19,7 @@
   line-height: 1.25rem;
   font-weight: 500;
 }
+
 .additional-text {
   opacity: 0.5;
   margin: 0;
@@ -27,6 +29,7 @@
 h4 {
   margin-bottom: 1rem;
 }
+
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
   border: 1px solid #e3e3e3;
@@ -43,6 +46,7 @@ h4 {
   color: #161414;
   opacity: 0.6;
   font-size: 14px;
+
   &:hover {
     background-color: transparent;
   }
@@ -68,11 +72,13 @@ h4 {
   padding: 10px;
   z-index: 1000;
   top: 20px;
+
   p {
     text-align: center;
     font-size: 19px;
     margin-bottom: 0;
     line-height: 1.3rem;
+
     span {
       font-weight: 700;
     }
@@ -80,13 +86,16 @@ h4 {
 
   .mat-icon {
     cursor: pointer;
+
     &:hover {
       color: #3849f9;
     }
   }
+
   &_button {
     width: auto;
     margin-top: 25px;
+
     .button {
       color: white;
       background-color: #3849f9;
@@ -95,6 +104,7 @@ h4 {
       border-radius: 20px;
       padding: 0 30px;
       margin: 0 auto;
+
       &-change {
         color: #444444 !important;
         background-color: transparent !important;
@@ -102,7 +112,12 @@ h4 {
       }
     }
   }
+
+  @media (max-width: 930px) {
+    margin-left: 30px;
+  }
 }
+
 .city-confirmation::before {
   content: '';
   position: absolute;
@@ -113,15 +128,16 @@ h4 {
   top: -14px;
   clip-path: polygon(50% 0, 0 100%, 100% 100%);
 }
+
 // TO DO mobile view ...
 @media (max-width: 750px) {
   .confirmation {
     position: absolute;
     width: 100%;
     display: flex;
-    justify-content: center;
     right: 0;
   }
+
   .city-confirmation::before {
     left: 10%;
   }

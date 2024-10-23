@@ -1,8 +1,8 @@
 import { Observable, Subject } from 'rxjs';
-import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
 import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
@@ -23,9 +23,9 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() private instituitionHierarchyIdFormControl: FormControl;
-  @Input() private provider: Provider;
-  @Input() public instituitionIdFormControl: FormControl;
+  @Input() public instituitionHierarchyIdFormControl: AbstractControl;
+  @Input() public provider: Provider;
+  @Input() public instituitionIdFormControl: AbstractControl;
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
@@ -33,17 +33,21 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
   private editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
-  private editInstituitionsHierarchy: InstituitionHierarchy[];
   @Select(MetaDataState.institutionFieldDesc)
   private institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
-  private institutionFieldDesc: InstitutionFieldDescription[];
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private isEditMode: boolean;
 
   public hierarchyArray: HierarchyElement[] = [];
 
+  private editInstituitionsHierarchy: InstituitionHierarchy[];
+  private institutionFieldDesc: InstitutionFieldDescription[];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isEditMode: boolean;
+
   constructor(private store: Store) {}
+
+  public get instituitionIdControl(): FormControl {
+    return this.instituitionIdFormControl as FormControl;
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
@@ -60,7 +64,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {
-    const needToSlice = this.hierarchyArray[this.hierarchyArray.length - 1].hierarchyLevel - hierarchy.hierarchyLevel != 0;
+    const needToSlice = this.hierarchyArray[this.hierarchyArray.length - 1].hierarchyLevel - hierarchy.hierarchyLevel !== 0;
 
     this.store.dispatch(new GetInstitutionHierarchyChildrenById(hierarchy.formControl.value));
 

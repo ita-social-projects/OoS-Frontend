@@ -8,58 +8,48 @@
           [formControl]="searchFormControl"
           type="text"
           class="search"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}"
-        />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
       </div>
     </div>
-    <i
-      class="material-icons status-info-icon"
-      [matMenuTriggerFor]="menu"
-      #trigger="matMenuTrigger"
-      [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'"
-      >info_outline</i
-    >
-
-    <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="application-menu">
-      <app-status-info-card></app-status-info-card>
-    </mat-menu>
+    <app-info-menu [isBigIcon]="true" [type]="InfoMenuType.Component">
+      <app-status-info-card [role]="role"></app-status-info-card>
+    </app-info-menu>
     <app-entity-checkbox-dropdown
       *ngIf="dropdownEntities"
       [entities]="dropdownEntities"
       [declination]="declination"
-      (entityCheck)="onEntitiesSelect($event)"
-    >
+      (entityCheck)="onEntitiesSelect($event)">
     </app-entity-checkbox-dropdown>
   </div>
 
   <div class="tab-wrapper application-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-      <mat-tab label="{{ applicationTabTitles.All | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles.All | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.Pending] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Pending] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.Approved] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Approved] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.Rejected] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Rejected] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.Left] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Left] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.AcceptedForSelection] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.AcceptedForSelection] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.StudyingForYears] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.StudyingForYears] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ applicationTabTitles[statuses.Completed] | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Completed] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab *ngIf="role === Role.provider" label="{{ applicationTabTitles.Blocked | translate }}">
-        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      <mat-tab *ngIf="role === Role.provider" label="{{ ApplicationTitles.Blocked | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -71,8 +61,7 @@
   [currentPage]="currentPage"
   [itemsPerPage]="applicationParams.size"
   (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)"
->
+  (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
 
 <ng-template #Applications let-applicationCards>
@@ -84,17 +73,17 @@
         [userRole]="role"
         [isMobileView]="isMobileView"
         (approve)="approve.emit($event)"
+        (acceptForSelection)="acceptForSelection.emit($event)"
         (reject)="reject.emit($event)"
         (unblock)="unblock.emit($event)"
         (block)="block.emit($event)"
         (leave)="leave.emit($event)"
-        (sendMessage)="sendMessage.emit($event)"
-      >
+        (sendMessage)="sendMessage.emit($event)">
       </app-application-card>
     </ng-container>
   </ng-container>
 </ng-template>
 
 <ng-template #isEmptyList>
-  <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
+  <app-no-result-card [title]="NoApplicationTitle"></app-no-result-card>
 </ng-template>

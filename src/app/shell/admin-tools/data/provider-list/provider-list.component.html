@@ -1,19 +1,68 @@
-<div class="wrapper-header">
+<form class="wrapper-header" [formGroup]="filterGroup">
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        [formControl]="filterFormControl"
+        formControlName="searchBarFilter"
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}"
-      />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
+    </div>
+    <div class="reset" (click)="onResetFilters()" *ngIf="!isAreaAdmin">
+      <mat-icon class="reset__icon">refresh</mat-icon>
+      <span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
     </div>
   </div>
-</div>
+  <div class="filters-area">
+    <div class="filter-dropdown">
+      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
+        <mat-select
+          disableOptionCentering
+          formControlName="institution"
+          panelClass="dropdown-panel"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
+          class="select">
+          <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+            {{ institution.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="region-filters-area">
+      <div class="filter-dropdown institution-filter">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
+          <mat-select
+            disableOptionCentering
+            formControlName="region"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
+            class="select">
+            <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
+              {{ region.fullName | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="filter-dropdown">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
+          <mat-select
+            [compareWith]="compareCodeficators"
+            disableOptionCentering
+            formControlName="area"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
+            class="select">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">
+              {{ codeficator.territorialCommunity }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
 
-<!-- -------------Table------------ -->
 <ng-container *ngIf="!(isLoadingCabinet$ | async)">
   <ng-container *ngIf="totalEntities; else isEmptyList">
     <div class="wrapper-provider-list">
@@ -45,7 +94,7 @@
               <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform | translate }}</td>
             </ng-container>
 
-            <ng-container matColumnDef="licence">
+            <ng-container matColumnDef="license">
               <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
               <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform | translate }}</td>
             </ng-container>
@@ -79,7 +128,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
                 {{ 'FORMS.LABELS.PHONE' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phone }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
@@ -90,21 +139,24 @@
                 <ng-container *ngIf="!element.isBlocked; else BlockStatus">
                   <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.status, titles: providerStatusTitles }"
-                    ></ng-container>
+                      *ngTemplateOutlet="
+                        ProviderStatusTmpl;
+                        context: { $implicit: element.status, titles: providerStatusTitles }
+                      "></ng-container>
                   </ng-container>
 
                   <ng-container *ngIf="element.ownership === ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }"
-                    ></ng-container>
+                      *ngTemplateOutlet="
+                        ProviderStatusTmpl;
+                        context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
+                      "></ng-container>
                   </ng-container>
                 </ng-container>
 
                 <ng-template #BlockStatus>
                   <ng-container
-                    *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"
-                  ></ng-container>
+                    *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"></ng-container>
                 </ng-template>
               </td>
             </ng-container>
@@ -130,15 +182,13 @@
                       <button
                         *ngIf="element.status !== providerStatuses.Approved"
                         mat-menu-item
-                        (click)="onChangeStatus(element, providerStatuses.Approved)"
-                      >
+                        (click)="onChangeStatus(element, providerStatuses.Approved)">
                         {{ 'BUTTONS.CONFIRM' | translate }}
                       </button>
                       <button
                         *ngIf="element.status !== providerStatuses.Editing"
                         mat-menu-item
-                        (click)="onChangeStatus(element, providerStatuses.Editing)"
-                      >
+                        (click)="onChangeStatus(element, providerStatuses.Editing)">
                         {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
                       </button>
                     </ng-container>
@@ -147,8 +197,7 @@
                       <button
                         *ngIf="element.licenseStatus === licenseStatuses.Pending"
                         mat-menu-item
-                        (click)="onLicenseApprove(element.id)"
-                      >
+                        (click)="onLicenseApprove(element.id)">
                         {{ 'BUTTONS.CONFIRM_LICENSE' | translate }}
                       </button>
                     </ng-container>
@@ -172,8 +221,7 @@
           <app-provider-info
             [provider]="provider"
             [isProviderView]="false"
-            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"
-          ></app-provider-info>
+            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-provider-info>
         </div>
       </div>
     </div>
@@ -183,8 +231,7 @@
         [currentPage]="currentPage"
         [itemsPerPage]="providerParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </div>
   </ng-container>

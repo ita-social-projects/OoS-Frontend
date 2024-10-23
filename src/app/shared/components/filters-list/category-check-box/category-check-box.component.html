@@ -4,7 +4,7 @@
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
     </button>
-    <mat-form-field floatLabel="never" appearance="none">
+    <mat-form-field appearance="fill">
       <input
         matInput
         type="text"
@@ -13,8 +13,7 @@
         class="search"
         matInput
         placeholder="{{ 'SEARCH_BY_DIRECTIONS' | translate }}"
-        autocomplete="off"
-      />
+        autocomplete="off" />
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>

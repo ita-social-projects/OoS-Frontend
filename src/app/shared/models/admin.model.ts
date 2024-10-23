@@ -1,4 +1,4 @@
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 
 export class BaseAdmin {
   id?: string;
@@ -10,8 +10,9 @@ export class BaseAdmin {
   accountStatus?: string;
   institutionId: string;
   institutionTitle?: string;
+  catottgName?: string;
 
-  constructor(info, institutionId: string, id?: string, accountStatus?: string) {
+  constructor(info: Partial<BaseAdmin>, institutionId: string, id?: string, accountStatus?: string) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.lastName = info.lastName;
@@ -19,6 +20,7 @@ export class BaseAdmin {
     this.firstName = info.firstName;
     this.institutionId = institutionId;
     this.institutionTitle = info.institutionTitle;
+    this.catottgName = info.catottgName;
     if (id) {
       this.id = id;
     }

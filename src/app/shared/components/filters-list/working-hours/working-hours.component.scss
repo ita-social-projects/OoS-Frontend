@@ -68,7 +68,7 @@
     opacity: 0.8;
   }
 }
-::ng-deep.mat-dialog-container {
+::ng-deep .mat-mdc-dialog-container {
   [mat-dialog-actions] {
     display: flex;
     justify-content: center !important;
@@ -103,4 +103,18 @@
 }
 .check-boxes {
   margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column !important;
+  }
+
+  .filter-text {
+    min-width: 20px;
+  }
+
+  .from-filter-text {
+    margin-bottom: 10px;
+  }
 }

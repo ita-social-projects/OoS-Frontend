@@ -1,25 +1,39 @@
 .container {
   background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   padding: 1.5rem 1.5rem 0 1.5rem;
   border-radius: 5px;
 
   .nav {
     border-bottom: none;
+
     a {
       font-size: 13px;
       opacity: 1;
-      min-width: 0px !important;
+      min-width: 0 !important;
       height: inherit !important;
-      padding: 0 24px 8px 24px !important;
+      padding: 4px 24px 4px 24px !important;
     }
-    a:first-child {
-      padding: 0 24px 8px 0px !important;
+
+    a.wide-link {
+      padding: 4px 12px 4px 12px !important;
     }
+
     .active {
       color: #3849f9;
-      border-bottom: 2px solid #3849f9;
+
+      &::after {
+        background-color: #3849f9;
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 2px;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, 0);
+        width: 50px;
+      }
     }
   }
 
@@ -27,12 +41,14 @@
     margin-top: 40px;
   }
 }
+
 .title,
 .nav a {
   font-weight: 700;
   font-family: 'Innerspace';
   color: #444444;
 }
+
 .title {
   font-size: 18px;
   line-height: inherit;

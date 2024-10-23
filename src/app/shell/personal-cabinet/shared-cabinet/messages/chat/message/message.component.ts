@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Constants } from '../../../../../../shared/constants/constants';
-import { IncomingMessage } from '../../../../../../shared/models/chat.model';
+
+import { Constants } from 'shared/constants/constants';
+import { IncomingMessage } from 'shared/models/chat.model';
 
 @Component({
   selector: 'app-message',
@@ -8,10 +9,10 @@ import { IncomingMessage } from '../../../../../../shared/models/chat.model';
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent {
-  readonly Constants = Constants;
+  @Input() public message: IncomingMessage;
+  @Input() public isFirstMessage: boolean;
+  @Input() public senderName: string;
+  @Input() public userIsProvider: boolean;
 
-  @Input() message: IncomingMessage;
-  @Input() isFirstMessage: boolean;
-  @Input() senderName: string;
-  @Input() userIsProvider: boolean;
+  public readonly Constants = Constants;
 }

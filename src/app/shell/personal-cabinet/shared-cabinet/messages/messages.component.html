@@ -7,16 +7,14 @@
       matInput
       type="text"
       class="search"
-      placeholder="{{'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate}}"
-    />
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
   </div>
 
   <app-entity-checkbox-dropdown
     *ngIf="role === Role.provider"
     [entities]="workshops$ | async"
     [declination]="WorkshopDeclination"
-    (entityCheck)="onEntitiesSelect($event)"
-  >
+    (entityCheck)="onEntitiesSelect($event)">
   </app-entity-checkbox-dropdown>
 </div>
 
@@ -28,15 +26,14 @@
         [chatRoom]="chatRoom"
         [role]="role"
         (block)="onBlock($event)"
-        (unblock)="onUnBlock($event)"
-      ></app-message-card>
+        (unblock)="onUnBlock($event)">
+      </app-message-card>
       <app-paginator
         [totalEntities]="chatRooms.totalAmount"
         [currentPage]="currentPage"
         [itemsPerPage]="chatRoomsParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>

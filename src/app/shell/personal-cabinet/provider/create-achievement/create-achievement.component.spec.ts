@@ -1,23 +1,24 @@
-import { GetFullNamePipe } from './../../../../shared/pipes/get-full-name.pipe';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@microsoft/signalr';
 import { NgxsModule } from '@ngxs/store';
-import { Component, Input } from '@angular/core';
+
+import { Workshop } from 'shared/models/workshop.model';
+import { GetFullNamePipe } from 'shared/pipes/get-full-name.pipe';
 import { CreateAchievementComponent } from './create-achievement.component';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -86,6 +87,6 @@ class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() isTouched: boolean;
   @Input() minMaxDate: boolean;
-  @Input() maxCharachters: number;
-  @Input() minCharachters: number;
+  @Input() maxCharacters: number;
+  @Input() minCharacters: number;
 }

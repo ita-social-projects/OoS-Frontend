@@ -3,8 +3,7 @@
   class="category"
   fxLayout="column"
   fxLayoutAlign="center center"
-  (click)="!workshopsCount && selectDirection(direction)"
->
+  (click)="!workshopsCount && selectDirection(direction)">
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{ direction.title }}" />
 
   <ng-container *ngIf="isEditMode">
@@ -14,7 +13,7 @@
       </button>
     </div>
     <div class="del-icon" (click)="onDelete($event)">
-      <button mat-button class="del-button">
+      <button mat-button class="del-button" data-testid="del-button">
         <mat-icon>delete</mat-icon>
       </button>
     </div>

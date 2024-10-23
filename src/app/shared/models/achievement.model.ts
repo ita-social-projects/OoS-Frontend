@@ -1,5 +1,5 @@
 import { Child } from './child.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Teacher } from './teacher.model';
 
 export class Achievement {
@@ -12,16 +12,18 @@ export class Achievement {
   teachers: string[];
   children: Child[];
 
-  constructor(info, workshopId, achievement: Achievement) {
+  constructor(info: Partial<Achievement>, workshopId: string, achievement: Partial<Achievement>) {
     this.title = info.title;
     this.achievementDate = info.achievementDate;
     this.workshopId = workshopId;
     this.achievementTypeId = info.achievementTypeId;
     this.childrenIDs = info.children.map((child: Child) => child.id);
     if (!info.teachers) {
-      this.teachers = achievement.teachers.map((teacher) => (teacher as unknown as AchievmentTeacherValue).title);
+      this.teachers = achievement.teachers.map((teacher) => (teacher as unknown as AchievementTeacherValue).title);
     } else {
-      this.teachers = info.teachers.map((teacher: Teacher) => `${teacher.lastName} ${teacher.firstName}`);
+      this.teachers = info.teachers.map(
+        (teacher) => `${(teacher as unknown as Teacher).lastName} ${(teacher as unknown as Teacher).firstName}`
+      );
     }
     if (achievement) {
       this.id = achievement.id;
@@ -34,7 +36,7 @@ export interface AchievementType {
   title: string;
 }
 
-export interface AchievmentTeacherValue {
+export interface AchievementTeacherValue {
   title: string;
   id: string;
   achievementId: string;

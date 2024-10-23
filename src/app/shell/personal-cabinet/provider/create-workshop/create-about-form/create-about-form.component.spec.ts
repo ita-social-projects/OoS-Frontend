@@ -1,25 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateAboutFormComponent } from './create-about-form.component';
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgxsModule } from '@ngxs/store';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule } from '@angular/material/core';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
-import { MatSelectModule } from '@angular/material/select';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
-import { MinMaxDirective } from '../../../../../shared/directives/min-max.directive';
-import { Workshop } from '../../../../../shared/models/workshop.model';
-import {TranslateModule} from '@ngx-translate/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyOptionModule as MatOptionModule } from '@angular/material/legacy-core';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { MinMaxDirective } from 'shared/directives/min-max.directive';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { Workshop } from 'shared/models/workshop.model';
+import { CreateAboutFormComponent } from './create-about-form.component';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -51,7 +53,8 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHoursComponent
+        MockWorkingHoursComponent,
+        MockInfoMenuComponent
       ]
     }).compileComponents();
   });
@@ -60,6 +63,7 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = {} as any;
+    component.workshop = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -82,7 +86,67 @@ describe('CreateAboutFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('getter minSeats', () => {
+    it('should return minimumSeats when the taken seats in the workshop are equal to 0', () => {
+      component.workshop.takenSeats = 0;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
+
+    it('should return the number of the taken seats in the workshop', () => {
+      component.workshop.takenSeats = 7;
+
+      expect(component.minSeats).toBe(7);
+    });
+
+    it('should return minimumSeats when the workshop is not provided', () => {
+      component.workshop = null;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
+  });
+
+  describe('showHintAboutClosingWorkshop method', () => {
+    it('should assign to isShowHint TRUE when availableSeats are equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.ngOnInit();
+      component.AboutFormGroup.controls.availableSeats.setValue(7);
+
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(true);
+    });
+
+    it('should assign to isShowHint FALSE when availableSeats are NOT equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.ngOnInit();
+      component.AboutFormGroup.controls.availableSeats.setValue(5);
+
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(false);
+    });
+  });
+  describe('activateEditMode', () => {
+    it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
+      component.workshop.competitiveSelection = true;
+      component.workshop.competitiveSelectionDescription = 'Test Description';
+
+      component.activateEditMode();
+
+      expect(component.AboutFormGroup.contains('competitiveSelectionDescription')).toBeTruthy();
+      expect(component.AboutFormGroup.get('competitiveSelectionDescription').value).toEqual('Test Description');
+    });
+
+    it('should not set competitiveSelectionDescription control if competitiveSelection is false', () => {
+      component.workshop.competitiveSelection = false;
+
+      component.activateEditMode();
+
+      expect(component.AboutFormGroup.contains('competitiveSelectionDescription')).toBeFalsy();
+    });
+  });
 });
+
 @Component({
   selector: 'app-working-hours-form-wrapper',
   template: ''
@@ -99,8 +163,18 @@ class MockWorkingHoursComponent {
 class MockValidationHintAboutComponent {
   @Input() validationFormControl: FormControl; // required for validation
   @Input() isTouched: boolean;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
+  @Input() minNumberValue: boolean;
+}
+
+@Component({
+  selector: 'app-info-menu',
+  template: ''
+})
+class MockInfoMenuComponent {
+  @Input() type: InfoMenuType;
+  @Input() isOpenByDefault: boolean;
 }

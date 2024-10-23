@@ -1,29 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { Role } from '../../shared/enum/role';
-import { RegistrationState } from '../../shared/store/registration.state';
+
+import { Role } from 'shared/enum/role';
+import { RegistrationState } from 'shared/store/registration.state';
+import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
+
 @Component({
   selector: 'app-admin-tools',
   templateUrl: './admin-tools.component.html',
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
-  readonly Role = Role;
-
   @Select(RegistrationState.role)
-  role$: Observable<string>;
-  role: Role;
+  private role$: Observable<string>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly Role = Role;
+  public readonly canManageInstitution = canManageInstitution;
+  public readonly canManageRegion = canManageRegion;
 
-  constructor() {}
+  public role: Role;
 
-  ngOnInit(): void {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public ngOnInit(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

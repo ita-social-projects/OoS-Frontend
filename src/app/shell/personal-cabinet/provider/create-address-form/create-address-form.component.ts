@@ -1,15 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatLegacyAutocomplete as MatAutocomplete,
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
+} from '@angular/material/legacy-autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { Constants } from '../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../shared/constants/validation';
-import { Address } from '../../../../shared/models/address.model';
-import { Codeficator } from '../../../../shared/models/codeficator.model';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { debounceTime, delayWhen, distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
+
+import { Constants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Address } from 'shared/models/address.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-address-form',
@@ -17,115 +21,105 @@ import { MetaDataState } from '../../../../shared/store/meta-data.state';
   styleUrls: ['./create-address-form.component.scss']
 })
 export class CreateAddressFormComponent implements OnInit {
-  readonly ValidationConstants = ValidationConstants;
-  readonly Constants = Constants;
+  @ViewChild(MatAutocomplete)
+  public autocomplete: MatAutocomplete;
 
-  @Input() addressFormGroup: FormGroup;
-  @Input() searchFormGroup: FormGroup;
-  @Input() address: Address;
+  @Input()
+  public addressFormGroup: FormGroup;
+  @Input()
+  public searchFormGroup: FormGroup;
+  @Input()
+  public address: Address;
 
   @Select(MetaDataState.codeficatorSearch)
-  codeficatorSearch$: Observable<Codeficator[]>;
+  public codeficatorSearch$: Observable<Codeficator[]>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly ValidationConstants = ValidationConstants;
+  public readonly Constants = Constants;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  get settlementFormControl(): FormControl {
+  public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
   }
 
-  get settlementSearchFormControl(): FormControl {
+  public get settlementSearchFormControl(): FormControl {
     return this.searchFormGroup.get('settlementSearch') as FormControl;
   }
 
-  get codeficatorIdFormControl(): FormControl {
+  public get codeficatorIdFormControl(): FormControl {
     return this.addressFormGroup.get('catottgId') as FormControl;
   }
 
-  get streetFormControl(): FormControl {
+  public get streetFormControl(): FormControl {
     return this.addressFormGroup.get('street') as FormControl;
   }
 
-  get buildingNumberFormControl(): FormControl {
+  public get buildingNumberFormControl(): FormControl {
     return this.addressFormGroup.get('buildingNumber') as FormControl;
   }
 
-  ngOnInit(): void {
-    this.initSettlementListener();
+  public ngOnInit(): void {
     this.activateEditMode();
-  }
-
-  private activateEditMode(): void {
-    if (this.address) {
-      this.addressFormGroup.patchValue({ ...this.address, lat: this.address.latitude, lon: this.address.longitude }, { emitEvent: false });
-      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, {
-        emitEvent: false,
-        onlySelf: true
-      });
-    }
+    this.initSettlementListener();
   }
 
   /**
    * This method handle displayed value for mat-autocomplete dropdown
    * @param codeficator: Codeficator | string
    */
-  displaySettlementNameFn(codeficator: Codeficator | string): string {
+  public displaySettlementNameFn(codeficator: Codeficator | string): string {
     return typeof codeficator === 'string' ? codeficator : codeficator?.settlement;
+  }
+
+  /**
+   * This method listen input FocusOut event and update search and settlement controls value
+   */
+  public onFocusOut(): void {
+    const codeficator: Codeficator = this.autocomplete.options.first?.value;
+
+    if (
+      !this.settlementSearchFormControl.value ||
+      codeficator?.settlement === Constants.NO_SETTLEMENT ||
+      this.settlementSearchFormControl.invalid
+    ) {
+      this.settlementSearchFormControl.setValue(null);
+      this.codeficatorIdFormControl.setValue(null);
+      this.settlementFormControl.setValue(null);
+    } else if (!this.autocomplete.isOpen) {
+      this.settlementSearchFormControl.setValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+    }
   }
 
   /**
    * This method listen mat option select event and save settlement control value
    * @param event MatAutocompleteSelectedEvent
-   * @param controls
-   *  searchControl FormControl
-   *  settlementControl FormControl
-   *  codeficatorIdControl FormControl
    */
-  onSelectSettlement(
-    event: MatAutocompleteSelectedEvent,
-    controls: {
-      searchControl: FormControl;
-      settlementControl: FormControl;
-      codeficatorIdControl: FormControl;
-    }
-  ): void {
-    this.store.dispatch(new ClearCodeficatorSearch());
-    controls.searchControl.setValue(event.option.value.settlement, {
-      emitEvent: false,
-      onlySelf: true
-    });
-    controls.settlementControl.setValue(event.option.value, {
-      emitEvent: false,
-      onlySelf: true
+  public onSelectSettlement(event: MatAutocompleteSelectedEvent): void {
+    this.settlementSearchFormControl.setValue(event.option.value.settlement, { emitEvent: false });
+    this.settlementFormControl.setValue(event.option.value, { emitEvent: false });
+
+    this.codeficatorIdFormControl.reset();
+    this.codeficatorIdFormControl.setValue(event.option.value.id);
+
+    this.addressFormGroup.patchValue({
+      latitude: event.option.value.latitude,
+      longitude: event.option.value.longitude
     });
 
-    controls.codeficatorIdControl.reset();
-    controls.codeficatorIdControl.setValue(event.option.value.id);
+    if (!this.addressFormGroup.dirty) {
+      this.addressFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 
-  /**
-   * This method listen input FocusOut event and update search and settlement controls value
-   * @param auto MatAutocomplete
-   * @param controls
-   *  searchControl FormControl
-   *  settlementControl FormControl
-   *  codeficatorIdControl FormControl
-   */
-  onFocusOut(
-    auto: MatAutocomplete,
-    controls: {
-      searchControl: FormControl;
-      settlementControl: FormControl;
-      codeficatorIdControl: FormControl;
-    }
-  ): void {
-    const codeficator: Codeficator = auto.options.first?.value;
-    if (!controls.searchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
-      controls.searchControl.setValue(null);
-      controls.codeficatorIdControl.setValue(null);
-    } else {
-      controls.searchControl.setValue(controls.settlementControl.value?.settlement);
+  private activateEditMode(): void {
+    if (this.address) {
+      this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false, onlySelf: true });
+      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, { emitEvent: false, onlySelf: true });
+      this.settlementFormControl.patchValue(this.address.codeficatorAddressDto, { emitEvent: false, onlySelf: true });
+      this.store.dispatch(new ClearCodeficatorSearch());
     }
   }
 
@@ -137,15 +131,27 @@ export class CreateAddressFormComponent implements OnInit {
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        startWith(''),
         takeUntil(this.destroy$),
         tap((value: string) => {
-          if (!value?.length) {
+          if (!value?.length || this.settlementSearchFormControl.invalid) {
             this.store.dispatch(new ClearCodeficatorSearch());
+            this.streetFormControl.setValue('', { emitEvent: false });
+            this.buildingNumberFormControl.setValue('', { emitEvent: false });
           }
         }),
-        filter((value: string) => value?.length > 2)
+        filter((value: string) => value?.length > 2 && this.settlementSearchFormControl.valid),
+        delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
       )
-      .subscribe((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)));
+      .subscribe((value: string) => {
+        const options = this.autocomplete.options.filter((option) => option.value.settlement.toLowerCase() === value.toLowerCase());
+        if (options.length === 1) {
+          const settlement = options[0];
+          settlement.select();
+          this.addressFormGroup.patchValue({
+            latitude: settlement.value.latitude,
+            longitude: settlement.value.longitude
+          });
+        }
+      });
   }
 }

@@ -4,9 +4,8 @@
   [declination]="ChildDeclination"
   [dropdownEntities]="truncatedItems$ | async"
   [role]="role"
-  (enititiesSelect)="onEntitiesSelect($event)"
+  (entitiesSelect)="onEntitiesSelect($event)"
   (getApplications)="onGetApplications()"
   (leave)="onLeave($event)"
-  (sendMessage)="onSendMessage($event)"
->
+  (sendMessage)="onSendMessage($event)">
 </app-applications>

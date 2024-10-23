@@ -1,14 +1,14 @@
-import { Observable, Subject } from 'rxjs';
-
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 
-import { ToggleMobileScreen } from './shared/store/app.actions';
-import { GetFeaturesList } from './shared/store/meta-data.actions';
-import { CheckAuth } from './shared/store/registration.actions';
-import { RegistrationState } from './shared/store/registration.state';
+import { ToggleMobileScreen } from 'shared/store/app.actions';
+import { GetFeaturesList } from 'shared/store/meta-data.actions';
+import { CheckAuth } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +16,29 @@ import { RegistrationState } from './shared/store/registration.state';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.isAuthorizationLoading)
+  public isAuthorizationLoading$: Observable<boolean>;
+
+  public isMobileView: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
 
-  @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+  constructor(
+    private store: Store,
+    private translateService: TranslateService,
+    private dateAdapter: DateAdapter<Date>,
+    private router: Router
+  ) {}
 
-  isMobileView: boolean;
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isWindowMobile(event);
+  }
 
-  constructor(public store: Store, private translateService: TranslateService, private dateAdapter: DateAdapter<Date>) {}
-
-  ngOnInit(): void {
-    this.getLanguage();
-    this.translateService.use(this.selectedLanguage);
-    this.dateAdapter.setLocale(this.selectedLanguage);
+  public ngOnInit(): void {
+    this.setLocale();
+    this.router.canceledNavigationResolution = 'computed';
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
   }
@@ -39,23 +47,23 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param event global variable window
    * method defined window.width and assign isMobileView: boolean
    */
-
-  isWindowMobile(event: Window): void {
-    this.isMobileView = event.innerWidth <= 750;
+  public isWindowMobile(event: Window): void {
+    this.isMobileView = event.innerWidth < 750;
     if (this.previousMobileScreenValue !== this.isMobileView) {
       this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
       this.previousMobileScreenValue = this.isMobileView;
     }
   }
 
-  @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
-    this.isWindowMobile(event);
-  }
-
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setLocale(): void {
+    this.getLanguage();
+    this.translateService.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
   }
 
   private getLanguage(): void {

@@ -1,7 +1,9 @@
 <div class="create-form" *ngIf="(editMode && child) || !editMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{ (editMode ? 'FORMS.HEADERS.EDIT_CHILD' : 'FORMS.HEADERS.NEW_CHILD') | translate | uppercase }}</h3>
+      <h3 class="wrapper-title">
+        {{ (editMode ? 'FORMS.HEADERS.EDIT_CHILD' : 'FORMS.HEADERS.NEW_CHILD') | translate | uppercase }}
+      </h3>
       <p class="wrapper-text" *ngIf="!editMode">
         {{ 'FORMS.HEADERS.CREATE_CHILD_SUBTITLE' | translate }}
       </p>
@@ -14,19 +16,18 @@
         [index]="ChildrenFormArray.controls.indexOf(form)"
         [childrenAmount]="ChildrenFormArray.controls.length"
         [socialGroups]="socialGroups"
-        (deleteForm)="onDeleteForm($event)"
-      ></app-child-form>
+        (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
       <button
-        *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
         class="btn-add"
+        *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
         mat-button
         (click)="addChild()"
-        [disabled]="ChildrenFormArray.invalid"
-      >
-        <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
+        [disabled]="ChildrenFormArray.invalid">
+        <mat-icon class="mat-icon-add">add</mat-icon>
+        {{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
       </button>
       <ng-template #noMoreChildren>
         <p>
@@ -37,12 +38,12 @@
     </div>
 
     <div [ngClass]="{ hidden: editMode }" class="step" fxLayout="row">
-      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"> </mat-checkbox>
+      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"></mat-checkbox>
       <p class="agreement">
         {{ 'FORMS.CONTROL_VALUES.CHILD_AGREEMENT_WITH_TERMS_OF_USE_START' | translate }}
-        <a class="link" [routerLink]="'/info/rules'" [queryParams]="{ childID: child?.id }" target="_blank">{{
-          'FORMS.CONTROL_VALUES.TERMS_OF_USE' | translate
-        }}</a>
+        <a class="link" [routerLink]="'/info/rules'" [queryParams]="{ childID: child?.id }" target="_blank">
+          {{ 'FORMS.CONTROL_VALUES.TERMS_OF_USE' | translate }}
+        </a>
         {{ 'FORMS.CONTROL_VALUES.AGREEMENT_WITH_TERMS_OF_USE_END' | translate }}
       </p>
     </div>
@@ -50,12 +51,11 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
       <button
-        [disabled]="!AgreementFormControl.value || ChildrenFormArray.invalid"
         class="btn"
+        [disabled]="!AgreementFormControl.value || !ChildrenFormArray.dirty || ChildrenFormArray.invalid || isDispatching"
         mat-button
         type="submit"
-        (click)="onSubmit()"
-      >
+        (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate | uppercase }}
       </button>
     </div>

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { AppWorkshopsService } from './app-workshops.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
+import { AppWorkshopsService } from './app-workshops.service';
 
 describe('OrgCardsService', () => {
   let service: AppWorkshopsService;

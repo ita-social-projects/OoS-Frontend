@@ -1,3 +1,24 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 @import 'src/app/shared/styles/details.scss';
 @import 'src/app/shared/styles/workshop-status.scss';
+
+.workshop-title {
+  margin-bottom: 0;
+}
+
+.icon {
+  min-width: 24px;
+}
+
+.chip {
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+.title {
+  margin-right: 16px;
+}
+
+.details-link {
+  margin-bottom: 1rem;
+}

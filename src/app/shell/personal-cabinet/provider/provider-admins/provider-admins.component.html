@@ -1,4 +1,3 @@
-<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <div class="users-wrapper">
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
@@ -9,13 +8,15 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        [matTooltipDisabled]="!isSmallMobileView" />
     </div>
-    <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
-  </div>
 
+    <ng-container *ngIf="subrole === Subrole.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
+  </div>
   <div class="tab-wrapper">
-    <ng-container *ngIf="subRole === Role.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+    <ng-container *ngIf="subrole === Subrole.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
   </div>
 </div>
 
@@ -28,10 +29,10 @@
           [users]="users"
           [isEdit]="true"
           (delete)="onDelete($event)"
-          (block)="onBlock($event)"
+          (block)="onBlockUnblock($event)"
+          (unblock)="onBlockUnblock($event)"
           (update)="onUpdate($event)"
-          (sendInvitation)="onSendInvitation($event)"
-          >
+          (sendInvitation)="onSendInvitation($event)">
         </app-users-list>
       </div>
       <app-paginator
@@ -50,57 +51,56 @@
 </ng-template>
 
 <ng-template #DeputyBtnViewTmpl>
-  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
-  >
+  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+  </a>
 </ng-template>
 
 <ng-template #ProviderTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
     <mat-tab label="{{ ProviderAdminTitles.All | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
     <mat-tab label="{{ ProviderAdminTitles.Deputy | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
     <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
 
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="{{ ProviderAdminTitles.Admin | translate}}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
 
-<ng-template #ProviderViewBtnTmpl>
-  <ng-container *ngIf="tabIndex == 0">
+<ng-template #ProviderViewBtnTmpl [ngSwitch]="tabIndex">
+  <ng-container *ngSwitchCase="0">
     <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-      {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
+      {{ 'BUTTONS.ADD' | translate }}
+      <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #add="matMenu" class="header_menu">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button></a
-      >
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button></a
-      >
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
+        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
+      </a>
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button>
+      </a>
     </mat-menu>
   </ng-container>
-
-  <ng-container *ngIf="tabIndex == 1">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
-    >
+  <ng-container *ngSwitchCase="1">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+    </a>
   </ng-container>
-
-  <ng-container *ngIf="tabIndex == 2">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
-    >
+  <ng-container *ngSwitchCase="2">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+    </a>
   </ng-container>
 </ng-template>

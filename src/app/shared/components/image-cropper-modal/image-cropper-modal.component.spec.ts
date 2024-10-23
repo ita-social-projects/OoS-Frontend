@@ -1,10 +1,9 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ImageCropperModalComponent } from './image-cropper-modal.component';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { Cropper } from '../../models/cropper';
+import { ImageCropperModalComponent } from './image-cropper-modal.component';
 
 describe('ImageCropperModalComponent', () => {
   let component: ImageCropperModalComponent;

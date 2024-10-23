@@ -1,6 +1,7 @@
 .wrapper {
   margin-top: 16px;
 }
+
 .filter-text {
   margin: 0 1rem 0 0;
   font-family: Innerspace;
@@ -8,10 +9,12 @@
   line-height: 14.6px;
   color: #444444;
 }
+
 .title {
   margin-top: 24px;
   margin-bottom: 0;
 }
+
 .age-input {
   border: 1px solid #e3e3e3;
   background-color: #ffffff;
@@ -35,16 +38,20 @@
 :host ::ng-deep .mat-form-field-underline {
   display: none;
 }
+
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
+
 :host ::ng-deep .mat-form-field {
   max-width: 150px !important;
 }
+
 .age-input:hover + .clear-age {
   visibility: visible;
 }
+
 .clear-age {
   cursor: pointer;
   visibility: hidden;
@@ -54,9 +61,25 @@
   top: 8px;
   left: 114px;
 }
+
 .clear-age:hover {
   visibility: visible;
 }
+
 .check-boxes {
   margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column !important;
+  }
+
+  .filter-text {
+    min-width: 20px;
+  }
+
+  .from-filter-text {
+    margin-bottom: 10px;
+  }
 }

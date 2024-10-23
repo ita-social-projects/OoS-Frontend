@@ -3,12 +3,29 @@
 .application-status {
   font-weight: 500;
 }
+
 .Pending {
   color: #ffbd00;
 }
+
 .Approved {
   color: #199953;
 }
+
 .Rejected {
   color: #c72a21;
+}
+
+.AcceptedForSelection {
+  color: #27a3ff;
+}
+
+td {
+  word-break: break-word;
+}
+
+.reason {
+  &-container {
+    display: flex;
+  }
 }

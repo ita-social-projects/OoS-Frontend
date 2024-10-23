@@ -1,8 +1,8 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <a>
-    <img class="error-img" src="../../../../assets/images/Error.png" alt="error" />
+    <img class="error-img" src="assets/images/Error.png" alt="error" />
   </a>
   <h1 class="error-title">{{ 'ERROR_PAGE.ERROR_HAPPEND' | translate }}</h1>
   <p class="error-description">{{ 'ERROR_PAGE.ERROR_404' | translate }}</p>
-  <button class="btn" (click)="OnBack()" mat-raised-button>{{ 'BUTTONS.GO_BACK' | translate }}</button>
+  <button class="btn" (click)="onBack()" mat-raised-button data-testid="button">{{ 'BUTTONS.GO_BACK' | translate }}</button>
 </div>

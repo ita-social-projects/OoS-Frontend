@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="filters-wrapper">
-    <div class="search-area">
+    <div class="search-area" fxFlexAlign="start">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
         <input
@@ -8,31 +8,42 @@
           matInput
           type="text"
           class="search"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}"
-        />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
       </div>
     </div>
-    <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
+    <app-history-log-filters
+      [dropdownOptions]="dropdownData"
+      [tabName]="tabName"
+      (filterData)="onFilter($event)"
+      (dateFromFilters)="onDateFilter($event)"></app-history-log-filters>
   </div>
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }"
-        >
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }"
-        >
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }
+          ">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
-        >
+          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab *ngIf="role === Role.techAdmin" [label]="HistoryLogTabTitles.Users | translate">
+        <ng-container
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: parentsBlockingByAdminHistory$ | async, tableTitle: HistoryLogTypes.Users }
+          ">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -49,8 +60,7 @@
           [currentPage]="currentPage"
           [itemsPerPage]="filters.size"
           (pageChange)="onPageChange($event)"
-          (itemsPerPageChange)="onItemsPerPageChange($event)"
-        >
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
         </app-paginator>
       </ng-container>
     </ng-container>

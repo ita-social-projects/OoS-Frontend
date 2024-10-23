@@ -7,10 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { WorkingHoursFormComponent } from './working-hours-form.component';
-import { MaterialModule } from '../../../../../../../shared/modules/material.module';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '../../../../../../../shared/modules/material.module';
+import { WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -56,7 +56,7 @@ describe('WorkingHoursFormComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl; // required for validation
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
 }

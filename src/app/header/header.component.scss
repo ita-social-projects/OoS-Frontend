@@ -1,4 +1,5 @@
 @import 'src/app/shared/styles/dropdown.scss';
+
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
@@ -42,8 +43,10 @@
   }
 
   .info-link {
+    display: flex;
     background: none;
     color: white;
+    align-items: center;
     justify-content: flex-end;
     font-size: 0.7rem;
     font-family: 'Innerspace';
@@ -51,6 +54,11 @@
     white-space: nowrap;
     line-height: 24px;
     cursor: pointer;
+    padding: 6px;
+
+    .mat-icon {
+      margin-right: 5px;
+    }
   }
 
   .login {
@@ -62,6 +70,34 @@
 
     &.mat-stroked-button {
       font-size: 0.7rem;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .support-icon-text {
+      display: none;
+    }
+
+    .lang .mat-icon {
+      margin-right: 0;
+    }
+
+    button {
+      min-width: 36px;
+    }
+
+    .info-link {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 950px) {
+    .user-name {
+      display: none;
+    }
+
+    .menu {
+      margin-left: 10px;
     }
   }
 
@@ -92,6 +128,12 @@
     }
   }
 }
+
+.nav-mobile {
+  display: flex;
+  align-items: center;
+}
+
 .lang,
 .menu,
 .login {
@@ -100,39 +142,20 @@
   font-size: 0.7rem !important;
 }
 
-.lang mat-icon {
-  position: relative;
-  top: -1px;
+.menu .mat-icon {
+  &.account-circle {
+    margin-right: 5px;
+    padding-left: 5px;
+  }
+
+  &.arrow-drop-down {
+    margin-left: 2.5px;
+  }
 }
 
-.account-button {
-  font-weight: bold !important;
-  display: block;
-
-  .icon-account {
-    color: white;
-  }
-  .account-circle {
-    width: 33px;
-    padding: 0 5px;
-    min-width: 0;
-    height: 33px;
-    background-color: transparent;
-    box-shadow: none;
-    top: -2px;
-    left: 5px;
-
-    ::ng-deep.mat-badge-content {
-      font-size: xx-small;
-      height: 15px;
-      width: 15px;
-      line-height: 15px;
-      top: 0;
-      left: 0 !important;
-      position: absolute;
-      background-color: #f5bc4a;
-    }
-  }
+.lang .mat-icon {
+  margin-right: 5px;
+  top: -1px;
 }
 
 ::ng-deep .lang-option {
@@ -141,10 +164,19 @@
 
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
-  width: 25px !important;
   overflow: visible;
   padding-right: 0px !important;
   font-family: 'Innerspace';
+
+  @media (max-width: 850px) {
+    display: none;
+    max-width: 36px;
+  }
+
+  @media (max-width: 750px) {
+    display: block;
+    margin-left: 12px !important;
+  }
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
@@ -181,6 +213,12 @@
 
 ::ng-deep .mat-menu-panel {
   border-radius: 15px !important;
+}
+
+.mat-option {
+  &:hover {
+    background-color: #f8f8f8 !important;
+  }
 }
 
 @media (max-width: 750px) {

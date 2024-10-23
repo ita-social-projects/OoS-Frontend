@@ -1,36 +1,34 @@
-import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 
-import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
-import { Constants } from '../../../constants/constants';
+import { Constants } from 'shared/constants/constants';
+import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { NotificationAction, NotificationDataType, NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
+import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
+import { Role } from 'shared/enum/role';
+import { ApplicationStatuses } from 'shared/enum/statuses';
 import {
-  ApplicationApproved, ApplicationChanges, ApplicationLeft, ApplicationPending, ApplicationRejected
-} from '../../../enum/enumUA/declinations/notification-declination';
-import { NoResultsTitle } from '../../../enum/enumUA/no-results';
+  Notification,
+  NotificationAmount,
+  NotificationGrouped,
+  NotificationGroupedAndSingle,
+  NotificationGroupedByType
+} from 'shared/models/notification.model';
+import { ChatState } from 'shared/store/chat.state';
 import {
-  NotificationProviderLicenseFullDescription, NotificationProviderLicenseShortDescription,
-  NotificationsProviderFullDescriptions, NotificationsProviderShortDescriptions,
-  NotificationWorkshopFullDescriptions, NotificationWorkshopShortDescription
-} from '../../../enum/enumUA/notifications';
-import {
-  DataTypes, NotificationDescriptionType, NotificationType
-} from '../../../enum/notifications';
-import { Role } from '../../../enum/role';
-import { ApplicationStatuses, LicenseStatuses, ProviderStatuses } from '../../../enum/statuses';
-import {
-  Notification, NotificationGroupedByAdditionalData, Notifications, NotificationsAmount,
-  NotificationsGroupedByType
-} from '../../../models/notifications.model';
-import {
-  ClearNotificationState, DeleteUsersNotificationById, GetAllUsersNotificationsGrouped,
-  ReadUsersNotificationById, ReadUsersNotificationsByType
-} from '../../../store/notifications.actions';
-import { NotificationsState } from '../../../store/notifications.state';
-import { RegistrationState } from '../../../store/registration.state';
+  ClearNotificationState,
+  GetAllUsersNotificationsGrouped,
+  ReadAllUsersNotifications,
+  ReadUsersNotificationById,
+  ReadUsersNotificationsByType
+} from 'shared/store/notification.actions';
+import { NotificationState } from 'shared/store/notification.state';
+import { GetPendingApplicationsByProviderId } from 'shared/store/provider.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-notifications-list',
@@ -38,126 +36,62 @@ import { RegistrationState } from '../../../store/registration.state';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
-  public readonly ApplicationHeaderDeclinations = ApplicationChanges;
+  @Input() public notificationAmount: NotificationAmount;
+  @Input() public receivedNotification: Notification;
+
+  @Select(NotificationState.notifications)
+  public notificationsData$: Observable<NotificationGroupedAndSingle>;
+  @Select(ChatState.unreadMessagesCount)
+  public unreadMessagesCount$: Observable<number>;
+
+  public readonly ApplicationHeaderDeclinations = NotificationDeclination.Application.Changes;
   public readonly NotificationDescriptionType = NotificationDescriptionType;
   public readonly Constants = Constants;
+  public readonly Util = Util;
   public readonly NoResults = NoResultsTitle.noNotifications;
 
-  @Input() public notificationsAmount: NotificationsAmount;
-  @Input() public recievedNotification: Notification;
-
-  @Select(NotificationsState.notifications)
-  public notificationsData$: Observable<Notifications>;
+  public notificationsGroupedByType: NotificationGroupedByType[] = [];
+  public notifications: Notification[];
+  private role: Role;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  public groupsByType: NotificationsGroupedByType[] = [];
-  public notifications: Notification[];
-
-  constructor(private store: Store, private router: Router) {}
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    const recievedNotification = changes['recievedNotification'];
-    if (recievedNotification && !recievedNotification.firstChange) {
-      this.addRecievedNotification(recievedNotification.currentValue);
-    }
-  }
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    this.notificationsData$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((recievedNotifications: Notifications) => !!recievedNotifications)
-      )
-      .subscribe((recievedNotifications: Notifications) => {
-        this.groupsByType = recievedNotifications.notificationsGroupedByType;
-        this.notifications = recievedNotifications.notifications;
+    this.role = this.store.selectSnapshot(RegistrationState.role);
+    combineLatest([this.notificationsData$.pipe(filter(Boolean)), this.unreadMessagesCount$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([receivedNotifications, unreadMessagesCount]: [NotificationGroupedAndSingle, number]) => {
+        this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
+        this.notifications = receivedNotifications.notifications;
+        if (unreadMessagesCount) {
+          this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
+            (notification) => notification.type !== NotificationType.Chat
+          );
+          this.notificationsGroupedByType.unshift({
+            type: NotificationType.Chat,
+            amount: unreadMessagesCount,
+            groupedByAdditionalData: [
+              {
+                type: NotificationType.Chat,
+                amount: unreadMessagesCount,
+                groupedData: 'Unread'
+              }
+            ]
+          });
+        }
       });
   }
 
-  public onReadSingle(notification: Notification): void {
-    if (notification.readDateTime) {
-      return;
-    }
-
-    this.store.dispatch(new ReadUsersNotificationById(notification));
-
-    notification.readDateTime = new Date(Date.now()).toISOString();
-    this.notificationsAmount.amount--;
-  }
-
-  public onReadGroup(groupByType: NotificationsGroupedByType): void {
-    if (groupByType.isRead) {
-      return;
-    }
-
-    this.store.dispatch(new ReadUsersNotificationsByType(groupByType.type));
-
-    this.notificationsAmount.amount -= groupByType.amount;
-    groupByType.isRead = true;
-  }
-
-  public onReadAll(): void {
-    this.groupsByType.forEach((groupByType: NotificationsGroupedByType) => this.onReadGroup(groupByType));
-    this.notifications.forEach((notification: Notification) => this.onReadSingle(notification));
-  }
-
-  public onDeleteSingle(notification: Notification): void {
-    this.store.dispatch(new DeleteUsersNotificationById(notification.id));
-
-    this.notificationsAmount.amount--;
-    this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id !== notification.id);
-  }
-
-  public onNavigate(type: NotificationType, groupedDataStatus?: ApplicationStatuses): void {
-    switch (NotificationType[type]) {
-      case NotificationType.Application:
-        const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
-        const status: string = ApplicationStatuses[groupedDataStatus];
-        this.router.navigate([`/personal-cabinet/${userRole}/${PersonalCabinetLinks.Application}`], {
-          queryParams: { status: status }
-        });
-        break;
-      case NotificationType.Chat:
-        this.router.navigate([`/personal-cabinet/${PersonalCabinetLinks.Chat}`]);
-        break;
-      case NotificationType.Provider:
-        this.router.navigate(['personal-cabinet/provider/info']);
-        break;
-    }
-  }
-
-  public stopPropagation(event: PointerEvent): void {
-    event.stopPropagation();
-  }
-
-  public defineDeclination(
-    status: string
-  ): typeof ApplicationApproved | typeof ApplicationPending | typeof ApplicationRejected | typeof ApplicationLeft | typeof ApplicationLeft {
-    switch (status) {
-      case ApplicationStatuses.Approved:
-        return ApplicationApproved;
-      case ApplicationStatuses.Pending:
-        return ApplicationPending;
-      case ApplicationStatuses.Rejected:
-        return ApplicationRejected;
-      case ApplicationStatuses.Left:
-        return ApplicationLeft;
-      default:
-        return ApplicationPending;
-    }
-  }
-
-  public getNotificationDescription(
-    descriptionType: NotificationDescriptionType,
-    notificationType: NotificationType,
-    data: DataTypes
-  ): string | void {
-    if (data[DataTypes.LicenseStatus]) {
-      return this.getDataLicenseNotification(descriptionType, data[DataTypes.LicenseStatus]);
-    } else if (data[DataTypes.Status]) {
-      return this.getDataStatusNotification(descriptionType, notificationType, data[DataTypes.Status]);
+  public ngOnChanges(changes: SimpleChanges): void {
+    const receivedNotification = changes.receivedNotification;
+    if (receivedNotification && !receivedNotification.firstChange) {
+      this.addReceivedNotification(receivedNotification.currentValue);
     }
   }
 
@@ -167,87 +101,133 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.destroy$.unsubscribe();
   }
 
-  private getDataStatusNotification(
-    descriptionType: NotificationDescriptionType,
-    notificationType: NotificationType,
-    status: ApplicationStatuses | ProviderStatuses
-  ): string {
-    switch (descriptionType) {
-      case NotificationDescriptionType.Full:
-        switch (notificationType) {
-          case NotificationType.Workshop:
-            return NotificationWorkshopFullDescriptions[status];
-          case NotificationType.Provider:
-            return NotificationsProviderFullDescriptions[status];
-        }
-        break;
-      case NotificationDescriptionType.Short:
-        switch (notificationType) {
-          case NotificationType.Workshop:
-            return NotificationWorkshopShortDescription[status];
-          case NotificationType.Provider:
-            return NotificationsProviderShortDescriptions[status];
-        }
-        break;
-      default:
-        return Constants.NO_INFORMATION;
-    }
+  public stopPropagation(event: PointerEvent): void {
+    event.stopPropagation();
   }
 
-  private getDataLicenseNotification(descriptionType: NotificationDescriptionType, status: ApplicationStatuses | ProviderStatuses): string {
-    switch (descriptionType) {
-      case NotificationDescriptionType.Full:
-        return NotificationProviderLicenseFullDescription[status];
-      case NotificationDescriptionType.Short:
-        return NotificationProviderLicenseShortDescription[status];
-      default:
-        return Constants.NO_INFORMATION;
-    }
+  public defineDeclination(notification: NotificationGrouped, status?: string): NotificationDeclination.DeclinationType {
+    return NotificationDeclination.getDeclination(notification.type, status || notification.groupedData);
   }
 
-  private addRecievedNotification(recievedNotification: Notification): void {
-    this.notificationsAmount.amount++;
-
-    if (recievedNotification.type !== NotificationType.Application && recievedNotification.type !== NotificationType.Chat) {
-      this.notifications.push(recievedNotification);
+  public onNavigate(notification: Notification, groupedData?: string): void {
+    if (notification.action === NotificationAction.Delete) {
       return;
     }
 
-    for (const groupByType of this.groupsByType) {
-      if (groupByType.type === recievedNotification.type) {
-        for (const groupByAction of groupByType.groupedByAdditionalData) {
-          if (groupByAction.groupedData === recievedNotification.data.Status) {
-            groupByType.amount++;
-            groupByAction.amount++;
-
-            return;
-          }
-        }
-
-        this.addNewGroupByAdditionalData(groupByType, recievedNotification);
-        return;
-      }
-    }
-
-    this.addNewGroupByType(recievedNotification);
-  }
-
-  private addNewGroupByAdditionalData(groupByType: NotificationsGroupedByType, recievedNotification: Notification): void {
-    switch (recievedNotification.type) {
+    switch (NotificationType[notification.type]) {
+      case NotificationType.Workshop:
+        this.router.navigate(['details/workshop', notification.objectId]);
+        break;
       case NotificationType.Application:
-        groupByType.groupedByAdditionalData.push(
-          new NotificationGroupedByAdditionalData(recievedNotification.action, recievedNotification.data.Status, recievedNotification.type)
-        );
+        {
+          const status = ApplicationStatuses[groupedData] as string;
+          this.router.navigate(['personal-cabinet', this.role, PersonalCabinetLinks.Application], {
+            queryParams: { status }
+          });
+        }
         break;
       case NotificationType.Chat:
-        //TODO
+        this.router.navigate(['personal-cabinet', PersonalCabinetLinks.Chat]);
         break;
+      case NotificationType.Provider:
+        switch (NotificationAction[notification.action]) {
+          case NotificationAction.Block:
+          case NotificationAction.Unblock:
+            this.router.navigate(['personal-cabinet/provider/info']);
+            break;
+          default:
+            this.router.navigate(['admin-tools/data/provider-list']);
+            break;
+        }
+        break;
+      case NotificationType.Parent:
+        switch (NotificationAction[notification.action]) {
+          case NotificationAction.ProviderBlock:
+          case NotificationAction.ProviderUnblock:
+            this.router.navigate(['details/provider', notification.data?.ProviderId]);
+            break;
+        }
     }
   }
 
-  private addNewGroupByType(recievedNotification: Notification): void {
-    const newGroupByType = new NotificationsGroupedByType(recievedNotification.type, 1, []);
-    this.addNewGroupByAdditionalData(newGroupByType, recievedNotification);
-    this.groupsByType.push(newGroupByType);
+  public onReadAll(): void {
+    this.store.dispatch(new ReadAllUsersNotifications());
+    this.notificationsGroupedByType.forEach((notification) => (notification.isRead = true));
+    this.notifications.forEach((notification) => (notification.readDateTime = new Date()));
+    this.notificationAmount.amount = 0;
+  }
+
+  public onReadGroup(groupByType: NotificationGroupedByType): void {
+    if (groupByType.isRead) {
+      return;
+    }
+
+    this.store.dispatch(new ReadUsersNotificationsByType(groupByType.type));
+
+    groupByType.isRead = true;
+    this.notificationAmount.amount -= groupByType.amount;
+  }
+
+  public onReadSingle(notification: Notification): void {
+    if (notification.readDateTime) {
+      return;
+    }
+
+    this.store.dispatch(new ReadUsersNotificationById(notification));
+
+    notification.readDateTime = new Date();
+    this.notificationAmount.amount--;
+  }
+
+  private addReceivedNotification(receivedNotification: Notification): void {
+    if (receivedNotification.type !== NotificationType.Application && receivedNotification.type !== NotificationType.Chat) {
+      this.notifications.unshift(receivedNotification);
+      return;
+    } else if (receivedNotification.type === NotificationType.Application && this.role === Role.provider) {
+      const providerId = this.store.selectSnapshot(RegistrationState.provider).id;
+      this.store.dispatch(new GetPendingApplicationsByProviderId(providerId));
+    }
+
+    const newNotificationGroupReceived = this.notificationsGroupedByType.every((notificationGroupedByType) => {
+      if (notificationGroupedByType.type === receivedNotification.type) {
+        let receivedGroupExistsByAdditionalData = false;
+        notificationGroupedByType.groupedByAdditionalData.forEach((notificationGrouped) => {
+          notificationGroupedByType.amount++;
+          if (notificationGrouped.groupedData === receivedNotification.data[NotificationDataType.Status]) {
+            notificationGrouped.amount++;
+            receivedGroupExistsByAdditionalData = true;
+          }
+        });
+        if (!receivedGroupExistsByAdditionalData) {
+          this.addNewGroupByAdditionalData(notificationGroupedByType, receivedNotification);
+        }
+        return false;
+      }
+      return true;
+    });
+
+    if (newNotificationGroupReceived) {
+      this.addNewGroupByType(receivedNotification);
+    }
+  }
+
+  private addNewGroupByType(receivedNotification: Notification): void {
+    const newGroupByType = new NotificationGroupedByType(receivedNotification.type, 1, []);
+    this.addNewGroupByAdditionalData(newGroupByType, receivedNotification);
+    this.notificationsGroupedByType.unshift(newGroupByType);
+  }
+
+  private addNewGroupByAdditionalData(groupByType: NotificationGroupedByType, receivedNotification: Notification): void {
+    switch (receivedNotification.type) {
+      case NotificationType.Application:
+        groupByType.groupedByAdditionalData.unshift(
+          new NotificationGrouped(
+            receivedNotification.type,
+            receivedNotification.action,
+            receivedNotification.data[NotificationDataType.Status]
+          )
+        );
+        break;
+    }
   }
 }

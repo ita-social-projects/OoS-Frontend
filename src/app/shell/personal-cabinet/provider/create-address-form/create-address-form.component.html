@@ -25,20 +25,14 @@
 <ng-template #searchAddressTmpl let-context>
   <label class="step-label">{{ 'FORMS.LABELS.SETTLEMENT' | translate }}<span class="step-required">*</span> </label>
   <div class="custom-input-autocomplete" [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
-    <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
-      <input
-        matInput
-        type="text"
-        appTrimValue
-        [formControl]="context.searchControl"
-        [matAutocomplete]="auto"
-        (focusout)="onFocusOut(auto, context)" />
+    <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
+      <input matInput type="text" appTrimValue [formControl]="context.searchControl" [matAutocomplete]="auto" (focusout)="onFocusOut()" />
       <mat-autocomplete
         #auto="matAutocomplete"
         disableOptionCentering
         panelClass="dropdown-panel"
         [displayWith]="displaySettlementNameFn"
-        (optionSelected)="onSelectSettlement($event, context)">
+        (optionSelected)="onSelectSettlement($event)">
         <mat-option
           class="dropdown-option"
           *ngFor="let codeficator of codeficatorSearch$ | async"
@@ -52,8 +46,8 @@
   </div>
   <app-validation-hint
     [validationFormControl]="context.searchControl"
-    [minCharachters]="ValidationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="ValidationConstants.INPUT_LENGTH_60">
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
   <p *ngIf="context.settlementControl.value" class="additional-text">
     {{ context.settlementControl.value?.fullName }}
@@ -69,8 +63,8 @@
     </mat-form-field>
     <app-validation-hint
       [validationFormControl]="context.streetControl"
-      [minCharachters]="ValidationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="ValidationConstants.INPUT_LENGTH_60">
+      [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
     </app-validation-hint>
 
     <label class="step-label">{{ 'FORMS.LABELS.BUILDING' | translate }}<span class="step-required">*</span> </label>
@@ -79,8 +73,8 @@
     </mat-form-field>
     <app-validation-hint
       [validationFormControl]="context.buildingNumberControl"
-      [minCharachters]="ValidationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="ValidationConstants.INPUT_LENGTH_15">
+      [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="ValidationConstants.INPUT_LENGTH_15">
     </app-validation-hint>
   </form>
 </ng-template>

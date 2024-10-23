@@ -1,13 +1,4 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ComponentFactoryResolver,
-  Directive,
-  ElementRef,
-  HostListener,
-  Renderer2,
-  ViewContainerRef
-} from '@angular/core';
+import { AfterViewInit, ComponentFactoryResolver, Directive, ElementRef, HostListener, Renderer2, ViewContainerRef } from '@angular/core';
 import { StretchCellComponent } from '../../components/stretch-cell/stretch-cell/stretch-cell.component';
 
 @Directive({
@@ -25,34 +16,8 @@ export class StretchTableDirective implements AfterViewInit {
     private viewContainerRef: ViewContainerRef
   ) {}
 
-  ngAfterViewInit(): void {
-    setTimeout(() => this.addResizeStructure(), 100);
-  }
-
-  private addResizeStructure() {
-    let THs = this.el.nativeElement.getElementsByTagName('th');
-
-    for (let i = 0; i < THs.length - 1; i++) {
-      if (THs[i + 1].classList.contains('mat-table-sticky') && THs[i + 1].classList.contains('mat-table-sticky-border-elem-right')) {
-        break;
-      }
-
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(StretchCellComponent);
-      let componentRef = this.viewContainerRef.createComponent(componentFactory);
-      let content = THs[i].childNodes[0];
-
-      this.renderer.removeChild(THs[i], content);
-      componentRef.instance.insertNode(content);
-
-      this.renderer.appendChild(THs[i], componentRef.location.nativeElement);
-    }
-
-    for (let i = 0; i < THs.length; i++) {
-      THs[i].style.width = `${THs[i].offsetWidth}px`;
-    }
-  }
-
-  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
+  @HostListener('mousedown', ['$event'])
+  public onMouseDown(event: MouseEvent): void {
     if (!(event.target as HTMLElement).closest('.resize-border')) {
       return;
     }
@@ -70,15 +35,20 @@ export class StretchTableDirective implements AfterViewInit {
     body.style.pointerEvents = 'none';
   }
 
-  private onUpMouse() {
-    document.removeEventListener('mousemove', this.mouseMoveFunc);
-    document.querySelector('body')!.style.userSelect = 'auto';
-    document.querySelector('body')!.style.pointerEvents = 'auto';
+  public ngAfterViewInit(): void {
+    setTimeout(() => this.addResizeStructure(), 100);
   }
 
-  private changeWidth(event: MouseEvent) {
-    let minWidth = 50;
-    let tableWidth = this.selectedTh.closest('table').offsetWidth;
+  private onUpMouse(): void {
+    document.removeEventListener('mousemove', this.mouseMoveFunc);
+    const body = document.querySelector('body');
+    body.style.userSelect = 'auto';
+    body.style.pointerEvents = 'auto';
+  }
+
+  private changeWidth(event: MouseEvent): void {
+    const minWidth = 50;
+    const tableWidth = this.selectedTh.closest('table').offsetWidth;
 
     if (event.movementX === 0) {
       return;
@@ -89,7 +59,7 @@ export class StretchTableDirective implements AfterViewInit {
     }
 
     if (tableWidth > this.tableContainerWidth && tableWidth + event.movementX < this.tableContainerWidth) {
-      let width = this.selectedTh.offsetWidth - (tableWidth - this.tableContainerWidth);
+      const width = this.selectedTh.offsetWidth - (tableWidth - this.tableContainerWidth);
       this.selectedTh.style.width = `${width}px`;
       return;
     }
@@ -99,7 +69,31 @@ export class StretchTableDirective implements AfterViewInit {
       return;
     }
 
-    let cur = this.selectedTh.offsetWidth + event.movementX;
+    const cur = this.selectedTh.offsetWidth + event.movementX;
     this.selectedTh.style.width = `${cur}px`;
+  }
+
+  private addResizeStructure(): void {
+    const THs = this.el.nativeElement.getElementsByTagName('th');
+
+    for (let i = 0; i < THs.length - 1; i++) {
+      if (THs[i + 1].classList.contains('mat-table-sticky') && THs[i + 1].classList.contains('mat-table-sticky-border-elem-right')) {
+        break;
+      }
+
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(StretchCellComponent);
+      // TODO: Update to use without ComponentFactoryResolver
+      const componentRef = this.viewContainerRef.createComponent(componentFactory);
+      const content = THs[i].childNodes[0];
+
+      this.renderer.removeChild(THs[i], content);
+      componentRef.instance.insertNode(content);
+
+      this.renderer.appendChild(THs[i], componentRef.location.nativeElement);
+    }
+
+    for (let i = 0; i < THs.length; i++) {
+      THs[i].style.width = `${THs[i].offsetWidth}px`;
+    }
   }
 }

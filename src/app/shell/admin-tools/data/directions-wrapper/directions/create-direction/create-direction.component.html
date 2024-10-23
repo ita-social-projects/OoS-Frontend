@@ -6,8 +6,8 @@
 
     <ng-container *ngIf="!editMode || (editMode && (direction$ | async))">
       <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <label class="step-label"
-          >{{ editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку' }}
+        <label class="step-label">
+          {{ editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку' }}
           <span *ngIf="!editMode" class="step-required">*</span>
         </label>
 
@@ -17,8 +17,16 @@
         <app-validation-hint [validationFormControl]="directionFormGroup.get('title')"></app-validation-hint>
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-          <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>Зберегти</button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
+          <button
+            class="btn"
+            [disabled]="!directionFormGroup.dirty || directionFormGroup.invalid || isDispatching"
+            (click)="onSubmit()"
+            mat-raised-button>
+            {{ 'BUTTONS.SAVE' | translate }}
+          </button>
         </div>
       </form>
     </ng-container>

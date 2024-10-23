@@ -1,19 +1,23 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+
+import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FilterList } from 'shared/models/filter-list.model';
 import {
   FilterClear,
   SetClosedRecruitment,
+  SetFormsOfLearning,
   SetOpenRecruitment,
-  SetWithDisabilityOption,
-} from '../../store/filter.actions';
-import { FilterState } from '../../store/filter.state';
-import { FiltersSidenavToggle } from '../../store/navigation.actions';
-import { FilterList } from '../../models/filterList.model';
-import { NavigationState } from '../../store/navigation.state';
-import { WorkshopOpenStatus } from '../../enum/workshop';
+  SetWithDisabilityOption
+} from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { FiltersSidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-filters-list',
@@ -22,28 +26,38 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
-  filterList: FilterList;
+  public filterList$: Observable<FilterList>;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  public filtersSidenavOpenTrue$: Observable<boolean>;
 
   @Select(FilterState.isMapView)
-  isMapView$: Observable<boolean>;
+  public isMapView$: Observable<boolean>;
 
-  @Input() isMobileView: boolean;
+  @Input() public isMobileView: boolean;
 
-  OpenRecruitmentControl = new FormControl(false);
-  ClosedRecruitmentControl = new FormControl(false);
-  WithDisabilityOptionControl = new FormControl(false);
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: WorkshopOpenStatus[];
-  readonly workhopStatus = WorkshopOpenStatus;
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Util = Util;
+
+  public formOfLearningControls = {
+    Offline: new FormControl(false),
+    Online: new FormControl(false),
+    Mixed: new FormControl(false)
+  };
+  public OpenRecruitmentControl = new FormControl(false);
+  public ClosedRecruitmentControl = new FormControl(false);
+  public WithDisabilityOptionControl = new FormControl(false);
+
+  public filterList: FilterList;
+  private visibleFiltersSidenav: boolean;
+  private statuses: WorkshopOpenStatus[];
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([visibleFiltersSidenav, filterList]) => {
@@ -53,13 +67,22 @@ export class FiltersListComponent implements OnInit, OnDestroy {
         this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
       });
 
+    combineLatest(
+      Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((values: boolean[]) => {
+        const formsOfLearning = Object.values(FormOfLearning).filter((_, index) => values[index]);
+        this.store.dispatch(new SetFormsOfLearning(formsOfLearning));
+      });
+
     this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Open);
+      this.statusHandler(val, this.workshopStatus.Open);
       this.store.dispatch(new SetOpenRecruitment(this.statuses));
     });
 
     this.ClosedRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Closed);
+      this.statusHandler(val, this.workshopStatus.Closed);
       this.store.dispatch(new SetClosedRecruitment(this.statuses));
     });
 
@@ -72,19 +95,23 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * When the user selects filters (OpenRecruitment or ClosedRecruitment),
    * we add the status to the array or remove the status from the array.
    */
-  statusHandler(val: boolean, status: string): void {
-    val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
+  public statusHandler(val: boolean, status: string): void {
+    if (val) {
+      this.statuses.push(this.workshopStatus[status]);
+    } else {
+      this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
+    }
   }
 
-  changeView(): void {
+  public changeView(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
-  onFilterReset(): void {
+  public onFilterReset(): void {
     this.store.dispatch(new FilterClear());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

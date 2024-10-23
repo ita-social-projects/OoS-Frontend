@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(isLoadingResultPage$ | async) && !!workshops">
   <ng-container *ngIf="workshops.totalAmount; else isEmptyList">
     <div class="card-wrapper">
-      <app-workshop-card class="card" *ngFor="let workshop of workshops.entities" [workshop]="workshop"> </app-workshop-card>
+      <app-workshop-card class="card" *ngFor="let workshop of workshops.entities" [workshop]="workshop"></app-workshop-card>
     </div>
   </ng-container>
   <ng-container *ngIf="workshops.totalAmount">
@@ -10,8 +10,7 @@
       [currentPage]="currentPage"
       [itemsPerPage]="paginationParameters.size"
       (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)"
-    >
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

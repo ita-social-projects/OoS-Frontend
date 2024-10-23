@@ -1,18 +1,28 @@
 <p class="filter-text title">
-  {{"SELECT_AGE" | translate}}
+  {{ 'SELECT_AGE' | translate }}
 </p>
 <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
   <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
-    {{"EXACT_MATCH"| translate}}
+    {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
   <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="row" fxLayoutAlign="start center" class="from-filter-text">
       <p class="filter-text">
-        {{"FROM"| translate}}
+        {{ 'FROM' | translate }}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
+      <input
+        matInput
+        class="age-input"
+        type="number"
+        [formControl]="minAgeFormControl"
+        appDigitOnly
+        maxlength="2"
+        appMinMax
+        [directiveFormControl]="minAgeFormControl"
+        [min]="validationConstants.AGE_MIN"
+        [max]="(maxAgeFormControl.value ? maxAgeFormControl.value : validationConstants.BIRTH_AGE_MAX) - 1"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
     </div>
@@ -20,9 +30,19 @@
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
       <p class="filter-text">
-        {{"TO"| translate}}
+        {{ 'TO' | translate }}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
+      <input
+        matInput
+        class="age-input"
+        type="number"
+        [formControl]="maxAgeFormControl"
+        appDigitOnly
+        maxlength="2"
+        appMinMax
+        [directiveFormControl]="maxAgeFormControl"
+        [min]="minAgeFormControl.value !== undefined ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
+        [max]="validationConstants.BIRTH_AGE_MAX"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
     </div>

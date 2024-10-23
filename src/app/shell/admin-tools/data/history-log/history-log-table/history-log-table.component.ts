@@ -1,56 +1,47 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Util } from '../../../../../shared/utils/utils';
-import {
-  ApplicationHistory,
-  ProviderAdminHistory,
-  ProviderHistory,
-} from '../../../../../shared/models/history-log.model';
-import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
-import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
-import { Person } from '../../../../../shared/models/user.model';
-import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
+
+import { ColumnsListForChangesLogHistory } from 'shared/constants/changes-log';
+import { Constants } from 'shared/constants/constants';
+import { ApplicationTitles } from 'shared/enum/enumUA/statuses';
+import { AdminStatus, TypeChange } from 'shared/enum/enumUA/tech-admin/history-log';
+import { HistoryLogTypes } from 'shared/enum/history.log';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-history-log-table',
   templateUrl: './history-log-table.component.html',
-  styleUrls: ['./history-log-table.component.scss'],
+  styleUrls: ['./history-log-table.component.scss']
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @Input() public table: (ProviderHistory | ProviderAdminHistory | ApplicationHistory | ParentsBlockingByAdminHistory)[];
+  @Input() public tableType: HistoryLogTypes;
 
-  readonly typeChange = TypeChange;
-  readonly HistoryLogTypes = HistoryLogTypes;
-  readonly statusTitles = ApplicationTitles;
-  readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
-  @Input() tableType: HistoryLogTypes;
+  public readonly typeChange = TypeChange;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly statusTitles = ApplicationTitles;
+  public readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
+  public readonly FULL_DATE_FORMAT_ONLY_DIGITS = Constants.FULL_DATE_FORMAT_ONLY_DIGITS;
+  public readonly adminStatus = AdminStatus;
+  public readonly DASH_VALUE = Constants.DASH_VALUE;
+  public readonly columnsListForChangesLogHistory = ColumnsListForChangesLogHistory;
+  public readonly InfoMenuType = InfoMenuType;
 
-  getFullName = Util.getFullName;
+  public getFullName = Util.getFullName;
+  public dataSource: MatTableDataSource<object>;
 
-  get isApplicationHistoryType(): boolean {
+  public get isApplicationHistoryType(): boolean {
     return this.tableType === HistoryLogTypes.Applications;
   }
 
-  displayedColumns = [
-    'pib',
-    'email',
-    'providerTitle',
-    'institutionTitle',
-    'providerCity',
-    'fieldName',
-    'updatedDate',
-    'oldValue',
-    'newValue',
-  ];
-  dataSource: MatTableDataSource<object>;
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
-    this.dataSource.sortingDataAccessor = (item: ProviderHistory, property) => {
+    this.dataSource.sortingDataAccessor = (item: ProviderHistory, property): string => {
       switch (property) {
         case 'pib': {
           return `${item.user.lastName} ${item.user.firstName} ${item.user.middleName}`;
@@ -65,7 +56,32 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     };
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  public getCustomLogValue(
+    element: ProviderHistory & ProviderAdminHistory & ApplicationHistory & ParentsBlockingByAdminHistory,
+    column: string
+  ): string {
+    switch (column) {
+      case 'oldValue':
+        if (element.operationType === 'Block') {
+          return +element.oldValue ? 'HISTORY_LOG.USER_WAS_BLOCKED' : 'HISTORY_LOG.USER_WAS_UNBLOCKED';
+        } else if (this.isApplicationHistoryType) {
+          return this.statusTitles[element?.oldValue];
+        } else {
+          return element?.oldValue;
+        }
+      case 'newValue':
+        if (element.operationType === 'Block') {
+          return +element.newValue ? 'HISTORY_LOG.USER_WAS_BLOCKED' : 'HISTORY_LOG.USER_WAS_UNBLOCKED';
+        } else if (this.isApplicationHistoryType) {
+          return this.statusTitles[element?.newValue];
+        } else {
+          return element?.newValue;
+        }
+    }
+    return '';
   }
 }

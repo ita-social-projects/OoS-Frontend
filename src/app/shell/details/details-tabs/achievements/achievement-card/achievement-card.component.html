@@ -13,7 +13,7 @@
           {{ achievementsTypes[achievement.achievementTypeId - 1].title }}
         </h3>
         <h4 class="card_title">{{ 'FORMS.LABELS.DATE' | translate }}</h4>
-        <p class="card_text">{{ achievement.achievementDate | date : 'shortDate' }}</p>
+        <p class="card_text">{{ achievement.achievementDate | date: 'dd/MM/yyyy' }}</p>
         <h4 class="card_title">{{ 'FORMS.LABELS.PARTICIPANTS' | translate }}</h4>
         <div *ngFor="let child of achievement.children">
           <p class="card_text">
@@ -26,12 +26,12 @@
             {{ teacher.title }}
           </p>
         </div>
-        <h4 class="card_title">{{ 'FORMS.LABELS.DESCRIPTION' | translate }}</h4>
+        <h4 class="card_title">{{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}</h4>
         <mat-card-content>
           <p class="achievement_descr" [ngClass]="{ 'show-more': showMore }">
-            {{ showMore ? achievement.title : (achievement.title | slice : 0 : 150) }}
-            <a *ngIf="achievement.title?.length > 70" class="more_btn" (click)="showMore = !showMore"
-              >{{ (!showMore ? 'MORE' : 'LESS') | translate }}
+            {{ showMore ? achievement.title : (achievement.title | slice: 0 : 150) }}
+            <a *ngIf="achievement.title?.length > 70" class="more_btn" (click)="showMore = !showMore">
+              {{ (!showMore ? 'MORE' : 'LESS') | translate }}
             </a>
           </p>
         </mat-card-content>
