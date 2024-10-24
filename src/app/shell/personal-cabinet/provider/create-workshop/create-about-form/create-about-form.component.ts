@@ -27,8 +27,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Output() public PassAboutFormGroup = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
-  public readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly MIN_SEATS = Constants.MIN_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;

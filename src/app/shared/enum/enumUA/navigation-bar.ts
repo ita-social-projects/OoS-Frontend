@@ -41,7 +41,9 @@ export enum NavBarName {
   Chat = 'ENUM.NAV_BAR_NAME.CHAT',
   HistoryLog = 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES',
   Statistics = 'ENUM.NAV_BAR_NAME.STATISTICS',
-  CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION'
+  CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION',
+  NewCompetition = 'ENUM.NAV_BAR_NAME.NEW_COMPETITION',
+  EditCompetition = 'ENUM.NAV_BAR_NAME.EDIT_COMPETITION'
 }
 
 export enum PersonalCabinetTitle {

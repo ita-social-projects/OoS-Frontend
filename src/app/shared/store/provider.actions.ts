@@ -7,6 +7,7 @@ import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-a
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { Competition } from 'shared/models/competition.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -384,4 +385,34 @@ export class ReinviteProviderAdmin {
 export class GetPendingApplicationsByProviderId {
   static readonly type = '[provider] Get Pending Applications By Provider Id';
   constructor(public id: string) {}
+}
+
+export class CreateCompetition {
+  static readonly type = '[provider] create Competition';
+  constructor(public payload: Competition) {}
+}
+
+export class OnCreateCompetitionFail {
+  static readonly type = '[provider] create Competition fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnCreateCompetitionSuccess {
+  static readonly type = '[provider] create Competition success';
+  constructor(public payload: Competition) {}
+}
+
+export class UpdateCompetition {
+  static readonly type = '[provider] update Competition';
+  constructor(public payload: Competition) {}
+}
+
+export class OnUpdateCompetitionFail {
+  static readonly type = '[provider] update Competition fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUpdateCompetitionSuccess {
+  static readonly type = '[provider] update Competition success';
+  constructor(public payload: Competition) {}
 }

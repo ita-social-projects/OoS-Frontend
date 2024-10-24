@@ -8,6 +8,7 @@
     <ng-container *ngIf="invalidPhoneLength; then invalidPhoneLengthTmpl"></ng-container>
     <ng-container *ngIf="invalidPhoneNumber; then invalidPhoneNumberTmpl"></ng-container>
     <ng-container *ngIf="invalidDateRange; then invalidDateRangeTmpl"></ng-container>
+    <ng-container *ngIf="invalidStartEndDate; then invalidStartEndDateTmpl"></ng-container>
     <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
     <ng-container *ngIf="invalidEdrpouIpn; then invalidEdrpouIpnTmpl"></ng-container>
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
@@ -48,6 +49,8 @@
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}<br />
   {{ 'FORMS.VALIDATIONS.INVALID_BIRTHDAY' | translate }}<br />
 </ng-template>
+
+<ng-template #invalidStartEndDateTmpl> {{ 'FORMS.VALIDATIONS.INVALID_START_END_DATES' | translate }}<br /> </ng-template>
 
 <ng-template #invalidEmailTmpl> {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }}<br /> </ng-template>
 

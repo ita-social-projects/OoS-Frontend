@@ -63,6 +63,12 @@ export class FormValidators {
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
   ];
 
+  static readonly defaultVenueValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+  ];
+
   static readonly defaultSearchValidators: ValidatorFn[] = [
     Validators.required,
     Validators.pattern(NO_LATIN_REGEX),
