@@ -14,7 +14,7 @@ assignees: ''
 Show priority posts by api request
 
 ### To do 
-1. - [ ] Implement api endpoint contorller for getting posts.
+1. - [ ] Implement api endpoint controller for getting posts.
 2. - [ ] Implement service for getting all priority posts.
 3. - [ ] Implement repository for getting all priority posts.
 
