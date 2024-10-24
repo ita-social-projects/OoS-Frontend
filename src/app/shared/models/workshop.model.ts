@@ -208,6 +208,12 @@ export interface WorkshopAbout {
   coverImage?: File;
 }
 
+export interface WorkshopFilterAdministration extends PaginationParameters {
+  searchString?: string;
+  institutionId?: string;
+  catottgId?: number;
+}
+
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
