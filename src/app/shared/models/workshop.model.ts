@@ -58,8 +58,8 @@ export abstract class WorkshopBase {
     this.competitiveSelectionDescription = about.competitiveSelectionDescription;
     this.workshopDescriptionItems = description.workshopDescriptionItems;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = description.institutionId;
-    this.institutionHierarchyId = description.institutionHierarchyId;
+    this.institutionId = about.institutionId;
+    this.institutionHierarchyId = about.institutionHierarchyId;
     this.keywords = description.keyWords;
     this.addressId = address.id;
     this.address = address;
@@ -206,13 +206,13 @@ export interface WorkshopAbout {
   competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
+  institutionId: string;
+  institutionHierarchyId: string;
 }
 
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
-  institutionId: string;
-  institutionHierarchyId: string;
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];
