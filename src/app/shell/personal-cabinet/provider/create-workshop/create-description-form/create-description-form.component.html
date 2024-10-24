@@ -45,12 +45,6 @@
     </app-validation-hint>
   </mat-radio-group>
 
-  <app-institution-hierarchy
-    [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
-    [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider">
-  </app-institution-hierarchy>
-
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
@@ -80,4 +74,40 @@
         appTrimValue />
     </mat-chip-list>
   </div>
+
+  <label class="step-label step-label-title">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
+  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+    <mat-radio-button name="radioBtn" [value]="false">
+      {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
+    </mat-radio-button>
+    <mat-radio-button name="radioBtn" [value]="true">
+      {{ 'WITH_COMPETITIVE_SELECTION' | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <ng-container *ngIf="DescriptionFormGroup.get('competitiveSelection').value">
+    <div class="step-label-combined">
+      <label class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
+      <label class="step-characters-count">
+        <ng-container *ngIf="DescriptionFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
+          {{ DescriptionFormGroup.get('competitiveSelectionDescription').value?.length }}/{{
+            validationConstants.MAX_DESCRIPTION_LENGTH_500
+          }}
+        </ng-container>
+        <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
+      </label>
+    </div>
+    <textarea
+      matInput
+      class="step-textarea step-textarea-short"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+      }}"
+      formControlName="competitiveSelectionDescription"
+      [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"></textarea>
+    <app-validation-hint
+      [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
+      [minCharacters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500"></app-validation-hint>
+  </ng-container>
 </form>

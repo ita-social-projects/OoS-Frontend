@@ -134,7 +134,7 @@
     [workshop]="workshop"
     (dataChangedInChild)="markFormAsDirtyOnUserInteraction()"></app-working-hours-form-wrapper>
 
-  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
+  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
@@ -220,38 +220,9 @@
     </mat-radio-group>
   </div>
 
-  <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
-  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
-      {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
-    </mat-radio-button>
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">
-      {{ 'WITH_COMPETITIVE_SELECTION' | translate }}
-    </mat-radio-button>
-    <ng-container *ngIf="AboutFormGroup.get('competitiveSelection').value">
-      <div class="step-label-combined">
-        <label class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
-        <label class="step-characters-count">
-          <ng-container *ngIf="AboutFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
-            {{ AboutFormGroup.get('competitiveSelectionDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
-          </ng-container>
-          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
-        </label>
-      </div>
-      <textarea
-        matInput
-        class="step-textarea step-textarea-short"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-        }}"
-        formControlName="competitiveSelectionDescription"
-        [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-      </textarea>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('competitiveSelectionDescription')"
-        [minCharacters]="validationConstants.INPUT_LENGTH_1"
-        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-      </app-validation-hint>
-    </ng-container>
-  </mat-radio-group>
+  <app-institution-hierarchy
+    [instituitionHierarchyIdFormControl]="AboutFormGroup.get('institutionHierarchyId')"
+    [instituitionIdFormControl]="AboutFormGroup.get('institutionId')"
+    [provider]="provider">
+  </app-institution-hierarchy>
 </form>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,8 +17,7 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-about-form.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -174,6 +173,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
