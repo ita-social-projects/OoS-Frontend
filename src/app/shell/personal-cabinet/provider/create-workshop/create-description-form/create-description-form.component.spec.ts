@@ -52,6 +52,7 @@ describe('CreateDescriptionFormComponent', () => {
     component = fixture.componentInstance;
     component.DescriptionFormGroup = new FormGroup({
       imageFiles: new FormControl(''),
+      imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl(''),
@@ -63,6 +64,35 @@ describe('CreateDescriptionFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('removeImageId', () => {
+    it('should remove the image ID from the imageIds control create-description-form', () => {
+      const idToRemove = 'id2';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual(['id1', 'id3']);
+    });
+
+    it('should not modify imageIds control if the ID is not found create-description-form', () => {
+      const initialIds = component.DescriptionFormGroup.controls.imageIds.value.slice();
+      const idToRemove = 'nonexistentId';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual(initialIds);
+    });
+
+    it('should handle empty imageIds control create-description-form', () => {
+      component.DescriptionFormGroup.controls.imageIds.setValue([]);
+
+      const idToRemove = 'id2';
+
+      component.removeImageId(idToRemove);
+
+      expect(component.DescriptionFormGroup.controls.imageIds.value).toEqual([]);
+    });
   });
 });
 

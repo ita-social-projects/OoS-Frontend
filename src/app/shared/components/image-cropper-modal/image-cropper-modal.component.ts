@@ -1,8 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 import { Cropper } from 'shared/models/cropper';
+import { Store } from '@ngxs/store';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-image-cropper-modal',
@@ -10,7 +12,6 @@ import { Cropper } from 'shared/models/cropper';
   styleUrls: ['./image-cropper-modal.component.scss']
 })
 export class ImageCropperModalComponent {
-  public imageChangedEvent = '';
   public croppedImage = '';
   public imageFile: Blob;
   public invalidMinRequirements = false;
@@ -18,23 +19,20 @@ export class ImageCropperModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      image: string;
+      image: Event;
       cropperConfig: Cropper;
     },
-    public dialogRef: MatDialogRef<ImageCropperModalComponent>
+    public dialogRef: MatDialogRef<ImageCropperModalComponent>,
+    private store: Store
   ) {}
 
   public onConfirm(): void {
     this.dialogRef.close(this.imageFile);
   }
 
-  public fileChangeEvent(event: string): void {
-    this.imageChangedEvent = event;
-  }
-
   public imageCropped(event: ImageCroppedEvent): void {
-    this.imageFile = base64ToFile(event.base64);
-    this.croppedImage = event.base64;
+    this.croppedImage = event.objectUrl;
+    this.imageFile = event.blob;
   }
 
   public imageLoaded(image: LoadedImage): void {
@@ -42,6 +40,9 @@ export class ImageCropperModalComponent {
     this.invalidMinRequirements = height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth;
   }
 
-  public loadImageFailed(): void {}
+  public loadImageFailed(): void {
+    this.store.dispatch(new ShowMessageBar({ message: 'Failed to load image', type: 'error' }));
+  }
+
   public cropperReady(): void {}
 }

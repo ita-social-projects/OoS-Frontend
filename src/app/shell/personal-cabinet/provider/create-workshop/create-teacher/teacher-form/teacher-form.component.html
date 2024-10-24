@@ -10,6 +10,7 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фото викладача'"
     formControlName="coverImage"
+    (removeId)="removeCoverImageId($event)"
     [imageIdsFormControl]="TeacherFormGroup.get('coverImageId')">
   </app-image-form-control>
 

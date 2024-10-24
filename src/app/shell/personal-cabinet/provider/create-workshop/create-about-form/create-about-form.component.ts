@@ -152,6 +152,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  public removeCoverImageId($event: Event): void {
+    this.AboutFormGroup.controls.coverImageId.setValue(null);
+  }
+
   private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [
@@ -180,7 +184,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
+      availableSeats: new FormControl(
+        {
+          value: null,
+          disabled: true
+        },
+        [Validators.required, Validators.min(this.minSeats)]
+      ),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });

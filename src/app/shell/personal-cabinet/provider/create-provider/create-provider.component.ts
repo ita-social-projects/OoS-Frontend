@@ -43,6 +43,9 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('stepper') public stepper: MatStepper;
 
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
+
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
 
@@ -79,6 +82,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.setEditMode();
     }
 
+    this.featuresList$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((featuresList) => (this.isImagesFeature = featuresList.images));
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
@@ -144,7 +150,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-      this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
       let legalAddress: Address;
       let actualAddress: Address;
       let provider: Provider;
