@@ -144,6 +144,11 @@
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
     </a>
+    <a *ngIf="user.role === Role.provider && subrole !== Subrole.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/upload-employees'">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.IMPORT' | translate }}
+      </button>
+    </a>
     <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}
