@@ -10,6 +10,8 @@ import { NgxsModule } from '@ngxs/store';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
+import { GetInstitutionHierarchyChildrenById } from '../../store/meta-data.actions';
+import { HierarchyElement } from '../../models/institution.model';
 
 describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;
@@ -44,6 +46,7 @@ describe('InstitutionHierarchyComponent', () => {
     component.provider = {
       institution: ''
     } as any;
+    component.hierarchyArray = []; // Initialize hierarchyArray for the tests
     fixture.detectChanges();
   });
 
@@ -52,23 +55,51 @@ describe('InstitutionHierarchyComponent', () => {
   });
 
   it('should call setEditMode when instituitionIdFormControl has a value', () => {
-    component.instituitionIdFormControl = new FormControl('123'); // Define institution ID form control with a value
-    component.instituitionHierarchyIdFormControl = new FormControl(); // Define the hierarchy ID form control to avoid undefined error
-    const setEditModeSpy = jest.spyOn(component as any, 'setEditMode'); // Spy on private method
+    component.instituitionIdFormControl.setValue('123');
+    component.instituitionHierarchyIdFormControl = new FormControl();
+    const setEditModeSpy = jest.spyOn(component as any, 'setEditMode');
 
-    component.ngOnInit(); // Manually call ngOnInit
+    component.ngOnInit();
 
-    expect(setEditModeSpy).toHaveBeenCalled(); // Check if setEditMode was called
+    expect(setEditModeSpy).toHaveBeenCalled();
   });
 
   it('should not call setEditMode when instituitionIdFormControl has no value', () => {
-    component.instituitionIdFormControl = new FormControl(null); // Define institution ID form control without a value
-    component.instituitionHierarchyIdFormControl = new FormControl(); // Define the hierarchy ID form control to avoid undefined error
-    const setEditModeSpy = jest.spyOn(component as any, 'setEditMode'); // Spy on private method
+    component.instituitionIdFormControl.setValue(null);
+    component.instituitionHierarchyIdFormControl = new FormControl();
+    const setEditModeSpy = jest.spyOn(component as any, 'setEditMode');
 
-    component.ngOnInit(); // Manually call ngOnInit
+    component.ngOnInit();
 
-    expect(setEditModeSpy).not.toHaveBeenCalled(); // Check if setEditMode was not called
+    expect(setEditModeSpy).not.toHaveBeenCalled();
+  });
+
+  describe('onHierarchyLevelSelect', () => {
+    beforeEach(() => {
+      component.hierarchyArray = [
+        { hierarchyLevel: 1, formControl: new FormControl('1') } as HierarchyElement,
+        { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement
+      ];
+    });
+
+    it('should dispatch GetInstitutionHierarchyChildrenById with correct ID', () => {
+      const dispatchSpy = jest.spyOn(component['store'], 'dispatch');
+      const hierarchy = { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement;
+
+      component.onHierarchyLevelSelect(hierarchy);
+
+      expect(dispatchSpy).toHaveBeenCalledWith(new GetInstitutionHierarchyChildrenById('2'));
+    });
+
+    it('should not slice hierarchyArray or call setFinalHierarchyLevel when needToSlice is false', () => {
+      const setFinalHierarchyLevelSpy = jest.spyOn(component as any, 'setFinalHierarchyLevel');
+      const hierarchy = { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement;
+
+      component.onHierarchyLevelSelect(hierarchy);
+
+      expect(component.hierarchyArray.length).toBe(2);
+      expect(setFinalHierarchyLevelSpy).not.toHaveBeenCalled();
+    });
   });
 });
 
