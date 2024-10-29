@@ -72,6 +72,16 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should remove a keyword from keyWords array', () => {
+    component.keyWords = ['keyword1', 'keyword2', 'keyword3'];
+    component.DescriptionFormGroup.get('keyWords').setValue(component.keyWords);
+
+    component.onRemoveKeyWord('keyword2');
+
+    expect(component.keyWords).toEqual(['keyword1', 'keyword3']);
+    expect(component.DescriptionFormGroup.get('keyWords').value).toEqual(['keyword1', 'keyword3']);
+  });
+
   describe('activateEditMode', () => {
     it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
       component.workshop = {

@@ -26,6 +26,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() public instituitionHierarchyIdFormControl: AbstractControl;
   @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: AbstractControl;
+  private store: Store;
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
@@ -44,9 +45,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private isEditMode: boolean;
 
   constructor(
-    private store: Store,
+    store: Store,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    this.store = store;
+  }
 
   public get instituitionIdControl(): FormControl {
     return this.instituitionIdFormControl as FormControl;
@@ -64,6 +67,10 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     } else {
       this.setFieldsDescriptionSubscribe();
     }
+  }
+
+  public get getStore(): Store {
+    return this.store;
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {

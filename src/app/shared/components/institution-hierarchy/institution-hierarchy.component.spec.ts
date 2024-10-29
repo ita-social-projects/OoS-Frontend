@@ -9,9 +9,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 import { GetInstitutionHierarchyChildrenById } from '../../store/meta-data.actions';
 import { HierarchyElement } from '../../models/institution.model';
+import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 
 describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;
@@ -46,7 +46,7 @@ describe('InstitutionHierarchyComponent', () => {
     component.provider = {
       institution: ''
     } as any;
-    component.hierarchyArray = []; // Initialize hierarchyArray for the tests
+    component.hierarchyArray = [];
     fixture.detectChanges();
   });
 
@@ -83,7 +83,7 @@ describe('InstitutionHierarchyComponent', () => {
     });
 
     it('should dispatch GetInstitutionHierarchyChildrenById with correct ID', () => {
-      const dispatchSpy = jest.spyOn(component['store'], 'dispatch');
+      const dispatchSpy = jest.spyOn(component.getStore, 'dispatch');
       const hierarchy = { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement;
 
       component.onHierarchyLevelSelect(hierarchy);
@@ -108,6 +108,6 @@ describe('InstitutionHierarchyComponent', () => {
   template: ''
 })
 class MockValidationHintHierarchyComponent {
-  @Input() validationFormControl: FormControl; // required for validation
+  @Input() validationFormControl: FormControl;
   @Input() isTouched: boolean;
 }
