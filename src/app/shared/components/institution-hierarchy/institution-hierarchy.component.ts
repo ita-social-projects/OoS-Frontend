@@ -23,20 +23,19 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
+  public hierarchyArray: HierarchyElement[] = [];
+
   @Input() public instituitionHierarchyIdFormControl: AbstractControl;
   @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: AbstractControl;
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
-
   @Select(MetaDataState.instituitionsHierarchy)
-  @Select(MetaDataState.editInstituitionsHierarchy)
-  @Select(MetaDataState.institutionFieldDesc)
-  public hierarchyArray: HierarchyElement[] = [];
-
   private readonly instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.editInstituitionsHierarchy)
   private readonly editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.institutionFieldDesc)
   private readonly institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
   private editInstituitionsHierarchy: InstituitionHierarchy[];
