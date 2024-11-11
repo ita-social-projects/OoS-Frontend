@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { ChangeDetectorRef } from '@angular/core';
+import { Store } from '@ngxs/store';
 
 import { GetInstitutionHierarchyChildrenById } from '../../store/meta-data.actions';
 import { HierarchyElement } from '../../models/institution.model';
@@ -17,6 +18,7 @@ describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;
   let fixture: ComponentFixture<InstitutionHierarchyComponent>;
   let changeDetectorRef: ChangeDetectorRef;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,10 +40,12 @@ describe('InstitutionHierarchyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InstitutionHierarchyComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
     changeDetectorRef = fixture.debugElement.injector.get(ChangeDetectorRef);
     jest.spyOn(changeDetectorRef, 'detectChanges').mockImplementation(() => {
       fixture.detectChanges();
     });
+    jest.spyOn(store, 'dispatch');
     component.instituitionIdFormControl = new FormControl();
     component.provider = {
       institution: ''
@@ -83,12 +87,11 @@ describe('InstitutionHierarchyComponent', () => {
     });
 
     it('should dispatch GetInstitutionHierarchyChildrenById with correct ID', () => {
-      const dispatchSpy = jest.spyOn(component.getStore, 'dispatch');
       const hierarchy = { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement;
 
       component.onHierarchyLevelSelect(hierarchy);
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new GetInstitutionHierarchyChildrenById('2'));
+      expect(store.dispatch).toHaveBeenCalledWith(new GetInstitutionHierarchyChildrenById('2'));
     });
 
     it('should not slice hierarchyArray or call setFinalHierarchyLevel when needToSlice is false', () => {

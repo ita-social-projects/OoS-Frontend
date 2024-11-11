@@ -26,30 +26,27 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() public instituitionHierarchyIdFormControl: AbstractControl;
   @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: AbstractControl;
-  private store: Store;
+  public hierarchyArray: HierarchyElement[] = [];
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
-  @Select(MetaDataState.instituitionsHierarchy)
-  private instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
-  @Select(MetaDataState.editInstituitionsHierarchy)
-  private editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
-  @Select(MetaDataState.institutionFieldDesc)
-  private institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
-  public hierarchyArray: HierarchyElement[] = [];
+  @Select(MetaDataState.instituitionsHierarchy)
+  private readonly instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.editInstituitionsHierarchy)
+  private readonly editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.institutionFieldDesc)
+  private readonly institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
   private editInstituitionsHierarchy: InstituitionHierarchy[];
   private institutionFieldDesc: InstitutionFieldDescription[];
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private isEditMode: boolean;
 
   constructor(
-    store: Store,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    this.store = store;
-  }
+    private readonly store: Store,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   public get instituitionIdControl(): FormControl {
     return this.instituitionIdFormControl as FormControl;
@@ -67,10 +64,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     } else {
       this.setFieldsDescriptionSubscribe();
     }
-  }
-
-  public get getStore(): Store {
-    return this.store;
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,7 +15,8 @@ import { Util } from 'shared/utils/utils';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
-  styleUrls: ['./create-description-form.component.scss']
+  styleUrls: ['./create-description-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -54,7 +55,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -122,15 +123,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
-
-  private onCompetitiveSelectionInit(): void {
-    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
-      this.DescriptionFormGroup.get('competitiveSelection').setValue(value);
-      if (!value) {
-        this.DescriptionFormGroup.get('competitiveSelectionDescription').reset();
-      }
-    });
   }
 
   public ngOnDestroy(): void {
@@ -226,6 +218,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
+  }
+
+  private onCompetitiveSelectionInit(): void {
+    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
+      this.DescriptionFormGroup.get('competitiveSelection').setValue(value);
+      if (!value) {
+        this.DescriptionFormGroup.get('competitiveSelectionDescription').reset();
+      }
+    });
   }
 
   /**
