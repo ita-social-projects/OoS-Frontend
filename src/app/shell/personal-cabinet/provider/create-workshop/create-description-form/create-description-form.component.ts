@@ -7,6 +7,7 @@ import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { Direction } from '../../../../../shared/models/category.model';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
+import { Select } from '@ngxs/store';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
