@@ -26,7 +26,10 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private searchQuery$: Observable<string>;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern('^[A-Za-zА-Яа-я0-9`.,№"\']*$')]);
+  public searchValueFormControl = new FormControl('', [
+    Validators.maxLength(256),
+    Validators.pattern('^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"\'\\s]*$')
+  ]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
@@ -85,7 +88,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   public handleInvalidCharacter(value: string): void {
-    const validValue = value?.replace(/[^A-Za-zА-Яа-я0-9`.,№"']/g, '');
+    const validValue = value?.replace(/[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"\'\s]/g, '');
     if (validValue !== value) {
       this.searchValueFormControl.setValue(validValue);
       this.invalidCharacterDetected.emit();
