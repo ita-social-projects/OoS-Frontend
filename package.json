@@ -71,6 +71,7 @@
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "7.5.0",
     "@typescript-eslint/parser": "7.5.0",
+    "autoprefixer": "^10.4.20",
     "cypress": "latest",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -85,7 +86,9 @@
     "jest-preset-angular": "^14.0.3",
     "karma-coverage": "~2.2.1",
     "lint-staged": "^15.2.7",
+    "postcss": "^8.4.49",
     "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.15",
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.2",
     "typescript": "~5.1.3"
