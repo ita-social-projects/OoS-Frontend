@@ -13,7 +13,7 @@ steps:
         };
         EOF
   # Build the container image
-  - name: 'gcr.io/k8s-skaffold/pack'
+  - name: 'buildpacksio/pack'
     entrypoint: 'pack'
     args:
       - build
