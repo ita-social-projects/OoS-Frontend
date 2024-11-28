@@ -60,7 +60,7 @@
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
     >
-    <mat-chip-list #chipList>
+    <mat-chip-listbox #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">
           {{ keyWord }}
@@ -78,6 +78,6 @@
         [(ngModel)]="keyWord"
         autocomplete="off"
         appTrimValue />
-    </mat-chip-list>
+    </mat-chip-listbox>
   </div>
 </form>
