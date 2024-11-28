@@ -105,7 +105,7 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
               [compareWith]="compareEntities">
               <mat-select-trigger>
-                <mat-chip-set #chipList>
+                <mat-chip-set #chipSet>
                   <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
                     <div
                       class="truncated-text"

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, QueryList, ContentChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { MatChip, MatChipListbox, MatChipRow, MatChipSet } from '@angular/material/chips';
+import { MatChipSet } from '@angular/material/chips';
 import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -63,8 +63,8 @@ export class ChildFormComponent implements OnInit, OnDestroy {
 
     this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(({ lang }: LangChangeEvent) => {
       this.store.dispatch(new GetSocialGroup(lang));
-      this.chipSet._chips.forEach((chips) => {
-        chips.remove();
+      this.chipSet._chips.forEach((chip) => {
+        chip.remove();
       });
     });
   }
