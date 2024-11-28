@@ -10,6 +10,7 @@ import { Navigation } from 'shared/models/navigation.model';
 import { SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
+import { SEARCHBAR_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-searchbar',
@@ -24,12 +25,10 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
+  public searchRegex: RegExp = SEARCHBAR_REGEX;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [
-    Validators.maxLength(256),
-    Validators.pattern('^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"\'\\s]*$')
-  ]);
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern(this.searchRegex)]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
