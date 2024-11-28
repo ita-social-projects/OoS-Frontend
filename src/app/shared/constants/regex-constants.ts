@@ -38,4 +38,4 @@ export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А
 export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;
 
 // Regex for searchbar
-export const SEARCHBAR_REGEX: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"\'\\s]*$/;
+export const SEARCHBAR_REGEX: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\s]*$/;
