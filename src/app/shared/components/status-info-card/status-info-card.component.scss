@@ -26,16 +26,23 @@
 
 .application-info-description,
 .application-info-title {
-  flex: 1;
   max-width: max-content;
   line-height: 17px;
   color: black;
+  place-content: flex-start space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 100%;
 
   span {
     padding: 8px;
   }
 }
-
+.application-info-title {
+  max-width: 30%;
+}
 .application-info-description {
   .Approved,
   .Pending,
@@ -47,6 +54,7 @@
   .Blocked {
     color: black;
   }
+  max-width: 70%;
 }
 
 .AcceptedForSelection {

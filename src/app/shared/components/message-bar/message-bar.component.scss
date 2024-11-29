@@ -24,6 +24,12 @@
   border-radius: 2rem;
   border: solid 1px #444444;
   font-size: 13px;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  justify-content: center;
+  place-content: center;
+  align-items: center;
 }
 
 .action {

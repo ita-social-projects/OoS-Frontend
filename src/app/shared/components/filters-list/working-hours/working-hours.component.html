@@ -1,18 +1,16 @@
 <p class="filter-text title">
   {{ 'WORKING_DAYS' | translate }}
 </p>
-<div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+<div class="check-boxes flex flex-col items-start">
   <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl">
     {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
-<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
-  <div fxLayout="row" fxLayoutAlign="space-between">
+<div class="wrapper">
+  <div class="flex flex-row justify-between">
     <div
       *ngFor="let day of days"
-      class="toggle"
-      fxLayout="row"
-      fxLayoutAlign="center center"
+      class="toggle flex flex-row justify-center items-center"
       (click)="onToggleDays(day)"
       [ngClass]="day.selected ? 'toggle-selected' : ''">
       {{ day.value | translate }}
@@ -21,14 +19,14 @@
   <p class="filter-text title">
     {{ 'WORKING_HOURS' | translate }}
   </p>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
     <mat-checkbox color="primary" [formControl]="isAppropriateHoursControl">
       {{ 'EXACT_MATCH' | translate }}
     </mat-checkbox>
   </div>
-  <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+  <div class="wrapper flex flex-row gap-4 justify-between">
     <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center" class="from-filter-text">
+      <div class="from-filter-text flex flex-row justify-start items-center">
         <p class="filter-text">
           {{ 'FROM' | translate }}
         </p>
@@ -45,7 +43,7 @@
       </div>
     </mat-form-field>
     <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="flex flex-row justify-start items-center">
         <p class="filter-text">
           {{ 'TO' | translate }}
         </p>

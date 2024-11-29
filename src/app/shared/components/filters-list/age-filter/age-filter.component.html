@@ -1,14 +1,14 @@
 <p class="filter-text title">
   {{ 'SELECT_AGE' | translate }}
 </p>
-<div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+<div class="check-boxes flex flex-col items-start">
   <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
     {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
-<div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+<div class="wrapper flex flex-row justify-between gap-4">
   <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center" class="from-filter-text">
+    <div class="from-filter-text flex flex-row items-center">
       <p class="filter-text">
         {{ 'FROM' | translate }}
       </p>
@@ -28,7 +28,7 @@
     </div>
   </mat-form-field>
   <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div class="flex flex-row items-center">
       <p class="filter-text">
         {{ 'TO' | translate }}
       </p>
