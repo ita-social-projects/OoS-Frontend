@@ -1,0 +1,11 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <!-- <a>
+    <img class="error-img" src="assets/images/Error.png" alt="error" />
+  </a> -->
+  <h1 class="error-title">{{ 'ERROR_PAGE.ERROR_SERVER_HAPPENED' | translate }}</h1>
+  <p class="error-description">{{ 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_500' | translate }}</p>
+  <button class="btn" [disabled]="isDisabled" (click)="checkServerAvailable()" mat-raised-button data-testid="button">
+    {{ 'BUTTONS.TRY_AGAIN' | translate }}
+  </button>
+  <p class="button-time-text" *ngIf="isDisabled">{{ 'ERROR_PAGE.ERROR_TRY_MESSAGE' | translate: { time: disabledTime } }}</p>
+</div>
