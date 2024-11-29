@@ -47,7 +47,7 @@ describe('CategoryCardComponent', () => {
   it('should select direction', () => {
     jest.spyOn(component, 'selectDirection');
     jest.spyOn(store, 'dispatch');
-    const card = fixture.debugElement.query(By.css('mat-card'));
+    const card = fixture.debugElement.query(By.css('mat-mdc-card'));
 
     card.nativeElement.click();
 

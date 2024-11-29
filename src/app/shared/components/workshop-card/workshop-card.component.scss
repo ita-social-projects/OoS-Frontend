@@ -64,7 +64,7 @@
     object-position: bottom;
   }
 
-  .wrap-for-details .mat-card-header {
+  .wrap-for-details .mat-mdc-card-header {
     margin-bottom: 1rem;
   }
 
@@ -74,7 +74,7 @@
 }
 
 .wrap-for-details,
-.mat-card-content {
+.mat-mdc-card-content {
   flex: 1;
 }
 .more-details {
@@ -96,7 +96,7 @@
   }
 }
 
-::ng-deep .mat-card-header .mat-card-title {
+::ng-deep .mat-mdc-card-header .mat-mdc-card-title {
   height: 30px !important;
 }
 
@@ -117,29 +117,29 @@
     .wrap-for-details-map {
       padding: 0.75rem;
 
-      .mat-card-content {
+      .mat-mdc-card-content {
         margin-bottom: 0.5rem;
       }
     }
     .card_text {
       margin: 0;
     }
-    .mat-card-image {
+    .mat-mdc-card-image {
       height: 150px;
       width: 150px;
     }
-    .mat-card-header img {
+    .mat-mdc-card-header img {
       width: 21px;
       height: 21px;
     }
     .hide {
       display: none;
     }
-    ::ng-deep .mat-card-header-text {
+    ::ng-deep .mat-mdc-card-header-text {
       margin: 0;
     }
     .card-title,
-    .mat-card-header {
+    .mat-mdc-card-header {
       font-size: 15px;
     }
   }
