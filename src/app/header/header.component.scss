@@ -43,11 +43,8 @@
   }
 
   .info-link {
-    display: flex;
     background: none;
     color: white;
-    align-items: center;
-    justify-content: flex-end;
     font-size: 0.7rem;
     font-family: 'Innerspace';
     font-weight: bold;
@@ -68,7 +65,7 @@
     border-color: white;
     color: white;
 
-    &.mat-stroked-button {
+    &.mat-mdc-outlined-button {
       font-size: 0.7rem;
     }
   }
@@ -137,9 +134,13 @@
 .lang,
 .menu,
 .login {
-  background: none;
-  color: white;
+  background: none !important;
+  color: white !important;
   font-size: 0.7rem !important;
+}
+
+::ng-deep .login .mdc-button__label {
+  margin-top: 2px;
 }
 
 .menu .mat-icon {

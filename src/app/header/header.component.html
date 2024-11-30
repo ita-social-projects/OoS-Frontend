@@ -13,28 +13,32 @@
           </button>
 
           <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
-            <img src="./../../assets/icons/Support.svg" alt="Support" />
-            <span class="support-icon-text">
-              {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
-            </span>
+            <div fxLayout="row" fxLayoutAlign="center cetner" fxLayoutGap="3px">
+              <img src="./../../assets/icons/Support.svg" alt="Support" />
+              <span class="support-icon-text">
+                {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
+              </span>
+            </div>
           </button>
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
-            <mat-icon>language</mat-icon>
-            <mat-select
-              #lngSelect
-              (selectionChange)="setLanguage()"
-              [(value)]="selectedLanguage"
-              class="lang-option"
-              disableOptionCentering
-              panelClass="dropdown-panel">
-              <mat-option class="lang-option-text" value="uk">
-                <span>{{ Languages.uk }}</span>
-              </mat-option>
-              <mat-option class="lang-option-text" value="en">
-                <span>{{ Languages.en }}</span>
-              </mat-option>
-            </mat-select>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-icon>language</mat-icon>
+              <mat-select
+                #lngSelect
+                (selectionChange)="setLanguage()"
+                [(value)]="selectedLanguage"
+                class="lang-option"
+                disableOptionCentering
+                panelClass="dropdown-panel">
+                <mat-option class="lang-option-text" value="uk">
+                  <span>{{ Languages.uk }}</span>
+                </mat-option>
+                <mat-option class="lang-option-text" value="en">
+                  <span>{{ Languages.en }}</span>
+                </mat-option>
+              </mat-select>
+            </div>
           </button>
         </div>
 
@@ -87,7 +91,9 @@
 
 <ng-template #menuTmpl>
   <button mat-flat-button class="menu" (click)="onViewChange()">
-    <mat-icon>menu</mat-icon>
+    <div fxLayoutAlign="center center">
+      <mat-icon>menu</mat-icon>
+    </div>
   </button>
 </ng-template>
 
