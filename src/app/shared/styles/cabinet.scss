@@ -7,7 +7,11 @@
 
   .nav {
     border-bottom: none;
-
+    height: 26px;
+    ::ng-deep .mat-mdc-tab-links{
+      height: 26px;
+    }
+    
     a {
       font-size: 13px;
       opacity: 1;
@@ -17,7 +21,7 @@
     }
     
     a.wide-link {
-      padding: 4px 12px 4px 12px !important;
+      padding: 4px 12px 4px  12px !important;
     }
 
     .active {
@@ -59,7 +63,7 @@
   .mdc-tab__text-label {
     color: #3849f9;
   }
-
+  
   &:hover {
     .mdc-tab__text-label {
       color: #3849f9;
