@@ -15,7 +15,7 @@
       height: inherit !important;
       padding: 4px 24px 4px 24px !important;
     }
-
+    
     a.wide-link {
       padding: 4px 12px 4px 12px !important;
     }
@@ -53,4 +53,22 @@
   font-size: 18px;
   line-height: inherit;
   margin-bottom: 1.5rem;
+}
+
+::ng-deep .mat-mdc-tab-link.active {
+  .mdc-tab__text-label {
+    color: #3849f9;
+  }
+
+  &:hover {
+    .mdc-tab__text-label {
+      color: #3849f9;
+    }
+  }
+
+  &:focus {
+    .mdc-tab__text-label {
+      color: #3849f9;
+    }
+  }
 }
