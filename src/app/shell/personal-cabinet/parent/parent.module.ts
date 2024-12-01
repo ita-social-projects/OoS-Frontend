@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -33,7 +32,6 @@ import { CreateParentComponent } from './create-parent/create-parent.component';
   imports: [
     CommonModule,
     ParentRoutingModule,
-    FlexLayoutModule,
     SharedModule,
     MaterialModule,
     SharedCabinetModule,

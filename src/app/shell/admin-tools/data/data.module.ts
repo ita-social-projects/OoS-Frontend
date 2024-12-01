@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
@@ -42,7 +41,7 @@ import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-
     StatisticsComponent,
     DirectionsInstitutionHierarchiesEditFormComponent
   ],
-  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule, TranslateModule, SharedCabinetModule],
+  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, TranslateModule, SharedCabinetModule],
   exports: [DataComponent]
 })
 export class DataModule {}

@@ -1,6 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -54,7 +53,6 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
   imports: [
     CommonModule,
     ProviderRoutingModule,
-    FlexLayoutModule,
     SharedModule,
     MaterialModule,
     SharedCabinetModule,
