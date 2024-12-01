@@ -14,10 +14,14 @@
       display: none; 
     }
   }
+  .mat-mdc-tab, .mdc-tab__content
+  {
+    max-height: 40px;
+  }
 
   .mdc-tab__text-label {
     font-weight: 600;
-    max-height: 40px;
+    
   }
 
   .mat-mdc-tab-header {

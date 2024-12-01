@@ -12,7 +12,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [mat-stretch-tabs]="false" [selectedIndex]="tabIndex">
       <mat-tab label="{{ UserTabsTitles.all | translate }}">
         <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
