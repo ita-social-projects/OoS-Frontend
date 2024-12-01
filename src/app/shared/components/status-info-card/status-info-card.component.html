@@ -2,10 +2,10 @@
 <div class="application-info-menu flex flex-col justify-start items-stretch">
   <div>
     <div *ngFor="let status of statuses" class="status-group flex flex-row items-stretch justify-start">
-      <div class="application-info-title">
+      <div class="application-info-title flex flex-row box-border justify-between items-start flex-shrink flex-grow basis-full">
         <span class="{{ status }}"> <i class="{{ applicationIcons[status] }}"></i>{{ statusTitles[status] | translate }}<br /> </span>
       </div>
-      <div class="application-info-description">
+      <div class="application-info-description flex flex-row box-border justify-between items-start flex-shrink flex-grow basis-full">
         <span class="{{ status }}">{{ applicationStatusDescription[status] | translate }}<br /></span>
       </div>
     </div>

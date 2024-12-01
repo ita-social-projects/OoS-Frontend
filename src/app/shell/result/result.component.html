@@ -1,12 +1,12 @@
-<div class="view-control-panel flex flex-row" [class.mobile-map-view]="isMapView">
-  <div class="workshops-count flex flex-row box-border items-center justify-between content-center flex-shrink flex-grow basis-full">
+<div class="view-control-panel flex flex-row max-lg:flex-col max-lg:items-center" [class.mobile-map-view]="isMapView">
+  <div
+    class="workshops-count flex flex-row box-border items-center justify-between content-center flex-shrink flex-grow basis-full max-lg:flex-shrink-0 max-lg:whitespace-nowrap">
     <h3 [class.mobile-map-view]="isMapView">
       {{ (filteredWorkshops$ | async)?.totalAmount !== 0 ? ('FOUND' | translate) : '' }}
       {{ (filteredWorkshops$ | async)?.totalAmount | translateCases: WorkshopDeclination }}
     </h3>
   </div>
-
-  <div class="workshops-search flex flex-row items-center justify-between flex-1">
+  <div class="workshops-search flex flex-row items-center justify-between flex-1 max-lg:flex-col max-lg:justify-center max-lg:flex-wrap">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
   <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
