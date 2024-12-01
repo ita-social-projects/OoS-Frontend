@@ -1,12 +1,8 @@
-<mat-card
-  class="card"
-  [class.card-new]="application.status === ApplicationStatuses.Pending"
-  fxLayout="row"
-  fxLayoutAlign="space-between center">
+<mat-card class="card flex flex-row justify-between items-center" [class.card-new]="application.status === ApplicationStatuses.Pending">
   <mat-card-content class="card-block" [class.card-block__parent]="userRole === Role.parent">
     <div class="card-block__info">
-      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
-        <div fxLayout="row" fxLayoutAlign="space-between" class="card-block__child-name">
+      <div class="flex flex-col justify-start items-start gap-2">
+        <div class="card-block__child-name flex flex-row justify-between">
           <h4 class="title" showTooltipIfTruncated matTooltip="{{ childFullName }}" matTooltipClass="tooltip">{{ childFullName }}</h4>
           <app-info-menu [type]="InfoMenuType.Component">
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation()"></app-child-info-box>
@@ -33,8 +29,7 @@
           {{ applicationDirections }}
         </h5>
         <div
-          fxLayout="row"
-          fxLayoutAlign="center center"
+          class="flex flex-row justify-center items-center"
           *ngIf="userRole === Role.provider && application?.workshop.availableSeats !== Constants.WORKSHOP_UNLIMITED_SEATS">
           <mat-icon class="text_icon">person</mat-icon>
           <p class="text">
@@ -42,7 +37,7 @@
             <b>{{ application?.workshop.availableSeats - application?.workshop.takenSeats }}</b>
           </p>
         </div>
-        <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === Role.parent || userIsAdmin">
+        <div class="organization flex flex-row justify-center items-center" *ngIf="userRole === Role.parent || userIsAdmin">
           <mat-icon class="text_icon" *ngIf="!userIsAdmin">home</mat-icon>
           <p
             [classList]="userIsAdmin ? 'text title text-link' : 'text text-link'"
@@ -58,10 +53,10 @@
           <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} {{ 'YEARS' | translate }}</p>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="flex flex-row justify-start items-center">
         <app-info-status [application]="application"></app-info-status>
       </div>
-      <div class="workshop_actions" fxLayoutAlign="start center">
+      <div class="workshop_actions flex flex-row justify-start items-center">
         <ng-container *ngIf="userRole === Role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
           <mat-card-content class="card-block card-block__buttons">
             <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
@@ -91,11 +86,12 @@
             </button>
           </mat-card-content>
         </ng-container>
-        <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="end center" *ngIf="userRole === Role.parent">
+        <mat-card-content class="card-block card-block__buttons flex flex-row justify-end items-center" *ngIf="userRole === Role.parent">
           <div
-            fxLayout="column"
-            fxLayoutAlign="start start"
-            [ngClass]="(application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected) && 'hidden'">
+            class="flex flex-col justify-start items-start"
+            [ngClass]="
+              (application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected) && 'hidden'
+            ">
             <button class="btn btn-gray" (click)="leave.emit(application)">
               <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
             </button>

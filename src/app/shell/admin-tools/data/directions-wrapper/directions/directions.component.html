@@ -1,7 +1,7 @@
-<div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+<div class="header-wrapper flex flex-row flex-wrap justify-between items-center">
   <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+    <div class="search-bar flex flex-row justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
         [formControl]="filterFormControl"
         matInput

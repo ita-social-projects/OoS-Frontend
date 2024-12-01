@@ -3,13 +3,13 @@
   [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
   [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
   [routerLink]="['./', chatRoom.id]">
-  <mat-card-content class="card-block card-block__message" fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-card-content class="card-block card-block__message flex flex-row justify-between items-center">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <p class="workshop-title">{{ chatRoom.workshop.title }}</p>
       <ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatDateTitle">
         <p class="text">
-          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '': currentLanguage }}
+          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '' : currentLanguage }}
         </p>
       </ng-container>
       <ng-template #emptyChatDateTitle>
@@ -22,7 +22,7 @@
       {{ chatRoom.lastMessage?.text | emptyValueTransform: Constants.DASH_VALUE }}
     </div>
     <ng-container *ngIf="role === Role.provider && chatRoom.isBlockedByProvider">
-      <div class="statuses {{ UserStatuses.Blocked }}" fxLayoutAlign="center center">
+      <div class="statuses {{ UserStatuses.Blocked }} justify-center items-center">
         <span><i class="status-icon {{ UserStatusIcons[UserStatuses.Blocked] }}"></i></span>
         <span>{{ UserStatusesTitles[UserStatuses.Blocked] | translate }}</span>
       </div>

@@ -1,4 +1,4 @@
-<div *ngIf="provider" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+<div *ngIf="provider" class="flex flex-col justify-between gap-4">
   <app-provider-status-banner *ngIf="provider.ownership !== ownershipTypes.Private" [provider]="provider"> </app-provider-status-banner>
   <div class="container">
     <app-provider-info

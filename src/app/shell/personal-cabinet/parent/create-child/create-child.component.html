@@ -1,6 +1,6 @@
 <div class="create-form" *ngIf="(editMode && child) || !editMode">
   <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">
         {{ (editMode ? 'FORMS.HEADERS.EDIT_CHILD' : 'FORMS.HEADERS.NEW_CHILD') | translate | uppercase }}
       </h3>
@@ -19,7 +19,7 @@
         (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
-    <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
+    <div *ngIf="!editMode" class="addChild flex flex-col justify-center items-center">
       <button
         class="btn-add"
         *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
@@ -37,7 +37,7 @@
       </ng-template>
     </div>
 
-    <div [ngClass]="{ hidden: editMode }" class="step" fxLayout="row">
+    <div [ngClass]="{ hidden: editMode }" class="step flex flex-row">
       <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"></mat-checkbox>
       <p class="agreement">
         {{ 'FORMS.CONTROL_VALUES.CHILD_AGREEMENT_WITH_TERMS_OF_USE_START' | translate }}
@@ -48,7 +48,7 @@
       </p>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <div class="footer flex flex-row justify-center items-center">
       <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
       <button
         class="btn"

@@ -29,7 +29,24 @@
     z-index: 1001;
   }
 }
-
+@media (max-width: 1280px) {
+  .view-control-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .workshops-search {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .workshops-count {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
 .workshops-map-filters {
   .shell-search {
     background: white;

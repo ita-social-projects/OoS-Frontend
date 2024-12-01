@@ -1,17 +1,12 @@
-<div class="view-control-panel" [class.mobile-map-view]="isMapView">
-  <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
+<div class="view-control-panel flex flex-row" [class.mobile-map-view]="isMapView">
+  <div class="workshops-count flex flex-row box-border items-center justify-between content-center flex-shrink flex-grow basis-full">
     <h3 [class.mobile-map-view]="isMapView">
       {{ (filteredWorkshops$ | async)?.totalAmount !== 0 ? ('FOUND' | translate) : '' }}
       {{ (filteredWorkshops$ | async)?.totalAmount | translateCases: WorkshopDeclination }}
     </h3>
   </div>
-  <div
-    class="workshops-search"
-    fxFlex
-    fxLayout.lt-lg="row wrap"
-    fxLayout="row"
-    fxLayoutAlign.lt-lg="center center"
-    fxLayoutAlign="space-between center">
+
+  <div class="workshops-search flex flex-row items-center justify-between flex-1">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
   <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
@@ -22,7 +17,7 @@
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="marginLeft" [style.marginTop]="isMapView ? '0' : '2rem'">
-    <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
+    <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" class="flex flex-row justify-start">
       <app-workshop-map-view-list
         [role]="role"
         [paginationParameters]="paginationParameters"
@@ -53,7 +48,7 @@
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
   </div>
-  <div class="search-filters" fxLayout="row" fxLayoutAlign="center center">
+  <div class="search-filters flex flex-row justify-center items-center">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentViewType === ResultViewType.List"></app-ordering>
     <div>
@@ -65,8 +60,7 @@
         <mat-button-toggle
           value="{{ ResultViewType.List }}"
           aria-label="{{ ResultViewType.List }}"
-          fxLayout="row"
-          fxLayoutAlign="center center">
+          class="flex flex-row box-border justify-center items-center">
           <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
           <span class="view-toggle_icon">{{ 'LIST' | translate }}</span>
         </mat-button-toggle>
@@ -74,8 +68,7 @@
         <mat-button-toggle
           value="{{ ResultViewType.Map }}"
           aria-label="{{ ResultViewType.Map }}"
-          fxLayout="row"
-          fxLayoutAlign="center center">
+          class="flex flex-row box-border justify-center items-center">
           <mat-icon class="view-toggle_icon_small">map</mat-icon>
           <span class="view-toggle_icon">{{ 'MAP' | translate }}</span>
         </mat-button-toggle>
