@@ -10,7 +10,8 @@ import { Navigation } from 'shared/models/navigation.model';
 import { SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { SEARCHBAR_REGEX } from 'shared/constants/regex-constants';
+import { SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
+import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-searchbar',
@@ -25,10 +26,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
-  public searchRegex: RegExp = SEARCHBAR_REGEX;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern(this.searchRegex)]);
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
@@ -87,7 +87,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   public handleInvalidCharacter(value: string): void {
-    const validValue = value?.replace(/[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\s]/g, '');
+    const validValue = value?.replace(SEARCHBAR_REGEX_REPLACE, '');
     if (validValue !== value) {
       this.searchValueFormControl.setValue(validValue);
       this.invalidCharacterDetected.emit();
