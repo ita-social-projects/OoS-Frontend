@@ -40,7 +40,7 @@
             <mat-select-trigger>
               <mat-chip-set #chipSet>
                 <mat-chip *ngFor="let direction of this.directionsControl.value" (removed)="onRemoveItem(direction)">
-                  <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
+                  <img matChipAvatar class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
                   <span>{{ direction.title }}</span>
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>

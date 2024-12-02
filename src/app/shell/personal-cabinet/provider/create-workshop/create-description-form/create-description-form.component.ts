@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -40,12 +40,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   public SectionItemsFormArray = new FormArray([]);
   public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
-  public keyWords: string[] = [];
+  public keyWords$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   public keyWord: string;
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
   public disabledKeyWordsInput = false;
 
+  public separatorKeysCodes = [13, 188]; // Enter and Comma
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
@@ -74,6 +75,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
+
+    this.keyWords$.pipe(takeUntil(this.destroy$)).subscribe((keyWords) => {
+      this.disabledKeyWordsInput = keyWords.length >= 5;
+      if (this.disabledKeyWordsInput) {
+        this.keyWordsCtrl.disable({ emitEvent: false });
+      } else {
+        this.keyWordsCtrl.enable({ emitEvent: false });
+      }
+    });
   }
 
   /**
@@ -81,11 +91,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * @param word
    */
   public onRemoveKeyWord(word: string): void {
-    if (this.keyWords.indexOf(word) >= 0) {
-      this.disabledKeyWordsInput = false;
-      this.keyWords.splice(this.keyWords.indexOf(word), 1);
-      if (this.keyWords.length) {
-        this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+    const keyWords = this.keyWords$.value;
+    const index = keyWords.indexOf(word);
+    if (index >= 0) {
+      const updatedKeyWords = keyWords.filter((kw) => kw !== word);
+      this.keyWords$.next(updatedKeyWords);
+      if (updatedKeyWords.length) {
+        this.DescriptionFormGroup.get('keyWords').setValue(updatedKeyWords);
       } else {
         this.DescriptionFormGroup.get('keyWords').reset();
       }
@@ -94,22 +106,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public onKeyWordsInput(isEditMode: boolean = true): void {
     this.DescriptionFormGroup.get('keyWords').markAsTouched();
-    if (this.keyWord) {
-      const inputKeyWord = this.keyWord.trim().toLowerCase();
-      if (!!this.keyWord.trim() && !this.keyWords.includes(inputKeyWord)) {
-        if (this.keyWords.length < 5) {
-          this.keyWords.push(inputKeyWord);
-          this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
-          this.keyWordsCtrl.setValue(null);
-          this.keyWord = '';
-        }
-        this.disabledKeyWordsInput = this.keyWords.length >= 5;
-        // TODO: Find better workaround for FormControl disable
-        if (this.disabledKeyWordsInput) {
-          this.keyWordsCtrl.disable({ emitEvent: false });
-        } else {
-          this.keyWordsCtrl.enable({ emitEvent: false });
-        }
+    const inputKeyWord = this.keyWordsCtrl.value?.trim().toLowerCase();
+    if (inputKeyWord && !this.keyWords$.value.includes(inputKeyWord)) {
+      if (this.keyWords$.value.length < 5) {
+        const updatedKeyWords = [...this.keyWords$.value, inputKeyWord];
+        this.keyWords$.next(updatedKeyWords);
+        this.DescriptionFormGroup.get('keyWords').setValue(updatedKeyWords, { emitEvent: isEditMode });
+        this.keyWordsCtrl.setValue('');
       }
     }
   }

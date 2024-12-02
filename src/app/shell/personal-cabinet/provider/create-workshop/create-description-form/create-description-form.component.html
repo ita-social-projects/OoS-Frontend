@@ -53,29 +53,28 @@
 
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
-    <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
+    <label class="step-characters-count">{{ keyWords$.value.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()">
-    <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder"
+    <span *ngIf="!keyWordsCtrl.value && keyWords$.value.length < 1 " class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
     >
-    <mat-chip-grid #chipGrid>
-      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
+    <mat-chip-grid #chipGrid aria-label="enter keywords">
+      <mat-chip-row *ngFor="let keyWord of keyWords$.value" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">
           {{ keyWord }}
         </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
-      </mat-chip>
-      <!-- TODO: Remove ngModel attribute -->
+      </mat-chip-row>
       <input
-        [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
+        [ngClass]="{  'keywords-input': !keyWordsCtrl.value && keyWords$.value.length < 1  }"
         #keyWordsInput
         (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl"
         [matChipInputFor]="chipGrid"
-        (keyup.enter)="onKeyWordsInput()"
-        [(ngModel)]="keyWord"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="onKeyWordsInput()"
         autocomplete="off"
         appTrimValue />
     </mat-chip-grid>

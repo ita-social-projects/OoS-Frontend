@@ -37,7 +37,6 @@ export class ChildFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('chipSet')
   private chipSet: MatChipSet;
-
   public readonly validationConstants = ValidationConstants;
 
   public socialGroupControl: FormControl = new FormControl([]);
