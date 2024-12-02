@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" class="popup-body drop-below">
+<div matSnackBarLabel class="popup-body drop-below" fxLayout="row" fxLayoutAlign="space-between center">
   <span fxLayout="row" fxLayoutAlign="center center">
     <mat-icon fxLayout="row" fxLayoutAlign="center center" class="icon">
       {{ messageIcon }}
@@ -10,7 +10,15 @@
       </p>
     </div>
   </span>
-  <div *ngIf="!data.unclosable" (click)="onClose()" data-testid="closing-button">
-    <mat-icon class="action">close</mat-icon>
+  <div matSnackBarActions>
+    <div
+      matSnackBarAction
+      *ngIf="!data.unclosable"
+      (click)="onClose()"
+      data-testid="closing-button"
+      class="action"
+    >
+      <mat-icon>close</mat-icon>
+    </div>
   </div>
 </div>
