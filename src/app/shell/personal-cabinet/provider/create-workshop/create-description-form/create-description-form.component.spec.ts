@@ -70,31 +70,32 @@ describe('CreateDescriptionFormComponent', () => {
 
     component.onKeyWordsInput();
 
-    expect(component.keyWords$.value).toEqual(['test']);
+    expect(component.keyWords).toEqual(['test']);
     expect(component.keyWordsCtrl.value).toBe('');
   });
 
   it('should disable input if keyword limit is reached', () => {
-    component.keyWords$.next(['one', 'two', 'three', 'four', 'five']);
+    component.keyWords = ['one', 'two', 'three', 'four'];
+    component.keyWordsCtrl.setValue('Test');
 
-    expect(component.disabledKeyWordsInput).toBeTruthy();
+    component.onKeyWordsInput();
+
     expect(component.keyWordsCtrl.disabled).toBeTruthy();
   });
 
   it('should enable input if keyword limit is less than 5', () => {
-    component.keyWords$.next(['one', 'two', 'three', 'four', 'five']);
+    component.keyWords = ['one', 'two', 'three', 'four', 'five'];
 
-    component.keyWords$.next(['one', 'two', 'three', 'four']);
+    component.onRemoveKeyWord('one');
 
-    expect(component.disabledKeyWordsInput).toBeFalsy();
     expect(component.keyWordsCtrl.disabled).toBeFalsy();
   });
   it('should remove keyword', () => {
-    component.keyWords$.next(['one', 'two', 'three', 'four', 'five']);
+    component.keyWords = ['one', 'two', 'three', 'four', 'five'];
 
     component.onRemoveKeyWord('five');
 
-    expect(component.keyWords$.value.length).toBe(4);
+    expect(component.keyWords.length).toBe(4);
   });
 });
 
