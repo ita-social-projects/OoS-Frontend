@@ -1,4 +1,4 @@
-<div class="popup-body drop-below flex flex-row justify-between items-center">
+<div matSnackBarLabel class="popup-body drop-below flex flex-row justify-between items-center">
   <span class="flex flex-row box-border content-center justify-center items-center">
     <mat-icon class="icon">
       {{ messageIcon }}
@@ -10,7 +10,15 @@
       </p>
     </div>
   </span>
-  <div *ngIf="!data.unclosable" (click)="onClose()" data-testid="closing-button">
-    <mat-icon class="action">close</mat-icon>
+  <div matSnackBarActions>
+    <div
+      matSnackBarAction
+      *ngIf="!data.unclosable"
+      (click)="onClose()"
+      data-testid="closing-button"
+      class="action"
+    >
+      <mat-icon>close</mat-icon>
+    </div>
   </div>
 </div>
