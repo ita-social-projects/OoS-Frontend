@@ -25,7 +25,7 @@
   <ng-container *ngIf="isFavorite; then dislike; else like"></ng-container>
 
   <ng-template #dislike>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDislike()">
+    <button mat-button class="button button-msg" (click)="role === Role.parent && onDislike()">
       <mat-icon>favorite</mat-icon>
       {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>
