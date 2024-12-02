@@ -1,8 +1,12 @@
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 :host::ng-deep .mat-icon {
-  position: relative;
   overflow: visible;
   font-size: 30px;
-  top: -1px;
 
   @media (min-width: 750px) {
     height: auto;
