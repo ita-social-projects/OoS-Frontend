@@ -24,4 +24,11 @@ export class MessageBarComponent implements OnInit {
   public onClose(): void {
     this.snackBar.dismiss();
   }
+
+  public onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.onClose();
+    }
+  }
 }

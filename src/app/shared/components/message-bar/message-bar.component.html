@@ -25,6 +25,8 @@
       matSnackBarAction
       *ngIf="!data.unclosable"
       (click)="onClose()"
+      (keydown)="onKeyDown($event)"
+      tabindex="0"
       data-testid="closing-button"
       class="action"
     >
