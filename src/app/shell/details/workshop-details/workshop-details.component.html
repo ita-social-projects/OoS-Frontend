@@ -3,24 +3,24 @@
   <app-image-carousel [images]="images"></app-image-carousel>
 
   <div class="details-wrapper">
-    <div fxLayout="column" fxLayoutAlign="space-between space-between">
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="column" fxLayout.lt-sm="column wrap" fxLayoutAlign="start center">
-          <div fxLayout="row" fxLayoutAlign="start center">
+    <div class="flex flex-col justify-between">
+      <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-col items-start sm:flex-wrap">
+          <div class="flex flex-row items-center">
             <h1 class="title">{{ workshop.title }}</h1>
             <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
               <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
             </ng-container>
           </div>
-          <h3 class="short-title" *ngIf="workshop.shortTitle" fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
+          <h3 class="short-title" *ngIf="workshop.shortTitle">{{ workshop.shortTitle }}</h3>
         </div>
         <div *ngFor="let directionId of workshop.directionIds">
           <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
         </div>
       </div>
 
-      <div fxLayout="row">
-        <div fxLayout="column">
+      <div class="flex flex-row">
+        <div class="flex flex-col">
           <span class="icon-text">
             <mat-icon class="icon">star</mat-icon>
             {{ workshop.rating }}&nbsp;
@@ -42,8 +42,8 @@
             {{ 'YEARS' | translate }}
           </span>
         </div>
-        <div fxLayout="column" *ngIf="workshop.competitiveSelection">
-          <span fxLayout="row" fxLayoutAlign="start center">
+        <div class="flex flex-col" *ngIf="workshop.competitiveSelection">
+          <span class="flex flex-row items-center">
             <span class="icon-text">
               <mat-icon class="icon">person_add</mat-icon>
               {{ 'COMPETITIVE_SELECTION' | translate }}

@@ -1,21 +1,22 @@
-<div class="create-form" fxLayout="column" fxLayoutAlign="center center">
+<div class="create-form flex flex-col justify-center items-center">
   <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">{{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_TITLE' | translate }}</h3>
       <p class="wrapper-text">
         {{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE' | translate }}
       </p>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center start" class="warning-box">
-      <span>
-        <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
-      </span>
-      <div>
-        <span>{{ 'FORMS.EDIT_INSTITUTION_HIERARCHY_WARNING_MSG' | translate }} </span>
+    <div class="flex justify-center">
+      <div class="warning-box flex flex-row box-border items-start justify-start content-center">
+        <span>
+          <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
+        </span>
+        <div>
+          <span>{{ 'FORMS.EDIT_INSTITUTION_HIERARCHY_WARNING_MSG' | translate }} </span>
+        </div>
       </div>
     </div>
-
-    <form #editForm [formGroup]="editDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+    <form #editForm [formGroup]="editDirectionFormGroup" class="step form flex flex-col justify-between items-stretch">
       <label class="step-label">{{ 'FORMS.LABELS.MINISTRY_SUBMISSION' | translate }}</label>
       <mat-form-field>
         <input matInput class="step-input" [formControlName]="ministryControl" type="text" autocomplete="none" appTrimValue />
@@ -54,7 +55,7 @@
       </ng-container>
     </form>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <div class="footer flex flex-row justify-center items-center">
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
       <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>

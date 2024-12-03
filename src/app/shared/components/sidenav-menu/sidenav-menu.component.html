@@ -29,7 +29,7 @@
 
         <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async)?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
-            <app-notifications fxLayout="row" fxLayoutAlign="space-between center"> </app-notifications>
+            <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>
           </a>
         </div>
 

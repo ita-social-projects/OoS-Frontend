@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
@@ -55,7 +54,6 @@ import { CreateParentGuard } from './personal-cabinet/parent/create-parent/creat
     SharedModule,
     NgxPaginationModule,
     HttpClientModule,
-    FlexLayoutModule,
     TranslateModule
   ],
   providers: [

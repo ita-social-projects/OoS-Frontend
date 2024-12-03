@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
-
 @font-face {
   font-family: 'Innerspace';
   src:
@@ -329,3 +328,5 @@ input:-webkit-autofill:active {
 .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
   transform: translateY(0) !important;
 }
+
+@import 'tailwind.css';
