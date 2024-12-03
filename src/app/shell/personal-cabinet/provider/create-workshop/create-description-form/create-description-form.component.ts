@@ -65,7 +65,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
-      keyWords: new FormControl(''),
+      keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null

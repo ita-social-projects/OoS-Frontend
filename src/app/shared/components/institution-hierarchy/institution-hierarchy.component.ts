@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
-import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
@@ -20,7 +20,8 @@ import { MetaDataState } from '../../store/meta-data.state';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
-  styleUrls: ['./institution-hierarchy.component.scss']
+  styleUrls: ['./institution-hierarchy.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() public instituitionHierarchyIdFormControl: AbstractControl;
@@ -76,7 +77,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray = this.hierarchyArray.slice(0, nextEl);
       this.setFinalHierarchyLevel(null);
     }
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   public ngOnDestroy(): void {
@@ -99,7 +100,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setHierarchySubscribes(): void {
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
-      this.changeDetectorRef.detectChanges();
+      this.changeDetectorRef.markForCheck();
     });
 
     this.instituitionsHierarchy$
@@ -130,7 +131,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
           this.setFinalHierarchyLevel(finalInstitutionId);
           this.editInstituitionsHierarchy = null;
         }
-        this.changeDetectorRef.detectChanges();
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -148,7 +149,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setFinalHierarchyLevel(optionId: string): void {
     this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: false });
     this.store.dispatch(new ResetInstitutionHierarchy());
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   private setEditMode(): void {
@@ -166,7 +167,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         this.editInstituitionsHierarchy = instituitionsHierarchy;
-        this.changeDetectorRef.detectChanges();
+        this.changeDetectorRef.markForCheck();
       });
 
     // Subscribes to institutionFieldDesc$ only after receiving 1 editInstitutionsHierarchy$ result
@@ -192,7 +193,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.institutionFieldDesc = institutionFieldDesc;
         this.store.dispatch(new GetAllByInstitutionAndLevel(this.instituitionIdFormControl.value, 1));
         this.setFinalHierarchyLevel(null);
-        this.changeDetectorRef.detectChanges();
+        this.changeDetectorRef.markForCheck();
       });
   }
 }
