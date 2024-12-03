@@ -138,7 +138,10 @@
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
       "PROVIDER_REGISTRATION": "Provider registration",
-      "USER_REGISTRATION": "User registration"
+      "USER_REGISTRATION": "User registration",
+      "IMPORT-EXPORT_PROVIDERS": "Import/Export providers` data",
+      "IMPORT": "Import",
+      "EXPORT": "Export"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -894,5 +897,34 @@
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
   },
   "MORE": "...More",
-  "LESS": "...Less"
+  "LESS": "...Less",
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Select file",
+    "SELECT_ANOTHER_FILE": "Select another file",
+    "SUBMIT_FILE": "Submit file",
+    "INCORRECT_ROWS": "Incorrect rows: ",
+    "HUNDRED_WARNING": "WARNING! Processed first hundred lines",
+    "FILE_READER_WARNING": "An error occurred while reading the file. Please try again.",
+    "FILE_HEADERS_WARNING": "Discrepancy in : ",
+    "PROVIDERS_LIST": {
+      "DIRECTORS_NAME": "Director`s Name",
+      "DIRECTORS_SURNAME": "Director`s Surname",
+      "PROVIDER_NAME": "Provider name",
+      "OWNERSHIP": "Ownership",
+      "IDENTIFIER": "EDRPOU",
+      "LICENSE_NUMBER": "License number",
+      "SETTLEMENT": "Settlement",
+      "ADDRESS": "Address",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Phone number"
+    },
+    "ERRORS": {
+      "ERRORS_TYPES":"Errors types",
+      "DATA_DUPLICATE":"Duplicated information",
+      "MISSING_INFO_EMPTY_FIELD":"No information/empty field",
+      "WRONG_LENGTH":"Incorrect number of characters",
+      "WRONG_FORMAT":"Incorrect format",
+      "WRONG_LANGUAGE":"Incorrectly selected language"
+    }
+  }
 }
