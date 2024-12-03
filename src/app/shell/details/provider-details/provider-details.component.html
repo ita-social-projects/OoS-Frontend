@@ -12,7 +12,7 @@
       </p>
     </div>
 
-    <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex">
       <mat-tab class="label" label="{{ tabTitles.AboutProvider | translate }}">
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>

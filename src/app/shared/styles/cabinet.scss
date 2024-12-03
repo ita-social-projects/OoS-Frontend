@@ -7,10 +7,6 @@
 
   .nav {
     border-bottom: none;
-    height: 26px;
-    ::ng-deep .mat-mdc-tab-links{
-      height: 26px;
-    }
     
     a {
       font-size: 13px;

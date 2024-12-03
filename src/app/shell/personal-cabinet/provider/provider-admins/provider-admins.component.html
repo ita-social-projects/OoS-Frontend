@@ -57,7 +57,7 @@
 </ng-template>
 
 <ng-template #ProviderTableViewTmpl>
-  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+  <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
     <mat-tab label="{{ ProviderAdminTitles.All | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
@@ -71,7 +71,7 @@
 </ng-template>
 
 <ng-template #DeputyTableViewTmpl>
-  <mat-tab-group mat-align-tabs="start">
+  <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
     <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>

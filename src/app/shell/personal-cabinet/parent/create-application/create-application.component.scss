@@ -23,9 +23,6 @@
   padding-right: 3rem;
   padding-left: 3rem;
 
-  .mat-tab-group {
-    align-items: center !important;
-  }
 }
 
 @media (max-width: 750px) {
@@ -74,4 +71,12 @@ small.warning {
 .disabled-anchor {
   pointer-events: none;
   cursor: default;
+}
+
+:host ::ng-deep {
+  .application-wrapper {
+    .mat-mdc-tab-header {
+      width: 100%;
+    }
+  }
 }

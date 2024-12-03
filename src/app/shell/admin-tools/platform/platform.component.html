@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
+<mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [mat-stretch-tabs]="false" [selectedIndex]="tabIndex">
   <mat-tab label="{{ AdminTabsTitles.AboutPortal | translate }}">
     <app-about-info></app-about-info>
   </mat-tab>
