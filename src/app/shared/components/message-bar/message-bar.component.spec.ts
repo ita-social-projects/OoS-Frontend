@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA,
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule
-} from '@angular/material/legacy-snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -21,7 +17,8 @@ describe('SnackBarComponent', () => {
     mockData = {
       type: 'success',
       message: 'messageText',
-      info: 'messageInfo'
+      info: 'messageInfo',
+      unclosable: false
     };
 
     await TestBed.configureTestingModule({
@@ -45,7 +42,7 @@ describe('SnackBarComponent', () => {
   it('should display correct message', () => {
     const messageTextContainer = fixture.debugElement.query(By.css('[data-testid="message-text"]'));
 
-    expect(messageTextContainer.nativeElement.textContent).toBe(' messageText ');
+    expect(messageTextContainer.nativeElement.textContent.trim()).toBe('messageText');
   });
 
   it('should display error message when data type is error', () => {
