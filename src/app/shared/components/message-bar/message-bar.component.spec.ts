@@ -72,4 +72,49 @@ describe('SnackBarComponent', () => {
 
     expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should set tabindex="0" on the closing button', () => {
+    fixture.detectChanges();
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+    expect(closingButton.nativeElement.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('should close the snackBar when Enter is pressed', () => {
+    const snackBarDismissSpy = jest.spyOn(matSnackBar, 'dismiss');
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    closingButton.nativeElement.dispatchEvent(event);
+
+    expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should close the snackBar and prevent default behavior when Space is pressed', () => {
+    const snackBarDismissSpy = jest.spyOn(matSnackBar, 'dismiss');
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+
+    const event = new KeyboardEvent('keydown', { key: ' ' });
+    const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+
+    closingButton.nativeElement.dispatchEvent(event);
+
+    expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
+    expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not display the closing button if data.unclosable is true', () => {
+    mockData.unclosable = true;
+    fixture.detectChanges();
+
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+    expect(closingButton).toBeFalsy();
+  });
+
+  it('should apply the correct background color based on the message type', () => {
+    mockData.type = 'success';
+    fixture.detectChanges();
+
+    const snackBarContainer = fixture.debugElement.query(By.css('.popup-body'));
+    expect(snackBarContainer.nativeElement.classList).toContain('success');
+  });
 });
