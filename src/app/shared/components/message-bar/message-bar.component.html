@@ -20,5 +20,15 @@
     >
       <mat-icon>close</mat-icon>
     </div>
+  <div matSnackBarActions>
+    <div
+      matSnackBarAction
+      *ngIf="!data.unclosable"
+      (click)="onClose()"
+      data-testid="closing-button"
+      class="action"
+    >
+      <mat-icon>close</mat-icon>
+    </div>
   </div>
 </div>
