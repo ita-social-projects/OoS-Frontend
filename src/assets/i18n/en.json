@@ -583,7 +583,9 @@
     "DELETE": "Delete",
     "GO_BACK": "Go back",
     "REGISTER": "Register",
-    "ADD_DIRECTION": "Add a direction"
+    "ADD_DIRECTION": "Add a direction",
+    "PUBLISH": "Publish",
+    "ARCHIVE": "Archive"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
