@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 @import 'src/app/shared/styles/details.scss';
 @import 'src/app/shared/styles/workshop-status.scss';
+@import 'src/app/shared/styles/buttons.scss';
 
 .workshop-title {
   margin-bottom: 0;
@@ -21,4 +22,8 @@
 
 .details-link {
   margin-bottom: 1rem;
+}
+
+.action-buttons-wrapper {
+  margin-top: 2.4rem;
 }
