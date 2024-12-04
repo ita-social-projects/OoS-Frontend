@@ -40,6 +40,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public isMobileScreen: boolean;
   @Input()
   public displayActionCard: boolean;
+  @Input()
+  public currentProvider: Provider;
 
   public readonly categoryIcons = CategoryIcons;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
