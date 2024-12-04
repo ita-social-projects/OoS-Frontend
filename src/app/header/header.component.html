@@ -71,11 +71,9 @@
     <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
-      <div fxLayoutAlign="center center">
-        <mat-icon class="account-circle">account_circle</mat-icon>
-        <span class="user-name">{{ userShortName }}</span>
-        <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
-      </div>
+      <mat-icon class="account-circle">account_circle</mat-icon>
+      <span class="user-name">{{ userShortName }}</span>
+      <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
     </button>
   </ng-container>
 

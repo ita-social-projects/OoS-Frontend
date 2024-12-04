@@ -5,12 +5,11 @@
 
     <ng-template #isUnauthorized>
       <div class="mobile-sidenav-header">
-        <button mat-stroked-button class="header_login" (click)="login()">{{ 'LOGIN' | translate }}</button>
-        <button mat-button (click)="changeView()">
+        <button mat-stroked-button class="header-login" (click)="login()">{{ 'LOGIN' | translate }}</button>
+        <button mat-button class="button-close" (click)="changeView()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      <ng-container *ngTemplateOutlet="Language"> </ng-container>
     </ng-template>
 
     <ng-template #isAuthorized>

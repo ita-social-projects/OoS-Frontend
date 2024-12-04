@@ -26,20 +26,24 @@
 }
 
 @media (max-width: 750px) {
-  .header_login {
-    position: relative;
-    bottom: 5px;
-    border-radius: 20px;
-    border-color: white;
+  .mat-mdc-outlined-button.header-login {
     color: white;
-    font-size: 13px;
-    margin-left: 10px;
+    border-color: white;
+    border-radius: 20px;
+  }
 
-    ::ng-deep span.mat-button-wrapper {
-      position: relative;
-      top: 3px;
-      padding: 0 12px;
-    }
+  .mat-mdc-button.button-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  mat-icon.mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    margin: 0;
   }
 
   .mobile-sidenav {
