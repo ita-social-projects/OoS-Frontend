@@ -2,6 +2,22 @@
   <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
   <app-image-carousel [images]="images"></app-image-carousel>
 
+  <div
+    class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
+    *ngIf="providerParameters?.providerId === currentProvider?.id">
+    <button class="btn btn-cancel" mat-button>
+      {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
+    </button>
+    <div class="flex">
+      <a [routerLink]="['/create-workshop', workshop.id]" class="btn btn-cancel" mat-button>
+        {{ 'BUTTONS.EDIT' | translate | uppercase }}
+      </a>
+      <button class="btn" (click)="onPublishClick()" mat-button>
+        {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
+      </button>
+    </div>
+  </div>
+
   <div class="details-wrapper">
     <div class="flex flex-col justify-between">
       <div class="flex flex-row justify-between items-center">
@@ -80,22 +96,6 @@
         <app-achievements [workshop]="workshop"></app-achievements>
       </mat-tab>
     </mat-tab-group>
-
-    <div
-      class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
-      *ngIf="providerParameters?.providerId === currentProvider?.id">
-      <button class="btn btn-cancel" mat-button>
-        {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
-      </button>
-      <div class="flex">
-        <a [routerLink]="['/create-workshop', workshop.id]" class="btn btn-cancel" mat-button>
-          {{ 'BUTTONS.EDIT' | translate | uppercase }}
-        </a>
-        <button class="btn" mat-button>
-          {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
-        </button>
-      </div>
-    </div>
   </div>
 </div>
 <ng-template #ClosedWorkshopStatus>
