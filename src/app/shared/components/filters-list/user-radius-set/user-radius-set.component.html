@@ -2,11 +2,11 @@
   <p class="filter-text">{{ 'FORMS.LABELS.RADIUS' | translate }}</p>
 
   <div class="slider-row">
-    <div class="filter-slider slider" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
+    <div class="filter-slider slider gap-4 flex flex-col justify-center">
       <ngx-slider (userChange)="radiusHandler($event)" [value]="2" [highValue]="defaultRadiusInKm" [options]="options"> </ngx-slider>
     </div>
     <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="flex flex-row justify-start items-center">
         <input matInput class="current-radius" type="text" appDigitOnly maxlength="6" [formControl]="currentRadius" autocomplete="off" />
       </div>
     </mat-form-field>

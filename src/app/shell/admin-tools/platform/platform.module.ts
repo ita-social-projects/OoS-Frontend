@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -24,7 +23,7 @@ import { PlatformComponent } from './platform.component';
     PlatformComponent,
     MainInfoComponent
   ],
-  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule, TranslateModule],
+  imports: [CommonModule, SharedModule, MaterialModule, RouterModule, TranslateModule],
   exports: [PlatformComponent]
 })
 export class PlatformModule {}

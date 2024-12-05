@@ -1,6 +1,6 @@
-<div class="create-form" fxLayout="column" fxLayoutAlign="center center">
+<div class="create-form flex flex-col justify-center items-center">
   <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">
         {{ formTitle | translate | uppercase }}
       </h3>
@@ -15,7 +15,7 @@
           <p class="step-name">{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</p>
         </ng-template>
 
-        <form [formGroup]="ProviderAdminFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+        <form [formGroup]="ProviderAdminFormGroup" class="step form flex flex-col justify-between items-stretch">
           <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
           <mat-form-field>
             <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
@@ -63,7 +63,7 @@
 
         <ng-container *ngTemplateOutlet="AgreementsTmpl"></ng-container>
 
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+        <div class="footer flex flex-row justify-center items-center">
           <a [routerLink]="'/personal-cabinet/provider/administration'">
             <button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button>
           </a>
@@ -82,7 +82,7 @@
         <ng-template matStepLabel>
           <p class="step-name">{{ 'TITLES.ACCESS_MANAGMENT' | translate }}</p>
         </ng-template>
-        <form fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+        <form class="step form flex flex-col justify-between items-stretch">
           <ng-container *ngIf="isDeputy; then Deputy; else WorkshopAdmin"></ng-container>
           <ng-template #Deputy>
             <label class="step-label">{{ 'ALL_WORKSHOPS_ACCESS' | translate }}</label>
@@ -106,7 +106,7 @@
 
         <ng-container *ngTemplateOutlet="AgreementsTmpl"></ng-container>
 
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+        <div class="footer flex flex-row justify-center items-center">
           <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
@@ -126,7 +126,7 @@
 </div>
 
 <ng-template #AgreementsTmpl>
-  <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
+  <div *ngIf="!editMode" class="wrapper-check-box step flex flex-col justify-start items-start">
     <label class="checkbox-label">
       {{ 'AGREEMENTS.I_AGREE_FOR_USER' | translate }}
       <a class="link" [routerLink]="'/info/rules'" target="_blank"> {{ 'AGREEMENTS.PLATFORM_RULES' | translate }}</a>

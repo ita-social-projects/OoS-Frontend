@@ -1,7 +1,7 @@
 @import 'src/app/shared/styles/card-wrapper.scss';
 @import 'src/app/shared/styles/cards.scss';
 
-.mat-card {
+.mat-mdc-card {
   margin: 1.3rem;
 }
 
@@ -51,6 +51,10 @@
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
+}
+
+.mat-mdc-card-content > :first-child {
+  margin-top: 0;
 }
 
 @media (max-width: 750px) {

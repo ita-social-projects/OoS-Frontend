@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="2rem">
-  <div fxFlex="60" class="image-cropper-wrapper" fxLayout="column" fxLayoutAlign="center center">
+<div class="flex flex-row justify-between items-center gap-8">
+  <div class="image-cropper-wrapper flex flex-col justify-center items-center flex-[1_1_60%] max-w-[60%]">
     <image-cropper
       [imageChangedEvent]="data.image"
       [cropperMinWidth]="data.cropperConfig.cropperMinWidth"
@@ -21,11 +21,11 @@
       >
     </div>
   </div>
-  <div fxFlex="40">
+  <div class="flex-[1_1_40%] max-w-[40%]">
     <img [src]="croppedImage" class="cropped-image" />
   </div>
 </div>
-<mat-dialog-actions class="btn-wrapper" fxLayout="row wrap" fxLayoutAlign="center center">
+<mat-dialog-actions class="btn-wrapper flex flex-row flex-wrap justify-center items-center">
   <button class="btn" mat-button cdkFocusInitial (click)="onConfirm()" [disabled]="invalidMinRequirements">ПІДТВЕРДИТИ</button>
   <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
 </mat-dialog-actions>

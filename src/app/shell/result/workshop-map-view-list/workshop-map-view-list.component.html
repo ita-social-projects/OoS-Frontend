@@ -1,5 +1,5 @@
-<div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-  <div fxLayout="column" fxLayoutAlign="space-between" class="wrapper-workshop-list">
+<div class="wrapper flex flex-row justify-evenly">
+  <div class="wrapper-workshop-list flex flex-col justify-between">
     <ng-container *ngIf="selectedWorkshops?.length">
       <div class="workshop-list card-wrapper">
         <app-workshop-card class="card" *ngFor="let workshop of workshopsOnPage" [workshop]="workshop" #WorkshopsWrap> </app-workshop-card>
@@ -16,7 +16,7 @@
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
-    <div fxLayout="row" fxLayoutAlign="center">
+    <div class="flex flex-row justify-center">
       <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedWorkshopAddress)="onSelectedAddress($event)"> </app-map>
     </div>
   </div>
@@ -24,8 +24,7 @@
   <div
     *ngIf="isSelectedMarker && this.selectedWorkshops.length > 1; else elseBlock"
     #CurSelectedWorkshop
-    class="workshop-details-cards"
-    fxLayout="row"
+    class="workshop-details-cards flex flex-row"
     (@triggerName.done)="triggerNameDone()"
     [@triggerName]="currentWorkShopIndex"
     [style.left.vw]="left"
@@ -49,7 +48,7 @@
     </div>
   </div>
   <ng-template #elseBlock>
-    <div *ngIf="isSelectedMarker" #CurSelectedWorkshop class="workshop-details-cards" fxLayout="row" [style.left.vw]="left">
+    <div *ngIf="isSelectedMarker" #CurSelectedWorkshop class="workshop-details-cards flex flex-row" [style.left.vw]="left">
       <div class="mock"></div>
       <app-workshop-card
         class="workshop-details-card"

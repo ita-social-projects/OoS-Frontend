@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -72,39 +72,37 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should remove a keyword from keyWords array', () => {
-    component.keyWords = ['keyword1', 'keyword2', 'keyword3'];
-    component.DescriptionFormGroup.get('keyWords').setValue(component.keyWords);
+  it('should add keyword', () => {
+    component.keyWordsCtrl.setValue('Test');
 
-    component.onRemoveKeyWord('keyword2');
+    component.onKeyWordsInput();
 
-    expect(component.keyWords).toEqual(['keyword1', 'keyword3']);
-    expect(component.DescriptionFormGroup.get('keyWords').value).toEqual(['keyword1', 'keyword3']);
+    expect(component.keyWords).toEqual(['test']);
+    expect(component.keyWordsCtrl.value).toBe('');
   });
 
-  describe('activateEditMode', () => {
-    it('should set competitiveSelectionDescription control if competitiveSelection is true', () => {
-      component.workshop = {
-        competitiveSelection: true, // Ensure competitiveSelection is true
-        competitiveSelectionDescription: 'Test Description', // Provide description
-        keywords: [],
-        withDisabilityOptions: false,
-        workshopDescriptionItems: []
-      } as Workshop;
+  it('should disable input if keyword limit is reached', () => {
+    component.keyWords = ['one', 'two', 'three', 'four'];
+    component.keyWordsCtrl.setValue('Test');
 
-      component.activateEditMode();
+    component.onKeyWordsInput();
 
-      expect(component.DescriptionFormGroup.contains('competitiveSelectionDescription')).toBeTruthy();
-      expect(component.DescriptionFormGroup.get('competitiveSelectionDescription').value).toEqual('Test Description');
-    });
+    expect(component.keyWordsCtrl.disabled).toBeTruthy();
+  });
 
-    it('should not set competitiveSelectionDescription control if competitiveSelection is false', () => {
-      component.workshop.competitiveSelection = false;
+  it('should enable input if keyword limit is less than 5', () => {
+    component.keyWords = ['one', 'two', 'three', 'four', 'five'];
 
-      component.activateEditMode();
+    component.onRemoveKeyWord('one');
 
-      expect(component.DescriptionFormGroup.contains('competitiveSelectionDescription')).toBeFalsy();
-    });
+    expect(component.keyWordsCtrl.disabled).toBeFalsy();
+  });
+  it('should remove keyword', () => {
+    component.keyWords = ['one', 'two', 'three', 'four', 'five'];
+
+    component.onRemoveKeyWord('five');
+
+    expect(component.keyWords.length).toBe(4);
   });
 });
 

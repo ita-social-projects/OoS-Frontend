@@ -1,4 +1,4 @@
-<div class="unregistered-user-modal__content" mat-dialog-content fxLayoutAlign="center">
+<div class="unregistered-user-modal__content flex flex-row justify-center box-border items-stretch" mat-dialog-content>
   <h2 *ngIf="data.title" class="unregistered-user-modal__title">
     {{ data?.title | translate }}
   </h2>
@@ -6,16 +6,14 @@
     {{ data?.message | translate }}
   </p>
 </div>
-<div mat-dialog-actions fxLayoutAlign="center">
+<div mat-dialog-actions class="flex flex-row !justify-center box-border !items-center content-center">
   <button class="unregistered-user-modal__action-button white" mat-raised-button mat-dialog-close>
     {{ 'BUTTONS.GO_BACK' | translate }}
   </button>
   <button
-    class="unregistered-user-modal__action-button"
+    class="unregistered-user-modal__action-button flex flex-row justify-center items-center content-center"
     mat-raised-button
     mat-dialog-close
-    fxLayout="row"
-    fxLayoutAlign="center center"
     (click)="login()">
     {{ 'BUTTONS.REGISTER' | translate }}
   </button>

@@ -9,8 +9,8 @@
 </ng-container>
 
 <ng-template #isMobileScreen>
-  <div *ngIf="notificationAmount" fxLayout="row" fxLayoutAlign="start center" class="full-width">
-    <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
+  <div *ngIf="notificationAmount" class="full-width flex flex-row justify-start items-center">
+    <button mat-icon-button class="btn-notifications flex flex-row justify-between">
       <mat-icon class="notifications-icon">notifications_none</mat-icon>{{ 'NOTIFICATIONS' | translate }}
     </button>
     <mat-icon *ngIf="notificationAmount.amount" [matBadge]="notificationAmount.amount" class="icon-mobile"> </mat-icon>

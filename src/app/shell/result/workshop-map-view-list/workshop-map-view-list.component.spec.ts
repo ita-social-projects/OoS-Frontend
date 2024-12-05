@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,7 +17,7 @@ describe('WorkshopMapViewListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FlexLayoutModule, CommonModule, RouterTestingModule, MatCardModule, NgxsModule.forRoot([])],
+      imports: [CommonModule, RouterTestingModule, MatCardModule, NgxsModule.forRoot([])],
       declarations: [
         WorkshopMapViewListComponent,
         MockMapListWorkshopCardComponent,
