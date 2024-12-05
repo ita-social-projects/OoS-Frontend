@@ -92,9 +92,8 @@
 }
 .card-footer {
   display: flex;
-  flex-direction: column-reverse;
-  align-items: end;
-  gap: 0.5rem;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
 .more-details {
