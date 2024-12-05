@@ -37,12 +37,19 @@ button {
 }
 
 .btn-notifications {
-  margin-left: -8px;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 13px;
+  line-height: normal;
 
-.notifications-icon {
-  margin-left: 5px;
-  margin-right: 15px;
+  .notifications-icon {
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    margin: 0 9px 0 0;
+  }
 }
 
 .full-width {
