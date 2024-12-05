@@ -59,7 +59,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
   public keyWords: string[] = [];
-  public keyWord: string;
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
@@ -195,7 +194,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
     this.workshop.keywords.forEach((keyWord: string) => {
-      this.keyWord = keyWord;
+      this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
 
@@ -214,8 +213,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     } else {
       this.onAddForm();
     }
-
-    this.keyWords = this.workshop.keywords;
 
     if (this.workshop.competitiveSelection) {
       this.DescriptionFormGroup.addControl(
