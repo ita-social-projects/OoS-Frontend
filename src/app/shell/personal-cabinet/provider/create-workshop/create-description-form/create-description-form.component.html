@@ -84,13 +84,13 @@
         [compareWith]="compareItems"
         [formControl]="tagsControl">
         <mat-select-trigger>
-          <mat-chip-list #chipList>
+          <mat-chip-set #chipSet>
             <mat-chip *ngFor="let tag of tagsControl.value" (removed)="onRemoveItem(tag)">
               <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
               <span>{{ tag.name }}</span>
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-          </mat-chip-list>
+          </mat-chip-set>
         </mat-select-trigger>
         <mat-option class="dropdown-option" *ngFor="let tag of tags" [value]="tag">
           {{ tag.name }}
