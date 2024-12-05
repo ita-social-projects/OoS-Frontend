@@ -728,6 +728,7 @@
       "UPDATE_WORKSHOP": "The workshop has been updated successfully!",
       "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
       "DELETED_WORKSHOP": "This workshop has been deleted!",
+      "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
       "DELETED_NOTIFICATION": "Notification deleted successfully!",
@@ -846,6 +847,7 @@
       "CREATE_ADMIN": "Are you sure you want to add a administrator?",
       "UPDATE_ADMIN": "Are you sure you want to edit the administrator?",
       "LICENSE_APPROVED": "Are you sure you want to confirm the provider's license?",
+      "PUBLISH_WORKSHOP": "Are you sure you want to publish workshop?",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -890,7 +892,8 @@
         "UPDATE_ADMIN": "EDIT ADMINISTRATOR?",
         "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?",
         "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
-        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment."
+        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
+        "PUBLISH_WORKSHOP": "Publish workshop?"
       }
     }
   },
