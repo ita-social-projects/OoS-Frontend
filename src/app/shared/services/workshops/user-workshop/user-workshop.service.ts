@@ -126,6 +126,10 @@ export class UserWorkshopService {
     return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
   }
 
+  public publishWorkshop(id: string): Observable<any> {
+    return this.http.put<void>('/api/v2/Workshop/Publish', id);
+  }
+
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
     const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
