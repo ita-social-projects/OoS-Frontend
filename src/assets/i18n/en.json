@@ -185,7 +185,8 @@
       "OPEN": "Open recruitment",
       "RECRUITMENT_CLOSED": "Recruitment is closed",
       "RECRUITMENT_OPEN": "Recruitment is open",
-      "STOP": "Stop recruitment"
+      "STOP": "Stop recruitment",
+      "DRAFT": "Draft"
     },
     "REVIEW_DECLINATION": {
       "FEEDBACK": "feedback",

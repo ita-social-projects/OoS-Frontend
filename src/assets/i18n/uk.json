@@ -185,7 +185,8 @@
       "OPEN": "Відкрити набір",
       "RECRUITMENT_CLOSED": "Набір призупинено",
       "RECRUITMENT_OPEN": "Набір триває",
-      "STOP": "Призупинити набір"
+      "STOP": "Призупинити набір",
+      "DRAFT": "Чернетка"
     },
     "REVIEW_DECLINATION": {
       "FEEDBACK": "відгук",

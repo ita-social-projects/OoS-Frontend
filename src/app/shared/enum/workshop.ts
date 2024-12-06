@@ -11,7 +11,8 @@ export enum PayRateType {
 
 export enum WorkshopOpenStatus {
   Open = 'Open',
-  Closed = 'Closed'
+  Closed = 'Closed',
+  Draft = 'Draft'
 }
 
 export enum DetailsTabTitlesParams {
