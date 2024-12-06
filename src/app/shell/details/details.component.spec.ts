@@ -3,7 +3,6 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { of } from 'rxjs';
 import { User } from '../../shared/models/user.model';
 import { Workshop } from '../../shared/models/workshop.model';
@@ -22,7 +21,7 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([]), FlexLayoutModule],
+      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([])],
       declarations: [DetailsComponent, MockSideMenuComponent, MockDetailsWorkshopComponent, MockDetailsProviderComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     }).compileComponents();

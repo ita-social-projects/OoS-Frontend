@@ -2,7 +2,6 @@ import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import localeUk from '@angular/common/locales/uk';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MAT_LEGACY_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/legacy-select';
 import { BrowserModule } from '@angular/platform-browser';
@@ -73,7 +72,6 @@ registerLocaleData(localeUk);
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production
     }),
-    FlexLayoutModule,
     ShellModule,
     RegistrationModule,
     HttpClientModule,

@@ -25,7 +25,7 @@
 <ng-template #searchAddressTmpl let-context>
   <label class="step-label">{{ 'FORMS.LABELS.SETTLEMENT' | translate }}<span class="step-required">*</span> </label>
   <div class="custom-input-autocomplete" [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
-    <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
+    <mat-form-field class="input-wrapper flex flex-col justify-between items-start" appearance="fill">
       <input matInput type="text" appTrimValue [formControl]="context.searchControl" [matAutocomplete]="auto" (focusout)="onFocusOut()" />
       <mat-autocomplete
         #auto="matAutocomplete"
@@ -56,7 +56,7 @@
 
 <!-- ADDRESS CONTROLS TEMPLATE-->
 <ng-template #addressControlsTmlp let-context>
-  <form [formGroup]="context.addressFormGroup" fxLayout="column" fxLayoutAlign="center space-between">
+  <form [formGroup]="context.addressFormGroup" class="flex flex-col justify-between items-stretch">
     <label class="step-label">{{ 'FORMS.LABELS.STREET' | translate }}<span class="step-required">*</span> </label>
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue />

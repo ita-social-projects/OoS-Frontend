@@ -10,13 +10,13 @@
     margin-top: 1.5rem;
   }
 }
-
 .footer {
   //TODO: Uncomment after removing trial-message
   //background-color: #ebebeb;
   padding: 2.375rem 5rem;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box;
 
   .min-logo {
     height: 41px;

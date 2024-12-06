@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="user$ | async as user" fxLayout="row wrap" fxLayoutAlign="start">
+<div class="wrapper flex flex-row flex-wrap justify-start" *ngIf="user$ | async as user">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
       <button mat-button style="color: #3849f9">
@@ -32,7 +32,7 @@
     </ng-container>
 
     <ng-template #confirmEmailTmpl>
-      <p class="label important" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.2rem">
+      <p class="label important flex flex-row justify-between gap-1">
         <mat-icon>report</mat-icon>
         <span>{{ 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED' | translate }}</span>
       </p>

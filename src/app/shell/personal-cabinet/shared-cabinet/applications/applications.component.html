@@ -1,8 +1,8 @@
 <div class="wrapper">
   <div class="dropdown">
     <div *ngIf="role === Role.techAdmin" class="search-area">
-      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <div class="search-bar flex flex-row justify-start items-center">
+        <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
         <input
           matInput
           [formControl]="searchFormControl"
@@ -23,7 +23,7 @@
   </div>
 
   <div class="tab-wrapper application-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="{{ ApplicationTitles.All | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>

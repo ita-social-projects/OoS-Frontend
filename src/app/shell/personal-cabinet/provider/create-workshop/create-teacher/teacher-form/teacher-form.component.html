@@ -1,8 +1,6 @@
 <form
   [formGroup]="TeacherForm"
-  fxLayout="column"
-  fxLayoutAlign="center space-between"
-  class="step"
+  class="step flex flex-col box-border items-stretch justify-center"
   [class.step-border]="teacherAmount > 1 && index !== teacherAmount - 1">
   <app-image-form-control
     *ngIf="isImagesFeature"
@@ -104,8 +102,7 @@
     [minCharacters]="validationConstants.INPUT_LENGTH_3"
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
   </app-validation-hint>
-
-  <div fxLayout="row" fxLayoutAlign="center">
+  <div class="flex flex-row box-border items-stretch justify-center">
     <button class="btn-reset" mat-button (click)="onDeleteTeacher()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_TEACHER_DATA' | translate }}
     </button>

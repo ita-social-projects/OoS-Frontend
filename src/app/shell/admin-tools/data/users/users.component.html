@@ -1,7 +1,7 @@
 <div class="users-wrapper">
   <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+    <div class="search-bar flex flex-row justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
         [formControl]="filterFormControl"
         matInput
@@ -12,7 +12,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [mat-stretch-tabs]="false" [selectedIndex]="tabIndex">
       <mat-tab label="{{ UserTabsTitles.all | translate }}">
         <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>

@@ -16,18 +16,16 @@
 
   <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
   <div *ngFor="let timeRange of workshop.dateTimeRanges">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutAlign.xs="center start">
-      <div fxLayout="row" fxLayoutAlign="space-between">
+    <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
+      <div class="flex flex-row justify-between">
         <div
           *ngFor="let day of days"
-          class="toggle"
-          fxLayout="row"
-          fxLayoutAlign="center center"
+          class="toggle flex flex-row justify-center items-center"
           [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
           {{ day.value | translate }}
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="center center">
+      <div class="flex flex-row justify-center items-center">
         <p class="text">{{ timeRange.startTime }}</p>
         <p class="text">- {{ timeRange.endTime }}</p>
       </div>

@@ -110,7 +110,7 @@
       <ng-container matColumnDef="actions" stickyEnd>
         <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
         <td mat-cell *matCellDef="let user">
-          <div class="icons" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="icons flex flex-row justify-between items-center">
             <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>

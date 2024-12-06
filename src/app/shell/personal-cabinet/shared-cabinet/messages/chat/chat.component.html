@@ -18,14 +18,14 @@
       </app-message>
     </ng-container>
     <ng-container *ngIf="(chatRoom$ | async)?.isBlockedByProvider">
-      <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
+      <div class="statuses {{ userStatuses.Blocked }} justify-center items-center">
         <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
         <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
       </div>
       <p class="pay-attention-block">{{ 'CHAT_PAY_ATTENTION_BLOCK' | translate }}</p>
     </ng-container>
   </div>
-  <div class="chat-card__footer footer" fxLayout="column" fxLayoutAlign="start center">
+  <div class="chat-card__footer flex flex-col justify-start items-center">
     <div class="step-label">
       <label class="step-characters-count"> {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }} </label>
     </div>

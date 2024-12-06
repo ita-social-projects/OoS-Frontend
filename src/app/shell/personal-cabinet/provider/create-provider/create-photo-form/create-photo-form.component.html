@@ -1,4 +1,4 @@
-<form [formGroup]="PhotoFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<form [formGroup]="PhotoFormGroup" class="step flex flex-col justify-between items-stretch">
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="4"

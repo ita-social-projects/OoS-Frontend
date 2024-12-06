@@ -1,6 +1,6 @@
 <mat-card class="position">
-  <div class="card" fxLayout="column" fxLayoutAlign="start space-between">
-    <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
+  <div class="card flex flex-col justify-between items-start">
+    <div class="card-img card-img-full flex flex-row justify-center">
       <img [ngClass]="{ 'card-img-full': teacher.coverImageId }" mat-card-image [src]="coverImageUrl" alt="teacher-photo" />
     </div>
 
@@ -15,7 +15,7 @@
           >{{ teacher.firstName }} {{ teacher.lastName }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
+      <mat-card-content class="flex flex-col justify-between items-start">
         <p class="card_text">{{ teacher.description }}</p>
       </mat-card-content>
     </div>

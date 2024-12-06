@@ -1,8 +1,8 @@
 <div class="wrapper">
   <div class="filters-wrapper">
-    <div class="search-area" fxFlexAlign="start">
-      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+    <div class="search-area justify-start">
+      <div class="search-bar flex flex-row justify-start items-center">
+        <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
         <input
           [formControl]="searchFormControl"
           matInput
@@ -19,7 +19,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
         <ng-container
           *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }">

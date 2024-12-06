@@ -1,25 +1,24 @@
 <div class="wrapper">
   <div
     *ngIf="isProviderView && role === Role.provider && (subrole === Subrole.None || subrole === Subrole.ProviderDeputy)"
-    fxLayout="row"
-    fxLayoutAlign="end">
+    class="flex flex-row justify-end">
     <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
       <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
     </a>
   </div>
-  <div *ngIf="!isProviderView" fxLayoutAlign="end">
+  <div *ngIf="!isProviderView" class="justify-end">
     <a (click)="onCloseInfo()" class="close-icon">
       <mat-icon>close</mat-icon>
     </a>
   </div>
 
-  <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_PROVIDER' | translate }}">
       <h5>{{ 'FORMS.LABELS.OWNERSHIP' | translate }}</h5>
       <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>
 
       <ng-container *ngIf="provider.license">
-        <div fxLayout="row" fxLayoutAlign="space-between center" class="license-status">
+        <div class="license-status flex flex-row justify-between items-center">
           <h5>{{ 'FORMS.LABELS.LICENSE' | translate }}</h5>
           <h5 [ngClass]="provider.licenseStatus">{{ licenseStatusEnum[provider.licenseStatus] | translate }}</h5>
         </div>

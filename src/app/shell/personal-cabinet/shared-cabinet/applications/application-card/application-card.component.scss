@@ -3,6 +3,7 @@
 
 .card-block {
   max-width: 100%;
+  padding: 0 !important;
 
   &:first-child {
     width: 100%;
@@ -22,6 +23,9 @@
       &:not(:first-child) {
         padding-left: 8px;
       }
+    }
+    .workshop_actions {
+      flex: 0.5;
     }
     & > div > .card-block__child-name {
       min-width: 250px !important;
