@@ -13,7 +13,7 @@
     <button mat-button class="btn-notifications full-width">
       <mat-icon class="notifications-icon">notifications_none</mat-icon>
       {{ 'NOTIFICATIONS' | translate }}
+      <mat-icon iconPositionEnd *ngIf="notificationAmount.amount" [matBadge]="notificationAmount.amount"></mat-icon>
     </button>
-    <mat-icon *ngIf="notificationAmount.amount" [matBadge]="notificationAmount.amount" class="icon-mobile"></mat-icon>
   </div>
 </ng-template>

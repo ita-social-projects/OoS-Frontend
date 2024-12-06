@@ -20,8 +20,7 @@ button {
   }
 
   .mat-badge-content {
-    right: -20px !important;
-    top: -5px;
+    top: 1.5px;
     background-color: #f5bc4a;
     width: 25px;
     height: 15px;
@@ -29,11 +28,6 @@ button {
     line-height: 15px;
     z-index: 10;
   }
-}
-
-.icon-mobile {
-  top: 8px;
-  margin-left: 73px;
 }
 
 .btn-notifications {
