@@ -1,6 +1,6 @@
 <div [ngClass]="{ 'wrapper-full-width': (isMobileScreen$ | async) }">
   <p class="filter-text">{{ 'DIRECTIONS' | translate }}</p>
-  <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
+  <div class="search-bar" class="flex flex-row justify-evenly items-center">
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
     </button>

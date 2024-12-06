@@ -1,9 +1,9 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div class="flex flex-col justify-center items-center">
   <h2 mat-dialog-title>{{ modalTitle | translate }}</h2>
   <p class="confirmation">{{ modalConfirmationText | translate }}</p>
 
-  <form fxLayout="column" class="reject-form">
-    <div fxLayout="row" fxLayoutAlign="space-between">
+  <form class="reject-form flex flex-col">
+    <div class="flex flex-row justify-between">
       <label class="step-label"> {{ modalConfirmationDescription | translate }}<span class="step-required">*</span> </label>
       <div class="step-label">
         <label class="step-characters-count">
@@ -41,7 +41,7 @@
     </app-validation-hint>
   </form>
 
-  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
+  <mat-dialog-actions class="footer flex flex-row flex-wrap justify-center items-center box-border">
     <button class="btn" mat-button (click)="onSubmit()" [disabled]="!formGroup.valid" cdkFocusInitial>
       {{ 'BUTTONS.CONFIRM' | translate }}
     </button>

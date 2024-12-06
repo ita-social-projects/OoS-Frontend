@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
+import { MatChipSet } from '@angular/material/chips';
 import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -34,9 +34,9 @@ export class ChildFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('select')
   private select: MatSelect;
-  @ViewChild('chipList')
-  private chipList: MatChipList;
 
+  @ViewChild('chipSet')
+  private chipSet: MatChipSet;
   public readonly validationConstants = ValidationConstants;
 
   public socialGroupControl: FormControl = new FormControl([]);
@@ -63,7 +63,9 @@ export class ChildFormComponent implements OnInit, OnDestroy {
 
     this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(({ lang }: LangChangeEvent) => {
       this.store.dispatch(new GetSocialGroup(lang));
-      this.chipList.chips.forEach((chip) => chip.remove());
+      this.chipSet._chips.forEach((chip) => {
+        chip.remove();
+      });
     });
   }
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="provider">
   <div class="create-form" *ngIf="(editMode && workshop) || !editMode">
     <div class="wrapper">
-      <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <div class="create-form-header flex flex-col justify-center items-center">
         <h3 class="wrapper-title">
           {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
         </h3>
@@ -17,14 +17,13 @@
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
           </ng-template>
           <app-create-about-form
-            fxLayout="row"
-            fxLayoutAlign="center center"
+            class="flex flex-row justify-center items-center"
             [workshop]="workshop"
             [isImagesFeature]="isImagesFeature"
             [provider]="provider"
             (PassAboutFormGroup)="onReceiveAboutFormGroup($event)">
           </app-create-about-form>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="footer flex flex-row justify-center items-center">
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
@@ -39,14 +38,13 @@
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
           <app-create-description-form
-            fxLayout="row"
-            fxLayoutAlign="center center"
+            class="flex flex-row justify-center items-center"
             [workshop]="workshop"
             [provider]="provider"
             [isImagesFeature]="isImagesFeature"
             (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>
@@ -67,7 +65,7 @@
           </ng-template>
           <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>
@@ -92,7 +90,7 @@
             (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
           </app-create-teacher>
 
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>

@@ -10,7 +10,7 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatRadioModule } from '@angular/material/radio';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
@@ -19,6 +19,7 @@ import { ChildFormComponent } from './child-form.component';
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
   let fixture: ComponentFixture<ChildFormComponent>;
+  let translate: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -56,12 +57,22 @@ describe('ChildFormComponent', () => {
       placeOfLiving: new FormControl(''),
       certificateOfBirth: new FormControl('')
     });
-
+    translate = TestBed.inject(TranslateService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should remove all chips when language changes', () => {
+    const mockChip = { remove: jest.fn() };
+
+    (component as any).chipSet = { _chips: [mockChip] };
+
+    translate.use('uk');
+
+    expect(mockChip.remove).toHaveBeenCalled();
   });
 });
 

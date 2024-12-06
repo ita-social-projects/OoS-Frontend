@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -24,7 +23,6 @@ describe('WorkshopCardComponent', () => {
         MatIconModule,
         MatCardModule,
         NgxsModule.forRoot([]),
-        FlexLayoutModule,
         RouterTestingModule,
         MatChipsModule,
         MatTooltipModule,

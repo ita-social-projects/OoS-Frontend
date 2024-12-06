@@ -1,12 +1,12 @@
 <div class="create-form" *ngIf="workshop">
   <div class="wrapper application-wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">{{ 'FORMS.HEADERS.ADD_ACHIEVEMENT' | translate }}</h3>
     </div>
     <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true" [isCreateFormView]="true">
     </app-workshop-card>
-    <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
-      <form [formGroup]="AchievementFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+    <div class="card-border flex flex-row justify-center items-center">
+      <form [formGroup]="AchievementFormGroup" class="step flex flex-col justify-between items-stretch">
         <label class="step-label" for="achievement-type">
           {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span>
         </label>
@@ -45,7 +45,7 @@
                 placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
                 [compareWith]="compareEntities">
                 <mat-select-trigger>
-                  <mat-chip-list>
+                  <mat-chip-set>
                     <mat-chip
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
@@ -60,7 +60,7 @@
                       </div>
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
-                  </mat-chip-list>
+                  </mat-chip-set>
                 </mat-select-trigger>
                 <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option">
                   <div
@@ -105,7 +105,7 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
               [compareWith]="compareEntities">
               <mat-select-trigger>
-                <mat-chip-list #chipList>
+                <mat-chip-set #chipSet>
                   <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
                     <div
                       class="truncated-text"
@@ -117,7 +117,7 @@
                     </div>
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
                 <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option">
@@ -173,7 +173,7 @@
         </app-validation-hint>
       </form>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <div class="footer flex flex-row justify-center items-center">
       <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button
         class="btn"

@@ -1,5 +1,5 @@
 <div [ngClass]="isMobileView ? 'side-nav-filter' : 'filters-wrapper'">
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <div class="flex flex-row justify-between">
     <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
       <mat-icon class="matFilter">delete_forever</mat-icon>
       {{ 'CLEAR_FILTERS' | translate }}
@@ -15,7 +15,7 @@
   <app-age-filter [ageFilter]="filterList.ageFilter"></app-age-filter>
   <app-working-hours [workingHours]="filterList.workingHours"></app-working-hours>
   <app-price-filter [priceFilter]="filterList.priceFilter"></app-price-filter>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</p>
     <ng-container *ngFor="let formControl of formOfLearningControls | keyvalue: Util.keyValueNumericSorting">
       <mat-checkbox class="check-boxes__item" color="primary" [formControl]="formControl.value">
@@ -23,7 +23,7 @@
       </mat-checkbox>
     </ng-container>
   </div>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'RECRUITMENT' | translate }}</p>
     <mat-checkbox class="check-boxes__item" color="primary" [formControl]="OpenRecruitmentControl">
       {{ 'OPEN_RECRUITMENT_ONLY' | translate }}
@@ -32,7 +32,7 @@
       {{ 'CLOSE_RECRUITMENT' | translate }}
     </mat-checkbox>
   </div>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</p>
     <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> {{ 'AVAILABLE' | translate }} </mat-checkbox>
   </div>

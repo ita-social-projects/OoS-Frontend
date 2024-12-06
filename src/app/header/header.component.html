@@ -1,6 +1,6 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
   <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
-    <div fxLayout="row" fxLayoutAlign="space-between">
+    <div class="flex flex-row justify-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
@@ -41,7 +41,7 @@
         <ng-container *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-container>
       </div>
     </div>
-    <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
+    <div *ngIf="isRouter('/')" class="flex flex-col items-center justify-center">
       <h1 class="header-title">{{ headerTitle }}</h1>
       <h2 class="header-descr">{{ headerSubtitle }}</h2>
       <div class="header-full-search-bar-wrap">

@@ -1,5 +1,5 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
-  <div fxLayout="column" fxLayoutAlign="center start">
+  <div class="flex flex-col justify-start items-start">
     <h3 class="title">{{ (child.isParent ? 'PERSONAL_DATA' : 'CHILD_DATA') | translate }}</h3>
 
     <div class="info-group" *ngIf="!child.isParent">

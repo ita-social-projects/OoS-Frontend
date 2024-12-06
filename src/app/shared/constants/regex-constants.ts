@@ -36,3 +36,9 @@ export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А
 
 // Regex for checking if string has a letter
 export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;
+
+// Regex for searchbar validation
+export const SEARCHBAR_REGEX_VALID: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\s]*$/;
+
+// Regex for searchbar replace invalid characters
+export const SEARCHBAR_REGEX_REPLACE: RegExp = /[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\s]/g;

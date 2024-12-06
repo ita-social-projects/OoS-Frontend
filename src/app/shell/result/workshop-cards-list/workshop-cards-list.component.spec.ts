@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 
@@ -25,7 +24,7 @@ describe('WorkshopCardsListComponentt', () => {
         NoResultCardComponent,
         MockListWorkshopCardPaginatorComponent
       ],
-      imports: [FlexLayoutModule, CommonModule, NgxsModule.forRoot([])]
+      imports: [CommonModule, NgxsModule.forRoot([])]
     }).compileComponents();
   });
 
