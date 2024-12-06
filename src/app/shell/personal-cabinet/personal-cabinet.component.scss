@@ -1,7 +1,7 @@
 @import 'src/app/shared/styles/cabinet.scss';
 
 :host::ng-deep {
-  .mat-tab-links {
+  .mat-mdc-tab-link-container {
     padding-top: 12px;
   }
 

@@ -12,7 +12,7 @@
     </a>
   </div>
 
-  <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_PROVIDER' | translate }}">
       <h5>{{ 'FORMS.LABELS.OWNERSHIP' | translate }}</h5>
       <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>

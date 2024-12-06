@@ -23,7 +23,7 @@
   </div>
 
   <div class="tab-wrapper application-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="{{ ApplicationTitles.All | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
