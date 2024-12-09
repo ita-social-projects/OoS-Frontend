@@ -26,4 +26,20 @@
 
 .action-buttons-wrapper {
   padding: 2.4rem 0;
+
+  @media screen and (min-width: 1024px) and (max-width: 1083px), screen and (max-width: 575px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  @media screen and (max-width: 380px) {
+    div {
+      display: contents;
+
+      button {
+        padding: 2px 22px;
+      }
+    }
+  }
 }
