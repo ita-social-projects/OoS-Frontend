@@ -100,16 +100,16 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ResetAchievements());
   }
 
-  public onPublishClick(): void {
+  public onActionButtonClick(modalType: string): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: 'publishWorkshop'
+        type: modalType
       }
     });
     dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
+      if (res && modalType === 'publishWorkshop') {
+        return this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
       }
     });
   }
