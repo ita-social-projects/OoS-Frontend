@@ -447,6 +447,7 @@ export class ProviderState {
 
   @Action(OnPublishWorkshopSuccess)
   onPublishWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>): void {
+    this.router.navigate(['/personal-cabinet/provider/workshops']);
     dispatch(new ShowMessageBar({ message: SnackbarText.publishWorkshop, type: 'success' }));
   }
 
