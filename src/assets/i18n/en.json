@@ -849,6 +849,7 @@
       "UPDATE_ADMIN": "Are you sure you want to edit the administrator?",
       "LICENSE_APPROVED": "Are you sure you want to confirm the provider's license?",
       "PUBLISH_WORKSHOP": "Are you sure you want to publish workshop?",
+      "ARCHIVE_WORKSHOP": "If you delete a direction, all Profiles, Departments, and Classes associated with it will also be deleted.",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -894,7 +895,8 @@
         "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?",
         "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
         "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
-        "PUBLISH_WORKSHOP": "Publish workshop?"
+        "PUBLISH_WORKSHOP": "Publish workshop?",
+        "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?"
       }
     }
   },
