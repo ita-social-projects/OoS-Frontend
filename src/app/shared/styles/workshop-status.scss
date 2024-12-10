@@ -2,25 +2,24 @@
   margin-left: 1rem;
 
   &-color {
-    &-open {
-      color: #fff;
-      font-weight: bold;
-      padding: 7px;
-      border-radius: 16px;
-      background-color: #99cd56;
-    }
-    &-close {
-      color: #fff;
-      font-weight: bold;
-      padding: 7px;
-      border-radius: 16px;
-      background-color: red;
-    }
+    &-open,
+    &-close,
     &-draft {
       color: #fff;
       font-weight: bold;
       padding: 7px;
       border-radius: 16px;
+    }
+
+    &-open {
+      background-color: #99cd56;
+    }
+
+    &-close {
+      background-color: red;
+    }
+
+    &-draft {
       background-color: #333333;
     }
   }
