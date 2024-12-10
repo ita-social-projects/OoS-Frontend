@@ -41,7 +41,9 @@ export enum ModalConfirmationType {
   unBlockAdmin = 'unBlockAdmin',
   createAdmin = 'createAdmin',
   updateAdmin = 'updateAdmin',
-  licenseApproved = 'licenseApproved'
+  licenseApproved = 'licenseApproved',
+  publishWorkshop = 'publishWorkshop',
+  archiveWorkshop = 'archiveWorkshop'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
