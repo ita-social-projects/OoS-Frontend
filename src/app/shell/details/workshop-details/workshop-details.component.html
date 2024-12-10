@@ -5,14 +5,18 @@
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
-    <button (click)="onActionButtonClick('archiveWorkshop')" class="btn btn-cancel" mat-button>
+    <button (click)="onActionButtonClick(modalType.archiveWorkshop)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
       <a [routerLink]="['/create-workshop', workshop.id]" class="btn btn-cancel" mat-button>
         {{ 'BUTTONS.EDIT' | translate | uppercase }}
       </a>
-      <button class="btn" [disabled]="workshop.status !== workshopStatus.Draft" (click)="onActionButtonClick('publishWorkshop')" mat-button>
+      <button
+        class="btn"
+        [disabled]="workshop.status !== workshopStatus.Draft"
+        (click)="onActionButtonClick(modalType.publishWorkshop)"
+        mat-button>
         {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
       </button>
     </div>
