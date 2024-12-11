@@ -27,7 +27,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AboutFormGroup.invalid"
+              (click)="saveDraftData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -51,7 +56,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="DescriptionFormGroup?.invalid"
+              (click)="saveDraftData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -72,7 +82,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AddressFormGroup?.invalid"
+              (click)="saveDraftData(AddressFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
