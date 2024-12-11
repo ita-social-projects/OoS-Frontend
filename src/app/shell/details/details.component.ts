@@ -21,6 +21,8 @@ import { SharedUserState } from '../../shared/store/shared-user.state';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.provider)
+  public currentProvider$: Observable<Provider>;
   @Select(AppState.isMobileScreen)
   private isMobileScreen$: Observable<boolean>;
   @Select(SharedUserState.selectedWorkshop)
@@ -29,8 +31,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private provider$: Observable<Provider>;
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
-  @Select(RegistrationState.provider)
-  public currentProvider$: Observable<Provider>;
 
   public isMobileScreen: boolean;
   public workshop: Workshop;

@@ -112,7 +112,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(
-        filter((res) => !!res),
+        filter(Boolean),
         switchMap(() => {
           if (modalType === this.modalType.publishWorkshop) {
             return this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
