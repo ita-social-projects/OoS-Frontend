@@ -1,15 +1,31 @@
-<div class="banner-header">
-  <div class="status">
-    <i [classList]="iconClasses"></i>
-    <h4 class="status-title">{{ statusTitle | translate }}</h4>
-  </div>
-  <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
+<div class="banner-header relative">
+  <!-- Status Mode -->
+  <ng-container *ngIf="mode === 'status'" class="flex justify-center">
+    <div class="status flex items-center gap-2">
+      <i [classList]="iconClasses"></i>
+      <h4 class="status-title text-lg font-semibold">{{ statusTitle | translate }}</h4>
+    </div>
+    <mat-icon class="close-icon absolute top-0 right-0 text-gray-500 hover:text-gray-700 cursor-pointer" (click)="onClose()">
+      close
+    </mat-icon>
+  </ng-container>
+  <!-- Draft Mode -->
+  <ng-container *ngIf="mode === 'draft' && hasDraftData()" class="flex justify-center">
+    <div class="draft-content p-2">
+      <p class="text-lg font-semibold">
+        {{ 'PROVIDER_DRAFT.TITLE' | translate }}
+      </p>
+      <p class="text-sm !mt-2">
+        {{ 'PROVIDER_DRAFT.DETAILS' | translate }}
+      </p>
+      <div class="flex mt-3 justify-start">
+        <button class="btn !text-white !m-0" mat-raised-button>
+          {{ 'PROVIDER_DRAFT.EDIT_LINK' | translate }}
+        </button>
+        <button class="btn !bg-gray-200 !text-gray-800 !border-none" (click)="cancelDraft()" mat-raised-button>
+          {{ 'PROVIDER_DRAFT.CANCEL_LINK' | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
 </div>
-<p class="banner-details">{{ statusDetails | translate }}</p>
-<a
-  *ngIf="provider.status === statuses.Editing && !provider.isBlocked"
-  [routerLink]="editLink"
-  (click)="onActivateEditMode()"
-  class="banner-link">
-  {{ 'BUTTONS.EDIT' | translate }}
-</a>

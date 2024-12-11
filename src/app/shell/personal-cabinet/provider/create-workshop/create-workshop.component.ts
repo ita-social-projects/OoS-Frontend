@@ -51,6 +51,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public WorkshopContactsFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public currentStep = 0;
+  private draftData: any = {
+    currentStep: 0,
+    aboutData: null,
+    descriptionData: null,
+    addressData: null,
+    teachersData: null
+  };
 
   constructor(
     protected store: Store,
@@ -125,6 +133,18 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       )
       .subscribe((workshop: Workshop) => (this.workshop = workshop));
   }
+  public saveDraftData(formGroup: FormGroup | FormArray): void {
+    if (formGroup === this.AboutFormGroup) {
+      this.draftData.aboutData = formGroup.getRawValue();
+    } else if (formGroup === this.DescriptionFormGroup) {
+      this.draftData.descriptionData = formGroup.getRawValue();
+    } else if (formGroup === this.AddressFormGroup) {
+      this.draftData.addressData = formGroup.getRawValue();
+    } else if (formGroup === this.TeacherFormArray) {
+      this.draftData.teachersData = formGroup.controls.map((control) => control.value);
+    }
+    localStorage.setItem('workshopDraftData', JSON.stringify(this.draftData));
+  }
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
@@ -150,6 +170,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
+    localStorage.removeItem('workshopDraftData');
   }
 
   /**

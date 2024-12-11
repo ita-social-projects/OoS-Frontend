@@ -1034,6 +1034,13 @@
   },
   "MORE": "...More",
   "LESS": "...Less",
+  "PROVIDER_DRAFT": {
+    "TITLE": "Unfinished Workshop Creation",
+    "DETAILS": "You have an unfinished workshop creation process. Please complete it or cancel the current process to start a new one.",
+    "EDIT_LINK": "Continue Creation",
+    "CANCEL_LINK": "Undo Creation",
+    "DRAFT_WARNING": "You have an unfinished workshop creation process. Click the Workshops tab to complete the process."
+  },
   "IMPORT/EXPORT": {
     "SELECT_FILE": "Select file",
     "SELECT_ANOTHER_FILE": "Select another file",
