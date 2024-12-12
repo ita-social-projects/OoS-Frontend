@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { TagService } from './tag-workshop.service';
 
-describe('DirectionService', () => {
+describe('TagService', () => {
   let service: TagService;
 
   beforeEach(() => {
