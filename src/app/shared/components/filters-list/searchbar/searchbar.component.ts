@@ -104,13 +104,6 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.filteredResults = this.filteredResults.filter((result: string) => result !== value);
   }
 
-  public onKeyDown(value: string, event: KeyboardEvent): void {
-    if (event.keyCode === ENTER || event.keyCode === SPACE) {
-      event.preventDefault();
-      this.onDeletePreviousSearchValue(value, event);
-    }
-  }
-
   private performSearch(): void {
     const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
     if (!this.isResultPage) {
