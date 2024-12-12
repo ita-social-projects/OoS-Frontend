@@ -41,6 +41,11 @@
         {{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate | uppercase }}
       </a>
     </ng-container>
+    <ng-container *ngIf="userRole === Role.provider">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/positions'">
+        {{ 'ENUM.NAV_BAR_NAME.POSITIONS' | translate | uppercase }}
+      </a>
+    </ng-container>
   </nav>
 </div>
 <mat-tab-nav-panel #tabPanel>

@@ -140,6 +140,7 @@
       "MY_WORKSHOPS": "Мої гуртки",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
+      "POSITIONS": "Позиції",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
@@ -598,6 +599,7 @@
     "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані тренера/викладачі:",
     "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.",
     "ADD_ACHIEVEMENT_SUBHEADER": "Тут ви можете додати досягнення.",
+    "ADD_POSITION": "Тут ви можете додати позиції для робітників",
     "ADD_IMG_SUBHEADER": "Додайте фото натистувши на “+”. Максимальна кількість фото -"
   },
   "BUTTONS": {
@@ -640,6 +642,7 @@
     "GO_BACK": "Повернутись",
     "REGISTER": "Зареєструватися",
     "ADD_DIRECTION": "Додати напрямок",
+    "ADD_POSITION": "Додати позицію",
     "PUBLISH": "Опублікувати",
     "ARCHIVE": "Архівувати"
   },
