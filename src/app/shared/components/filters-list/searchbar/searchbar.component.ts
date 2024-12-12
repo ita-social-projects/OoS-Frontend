@@ -96,7 +96,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onValueDelete(value: string, event: MouseEvent): void {
+  public onDeletePreviousSearchValue(value: string, event: MouseEvent): void {
     event.stopPropagation();
     this.previousResults = this.previousResults.filter((result: string) => result !== value);
     localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
