@@ -23,7 +23,9 @@ import { BlockService } from 'shared/services/block/block.service';
 import { EmployeeService } from 'shared/services/employee/employee.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
+import { PositionService } from 'shared/services/position/position.service';
 import { Util } from 'shared/utils/utils';
+import { Position } from 'shared/models/position.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
@@ -45,6 +47,7 @@ import {
   GetChildrenByWorkshopId,
   GetFilteredEmployees,
   GetPendingApplicationsByProviderId,
+  GetPositions,
   GetEmployeeById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshops,
@@ -110,6 +113,7 @@ export interface ProviderStateModel {
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
   pendingApplications: SearchResponse<Application[]>;
+  positions: Position[];
 }
 
 @State<ProviderStateModel>({
@@ -124,7 +128,8 @@ export interface ProviderStateModel {
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
-    pendingApplications: null
+    pendingApplications: null,
+    positions: null
   }
 })
 @Injectable()
@@ -136,7 +141,8 @@ export class ProviderState {
     private employeeService: EmployeeService,
     private providerService: ProviderService,
     private applicationService: ApplicationService,
-    private blockService: BlockService
+    private blockService: BlockService,
+    private positionService: PositionService
   ) {}
 
   @Selector()
@@ -187,6 +193,11 @@ export class ProviderState {
   @Selector()
   static pendingApplications(state: ProviderStateModel): SearchResponse<Application[]> {
     return state.pendingApplications;
+  }
+
+  @Selector()
+  static positions(state: ProviderStateModel): Position[] {
+    return state.positions;
   }
 
   @Action(GetAchievementById)
@@ -805,5 +816,11 @@ export class ProviderState {
     return this.applicationService
       .getPendingApplicationsByProviderId(id)
       .pipe(tap((pendingApplications: SearchResponse<Application[]>) => patchState({ pendingApplications })));
+  }
+
+  @Action(GetPositions)
+  getPositions({ patchState }: StateContext<ProviderStateModel>, { positionParameters }: GetPositions): void {
+    patchState({ isLoading: true });
+    patchState({ positions: this.positionService.getPositions(positionParameters), isLoading: false });
   }
 }

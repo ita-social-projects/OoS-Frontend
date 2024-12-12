@@ -138,6 +138,7 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
+      "POSITIONS": "Positions",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
       "PROVIDER_REGISTRATION": "Provider registration",
       "USER_REGISTRATION": "User registration"
@@ -588,6 +589,7 @@
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
+    "ADD_POSITION": "You can add positions here",
     "ADD_IMG_SUBHEADER": "Add a photo by clicking on the “+”. The maximum number of photos -"
   },
   "BUTTONS": {
@@ -630,6 +632,7 @@
     "GO_BACK": "Go back",
     "REGISTER": "Register",
     "ADD_DIRECTION": "Add a direction",
+    "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
     "ARCHIVE": "Archive"
   },
