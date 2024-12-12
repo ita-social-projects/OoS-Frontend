@@ -16,7 +16,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { Tag } from 'shared/models/tag.model';
-import { Direction } from '../../../../../shared/models/category.model';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
@@ -25,6 +24,7 @@ import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
+import { Direction } from '../../../../../shared/models/category.model';
 
 @Component({
   selector: 'app-create-description-form',
