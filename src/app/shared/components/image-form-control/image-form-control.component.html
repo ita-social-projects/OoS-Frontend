@@ -1,7 +1,7 @@
 <form>
   <div class="form-wrapper">
     <div class="step-label">{{ label }}</div>
-    <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{ imgMaxAmount }} фото</div>
+    <div class="photo-subheader">{{ 'BANNERS.ADD_IMG_SUBHEADER' | translate }} {{ imgMaxAmount }}</div>
     <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
       <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount">
         <label>

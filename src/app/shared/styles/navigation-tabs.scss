@@ -1,11 +1,10 @@
 :host ::ng-deep {
-
-  .mat-mdc-tab-group:hover, .mat-mdc-tab-nav-bar:hover {
+  .mat-mdc-tab-group:hover,
+  .mat-mdc-tab-nav-bar:hover {
     --mat-tab-header-active-ripple-color: transparent;
   }
 
-  .mdc-tab-indicator--active {  
-
+  .mdc-tab-indicator--active {
     .mat-ripple {
       color: #3849f9;
       background: rgba(56, 73, 249, 0.07);
@@ -21,11 +20,12 @@
     }
 
     .mdc-tab-indicator {
-      display: none; 
+      display: none;
     }
   }
-  
-  .mat-mdc-tab, .mdc-tab__content {
+
+  .mat-mdc-tab,
+  .mdc-tab__content {
     max-height: 40px;
   }
 
@@ -58,4 +58,3 @@
     }
   }
 }
-
