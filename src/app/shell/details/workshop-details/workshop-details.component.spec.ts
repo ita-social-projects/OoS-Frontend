@@ -14,6 +14,7 @@ import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -40,7 +41,8 @@ describe('WorkshopDetailsComponent', () => {
         MockWorkshopTeachersComponent,
         MockWorkshopAboutComponent,
         ImageCarouselComponent,
-        MockActionsComponent
+        MockActionsComponent,
+        ConfirmationModalWindowComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
