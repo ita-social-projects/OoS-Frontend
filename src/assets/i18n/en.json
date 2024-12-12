@@ -538,7 +538,8 @@
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
-    "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement"
+    "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
+    "ADD_IMG_SUBHEADER": "Add a photo by clicking on the “+”. The maximum number of photos -"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
@@ -790,7 +791,9 @@
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "not enough seats in workshop to enroll application",
           "ACCEPT_REJECTED_ALREADY_APPROVED": "approving of already approved application"
         }
-      }
+      },
+      "ERROR_FOR_SMALL_IMG_SIZE": "Image size is too small.",
+      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",

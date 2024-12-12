@@ -54,8 +54,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     from: 0
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
   public marginLeft: string = '0';
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -63,6 +63,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router
   ) {}
+
+  @HostListener('window:resize', ['$event'])
+  public onResize(event: Event): void {
+    this.calculateMarginLeft();
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
@@ -90,11 +95,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.marginLeft = '0';
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
-    this.calculateMarginLeft();
   }
 
   public viewHandler(value: ResultViewType): void {
