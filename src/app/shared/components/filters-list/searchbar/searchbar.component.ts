@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
@@ -96,11 +97,18 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onDeletePreviousSearchValue(value: string, event: MouseEvent): void {
+  public onDeletePreviousSearchValue(value: string, event: Event): void {
     event.stopPropagation();
     this.previousResults = this.previousResults.filter((result: string) => result !== value);
     localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
     this.filteredResults = this.filteredResults.filter((result: string) => result !== value);
+  }
+
+  public onKeyDown(value: string, event: KeyboardEvent): void {
+    if (event.keyCode === ENTER || event.keyCode === SPACE) {
+      event.preventDefault();
+      this.onDeletePreviousSearchValue(value, event);
+    }
   }
 
   private performSearch(): void {
