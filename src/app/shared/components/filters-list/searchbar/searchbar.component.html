@@ -12,8 +12,13 @@
       [matAutocomplete]="autoSearch"
       (keyup.enter)="onValueEnter()" />
     <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
-      <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
-        {{ result }}
+      <mat-option class="dropdown-option option search-dropdown-option" *ngFor="let result of filteredResults" [value]="result">
+        <span class="option-value">{{ result }}</span>
+        <mat-icon
+          class="close-icon"
+          (click)="onDeletePreviousSearchValue(result, $event)">
+          close
+        </mat-icon>
       </mat-option>
     </mat-autocomplete>
     <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onValueEnter()">search</mat-icon>
