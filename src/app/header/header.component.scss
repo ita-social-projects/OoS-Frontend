@@ -43,11 +43,8 @@
   }
 
   .info-link {
-    display: flex;
     background: none;
     color: white;
-    align-items: center;
-    justify-content: flex-end;
     font-size: 0.7rem;
     font-family: 'Innerspace';
     font-weight: bold;
@@ -56,8 +53,10 @@
     cursor: pointer;
     padding: 6px;
 
-    .mat-icon {
-      margin-right: 5px;
+    ::ng-deep .mdc-button__label {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
     }
   }
 
@@ -68,7 +67,7 @@
     border-color: white;
     color: white;
 
-    &.mat-stroked-button {
+    &.mat-mdc-outlined-button {
       font-size: 0.7rem;
     }
   }
@@ -137,9 +136,16 @@
 .lang,
 .menu,
 .login {
-  background: none;
-  color: white;
+  background: none !important;
+  color: white !important;
   font-size: 0.7rem !important;
+
+  .mat-icon {
+    margin: 0;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
 }
 
 .menu .mat-icon {

@@ -1,8 +1,19 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -18,7 +29,7 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./create-description-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
+export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public workshop: Workshop;
   @Input() public isImagesFeature: boolean;
   @Input() public provider: Provider;
@@ -48,12 +59,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
   public keyWords: string[] = [];
-  public keyWord: string;
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
-  public separatorKeysCodes = [COMMA, ENTER];
+  public separatorKeysCodes = [ENTER];
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
@@ -84,6 +94,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.keyWordsListener();
 
     this.onCompetitiveSelectionInit();
+  }
+
+  public ngAfterViewInit(): void {
+    this.updateKeywordsInputState();
   }
 
   /**
@@ -180,7 +194,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
     this.workshop.keywords.forEach((keyWord: string) => {
-      this.keyWord = keyWord;
+      this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
 

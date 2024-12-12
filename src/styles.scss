@@ -10,12 +10,13 @@
 
 $primary-color: #3849f9;
 
-$config: mat.define-legacy-typography-config(
+$config: mat.define-typography-config(
   $font-family: 'Innerspace',
   $button: mat.define-typography-level(13px, 15px, 700)
 );
 
 @mixin mat-button-toggle-typography($config) {
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle,
   .mat-button-toggle-button {
     @include mat.typography-level($config, button);
@@ -72,7 +73,7 @@ $theme: mat.define-light-theme(
       primary: $primary-palette,
       accent: $accent-palette
     ),
-    typography: mat.define-legacy-typography-config(),
+    typography: mat.define-typography-config(),
     density: 0
   )
 );
@@ -86,7 +87,9 @@ $theme: mat.define-light-theme(
 @include mat.all-component-themes($theme);
 
 @include mat.button-toggle-typography($config);
-@include mat.legacy-button-typography($config);
+@include mat.button-typography($config);
+@include mat.fab-typography($config);
+@include mat.icon-button-typography($config);
 @include mat-form-typography($config);
 
 html,

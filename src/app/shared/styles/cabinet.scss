@@ -54,3 +54,21 @@
   line-height: inherit;
   margin-bottom: 1.5rem;
 }
+
+::ng-deep .mat-mdc-tab-link.active {
+  .mdc-tab__text-label {
+    color: #3849f9;
+  }
+
+  &:hover {
+    .mdc-tab__text-label {
+      color: #3849f9;
+    }
+  }
+
+  &:focus {
+    .mdc-tab__text-label {
+      color: #3849f9;
+    }
+  }
+}

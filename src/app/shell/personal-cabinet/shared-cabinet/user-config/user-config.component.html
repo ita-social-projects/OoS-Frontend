@@ -1,7 +1,7 @@
 <div class="wrapper flex flex-row flex-wrap justify-start" *ngIf="user$ | async as user">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
-      <button mat-button style="color: #3849f9">
+      <button mat-button class="edit-button">
         <mat-icon style="color: #3849f9">edit</mat-icon>
         {{ 'BUTTONS.EDIT' | translate }}
       </button>

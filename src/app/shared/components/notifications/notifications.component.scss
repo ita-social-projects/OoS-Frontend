@@ -1,8 +1,18 @@
+.mat-mdc-icon-button.mat-mdc-button-base {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 :host::ng-deep .mat-icon {
-  position: relative;
   overflow: visible;
   font-size: 30px;
-  top: -1px;
 
   @media (min-width: 750px) {
     height: auto;
@@ -10,8 +20,8 @@
   }
 
   .mat-badge-content {
-    right: -20px !important;
-    top: -5px;
+    top: -4px;
+    left: 25px;
     background-color: #f5bc4a;
     width: 25px;
     height: 15px;
@@ -21,18 +31,26 @@
   }
 }
 
-.icon-mobile {
-  top: 8px;
-  margin-left: 73px;
-}
-
 .btn-notifications {
-  margin-left: -8px;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 13px;
+  line-height: normal;
 
-.notifications-icon {
-  margin-left: 5px;
-  margin-right: 15px;
+  .notifications-icon {
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    margin: 0 9px 0 0;
+  }
+
+  ::ng-deep {
+    .mat-badge-content {
+      top: 1.5px;
+    }
+  }
 }
 
 .full-width {

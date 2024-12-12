@@ -5,12 +5,11 @@
 
     <ng-template #isUnauthorized>
       <div class="mobile-sidenav-header">
-        <button mat-stroked-button class="header_login" (click)="login()">{{ 'LOGIN' | translate }}</button>
-        <button mat-button (click)="changeView()">
+        <button mat-stroked-button class="header-login" (click)="login()">{{ 'LOGIN' | translate }}</button>
+        <button mat-button class="button-close" (click)="changeView()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      <ng-container *ngTemplateOutlet="Language"> </ng-container>
     </ng-template>
 
     <ng-template #isAuthorized>
@@ -19,7 +18,7 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <ng-container>{{ user.firstName }} {{ user.lastName }}</ng-container>
-        <button mat-button (click)="changeView()">
+        <button mat-button class="button-close" (click)="changeView()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -27,7 +26,7 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
-        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async)?.release2">
+        <div class="mobile-sidenav-menu-notification full-width" *ngIf="(featuresList$ | async)?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
             <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>
           </a>

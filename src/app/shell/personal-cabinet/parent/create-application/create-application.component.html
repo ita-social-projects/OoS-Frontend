@@ -9,7 +9,7 @@
       [isHorizontalView]="true"
       [isCreateFormView]="true"></app-workshop-card>
     <div class="card-border">
-      <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
+      <mat-tab-group mat-align-tabs="center" [mat-stretch-tabs]="false" #tabGroup (selectedTabChange)="onTabChange($event)">
         <hr class="line" />
         <mat-tab label="{{ 'FORMS.LABELS.APPLY_CHILDREN' | translate }}">
           <form class="step flex flex-col justify-between items-stretch">

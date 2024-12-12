@@ -30,7 +30,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab *ngIf="role === Role.techAdmin" label="{{ AdminRolesTitles.ministryAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.ministryAdmin }"></ng-container>
       </mat-tab>

@@ -72,6 +72,10 @@
   font-style: normal;
 }
 
+:host ::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 :host ::ng-deep .mat-tab-label-content {
   font-weight: bold;
   font-size: 13px;
