@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
-import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
 import { SearchbarComponent } from './searchbar.component';
 
@@ -153,5 +152,18 @@ describe('SearchbarComponent', () => {
     (component as any).saveSearchResults();
 
     expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify(['New Search', ...previousResults]));
+  });
+
+  it('should not remove any search when previousResults length is 9 or less', () => {
+    const mockResults = Array(9).fill('OldSearch');
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(JSON.stringify(mockResults));
+    (component as any).searchedText = 'NewSearch';
+
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    (component as any).saveSearchResults();
+
+    expect((component as any).previousResults.length).toBe(10);
+    expect((component as any).previousResults[0]).toBe('NewSearch');
+    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify((component as any).previousResults));
   });
 });
