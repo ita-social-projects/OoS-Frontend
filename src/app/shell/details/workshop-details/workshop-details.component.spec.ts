@@ -13,6 +13,7 @@ import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { MatDialogModule } from '@angular/material/dialog';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -28,7 +29,8 @@ describe('WorkshopDetailsComponent', () => {
         MatChipsModule,
         NgxsModule.forRoot([]),
         TranslateModule.forRoot(),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDialogModule
       ],
       declarations: [
         WorkshopDetailsComponent,
