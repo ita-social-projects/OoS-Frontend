@@ -12,18 +12,8 @@ export enum Role {
   areaAdmin = 'areaadmin'
 }
 
-export enum EntityType {
-  provider = 'provider',
-  workshop = 'workshop',
-  providerDeputy = 'provider',
-  employee = 'employee',
-  None = 'provider'
-}
-
 export enum UserTabParams {
   all,
   parent,
   child
 }
-
-export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
