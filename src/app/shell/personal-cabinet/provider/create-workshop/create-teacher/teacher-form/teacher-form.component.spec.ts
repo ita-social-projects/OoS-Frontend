@@ -48,7 +48,9 @@ describe('TeacherFormComponent', () => {
       middleName: new FormControl(''),
       gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl('')
     });
     fixture.detectChanges();
   });

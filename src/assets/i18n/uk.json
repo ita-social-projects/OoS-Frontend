@@ -540,7 +540,8 @@
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Додавання досягнень можливе лише за наявності учасників у гуртку.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані тренера/викладачі:",
     "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.",
-    "ADD_ACHIEVEMENT_SUBHEADER": "Тут ви можете додати досягнення."
+    "ADD_ACHIEVEMENT_SUBHEADER": "Тут ви можете додати досягнення.",
+    "ADD_IMG_SUBHEADER": "Додайте фото натистувши на “+”. Максимальна кількість фото -"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Додати дитину",
@@ -792,7 +793,9 @@
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "недостатньо місць у гуртку для зарахування заявки",
           "ACCEPT_REJECTED_ALREADY_APPROVED": "прийняття вже прийнятої заявки"
         }
-      }
+      },
+      "ERROR_FOR_SMALL_IMG_SIZE": "Розмір зображення занадто малий.",
+      "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Вкажіть причину блокування",

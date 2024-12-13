@@ -5,6 +5,7 @@ import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { WorkingDays } from 'shared/enum/enumUA/working-hours';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
+import { ImageFormat } from 'shared/enum/image-format';
 
 /**
  * Constants for OutOfSchool
@@ -130,7 +131,7 @@ export class CropperConfigurationConstants {
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;
   static readonly cropperMaxHeight = 8000;
-  static readonly croppedFormat = 'jpeg';
+  static readonly croppedFormat = [ImageFormat.PNG, ImageFormat.JPEG];
   static readonly croppedQuality = 90;
   static readonly croppedGalleryImage = {
     height: 300
