@@ -34,10 +34,12 @@ import {
   BlockParentSuccess,
   BlockEmployeeById,
   CreateAchievement,
+  CreatePosition,
   CreateProvider,
   CreateEmployee,
   CreateWorkshop,
   DeleteAchievementById,
+  DeletePositionById,
   DeleteEmployeeById,
   DeleteProviderById,
   DeleteWorkshopById,
@@ -47,6 +49,7 @@ import {
   GetChildrenByWorkshopId,
   GetFilteredEmployees,
   GetPendingApplicationsByProviderId,
+  GetPositionById,
   GetPositions,
   GetEmployeeById,
   GetEmployeeWorkshops,
@@ -58,6 +61,7 @@ import {
   OnClearBlockedParents,
   OnCreateAchievementFail,
   OnCreateAchievementSuccess,
+  OnCreatePositionSuccess,
   OnCreateEmployeeFail,
   OnCreateEmployeeSuccess,
   OnCreateProviderFail,
@@ -76,6 +80,7 @@ import {
   OnPublishWorkshopSuccess,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
+  OnUpdatePositionSuccess,
   OnUpdateEmployeeFail,
   OnUpdateEmployeeSuccess,
   OnUpdateProviderFail,
@@ -93,6 +98,7 @@ import {
   UnBlockParentFail,
   UnBlockParentSuccess,
   UpdateAchievement,
+  UpdatePosition,
   UpdateProvider,
   UpdateEmployee,
   UpdateProviderLicenseStatus,
@@ -114,6 +120,7 @@ export interface ProviderStateModel {
   truncatedItems: TruncatedItem[];
   pendingApplications: SearchResponse<Application[]>;
   positions: Position[];
+  selectedPosition: Position;
 }
 
 @State<ProviderStateModel>({
@@ -129,7 +136,8 @@ export interface ProviderStateModel {
     blockedParent: null,
     truncatedItems: null,
     pendingApplications: null,
-    positions: null
+    positions: null,
+    selectedPosition: null
   }
 })
 @Injectable()
@@ -198,6 +206,11 @@ export class ProviderState {
   @Selector()
   static positions(state: ProviderStateModel): Position[] {
     return state.positions;
+  }
+
+  @Selector()
+  static selectedPosition(state: ProviderStateModel): Position {
+    return state.selectedPosition;
   }
 
   @Action(GetAchievementById)
@@ -822,5 +835,75 @@ export class ProviderState {
   getPositions({ patchState }: StateContext<ProviderStateModel>, { positionParameters }: GetPositions): void {
     patchState({ isLoading: true });
     patchState({ positions: this.positionService.getPositions(positionParameters), isLoading: false });
+  }
+
+  @Action(CreatePosition)
+  createPosition({ patchState, dispatch }: StateContext<ProviderStateModel>, { position }: CreatePosition): Observable<Position | void> {
+    patchState({ isLoading: true });
+    return this.positionService.createPosition(position).pipe(
+      tap((res: Position) => dispatch(new OnCreatePositionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateWorkshopFail(error)))
+    );
+  }
+
+  @Action(UpdatePosition)
+  updatePosition({ patchState, dispatch }: StateContext<ProviderStateModel>, { position }: UpdatePosition): Observable<Position | void> {
+    patchState({ isLoading: true });
+    return this.positionService.updatePosition(position).pipe(
+      tap((res: Position) => dispatch(new OnUpdatePositionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateWorkshopFail(error)))
+    );
+  }
+
+  @Action(OnCreatePositionSuccess)
+  onCreatePositionSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, { position }: OnCreatePositionSuccess): void {
+    const message = 'Позиція успішно створено';
+    const messageType = 'success';
+    patchState({ isLoading: false });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message, type: messageType })]);
+    this.router.navigate(['./personal-cabinet/provider/positions']);
+  }
+
+  @Action(OnUpdatePositionSuccess)
+  onUpdatePositionSuccess({ dispatch }: StateContext<ProviderStateModel>, { position }: OnUpdatePositionSuccess): void {
+    const message = 'Позицію успішно оновлено';
+    const messageType = 'success';
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message, type: messageType })]);
+    this.router.navigate(['/personal-cabinet/provider/positions']);
+  }
+
+  @Action(DeletePositionById)
+  deletePositionById(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { positionParameters, positionId }: DeletePositionById
+  ): Observable<Position[] | void> {
+    patchState({ isLoading: true });
+    return this.positionService.deletePosition(positionParameters, positionId).pipe(
+      tap(() => {
+        const message = 'Позицію успішно видалено';
+        const messageType = 'success';
+        patchState({ isLoading: false });
+        dispatch([new ShowMessageBar({ message, type: messageType }), new GetPositions(positionParameters)]);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        patchState({ isLoading: false });
+        return dispatch(new OnUpdateWorkshopFail(error));
+      })
+    );
+  }
+
+  @Action(GetPositionById)
+  getPositionById({ patchState }: StateContext<ProviderStateModel>, { positionId }: GetPositionById): Observable<Position | void> {
+    return this.positionService.getPositionById(positionId).pipe(
+      tap((position: Position) => {
+        patchState({
+          selectedPosition: position
+        });
+      }),
+      catchError((error) => {
+        console.error('Error fetching position:', error.message);
+        return throwError(() => error);
+      })
+    );
   }
 }

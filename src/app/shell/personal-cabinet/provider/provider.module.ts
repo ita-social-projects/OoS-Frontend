@@ -31,6 +31,7 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
 import { CreateAdditionalAboutFormComponent } from './create-workshop/create-additional-about-form/create-additional-about-form.component';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
+import { CreatePositionFormComponent } from './create-position/position-form/create-position-form.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CreatePositionComponent } from './create-position/create-position.compo
     CreateAddressFormComponent,
     CreateAdditionalAboutFormComponent,
     ProviderPositionsComponent,
-    CreatePositionComponent
+    CreatePositionComponent,
+    CreatePositionFormComponent
   ],
   imports: [
     CommonModule,

@@ -42,8 +42,10 @@
           <mat-icon >more_vert</mat-icon>
         </button>
         <mat-menu #actions="matMenu" class="header_menu">
-            <button mat-menu-item>{{ 'BUTTONS.DELETE' | translate }}</button>
-            <button mat-menu-item>{{ 'BUTTONS.EDIT' | translate }}</button>
+            <button mat-menu-item (click)="onDelete(element)">{{ 'BUTTONS.DELETE' | translate }}</button>
+            <a [routerLink]="['/create-position', element.id]">
+              <button mat-menu-item >{{ 'BUTTONS.EDIT' | translate }}</button>
+            </a>
         </mat-menu>
       </td>
     </ng-container>

@@ -1,3 +1,5 @@
+import { Address } from './address.model';
+import { Provider } from './provider.model';
 import { PaginationParameters } from './query-parameters.model';
 
 export class Position {
@@ -6,7 +8,7 @@ export class Position {
   forRuralAres?: boolean;
   openedInDepartment?: string;
   provider?: string;
-  contactInformation?: string[];
+  contactInformation?: Address;
   numOfSeats: number;
   fullName: string;
   shortName?: string;
@@ -15,16 +17,16 @@ export class Position {
   rate: number;
   tariff: number;
   typeByClassifier: string;
-  id: string;
+  id?: string;
 
-  constructor(position: Partial<Position>) {
+  constructor(position: Partial<Position>, address: Address, provider: Provider, id?: string) {
     this.languages = position.languages || [];
     this.description = position.description || '';
     this.forRuralAres = position.forRuralAres ?? false;
     this.openedInDepartment = position.openedInDepartment || '';
-    this.provider = position.provider || '';
-    this.contactInformation = position.contactInformation || [];
-    this.numOfSeats = position.numOfSeats;
+    this.provider = provider.id;
+    this.contactInformation = address;
+    this.numOfSeats = position.numOfSeats || null;
     this.fullName = position.fullName;
     this.shortName = position.shortName || '';
     this.nameInGenitiveCase = position.nameInGenitiveCase;
@@ -32,7 +34,9 @@ export class Position {
     this.rate = position.rate ?? 0;
     this.tariff = position.tariff ?? 0;
     this.typeByClassifier = position.typeByClassifier || '';
-    this.id = position.id;
+    if (id) {
+      this.id = id;
+    }
   }
 }
 
