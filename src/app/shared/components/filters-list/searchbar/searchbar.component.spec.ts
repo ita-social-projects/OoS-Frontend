@@ -166,4 +166,32 @@ describe('SearchbarComponent', () => {
     expect((component as any).previousResults[0]).toBe('NewSearch');
     expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify((component as any).previousResults));
   });
+
+  it('should handle empty localStorage for previousResults', () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(null);
+
+    const results = (component as any).getPreviousResults();
+
+    expect(results).toEqual([]);
+    expect(localStorage.getItem('previousResults')).toEqual('[]');
+  });
+
+  it('should dispatch SetSearchQueryValue when performSearch is called', () => {
+    component.searchValueFormControl.setValue('searchValue');
+    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
+
+    (component as any).performSearch();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(expect.anything());
+  });
+
+  it('should navigate to result page if not on result page during performSearch', () => {
+    const navigateSpy = jest.spyOn((component as any).router, 'navigate');
+    (component as any).isResultPage = false;
+    component.searchValueFormControl.setValue('searchValue');
+
+    (component as any).performSearch();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['result/List'], expect.anything());
+  });
 });
