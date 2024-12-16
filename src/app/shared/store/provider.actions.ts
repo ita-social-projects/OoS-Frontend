@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement, AchievementParameters } from 'shared/models/achievement.model';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { BlockedParent, EmployeeBlockData } from 'shared/models/block.model';
-import { PositionParameters } from 'shared/models/position.model';
+import { Position, PositionParameters } from 'shared/models/position.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -403,6 +403,39 @@ export class GetPendingApplicationsByProviderId {
 }
 
 export class GetPositions {
-  static readonly type = '[provider] Get Positions By Provider Id';
+  static readonly type = '[provider] Get positions by provider Id';
   constructor(public positionParameters: PositionParameters) {}
+}
+
+export class GetPositionById {
+  static readonly type = '[provider] Get position by position Id';
+  constructor(public positionId: string) {}
+}
+
+export class CreatePosition {
+  static readonly type = '[provider] Create position';
+  constructor(public position: Position) {}
+}
+
+export class UpdatePosition {
+  static readonly type = '[provider] Update postion';
+  constructor(public position: Position) {}
+}
+
+export class OnUpdatePositionSuccess {
+  static readonly type = '[provider] Update position success';
+  constructor(public position: Position) {}
+}
+
+export class OnCreatePositionSuccess {
+  static readonly type = '[provider] Create position success';
+  constructor(public position: Position) {}
+}
+
+export class DeletePositionById {
+  static readonly type = '[provider] Delete position by id';
+  constructor(
+    public positionParameters: PositionParameters,
+    public positionId: string
+  ) {}
 }
