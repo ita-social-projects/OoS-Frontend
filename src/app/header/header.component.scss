@@ -72,7 +72,7 @@
     }
   }
 
-  @media (max-width: 950px) {
+  @media (max-width: 990px) {
     .support-icon-text {
       display: none;
     }
@@ -90,7 +90,7 @@
     }
   }
 
-  @media (max-width: 950px) {
+  @media (max-width: 990px) {
     .user-name {
       display: none;
     }
@@ -167,7 +167,7 @@
   padding-right: 0px !important;
   font-family: 'Innerspace';
 
-  @media (max-width: 950px) {
+  @media (max-width: 990px) {
     display: none;
     max-width: 36px;
   }
@@ -195,7 +195,11 @@
     background-color: transparent !important;
   }
 }
-::ng-deep .mat-mdc-menu-item{
+::ng-deep .menu .mdc-button__label {
+  line-height: 1.2;
+}
+
+::ng-deep .mat-mdc-menu-item {
   padding: 0.75rem 1rem 0.5rem !important;
   min-height: auto !important;
 }

@@ -26,14 +26,14 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
+        <div class="mobile-sidenav-theme">
+          <mat-slide-toggle class="theme-slide-toggle" [checked]="isDark" (change)="onDarkModeSwitched($event)"></mat-slide-toggle>
+        </div>
+
         <div class="mobile-sidenav-menu-notification full-width" *ngIf="(featuresList$ | async)?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
             <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>
           </a>
-        </div>
-
-        <div class="mobile-sidenav-theme">
-          <mat-slide-toggle class="theme-slide-toggle" [checked]="isDark" (change)="onDarkModeSwitched($event)"></mat-slide-toggle>
         </div>
 
         <hr class="hr-grey" />
