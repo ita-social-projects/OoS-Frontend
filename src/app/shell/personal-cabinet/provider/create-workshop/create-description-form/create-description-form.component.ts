@@ -62,7 +62,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
   public keyWords: string[] = [];
-  public keyWord: string;
   public tags: Tag[] = [];
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
@@ -74,13 +73,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public compareItems(item1: Direction, item2: Direction): boolean {
     return item1.id === item2.id;
-  }
-
-  public onRemoveItem(tag: Tag): void {
-    const currentTags = this.tagsControl.value || [];
-    const updatedTags = currentTags.filter((t) => t.id !== tag.id);
-    this.tagsControl.setValue(updatedTags);
-    this.updateTagIds(updatedTags);
   }
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -148,6 +140,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         this.DescriptionFormGroup.get('keyWords').reset();
       }
     }
+  }
+
+  public onRemoveItem(tag: Tag): void {
+    const currentTags = this.tagsControl.value || [];
+    const updatedTags = currentTags.filter((t) => t.id !== tag.id);
+    this.tagsControl.setValue(updatedTags);
+    this.updateTagIds(updatedTags);
   }
 
   public onKeyWordsInput(isEditMode: boolean = true): void {

@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Workshop } from 'shared/models/workshop.model';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
@@ -55,16 +54,10 @@ describe('CreateDescriptionFormComponent', () => {
       imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
       disabilityOptionsDesc: new FormControl(''),
-      head: new FormControl(''),
       keyWords: new FormControl(''),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
       formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
-      categories: new FormControl(''),
-      institutionHierarchyId: new FormControl(''),
-      institutionId: new FormControl('')
+      tagIds: new FormControl([])
     });
     fixture.detectChanges();
   });
@@ -73,7 +66,7 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add keyword', () => {
+  it('should add a keyword', () => {
     component.keyWordsCtrl.setValue('Test');
 
     component.onKeyWordsInput();
@@ -82,23 +75,24 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component.keyWordsCtrl.value).toBe('');
   });
 
-  it('should disable input if keyword limit is reached', () => {
+  it('should disable input if the keyword limit is reached', () => {
     component.keyWords = ['one', 'two', 'three', 'four'];
-    component.keyWordsCtrl.setValue('Test');
+    component.keyWordsCtrl.setValue('five');
 
     component.onKeyWordsInput();
 
     expect(component.keyWordsCtrl.disabled).toBeTruthy();
   });
 
-  it('should enable input if keyword limit is less than 5', () => {
+  it('should enable input if the keyword limit is less than 5', () => {
     component.keyWords = ['one', 'two', 'three', 'four', 'five'];
 
     component.onRemoveKeyWord('one');
 
     expect(component.keyWordsCtrl.disabled).toBeFalsy();
   });
-  it('should remove keyword', () => {
+
+  it('should remove a keyword', () => {
     component.keyWords = ['one', 'two', 'three', 'four', 'five'];
 
     component.onRemoveKeyWord('five');
@@ -112,10 +106,10 @@ describe('CreateDescriptionFormComponent', () => {
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; // required for validation
-  @Input() minCharacters: number;
-  @Input() maxCharacters: number;
-  @Input() minMaxDate: boolean;
+  @Input() validationFormControl!: FormControl; // required for validation
+  @Input() minCharacters!: number;
+  @Input() maxCharacters!: number;
+  @Input() minMaxDate!: boolean;
 }
 
 @Component({
@@ -123,8 +117,8 @@ class MockValidationHintAboutComponent {
   template: ''
 })
 class MockInfoFormComponent {
-  @Input() InfoEditFormGroup: FormGroup;
-  @Input() index: number;
-  @Input() formAmount: number;
-  @Input() maxDescriptionLength: number;
+  @Input() InfoEditFormGroup!: FormGroup;
+  @Input() index!: number;
+  @Input() formAmount!: number;
+  @Input() maxDescriptionLength!: number;
 }
