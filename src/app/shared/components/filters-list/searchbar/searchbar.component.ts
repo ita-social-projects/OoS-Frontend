@@ -28,7 +28,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private searchQuery$: Observable<string>;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(256), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(64), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
@@ -96,6 +96,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onDeletePreviousSearchValue(value: string, event: Event): void {
+    event.stopPropagation();
+    this.previousResults = this.previousResults.filter((result: string) => result !== value);
+    localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
+    this.filteredResults = this.filteredResults.filter((result: string) => result !== value);
+  }
+
   private performSearch(): void {
     const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
     if (!this.isResultPage) {
@@ -106,14 +113,17 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   /**
    * This method saves the search input value to the local storage if the value exists
    * and if it is not included to the previous results. If the length of the saved search length is more
-   * than the 4, then it is shifted and added the new one to the array.
+   * than the 10, then it is popped out and added the new one to the array.
    */
   private saveSearchResults(): void {
     this.previousResults = this.getPreviousResults();
 
-    if (this.searchedText && !this.previousResults.includes(this.searchedText)) {
-      if (this.previousResults.length > 4) {
-        this.previousResults.shift();
+    const normalizedText = this.searchedText?.trim().toLowerCase();
+    const normalizedResults = this.previousResults.map((result) => result.trim().toLowerCase());
+
+    if (normalizedText && !normalizedResults.includes(normalizedText)) {
+      if (this.previousResults.length >= 10) {
+        this.previousResults.pop();
       }
       this.previousResults.unshift(this.searchedText);
       localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
