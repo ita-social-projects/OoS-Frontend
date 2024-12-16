@@ -40,3 +40,26 @@
   width: 100%;
   justify-content: space-between;
 }
+
+.search-dropdown-option {
+  .option-value {
+    display: inline-flex;
+    width: calc(100% - 2rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .close-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: #aaaaaa;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+}
