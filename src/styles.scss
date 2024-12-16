@@ -30,7 +30,7 @@ $config: mat.define-typography-config(
   }
 }
 
-$primary-palette: mat.define-palette(
+$primary-light-palette: mat.define-palette(
   (
     50: #eaeaff,
     100: #cacafe,
@@ -67,10 +67,10 @@ $primary-palette: mat.define-palette(
 
 $accent-palette: mat.define-palette(mat.$deep-orange-palette);
 
-$theme: mat.define-light-theme(
+$light-theme: mat.define-light-theme(
   (
     color: (
-      primary: $primary-palette,
+      primary: $primary-light-palette,
       accent: $accent-palette
     ),
     typography: mat.define-typography-config(),
@@ -78,13 +78,69 @@ $theme: mat.define-light-theme(
   )
 );
 
+$primary-dark-palette: mat.define-palette(
+  (
+    50: #1c1c2e,
+    100: #292944,
+    200: #36365a,
+    300: #434370,
+    400: #4f4f85,
+    500: #5b5b9b,
+    600: #6c6cb3,
+    700: #7c7cc9,
+    800: #8c8cd6,
+    900: #9c9ce3,
+    A100: #5555ee,
+    A200: #6666ff,
+    A400: #8888ff,
+    A700: #9999ff,
+    contrast: (
+      50: $light-primary-text,
+      100: $light-primary-text,
+      200: $light-primary-text,
+      300: $light-primary-text,
+      400: $light-primary-text,
+      500: $dark-primary-text,
+      600: $dark-primary-text,
+      700: $dark-primary-text,
+      800: $dark-primary-text,
+      900: $dark-primary-text,
+      A100: $light-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary-dark-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+.light-theme {
+  @include mat.all-legacy-component-themes($light-theme);
+  @include mat.all-component-themes($light-theme);
+}
+
+.dark-theme {
+  @include mat.all-legacy-component-themes($dark-theme);
+  @include mat.all-component-themes($dark-theme);
+}
+
 /* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated */
 @include mat.legacy-core();
 @include mat.core();
 
 /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated */
-@include mat.all-legacy-component-themes($theme);
-@include mat.all-component-themes($theme);
+// @include mat.all-legacy-component-themes($light-theme);
+// @include mat.all-component-themes($light-theme);
 
 @include mat.button-toggle-typography($config);
 @include mat.button-typography($config);

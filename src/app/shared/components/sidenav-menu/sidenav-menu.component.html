@@ -32,6 +32,10 @@
           </a>
         </div>
 
+        <div class="mobile-sidenav-theme">
+          <mat-slide-toggle class="theme-slide-toggle" [checked]="isDark" (change)="onDarkModeSwitched($event)"></mat-slide-toggle>
+        </div>
+
         <hr class="hr-grey" />
 
         <div class="mobile-sidenav-menu">

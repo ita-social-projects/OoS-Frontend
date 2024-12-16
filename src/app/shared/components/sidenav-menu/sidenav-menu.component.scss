@@ -103,6 +103,14 @@
       }
     }
 
+    &-theme {
+      padding: 7px 16px;
+
+      ::ng-deep .mdc-switch__track {
+        box-shadow: 0 0 0 1px lightgray;
+      }
+    }
+
     &-menu {
       display: flex;
       flex-direction: column;

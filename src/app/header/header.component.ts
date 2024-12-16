@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -49,6 +50,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(MainPageState.headerInfo)
   public headerInfo$: Observable<CompanyInformation>;
 
+  @Input()
+  public isDark: boolean = false;
+  @Output()
+  public readonly darkModeSwitched = new EventEmitter<boolean>();
+
   public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
   public readonly Languages = Languages;
   public readonly Role = Role;
@@ -92,6 +98,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.headerTitle = headerInfo.title;
       this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
     });
+  }
+
+  public onDarkModeSwitched({ checked }: MatSlideToggleChange): void {
+    this.darkModeSwitched.emit(checked);
   }
 
   public onViewChange(): void {

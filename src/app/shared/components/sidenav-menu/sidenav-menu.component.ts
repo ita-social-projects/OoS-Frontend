@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -26,6 +27,9 @@ import { isRoleProvider } from 'shared/utils/provider.utils';
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
   @Input() public isMobileView: boolean;
+
+  @Input() public isDark: boolean = false;
+  @Output() public readonly darkModeSwitched = new EventEmitter<boolean>();
 
   @Select(NavigationState.sidenavOpenTrue)
   public sidenavOpenTrue$: Observable<boolean>;
@@ -67,6 +71,10 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
       this.user = user;
     });
+  }
+
+  public onDarkModeSwitched({ checked }: MatSlideToggleChange): void {
+    this.darkModeSwitched.emit(checked);
   }
 
   public login(): void {
