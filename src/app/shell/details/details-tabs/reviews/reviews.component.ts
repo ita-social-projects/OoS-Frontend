@@ -10,7 +10,7 @@ import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ReviewDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { EntityType, Role } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Parent } from 'shared/models/parent.model';
 import { Rate, RateParameters } from 'shared/models/rating';
@@ -62,7 +62,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public rateParameters: RateParameters = {
     entityId: '',
-    entityType: EntityType.workshop,
     size: PaginationConstants.RATINGS_PER_PAGE
   };
   public alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');

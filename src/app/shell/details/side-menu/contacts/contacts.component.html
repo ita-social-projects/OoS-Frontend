@@ -1,8 +1,8 @@
-<div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="0.1rem">
+<div class="container flex flex-col justify-between items-start gap-1">
   <h4 class="card-title">{{ 'CONTACTS' | translate }}</h4>
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
-    <span fxLayout="row wrap" fxLayoutAlign="start">
+    <span class="flex flex-row flex-wrap justify-start">
       <span class="address-city">{{ address.codeficatorAddressDto?.settlement }}, </span>
       <span class="address-street" showTooltipIfTruncated [matTooltip]="getFullAddress" matTooltipClass="tooltip">{{
         address.street
@@ -28,7 +28,7 @@
     <a [href]="contactsData.website" target="_blank" rel="noopener">{{ contactsData.website }}</a>
   </p>
 
-  <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="social flex flex-row justify-between items-center">
     <a *ngIf="contactsData.instagram" href="{{ contactsData.instagram }}" class="link" target="_blank" rel="noopener">
       <img src="assets/icons/inst.png" alt="instagram" />
     </a>

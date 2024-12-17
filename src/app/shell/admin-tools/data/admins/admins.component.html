@@ -1,7 +1,7 @@
 <div class="admins-wrapper">
   <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+    <div class="search-bar flex flex-row box-border justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
         [formControl]="filterFormControl"
         matInput
@@ -30,7 +30,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab *ngIf="role === Role.techAdmin" label="{{ AdminRolesTitles.ministryAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.ministryAdmin }"></ng-container>
       </mat-tab>

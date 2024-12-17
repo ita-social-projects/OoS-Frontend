@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -35,7 +34,7 @@ import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-c
     AchievementsComponent,
     TeacherCardComponent
   ],
-  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, TranslateModule, RouterModule],
+  imports: [CommonModule, SharedModule, MaterialModule, TranslateModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []
 })

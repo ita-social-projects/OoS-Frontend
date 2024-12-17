@@ -1,10 +1,10 @@
-<div class="search shadow" fxLayout="column">
-  <div [ngClass]="styleClass" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="search-city" fxLayout="row" fxLayoutAlign="start center">
+<div class="search shadow flex flex-col">
+  <div [ngClass]="styleClass" class="flex flex-row justify-between items-center">
+    <div class="search-city flex flex-row justify-start items-center">
       <mat-icon class="icon">place</mat-icon>
       <app-city-filter></app-city-filter>
     </div>
-    <div class="search-bar-wrap" fxLayoutAlign="space-between center">
+    <div class="search-bar-wrap flex justify-between items-center">
       <app-searchbar
         class="search-bar"
         (invalidCharacterDetected)="showErrorMessage()"

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from 'shared/shared.module';
@@ -13,7 +12,7 @@ import { UserConfigComponent } from './shared-cabinet/user-config/user-config.co
 
 @NgModule({
   declarations: [UserConfigComponent, UserConfigEditComponent],
-  imports: [CommonModule, PersonalCabinetRoutingModule, FlexLayoutModule, SharedModule, SharedCabinetModule, TranslateModule],
+  imports: [CommonModule, PersonalCabinetRoutingModule, SharedModule, SharedCabinetModule, TranslateModule],
   providers: [ParentGuard, ProviderGuard]
 })
 export class PersonalCabinetModule {}

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -11,50 +11,43 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
+import { EmployeeTitles } from 'shared/enum/enumUA/employee';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-admin';
+import { EmployeeParams, EmployeeRole } from 'shared/enum/employee';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { ProviderAdminsBlockData, ProviderAdminsTableData } from 'shared/models/users-table';
+import { EmployeesBlockData, EmployeesTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import {
-  BlockProviderAdminById,
-  DeleteProviderAdminById,
-  GetFilteredProviderAdmins,
-  ReinviteProviderAdmin
-} from 'shared/store/provider.actions';
+import { BlockEmployeeById, DeleteEmployeeById, GetFilteredEmployees, ReinviteEmployee } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
-  selector: 'app-provider-admins',
-  templateUrl: './provider-admins.component.html',
-  styleUrls: ['./provider-admins.component.scss']
+  selector: 'app-employees',
+  templateUrl: './employees.component.html',
+  styleUrls: ['./employees.component.scss']
 })
-export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
+export class EmployeesComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
-  @Select(ProviderState.providerAdmins)
-  private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
+  @Select(ProviderState.employees)
+  private employees$: Observable<SearchResponse<Employee[]>>;
 
-  public readonly ProviderAdminTitles = ProviderAdminTitles;
-  public readonly providerAdminRole = ProviderAdminRole;
-  public readonly noProviderAdmins = NoResultsTitle.noUsers;
+  public readonly EmployeeTitles = EmployeeTitles;
+  public readonly employeeRole = EmployeeRole;
+  public readonly noEmployees = NoResultsTitle.noUsers;
   public readonly constants = Constants;
   public readonly statusesTitles = UserStatusesTitles;
 
-  public providerAdmins: SearchResponse<ProviderAdmin[]>;
-  public providerAdminsData: ProviderAdminsTableData[] = [];
+  public employees: SearchResponse<Employee[]>;
+  public employeesData: EmployeesTableData[] = [];
   public filterFormControl: FormControl = new FormControl('');
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public tabIndex: number;
-  public filterParams: ProviderAdminParameters = {
-    assistantsOnly: false,
-    deputyOnly: false,
+  public filterParams: EmployeeParameters = {
     searchString: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
@@ -76,10 +69,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   public ngOnInit(): void {
     super.ngOnInit();
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.employees?.totalAmount);
 
     this.setTabOptions();
-    this.getFilteredProviderAdmins();
+    this.getFilteredEmployees();
     this.onResize(window);
   }
 
@@ -88,23 +81,20 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event MatTabChangeEvent
    */
   public onTabChange(event: MatTabChangeEvent): void {
-    const providerAdminRoleValues = Object.values(this.providerAdminRole);
     this.currentPage = PaginationConstants.firstPage;
     this.filterFormControl.reset('', { emitEvent: false });
     this.filterParams.searchString = '';
     this.filterParams.from = 0;
-    this.filterParams.deputyOnly = providerAdminRoleValues[event.index] === ProviderAdminRole.deputy;
-    this.filterParams.assistantsOnly = providerAdminRoleValues[event.index] === ProviderAdminRole.admin;
-    this.getFilteredProviderAdmins();
+    this.getFilteredEmployees();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: ProviderAdminParams[event.index] }
+      queryParams: { role: EmployeeParams[event.index] }
     });
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getFilteredProviderAdmins();
+    this.getFilteredEmployees();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -113,23 +103,18 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method update provider Admin By Id
+   * This method update employee By Id
    */
-  public onUpdate(user: ProviderAdminsTableData): void {
-    const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
-    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
+  public onUpdate(user: EmployeesTableData): void {
+    const userRole = EmployeeRole.admin;
+    this.router.navigate([`update-employee/${userRole}/${user.id}`]);
   }
 
   /**
-   * This method block and unBlock provider Admin By Id
+   * This method block and unBlock employee By Id
    */
-  public onBlockUnblock(admin: ProviderAdminsBlockData): void {
-    let messageType: string;
-    if (admin.user.isDeputy) {
-      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
-    } else {
-      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
-    }
+  public onBlockUnblock(admin: EmployeesBlockData): void {
+    const messageType = admin.isBlocking ? ModalConfirmationType.blockEmployee : ModalConfirmationType.unBlockEmployee;
 
     this.matDialog
       .open(ConfirmationModalWindowComponent, {
@@ -143,7 +128,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       .pipe(filter(Boolean))
       .subscribe(() => {
         this.store.dispatch(
-          new BlockProviderAdminById(
+          new BlockEmployeeById(
             {
               userId: admin.user.id,
               providerId: this.provider.id,
@@ -156,13 +141,13 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method delete provider Admin By Id
+   * This method delete employee By Id
    */
-  public onDelete(user: ProviderAdminsTableData): void {
+  public onDelete(user: EmployeesTableData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        type: ModalConfirmationType.deleteEmployee,
         property: user.pib
       }
     });
@@ -172,7 +157,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       .pipe(filter(Boolean))
       .subscribe(() => {
         this.store.dispatch(
-          new DeleteProviderAdminById(
+          new DeleteEmployeeById(
             {
               userId: user.id,
               providerId: this.provider.id
@@ -183,12 +168,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       });
   }
 
-  public onSendInvitation(providerAdmin: ProviderAdmin): void {
-    this.store.dispatch(new ReinviteProviderAdmin(providerAdmin));
+  public onSendInvitation(employee: Employee): void {
+    this.store.dispatch(new ReinviteEmployee(employee));
   }
 
   protected initProviderData(): void {
-    this.addProviderAdminsSubscriptions();
+    this.addEmployeesSubscriptions();
   }
 
   protected addNavPath(): void {
@@ -203,32 +188,30 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   private setTabOptions(): void {
     const role = this.route.snapshot.queryParamMap.get('role');
-    this.tabIndex = role ? Object.keys(this.providerAdminRole).indexOf(role) : 0;
-    this.filterParams.deputyOnly = role === ProviderAdminRole.deputy;
-    this.filterParams.assistantsOnly = role === ProviderAdminRole.admin;
+    this.tabIndex = role ? Object.keys(this.employeeRole).indexOf(role) : 0;
     this.currentPage = PaginationConstants.firstPage;
   }
 
-  private getFilteredProviderAdmins(): void {
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
-    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
+  private getFilteredEmployees(): void {
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.employees?.totalAmount);
+    this.store.dispatch(new GetFilteredEmployees(this.filterParams));
   }
 
   /**
-   * This method subscribes on provider admins and filter form control value changing for data filtration
+   * This method subscribes on employees and filter form control value changing for data filtration
    */
-  private addProviderAdminsSubscriptions(): void {
+  private addEmployeesSubscriptions(): void {
     this.filterFormControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: string) => {
         this.filterParams.searchString = val;
         this.currentPage = PaginationConstants.firstPage;
-        this.getFilteredProviderAdmins();
+        this.getFilteredEmployees();
       });
 
-    this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
-      this.providerAdmins = providerAdmins;
-      this.providerAdminsData = Util.updateStructureForTheTableProviderAdmins(providerAdmins.entities);
+    this.employees$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((employees: SearchResponse<Employee[]>) => {
+      this.employees = employees;
+      this.employeesData = Util.updateStructureForTheTableEmployees(employees.entities);
     });
   }
 }

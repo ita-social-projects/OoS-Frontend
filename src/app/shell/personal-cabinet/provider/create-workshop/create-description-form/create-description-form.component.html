@@ -1,4 +1,4 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<form [formGroup]="DescriptionFormGroup" class="step flex flex-col justify-between items-stretch">
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="10"
@@ -27,7 +27,7 @@
   </button>
 
   <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
-  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" class="flex flex-col box-border items-stretch justify-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
     <input
@@ -45,39 +45,72 @@
     </app-validation-hint>
   </mat-radio-group>
 
-  <app-institution-hierarchy
-    [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
-    [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider">
-  </app-institution-hierarchy>
-
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()">
-    <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder"
+    <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
     >
-    <mat-chip-list #chipList>
-      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
+    <mat-chip-grid #chipGrid aria-label="enter keywords">
+      <mat-chip-row *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">
           {{ keyWord }}
         </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
-      </mat-chip>
-      <!-- TODO: Remove ngModel attribute -->
+      </mat-chip-row>
       <input
-        [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
+        [ngClass]="{ 'keywords-input': !keyWordsCtrl.value && keyWords.length < 1 }"
         #keyWordsInput
         (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl"
-        [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()"
-        [(ngModel)]="keyWord"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="onKeyWordsInput()"
         autocomplete="off"
         appTrimValue />
-    </mat-chip-list>
+    </mat-chip-grid>
   </div>
+
+  <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
+  <mat-radio-group
+    [formControl]="competitiveSelectionRadioBtn"
+    color="primary"
+    class="flex flex-col box-border justify-between content-center items-stretch">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
+      {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
+    </mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">
+      {{ 'WITH_COMPETITIVE_SELECTION' | translate }}
+    </mat-radio-button>
+    <ng-container *ngIf="DescriptionFormGroup.get('competitiveSelection').value">
+      <div class="step-label-combined">
+        <label class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
+        <label class="step-characters-count">
+          <ng-container *ngIf="DescriptionFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
+            {{ DescriptionFormGroup.get('competitiveSelectionDescription').value?.length }}/{{
+              validationConstants.MAX_DESCRIPTION_LENGTH_500
+            }}
+          </ng-container>
+          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
+        </label>
+      </div>
+      <textarea
+        matInput
+        class="step-textarea step-textarea-short"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
+        formControlName="competitiveSelectionDescription"
+        [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+      </textarea>
+      <app-validation-hint
+        [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
+        [minCharacters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+      </app-validation-hint>
+    </ng-container>
+  </mat-radio-group>
 </form>

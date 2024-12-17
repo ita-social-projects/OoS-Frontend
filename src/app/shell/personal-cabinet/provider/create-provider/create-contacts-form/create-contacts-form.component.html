@@ -1,5 +1,5 @@
 <!-- LEGAL ADDRESS BLOCK -->
-<div class="step" fxLayout="column" fxLayoutAlign="center space-between">
+<div class="step flex flex-col justify-between items-center">
   <h4 class="step-title">{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h4>
   <div class="address-wrapper address-wrapper-border">
     <app-create-address-form
@@ -11,7 +11,7 @@
 </div>
 
 <!-- ACTUAL ADDRESS CHECKBOX BLOCK -->
-<div fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<div class="step flex flex-col justify-between items-stretch">
   <h4>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h4>
   <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">
     {{ 'FORMS.MATCH_ACTUAL_ADDRESS' | translate }}
@@ -19,7 +19,7 @@
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div class="step" fxLayout="column" fxLayoutAlign="center space-between" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+<div class="step flex flex-col justify-between items-stretch" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
   <div class="address-wrapper">
     <app-create-address-form
       [addressFormGroup]="actualAddressFormGroup"

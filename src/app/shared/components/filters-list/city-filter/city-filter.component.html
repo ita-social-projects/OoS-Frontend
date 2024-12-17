@@ -1,4 +1,4 @@
-<mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="fill">
+<mat-form-field class="input-wrapper flex flex-col justify-between items-start" appearance="fill">
   <input
     #searchInput
     class="input-filter"
@@ -40,15 +40,15 @@
 <!-- CITY CONFIRMATION -->
 <div class="confirmation">
   <div class="city-confirmation" *ngIf="isDisplayed && !(isConfirmCity$ | async)">
-    <div fxLayout="row" fxLayoutAlign="space-between start">
-      <p fxFlex="93%">
+    <div class="flex flex-row justify-between items-start">
+      <p class="w-[93%]">
         {{ 'YOU_ARE_IN_A_SETTLEMENT' | translate }}
         <span>{{ settlement?.settlement }}</span
         >?
       </p>
-      <mat-icon (click)="isDisplayed = false" fxFlex="7%">clear</mat-icon>
+      <mat-icon (click)="isDisplayed = false" class="w-[7%]">clear</mat-icon>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
+    <div class="city-confirmation_button flex flex-row justify-between items-center">
       <button mat-button class="button" (click)="confirmCity()">
         {{ 'BUTTONS.CONFIRM' | translate }}
       </button>

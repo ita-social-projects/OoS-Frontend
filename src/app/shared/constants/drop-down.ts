@@ -23,44 +23,44 @@ export const ProviderOptions = [
   }
 ];
 
-export const ProviderAdminOptions = [
+export const EmployeeOptions = [
   {
     value: 'All',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ALL',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ALL',
     default: true
   },
   {
     value: 'Deputies',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.DEPUTIES'
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.DEPUTIES'
   },
   {
     value: 'Assistants',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ASSISTANTS'
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ASSISTANTS'
   }
 ];
 
-export const ProviderAdminOperationOptions = [
+export const EmployeeOperationOptions = [
   {
     value: 'Create',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ADD_ADMIN_OPTION',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ADD_ADMIN_OPTION',
     type: ['Assistants']
   },
   {
     value: 'Delete',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REMOVE_ADMIN_OPTION',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.REMOVE_ADMIN_OPTION',
     type: ['Assistants']
   },
   {
     value: 'Block',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.BLOCK_ADMIN_OPTION'
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.BLOCK_ADMIN_OPTION'
   },
   {
     value: 'Update',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.UPDATE_ADMIN_OPTION'
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.UPDATE_ADMIN_OPTION'
   },
   {
     value: 'Reinvite',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REINVITE_ADMIN_OPTION'
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.REINVITE_ADMIN_OPTION'
   }
 ];
 
@@ -89,8 +89,8 @@ export const ParentsBlockingByAdminOptions = [
 
 export const DropdownOptionsConfig = {
   [CustomFormControlNames.ProvidersPropertyName]: ProviderOptions,
-  [CustomFormControlNames.AdminType]: ProviderAdminOptions,
-  [CustomFormControlNames.OperationType]: ProviderAdminOperationOptions,
+  [CustomFormControlNames.AdminType]: EmployeeOptions,
+  [CustomFormControlNames.OperationType]: EmployeeOperationOptions,
   [CustomFormControlNames.ApplicationsPropertyName]: ApplicationOptions,
   [CustomFormControlNames.ShowParents]: ParentsBlockingByAdminOptions
 };

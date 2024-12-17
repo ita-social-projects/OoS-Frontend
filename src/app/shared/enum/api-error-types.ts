@@ -12,8 +12,8 @@ export namespace ApiErrorTypes {
     PhoneNumberAlreadyTaken = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.COMMON.PHONE_NUMBER_ALREADY_TAKEN'
   }
 
-  export enum ProviderAdmin {
-    UserDontHavePermissionToCreate = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.PROVIDER_ADMIN.USER_DONT_HAVE_PERMISSION_TO_CREATE'
+  export enum Employee {
+    UserDontHavePermissionToCreate = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.EMPLOYEE.USER_DONT_HAVE_PERMISSION_TO_CREATE'
   }
 
   export enum Application {

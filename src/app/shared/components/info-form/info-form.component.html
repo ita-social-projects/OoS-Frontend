@@ -1,8 +1,6 @@
 <form
   [formGroup]="infoEditForm"
-  fxLayout="column"
-  fxLayoutAlign="center space-between"
-  class="step"
+  class="step flex flex-col justify-between items-stretch"
   [class.step-border]="formAmount > 1 && index !== formAmount - 1">
   <label class="step-label" for="section-name">{{ 'FORMS.LABELS.SECTION_TITLE' | translate }} <span class="step-required">*</span></label>
   <mat-form-field>
@@ -44,7 +42,7 @@
     [maxCharacters]="maxDescriptionLength">
   </app-validation-hint>
 
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="formAmount > 1">
+  <div class="flex flex-row justify-center" *ngIf="formAmount > 1">
     <button class="btn-reset" type="reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon> {{ 'BUTTONS.REMOVE_DATA' | translate }}
     </button>

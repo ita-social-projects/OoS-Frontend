@@ -2,7 +2,7 @@
   <ng-container *ngIf="!(isLoadingData$ | async) && !!settlement">
     <div class="main-header">
       <h3>{{ 'TOP_DIRECTIONS' | translate }}</h3>
-      <a routerLink="/all-categories" class="main_link">
+      <a routerLink="/all-categories" class="main-link">
         {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
@@ -22,16 +22,17 @@
 
     <div class="main-header">
       <h3>{{ 'TOP_WORKSHOPS' | translate }}</h3>
-      <a routerLink="/result" class="main_link">
+      <a routerLink="/result" class="main-link">
         {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
 
     <ng-container *ngIf="(topWorkshops$ | async)?.length; then topWorkshops; else emptyData"></ng-container>
   </ng-container>
+
   <ng-template #topWorkshops>
     <div class="card-wrapper">
-      <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"> </app-workshop-card>
+      <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"></app-workshop-card>
     </div>
   </ng-template>
 
@@ -41,14 +42,15 @@
     </div>
   </ng-template>
 </div>
-
-<div *ngIf="(role$ | async) === Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
-  <div class="main_description">
-    <h2 class="main_question">{{ 'DO_YOU_PROVIDE_EDUCATIONAL_SERVICES' | translate }}</h2>
-    <h4 class="main_hint">{{ 'SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS' | translate }}</h4>
+<div
+  *ngIf="(role$ | async) === Role.unauthorized"
+  class="main-registration flex flex-row box-border justify-between content-center items-center">
+  <div class="main-description">
+    <h2 class="main-question">{{ 'DO_YOU_PROVIDE_EDUCATIONAL_SERVICES' | translate }}</h2>
+    <h4 class="main-hint">{{ 'SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS' | translate }}</h4>
   </div>
-  <div class="main_button-wrapper">
-    <button mat-stroked-button class="main_button" (click)="onRegister()" data-testid="register-button">
+  <div class="main-button-wrapper">
+    <button mat-stroked-button class="main-button" (click)="onRegister()" data-testid="register-button">
       {{ 'SIGN_UP' | translate }}
     </button>
   </div>

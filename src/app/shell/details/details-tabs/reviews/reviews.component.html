@@ -1,6 +1,6 @@
-<div *ngIf="rating" class="wrapper" fxLayout="column" fxLayoutAlign="start space-between">
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+<div *ngIf="rating" class="wrapper flex flex-col box-border items-stretch justify-start content-between">
+  <div class="flex flex-row flex-wrap justify-between items-center">
+    <div class="flex flex-row flex-wrap justify-between items-center">
       <mat-icon class="star-icon">star</mat-icon> {{ workshop.rating }}
       <p class="rate-amount">({{ rating.totalAmount | translateCases: ReviewDeclination }})</p>
     </div>
@@ -19,10 +19,10 @@
 
   <ng-container *ngIf="!(isLoading$ | async)">
     <ng-container *ngIf="rating.totalAmount; else isEmptyList">
-      <div class="rate" *ngFor="let rate of rating.entities" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <div class="rate flex flex-row flex-wrap justify-between items-center" *ngFor="let rate of rating.entities">
         <div>
           <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
-          <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
+          <p class="rate-date flex flex-row justify-start items-center">
             <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
             {{ rate.creationTime | date: 'shortDate' }}
           </p>

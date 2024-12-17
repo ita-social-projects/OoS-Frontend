@@ -7,7 +7,7 @@ import {
   ApplicationHistory,
   FilterData,
   ParentsBlockingByAdminHistory,
-  ProviderAdminHistory,
+  EmployeeHistory,
   ProviderHistory
 } from 'shared/models/history-log.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -23,9 +23,9 @@ export class HistoryLogService {
     return this.http.get<SearchResponse<ProviderHistory[]>>('/api/v1/ChangesLog/Provider', body);
   }
 
-  public getProviderAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderAdminHistory[]>> {
+  public getEmployeeHistory(filters: FilterData, searchString: string): Observable<SearchResponse<EmployeeHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<SearchResponse<ProviderAdminHistory[]>>('/api/v1/ChangesLog/ProviderAdmin', body);
+    return this.http.get<SearchResponse<EmployeeHistory[]>>('/api/v1/ChangesLog/Employee', body);
   }
 
   public getApplicationHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ApplicationHistory[]>> {

@@ -138,9 +138,9 @@
           <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Providers"></tr>
           <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Providers"></tr>
         </ng-container>
-        <ng-container *ngSwitchCase="HistoryLogTypes.ProviderAdmins">
-          <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.ProviderAdmins"></tr>
-          <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.ProviderAdmins"></tr>
+        <ng-container *ngSwitchCase="HistoryLogTypes.Employees">
+          <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Employees"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Employees"></tr>
         </ng-container>
         <ng-container *ngSwitchCase="HistoryLogTypes.Applications">
           <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Applications"></tr>

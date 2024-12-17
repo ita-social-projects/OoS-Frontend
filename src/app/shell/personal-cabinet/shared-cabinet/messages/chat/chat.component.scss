@@ -1,5 +1,10 @@
 @import 'src/app/shared/styles/buttons.scss';
 
+.mat-mdc-card {
+  padding: 16px;
+  box-sizing: content-box;
+}
+
 .chat-card {
   display: flex;
   flex-direction: column;

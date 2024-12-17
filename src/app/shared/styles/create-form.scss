@@ -108,11 +108,11 @@ button:focus {
   height: auto;
 }
 
-.mat-chip-list ::ng-deep .mat-chip-list-wrapper {
+.mat-set ::ng-deep .mat-chip-set-wrapper {
   padding-right: 10px;
 }
 
-.mat-chip-list ::ng-deep .mat-chip {
+.mat-chip-set ::ng-deep .mat-chip {
   span {
     overflow: hidden;
     text-overflow: ellipsis;

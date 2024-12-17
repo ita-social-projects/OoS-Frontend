@@ -1,10 +1,11 @@
 @import 'src/app/shared/styles/list-wrappers.scss';
 @import 'src/app/shared/styles/card-wrapper.scss';
+
 .main {
   width: 100%;
   min-height: 500px;
 
-  &_registration {
+  &-registration {
     padding: 32px 40px;
     background: #3849f9;
     border-radius: 5px;
@@ -12,6 +13,7 @@
     height: 125px;
     margin-top: 4rem;
     margin-bottom: 4rem;
+
     &::before {
       content: '';
       display: block;
@@ -23,32 +25,39 @@
       top: 0;
     }
   }
-  &_button {
+
+  &-button {
     border-radius: 20px;
     padding: 10px 30px;
     font-size: 13px;
     line-height: 13px;
     border-color: white;
     color: white;
+    height: 35px !important;
   }
-  &_question {
+
+  &-question {
     color: #ffffff;
   }
-  &_hint {
+
+  &-hint {
     margin-top: 16px;
     color: #ffffff;
   }
-  &_link {
+
+  &-link {
     display: flex;
     font-weight: bold;
     color: #3849f9;
     align-items: center;
+
     .arrow {
       margin-left: 8px;
       font-size: 15px;
       line-height: 24px;
     }
   }
+
   &-header {
     display: flex;
     flex-direction: row;
@@ -64,13 +73,13 @@ app-footer {
 }
 
 @media (max-width: 675px) {
-  .main_registration {
+  .main-registration {
     padding: 20px;
     height: inherit;
     margin: 24px 16px;
     display: block !important;
 
-    .main_button-wrapper {
+    .main-button-wrapper {
       text-align: center;
       margin-top: 10px;
     }
@@ -82,27 +91,34 @@ app-footer {
     visibility: visible;
     position: static;
   }
-  .main_title {
+
+  .main-title {
     font-size: 16px !important;
   }
+
   .main-header {
     padding: 0 1rem;
+
     h3 {
       font-size: 14px;
     }
-    .main_link {
+
+    .main-link {
       font-size: 13px;
     }
   }
+
   .card-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
     justify-content: flex-start;
     scroll-snap-type: x mandatory;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .card {
       margin-right: 8px;
       scroll-snap-align: center;

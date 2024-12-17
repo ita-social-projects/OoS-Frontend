@@ -1,11 +1,11 @@
 <div class="application-info-menu-title">{{ 'APPLICATION_STATUSES' | translate }}</div>
-<div class="application-info-menu" fxLayout="column" fxLayoutAlign="start stretch">
+<div class="application-info-menu flex flex-col justify-start items-stretch">
   <div>
-    <div *ngFor="let status of statuses" class="status-group" fxLayout="row" fxLayoutAlign="start stretch">
-      <div class="application-info-title" fxFlex="30" fxLayoutAlign="space-between start">
+    <div *ngFor="let status of statuses" class="status-group flex flex-row items-stretch justify-start">
+      <div class="application-info-title flex flex-row box-border justify-between items-start flex-shrink flex-grow basis-full">
         <span class="{{ status }}"> <i class="{{ applicationIcons[status] }}"></i>{{ statusTitles[status] | translate }}<br /> </span>
       </div>
-      <div class="application-info-description" fxFlex="70" fxLayoutAlign="space-between start">
+      <div class="application-info-description flex flex-row box-border justify-between items-start flex-shrink flex-grow basis-full">
         <span class="{{ status }}">{{ applicationStatusDescription[status] | translate }}<br /></span>
       </div>
     </div>

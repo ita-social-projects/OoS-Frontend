@@ -1,4 +1,4 @@
-<div *ngIf="!(isLoading$ | async)" class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
+<div *ngIf="!(isLoading$ | async)" class="wrapper flex flex-row flex-wrap justify-start">
   <ng-container *ngIf="platformInfo; else noInfoTmpl">
     <div class="config">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, 'edit']">
@@ -14,7 +14,7 @@
   </ng-container>
 
   <ng-template #noInfoTmpl>
-    <div class="config" fxLayout="column" fxLayoutAlign="center center">
+    <div class="config flex flex-col justify-center items-center">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, '']">
         <button mat-button style="color: #3849f9">
           <mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.ADD_INFO' | translate }}

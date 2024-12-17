@@ -1,6 +1,6 @@
 <div class="container">
   <h1 class="title">{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}</h1>
-  <nav class="nav" mat-tab-nav-bar>
+  <nav class="nav" mat-tab-nav-bar [tabPanel]="tabPanel" [mat-stretch-tabs]="false">
     <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./platform/'">
       {{ 'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase }}
     </a>
@@ -27,4 +27,6 @@
     </a>
   </nav>
 </div>
-<router-outlet></router-outlet>
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>

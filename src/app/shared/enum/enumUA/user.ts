@@ -6,5 +6,6 @@ export enum UserTabsTitles {
 
 export enum RoleLinks {
   provider = 'ENUM.ROLE_LINKS.PROVIDER',
+  employee = 'ENUM.ROLE_LINKS.PROVIDER',
   parent = 'ENUM.ROLE_LINKS.PARENT'
 }

@@ -1,7 +1,7 @@
 <p class="filter-text title">
   {{ 'FORMS.LABELS.PRICE' | translate }}
 </p>
-<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
+<div class="wrapper flex flex-col justify-center content-between">
   <div class="checkboxes">
     <mat-checkbox class="checkbox" color="primary" [formControl]="isFreeControl">
       {{ 'FOR_FREE' | translate }}
@@ -11,14 +11,9 @@
     </mat-checkbox>
   </div>
 
-  <div
-    class="wrapper"
-    [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
-    fxLayout="row"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem">
+  <div class="wrapper flex flex-row justify-between gap-4" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }">
     <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="flex flex-row items-center">
         <p class="filter-text">
           {{ 'FROM' | translate }}
         </p>
@@ -27,7 +22,7 @@
       </div>
     </mat-form-field>
     <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div class="flex flex-row items-center">
         <p class="filter-text">
           {{ 'TO' | translate }}
         </p>
@@ -36,12 +31,7 @@
       </div>
     </mat-form-field>
   </div>
-  <div
-    class="filter-slider"
-    [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
-    fxLayout="column"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem">
+  <div class="filter-slider flex flex-col justify-between gap-4" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }">
     <ngx-slider (userChange)="priceHandler($event)" [value]="minValue" [highValue]="maxValue" [options]="options"> </ngx-slider>
   </div>
 </div>

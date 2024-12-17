@@ -165,17 +165,17 @@
 .chip_denied {
   background: red;
 }
-.mat-card {
+.mat-mdc-card {
   padding: 0;
 }
-.mat-card-footer {
+.mat-mdc-card-footer {
   margin: 0 !important;
 }
-.mat-card-header {
+.mat-mdc-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .mat-card-title {
+  .mat-mdc-card-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -188,11 +188,11 @@
     margin-block-end: auto;
   }
 }
-::ng-deep .mat-card-header-text {
+::ng-deep .mat-mdc-card-header-text {
   width: calc(100% - 40px);
   margin: 0 !important;
 }
-.mat-card-image {
+.mat-mdc-card-image {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -210,4 +210,19 @@
 .card-img-full {
   width: 100%;
   height: 180px;
+}
+
+.mat-mdc-card-content {
+  margin-bottom: 16px;
+}
+.mat-mdc-card-header,
+.mat-mdc-card-content,
+.mat-mdc-card-content:first-child {
+  padding: 0;
+}
+.mat-mdc-card > :first-child {
+  margin-top: 0;
+}
+.mat-mdc-card-content:last-child {
+  padding-bottom: 0;
 }

@@ -1,24 +1,24 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { Role, Subrole } from 'shared/enum/role';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Role } from 'shared/enum/role';
+import { Parent, ParentPayload } from 'shared/models/parent.model';
+import { User } from 'shared/models/user.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
 import { CreateParent } from 'shared/store/parent.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
-import { Parent, ParentPayload } from 'shared/models/parent.model';
-import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
-import { ValidationConstants } from 'shared/constants/validation';
-import { User } from 'shared/models/user.model';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'shared/constants/constants';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -36,7 +36,6 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
   protected isNotRobot: boolean;
   protected userCreateFormGroup: FormGroup;
   protected role: Role;
-  protected subrole: Subrole;
   protected maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
   protected minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
   protected RobotFormControl = new FormControl(false);
@@ -69,7 +68,6 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
       )
       .subscribe(() => {
         this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
-        this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
         this.subscribeOnDirtyForm(this.userCreateFormGroup);
         this.setEditMode();
       });
