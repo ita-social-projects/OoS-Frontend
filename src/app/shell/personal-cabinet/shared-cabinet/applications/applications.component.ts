@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -25,6 +25,7 @@ import { OnUpdateApplicationSuccess } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-applications',
@@ -59,6 +60,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly NoApplicationTitle = NoResultsTitle.noApplication;
   public readonly Role = Role;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly isRoleProvider = isRoleProvider;
 
   public applicationCards: SearchResponse<Application[]>;
   public isActiveInfoButton = false;

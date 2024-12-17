@@ -4,22 +4,22 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
-import { jwtDecode } from 'jwt-decode';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Employee } from 'shared/models/employee.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { TechAdmin } from 'shared/models/tech-admin.model';
-import { TokenPayload } from 'shared/models/token-payload.model';
 import { User } from 'shared/models/user.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
+import { EmployeeService } from 'shared/services/employee/employee.service';
 import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-admin.service';
 import { ParentService } from 'shared/services/parent/parent.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
@@ -45,13 +45,13 @@ export interface RegistrationStateModel {
   isAuthorizationLoading: boolean;
   user: User;
   provider: Provider;
+  employee: Employee;
   parent: Parent;
   techAdmin: TechAdmin;
   ministryAdmin: MinistryAdmin;
   regionAdmin: RegionAdmin;
   areaAdmin: AreaAdmin;
   role: Role;
-  subrole: Subrole;
 }
 
 @State<RegistrationStateModel>({
@@ -62,13 +62,13 @@ export interface RegistrationStateModel {
     isLoading: false,
     user: undefined,
     provider: undefined,
+    employee: undefined,
     parent: undefined,
     techAdmin: undefined,
     regionAdmin: undefined,
     ministryAdmin: undefined,
     areaAdmin: undefined,
-    role: Role.unauthorized,
-    subrole: null
+    role: Role.unauthorized
   }
 })
 @Injectable()
@@ -79,6 +79,7 @@ export class RegistrationState {
     private oidcSecurityService: OidcSecurityService,
     private userService: UserService,
     private providerService: ProviderService,
+    private employeeService: EmployeeService,
     private parentService: ParentService,
     private ministryAdminService: MinistryAdminService,
     private regionAdminService: RegionAdminService,
@@ -116,6 +117,11 @@ export class RegistrationState {
   }
 
   @Selector()
+  static employee(state: RegistrationStateModel): Employee {
+    return state.employee;
+  }
+
+  @Selector()
   static parent(state: RegistrationStateModel): Parent {
     return state.parent;
   }
@@ -123,11 +129,6 @@ export class RegistrationState {
   @Selector()
   static role(state: RegistrationStateModel): Role | undefined {
     return state.role;
-  }
-
-  @Selector()
-  static subrole(state: RegistrationStateModel): Subrole | undefined {
-    return state.subrole;
   }
 
   @Action(Login)
@@ -153,15 +154,7 @@ export class RegistrationState {
       switchMap((auth: LoginResponse) => {
         patchState({ isAuthorized: auth.isAuthenticated });
         if (auth.isAuthenticated) {
-          return this.oidcSecurityService.getAccessToken().pipe(
-            switchMap((value: string) => {
-              const token: TokenPayload = jwtDecode(value);
-              const role = token.role;
-              const subrole = token.subrole;
-              patchState({ subrole, role });
-              return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
-            })
-          );
+          return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
         } else {
           patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
           return of(null);
@@ -196,6 +189,7 @@ export class RegistrationState {
   }: StateContext<RegistrationStateModel>):
     | Observable<Parent>
     | Observable<Provider>
+    | Observable<Employee>
     | Observable<MinistryAdmin>
     | Observable<RegionAdmin>
     | Observable<AreaAdmin> {
@@ -204,24 +198,30 @@ export class RegistrationState {
 
     switch (state.user.role) {
       case Role.parent:
-        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
+        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent })));
       case Role.provider:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
+        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider })));
+      case Role.providerDeputy:
+      case Role.employee:
+        // TODO: Add provider patch when profile/provider id will be provided
+        return this.employeeService.getEmployeeById(state.user.id).pipe(tap((employee: Employee) => patchState({ employee })));
       case Role.ministryAdmin:
-        return this.ministryAdminService
-          .getAdminProfile()
-          .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
+        return this.ministryAdminService.getAdminProfile().pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin })));
       case Role.regionAdmin:
-        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
+        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin })));
       case Role.areaAdmin:
-        return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin: areaAdmin })));
+        return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin })));
     }
   }
 
   @Action(GetUserPersonalInfo)
   getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>): Observable<User> {
     patchState({ isLoading: true });
-    return this.userService.getPersonalInfo().pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+    return this.userService.getPersonalInfo().pipe(
+      tap((user: User) => {
+        patchState({ user, role: user.role as Role, isLoading: false });
+      })
+    );
   }
 
   @Action(UpdateUser)

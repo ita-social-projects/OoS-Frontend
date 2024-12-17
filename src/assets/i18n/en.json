@@ -96,9 +96,9 @@
       "ADD_CHILD_INFORMATION": "Add information about the child",
       "ADD_DIRECTION": "Add direction",
       "ADD_PROVIDER_DEPUTY": "Add provider deputy",
-      "ADD_PROVIDER_ADMIN": "Add workshop administrator",
+      "ADD_EMPLOYEE": "Add employee",
       "EDIT_PROVIDER_DEPUTY": "Edit provider deputy",
-      "EDIT_PROVIDER_ADMIN": "Edit workshop administrator",
+      "EDIT_EMPLOYEE": "Edit employee",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Add ministry administrator",
       "ADD_PROVIDER_REGION_ADMIN": "Add region administrator",
       "ADD_PROVIDER_AREA_ADMIN": "Add territorial community administrator",
@@ -173,7 +173,7 @@
     "PERSONAL_CABINET_TITLE": {
       "USER_PERSONAL_CABINET": "User personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "EMPLOYEE_PERSONAL_CABINET": "Employee personal cabinet",
       "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Technical administrator personal cabinet",
       "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
@@ -275,14 +275,14 @@
       "PENDING": "Awaiting license confirmation",
       "NOT_PROVIDED": "License is not provided"
     },
-    "PROVIDER_ADMINS": {
+    "EMPLOYEES": {
       "PROVIDER_DEPUTY": "Provider deputy",
-      "PROVIDER_ADMIN": "Workshop administrator",
+      "EMPLOYEE": "Employee",
       "ALL": "All"
     },
-    "PROVIDER_ADMINS_DECLINATION": {
+    "EMPLOYEES_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
-      "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
+      "EMPLOYEE_GENETIVE": "Employee"
     },
     "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Ministry administrator",
@@ -291,7 +291,7 @@
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
-      "ADMINS": "Administrators",
+      "EMPLOYEES": "Employees",
       "APPLICATIONS": "Applications",
       "USERS": "Users",
       "ADMIN_STATUS": {
@@ -338,7 +338,7 @@
       "NEW_USER": "NEW USER REGISTRATION",
       "EDIT_INFO": "EDIT INFORMATION",
       "SUBHEADER_TITLE": "Title",
-      "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
+      "EMPLOYEES_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
       "ADD_ACHIEVEMENT": "ADD ACHIEVEMENT",
       "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login"
     },
@@ -390,7 +390,7 @@
       "FOUNDER": "Founder",
       "DIRECTOR_NAME": "Director's full name",
       "DIRECTOR_BIRTHDAY": "Date of birth of the director",
-      "SELECT_WORKSHOPS": "Check the workshops to which the administrator will have access",
+      "SELECT_WORKSHOPS": "Check the workshops to which the employee will have access",
       "CHECK_WORKSHOPS": "Check workshops",
       "ROLE": "Role",
       "STATUS": "Status",
@@ -625,15 +625,15 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
-    "PROVIDER_ADMIN_FILTERS": {
+    "EMPLOYEE_FILTERS": {
       "ALL": "All",
       "DEPUTIES": "Deputies",
       "ASSISTANTS": "Assistants",
-      "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-      "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
-      "BLOCK_ADMIN_OPTION": "Administrator was blocked",
-      "UPDATE_ADMIN_OPTION": "Administrator was updated",
-      "REINVITE_ADMIN_OPTION": "Administrator was reinvited"
+      "REMOVE_ADMIN_OPTION": "Employee was removed from the workshop",
+      "ADD_ADMIN_OPTION": "Employee was added to the workshop",
+      "BLOCK_ADMIN_OPTION": "Employee was blocked",
+      "UPDATE_ADMIN_OPTION": "Employee was updated",
+      "REINVITE_ADMIN_OPTION": "Employee was reinvited"
     },
     "STATUS_CHANGE_TYPE": "Application status change",
     "USERS_FILTERS": {
@@ -742,10 +742,10 @@
       "UPDATE_ACHIEVEMENT": "Achievement edited successfully!",
       "DELETE_ACHIEVEMENT": "Achievement deleted!",
       "DELETE_RATE": "Rate deleted!",
-      "CREATE_PROVIDER_ADMIN_SUCCESS": "Workshop administrator successfully created!",
-      "CREATE_PROVIDER_ADMIN_FAIL": "Unfortunately, an error occurred while creating the Workshop administrator!",
-      "UPDATE_PROVIDER_ADMIN": "Workshop administrator successfully edited!",
-      "DELETE_PROVIDER_ADMIN": "Workshop administrator deleted!",
+      "CREATE_EMPLOYEE_SUCCESS": "Employee successfully created!",
+      "CREATE_EMPLOYEE_FAIL": "Unfortunately, an error occurred while creating the Employee!",
+      "UPDATE_EMPLOYEE": "Employee successfully edited!",
+      "DELETE_EMPLOYEE": "Employee deleted!",
       "CREATE_APPLICATION": "Application created!",
       "APPLICATION_LIMIT": "Application limit exceeded. Please try again later.",
       "APPLICATION_LIMIT_PER_PERSON": "The user can submit no more than 2 applications per week per person",
@@ -784,8 +784,8 @@
           "EMAIL_ALREADY_TAKEN": "the email is taken already",
           "PHONE_NUMBER_ALREADY_TAKEN": "the phone number is taken already"
         },
-        "PROVIDER_ADMIN": {
-          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"
+        "EMPLOYEE": {
+          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create employee"
         },
         "APPLICATION": {
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "not enough seats in workshop to enroll application",
@@ -811,12 +811,12 @@
       "DELETE_RATE": "Are you sure you want to delete the rate?",
       "DELETE_TEACHER": "Are you sure you want to delete teacher's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider",
-      "DELETE_PROVIDER_ADMIN": "Are you sure you want to delete the workshop administrator",
+      "DELETE_EMPLOYEE": "Are you sure you want to delete the employee",
       "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy",
-      "BLOCK_PROVIDER_ADMIN": "Are you sure you want to block the workshop administrator",
+      "BLOCK_EMPLOYEE": "Are you sure you want to block the employee",
       "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy",
       "BLOCK_PROVIDER": "Are you sure you want to block this provider?",
-      "UNBLOCK_PROVIDER_ADMIN": "Are you sure you want to unblock the workshop administrator",
+      "UNBLOCK_EMPLOYEE": "Are you sure you want to unblock the employee",
       "UNBLOCK_PROVIDER_DEPUTY": "Are you sure you want to unblock the provider deputy",
       "UNBLOCK_PROVIDER": "Are you sure you want to unblock the provider",
       "SEND_EDITING_PROVIDER": "Are you sure you want to send the provider for editing?",
@@ -828,9 +828,9 @@
       "CREATE_ACHIEVEMENT": "Are you sure you want to add an achievement?",
       "REJECT_APPLICATION": "Are you sure you want to change the status of the application to 'Rejected'?",
       "CREATE_PROVIDER_DEPUTY": "Are you sure you want to add a provider deputy?",
-      "CREATE_PROVIDER_ADMIN": "Are you sure you want to add the workshop administrator?",
+      "CREATE_EMPLOYEE": "Are you sure you want to add the employee?",
       "UPDATE_PROVIDER_DEPUTY": "Are you sure you want to edit the provider deputy?",
-      "UPDATE_PROVIDER_ADMIN": "are you sure you want to edit the workshop administrator?",
+      "UPDATE_EMPLOYEE": "are you sure you want to edit the employee?",
       "BLOCK_USER": "Are you sure you want to block the user?",
       "UNBLOCK_USER": "Are you sure you want to unblock the user?",
       "CLOSE_SET": "Are you sure you want to pause the workshop recruitment?",
@@ -854,12 +854,12 @@
         "DELETE_RATE": "DELETE RATE?",
         "DELETE_TEACHER": "DELETE TEACHER DATA?",
         "DELETE_PROVIDER": "DELETE PROVIDER?",
-        "DELETE_PROVIDER_ADMIN": "DELETE WORKSHOP ADMINISTRATOR?",
+        "DELETE_EMPLOYEE": "DELETE EMPLOYEE?",
         "DELETE_PROVIDER_DEPUTY": "DELETE PROVIDER DEPUTY?",
-        "BLOCK_PROVIDER_ADMIN": "BLOCK WORKSHOP ADMINISTRATOR?",
+        "BLOCK_EMPLOYEE": "BLOCK EMPLOYEE?",
         "BLOCK_PROVIDER_DEPUTY": "BLOCK PROVIDER DEPUTY?",
         "BLOCK_PROVIDER": "BLOCK PROVIDER?",
-        "UNBLOCK_PROVIDER_ADMIN": "UNBLOCK WORKSHOP ADMINISTRATOR?",
+        "UNBLOCK_EMPLOYEE": "UNBLOCK EMPLOYEE?",
         "UNBLOCK_PROVIDER_DEPUTY": "UNBLOCK PROVIDER DEPUTY?",
         "UNBLOCK_PROVIDER": "UNBLOCK PROVIDER?",
         "SEND_EDITING_PROVIDER": "SEND FOR EDITING?",
@@ -871,9 +871,9 @@
         "CREATE_ACHIEVEMENT": "ADD ACHIEVEMENT?",
         "REJECT_APPLICATION": "REJECT?",
         "CREATE_PROVIDER_DEPUTY": "ADD PROVIDER DEPUTY?",
-        "CREATE_PROVIDER_ADMIN": "ADD WORKSHOP ADMINISTRATOR?",
+        "CREATE_EMPLOYEE": "ADD EMPLOYEE?",
         "UPDATE_PROVIDER_DEPUTY": "EDIT PROVIDER DEPUTY?",
-        "UPDATE_PROVIDER_ADMIN": "EDIT WORKSHOP ADMINISTRATOR?",
+        "UPDATE_EMPLOYEE": "EDIT EMPLOYEE?",
         "BLOCK_USER": "BLOCK USER?",
         "UNBLOCK_USER": "UNBLOCK USER?",
         "CLOSE_SET": "CLOSE RECRUITMENT?",

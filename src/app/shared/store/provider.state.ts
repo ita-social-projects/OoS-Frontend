@@ -13,14 +13,14 @@ import { Application } from 'shared/models/application.model';
 import { BlockedParent } from 'shared/models/block.model';
 import { Child } from 'shared/models/child.model';
 import { TruncatedItem } from 'shared/models/item.model';
-import { ProviderAdmin } from 'shared/models/provider-admin.model';
+import { Employee } from 'shared/models/employee.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
-import { ProviderAdminService } from 'shared/services/provider-admins/provider-admin.service';
+import { EmployeeService } from 'shared/services/employee/employee.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { Util } from 'shared/utils/utils';
@@ -30,49 +30,49 @@ import {
   BlockParent,
   BlockParentFail,
   BlockParentSuccess,
-  BlockProviderAdminById,
+  BlockEmployeeById,
   CreateAchievement,
   CreateProvider,
-  CreateProviderAdmin,
+  CreateEmployee,
   CreateWorkshop,
   DeleteAchievementById,
-  DeleteProviderAdminById,
+  DeleteEmployeeById,
   DeleteProviderById,
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
   GetBlockedParents,
   GetChildrenByWorkshopId,
-  GetFilteredProviderAdmins,
+  GetFilteredEmployees,
   GetPendingApplicationsByProviderId,
-  GetProviderAdminById,
-  GetProviderAdminWorkshops,
+  GetEmployeeById,
+  GetEmployeeWorkshops,
   GetProviderViewWorkshops,
-  GetWorkshopListByProviderAdminId,
+  GetWorkshopListByEmployeeId,
   GetWorkshopListByProviderId,
-  OnBlockProviderAdminFail,
-  OnBlockProviderAdminSuccess,
+  OnBlockEmployeeFail,
+  OnBlockEmployeeSuccess,
   OnClearBlockedParents,
   OnCreateAchievementFail,
   OnCreateAchievementSuccess,
-  OnCreateProviderAdminFail,
-  OnCreateProviderAdminSuccess,
+  OnCreateEmployeeFail,
+  OnCreateEmployeeSuccess,
   OnCreateProviderFail,
   OnCreateProviderSuccess,
   OnCreateWorkshopFail,
   OnCreateWorkshopSuccess,
   OnDeleteAchievementFail,
   OnDeleteAchievementSuccess,
-  OnDeleteProviderAdminFail,
-  OnDeleteProviderAdminSuccess,
+  OnDeleteEmployeeFail,
+  OnDeleteEmployeeSuccess,
   OnDeleteProviderByIdFail,
   OnDeleteProviderByIdSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
-  OnUpdateProviderAdminFail,
-  OnUpdateProviderAdminSuccess,
+  OnUpdateEmployeeFail,
+  OnUpdateEmployeeSuccess,
   OnUpdateProviderFail,
   OnUpdateProviderStatusFail,
   OnUpdateProviderStatusSuccess,
@@ -81,14 +81,14 @@ import {
   OnUpdateWorkshopStatusFail,
   OnUpdateWorkshopStatusSuccess,
   OnUpdateWorkshopSuccess,
-  ReinviteProviderAdmin,
+  ReinviteEmployee,
   ResetAchievements,
   UnBlockParent,
   UnBlockParentFail,
   UnBlockParentSuccess,
   UpdateAchievement,
   UpdateProvider,
-  UpdateProviderAdmin,
+  UpdateEmployee,
   UpdateProviderLicenseStatus,
   UpdateProviderStatus,
   UpdateWorkshop,
@@ -102,8 +102,8 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
-  providerAdmins: SearchResponse<ProviderAdmin[]>;
-  selectedProviderAdmin: ProviderAdmin;
+  employees: SearchResponse<Employee[]>;
+  selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
   pendingApplications: SearchResponse<Application[]>;
@@ -117,8 +117,8 @@ export interface ProviderStateModel {
     achievements: null,
     selectedAchievement: null,
     providerWorkshops: null,
-    providerAdmins: null,
-    selectedProviderAdmin: null,
+    employees: null,
+    selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
     pendingApplications: null
@@ -130,7 +130,7 @@ export class ProviderState {
     private achievementsService: AchievementsService,
     private router: Router,
     private userWorkshopService: UserWorkshopService,
-    private providerAdminService: ProviderAdminService,
+    private employeeService: EmployeeService,
     private providerService: ProviderService,
     private applicationService: ApplicationService,
     private blockService: BlockService
@@ -162,8 +162,8 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerAdmins(state: ProviderStateModel): SearchResponse<ProviderAdmin[]> {
-    return state.providerAdmins;
+  static employees(state: ProviderStateModel): SearchResponse<Employee[]> {
+    return state.employees;
   }
 
   @Selector()
@@ -177,8 +177,8 @@ export class ProviderState {
   }
 
   @Selector()
-  static selectedProviderAdmin(state: ProviderStateModel): ProviderAdmin {
-    return state.selectedProviderAdmin;
+  static selectedEmployee(state: ProviderStateModel): Employee {
+    return state.selectedEmployee;
   }
 
   @Selector()
@@ -233,14 +233,14 @@ export class ProviderState {
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
-  @Action(GetWorkshopListByProviderAdminId)
-  getWorkshopListByProviderAdminId(
+  @Action(GetWorkshopListByEmployeeId)
+  getWorkshopListByEmployeeId(
     { patchState }: StateContext<ProviderStateModel>,
-    { id }: GetWorkshopListByProviderAdminId
+    { id }: GetWorkshopListByEmployeeId
   ): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
     return this.userWorkshopService
-      .getWorkshopListByProviderAdminId(id)
+      .getWorkshopListByEmployeeId(id)
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
@@ -321,14 +321,14 @@ export class ProviderState {
       });
   }
 
-  @Action(GetProviderAdminWorkshops)
-  getProviderAdminWorkshops(
+  @Action(GetEmployeeWorkshops)
+  getEmployeeWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
-    { parameters }: GetProviderAdminWorkshops
+    { parameters }: GetEmployeeWorkshops
   ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
-      .getProviderAdminsWorkshops(parameters)
+      .getEmployeesWorkshops(parameters)
       .pipe(
         tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
@@ -351,19 +351,15 @@ export class ProviderState {
       );
   }
 
-  @Action(GetFilteredProviderAdmins)
-  getFilteredProviderAdmins(
+  @Action(GetFilteredEmployees)
+  getFilteredEmployees(
     { patchState }: StateContext<ProviderStateModel>,
-    { payload }: GetFilteredProviderAdmins
-  ): Observable<SearchResponse<ProviderAdmin[]>> {
+    { payload }: GetFilteredEmployees
+  ): Observable<SearchResponse<Employee[]>> {
     patchState({ isLoading: true });
-    return this.providerAdminService
-      .getFilteredProviderAdmins(payload)
-      .pipe(
-        tap((providerAdmins: SearchResponse<ProviderAdmin[]>) =>
-          patchState({ providerAdmins: providerAdmins ?? EMPTY_RESULT, isLoading: false })
-        )
-      );
+    return this.employeeService
+      .getFilteredEmployees(payload)
+      .pipe(tap((employees: SearchResponse<Employee[]>) => patchState({ employees: employees ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(CreateWorkshop)
@@ -544,51 +540,48 @@ export class ProviderState {
     ]);
   }
 
-  @Action(CreateProviderAdmin)
-  createProviderAdmin({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateProviderAdmin): Observable<ProviderAdmin | void> {
-    return this.providerAdminService.createProviderAdmin(payload).pipe(
-      tap((res: ProviderAdmin) => dispatch(new OnCreateProviderAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnCreateProviderAdminFail(error)))
+  @Action(CreateEmployee)
+  createEmployee({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateEmployee): Observable<Employee | void> {
+    return this.employeeService.createEmployee(payload).pipe(
+      tap((res: Employee) => dispatch(new OnCreateEmployeeSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateEmployeeFail(error)))
     );
   }
 
-  @Action(OnCreateProviderAdminFail)
-  onCreateProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminFail): void {
+  @Action(OnCreateEmployeeFail)
+  onCreateEmployeeFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateEmployeeFail): void {
     throwError(() => payload);
   }
 
-  @Action(OnCreateProviderAdminSuccess)
-  onCreateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
+  @Action(OnCreateEmployeeSuccess)
+  onCreateEmployeeSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateEmployeeSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: payload.isDeputy ? SnackbarText.createDeputy : SnackbarText.createProviderAdminSuccess,
+        message: SnackbarText.createEmployeeSuccess,
         type: 'success'
       })
     ]);
     this.router.navigate(['/personal-cabinet/provider/administration']);
   }
 
-  @Action(BlockProviderAdminById)
-  blockProviderAdmin({ dispatch }: StateContext<ProviderStateModel>, { payload, filterParams }: BlockProviderAdminById): Observable<void> {
-    return this.providerAdminService.blockProviderAdmin(payload).pipe(
-      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload, filterParams))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnBlockProviderAdminFail(error)))
+  @Action(BlockEmployeeById)
+  blockEmployee({ dispatch }: StateContext<ProviderStateModel>, { payload, filterParams }: BlockEmployeeById): Observable<void> {
+    return this.employeeService.blockEmployee(payload).pipe(
+      tap(() => dispatch(new OnBlockEmployeeSuccess(payload, filterParams))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnBlockEmployeeFail(error)))
     );
   }
 
-  @Action(OnBlockProviderAdminFail)
-  onBlockProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnBlockProviderAdminFail): void {
+  @Action(OnBlockEmployeeFail)
+  onBlockEmployeeFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnBlockEmployeeFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnBlockProviderAdminSuccess)
-  onBlockProviderAdminSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, filterParams }: OnBlockProviderAdminSuccess
-  ): void {
+  @Action(OnBlockEmployeeSuccess)
+  onBlockEmployeeSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, filterParams }: OnBlockEmployeeSuccess): void {
     dispatch([
-      new GetFilteredProviderAdmins(filterParams),
+      new GetFilteredEmployees(filterParams),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success'
@@ -596,46 +589,40 @@ export class ProviderState {
     ]);
   }
 
-  @Action(DeleteProviderAdminById)
-  deleteProviderAdmin(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, filterParams }: DeleteProviderAdminById
-  ): Observable<void> {
-    return this.providerAdminService.deleteProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(() => dispatch(new OnDeleteProviderAdminSuccess(filterParams))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteProviderAdminFail(error)))
+  @Action(DeleteEmployeeById)
+  deleteEmployee({ dispatch }: StateContext<ProviderStateModel>, { payload, filterParams }: DeleteEmployeeById): Observable<void> {
+    return this.employeeService.deleteEmployee(payload.userId, payload.providerId).pipe(
+      tap(() => dispatch(new OnDeleteEmployeeSuccess(filterParams))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteEmployeeFail(error)))
     );
   }
 
-  @Action(OnDeleteProviderAdminFail)
-  onDeleteProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteProviderAdminFail): void {
+  @Action(OnDeleteEmployeeFail)
+  onDeleteEmployeeFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteEmployeeFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnDeleteProviderAdminSuccess)
-  onDeleteProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { filterParams }: OnDeleteProviderAdminSuccess): void {
+  @Action(OnDeleteEmployeeSuccess)
+  onDeleteEmployeeSuccess({ dispatch }: StateContext<ProviderStateModel>, { filterParams }: OnDeleteEmployeeSuccess): void {
     dispatch([
-      new GetFilteredProviderAdmins(filterParams),
+      new GetFilteredEmployees(filterParams),
       new ShowMessageBar({
-        message: SnackbarText.deleteProviderAdmin,
+        message: SnackbarText.deleteEmployee,
         type: 'success'
       })
     ]);
   }
 
-  @Action(UpdateProviderAdmin)
-  updateProviderAdmin(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { providerId, providerAdmin }: UpdateProviderAdmin
-  ): Observable<ProviderAdmin | void> {
-    return this.providerAdminService.updateProviderAdmin(providerId, providerAdmin).pipe(
-      tap(() => dispatch(new OnUpdateProviderAdminSuccess(providerAdmin))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderAdminFail(error)))
+  @Action(UpdateEmployee)
+  updateEmployee({ dispatch }: StateContext<ProviderStateModel>, { providerId, employee }: UpdateEmployee): Observable<Employee | void> {
+    return this.employeeService.updateEmployee(providerId, employee).pipe(
+      tap(() => dispatch(new OnUpdateEmployeeSuccess(employee))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateEmployeeFail(error)))
     );
   }
 
-  @Action(OnUpdateProviderAdminFail)
-  onUpdateProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
+  @Action(OnUpdateEmployeeFail)
+  onUpdateEmployeeFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateEmployeeFail): void {
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
@@ -644,12 +631,12 @@ export class ProviderState {
     );
   }
 
-  @Action(OnUpdateProviderAdminSuccess)
-  onUpdateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminSuccess): void {
+  @Action(OnUpdateEmployeeSuccess)
+  onUpdateEmployeeSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateEmployeeSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: payload.isDeputy ? SnackbarText.updateDeputy : SnackbarText.updateProviderAdmin,
+        message: SnackbarText.updateEmployee,
         type: 'success'
       })
     ]);
@@ -766,17 +753,17 @@ export class ProviderState {
     ]);
   }
 
-  @Action(GetProviderAdminById)
-  getProviderAdminById({ patchState }: StateContext<ProviderStateModel>, { payload }: GetProviderAdminById): Observable<ProviderAdmin> {
+  @Action(GetEmployeeById)
+  getEmployeeById({ patchState }: StateContext<ProviderStateModel>, { payload }: GetEmployeeById): Observable<Employee> {
     patchState({ isLoading: true });
-    return this.providerAdminService
-      .getProviderAdminById(payload)
-      .pipe(tap((selectedProviderAdmin: ProviderAdmin) => patchState({ selectedProviderAdmin, isLoading: false })));
+    return this.employeeService
+      .getEmployeeById(payload)
+      .pipe(tap((selectedEmployee: Employee) => patchState({ selectedEmployee, isLoading: false })));
   }
 
-  @Action(ReinviteProviderAdmin)
-  reinviteProviderAdmin({ dispatch }: StateContext<ProviderStateModel>, { providerAdmin }: ReinviteProviderAdmin): Observable<void> {
-    return this.providerAdminService.reinvateProviderAdmin(providerAdmin).pipe(
+  @Action(ReinviteEmployee)
+  reinviteEmployee({ dispatch }: StateContext<ProviderStateModel>, { employee }: ReinviteEmployee): Observable<void> {
+    return this.employeeService.reinvateEmployee(employee).pipe(
       tap(() =>
         dispatch(
           new ShowMessageBar({

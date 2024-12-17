@@ -96,9 +96,9 @@
       "ADD_CHILD_INFORMATION": "Додати дані про дитину",
       "ADD_DIRECTION": "Додати напрямок",
       "ADD_PROVIDER_DEPUTY": "Додати заступника директора",
-      "ADD_PROVIDER_ADMIN": "Додати адміністратора гуртка",
+      "ADD_EMPLOYEE": "Додати співробітника",
       "EDIT_PROVIDER_DEPUTY": "Редагувати заступника директора",
-      "EDIT_PROVIDER_ADMIN": "Редагувати адміністратора гуртка",
+      "EDIT_EMPLOYEE": "Редагувати співробітника",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Додати адміністратора міністерства",
       "ADD_PROVIDER_REGION_ADMIN": "Додати адміністратора області",
       "ADD_PROVIDER_AREA_ADMIN": "Додати адміністратора ОТГ",
@@ -173,7 +173,7 @@
     "PERSONAL_CABINET_TITLE": {
       "USER_PERSONAL_CABINET": "Кабінет користувача",
       "PROVIDER_PERSONAL_CABINET": "Кабінет надавача послуг",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора гуртка",
+      "EMPLOYEE_PERSONAL_CABINET": "Кабінет співробітника",
       "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Кабінет заступника директора",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адміністратора",
       "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора міністерства",
@@ -275,9 +275,9 @@
       "PENDING": "Очікує підтвердження ліцензії",
       "NOT_PROVIDED": "Ліцензію не надано"
     },
-    "PROVIDER_ADMINS": {
+    "EMPLOYEES": {
       "PROVIDER_DEPUTY": "Заступник директора",
-      "PROVIDER_ADMIN": "Адміністратор гуртка",
+      "EMPLOYEE": "Співробітник",
       "ALL": "Усі"
     },
     "ADMINISTRATORS": {
@@ -285,13 +285,13 @@
       "REGION_ADMIN": "Адміністратор області",
       "AREA_ADMIN": "Адміністратор ОТГ"
     },
-    "PROVIDER_ADMINS_DECLINATION": {
+    "EMPLOYEES_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
-      "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
+      "EMPLOYEE_GENETIVE": "Співробітника"
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Заклади",
-      "ADMINS": "Адміністратори",
+      "EMPLOYEES": "Співробітники",
       "APPLICATIONS": "Заявки",
       "USERS": "Користувачі",
       "ADMIN_STATUS": {
@@ -337,7 +337,7 @@
       "EDIT": "РЕДАГУВАННЯ",
       "EDIT_INFO": "Редагування інформації",
       "SUBHEADER_TITLE": "Заголовок",
-      "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
+      "EMPLOYEES_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
       "ADD_ACHIEVEMENT": "ДОДАТИ ДОСЯГНЕННЯ",
       "ADD_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході",
       "NEW_USER": "РЕЄСТРАЦІЯ НОВОГО КОРИСТУВАЧА"
@@ -390,7 +390,7 @@
       "FOUNDER": "Засновник",
       "DIRECTOR_NAME": "ПІБ керівника",
       "DIRECTOR_BIRTHDAY": "Дата народження керівника",
-      "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
+      "SELECT_WORKSHOPS": "Позначте гуртки до яких співробітник матиме доступ",
       "CHECK_WORKSHOPS": "Обрати гуртки",
       "ROLE": "Роль",
       "STATUS": "Статус",
@@ -627,15 +627,15 @@
     "SHOW": "Показати",
     "RESET_FILTERS": "Скинути фільтри",
     "PERIOD": "Період",
-    "PROVIDER_ADMIN_FILTERS": {
+    "EMPLOYEE_FILTERS": {
       "ALL": "Усі",
       "DEPUTIES": "Заступники",
-      "ASSISTANTS": "Адміністратори гуртків",
-      "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
-      "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
-      "BLOCK_ADMIN_OPTION": "Адміністратора було заблоковано/розблоковано",
-      "UPDATE_ADMIN_OPTION": "Дані про адміністратора були оновлені",
-      "REINVITE_ADMIN_OPTION": "Адміністратор був запрошений повторно"
+      "ASSISTANTS": "Співробітники",
+      "ADD_ADMIN_OPTION": "Додавання співробітника до гуртка",
+      "REMOVE_ADMIN_OPTION": "Видалення співробітника з гуртка",
+      "BLOCK_ADMIN_OPTION": "Співробітника було заблоковано/розблоковано",
+      "UPDATE_ADMIN_OPTION": "Дані про співробітника були оновлені",
+      "REINVITE_ADMIN_OPTION": "Співробітник був запрошений повторно"
     },
     "STATUS_CHANGE_TYPE": "Зміна статусів заявок",
     "USERS_FILTERS": {
@@ -744,10 +744,10 @@
       "UPDATE_ACHIEVEMENT": "Досягнення успішно відредаговано!",
       "DELETE_ACHIEVEMENT": "Досягнення видалено!",
       "DELETE_RATE": "Досягнення видалено!",
-      "CREATE_PROVIDER_ADMIN_SUCCESS": "Адміністратора гуртка успішно створено!",
-      "CREATE_PROVIDER_ADMIN_FAIL": "На жаль виникла помилка при створенні адміністратора гуртка!",
-      "UPDATE_PROVIDER_ADMIN": "Адміністратора гуртка успішно відредаговано!",
-      "DELETE_PROVIDER_ADMIN": "Адміністратора гуртка видалено!",
+      "CREATE_EMPLOYEE_SUCCESS": "Співробітника успішно створено!",
+      "CREATE_EMPLOYEE_FAIL": "На жаль виникла помилка при створенні співробітника!",
+      "UPDATE_EMPLOYEE": "Співробітника успішно відредаговано!",
+      "DELETE_EMPLOYEE": "Співробітника видалено!",
       "CREATE_APPLICATION": "Заявку створено!",
       "APPLICATION_LIMIT": "Перевищено ліміт заявок. Спробуйте ще раз пізніше.",
       "APPLICATION_LIMIT_PER_PERSON": "Користувач може подати не більше 2-х заяв в тиждень на людину",
@@ -786,8 +786,8 @@
           "EMAIL_ALREADY_TAKEN": "введену пошту вже зайнято",
           "PHONE_NUMBER_ALREADY_TAKEN": "введений номер телефону вже зайнято"
         },
-        "PROVIDER_ADMIN": {
-          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "недостатньо прав для створення адміністратора закладу"
+        "EMPLOYEE": {
+          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "недостатньо прав для створення співробітника"
         },
         "APPLICATION": {
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "недостатньо місць у гуртку для зарахування заявки",
@@ -813,12 +813,12 @@
       "DELETE_RATE": "Ви впевнені, що хочете вилучити оцінку?",
       "DELETE_TEACHER": "Ви впевнені, що хочете вилучити дані про вчителя?",
       "DELETE_PROVIDER": "Ви впевнені, що хочете видалити заклад",
-      "DELETE_PROVIDER_ADMIN": "Ви впевнені, що хочете видалити адміністратора гуртка",
+      "DELETE_EMPLOYEE": "Ви впевнені, що хочете видалити співробітника",
       "DELETE_PROVIDER_DEPUTY": "Ви впевнені, що хочете видалити заступника директора",
-      "BLOCK_PROVIDER_ADMIN": "Ви впевнені, що хочете заблокувати адміністратора гуртка",
+      "BLOCK_EMPLOYEE": "Ви впевнені, що хочете заблокувати співробітника",
       "BLOCK_PROVIDER_DEPUTY": "Ви впевнені, що хочете заблокувати заступника директора",
       "BLOCK_PROVIDER": "Ви впевнені, що хочете заблокувати надавача послуг?",
-      "UNBLOCK_PROVIDER_ADMIN": "Ви впевнені, що хочете розблокувати адміністратора гуртка",
+      "UNBLOCK_EMPLOYEE": "Ви впевнені, що хочете розблокувати співробітника",
       "UNBLOCK_PROVIDER_DEPUTY": "Ви впевнені, що хочете розблокувати заступника директора",
       "UNBLOCK_PROVIDER": "Ви впевнені, що хочете розблокувати надавача послуг",
       "SEND_EDITING_PROVIDER": "Ви впевнені, що хочете відправити заклад на редагування?",
@@ -830,9 +830,9 @@
       "CREATE_ACHIEVEMENT": "Ви впевнені, що хочете додати досягнення?",
       "REJECT_APPLICATION": "Ви впевнені, що хочете перевести заявку у статус 'Відмовлено'?",
       "CREATE_PROVIDER_DEPUTY": "Ви впевнені, що хочете додати заступника директора?",
-      "CREATE_PROVIDER_ADMIN": "Ви впевнені, що хочете додати адміністратора гуртка?",
+      "CREATE_EMPLOYEE": "Ви впевнені, що хочете додати співробітника?",
       "UPDATE_PROVIDER_DEPUTY": "Ви впевнені, що хочете редагувати заступника директора?",
-      "UPDATE_PROVIDER_ADMIN": "Ви впевнені, що хочете редагувати адміністратора гуртка?",
+      "UPDATE_EMPLOYEE": "Ви впевнені, що хочете редагувати співробітника?",
       "BLOCK_USER": "Ви впевнені, що хочете заблокувати користувача?",
       "UNBLOCK_USER": "Ви впевнені, що хочете розблокувати користувача?",
       "CLOSE_SET": "Ви впевнені, що хочете призупинити набір?",
@@ -856,12 +856,12 @@
         "DELETE_RATE": "ВИДАЛИТИ ОЦІНКУ?",
         "DELETE_TEACHER": "ВИЛУЧИТИ ДАНІ ПРО ВЧИТЕЛЯ?",
         "DELETE_PROVIDER": "ВИДАЛИТИ ЗАКЛАД?",
-        "DELETE_PROVIDER_ADMIN": "ВИДАЛИТИ АДМІНІСТРАТОРА ГУРТКА?",
+        "DELETE_EMPLOYEE": "ВИДАЛИТИ СПІВРОБІТНИКА?",
         "DELETE_PROVIDER_DEPUTY": "ВИДАЛИТИ ЗАСТУПНИКА ДИРЕКТОРА?",
-        "BLOCK_PROVIDER_ADMIN": "ЗАБЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА?",
+        "BLOCK_EMPLOYEE": "ЗАБЛОКУВАТИ СПІВРОБІТНИКА?",
         "BLOCK_PROVIDER_DEPUTY": "ЗАБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА?",
         "BLOCK_PROVIDER": "ЗАБЛОКУВАТИ НАДАВАЧА ПОСЛУГ?",
-        "UNBLOCK_PROVIDER_ADMIN": "РОЗБЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА?",
+        "UNBLOCK_EMPLOYEE": "РОЗБЛОКУВАТИ СПІВРОБІТНИКА?",
         "UNBLOCK_PROVIDER_DEPUTY": "РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА?",
         "UNBLOCK_PROVIDER": "РОЗБЛОКУВАТИ НАДАВАЧА ПОСЛУГ?",
         "SEND_EDITING_PROVIDER": "ВІДПРАВИТИ НА РЕДАГУВАННЯ?",
@@ -873,9 +873,9 @@
         "CREATE_ACHIEVEMENT": "ДОДАТИ ДОСЯГНЕННЯ?",
         "REJECT_APPLICATION": "ВІДХИЛИТИ?",
         "CREATE_PROVIDER_DEPUTY": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА?",
-        "CREATE_PROVIDER_ADMIN": "ДОДАТИ АДМІНІСТРАТОРА ГУРТКА?",
+        "CREATE_EMPLOYEE": "ДОДАТИ СПІВРОБІТНИКА?",
         "UPDATE_PROVIDER_DEPUTY": "РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА?",
-        "UPDATE_PROVIDER_ADMIN": "РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА?",
+        "UPDATE_EMPLOYEE": "РЕДАГУВАТИ СПІВРОБІТНИКА?",
         "BLOCK_USER": "ЗАБЛОКУВАТИ КОРИСТУВАЧА?",
         "UNBLOCK_USER": "РОЗБЛОКУВАТИ КОРИСТУВАЧА?",
         "CLOSE_SET": "ПРИЗУПИНИТИ НАБІР?",

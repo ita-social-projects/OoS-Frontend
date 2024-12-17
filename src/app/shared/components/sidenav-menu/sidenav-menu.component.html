@@ -43,7 +43,7 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">
               {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</a
             >
-            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
+            <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate
             }}</a>
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
@@ -51,7 +51,7 @@
             }}</a>
             <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}</a>
             <a
-              *ngIf="user.role === Role.provider && (subrole$ | async) !== Role.ProviderAdmin"
+              *ngIf="user.role === Role.provider && user.role === Role.providerDeputy"
               [routerLink]="'./personal-cabinet/provider/administration'"
               (click)="changeView()"
               >{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}</a

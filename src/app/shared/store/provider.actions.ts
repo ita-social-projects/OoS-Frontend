@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Achievement, AchievementParameters } from 'shared/models/achievement.model';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
-import { BlockedParent, ProviderAdminBlockData } from 'shared/models/block.model';
-import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { BlockedParent, EmployeeBlockData } from 'shared/models/block.model';
+import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
@@ -68,8 +68,8 @@ export class OnDeleteAchievementFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class GetProviderAdminWorkshops {
-  static readonly type = '[provider] get Workshops for provider admin';
+export class GetEmployeeWorkshops {
+  static readonly type = '[provider] get Workshops for Employee';
   constructor(public parameters: PaginationParameters) {}
 }
 
@@ -78,9 +78,9 @@ export class GetProviderViewWorkshops {
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
-export class GetFilteredProviderAdmins {
-  static readonly type = '[provider] get filtered provider admin users';
-  constructor(public payload: ProviderAdminParameters) {}
+export class GetFilteredEmployees {
+  static readonly type = '[provider] get filtered Employee users';
+  constructor(public payload: EmployeeParameters) {}
 }
 
 export class GetWorkshopListByProviderId {
@@ -88,8 +88,8 @@ export class GetWorkshopListByProviderId {
   constructor(public payload: string) {}
 }
 
-export class GetWorkshopListByProviderAdminId {
-  static readonly type = '[user] get Workshop List By Provider Admin Id';
+export class GetWorkshopListByEmployeeId {
+  static readonly type = '[user] get Workshop List By Employee Id';
   constructor(public id: string) {}
 }
 
@@ -206,76 +206,76 @@ export class OnUpdateProviderStatusSuccess {
   ) {}
 }
 
-export class CreateProviderAdmin {
-  static readonly type = '[provider] create Provider Admin';
-  constructor(public payload: ProviderAdmin) {}
+export class CreateEmployee {
+  static readonly type = '[provider] create Employee';
+  constructor(public payload: Employee) {}
 }
 
-export class OnCreateProviderAdminFail {
-  static readonly type = '[provider] create Provider Admin fail';
+export class OnCreateEmployeeFail {
+  static readonly type = '[provider] create Employee fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class OnCreateProviderAdminSuccess {
-  static readonly type = '[provider] create Provider Admin success';
-  constructor(public payload: ProviderAdmin) {}
+export class OnCreateEmployeeSuccess {
+  static readonly type = '[provider] create Employee success';
+  constructor(public payload: Employee) {}
 }
 
-export class BlockProviderAdminById {
-  static readonly type = '[provider] block Provider Admin';
+export class BlockEmployeeById {
+  static readonly type = '[provider] block Employee';
   constructor(
-    public payload: ProviderAdminBlockData,
-    public filterParams: ProviderAdminParameters
+    public payload: EmployeeBlockData,
+    public filterParams: EmployeeParameters
   ) {}
 }
 
-export class OnBlockProviderAdminSuccess {
-  static readonly type = '[provider] block Provider Admin success';
+export class OnBlockEmployeeSuccess {
+  static readonly type = '[provider] block Employee success';
   constructor(
-    public payload: ProviderAdminBlockData,
-    public filterParams: ProviderAdminParameters
+    public payload: EmployeeBlockData,
+    public filterParams: EmployeeParameters
   ) {}
 }
 
-export class OnBlockProviderAdminFail {
-  static readonly type = '[provider] block Provider Admin fail';
+export class OnBlockEmployeeFail {
+  static readonly type = '[provider] block Employee fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class DeleteProviderAdminById {
-  static readonly type = '[provider] delete Provider Admin';
+export class DeleteEmployeeById {
+  static readonly type = '[provider] delete Employee';
   constructor(
-    public payload: ProviderAdminBlockData,
-    public filterParams: ProviderAdminParameters
+    public payload: EmployeeBlockData,
+    public filterParams: EmployeeParameters
   ) {}
 }
 
-export class OnDeleteProviderAdminSuccess {
-  static readonly type = '[provider] delete Provider Admin success';
-  constructor(public filterParams: ProviderAdminParameters) {}
+export class OnDeleteEmployeeSuccess {
+  static readonly type = '[provider] delete Employee success';
+  constructor(public filterParams: EmployeeParameters) {}
 }
 
-export class OnDeleteProviderAdminFail {
-  static readonly type = '[provider] delete Provider Admin fail';
+export class OnDeleteEmployeeFail {
+  static readonly type = '[provider] delete Employee fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class UpdateProviderAdmin {
-  static readonly type = '[provider] update Provider Admin';
+export class UpdateEmployee {
+  static readonly type = '[provider] update Employee';
   constructor(
     public providerId: string,
-    public providerAdmin: ProviderAdmin
+    public employee: Employee
   ) {}
 }
 
-export class OnUpdateProviderAdminFail {
-  static readonly type = '[provider] update Provider Admin fail';
+export class OnUpdateEmployeeFail {
+  static readonly type = '[provider] update Employee fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class OnUpdateProviderAdminSuccess {
-  static readonly type = '[provider] update Provider Admin success';
-  constructor(public payload: ProviderAdmin) {}
+export class OnUpdateEmployeeSuccess {
+  static readonly type = '[provider] update Employee success';
+  constructor(public payload: Employee) {}
 }
 
 export class UpdateWorkshopStatus {
@@ -371,14 +371,14 @@ export class OnDeleteProviderByIdFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class GetProviderAdminById {
-  static readonly type = '[provider] get provider admin by id';
+export class GetEmployeeById {
+  static readonly type = '[provider] get Employee by id';
   constructor(public payload: string) {}
 }
 
-export class ReinviteProviderAdmin {
-  static readonly type = '[provider] reinvites provider admin';
-  constructor(public providerAdmin: ProviderAdmin) {}
+export class ReinviteEmployee {
+  static readonly type = '[provider] reinvites Employee';
+  constructor(public employee: Employee) {}
 }
 
 export class GetPendingApplicationsByProviderId {

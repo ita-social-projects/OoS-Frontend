@@ -11,7 +11,7 @@
   </div>
 
   <app-entity-checkbox-dropdown
-    *ngIf="role === Role.provider"
+    *ngIf="isRoleProvider(role)"
     [entities]="workshops$ | async"
     [declination]="WorkshopDeclination"
     (entityCheck)="onEntitiesSelect($event)">

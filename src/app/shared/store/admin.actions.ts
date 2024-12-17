@@ -168,8 +168,8 @@ export class GetProviderHistory {
   ) {}
 }
 
-export class GetProviderAdminHistory {
-  static readonly type = '[admin] Get Provider Admin History';
+export class GetEmployeeHistory {
+  static readonly type = '[admin] Get Employee History';
 
   constructor(
     public payload?: FilterData,

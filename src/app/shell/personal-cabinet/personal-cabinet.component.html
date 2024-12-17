@@ -12,7 +12,7 @@
         {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate | uppercase }} {{ RoleLinks[userRole] | translate | uppercase }}
       </a>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider">
+    <ng-container *ngIf="isRoleProvider(userRole)">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/workshops'">
         {{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate | uppercase }}
       </a>
@@ -31,7 +31,7 @@
         </a>
       </span>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider && subrole !== Subrole.ProviderAdmin">
+    <ng-container *ngIf="userRole === Role.provider || userRole === Role.providerDeputy">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}
       </a>

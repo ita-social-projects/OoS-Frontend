@@ -81,7 +81,7 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
       case HistoryLogTypes.Providers:
         this.addFormControlForFiltersForm(CustomFormControlNames.ProvidersPropertyName);
         break;
-      case HistoryLogTypes.ProviderAdmins:
+      case HistoryLogTypes.Employees:
         this.addFormControlForFiltersForm(CustomFormControlNames.AdminType, CustomFormControlNames.OperationType);
         this.addFormControlListeners(FormControlNames.AdminType, (adminType: string) => {
           const adminTypeOptions = this.filtersList.find((filter) => filter.controlName === FormControlNames.AdminType).options;

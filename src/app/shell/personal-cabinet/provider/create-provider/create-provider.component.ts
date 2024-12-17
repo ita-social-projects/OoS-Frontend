@@ -11,10 +11,10 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateProviderSteps } from 'shared/enum/provider';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Provider } from 'shared/models/provider.model';
@@ -26,7 +26,6 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -129,8 +128,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
 
     this.store.dispatch(
       new AddNavPath(

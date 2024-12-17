@@ -13,15 +13,15 @@
         [matTooltipDisabled]="!isSmallMobileView" />
     </div>
 
-    <ng-container *ngIf="subrole === Subrole.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
+    <ng-container *ngIf="role === Role.provider; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
-    <ng-container *ngIf="subrole === Subrole.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+    <ng-container *ngIf="role === Role.provider; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
   </div>
 </div>
 
 <ng-template #UsersList let-users>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!providerAdmins">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!employees">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
@@ -36,7 +36,7 @@
         </app-users-list>
       </div>
       <app-paginator
-        [totalEntities]="providerAdmins.totalAmount"
+        [totalEntities]="employees.totalAmount"
         [currentPage]="currentPage"
         [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
@@ -47,33 +47,33 @@
 </ng-template>
 
 <ng-template #isEmptyList>
-  <app-no-result-card [title]="noProviderAdmins"></app-no-result-card>
+  <app-no-result-card [title]="noEmployees"></app-no-result-card>
 </ng-template>
 
 <ng-template #DeputyBtnViewTmpl>
-  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+  <a [routerLink]="['/create-employee', employeeRole.admin]">
     <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
   </a>
 </ng-template>
 
 <ng-template #ProviderTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{ ProviderAdminTitles.All | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
+    <mat-tab label="{{ EmployeeTitles.All | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
     </mat-tab>
-    <mat-tab label="{{ ProviderAdminTitles.Deputy | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
+    <mat-tab label="{{ EmployeeTitles.Deputy | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
     </mat-tab>
-    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
+    <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
 
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
-    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
+    <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
@@ -85,21 +85,21 @@
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #add="matMenu" class="header_menu">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
-        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
+      <a [routerLink]="['/create-employee', employeeRole.deputy]">
+        <button mat-menu-item>{{ 'ENUM.EMPLOYEES_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
       </a>
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
-        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button>
+      <a [routerLink]="['/create-employee', employeeRole.admin]">
+        <button mat-menu-item>{{ 'ENUM.EMPLOYEES_DECLINATION.EMPLOYEE_GENETIVE' | translate }}</button>
       </a>
     </mat-menu>
   </ng-container>
   <ng-container *ngSwitchCase="1">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
+    <a [routerLink]="['/create-employee', employeeRole.deputy]">
       <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
     </a>
   </ng-container>
   <ng-container *ngSwitchCase="2">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+    <a [routerLink]="['/create-employee', employeeRole.admin]">
       <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
     </a>
   </ng-container>
