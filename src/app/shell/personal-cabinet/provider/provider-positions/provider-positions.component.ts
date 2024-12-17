@@ -56,7 +56,7 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
-        name: NavBarName.Workshops,
+        name: NavBarName.Positions,
         isActive: false,
         disable: true
       })

@@ -3,11 +3,11 @@
     <div class="wrapper">
       <div class="create-form-header flex flex-col justify-center items-center">
         <h3 class="wrapper-title">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_POSITION' : 'FORMS.HEADERS.NEW_POSITION') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
-          {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_POSITION_DESCRIPTION' : 'FORMS.HEADERS.NEW_POSITION_DESCRIPTION') | translate }}
+
         </p>
       </div>
       
@@ -16,7 +16,7 @@
     [completed]="!PositionFormGroup?.invalid">
       
       <ng-template matStepLabel>
-        <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
+        <p class="step-name">{{ 'TITLES.ABOUT_THE_POSITION_SHORT' | translate }}</p>
       </ng-template>
       <div>
         <app-create-position-form [position]="position" class="flex flex-row justify-center items-center"
