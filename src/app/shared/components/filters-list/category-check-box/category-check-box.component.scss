@@ -11,6 +11,10 @@
   margin: 1rem 0.5rem;
 }
 
+:host ::ng-deep .mat-form-field-infix {
+  padding: 0;
+}
+
 .list-wrapper {
   max-height: 200px;
   overflow: auto;
@@ -38,22 +42,13 @@ button {
   height: 100%;
 }
 
-:host ::ng-deep .mat-form-field-wrapper {
-  padding: 0;
-}
-
-:host ::ng-deep .mat-form-field-infix {
-  border: none;
-}
-
 :host ::ng-deep .mat-stroked-button {
   min-width: inherit;
   padding: 0;
 }
 
-:host ::ng-deep .mat-checkbox-label {
+:host ::ng-deep .mat-mdc-checkbox .mdc-label {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 13px;
   line-height: 17.7px;
 }
