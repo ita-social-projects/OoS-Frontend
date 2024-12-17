@@ -365,4 +365,11 @@ input:-webkit-autofill:active {
   }
 }
 
+button.mdc-button .mat-icon {
+  font-size: 24px;
+  height: 24px;
+  width: 24px;
+  margin: 0;
+}
+
 @import 'tailwind.css';

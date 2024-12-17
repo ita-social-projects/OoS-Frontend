@@ -4,6 +4,14 @@
     --mat-tab-header-active-ripple-color: transparent;
   }
 
+  .mat-mdc-tab-ripple {
+    border-radius: 20px;
+  }
+
+  .mdc-tab__ripple::before {
+    border-radius: 20px;
+  }
+
   .mdc-tab-indicator--active {
     .mat-ripple {
       color: #3849f9;
