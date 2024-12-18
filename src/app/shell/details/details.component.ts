@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
 import { Provider } from 'shared/models/provider.model';
-import { EntityType, Role } from '../../shared/enum/role';
+import { Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
@@ -30,14 +30,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
 
-  public readonly entityType = EntityType;
-
   public isMobileScreen: boolean;
   public workshop: Workshop;
   public provider: Provider;
   public role: Role;
 
-  public entity: EntityType;
+  public isWorkshop = false;
   public displayActionCard: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -51,7 +49,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
-      this.entity = params.entity;
+      this.isWorkshop = params.entity === 'workshop';
 
       this.getEntity(params.id);
 
@@ -87,7 +85,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    if (this.entity === EntityType.workshop) {
+    if (this.isWorkshop) {
       this.store.dispatch(new GetWorkshopById(id));
     } else {
       this.store.dispatch(new GetProviderById(id));

@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
+
 @font-face {
   font-family: 'Innerspace';
   src:
@@ -16,7 +17,6 @@ $config: mat.define-typography-config(
 );
 
 @mixin mat-button-toggle-typography($config) {
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle,
   .mat-button-toggle-button {
     @include mat.typography-level($config, button);
@@ -229,27 +229,35 @@ a {
   }
 }
 
-.mat-checkbox-inner-container {
-  height: 18px !important;
-  width: 18px !important;
-  align-items: center !important;
-}
-
-.mat-checkbox-checked {
-  & .mat-checkbox-background,
-  .mat-checkbox-frame {
-    background-color: $primary-color !important;
-    border-radius: 3px;
+.mat-mdc-checkbox {
+  .mdc-label {
+    padding: 0;
+    margin-left: 8px;
+    font-size: 13px;
   }
-}
 
-.mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  border-color: $primary-color !important;
-  border-width: 5px;
-}
+  .mdc-checkbox {
+    padding: 0;
 
-.mat-radio-button.mat-primary .mat-radio-inner-circle {
-  background-color: #ffffff !important;
+    .mdc-checkbox__native-control {
+      width: 18px;
+      height: 18px;
+      position: static;
+    }
+
+    .mdc-checkbox__background {
+      top: 0;
+      left: 0;
+    }
+
+    .mdc-checkbox__ripple {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 40px;
+      width: 40px;
+    }
+  }
 }
 
 .mat-mdc-card-image:first-child {
@@ -330,6 +338,43 @@ input:-webkit-autofill:active {
 
 .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
   transform: translateY(0) !important;
+}
+
+.mat-mdc-radio-button {
+  .mdc-form-field .mdc-radio {
+    padding: 0;
+  }
+
+  .mdc-label {
+    padding: 0.8rem 0 0.8rem 8px;
+    font-size: 13px;
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
+  .mdc-radio:hover .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
+  .mdc-radio:not(:disabled):active .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
+    .mdc-radio__outer-circle {
+      border-color: $primary-color;
+      border-width: 5px;
+    }
+
+    .mdc-radio__inner-circle {
+      border-color: #fff;
+    }
+  }
+}
+
+button.mdc-button {
+  .mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    margin: 0 8px 0 0;
+  }
+
+  .mdc-button__label {
+    line-height: 1;
+  }
 }
 
 @import 'tailwind.css';

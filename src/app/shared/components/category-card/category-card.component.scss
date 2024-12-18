@@ -7,19 +7,23 @@
   background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
+
   .icon {
     height: 68px;
   }
+
   .title {
     text-align: center;
     margin-bottom: 9px;
   }
+
   .link {
     display: flex;
     font-weight: bold;
     color: #3849f9;
     align-items: center;
     justify-content: center;
+
     .arrow {
       margin-left: 0.5rem;
       font-size: 15px;
@@ -33,33 +37,41 @@
   top: 12px;
   right: 35px;
   z-index: 2;
-  color: #3849f9;
+  margin-right: 7px;
+
   .mat-icon {
     font-size: 20px;
     width: 20px;
     height: 20px;
+    margin: 0;
+    color: #3849f9;
   }
-  .mat-button {
-    padding: 0px;
-    min-width: auto;
-    line-height: 16px;
+
+  .mdc-button {
+    padding: 5px;
+    min-width: 20px;
+    height: 20px;
   }
 }
+
 .del-icon {
   position: absolute;
   top: 12px;
   right: 12px;
   z-index: 2;
-  color: #3849f9;
+
   .mat-icon {
     font-size: 20px;
     width: 20px;
     height: 20px;
+    margin: 0;
+    color: #3849f9;
   }
-  .mat-button {
-    padding: 0px;
-    min-width: auto;
-    line-height: 16px;
+
+  .mdc-button {
+    padding: 5px;
+    min-width: 20px;
+    height: 20px;
   }
 }
 

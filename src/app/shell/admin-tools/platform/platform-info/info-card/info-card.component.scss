@@ -1,10 +1,22 @@
 @import 'src/app/shared/styles/config.scss';
 
 .config {
+  .edit-button {
+    color: #3849f9;
+    padding: 0 16px;
+    line-height: normal;
+
+    .mat-icon {
+      margin-right: 4px;
+    }
+  }
+
   min-height: 15rem;
+
   h3 {
     padding-top: 0.5rem;
   }
+
   &-wrapper {
     padding-top: 1rem;
   }

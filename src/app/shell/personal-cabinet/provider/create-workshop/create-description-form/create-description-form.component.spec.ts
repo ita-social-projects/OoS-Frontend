@@ -52,6 +52,7 @@ describe('CreateDescriptionFormComponent', () => {
     } as any;
     component.DescriptionFormGroup = new FormGroup({
       imageFiles: new FormControl(''),
+      imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl(''),

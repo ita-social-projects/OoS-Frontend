@@ -1,13 +1,14 @@
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
@@ -162,9 +163,11 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NgxSliderModule,
     NgxMatTimepickerModule,
     NgxMatIntlTelInputComponent,
-    ImageCropperModule,
+    ImageCropperComponent,
     TranslateModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    CarouselModule,
+    NgOptimizedImage
   ],
 
   exports: [
@@ -229,7 +232,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     PhoneFormControlComponent,
-    InfoMenuComponent
+    InfoMenuComponent,
+    ImageCarouselComponent
   ]
 })
 export class SharedModule {}

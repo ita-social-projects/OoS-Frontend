@@ -10,9 +10,9 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
@@ -44,7 +44,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   public user: User;
   public userEditFormGroup: FormGroup;
   public role: Role;
-  public subrole: Subrole;
   public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
@@ -69,7 +68,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   public ngOnInit(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
-      this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
 
       this.user = user;
       if (this.role === Role.parent) {
@@ -88,7 +86,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public addNavPath(): void {
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(this.role, this.subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[this.role];
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

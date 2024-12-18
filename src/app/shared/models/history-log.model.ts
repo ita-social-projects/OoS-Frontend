@@ -14,9 +14,9 @@ export interface ProviderHistory {
   providerCity: string;
 }
 
-export interface ProviderAdminHistory {
-  providerAdminId: string;
-  providerAdminFullName: string;
+export interface EmployeeHistory {
+  employeeId: string;
+  employeeFullName: string;
   providerTitle: string;
   workshopTitle: string;
   workshopCity: string;

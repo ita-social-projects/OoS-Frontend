@@ -17,6 +17,10 @@
 
 .search-bar {
   margin-right: 1rem;
+
+  .mat-icon {
+    transform: rotate(90deg);
+  }
 }
 
 .btn {

@@ -8,7 +8,7 @@ import { ApplicationTitles } from 'shared/enum/enumUA/statuses';
 import { AdminStatus, TypeChange } from 'shared/enum/enumUA/tech-admin/history-log';
 import { HistoryLogTypes } from 'shared/enum/history.log';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, EmployeeHistory, ProviderHistory } from 'shared/models/history-log.model';
 import { Util } from 'shared/utils/utils';
 
 @Component({
@@ -17,7 +17,7 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./history-log-table.component.scss']
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
-  @Input() public table: (ProviderHistory | ProviderAdminHistory | ApplicationHistory | ParentsBlockingByAdminHistory)[];
+  @Input() public table: (ProviderHistory | EmployeeHistory | ApplicationHistory | ParentsBlockingByAdminHistory)[];
   @Input() public tableType: HistoryLogTypes;
 
   @ViewChild(MatSort) public sort: MatSort;
@@ -61,7 +61,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   }
 
   public getCustomLogValue(
-    element: ProviderHistory & ProviderAdminHistory & ApplicationHistory & ParentsBlockingByAdminHistory,
+    element: ProviderHistory & EmployeeHistory & ApplicationHistory & ParentsBlockingByAdminHistory,
     column: string
   ): string {
     switch (column) {

@@ -10,7 +10,7 @@ import { SharedModule } from 'shared/shared.module';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 import { CreateAddressFormComponent } from './create-address-form/create-address-form.component';
-import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
+import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { CreateContactsFormComponent } from './create-provider/create-contacts-form/create-contacts-form.component';
 import { CreateInfoFormComponent } from './create-provider/create-info-form/create-info-form.component';
 import { CreatePhotoFormComponent } from './create-provider/create-photo-form/create-photo-form.component';
@@ -23,7 +23,7 @@ import { CreateTeacherComponent } from './create-workshop/create-teacher/create-
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
 import { CreateWorkshopAddressComponent } from './create-workshop/create-workshop-address/create-workshop-address.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
-import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { EmployeesComponent } from './employees/employees.component';
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderRoutingModule } from './provider-routing.module';
@@ -42,9 +42,9 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
     CreatePhotoFormComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
-    CreateProviderAdminComponent,
+    CreateEmployeeComponent,
     CreateAchievementComponent,
-    ProviderAdminsComponent,
+    EmployeesComponent,
     ProviderApplicationsComponent,
     ProviderWorkshopsComponent,
     WorkingHoursFormWrapperComponent,
