@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SidenavMenuComponent } from './sidenav-menu.component';
 
 describe('SidenavComponent', () => {
@@ -48,6 +49,13 @@ describe('SidenavComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit darkModeSwitched event with the correct value', () => {
+    const checked = true;
+    jest.spyOn(component.darkModeSwitched, 'emit');
+    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
+    expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
   });
 });
 @Component({

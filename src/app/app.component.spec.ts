@@ -16,22 +16,8 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let store: Store;
   let mockMatSnackBar: MatSnackBar;
-
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: query === '(prefers-color-scheme: dark)',
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn()
-      }))
-    });
-  });
+  let localstorageSetItemSpy: jest.SpyInstance;
+  let localstorageGetItemSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -62,6 +48,25 @@ describe('AppComponent', () => {
     store = TestBed.inject(Store);
     mockMatSnackBar = TestBed.inject(MatSnackBar);
     fixture.detectChanges();
+
+    localstorageSetItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    localstorageGetItemSpy = jest.spyOn(Storage.prototype, 'getItem');
+  });
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: query === '(prefers-color-scheme: dark)',
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn()
+      }))
+    });
   });
 
   it('should create the app', () => {
@@ -76,6 +81,30 @@ describe('AppComponent', () => {
 
     expect(component.onResize).toHaveBeenCalled();
     expect(component.isMobileView).toBeTruthy();
+  });
+
+  it('should set isDark based on localStorage (when it is "dark")', () => {
+    localstorageGetItemSpy.mockReturnValue('dark');
+    component.ngOnInit();
+    expect(component.isDark).toBe(true);
+  });
+
+  it('should set isDark based on localStorage (when it is "light")', () => {
+    localstorageGetItemSpy.mockReturnValue('light');
+    component.ngOnInit();
+    expect(component.isDark).toBe(false);
+  });
+
+  it('should set isDark and save theme in localStorage to dark when switching mode to dark', () => {
+    component.switchMode(true); // Switching to dark mode
+    expect(component.isDark).toBe(true);
+    expect(localstorageSetItemSpy).toHaveBeenCalledWith('preferred-theme', 'dark');
+  });
+
+  it('should set isDark and save theme in localStorage to light when switching mode to light', () => {
+    component.switchMode(false); // Switching to light mode
+    expect(component.isDark).toBe(false);
+    expect(localstorageSetItemSpy).toHaveBeenCalledWith('preferred-theme', 'light');
   });
 });
 

@@ -12,6 +12,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { Role } from 'shared/enum/role';
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
@@ -28,6 +30,7 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let store: Store;
   let translate: TranslateService;
+  let translateInstantSpyOn: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -96,6 +99,53 @@ describe('HeaderComponent', () => {
 
     expect(translate.currentLang).toEqual(component.selectedLanguage);
     expect(localStorage.getItem('ui-culture')).toEqual(component.selectedLanguage);
+  });
+
+  it('should emit darkModeSwitched event and show dark theme message when checked is true', () => {
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(component.darkModeSwitched, 'emit');
+    translateInstantSpyOn = jest.spyOn(translate, 'instant');
+    const checked = true;
+    const darkThemeMessage = 'Dark theme activated';
+
+    // Mock translation
+    translateInstantSpyOn.mockReturnValue(darkThemeMessage);
+
+    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
+
+    expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ShowMessageBar({ message: darkThemeMessage, type: 'success', infinityDuration: false })
+    );
+  });
+
+  it('should emit darkModeSwitched event and show light theme message when checked is false', () => {
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(component.darkModeSwitched, 'emit');
+    translateInstantSpyOn = jest.spyOn(translate, 'instant');
+    const checked = false;
+    const lightThemeMessage = 'Dark theme deactivated';
+
+    // Mock translation
+    translateInstantSpyOn.mockReturnValue(lightThemeMessage);
+
+    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
+
+    expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ShowMessageBar({ message: lightThemeMessage, type: 'success', infinityDuration: false })
+    );
+  });
+
+  it('should dispatch ShowMessageBar action with correct arguments', () => {
+    jest.spyOn(store, 'dispatch');
+    const message = 'Test message';
+    const type = 'success';
+    const infinityDuration = true;
+
+    component.showWarningMessage(message, type, infinityDuration);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new ShowMessageBar({ message, type, infinityDuration }));
   });
 });
 
