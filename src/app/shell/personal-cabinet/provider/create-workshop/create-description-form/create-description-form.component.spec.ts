@@ -5,8 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-
-import { MaterialModule } from 'shared/modules/material.module'; // Використовуємо спільний модуль
+import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { forwardRef } from '@angular/core';
@@ -77,7 +76,8 @@ describe('CreateDescriptionFormComponent', () => {
       disabilityOptionsDesc: new FormControl(''),
       keyWords: new FormControl(''),
       formOfLearning: new FormControl(''),
-      competitiveSelection: new FormControl('')
+      competitiveSelection: new FormControl(''),
+      tagIds: new FormControl([])
     });
     fixture.detectChanges();
   });
@@ -113,10 +113,46 @@ describe('CreateDescriptionFormComponent', () => {
   });
 
   it('should remove a keyword', () => {
-    component.keyWords = ['one', 'two', 'three', 'four', 'five'];
+    component.keyWords = ['one', 'two', 'three', 'four'];
 
-    component.onRemoveKeyWord('five');
+    component.onRemoveKeyWord('four');
 
-    expect(component.keyWords.length).toBe(4);
+    expect(component.keyWords.length).toBe(3);
+  });
+
+  it('should remove tag from selection', () => {
+    const mockTag = { id: 1, name: 'TestTag' };
+    component.tagsControl.setValue([mockTag]);
+    component.onRemoveItem(mockTag);
+    expect(component.tagsControl.value).toEqual([]);
+  });
+
+  it('should activate edit mode with workshop data', () => {
+    component.workshop = {
+      id: 1,
+      keywords: ['test'],
+      withDisabilityOptions: true,
+      workshopDescriptionItems: [
+        {
+          sectionName: 'test section',
+          description: 'test description'
+        }
+      ]
+    } as any;
+
+    component.activateEditMode();
+    expect(component.keyWords).toContain('test');
+    expect(component.disabilityOptionRadioBtn.value).toBe(true);
+  });
+
+  it('should update tagIds in form group', () => {
+    const mockTags = [
+      { id: 1, name: 'tag1' },
+      { id: 2, name: 'tag2' }
+    ];
+
+    (component as any).updateTagIds(mockTags);
+
+    expect(component.DescriptionFormGroup.get('tagIds').value).toBe(JSON.stringify([1, 2]));
   });
 });
