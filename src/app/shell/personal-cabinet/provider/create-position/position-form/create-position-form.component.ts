@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
@@ -30,16 +30,17 @@ export class CreatePositionFormComponent implements OnInit {
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private readonly fb: FormBuilder) {}
+
+  public get numOfSeatsControl(): FormControl {
+    return this.PositionFormGroup.get('numOfSeats') as FormControl;
+  }
+
   public ngOnInit(): void {
     this.createPositionForm();
     this.initListeners();
     if (this.position) {
       this.activateEditMode();
     }
-  }
-
-  public get numOfSeatsControl(): FormControl {
-    return this.PositionFormGroup.get('numOfSeats') as FormControl;
   }
 
   public markFormAsDirtyOnUserInteraction(): void {
