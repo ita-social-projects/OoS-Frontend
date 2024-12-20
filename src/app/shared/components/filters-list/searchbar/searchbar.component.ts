@@ -12,6 +12,7 @@ import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
 import { SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
 import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { Constants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-searchbar',
@@ -122,7 +123,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     const normalizedResults = this.previousResults.map((result) => result.trim().toLowerCase());
 
     if (normalizedText && !normalizedResults.includes(normalizedText)) {
-      if (this.previousResults.length >= 10) {
+      if (this.previousResults.length >= Constants.MAX_PREVIOUS_SEARCH_RESULTS) {
         this.previousResults.pop();
       }
       this.previousResults.unshift(this.searchedText);

@@ -57,6 +57,8 @@ export class Constants {
   static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
+
+  static readonly MAX_PREVIOUS_SEARCH_RESULTS = 10;
 }
 
 export class PaginationConstants {
