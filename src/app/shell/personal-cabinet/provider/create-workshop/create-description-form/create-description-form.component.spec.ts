@@ -155,4 +155,12 @@ describe('CreateDescriptionFormComponent', () => {
 
     expect(component.DescriptionFormGroup.get('tagIds').value).toBe(JSON.stringify([1, 2]));
   });
+
+  it('should mark form as dirty after deletion', () => {
+    component.onAddForm();
+    component.DescriptionFormGroup.markAsPristine();
+    component.onDeleteForm(0);
+
+    expect(component.DescriptionFormGroup.dirty).toBe(true);
+  });
 });
