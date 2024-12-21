@@ -49,6 +49,7 @@ export class CreateTeacherComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
     this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
+    this.checkedCountOfTeacher();
   }
 
   /**
@@ -68,12 +69,29 @@ export class CreateTeacherComponent implements OnInit {
         }
       });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+      dialogRef
+        .afterClosed()
+        .subscribe((result: boolean) => result && (this.TeacherFormArray.removeAt(index), this.checkedCountOfTeacher()));
     } else {
       this.TeacherFormArray.removeAt(index);
     }
 
+    this.checkedCountOfTeacher();
     this.markFormAsDirtyOnUserInteraction();
+  }
+
+  /**
+   * This method make disabled default teacher checkbox form from the FormArray by index
+   * @param index number
+   */
+  public onDefaultTeacherChange(index: number): void {
+    const isChecked = this.TeacherFormArray.at(index).get('defaultTeacher').value;
+
+    if (isChecked) {
+      this.TeacherFormArray.controls
+        .filter((_, formIndex) => formIndex !== index)
+        .forEach((control) => control.get('defaultTeacher').setValue(false));
+    }
   }
 
   /**
@@ -99,7 +117,8 @@ export class CreateTeacherComponent implements OnInit {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300),
         Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
+      ]),
+      defaultTeacher: new FormControl(this.TeacherFormArray.controls.length === 0)
     });
 
     if (teacher) {
@@ -116,6 +135,18 @@ export class CreateTeacherComponent implements OnInit {
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
     }
+  }
+
+  private checkedCountOfTeacher(): void {
+    this.TeacherFormArray.controls.forEach((control) => {
+      const defaultTeacherControl = control.get('defaultTeacher');
+      if (this.TeacherFormArray.controls.length <= 1) {
+        defaultTeacherControl.setValue(true);
+        defaultTeacherControl.disable();
+      } else {
+        defaultTeacherControl.enable();
+      }
+    });
   }
 
   /**
