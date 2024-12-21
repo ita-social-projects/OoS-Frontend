@@ -8,7 +8,8 @@
       [index]="TeacherFormArray.controls.indexOf(form)"
       [teacherAmount]="TeacherFormArray.controls.length"
       [isImagesFeature]="isImagesFeature"
-      (deleteForm)="onDeleteForm($event)">
+      (deleteForm)="onDeleteForm($event)"
+      (defaultTeacherChange)="onDefaultTeacherChange($event)">
     </app-teacher-form>
   </ng-container>
   <div class="flex flex-col justify-center items-center">
