@@ -92,7 +92,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl([])
+      tagIds: new FormControl([]),
+      shortStay: new FormControl(false),
+      isSelfFinanced: new FormControl(false),
+      additionalDescription: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+      ]),
+      isSpecial: new FormControl(false),
+      isInclusive: new FormControl(false)
     });
   }
 
