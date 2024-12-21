@@ -23,6 +23,8 @@
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий відбір",
   "CONTACTS": "КОНТАКТИ",
+  "AGREEMENT": "Так",
+  "DISAGREEMENT": "Ні",
   "DAYS": {
     "FRIDAY": "ПТ",
     "MONDAY": "ПН",
@@ -409,7 +411,13 @@
       "USER_DIRECTIONS": "Напрямки для користувача",
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
-      "SHORT_TITLE": "Скорочена назва"
+      "SHORT_TITLE": "Скорочена назва",
+      "DEFAULT_TEACHER": "Викладач за замовчуванням",
+      "SHORT_STAY": "Короткотривалого перебування",
+      "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
+      "ADDITIONAL_DESCRIPTION": "Опис процедури зарахування",
+      "IS_SPECIAL": "Є спеціальною",
+      "IS_INCLUSIVE": "Є інклюзивною"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",

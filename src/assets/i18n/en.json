@@ -22,6 +22,8 @@
   "CLEAR_FILTERS": "Clear Filters",
   "CLOSE_RECRUITMENT": "Closed Recruitment",
   "CONTACTS": "CONTACTS",
+  "AGREEMENT": "Yes",
+  "DISAGREEMENT": "No",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -409,7 +411,13 @@
       "USER_DIRECTIONS": "Directions for user",
       "USER_TAGS": "Tags",
       "TERRITORIAL_COMMUNITY": "Territorial community",
-      "SHORT_TITLE": "Short title"
+      "SHORT_TITLE": "Short title",
+      "DEFAULT_TEACHER": "Default Teacher",
+      "SHORT_STAY": "Short-term stay",
+      "IS_SELF_FINANCED": "Works with funds from parents and benefactors",
+      "ADDITIONAL_DESCRIPTION": "Description of the enrollment procedure",
+      "IS_SPECIAL": "Is special",
+      "IS_INCLUSIVE": "Is inclusive"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
