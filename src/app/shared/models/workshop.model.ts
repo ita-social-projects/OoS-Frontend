@@ -42,6 +42,11 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
   tagIds: number[];
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  additionalDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
 
   constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -68,6 +73,11 @@ export abstract class WorkshopBase {
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.tagIds = description.tagIds;
+    this.shortStay = description.shortStay;
+    this.isSelfFinanced = description.isSelfFinanced;
+    this.additionalDescription = description.additionalDescription;
+    this.isSpecial = description.isSpecial;
+    this.isInclusive = description.isInclusive;
 
     if (id) {
       this.id = id;
@@ -156,6 +166,11 @@ export interface WorkshopBaseCard {
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  additionalDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
@@ -219,4 +234,9 @@ interface Description {
   imageIds?: string[];
   imageFiles?: File[];
   tagIds: number[];
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  additionalDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
 }
