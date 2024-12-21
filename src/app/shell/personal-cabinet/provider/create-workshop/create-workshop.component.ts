@@ -119,6 +119,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
+    if (!teachers.some((teacher) => teacher.defaultTeacher)) {
+      teachers[0].defaultTeacher = true;
+    }
+
     let workshop: Workshop;
 
     if (this.editMode) {
@@ -194,7 +198,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const teachers: Teacher[] = [];
     if (this.TeacherFormArray?.controls) {
       this.TeacherFormArray.controls.forEach((form: FormGroup) => {
-        const teacher: Teacher = new Teacher(form.value);
+        const teacher: Teacher = new Teacher(form.getRawValue());
         teachers.push(teacher);
       });
     }

@@ -17,6 +17,7 @@ export class TeacherFormComponent {
   @Input() public isImagesFeature: boolean;
 
   @Output() public deleteForm = new EventEmitter();
+  @Output() public defaultTeacherChange = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
@@ -41,6 +42,10 @@ export class TeacherFormComponent {
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  public onDefaultTeacherChange(): void {
+    this.defaultTeacherChange.emit(this.index);
   }
 
   public onFocusOut(formControlName: string): void {
