@@ -89,3 +89,9 @@
     gap: 5px;
   }
 }
+
+button:disabled, 
+button {
+    border: none;
+    background-color: transparent;
+}
