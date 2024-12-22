@@ -7,12 +7,11 @@ import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, t
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { Navigation } from 'shared/models/navigation.model';
-import { SetSearchQueryValue } from 'shared/store/filter.actions';
+import { AddPreviousResult, LoadPreviousResults, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
 import { SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
 import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
-import { Constants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-searchbar',
@@ -27,11 +26,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
+  @Select(FilterState.previousResults)
+  private previousResults$: Observable<string[]>;
 
   public filteredResults: string[];
   public searchValueFormControl = new FormControl('', [Validators.maxLength(64), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
 
-  private previousResults: string[] = this.getPreviousResults();
+  private previousResults: string[];
   private isResultPage = false;
   private searchedText: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -42,6 +43,12 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(new LoadPreviousResults());
+
+    this.previousResults$.pipe(takeUntil(this.destroy$)).subscribe((results: string[]) => {
+      this.previousResults = results;
+    });
+
     this.navigationPaths$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -97,11 +104,10 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onDeletePreviousSearchValue(value: string, event: Event): void {
+  public onDeletePreviousSearchValue(previousValue: string, event: Event): void {
     event.stopPropagation();
-    this.previousResults = this.previousResults.filter((result: string) => result !== value);
-    localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
-    this.filteredResults = this.filteredResults.filter((result: string) => result !== value);
+    this.filteredResults = this.filteredResults.filter((result: string) => result !== previousValue);
+    this.store.dispatch(new RemovePreviousResult(previousValue));
   }
 
   private performSearch(): void {
@@ -117,31 +123,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
    * than the 10, then it is popped out and added the new one to the array.
    */
   private saveSearchResults(): void {
-    this.previousResults = this.getPreviousResults();
-
-    const normalizedText = this.searchedText?.trim().toLowerCase();
-    const normalizedResults = this.previousResults.map((result) => result.trim().toLowerCase());
-
-    if (normalizedText && !normalizedResults.includes(normalizedText)) {
-      if (this.previousResults.length >= Constants.MAX_PREVIOUS_SEARCH_RESULTS) {
-        this.previousResults.pop();
-      }
-      this.previousResults.unshift(this.searchedText);
-      localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
-    }
-  }
-
-  /**
-   * This method gets the previous entered serach values from the local storage, if there is no value, then it sets an empty array
-   */
-  private getPreviousResults(): string[] {
-    const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults'));
-    if (previousResults?.length) {
-      return previousResults;
-    } else {
-      localStorage.setItem('previousResults', JSON.stringify([]));
-      return [];
-    }
+    this.store.dispatch(new AddPreviousResult(this.searchedText));
   }
 
   private filter(value: string): void {
