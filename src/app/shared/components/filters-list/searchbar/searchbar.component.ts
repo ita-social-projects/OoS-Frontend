@@ -27,7 +27,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
   @Select(FilterState.previousResults)
-  private previousResults$: Observable<string[]>;
+  private readonly previousResults$: Observable<string[]>;
 
   public filteredResults: string[];
   public searchValueFormControl = new FormControl('', [Validators.maxLength(64), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
