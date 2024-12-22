@@ -22,7 +22,7 @@ import { MatLegacySelectModule as MatSelectModule } from '@angular/material/lega
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
