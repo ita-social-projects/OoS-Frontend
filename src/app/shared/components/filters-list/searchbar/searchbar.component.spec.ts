@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
 
+import { LoadPreviousResults, SetSearchQueryValue, AddPreviousResult, RemovePreviousResult } from 'shared/store/filter.actions';
 import { SearchbarComponent } from './searchbar.component';
 
 class MockStore {
@@ -24,9 +25,6 @@ describe('SearchbarComponent', () => {
 
   beforeEach(async () => {
     mockStore = new MockStore();
-    jest.spyOn(Storage.prototype, 'setItem').mockClear();
-    jest.spyOn(Storage.prototype, 'getItem').mockClear();
-    jest.spyOn(Storage.prototype, 'clear').mockClear();
 
     await TestBed.configureTestingModule({
       imports: [
@@ -75,8 +73,8 @@ describe('SearchbarComponent', () => {
   });
 
   it('should replace invalid characters and update the FormControl value', () => {
-    const setValueSpy = jest.spyOn((component as any).searchValueFormControl, 'setValue');
-    const invalidCharacterDetectedSpy = jest.spyOn(component.invalidCharacterDetected, 'emit');
+    jest.spyOn((component as any).searchValueFormControl, 'setValue');
+    jest.spyOn(component.invalidCharacterDetected, 'emit');
 
     const inputValue = 'Test@Value#123';
     const expectedValue = 'TestValue123';
@@ -95,33 +93,28 @@ describe('SearchbarComponent', () => {
   });
 
   it('should filter previous results based on input value', () => {
-    const inputValue = 'Test';
-    (component as any).previousResults = ['Test1', 'Test2', 'Sample'];
-    (component as any).filter(inputValue);
+    (component as any).previousResults = ['Test1', 'Sample', 'Test2'];
+    (component as any).filter('Test');
 
     expect(component.filteredResults).toEqual(['Test1', 'Test2']);
   });
 
-  it('should save search results to localStorage when onValueEnter is called', () => {
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    const previousResults = (component as any).previousResults;
+  it('should emit invalidCharacterDetected if input contains invalid characters', () => {
+    const invalidCharacterDetectedSpy = jest.spyOn(component.invalidCharacterDetected, 'emit');
+    const setValueSpy = jest.spyOn(component.searchValueFormControl, 'setValue');
 
-    (component as any).searchedText = 'Test search';
-    (component as any).saveSearchResults();
+    component.handleInvalidCharacter('Invalid@Value');
 
-    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify(['Test search', ...previousResults]));
+    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue');
+    expect(invalidCharacterDetectedSpy).toHaveBeenCalled();
   });
 
-  it('should delete previous search value when onDeletePreviousSearchValue is called', () => {
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    (component as any).previousResults = ['Test1', 'Test2'];
+  it('should emit validCharacterDetected when input has no invalid characters', () => {
+    const validCharacterDetectedSpy = jest.spyOn(component.validCharacterDetected, 'emit');
 
-    const mockEvent = { stopPropagation: jest.fn() } as unknown as Event;
-    component.onDeletePreviousSearchValue('Test1', mockEvent);
+    component.handleInvalidCharacter('ValidInput');
 
-    expect((component as any).previousResults).toEqual(['Test2']);
-    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify(['Test2']));
-    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(validCharacterDetectedSpy).toHaveBeenCalled();
   });
 
   it('should reset searchValueFormControl value on main page initialization', () => {
@@ -146,84 +139,54 @@ describe('SearchbarComponent', () => {
     expect(component.searchValueFormControl.value).not.toBe('');
   });
 
-  it('should emit validCharacterDetected when input has no invalid characters', () => {
-    const validCharacterDetectedSpy = jest.spyOn(component.validCharacterDetected, 'emit');
-
-    component.handleInvalidCharacter('ValidInput');
-
-    expect(validCharacterDetectedSpy).toHaveBeenCalled();
-  });
-
-  it('should save search results to localStorage when saveSearchResults is called', () => {
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    const previousResults = (component as any).previousResults;
-
-    (component as any).searchedText = 'New Search';
-    (component as any).saveSearchResults();
-
-    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify(['New Search', ...previousResults]));
-  });
-
-  it('should not save duplicate search results in localStorage', () => {
-    const mockResults = ['test search'];
-    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(JSON.stringify(mockResults));
-
-    (component as any).searchedText = 'Test search';
-    (component as any).saveSearchResults();
-
-    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
-  });
-
-  it('should not remove any search when previousResults length is 9 or less', () => {
-    const mockResults = Array(9).fill('OldSearch');
-    jest.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(JSON.stringify(mockResults));
-    (component as any).searchedText = 'NewSearch';
-
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    (component as any).saveSearchResults();
-
-    expect((component as any).previousResults.length).toBe(10);
-    expect((component as any).previousResults[0]).toBe('NewSearch');
-    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify((component as any).previousResults));
-  });
-
-  it('should remove first searchValue when previousResults length is 10 or more', () => {
-    const mockResults = Array(10).fill('OldSearch');
-    jest.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(JSON.stringify(mockResults));
-    (component as any).searchedText = 'NewSearch';
-
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-    (component as any).saveSearchResults();
-
-    expect((component as any).previousResults.length).toBe(10);
-    expect((component as any).previousResults[0]).toBe('NewSearch');
-    expect(setItemSpy).toHaveBeenCalledWith('previousResults', JSON.stringify((component as any).previousResults));
-  });
-
-  it('should handle empty localStorage for previousResults', () => {
-    const getItemSpy = jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null);
-    const results = (component as any).getPreviousResults();
-
-    expect(results).toEqual([]);
-    expect(getItemSpy).toHaveBeenCalledWith('previousResults');
-  });
-
-  it('should dispatch SetSearchQueryValue when performSearch is called', () => {
-    component.searchValueFormControl.setValue('searchValue');
-    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
-
-    (component as any).performSearch();
-
-    expect(dispatchSpy).toHaveBeenCalledWith(expect.anything());
-  });
-
   it('should navigate to result page if not on result page during performSearch', () => {
     const navigateSpy = jest.spyOn((component as any).router, 'navigate');
     (component as any).isResultPage = false;
     component.searchValueFormControl.setValue('searchValue');
-
     (component as any).performSearch();
 
     expect(navigateSpy).toHaveBeenCalledWith(['result/List'], expect.anything());
+  });
+
+  it('should dispatch SetSearchQueryValue on performSearch', () => {
+    (component as any).searchedText = 'SearchValue';
+    (component as any).performSearch();
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
+  });
+
+  it('should dispatch LoadPreviousResults on initialization', () => {
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new LoadPreviousResults());
+  });
+
+  it('should save search result by dispatching AddPreviousResult', () => {
+    (component as any).searchedText = 'SearchValue';
+    (component as any).saveSearchResults();
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new AddPreviousResult('SearchValue'));
+  });
+
+  it('should dispatch RemovePreviousResult when deleting a previous result', () => {
+    const mockEvent = { stopPropagation: jest.fn() } as unknown as Event;
+
+    component.onDeletePreviousSearchValue('Test1', mockEvent);
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('Test1'));
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+  });
+
+  it('should not save duplicate search results in localStorage', () => {
+    const mockResults = ['test search'];
+    const duplicateSearch = 'Test Search';
+
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(JSON.stringify(mockResults));
+
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
+
+    (component as any).searchedText = duplicateSearch;
+    (component as any).previousResults = mockResults;
+    (component as any).saveSearchResults();
+
+    expect(setItemSpy).not.toHaveBeenCalledWith('previousResults', JSON.stringify([duplicateSearch, ...mockResults]));
   });
 });
