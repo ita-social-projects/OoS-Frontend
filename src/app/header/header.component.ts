@@ -3,14 +3,14 @@ import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { CompanyInformation } from 'shared/models/company-information.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Navigation } from 'shared/models/navigation.model';
@@ -24,6 +24,7 @@ import { NavigationState } from 'shared/store/navigation.state';
 import { Login, Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-header',
@@ -45,18 +46,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
-  @Select(RegistrationState.subrole)
-  public subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
   public headerInfo$: Observable<CompanyInformation>;
 
   public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
   public readonly Languages = Languages;
   public readonly Role = Role;
-  public readonly Subrole = Subrole;
   public readonly RoleLinks = RoleLinks;
   public readonly ModeConstants = ModeConstants;
   public readonly isRoleAdmin = isRoleAdmin;
+  public readonly isRoleProvider = isRoleProvider;
 
   public selectedLanguage = localStorage.getItem('ui-culture');
   public showModalReg = false;
@@ -66,7 +65,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public headerTitle: string;
   public headerSubtitle: string;
   public navigationPaths: Navigation[];
-  public subrole: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -79,12 +77,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());
 
-    combineLatest([this.subrole$, this.navigationPaths$])
-      .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([subrole, navigationPaths]: [Role, Navigation[]]) => {
-        this.subrole = subrole;
-        this.navigationPaths = navigationPaths;
-      });
+    this.navigationPaths$.pipe(takeUntil(this.destroy$), delay(0)).subscribe((navigationPaths) => {
+      this.navigationPaths = navigationPaths;
+    });
 
     this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
 

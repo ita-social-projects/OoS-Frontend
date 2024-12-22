@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import localeUk from '@angular/common/locales/uk';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_LEGACY_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/legacy-select';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,7 +11,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 import { ErrorHandleInterceptor } from 'shared/interceptors/error-handle.interceptor';
 import { RegistrationModule } from 'shared/modules/registration.module';
@@ -26,6 +27,7 @@ import { NavigationState } from 'shared/store/navigation.state';
 import { NotificationState } from 'shared/store/notification.state';
 import { ParentState } from 'shared/store/parent.state';
 import { ProviderState } from 'shared/store/provider.state';
+import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { environment } from '../environments/environment';
@@ -88,6 +90,12 @@ registerLocaleData(localeUk);
     {
       provide: MAT_SELECT_CONFIG,
       useValue: { overlayPanelClass: 'custom-overlay-panel' }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (store: Store) => (): Observable<unknown> => store.dispatch(new CheckAuth()),
+      deps: [Store],
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,

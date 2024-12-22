@@ -22,12 +22,11 @@ export interface AdminsTableData extends BaseTableData {
   isAdmin: true;
 }
 
-export interface ProviderAdminsTableData extends BaseTableData {
+export interface EmployeesTableData extends BaseTableData {
   role: string;
-  isDeputy: boolean;
 }
 
-export type UnionTableData = UsersTableData | AdminsTableData | ProviderAdminsTableData;
+export type UnionTableData = UsersTableData | AdminsTableData | EmployeesTableData;
 
 interface BaseBlockData {
   isBlocking: boolean;
@@ -41,8 +40,8 @@ export interface AdminsBlockData extends BaseBlockData {
   user: AdminsTableData;
 }
 
-export interface ProviderAdminsBlockData extends BaseBlockData {
-  user: ProviderAdminsTableData;
+export interface EmployeesBlockData extends BaseBlockData {
+  user: EmployeesTableData;
 }
 
 export interface InvitationData {

@@ -24,7 +24,7 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
-import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
+import { CreateEmployeeComponent } from './personal-cabinet/provider/create-employee/create-employee.component';
 import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 import { CreateWorkshopComponent } from './personal-cabinet/provider/create-workshop/create-workshop.component';
@@ -111,15 +111,15 @@ const routes: Routes = [
     canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
-    path: 'create-provider-admin/:param',
-    component: CreateProviderAdminComponent,
+    path: 'create-employee/:param',
+    component: CreateEmployeeComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'update-provider-admin/:param/:id',
-    component: CreateProviderAdminComponent,
+    path: 'update-employee/:param/:id',
+    component: CreateEmployeeComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]

@@ -5,23 +5,23 @@
         {{ formTitle | translate | uppercase }}
       </h3>
       <p *ngIf="!editMode" class="wrapper-text">
-        {{ 'FORMS.HEADERS.PROVIDER_ADMINS_SUBHEADER' | translate }}
+        {{ 'FORMS.HEADERS.EMPLOYEES_SUBHEADER' | translate }}
       </p>
     </div>
 
     <mat-horizontal-stepper #stepper linear>
-      <mat-step [stepControl]="ProviderAdminFormGroup">
+      <mat-step [stepControl]="EmployeeFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</p>
         </ng-template>
 
-        <form [formGroup]="ProviderAdminFormGroup" class="step form flex flex-col justify-between items-stretch">
+        <form [formGroup]="EmployeeFormGroup" class="step form flex flex-col justify-between items-stretch">
           <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
           <mat-form-field>
             <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
           </mat-form-field>
           <app-validation-hint
-            [validationFormControl]="ProviderAdminFormGroup.get('lastName')"
+            [validationFormControl]="EmployeeFormGroup.get('lastName')"
             [minCharacters]="validationConstants.INPUT_LENGTH_1"
             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
@@ -31,7 +31,7 @@
             <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
           </mat-form-field>
           <app-validation-hint
-            [validationFormControl]="ProviderAdminFormGroup.get('firstName')"
+            [validationFormControl]="EmployeeFormGroup.get('firstName')"
             [minCharacters]="validationConstants.INPUT_LENGTH_1"
             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
@@ -41,15 +41,15 @@
             <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
           </mat-form-field>
           <app-validation-hint
-            [validationFormControl]="ProviderAdminFormGroup.get('middleName')"
+            [validationFormControl]="EmployeeFormGroup.get('middleName')"
             [minCharacters]="validationConstants.INPUT_LENGTH_1"
             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
 
           <label class="step-label"> {{ 'FORMS.LABELS.PHONE' | translate }} <span class="step-required">*</span></label>
-          <app-phone-form-control [parentFormControl]="ProviderAdminFormGroup.get('phoneNumber')"> </app-phone-form-control>
+          <app-phone-form-control [parentFormControl]="EmployeeFormGroup.get('phoneNumber')"> </app-phone-form-control>
           <app-validation-hint
-            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')"
+            [validationFormControl]="EmployeeFormGroup.get('phoneNumber')"
             [minCharacters]="validationConstants.PHONE_LENGTH"
             [isPhoneNumber]="true">
           </app-validation-hint>
@@ -58,7 +58,7 @@
           <mat-form-field appearance="fill">
             <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
           </mat-form-field>
-          <app-validation-hint [validationFormControl]="ProviderAdminFormGroup.get('email')"></app-validation-hint>
+          <app-validation-hint [validationFormControl]="EmployeeFormGroup.get('email')"></app-validation-hint>
         </form>
 
         <ng-container *ngTemplateOutlet="AgreementsTmpl"></ng-container>
@@ -71,23 +71,23 @@
             class="btn"
             mat-raised-button
             matStepperNext
-            (click)="checkValidation(ProviderAdminFormGroup)"
-            [disabled]="ProviderAdminFormGroup.invalid">
+            (click)="checkValidation(EmployeeFormGroup)"
+            [disabled]="EmployeeFormGroup.invalid">
             {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="ProviderAdminFormGroup" [editable]="false" [completed]="!ProviderAdminFormGroup.invalid">
+      <mat-step [stepControl]="EmployeeFormGroup" [editable]="false" [completed]="!EmployeeFormGroup.invalid">
         <ng-template matStepLabel>
           <p class="step-name">{{ 'TITLES.ACCESS_MANAGMENT' | translate }}</p>
         </ng-template>
         <form class="step form flex flex-col justify-between items-stretch">
-          <ng-container *ngIf="isDeputy; then Deputy; else WorkshopAdmin"></ng-container>
+          <ng-container *ngIf="isDeputy; then Deputy; else Employee"></ng-container>
           <ng-template #Deputy>
             <label class="step-label">{{ 'ALL_WORKSHOPS_ACCESS' | translate }}</label>
           </ng-template>
-          <ng-template #WorkshopAdmin>
+          <ng-template #Employee>
             <label class="step-label"
               >{{ 'FORMS.LABELS.SELECT_WORKSHOPS' | translate }}
               <span class="step-required">*</span>
@@ -115,7 +115,7 @@
             class="btn"
             mat-button
             type="submit"
-            [disabled]="!ProviderAdminFormGroup.dirty || (!isDeputy && !managedWorkshopIds) || managedWorkshopIds?.length === 0"
+            [disabled]="!EmployeeFormGroup.dirty || (!isDeputy && !managedWorkshopIds) || managedWorkshopIds?.length === 0"
             (click)="onSubmit()">
             {{ 'BUTTONS.SAVE' | translate }}
           </button>

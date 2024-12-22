@@ -11,7 +11,7 @@ import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { BlockedParent } from 'shared/models/block.model';
 import { ChatRoom, ChatRoomsParameters } from 'shared/models/chat.model';
 import { TruncatedItem } from 'shared/models/item.model';
@@ -25,6 +25,7 @@ import { BlockParent, GetWorkshopListByProviderId, UnBlockParent } from 'shared/
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 import { CabinetDataComponent } from '../cabinet-data.component';
 
 @Component({
@@ -42,6 +43,7 @@ export class MessagesComponent extends CabinetDataComponent {
 
   public readonly WorkshopDeclination = WorkshopDeclination;
   public readonly noMessagesTitle = NoResultsTitle.noMessages;
+  public readonly isRoleProvider = isRoleProvider;
 
   public providerId: string;
   public filterFormControl: FormControl = new FormControl('');
@@ -62,7 +64,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   public getProviderWorkshops(): void {
-    if (this.subrole === Subrole.None) {
+    if (isRoleProvider(this.role)) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
   }
@@ -139,7 +141,7 @@ export class MessagesComponent extends CabinetDataComponent {
   protected init(): void {
     this.chatRoomsParameters.role = this.role;
 
-    if (this.role === Role.provider) {
+    if (isRoleProvider(this.role)) {
       this.provider$
         .pipe(
           filter((provider: Provider) => !!provider),

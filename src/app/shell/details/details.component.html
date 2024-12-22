@@ -1,5 +1,5 @@
 <div class="flex flex-col lg:flex-row gap-0 lg:gap-8 justify-between items-stretch box-border">
-  <ng-container *ngIf="entity === entityType.workshop; then WorkshopDetails; else ProviderDetails"></ng-container>
+  <ng-container *ngIf="isWorkshop; then WorkshopDetails; else ProviderDetails"></ng-container>
   <app-side-menu
     *ngIf="provider"
     [workshop]="workshop"

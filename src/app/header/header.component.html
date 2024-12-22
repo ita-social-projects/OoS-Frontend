@@ -124,7 +124,7 @@
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
       <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</button>
     </a>
-    <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'">
+    <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/workshops'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate }}
       </button>
@@ -139,7 +139,7 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
-    <a *ngIf="user.role === Role.provider && subrole !== Subrole.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.provider || user.role === Role.providerDeputy" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
