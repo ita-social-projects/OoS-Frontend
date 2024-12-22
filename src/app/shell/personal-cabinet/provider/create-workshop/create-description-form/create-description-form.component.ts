@@ -12,9 +12,10 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { Tag } from 'shared/models/tag.model';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
@@ -22,6 +23,8 @@ import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model'
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
+import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
+import { Direction } from '../../../../../shared/models/category.model';
 
 @Component({
   selector: 'app-create-description-form',
@@ -59,14 +62,25 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
   public keyWords: string[] = [];
+  public tags: Tag[] = [];
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public separatorKeysCodes = [ENTER];
+
+  public tagsControl: FormControl = new FormControl([]);
+
+  public compareItems(item1: Direction, item2: Direction): boolean {
+    return item1.id === item2.id;
+  }
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private tagService: TagService
+  ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
@@ -77,18 +91,30 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null
+      competitiveSelectionDescription: null,
+      tagIds: new FormControl([])
     });
   }
 
   public ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
 
+    this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
+      this.updateTagIds(selectedTags || []);
+    });
+
     if (this.workshop) {
       this.activateEditMode();
     } else {
       this.onAddForm();
     }
+
+    this.tagService
+      .getTags()
+      .pipe(take(1))
+      .subscribe((tags) => {
+        this.tags = tags;
+      });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
@@ -114,6 +140,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         this.DescriptionFormGroup.get('keyWords').reset();
       }
     }
+  }
+
+  public onRemoveItem(tag: Tag): void {
+    const currentTags = this.tagsControl.value || [];
+    const updatedTags = currentTags.filter((t) => t.id !== tag.id);
+    this.tagsControl.setValue(updatedTags);
+    this.updateTagIds(updatedTags);
   }
 
   public onKeyWordsInput(isEditMode: boolean = true): void {
@@ -221,6 +254,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       );
     }
 
+    if (this.workshop?.tagIds?.length) {
+      const selectedTags = this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id));
+      this.tagsControl.setValue(selectedTags);
+    }
+
     this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
@@ -270,6 +308,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     if (!this.DescriptionFormGroup.dirty) {
       this.DescriptionFormGroup.markAsDirty({ onlySelf: true });
     }
+  }
+
+  private updateTagIds(tags: Tag[]): void {
+    const tagIds = tags.map((tag) => tag.id);
+    const stringifiedTagIds = JSON.stringify(tagIds);
+    this.DescriptionFormGroup.get('tagIds')?.setValue(stringifiedTagIds);
   }
 
   private updateKeywordsInputState(): void {
