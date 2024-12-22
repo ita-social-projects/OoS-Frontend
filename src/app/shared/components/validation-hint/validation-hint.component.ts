@@ -47,6 +47,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidSectionName: boolean;
   public mustContainLetters: boolean;
   public invalidSearch: boolean;
+  public invalidTimeFormat: boolean;
+  public invalidTimeRange: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -103,6 +105,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
+    this.invalidTimeFormat = errors?.invalidTimeFormat;
+    this.invalidTimeRange = errors?.invalidTimeRange;
     this.invalidEmail = errors?.email;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = errors?.minlength;
