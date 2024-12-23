@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
+import { TIME_FORMAT_REGEX, TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
@@ -177,7 +177,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   public validateTimeInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const cleanedValue = input.value.replace(/[^0-9:]/g, '');
+    const cleanedValue = input.value.replace(TIME_REGEX_REPLACE, '');
     input.value = cleanedValue;
   }
 }
@@ -188,8 +188,8 @@ export function timeFormatValidator(): ValidatorFn {
     if (!value) {
       return null;
     }
-    const timePattern = /^(2[0-3]|[01]?\d):([0-5]\d)$/;
-    const valid = timePattern.test(value);
+
+    const valid = TIME_FORMAT_REGEX.test(value);
     return valid ? null : { invalidTimeFormat: true };
   };
 }
