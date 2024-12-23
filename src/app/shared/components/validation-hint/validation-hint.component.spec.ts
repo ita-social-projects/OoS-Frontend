@@ -96,6 +96,18 @@ describe('ValidationHintComponent', () => {
       component.validationFormControl.setValue('test');
       tick(200);
     }));
+    it('should validate TimeFormat in FormLevel', () => {
+      const control1 = new FormControl('');
+      const formGroup = new FormGroup({ control1: control1 });
+      formGroup.setErrors({ invalidTimeRange: true });
+      component.validationFormControl = formGroup;
+
+      component.validationFormControl.statusChanges.pipe(tap(() => tick(200))).subscribe(() => {
+        expect(component.invalidTimeRange).toBeTruthy();
+      });
+
+      component.ngOnInit();
+    });
   });
 
   describe('checkValidationErrors method', () => {

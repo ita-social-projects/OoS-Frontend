@@ -60,6 +60,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         Object.keys(this.validationFormControl.controls).forEach((key) => {
           this.updateValidationState(this.validationFormControl.get(key) as FormControl);
         });
+        this.checkFormLevelValidationErrors(this.validationFormControl.errors);
       } else {
         this.updateValidationState(this.validationFormControl as FormControl);
       }
@@ -105,8 +106,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
-    this.invalidTimeFormat = errors?.invalidTimeFormat;
-    this.invalidTimeRange = errors?.invalidTimeRange;
     this.invalidEmail = errors?.email;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = errors?.minlength;
@@ -118,6 +117,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
+    this.invalidTimeFormat = errors?.invalidTimeFormat;
+  }
+
+  private checkFormLevelValidationErrors(errors: ValidationErrors): void {
+    this.invalidTimeRange = errors?.invalidTimeRange;
   }
 
   private checkInvalidText(errors: ValidationErrors): void {

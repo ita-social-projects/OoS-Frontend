@@ -21,6 +21,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Output() public deleteWorkingHour = new EventEmitter();
   @Output() public dataChanged = new EventEmitter<void>();
 
+  public isEditMode: boolean = false;
   public fromTime: string = '';
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
@@ -49,7 +50,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => this.workdaysFormControl.markAsTouched());
 
-    this.endTimeFormControl.disable({ emitEvent: false });
+    if (!this.startTimeFormControl.value) {
+      this.endTimeFormControl.disable({ emitEvent: false });
+    }
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       if (value) {
@@ -136,6 +139,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   public activateEditMode(): void {
+    this.isEditMode = true;
     this.days.forEach((day: WorkingDaysToggleValue) => {
       this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
