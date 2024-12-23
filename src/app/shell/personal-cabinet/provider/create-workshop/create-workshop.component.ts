@@ -19,6 +19,8 @@ import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -119,8 +121,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
-    if (!teachers.some((teacher) => teacher.defaultTeacher)) {
-      teachers[0].defaultTeacher = true;
+    if (teachers.length > 1 && !teachers.some((teacher) => teacher.defaultTeacher)) {
+      this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
+      return;
     }
 
     let workshop: Workshop;
