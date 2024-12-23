@@ -808,7 +808,8 @@
         }
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Image size is too small.",
-      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big."
+      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big.",
+      "ERROR_DEFAULT_TEACHER": "You must choose default teacher"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",

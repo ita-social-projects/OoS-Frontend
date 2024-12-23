@@ -810,7 +810,8 @@
         }
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Розмір зображення занадто малий.",
-      "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий."
+      "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий.",
+      "ERROR_DEFAULT_TEACHER": "Ви повинні обрати вчителя за замовчуванням"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Вкажіть причину блокування",
