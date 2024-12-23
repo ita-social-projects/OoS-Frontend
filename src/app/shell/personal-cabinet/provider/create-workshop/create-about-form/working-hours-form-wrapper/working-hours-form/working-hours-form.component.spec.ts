@@ -10,7 +10,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../../../../../../shared/modules/material.module';
-import { WorkingHoursFormComponent } from './working-hours-form.component';
+import { timeRangeValidator, WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -48,6 +48,98 @@ describe('WorkingHoursFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return null for valid time range', () => {
+    const formGroup = new FormGroup(
+      {
+        startTime: new FormControl('08:00'),
+        endTime: new FormControl('18:00')
+      },
+      [timeRangeValidator('startTime', 'endTime')]
+    );
+
+    expect(formGroup.errors).toBeNull();
+  });
+
+  it('should return error when start time is after end time', () => {
+    const formGroup = new FormGroup(
+      {
+        startTime: new FormControl('19:00'),
+        endTime: new FormControl('18:00')
+      },
+      [timeRangeValidator('startTime', 'endTime')]
+    );
+
+    expect(formGroup.errors).toEqual({ invalidTimeRange: true });
+    expect(formGroup.get('startTime')?.errors).toEqual({ invalidTimeRange: true });
+    expect(formGroup.get('endTime')?.errors).toEqual({ invalidTimeRange: true });
+  });
+
+  it('should be valid startTime and endTime', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    const endTime = component.workingHoursForm.get('endTime');
+
+    startTime?.setValue('08:00');
+    endTime?.setValue('18:00');
+    expect(component.workingHoursForm.valid).toBeTruthy();
+
+    endTime?.setValue('07:00');
+    expect(component.workingHoursForm.errors).toEqual({ invalidTimeRange: true });
+  });
+
+  it('should be invalid startTime and endTime', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    startTime?.setValue('12:00');
+    expect(startTime.valid).toBeTruthy();
+
+    startTime?.setValue('as:00');
+
+    expect(startTime.errors).toEqual({ invalidTimeFormat: true });
+  });
+
+  it('should set startTime to the maximum value if left empty on blur', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    startTime?.setValue('');
+
+    component.onStartBlur();
+
+    expect(startTime.value).toEqual('23:58');
+  });
+
+  it('should set endTime to the minimum value if left empty on blur', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    const endTime = component.workingHoursForm.get('endTime');
+    startTime?.setValue('23:50');
+
+    component.onEndBlur();
+
+    expect(endTime.value).toEqual('23:51');
+  });
+
+  it('should clean input value by removing non-numeric and non-colon characters', () => {
+    const event = {
+      target: {
+        value: '12a:b3#4$'
+      }
+    } as unknown as Event;
+
+    const inputElement = event.target as HTMLInputElement;
+
+    component.validateTimeInput(event);
+
+    expect(inputElement.value).toBe('12:34');
+  });
+
+  it('should set time via timePicker', () => {
+    component.startTimeFormControl.setValue('');
+    component.endTimeFormControl.setValue('');
+
+    component.onStartTimeSet('12:30');
+    component.onEndTimeSet('14:30');
+
+    expect(component.startTimeFormControl.value).toBe('12:30');
+    expect(component.endTimeFormControl.value).toBe('14:30');
   });
 });
 @Component({
