@@ -1,7 +1,8 @@
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, ViewportScroller } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import localeUk from '@angular/common/locales/uk';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { Router, Event, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MAT_LEGACY_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/legacy-select';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,7 +13,8 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, pairwise } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { ErrorHandleInterceptor } from 'shared/interceptors/error-handle.interceptor';
 import { RegistrationModule } from 'shared/modules/registration.module';
@@ -105,7 +107,26 @@ registerLocaleData(localeUk);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    private router: Router,
+    private viewportScroller: ViewportScroller
+  ) {
+    this.router.events
+      .pipe(
+        filter((event: Event) => event instanceof NavigationEnd),
+        pairwise()
+      )
+      .subscribe(([previousEvent, currentEvent]: [NavigationEnd, NavigationEnd]) => {
+        const previousUrl = previousEvent.urlAfterRedirects;
+        const currentUrl = currentEvent.urlAfterRedirects;
+
+        if (!previousUrl.includes('/result') || !currentUrl.includes('/result')) {
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }
+      });
+  }
+}
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
