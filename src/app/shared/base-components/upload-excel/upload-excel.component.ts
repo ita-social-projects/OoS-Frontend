@@ -2,19 +2,17 @@ import { Component } from '@angular/core';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
 import { FieldsConfig } from 'shared/models/admin-import-export.model';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-import-providers',
   template: '<div></div>',
   styleUrls: ['./upload-excel.component.scss']
 })
-export class UploadExcelComponent<
-  ImitatorInterface extends { errors: unknown },
-  ImitatorInterfaceWithID extends ImitatorInterface & { id: number }
-> {
+export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; sequenceNumber: unknown }> {
   public extendsComponentConfig: FieldsConfig[];
   public isToggle: boolean;
-  public isLoading: boolean = this.excelService.isLoading;
+  public isLoading = false;
 
   public isWarningVisible: boolean = false;
   public selectedFile: any = null;
@@ -23,13 +21,20 @@ export class UploadExcelComponent<
   public standardHeadersBase: string[];
   public readonly topPosToStartShowing: number = 250;
 
-  public dataSource: ImitatorInterfaceWithID[];
-  public dataSourceInvalid: ImitatorInterfaceWithID[];
-
+  public dataSource: ImitatorInterface[];
+  public dataSourceInvalid: ImitatorInterface[];
+  private subscription: Subscription;
   constructor(
     private readonly importValidationService: ImportValidationService,
     private readonly excelService: ExcelUploadProcessorService
   ) {}
+
+  public initializeLoadingObserver(): void {
+    // Підписка на isLoading$
+    this.subscription = this.excelService.isLoading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
+  }
 
   public setColumnNames(columnNames: string[]): void {
     this.columnNamesBase = columnNames;
@@ -54,8 +59,7 @@ export class UploadExcelComponent<
    */
   public processProvidersData(items: ImitatorInterface[]): void {
     const isArrayTruncated = this.showsIsTruncated(items);
-    const itemsId = items.map((elem, index) => ({ ...elem, id: index })) as ImitatorInterfaceWithID[];
-    this.handleData(itemsId, isArrayTruncated);
+    this.handleData(items, isArrayTruncated);
   }
 
   /**
@@ -63,7 +67,7 @@ export class UploadExcelComponent<
    * @param items - items with ID
    * @param isArrayTruncated - indicates whether the array was truncated
    */
-  public handleData(items: ImitatorInterfaceWithID[], isArrayTruncated: boolean): void {
+  public handleData(items: ImitatorInterface[], isArrayTruncated: boolean): void {
     this.importValidationService.checkForInvalidData(items, this.extendsComponentConfig);
     this.dataSource = items;
     this.dataSourceInvalid = this.filterInvalidItems(items);
@@ -91,7 +95,7 @@ export class UploadExcelComponent<
     target.value = '';
   }
 
-  public filterInvalidItems(items: ImitatorInterfaceWithID[]): ImitatorInterfaceWithID[] {
+  public filterInvalidItems(items: ImitatorInterface[]): ImitatorInterface[] {
     return items.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
 
@@ -101,7 +105,14 @@ export class UploadExcelComponent<
   }
 
   public sendValidProviders(): void {
-    const noErrorsItems = this.dataSource.map(({ errors, ...rest }) => rest);
-    console.log(noErrorsItems);
+    const removeItemsErrors = this.dataSource.map(({ errors, ...rest }) => rest);
+    const removeItemsSequenceNumbers = removeItemsErrors.map(({ sequenceNumber, ...rest }) => rest);
+    console.log(removeItemsSequenceNumbers);
+  }
+
+  public cleanup(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExcelUploadProcessorService {
-  public isLoading: boolean = false;
+  public readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading$ = this.isLoadingSubject.asObservable();
+
   constructor(private readonly translate: TranslateService) {}
 
   public convertExcelToJSON(file: File, standartHeadersBase: string[], columnNamesBase: string[]): Observable<any[]> {
     return new Observable((observer) => {
       const reader: FileReader = new FileReader();
-
+      this.setLoading(true);
       reader.onerror = (): void => {
-        alert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+        this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+        this.setLoading(false);
         observer.error('Помилка при читанні файлу');
       };
 
@@ -27,13 +30,16 @@ export class ExcelUploadProcessorService {
           const currentHeaders = this.getCurrentHeaders(workBook, wsname);
           if (this.checkHeadersIsValid(currentHeaders, standartHeadersBase)) {
             const items = this.getProvidersData(workBook, wsname, columnNamesBase) as unknown as any[];
+            this.setLoading(false);
             observer.next(items);
             observer.complete();
           } else {
+            this.setLoading(false);
             observer.error('Заголовки не відповідають очікуваним');
           }
         } catch (error) {
-          alert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+          this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+          this.setLoading(false);
           observer.error(error);
         }
       };
@@ -61,13 +67,20 @@ export class ExcelUploadProcessorService {
   public checkHeadersIsValid(currentHeaders: string[], standartHeadersBase: string[]): boolean {
     const isValid = standartHeadersBase.every((header, index) => currentHeaders[index].trim() === header);
     if (!isValid) {
-      this.isLoading = false;
       const invalidHeader = currentHeaders.find((header, index) => header !== standartHeadersBase[index]);
-      alert(
+      this.showAlert(
         `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",
         \n\n${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_EXAMPLE')}:\n${standartHeadersBase.join(' | ')}`
       );
     }
     return isValid;
+  }
+
+  private setLoading(isLoading: boolean): void {
+    this.isLoadingSubject.next(isLoading);
+  }
+
+  private showAlert(message: string): void {
+    alert(message);
   }
 }

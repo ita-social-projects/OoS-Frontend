@@ -7,15 +7,13 @@ export interface ValidEmployee {
   employeeAssignedRole: string;
 }
 export interface Employee {
+  sequenceNumber: number;
   employeeSurname: string;
   employeeName: string;
   employeeFatherName: string;
   employeeRNOKPP: number;
   employeeAssignedRole: string;
   errors: EmployeeValidationErrors;
-}
-export interface EmployeeId extends Employee {
-  id: number;
 }
 
 export interface EmployeeValidationErrors {
