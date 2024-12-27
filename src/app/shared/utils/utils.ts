@@ -2,11 +2,9 @@ import { KeyValue } from '@angular/common';
 
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
-import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
-import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
+import { EmployeeTitles } from 'shared/enum/enumUA/employee';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
-import { Role, Subrole } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/area-admin.model';
@@ -17,10 +15,10 @@ import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Notification } from 'shared/models/notification.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { ProviderAdmin } from 'shared/models/provider-admin.model';
+import { Employee } from 'shared/models/employee.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { AdminsTableData, EmployeesTableData, UsersTableData } from 'shared/models/users-table';
 import { Workshop } from 'shared/models/workshop.model';
 
 /**
@@ -138,24 +136,23 @@ export class Util {
   }
 
   /**
-   * This method returns updated array structure for the Provider Admin table
-   * @param admins ProviderAdmin[]
+   * This method returns updated array structure for the Employee table
+   * @param admins Employee[]
    * @returns array of objects
    */
-  public static updateStructureForTheTableProviderAdmins(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
-    const updatedProviderAdmins = [];
-    admins.forEach((admin: ProviderAdmin) => {
-      updatedProviderAdmins.push({
+  public static updateStructureForTheTableEmployees(admins: Employee[]): EmployeesTableData[] {
+    const updatedEmployees = [];
+    admins.forEach((admin: Employee) => {
+      updatedEmployees.push({
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phoneNumber: `${admin.phoneNumber}`,
-        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
-        status: admin.accountStatus,
-        isDeputy: admin.isDeputy
+        role: EmployeeTitles.Admin,
+        status: admin.accountStatus
       });
     });
-    return updatedProviderAdmins;
+    return updatedEmployees;
   }
 
   /**
@@ -208,10 +205,6 @@ export class Util {
     finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
-  }
-
-  public static getPersonalCabinetTitle(userRole: Role, subrole: Subrole): PersonalCabinetTitle {
-    return userRole !== Role.provider ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
   public static getFullName(person: Person): string {

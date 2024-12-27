@@ -23,12 +23,12 @@ export class UserWorkshopService {
   ) {}
 
   /**
-   * This method get related workshops for provider admins personal cabinet
+   * This method get related workshops for employees personal cabinet
    */
-  public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
+  public getEmployeesWorkshops(parameters: PaginationParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     const params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
-    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
+    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>('/api/v1/Employees/ManagedWorkshops', { params });
   }
 
   /**
@@ -74,8 +74,8 @@ export class UserWorkshopService {
     return this.http.get(`/api/v1/Workshop/GetCompetitiveSelectionDescription/${id}`, { responseType: 'text' });
   }
 
-  public getWorkshopListByProviderAdminId(id: string): Observable<TruncatedItem[]> {
-    return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderAdminId/${id}`);
+  public getWorkshopListByEmployeeId(id: string): Observable<TruncatedItem[]> {
+    return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByEmployeeId/${id}`);
   }
 
   /**

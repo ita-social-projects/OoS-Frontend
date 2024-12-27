@@ -12,11 +12,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { Workshop } from 'shared/models/workshop.model';
-import { CreateProviderAdminComponent } from './create-provider-admin.component';
+import { CreateEmployeeComponent } from './create-employee.component';
 
-describe('CreateProviderAdminComponent', () => {
-  let component: CreateProviderAdminComponent;
-  let fixture: ComponentFixture<CreateProviderAdminComponent>;
+describe('CreateEmployeeComponent', () => {
+  let component: CreateEmployeeComponent;
+  let fixture: ComponentFixture<CreateEmployeeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,14 +32,14 @@ describe('CreateProviderAdminComponent', () => {
         NgxsModule.forRoot([]),
         TranslateModule.forRoot()
       ],
-      declarations: [CreateProviderAdminComponent, MockValidationHintForInputComponent, MockWorkshopChekcboxDropdownComponent]
+      declarations: [CreateEmployeeComponent, MockValidationHintForInputComponent, MockWorkshopChekcboxDropdownComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateProviderAdminComponent);
+    fixture = TestBed.createComponent(CreateEmployeeComponent);
     component = fixture.componentInstance;
-    component.ProviderAdminFormGroup = new FormGroup({
+    component.EmployeeFormGroup = new FormGroup({
       lastName: new FormControl(''),
       middleName: new FormControl(''),
       firstName: new FormControl(''),

@@ -31,7 +31,6 @@ describe('UsersListComponent', () => {
     fixture = TestBed.createComponent(UsersListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.subrole = '' as string;
   });
 
   it('should create', () => {

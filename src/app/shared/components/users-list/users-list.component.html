@@ -111,14 +111,14 @@
         <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
         <td mat-cell *matCellDef="let user">
           <div class="icons flex flex-row justify-between items-center">
-            <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
+            <button *ngIf="role !== Role.providerDeputy" mat-icon-button [matMenuTriggerFor]="actions">
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
+            <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Employee's blocking -->
             <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
               <button mat-menu-item (click)="block.emit({ user, isBlocking: true })">

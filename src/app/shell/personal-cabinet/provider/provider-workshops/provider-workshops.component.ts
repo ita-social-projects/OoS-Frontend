@@ -8,14 +8,14 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   DeleteWorkshopById,
-  GetProviderAdminWorkshops,
+  GetEmployeeWorkshops,
   GetProviderViewWorkshops,
   OnUpdateWorkshopStatusSuccess
 } from 'shared/store/provider.actions';
@@ -64,7 +64,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   /**
-   * This method get provider workshop according to the subrole
+   * This method get provider workshop according to the role
    */
   public initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
@@ -112,10 +112,10 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
-    if (this.subrole === Subrole.None) {
+    if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
     } else {
-      this.store.dispatch(new GetProviderAdminWorkshops(this.workshopCardParameters));
+      this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
   }
 }

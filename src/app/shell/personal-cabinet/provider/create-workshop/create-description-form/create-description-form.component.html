@@ -45,6 +45,33 @@
     </app-validation-hint>
   </mat-radio-group>
 
+  <ng-container>
+    <mat-form-field appearance="none">
+      <label class="step-label">{{ 'FORMS.LABELS.USER_TAGS' | translate }}</label>
+      <mat-select
+        #select
+        multiple
+        disableOptionCentering
+        panelClass="dropdown-panel"
+        class="step-input list-of-tags"
+        [compareWith]="compareItems"
+        [formControl]="tagsControl">
+        <mat-select-trigger>
+          <mat-chip-set #chipSet>
+            <mat-chip *ngFor="let tag of tagsControl.value" (removed)="onRemoveItem(tag)">
+              <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
+              <span>{{ tag.name }}</span>
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-set>
+        </mat-select-trigger>
+        <mat-option class="dropdown-option" *ngFor="let tag of tags" [value]="tag">
+          {{ tag.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>

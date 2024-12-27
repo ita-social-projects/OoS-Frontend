@@ -7,6 +7,7 @@ import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { Role } from 'shared/enum/role';
 import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
 import { ChatRoom } from 'shared/models/chat.model';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-message-card',
@@ -27,6 +28,7 @@ export class MessageCardComponent implements AfterViewInit {
   public readonly UserStatusesTitles = UserStatusesTitles;
   public readonly UserStatusIcons = UserStatusIcons;
   public readonly UserStatuses = UserStatuses;
+  public readonly isRoleProvider = isRoleProvider;
 
   constructor(private translateService: TranslateService) {}
 

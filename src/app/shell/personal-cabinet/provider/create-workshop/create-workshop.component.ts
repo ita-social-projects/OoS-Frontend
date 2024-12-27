@@ -6,8 +6,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Role, Subrole } from 'shared/enum/role';
+import { Constants } from 'shared/constants/constants';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
@@ -18,8 +19,6 @@ import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { Util } from 'shared/utils/utils';
-import { Constants } from 'shared/constants/constants';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -78,8 +77,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

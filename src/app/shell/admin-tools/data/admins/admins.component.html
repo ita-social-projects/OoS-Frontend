@@ -10,10 +10,10 @@
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
     </div>
 
-    <div>
+    <div class="flex flex-column items-center">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         {{ 'BUTTONS.ADD' | translate }}
-        <mat-icon>arrow_drop_down</mat-icon>
+        <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #add="matMenu" class="header_menu">
         <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', AdminRoles.ministryAdmin]">

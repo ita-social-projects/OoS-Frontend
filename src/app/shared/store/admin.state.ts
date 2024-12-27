@@ -14,7 +14,7 @@ import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Direction } from 'shared/models/category.model';
 import { Child } from 'shared/models/child.model';
 import { CompanyInformation } from 'shared/models/company-information.model';
-import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, EmployeeHistory, ProviderHistory } from 'shared/models/history-log.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
@@ -66,7 +66,7 @@ import {
   GetMinistryAdminProfile,
   GetParentsBlockingByAdminHistory,
   GetPlatformInfo,
-  GetProviderAdminHistory,
+  GetEmployeeHistory,
   GetProviderHistory,
   GetRegionAdminById,
   GetRegionAdminProfile,
@@ -134,7 +134,7 @@ export interface AdminStateModel {
   children: SearchResponse<Child[]>;
   providers: SearchResponse<Provider[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
-  providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
+  employeeHistory: SearchResponse<EmployeeHistory[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
@@ -158,7 +158,7 @@ export interface AdminStateModel {
     children: null,
     providers: null,
     providerHistory: null,
-    providerAdminHistory: null,
+    employeeHistory: null,
     applicationHistory: null,
     parentsBlockingByAdminHistory: null,
     admins: null,
@@ -244,8 +244,8 @@ export class AdminState {
   }
 
   @Selector()
-  static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
-    return state.providerAdminHistory;
+  static employeeHistory(state: AdminStateModel): SearchResponse<EmployeeHistory[]> | [] {
+    return state.employeeHistory;
   }
 
   @Selector()
@@ -528,16 +528,16 @@ export class AdminState {
     );
   }
 
-  @Action(GetProviderAdminHistory)
-  getProviderAdminHistory(
+  @Action(GetEmployeeHistory)
+  getEmployeeHistory(
     { patchState }: StateContext<AdminStateModel>,
-    { payload, searchSting }: GetProviderAdminHistory
-  ): Observable<SearchResponse<ProviderAdminHistory[]>> {
+    { payload, searchSting }: GetEmployeeHistory
+  ): Observable<SearchResponse<EmployeeHistory[]>> {
     patchState({ isLoading: true });
-    return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
-      tap((providerAdminHistory: SearchResponse<ProviderAdminHistory[]>) =>
+    return this.historyLogService.getEmployeeHistory(payload, searchSting).pipe(
+      tap((employeeHistory: SearchResponse<EmployeeHistory[]>) =>
         patchState({
-          providerAdminHistory: providerAdminHistory ?? EMPTY_RESULT,
+          employeeHistory: employeeHistory ?? EMPTY_RESULT,
           isLoading: false
         })
       )
