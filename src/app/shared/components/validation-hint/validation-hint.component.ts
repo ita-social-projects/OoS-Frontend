@@ -32,6 +32,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For min number validation
   @Input() public minNumberValue: number;
 
+  // For form level validation
+  @Input() public FormLevelValidation: boolean;
+
   public required: boolean;
   public invalidSymbols: boolean;
   public invalidCharacters: boolean;
@@ -56,11 +59,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-      if (this.validationFormControl instanceof FormGroup) {
+      if (this.FormLevelValidation) {
+        this.checkFormLevelValidationErrors(this.validationFormControl.errors);
+      } else if (this.validationFormControl instanceof FormGroup) {
         Object.keys(this.validationFormControl.controls).forEach((key) => {
           this.updateValidationState(this.validationFormControl.get(key) as FormControl);
         });
-        this.checkFormLevelValidationErrors(this.validationFormControl.errors);
       } else {
         this.updateValidationState(this.validationFormControl as FormControl);
       }
