@@ -303,6 +303,33 @@
         "DELETE": "Removing the administrator",
         "BLOCK": "Administrator lock"
       }
+    },
+    "WORKSHOP_SELECT_DESCRIPTION": {
+      "SPECIAL_NEEDS_TYPE": {
+        "NONE": "None",
+        "HEARING": "Hearing",
+        "SPEAKING": "Speaking",
+        "SIGHT": "Sight",
+        "INTELLIGENCE": "Intelligence",
+        "MUSCULOSKELETAL": "Musculoskeletal",
+        "RETARDATION": "Retardation"
+      },
+      "EDUCATIONAL_SHIFT": {
+        "FIRST": "First",
+        "SECOND": "Second"
+      },
+      "AGE_COMPOSITION": {
+        "SAME_AGE": "Same Age",
+        "DIFFERENT_AGE": "Different Age"
+      },
+      "COVERAGE": {
+        "SCHOOL": "School",
+        "CITY": "City",
+        "DISTRICT": "District",
+        "REGION": "Region",
+        "ALL_UKRAINE": "All Ukraine",
+        "INTERNATIONAL": "International"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -415,9 +442,10 @@
       "DEFAULT_TEACHER": "Default Teacher",
       "SHORT_STAY": "Short-term stay",
       "IS_SELF_FINANCED": "Works with funds from parents and benefactors",
-      "ADDITIONAL_DESCRIPTION": "Description of the enrollment procedure",
+      "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
       "IS_SPECIAL": "Is special",
-      "IS_INCLUSIVE": "Is inclusive"
+      "IS_INCLUSIVE": "Is inclusive",
+      "SPECIAL_NEEDS_TYPE": "Special needs type"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",

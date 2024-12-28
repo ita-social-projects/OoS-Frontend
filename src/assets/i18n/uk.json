@@ -303,7 +303,33 @@
         "DELETE": "Видалення адміністратора",
         "BLOCK": "Блокування адміністратора"
       }
-    }
+    },
+    "WORKSHOP_SELECT_DESCRIPTION": {
+      "SPECIAL_NEEDS_TYPE": {
+        "NONE": "Немає",
+        "HEARING": "Слуху",
+        "SPEAKING": "Мови",
+        "SIGHT": "Зору",
+        "INTELLIGENCE": "Інтелекту",
+        "MUSCULOSKELETAL": "Опорно-рухового апарату",
+        "RETARDATION": "Затримкою психічного розвитку"
+      },
+      "EDUCATIONAL_SHIFT": {
+        "FIRST": "Перша",
+        "SECOND": "Друга"
+      },
+      "AGE_COMPOSITION": {
+        "SAME_AGE": "Одновікова",
+        "DIFFERENT_AGE": "Різновікова"
+      },
+      "COVERAGE": {
+        "SCHOOL": "Локальний (Шкільний)",
+        "CITY": "Міський",
+        "DISTRICT": "Районний",
+        "REGION": "Обласний",
+        "ALL_UKRAINE": "Всеукраїнський",
+        "INTERNATIONAL": "Міжнародний"
+      }
   },
   "EXACT_MATCH": "Повний збіг",
   "FOR_FREE": "Безкоштовні",
@@ -415,7 +441,7 @@
       "DEFAULT_TEACHER": "Викладач за замовчуванням",
       "SHORT_STAY": "Короткотривалого перебування",
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
-      "ADDITIONAL_DESCRIPTION": "Опис процедури зарахування",
+      "ENROLLMENT_PROCEDURE_DESCRIPTION": "Опис процедури зарахування",
       "IS_SPECIAL": "Є спеціальною",
       "IS_INCLUSIVE": "Є інклюзивною"
     },
