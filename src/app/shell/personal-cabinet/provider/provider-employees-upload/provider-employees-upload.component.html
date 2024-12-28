@@ -10,9 +10,22 @@
     <div class="loader-container">
       <div class="loader" *ngIf="isLoading"></div>
     </div>
-    <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0" (click)="sendValidProviders()">
+    <button
+      *ngIf="dataSource && !loadSuccess && !loadFailure && !isLoading"
+      class="btn"
+      mat-raised-button
+      [disabled]="dataSourceInvalid.length > 0"
+      (click)="sendValidItems()">
       {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
     </button>
+    <div class="load-result load-result-success" *ngIf="loadSuccess">
+      <span class="material-icons"> check_circle </span>
+      <p>Дані успішно завантажені</p>
+    </div>
+    <div class="load-result load-result-error" *ngIf="loadFailure">
+      <span class="material-icons"> cancel </span>
+      <p>Помилка завантаження,спробуйте пізніше</p>
+    </div>
   </div>
   <div class="errors-menu">
     <div class="length-warning" *ngIf="isWarningVisible">
@@ -121,7 +134,8 @@
               *matCellDef="let element"
               [ngClass]="{
                 'error-field-empty': element.errors.employeeRNOKPPEmpty,
-                'error-field-duplicate': element.errors.employeeRNOKPPDuplicate }">
+                'error-field-duplicate': element.errors.employeeRNOKPPDuplicate
+              }">
               {{ element.employeeRNOKPP }}
             </td>
           </ng-container>

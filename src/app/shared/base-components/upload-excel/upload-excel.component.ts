@@ -13,6 +13,8 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
   public extendsComponentConfig: FieldsConfig[];
   public isToggle: boolean;
   public isLoading = false;
+  public loadSuccess = false;
+  public loadFailure = false;
 
   public isWarningVisible: boolean = false;
   public selectedFile: any = null;
@@ -30,7 +32,6 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
   ) {}
 
   public initializeLoadingObserver(): void {
-    // Підписка на isLoading$
     this.subscription = this.excelService.isLoading$.subscribe((loading) => {
       this.isLoading = loading;
     });
@@ -49,6 +50,9 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
     this.dataSourceInvalid = null;
     this.isToggle = false;
     this.isWarningVisible = false;
+    this.isLoading = false;
+    this.loadFailure = false;
+    this.loadSuccess = false;
   }
 
   /**
@@ -104,13 +108,33 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
     return Boolean(cutItems.length);
   }
 
-  public sendValidProviders(): void {
+  public sendValidItems(): void {
     const removeItemsErrors = this.dataSource.map(({ errors, ...rest }) => rest);
     const removeItemsSequenceNumbers = removeItemsErrors.map(({ sequenceNumber, ...rest }) => rest);
-    console.log(removeItemsSequenceNumbers);
+    this.setLoadingStatus(removeItemsSequenceNumbers);
+  }
+
+  public setRandomLoadState(): void {
+    if (Math.random() < 0.5) {
+      this.loadSuccess = true;
+      this.loadFailure = false;
+    } else {
+      this.loadSuccess = false;
+      this.loadFailure = true;
+    }
+  }
+
+  public setLoadingStatus(data: any[]): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+      console.log(data);
+      this.setRandomLoadState();
+    }, 1000);
   }
 
   public cleanup(): void {
+    this.resetValues();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
