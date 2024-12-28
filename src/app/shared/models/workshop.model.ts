@@ -44,7 +44,7 @@ export abstract class WorkshopBase {
   tagIds: number[];
   shortStay: boolean;
   isSelfFinanced: boolean;
-  additionalDescription: string;
+  enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
 
@@ -75,7 +75,7 @@ export abstract class WorkshopBase {
     this.tagIds = description.tagIds;
     this.shortStay = description.shortStay;
     this.isSelfFinanced = description.isSelfFinanced;
-    this.additionalDescription = description.additionalDescription;
+    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
     this.isSpecial = description.isSpecial;
     this.isInclusive = description.isInclusive;
 
@@ -168,7 +168,7 @@ export interface WorkshopBaseCard {
   providerLicenseStatus: LicenseStatuses;
   shortStay: boolean;
   isSelfFinanced: boolean;
-  additionalDescription: string;
+  enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
 }
@@ -236,7 +236,7 @@ interface Description {
   tagIds: number[];
   shortStay: boolean;
   isSelfFinanced: boolean;
-  additionalDescription: string;
+  enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
 }
