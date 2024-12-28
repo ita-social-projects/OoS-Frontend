@@ -21,7 +21,7 @@ import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
-import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearningEnum, SpecialNeedsType } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { Direction } from '../../../../../shared/models/category.model';
@@ -75,6 +75,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     return item1.id === item2.id;
   }
 
+  public specialNeedsTypeOptions = Object.values(SpecialNeedsType);
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -95,12 +96,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       tagIds: new FormControl([]),
       shortStay: new FormControl(false),
       isSelfFinanced: new FormControl(false),
-      additionalDescription: new FormControl('', [
+      enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
       ]),
       isSpecial: new FormControl(false),
-      isInclusive: new FormControl(false)
+      isInclusive: new FormControl(false),
+      specialNeedsType: new FormControl(null)
     });
   }
 
