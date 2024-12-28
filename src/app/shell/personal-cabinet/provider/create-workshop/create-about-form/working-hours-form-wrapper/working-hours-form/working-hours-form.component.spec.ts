@@ -9,8 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { timeRangeValidator } from 'shared/validators/time-range-validator';
 import { MaterialModule } from '../../../../../../../shared/modules/material.module';
-import { timeRangeValidator, WorkingHoursFormComponent } from './working-hours-form.component';
+import { WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -98,37 +99,12 @@ describe('WorkingHoursFormComponent', () => {
     expect(startTime.errors).toEqual({ invalidTimeFormat: true });
   });
 
-  it('should set startTime to the maximum value if left empty on blur', () => {
-    const startTime = component.workingHoursForm.get('startTime');
-    startTime?.setValue('');
-
-    component.onStartBlur();
-
-    expect(startTime.value).toEqual('23:58');
-  });
-
-  it('should set endTime to the minimum value if left empty on blur', () => {
-    const startTime = component.workingHoursForm.get('startTime');
-    const endTime = component.workingHoursForm.get('endTime');
-    startTime?.setValue('23:50');
-
-    component.onEndBlur();
-
-    expect(endTime.value).toEqual('23:51');
-  });
-
   it('should clean input value by removing non-numeric and non-colon characters', () => {
-    const event = {
-      target: {
-        value: '12a:b3#4$'
-      }
-    } as unknown as Event;
+    const value = '12a:b3#4$';
 
-    const inputElement = event.target as HTMLInputElement;
+    const validValue = component.validateTimeInput(value);
 
-    component.validateTimeInput(event);
-
-    expect(inputElement.value).toBe('12:34');
+    expect(validValue).toBe('12:34');
   });
 
   it('should set time via timePicker', () => {

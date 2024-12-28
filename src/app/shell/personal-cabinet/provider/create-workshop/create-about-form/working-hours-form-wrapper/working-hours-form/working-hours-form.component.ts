@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { TIME_FORMAT_REGEX, TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { takeUntil } from 'rxjs/operators';
+import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
+import { timeRangeValidator } from 'shared/validators/time-range-validator';
+import { timeFormatValidator } from 'shared/validators/time-format-validator';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -43,23 +45,22 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     (this.workingHoursForm as FormGroup).setValidators(timeRangeValidator('startTime', 'endTime'));
 
-    this.workingHoursForm.valueChanges
-      .pipe(
-        filter(() => !this.workdaysFormControl.touched),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => this.workdaysFormControl.markAsTouched());
-
-    if (!this.startTimeFormControl.value) {
+    if (!this.workdaysFormControl.value) {
+      this.startTimeFormControl.disable({ emitEvent: false });
       this.endTimeFormControl.disable({ emitEvent: false });
     }
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
       if (value) {
         this.endTimeFormControl.enable({ emitEvent: false });
       } else {
         this.endTimeFormControl.disable({ emitEvent: false });
       }
+    });
+
+    this.endTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
     });
 
     if (this.workdaysFormControl.value.length) {
@@ -81,7 +82,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     if (this.workingDays.size) {
       this.startTimeFormControl.enable({ emitEvent: false });
-      this.endTimeFormControl.enable({ emitEvent: false });
+      this.startTimeFormControl.updateValueAndValidity();
     } else {
       this.startTimeFormControl.disable({ emitEvent: false });
       this.endTimeFormControl.disable({ emitEvent: false });
@@ -90,42 +91,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
     this.dataChanged.emit();
-  }
-
-  public getMinTime(): string {
-    const startTimeString = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MAX_TIME;
-    const [startHours, startMinutes] = startTimeString.split(':').map(Number);
-
-    let newMinutes = startMinutes + 1;
-    let newHours = startHours;
-
-    if (newMinutes >= 60) {
-      newMinutes = 0;
-      newHours++;
-    }
-
-    newHours = newHours % 24;
-
-    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
-  }
-
-  public getMaxTime(): string {
-    const endTimeString = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
-    const [endHours, endMinutes] = endTimeString.split(':').map(Number);
-
-    let newMinutes = endMinutes - 1;
-    let newHours = endHours;
-
-    if (newMinutes < 0) {
-      newMinutes = 59;
-      newHours--;
-    }
-
-    if (newHours < 0) {
-      newHours = 23;
-    }
-
-    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
   }
 
   public delete(): void {
@@ -148,6 +113,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
         }
       });
     });
+    this.workingHoursForm.markAllAsTouched();
   }
 
   public onStartTimeSet(chosenTime: string): void {
@@ -163,84 +129,12 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  public onStartBlur(): void {
-    if (!this.startTimeFormControl.value) {
-      this.startTimeFormControl.setValue(this.getMaxTime());
-    }
+  public validateTimeInput(value: string): string {
+    return value.replace(TIME_REGEX_REPLACE, '');
   }
 
-  public onEndBlur(): void {
-    if (!this.endTimeFormControl.value) {
-      this.endTimeFormControl.setValue(this.getMinTime());
-    }
+  public markWorkDaysAsTouched(): void {
+    this.workdaysFormControl.markAsTouched();
+    this.workdaysFormControl.setErrors({ required: true });
   }
-
-  public validateTimeInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const cleanedValue = input.value.replace(TIME_REGEX_REPLACE, '');
-    input.value = cleanedValue;
-  }
-}
-
-export function timeFormatValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    if (!value) {
-      return null;
-    }
-
-    const valid = TIME_FORMAT_REGEX.test(value);
-    return valid ? null : { invalidTimeFormat: true };
-  };
-}
-
-export function timeRangeValidator(startCtrlName: string = 'startTime', endCtrlName: string = 'endTime'): ValidatorFn {
-  return (formGroup: AbstractControl): ValidationErrors | null => {
-    const startCtrl = formGroup.get(startCtrlName);
-    const endCtrl = formGroup.get(endCtrlName);
-
-    if (!startCtrl || !endCtrl) {
-      return null;
-    }
-
-    const startTime = startCtrl.value;
-    const endTime = endCtrl.value;
-
-    removeControlErrorKey(startCtrl, 'invalidTimeRange');
-    removeControlErrorKey(endCtrl, 'invalidTimeRange');
-
-    if (!startTime || !endTime || startCtrl.hasError('invalidTimeFormat') || endCtrl.hasError('invalidTimeFormat')) {
-      const { invalidTimeRange, ...rest } = formGroup.errors || {};
-      return Object.keys(rest).length ? rest : null;
-    }
-
-    const [startH, startM] = startTime.split(':').map(Number);
-    const [endH, endM] = endTime.split(':').map(Number);
-    const startTotal = startH * 60 + startM;
-    const endTotal = endH * 60 + endM;
-
-    if (startTotal >= endTotal) {
-      const currentGroupErrors = formGroup.errors || {};
-      const newGroupErrors = { ...currentGroupErrors, invalidTimeRange: true };
-
-      const startErr = startCtrl.errors || {};
-      startCtrl.setErrors({ ...startErr, invalidTimeRange: true });
-
-      const endErr = endCtrl.errors || {};
-      endCtrl.setErrors({ ...endErr, invalidTimeRange: true });
-
-      return newGroupErrors;
-    } else {
-      const { invalidTimeRange, ...rest } = formGroup.errors || {};
-      return Object.keys(rest).length ? rest : null;
-    }
-  };
-}
-
-function removeControlErrorKey(control: AbstractControl, key: string): void {
-  if (!control.errors) {
-    return;
-  }
-  const { [key]: _, ...others } = control.errors;
-  control.setErrors(Object.keys(others).length ? others : null);
 }
