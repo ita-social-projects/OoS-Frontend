@@ -101,51 +101,11 @@ describe('HeaderComponent', () => {
     expect(localStorage.getItem('ui-culture')).toEqual(component.selectedLanguage);
   });
 
-  it('should emit darkModeSwitched event and show dark theme message when checked is true', () => {
-    jest.spyOn(store, 'dispatch');
-    jest.spyOn(component.darkModeSwitched, 'emit');
-    translateInstantSpyOn = jest.spyOn(translate, 'instant');
+  it('should emit darkModeSwitched event with the correct value', () => {
     const checked = true;
-    const darkThemeMessage = 'Dark theme activated';
-
-    // Mock translation
-    translateInstantSpyOn.mockReturnValue(darkThemeMessage);
-
-    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
-
-    expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ShowMessageBar({ message: darkThemeMessage, type: 'success', infinityDuration: false })
-    );
-  });
-
-  it('should emit darkModeSwitched event and show light theme message when checked is false', () => {
-    jest.spyOn(store, 'dispatch');
     jest.spyOn(component.darkModeSwitched, 'emit');
-    translateInstantSpyOn = jest.spyOn(translate, 'instant');
-    const checked = false;
-    const lightThemeMessage = 'Dark theme deactivated';
-
-    // Mock translation
-    translateInstantSpyOn.mockReturnValue(lightThemeMessage);
-
-    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
-
+    component.onDarkModeSwitched(true);
     expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ShowMessageBar({ message: lightThemeMessage, type: 'success', infinityDuration: false })
-    );
-  });
-
-  it('should dispatch ShowMessageBar action with correct arguments', () => {
-    jest.spyOn(store, 'dispatch');
-    const message = 'Test message';
-    const type = 'success';
-    const infinityDuration = true;
-
-    component.showWarningMessage(message, type, infinityDuration);
-
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowMessageBar({ message, type, infinityDuration }));
   });
 });
 

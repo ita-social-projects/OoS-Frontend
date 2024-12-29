@@ -54,7 +54,7 @@ describe('SidenavComponent', () => {
   it('should emit darkModeSwitched event with the correct value', () => {
     const checked = true;
     jest.spyOn(component.darkModeSwitched, 'emit');
-    component.onDarkModeSwitched({ checked } as MatSlideToggleChange);
+    component.onDarkModeSwitched(true);
     expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
   });
 });
