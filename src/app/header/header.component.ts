@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -11,13 +10,11 @@ import { ModeConstants } from 'shared/constants/constants';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
-import { MessageBarType } from 'shared/enum/message-bar';
 import { Role } from 'shared/enum/role';
 import { CompanyInformation } from 'shared/models/company-information.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Navigation } from 'shared/models/navigation.model';
 import { User } from 'shared/models/user.model';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { GetMainPageInfo } from 'shared/store/main-page.actions';
 import { MainPageState } from 'shared/store/main-page.state';
@@ -102,12 +99,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onDarkModeSwitched({ checked }: MatSlideToggleChange): void {
-    this.darkModeSwitched.emit(checked);
-    const darkThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_ON');
-    const lightThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_OFF');
-    const message: string = checked ? darkThemeMessage : lightThemeMessage;
-    this.showWarningMessage(message, 'success', false);
+  public onDarkModeSwitched(isDark: boolean): void {
+    this.darkModeSwitched.emit(isDark);
   }
 
   public onViewChange(): void {
@@ -139,9 +132,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private getFullName(user: User): string {
     return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
-  }
-
-  private showWarningMessage(message: string, type: MessageBarType, infinityDuration: boolean): void {
-    this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
   }
 }

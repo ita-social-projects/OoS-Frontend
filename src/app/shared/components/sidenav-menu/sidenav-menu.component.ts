@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -73,8 +72,8 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onDarkModeSwitched({ checked }: MatSlideToggleChange): void {
-    this.darkModeSwitched.emit(checked);
+  public onDarkModeSwitched(isDark: boolean): void {
+    this.darkModeSwitched.emit(isDark);
   }
 
   public login(): void {
