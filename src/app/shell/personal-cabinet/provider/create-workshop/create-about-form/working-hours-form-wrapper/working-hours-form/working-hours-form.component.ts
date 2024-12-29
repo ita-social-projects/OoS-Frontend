@@ -7,8 +7,8 @@ import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
-import { timeRangeValidator } from 'shared/validators/time-range-validator';
-import { timeFormatValidator } from 'shared/validators/time-format-validator';
+import { TimeRangeValidator } from 'shared/validators/time-range-validator';
+import { TimeFormatValidator } from 'shared/validators/time-format-validator';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -40,10 +40,10 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.endTimeFormControl.setValidators(timeFormatValidator());
-    this.startTimeFormControl.setValidators(timeFormatValidator());
+    this.endTimeFormControl.setValidators(TimeFormatValidator());
+    this.startTimeFormControl.setValidators(TimeFormatValidator());
 
-    (this.workingHoursForm as FormGroup).setValidators(timeRangeValidator('startTime', 'endTime'));
+    (this.workingHoursForm as FormGroup).setValidators(TimeRangeValidator('startTime', 'endTime'));
 
     if (!this.workdaysFormControl.value) {
       this.startTimeFormControl.disable({ emitEvent: false });
@@ -116,12 +116,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.workingHoursForm.markAllAsTouched();
   }
 
-  public onStartTimeSet(chosenTime: string): void {
-    this.startTimeFormControl.setValue(chosenTime);
-  }
-
-  public onEndTimeSet(chosenTime: string): void {
-    this.endTimeFormControl.setValue(chosenTime);
+  public onTimeSet(chosenTime: string, formControl: FormControl): void {
+    formControl.setValue(chosenTime);
   }
 
   public ngOnDestroy(): void {

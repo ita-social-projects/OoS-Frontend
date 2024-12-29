@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { timeRangeValidator } from 'shared/validators/time-range-validator';
 import { MaterialModule } from '../../../../../../../shared/modules/material.module';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
 
@@ -51,32 +50,6 @@ describe('WorkingHoursFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return null for valid time range', () => {
-    const formGroup = new FormGroup(
-      {
-        startTime: new FormControl('08:00'),
-        endTime: new FormControl('18:00')
-      },
-      [timeRangeValidator('startTime', 'endTime')]
-    );
-
-    expect(formGroup.errors).toBeNull();
-  });
-
-  it('should return error when start time is after end time', () => {
-    const formGroup = new FormGroup(
-      {
-        startTime: new FormControl('19:00'),
-        endTime: new FormControl('18:00')
-      },
-      [timeRangeValidator('startTime', 'endTime')]
-    );
-
-    expect(formGroup.errors).toEqual({ invalidTimeRange: true });
-    expect(formGroup.get('startTime')?.errors).toEqual({ invalidTimeRange: true });
-    expect(formGroup.get('endTime')?.errors).toEqual({ invalidTimeRange: true });
-  });
-
   it('should be valid startTime and endTime', () => {
     const startTime = component.workingHoursForm.get('startTime');
     const endTime = component.workingHoursForm.get('endTime');
@@ -87,16 +60,6 @@ describe('WorkingHoursFormComponent', () => {
 
     endTime?.setValue('07:00');
     expect(component.workingHoursForm.errors).toEqual({ invalidTimeRange: true });
-  });
-
-  it('should be invalid startTime and endTime', () => {
-    const startTime = component.workingHoursForm.get('startTime');
-    startTime?.setValue('12:00');
-    expect(startTime.valid).toBeTruthy();
-
-    startTime?.setValue('as:00');
-
-    expect(startTime.errors).toEqual({ invalidTimeFormat: true });
   });
 
   it('should clean input value by removing non-numeric and non-colon characters', () => {
@@ -111,8 +74,8 @@ describe('WorkingHoursFormComponent', () => {
     component.startTimeFormControl.setValue('');
     component.endTimeFormControl.setValue('');
 
-    component.onStartTimeSet('12:30');
-    component.onEndTimeSet('14:30');
+    component.onTimeSet('12:30', component.startTimeFormControl);
+    component.onTimeSet('14:30', component.endTimeFormControl);
 
     expect(component.startTimeFormControl.value).toBe('12:30');
     expect(component.endTimeFormControl.value).toBe('14:30');

@@ -101,7 +101,7 @@ describe('ValidationHintComponent', () => {
       const control1 = new FormControl('');
       const formGroup = new FormGroup({ control1: control1 });
       component.validationFormControl = formGroup;
-      component.FormLevelValidation = true;
+      component.formLevelValidation = true;
 
       component.ngOnInit();
       formGroup.setErrors({ invalidTimeRange: true });
