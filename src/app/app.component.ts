@@ -1,8 +1,9 @@
-import { Component, HostBinding, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
+import { WINDOW } from 'ngx-window-token';
 import { Observable, Subject } from 'rxjs';
 
 import { ToggleMobileScreen } from 'shared/store/app.actions';
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router
+    private router: Router,
+    @Inject(WINDOW) private _window: Window
   ) {}
 
   @HostBinding('class')
@@ -52,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (savedTheme) {
       this.isDark = savedTheme === 'dark';
     } else {
-      this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.isDark = this._window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
   }
 
