@@ -37,7 +37,7 @@
             <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()"> <mat-icon>access_time</mat-icon></button>
           </div>
           <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
-          <app-validation-hint [validationFormControl]="workingHoursForm" [FormLevelValidation]="true"></app-validation-hint>
+          <app-validation-hint [validationFormControl]="workingHoursForm" [formLevelValidation]="true"></app-validation-hint>
         </ng-container>
         </div>
 
@@ -70,7 +70,7 @@
   #timepickerStart
   [format]="24"
   [defaultTime]="startTimeFormControl.value"        
-  (timeSet)="onStartTimeSet($event)" 
+  (timeSet)="onTimeSet($event, startTimeFormControl)" 
   [cancelBtnTmpl]="btnCancel"
   [confirmBtnTmpl]="btnConfirm"
 ></ngx-mat-timepicker>
@@ -78,7 +78,7 @@
   #timepickerEnd
   [format]="24"
   [defaultTime]="endTimeFormControl.value"
-  (timeSet)="onEndTimeSet($event)" 
+  (timeSet)="onTimeSet($event, endTimeFormControl)" 
   [cancelBtnTmpl]="btnCancel"
   [confirmBtnTmpl]="btnConfirm">
 </ngx-mat-timepicker>

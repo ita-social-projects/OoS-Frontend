@@ -1,7 +1,7 @@
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { TIME_FORMAT_REGEX } from 'shared/constants/regex-constants';
 
-export function timeFormatValidator(): ValidatorFn {
+export function TimeFormatValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     if (!value) {
