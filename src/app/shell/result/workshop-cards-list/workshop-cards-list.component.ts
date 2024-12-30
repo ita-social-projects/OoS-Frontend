@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -24,6 +24,14 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
   @Input() public currentPage: PaginationElement;
+  @Output() private isListInView = new EventEmitter<boolean>();
+  @ViewChild('workshopCardsList') set workshopCardsList(content: ElementRef | null) {
+    if (!content) {
+      return;
+    }
+
+    this.listenForListInView(content);
+  }
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
@@ -34,6 +42,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public parent: boolean;
   public workshops: SearchResponse<WorkshopCard[]>;
   public destroy$: Subject<boolean> = new Subject<boolean>();
+  private observer!: IntersectionObserver;
 
   constructor(public store: Store) {}
 
@@ -43,7 +52,9 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
-      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
+      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
+        this.workshops = workshops;
+      });
   }
 
   public onPageChange(page: PaginationElement): void {
@@ -64,5 +75,21 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+  }
+
+  private listenForListInView(content: ElementRef): void {
+    this.observer = new IntersectionObserver(this.onIntersection.bind(this), { threshold: [0] });
+
+    if (content) {
+      this.observer.observe(content.nativeElement);
+    }
+  }
+
+  private onIntersection(entries: any): void {
+    if (entries[0].isIntersecting === false) {
+      this.isListInView.emit(false);
+    } else {
+      this.isListInView.emit(true);
+    }
   }
 }
