@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
@@ -71,7 +71,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnInit(): void {
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
-
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
@@ -160,7 +159,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       if (this.router.url.startsWith('/result')) {
-        this.router.navigate([`result/${this.currentViewType}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+        this.router.navigate([`result/${this.currentViewType}`], {
+          queryParams: { filter: filterQueryParams },
+          replaceUrl: true
+        });
       }
     });
   }
