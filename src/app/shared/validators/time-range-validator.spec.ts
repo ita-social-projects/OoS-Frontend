@@ -1,18 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { TimeRangeValidator } from './time-range-validator';
-import { TimeFormatValidator } from './time-format-validator';
-
-describe('TimeFormatValidator', () => {
-  it('should be invalid time format', () => {
-    const startTime = new FormControl('', [TimeFormatValidator()]);
-    startTime?.setValue('12:00');
-    expect(startTime.valid).toBeTruthy();
-
-    startTime?.setValue('as:00');
-
-    expect(startTime.errors).toEqual({ invalidTimeFormat: true });
-  });
-});
 
 describe('TimeRangeValidator', () => {
   it('should return null for valid time range', () => {

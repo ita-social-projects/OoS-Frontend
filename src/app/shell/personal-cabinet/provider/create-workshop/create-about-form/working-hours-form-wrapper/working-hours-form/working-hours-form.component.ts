@@ -28,9 +28,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public workingDays: Set<string> = new Set<string>();
-  public workdaysFormControl = new FormControl([''], [Validators.required]);
-  public startTimeFormControl = new FormControl('', [Validators.required]);
-  public endTimeFormControl = new FormControl('', [Validators.required]);
+  public workdaysFormControl = new FormControl(['']);
+  public startTimeFormControl = new FormControl('');
+  public endTimeFormControl = new FormControl('');
 
   protected readonly ValidationConstants = ValidationConstants;
   protected readonly workingDaysReverse = WorkingDaysReverse;
@@ -40,8 +40,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.endTimeFormControl.setValidators(TimeFormatValidator());
-    this.startTimeFormControl.setValidators(TimeFormatValidator());
+    this.endTimeFormControl.setValidators(TimeFormatValidator);
+    this.startTimeFormControl.setValidators(TimeFormatValidator);
 
     (this.workingHoursForm as FormGroup).setValidators(TimeRangeValidator('startTime', 'endTime'));
 
