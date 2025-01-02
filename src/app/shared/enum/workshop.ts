@@ -29,3 +29,36 @@ export enum FormOfLearning {
   Online = 'Online',
   Mixed = 'Mixed'
 }
+
+export enum Coverage {
+  School,
+  City,
+  District,
+  Region,
+  AllUkraine,
+  International
+}
+
+export enum SpecialNeedsType {
+  None,
+  Hearing,
+  Speaking,
+  Sight,
+  Intelligence,
+  Musculoskeletal,
+  Retardation
+}
+
+export enum EducationalShift {
+  First,
+  Second
+}
+
+export enum AgeComposition {
+  SameAge,
+  DifferentAge
+}
+
+export enum WorkshopType {
+  None
+}
