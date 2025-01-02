@@ -329,6 +329,9 @@
         "REGION": "Region",
         "ALL_UKRAINE": "All Ukraine",
         "INTERNATIONAL": "International"
+      },
+      "WORKSHOP_TYPE": {
+        "NONE": "None"
       }
     }
   },
@@ -445,7 +448,13 @@
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
       "IS_SPECIAL": "Is special",
       "IS_INCLUSIVE": "Is inclusive",
-      "SPECIAL_NEEDS_TYPE": "Special needs type"
+      "SPECIAL_NEEDS_TYPE": "Special needs type",
+      "ARE_THERE_BENEFITS": "Are there benefits",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
+      "EDUCATIONAL_SHIFT": "Educational Shift",
+      "AGE_COMPOSITION": "Age Composition",
+      "COVERAGE": "Coverage",
+      "WORKSHOP_TYPE": "Workshop type"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",

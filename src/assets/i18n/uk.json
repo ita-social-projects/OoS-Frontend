@@ -329,6 +329,9 @@
         "REGION": "Обласний",
         "ALL_UKRAINE": "Всеукраїнський",
         "INTERNATIONAL": "Міжнародний"
+      },
+      "WORKSHOP_TYPE": {
+        "NONE": "Немає"
       }
     }
   },
@@ -444,7 +447,14 @@
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Опис процедури зарахування",
       "IS_SPECIAL": "Є спеціальною",
-      "IS_INCLUSIVE": "Є інклюзивною"
+      "IS_INCLUSIVE": "Є інклюзивною",
+      "SPECIAL_NEEDS_TYPE": "Група з типом порушення",
+      "ARE_THERE_BENEFITS": "Є пільги",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Пільгові умови",
+      "EDUCATIONAL_SHIFT": "Зміна навчання",
+      "AGE_COMPOSITION": "Тип групи за віковим складом",
+      "COVERAGE": "Покриття",
+      "WORKSHOP_TYPE": "Тип групи"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
