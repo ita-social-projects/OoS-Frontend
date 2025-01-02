@@ -47,6 +47,13 @@ export abstract class WorkshopBase {
   enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
+  specialNeedsType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  educationalShift: string;
+  ageComposition: string;
+  coverage: string;
+  workshopType: string;
 
   constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -78,6 +85,13 @@ export abstract class WorkshopBase {
     this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
     this.isSpecial = description.isSpecial;
     this.isInclusive = description.isInclusive;
+    this.specialNeedsType = description.specialNeedsType;
+    this.areThereBenefits = description.areThereBenefits;
+    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
+    this.educationalShift = description.educationalShift;
+    this.ageComposition = description.ageComposition;
+    this.coverage = description.coverage;
+    this.workshopType = description.workshopType;
 
     if (id) {
       this.id = id;
@@ -239,4 +253,11 @@ interface Description {
   enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
+  specialNeedsType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  educationalShift: string;
+  ageComposition: string;
+  coverage: string;
+  workshopType: string;
 }
