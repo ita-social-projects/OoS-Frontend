@@ -89,7 +89,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   public handleInvalidCharacter(value: string): void {
     const validValue = value?.replace(SEARCHBAR_REGEX_REPLACE, '');
     if (validValue !== value) {
-      this.searchValueFormControl.setValue(validValue);
+      this.searchValueFormControl.setValue(validValue, { emitEvent: false });
       this.invalidCharacterDetected.emit();
     } else {
       this.validCharacterDetected.emit();
