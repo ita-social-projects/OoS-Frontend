@@ -13,7 +13,7 @@
 </div>
 
 <mat-drawer-container>
-  <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
+  <mat-drawer mode="side" [opened]="isFiltersSidenavOpen$ | async">
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="marginLeft" [style.marginTop]="isMapView ? '0' : '2rem'">
@@ -28,6 +28,7 @@
     <ng-template #ShowData>
       <app-workshop-cards-list
         class="cards"
+        (isListInView)="onChangedListVisibility($event)"
         [role]="role"
         [paginationParameters]="paginationParameters"
         [currentPage]="currentPage"
@@ -36,6 +37,10 @@
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
+
+<app-result-to-top-btn
+  [hidden]="(isListVisible || (filterState$ | async).isLoading || (filteredWorkshops$ | async)?.totalAmount === 0) && !isMobileView"
+  [results]="(filteredWorkshops$ | async)?.totalAmount"></app-result-to-top-btn>
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">

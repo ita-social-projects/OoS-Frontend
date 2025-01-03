@@ -24,14 +24,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
   @Input() public currentPage: PaginationElement;
-  @Output() private isListInView = new EventEmitter<boolean>();
-  @ViewChild('workshopCardsList') set workshopCardsList(content: ElementRef | null) {
-    if (!content) {
-      return;
-    }
-
-    this.listenForListInView(content);
-  }
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
@@ -42,9 +34,21 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public parent: boolean;
   public workshops: SearchResponse<WorkshopCard[]>;
   public destroy$: Subject<boolean> = new Subject<boolean>();
+  private workshopList: ElementRef;
   private observer!: IntersectionObserver;
+  @Output() private isListInView = new EventEmitter<boolean>();
 
   constructor(public store: Store) {}
+
+  @ViewChild('workshopCardsList')
+  private set content(content: ElementRef | null) {
+    if (!content) {
+      return;
+    }
+
+    this.workshopList = content;
+    this.listenForListInView();
+  }
 
   public ngOnInit(): void {
     this.workshops$
@@ -60,6 +64,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
+    this.scrollToTop();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -70,6 +75,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.observer?.unobserve(this.workshopList?.nativeElement);
   }
 
   private getWorkshops(): void {
@@ -77,19 +83,22 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
   }
 
-  private listenForListInView(content: ElementRef): void {
+  private listenForListInView(): void {
     this.observer = new IntersectionObserver(this.onIntersection.bind(this), { threshold: [0] });
 
-    if (content) {
-      this.observer.observe(content.nativeElement);
+    if (this.workshopList) {
+      this.observer.observe(this.workshopList.nativeElement);
     }
   }
 
   private onIntersection(entries: any): void {
-    if (entries[0].isIntersecting === false) {
-      this.isListInView.emit(false);
-    } else {
-      this.isListInView.emit(true);
-    }
+    this.isListInView.emit(entries[0].isIntersecting);
+  }
+
+  private scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 }
