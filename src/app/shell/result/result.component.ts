@@ -35,15 +35,16 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  private isFiltersSidenavOpen$: Observable<boolean>;
+  protected isFiltersSidenavOpen$: Observable<boolean>;
   @Select(FilterState.isMapView)
   private isMapView$: Observable<boolean>;
   @Select(FilterState)
-  private filterState$: Observable<FilterStateModel>;
+  protected filterState$: Observable<FilterStateModel>;
 
   public readonly ResultViewType = ResultViewType;
   public readonly WorkshopDeclination = WorkshopDeclination;
 
+  public isListVisible: boolean;
   public isMobileView: boolean;
   public role: string;
   public isFiltersSidenavOpen: boolean;
@@ -103,8 +104,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
-    this.isFiltersSidenavOpen = !this.isFiltersSidenavOpen;
     this.calculateMarginLeft();
+  }
+
+  public onChangedListVisibility(event: boolean): void {
+    this.isListVisible = event;
   }
 
   private addNavPath(): void {
