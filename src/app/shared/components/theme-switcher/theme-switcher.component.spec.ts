@@ -1,5 +1,6 @@
 import { NgxsModule, Store } from '@ngxs/store';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { WINDOW } from 'ngx-window-token';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -11,17 +12,32 @@ describe('ThemeSwitcherComponent', () => {
   let store: Store;
   let translate: TranslateService;
   let translateInstantSpyOn: jest.SpyInstance;
+  let localstorageSetItemSpy: jest.SpyInstance;
+  let localstorageGetItemSpy: jest.SpyInstance;
 
   beforeEach(() => {
+    const mockWindow = {
+      matchMedia: (query: string) => ({
+        matches: query === '(prefers-color-scheme: dark)',
+        media: query,
+        addListener: jest.fn(),
+        removeListener: jest.fn()
+      })
+    };
+
     TestBed.configureTestingModule({
       declarations: [ThemeSwitcherComponent],
-      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot()]
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      providers: [{ provide: WINDOW, useValue: mockWindow }]
     });
     fixture = TestBed.createComponent(ThemeSwitcherComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
     translate = TestBed.inject(TranslateService);
     fixture.detectChanges();
+
+    localstorageSetItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    localstorageGetItemSpy = jest.spyOn(Storage.prototype, 'getItem');
   });
 
   it('should create', () => {
@@ -73,5 +89,31 @@ describe('ThemeSwitcherComponent', () => {
     component.showMessage(message, type, infinityDuration);
 
     expect(store.dispatch).toHaveBeenCalledWith(new ShowMessageBar({ message, type, infinityDuration }));
+  });
+
+  it('should set isDark based on localStorage (when it is "dark")', () => {
+    localstorageGetItemSpy.mockReturnValue('dark');
+    component.ngOnInit();
+    expect(component.isDark).toBe(true);
+  });
+
+  it('should set isDark based on localStorage (when it is "light")', () => {
+    localstorageGetItemSpy.mockReturnValue('light');
+    component.ngOnInit();
+    expect(component.isDark).toBe(false);
+  });
+
+  it('should set isDark and save theme in localStorage to dark when switching mode to dark', () => {
+    const event: MatSlideToggleChange = { checked: true, source: null as any };
+    component.onToggleChange(event); // Switching to dark mode
+    expect(component.isDark).toBe(true);
+    expect(localstorageSetItemSpy).toHaveBeenCalledWith('preferred-theme', 'dark');
+  });
+
+  it('should set isDark and save theme in localStorage to light when switching mode to light', () => {
+    const event: MatSlideToggleChange = { checked: false, source: null as any };
+    component.onToggleChange(event); // Switching to light mode
+    expect(component.isDark).toBe(false);
+    expect(localstorageSetItemSpy).toHaveBeenCalledWith('preferred-theme', 'light');
   });
 });

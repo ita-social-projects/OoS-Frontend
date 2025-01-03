@@ -27,7 +27,6 @@ import { isRoleProvider } from 'shared/utils/provider.utils';
 export class SidenavMenuComponent implements OnInit, OnDestroy {
   @Input() public isMobileView: boolean;
 
-  @Input() public isDark: boolean = false;
   @Output() public readonly darkModeSwitched = new EventEmitter<boolean>();
 
   @Select(NavigationState.sidenavOpenTrue)

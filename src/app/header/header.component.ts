@@ -49,8 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(MainPageState.headerInfo)
   public headerInfo$: Observable<CompanyInformation>;
 
-  @Input()
-  public isDark: boolean = false;
   @Output()
   public readonly darkModeSwitched = new EventEmitter<boolean>();
 

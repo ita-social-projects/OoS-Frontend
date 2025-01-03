@@ -30,8 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router,
-    @Inject(WINDOW) private _window: Window
+    private router: Router
+    // @Inject(WINDOW) private window: Window
   ) {}
 
   @HostBinding('class')
@@ -50,17 +50,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
 
-    const savedTheme = localStorage.getItem('preferred-theme');
-    if (savedTheme) {
-      this.isDark = savedTheme === 'dark';
-    } else {
-      this.isDark = this._window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
+    // const savedTheme = localStorage.getItem('preferred-theme');
+    // if (savedTheme) {
+    //   this.isDark = savedTheme === 'dark';
+    // } else {
+    //   this.isDark = this.window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // }
   }
 
   public switchMode(isDarkMode: boolean): void {
     this.isDark = isDarkMode;
-    localStorage.setItem('preferred-theme', isDarkMode ? 'dark' : 'light');
   }
 
   /**
