@@ -13,7 +13,7 @@
   disabled
   [overlapTrigger]="false"
   xPosition="after"
-  class="menu {{ type === InfoMenuType.Text ? 'text' : 'component' }}">
+  class="info-menu menu {{ type === InfoMenuType.Text ? 'text' : 'component' }}">
   <div [class.menu-wrapper]="type === InfoMenuType.Text">
     <ng-content></ng-content>
   </div>

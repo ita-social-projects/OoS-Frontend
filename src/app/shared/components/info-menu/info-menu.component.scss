@@ -26,11 +26,7 @@
       padding: 0.5rem 0.5rem;
     }
 
-    .mat-menu-content {
-      font-weight: inherit;
-      font-size: inherit;
-      padding: 0px;
-    }
+
 
     &.text {
       max-width: 600px;
@@ -39,6 +35,13 @@
 
     &.component {
       max-width: max-content;
+    }
+  }
+  .info-menu {
+    .mat-mdc-menu-content {
+      font-weight: inherit;
+      font-size: inherit;
+      padding: 0px;
     }
   }
 }
