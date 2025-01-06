@@ -1,4 +1,4 @@
-.container {
+.cabinet-container {
   background: #ffffff;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
@@ -57,6 +57,7 @@
 
 ::ng-deep .mat-mdc-tab-link.active {
   .mdc-tab__text-label {
+    line-height: 18px;
     color: #3849f9;
   }
 
