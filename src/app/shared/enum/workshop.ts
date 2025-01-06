@@ -31,34 +31,34 @@ export enum FormOfLearning {
 }
 
 export enum Coverage {
-  School,
-  City,
-  District,
-  Region,
-  AllUkraine,
-  International
+  School = 'School',
+  City = 'City',
+  District = 'District',
+  Region = 'Region',
+  AllUkraine = 'AllUkraine',
+  International = 'International'
 }
 
 export enum SpecialNeedsType {
-  None,
-  Hearing,
-  Speaking,
-  Sight,
-  Intelligence,
-  Musculoskeletal,
-  Retardation
+  None = 'None',
+  Hearing = 'Hearing',
+  Speaking = 'Speaking',
+  Sight = 'Sight',
+  Intelligence = 'Intelligence',
+  Musculoskeletal = 'Musculoskeletal',
+  Retardation = 'Retardation'
 }
 
 export enum EducationalShift {
-  First,
-  Second
+  First = 'First',
+  Second = 'Second'
 }
 
 export enum AgeComposition {
-  SameAge,
-  DifferentAge
+  SameAge = 'SameAge',
+  DifferentAge = 'DifferentAge'
 }
 
 export enum WorkshopType {
-  None
+  None = 'None'
 }

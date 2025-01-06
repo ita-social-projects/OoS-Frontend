@@ -120,13 +120,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       ]),
       isSpecial: new FormControl(false),
       isInclusive: new FormControl(false),
-      specialNeedsType: new FormControl(this.SpecialNeedsTypeEnum.None),
+      specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       areThereBenefits: new FormControl(false),
       preferentialTermsOfParticipation: new FormControl(''),
-      educationalShift: new FormControl(this.EducationalShiftEnum.First, Validators.required),
-      ageComposition: new FormControl(this.AgeCompositionEnum.SameAge, Validators.required),
-      coverage: new FormControl(this.CoverageEnum.School),
-      workshopType: new FormControl(this.WorkshopTypeEnum.None, Validators.required)
+      educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
+      ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
+      coverage: new FormControl(this.Coverage.School),
+      workshopType: new FormControl(this.WorkshopType.None, Validators.required)
     });
   }
 
