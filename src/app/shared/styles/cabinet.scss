@@ -60,9 +60,7 @@
     line-height: 1.125rem;
   }
 }
-.mat-mdc-tab-header {
-  --mat-tab-header-label-text-tracking: inherit;
-} 
+
 ::ng-deep .mat-mdc-tab-link.active {
   .mdc-tab__text-label {
     color: #3849f9;
