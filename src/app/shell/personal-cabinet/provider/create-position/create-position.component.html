@@ -7,70 +7,33 @@
         </h3>
         <p class="wrapper-text">
           {{ (editMode ? 'FORMS.HEADERS.EDIT_POSITION_DESCRIPTION' : 'FORMS.HEADERS.NEW_POSITION_DESCRIPTION') | translate }}
-
         </p>
       </div>
-      
-  <mat-horizontal-stepper linear>
-    <mat-step [stepControl]="PositionFormGroup"
-    [completed]="!PositionFormGroup?.invalid">
-      
-      <ng-template matStepLabel>
-        <p class="step-name">{{ 'TITLES.ABOUT_THE_POSITION_SHORT' | translate }}</p>
-      </ng-template>
       <div>
-        <app-create-position-form [position]="position" class="flex flex-row justify-center items-center"
-        (passPositionFormGroup)="onReceivePositionFormGroup($event)">
-          
-        </app-create-position-form>
+        <ng-template matStepLabel>
+          <p class="step-name">{{ 'TITLES.ABOUT_THE_POSITION_SHORT' | translate }}</p>
+        </ng-template>
+        <div>
+          <app-create-position-form
+            [position]="position"
+            class="flex flex-row justify-center items-center"
+            (passPositionFormGroup)="onReceivePositionFormGroup($event)">
+          </app-create-position-form>
+        </div>
+        <div class="footer flex flex-row justify-center items-center">
+          <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
+          <button
+            class="btn"
+            [disabled]="(isLoading$ | async) || !PositionFormGroup.dirty || PositionFormGroup.invalid"
+            mat-button
+            type="submit"
+            (click)="onSubmit()">
+            {{ 'BUTTONS.SAVE' | translate }}
+          </button>
+        </div>
       </div>
-      <div class="footer flex flex-row justify-center items-center">
-        <button
-        class="btn btn-cancel"
-        mat-raised-button
-        (click)="onCancel()">
-          {{ 'BUTTONS.CANCEL' | translate }}
-        </button>
-        <button class="btn" mat-raised-button matStepperNext [disabled]="PositionFormGroup.invalid">
-          {{ 'BUTTONS.NEXT' | translate }}
-        </button>
-      </div>
-    </mat-step>
-
-    <mat-step
-      [stepControl]="AddressFormGroup"
-      [completed]="!AddressFormGroup?.invalid">
-      <ng-template matStepLabel>
-        <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
-      </ng-template>
-      <app-create-workshop-address 
-        [address]="position?.contactInformation" 
-        (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
-      </app-create-workshop-address>
-      <div class="footer flex flex-row justify-center items-center">
-        <button class="btn" mat-raised-button matStepperPrevious>
-          {{ 'BUTTONS.BACK' | translate }}
-        </button>
-        <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
-          {{ 'BUTTONS.CANCEL' | translate }}
-        </button>
-        <button
-          class="btn"
-          [disabled]="
-          (isLoading$ | async) ||
-          (!PositionFormGroup.dirty && !AddressFormGroup.dirty) ||
-          PositionFormGroup.invalid||
-          AddressFormGroup.invalid"
-          mat-button
-          type="submit"
-          (click)="onSubmit()">
-          {{ 'BUTTONS.SAVE' | translate }}
-        </button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
     </div>
-    
   </div>
-
 </ng-container>

@@ -409,7 +409,10 @@ export class GetPositions {
 
 export class GetPositionById {
   static readonly type = '[provider] Get position by position Id';
-  constructor(public positionId: string) {}
+  constructor(
+    public positionId: string,
+    public providerId: string
+  ) {}
 }
 
 export class CreatePosition {

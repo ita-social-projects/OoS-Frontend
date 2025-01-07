@@ -46,6 +46,13 @@ export class ValidationConstants {
 
   // Search
   static readonly MAX_SEARCH_LENGTH_200 = 200;
+
+  // Traffic and Rate
+  static readonly MAX_RATE = 1000000;
+  static readonly MIN_RATE = 1;
+
+  // Max available seats
+  static readonly MAX_SEATS = 10000;
 }
 
 export class FormValidators {
