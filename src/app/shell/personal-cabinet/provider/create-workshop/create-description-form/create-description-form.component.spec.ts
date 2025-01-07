@@ -77,7 +77,19 @@ describe('CreateDescriptionFormComponent', () => {
       keyWords: new FormControl(''),
       formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
-      tagIds: new FormControl([])
+      tagIds: new FormControl([]),
+      shortStay: new FormControl(false),
+      isSelfFinanced: new FormControl(false),
+      enrollmentProcedureDescription: new FormControl(''),
+      isSpecial: new FormControl(false),
+      isInclusive: new FormControl(false),
+      specialNeedsType: new FormControl('None'),
+      areThereBenefits: new FormControl(false),
+      preferentialTermsOfParticipation: new FormControl(''),
+      educationalShift: new FormControl('First'),
+      ageComposition: new FormControl('SameAge'),
+      coverage: new FormControl('School'),
+      workshopType: new FormControl('None')
     });
     fixture.detectChanges();
   });
