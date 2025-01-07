@@ -1,4 +1,4 @@
-.container {
+.cabinet-container {
   background: #ffffff;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
@@ -53,6 +53,12 @@
   font-size: 18px;
   line-height: inherit;
   margin-bottom: 1.5rem;
+}
+
+::ng-deep .mat-mdc-tab-link {
+  .mdc-tab__text-label {
+    line-height: 1.125rem;
+  }
 }
 
 ::ng-deep .mat-mdc-tab-link.active {
