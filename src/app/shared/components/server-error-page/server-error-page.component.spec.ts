@@ -1,11 +1,12 @@
 import { TimerData } from 'shared/models/server-error';
 import { of } from 'rxjs';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ServerErrorService } from 'shared/services/server-error/server-error.service';
 import { Router } from '@angular/router';
 import { Store, NgxsModule } from '@ngxs/store';
 import { AppState } from 'shared/store/app.state';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SetErrorTimerData } from 'shared/store/app.actions';
 import { ServerErrorPageComponent } from './server-error-page.component';
 
 describe('ServerErrorPageComponent', () => {
@@ -68,4 +69,25 @@ describe('ServerErrorPageComponent', () => {
     // Verifying that the router navigation happens
     expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
   });
+
+  it('should call dispatch and set isDisabled to false after timer completes', fakeAsync(() => {
+    const mockTimerData: TimerData = { timerValue: 2000, time: 0 }; // Mock timer data with 3 seconds
+    component.timerData = mockTimerData;
+    component.disabledTime = 2; // Set initial disabled time
+
+    // Spy on store.dispatch to see if it gets called
+    const dispatchSpy = jest.spyOn(storeMock, 'dispatch');
+
+    // Start the timer
+    component.setTimerData();
+
+    // Simulate the passage of time
+    tick(3000); // Simulate the 3 seconds
+
+    // Verify the dispatch was called with the correct values
+    expect(dispatchSpy).toHaveBeenCalledWith(new SetErrorTimerData(mockTimerData));
+
+    // Verify that isDisabled is set to false after the timer completes
+    expect(component.isDisabled).toBe(false);
+  }));
 });
