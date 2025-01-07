@@ -50,7 +50,8 @@ describe('TeacherFormComponent', () => {
       dateOfBirth: new FormControl(''),
       description: new FormControl(''),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl('')
+      coverImageId: new FormControl(''),
+      defaultTeacher: new FormControl(false)
     });
     fixture.detectChanges();
   });
