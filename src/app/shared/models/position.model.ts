@@ -3,37 +3,39 @@ import { Provider } from './provider.model';
 import { PaginationParameters } from './query-parameters.model';
 
 export class Position {
-  languages?: string[];
+  id?: string;
+  language?: string;
   description?: string;
-  forRuralAres?: boolean;
-  openedInDepartment?: string;
-  provider?: string;
-  contactInformation?: Address;
-  numOfSeats: number;
+  isForRuralAres?: boolean;
+  department?: string;
+  seatsAmount: number;
   fullName: string;
   shortName?: string;
-  nameInGenitiveCase: string;
-  teachingPosition?: boolean;
+  genitiveName: string;
+  isTeachingPosition?: boolean;
   rate: number;
   tariff: number;
-  typeByClassifier: string;
-  id?: string;
+  classifierType: string;
+  providerId?: string;
+  contactId?: string;
+  createdAt?: string;
 
-  constructor(position: Partial<Position>, address: Address, provider: Provider, id?: string) {
-    this.languages = position.languages || [];
+  constructor(position: Partial<Position>, provider: Provider, id?: string) {
+    this.language = position.language || '';
     this.description = position.description || '';
-    this.forRuralAres = position.forRuralAres ?? false;
-    this.openedInDepartment = position.openedInDepartment || '';
-    this.provider = provider.id;
-    this.contactInformation = address;
-    this.numOfSeats = position.numOfSeats || null;
+    this.isForRuralAres = position.isForRuralAres ?? false;
+    this.department = position.department || '';
+    this.providerId = provider.id;
+    this.contactId = position.contactId || '';
+    this.seatsAmount = position.seatsAmount || null;
     this.fullName = position.fullName;
     this.shortName = position.shortName || '';
-    this.nameInGenitiveCase = position.nameInGenitiveCase;
-    this.teachingPosition = position.teachingPosition ?? false;
+    this.genitiveName = position.genitiveName;
+    this.isTeachingPosition = position.isTeachingPosition ?? false;
     this.rate = position.rate ?? 0;
     this.tariff = position.tariff ?? 0;
-    this.typeByClassifier = position.typeByClassifier || '';
+    this.classifierType = position.classifierType || '';
+    this.createdAt = position.createdAt || '';
     if (id) {
       this.id = id;
     }
@@ -42,6 +44,8 @@ export class Position {
 
 export interface PositionParameters extends PaginationParameters {
   providerId?: string;
-  searchQuery?: string;
+  searchString?: string;
   currentPage?: number;
+  orderByFullName?: boolean;
+  orderByCreatedAt?: boolean;
 }

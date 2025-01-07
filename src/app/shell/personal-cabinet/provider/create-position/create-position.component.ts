@@ -5,11 +5,10 @@ import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { CreatePosition, GetPositionById, UpdatePosition } from 'shared/store/provider.actions';
-import { Observable, takeUntil, filter } from 'rxjs';
+import { Observable, takeUntil, filter, take, tap } from 'rxjs';
 import { ProviderState } from 'shared/store/provider.state';
 import { FormGroup } from '@angular/forms';
 import { Constants } from 'shared/constants/constants';
-import { Address } from 'shared/models/address.model';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { Role, Subrole } from 'shared/enum/role';
 import { Util } from 'shared/utils/utils';
@@ -26,9 +25,9 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
 export class CreatePositionComponent extends CreateFormComponent implements AfterContentChecked, OnInit {
   @Select(ProviderState.selectedPosition)
   public selectedPosition$: Observable<Position>;
-  @Select(RegistrationState.provider)
-  private readonly provider$: Observable<Provider>;
 
+  @Select(RegistrationState.provider)
+  public provider$: Observable<Provider>;
   public position: Position;
   public provider: Provider;
   public PositionFormGroup: FormGroup;
@@ -49,13 +48,6 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
   }
 
   public ngOnInit(): void {
-    this.provider$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((provider: Provider) => !!provider)
-      )
-      .subscribe((provider: Provider) => (this.provider = provider));
-
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
@@ -63,20 +55,38 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
   public setEditMode(): void {
     const positionId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetPositionById(positionId));
 
-    this.selectedPosition$.pipe(takeUntil(this.destroy$)).subscribe((position: Position) => (this.position = position));
+    this.provider$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((provider: Provider) => provider != null),
+        tap((provider: Provider) => {
+          this.provider = provider;
+          this.store.dispatch(new GetPositionById(positionId, this.provider.id));
+        })
+      )
+      .subscribe();
+
+    this.selectedPosition$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((position: Position) => position?.id === positionId),
+        tap((position: Position) => {
+          this.position = new Position(position, this.provider, positionId);
+          this.editMode = true;
+        })
+      )
+      .subscribe();
   }
 
   public onSubmit(): void {
-    const address: Address = new Address(this.AddressFormGroup.value);
     const positionInfo = this.createPosition();
     let position: Position;
     if (this.editMode) {
-      position = new Position(positionInfo, address, this.provider, this.position.id);
+      position = new Position(positionInfo, this.provider, this.position.id);
       this.store.dispatch(new UpdatePosition(position));
     } else {
-      position = new Position(positionInfo, address, this.provider);
+      position = new Position(positionInfo, this.provider);
       this.store.dispatch(new CreatePosition(position));
     }
   }

@@ -12,6 +12,7 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, takeUntil } from 'rxjs';
+import { SearchResponse } from 'shared/models/search.model';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -75,9 +76,9 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     this.store
       .select(ProviderState.positions)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((positions: Position[]) => {
-        this.dataSource.data = positions;
-        this.totalElements = positions?.length;
+      .subscribe((positions: SearchResponse<Position[]>) => {
+        this.dataSource.data = positions.entities;
+        this.totalElements = positions.totalAmount;
       });
   }
 

@@ -119,7 +119,7 @@ export interface ProviderStateModel {
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
   pendingApplications: SearchResponse<Application[]>;
-  positions: Position[];
+  positions: SearchResponse<Position[]>;
   selectedPosition: Position;
 }
 
@@ -204,7 +204,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static positions(state: ProviderStateModel): Position[] {
+  static positions(state: ProviderStateModel): SearchResponse<Position[]> {
     return state.positions;
   }
 
@@ -832,9 +832,14 @@ export class ProviderState {
   }
 
   @Action(GetPositions)
-  getPositions({ patchState }: StateContext<ProviderStateModel>, { positionParameters }: GetPositions): void {
+  getPositions(
+    { patchState }: StateContext<ProviderStateModel>,
+    { positionParameters }: GetPositions
+  ): Observable<SearchResponse<Position[]>> {
     patchState({ isLoading: true });
-    patchState({ positions: this.positionService.getPositions(positionParameters), isLoading: false });
+    return this.positionService
+      .getPositions(positionParameters)
+      .pipe(tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions, isLoading: false })));
   }
 
   @Action(CreatePosition)
@@ -893,8 +898,8 @@ export class ProviderState {
   }
 
   @Action(GetPositionById)
-  getPositionById({ patchState }: StateContext<ProviderStateModel>, { positionId }: GetPositionById): Observable<Position | void> {
-    return this.positionService.getPositionById(positionId).pipe(
+  getPositionById({ patchState }: StateContext<ProviderStateModel>, payload: GetPositionById): Observable<Position | void> {
+    return this.positionService.getPositionById(payload.positionId, payload.providerId).pipe(
       tap((position: Position) => {
         patchState({
           selectedPosition: position

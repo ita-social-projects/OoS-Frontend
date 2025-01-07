@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,14 +15,14 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./create-position-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreatePositionFormComponent implements OnInit {
+export class CreatePositionFormComponent implements OnInit, OnChanges {
   @Input() public position: Position;
   @Output() public passPositionFormGroup = new EventEmitter();
   @Select(RegistrationState.provider) public provider: Provider;
 
   public PositionFormGroup: FormGroup;
   public readonly validationConstants = ValidationConstants;
-  public numOfSeatsRadioBtnControl: FormControl = new FormControl(true);
+  public seatsAmountRadioBtnControl: FormControl = new FormControl(true);
   public readonly InfoMenuType = InfoMenuType;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   public readonly minSeats = 0;
@@ -31,14 +31,20 @@ export class CreatePositionFormComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder) {}
 
-  public get numOfSeatsControl(): FormControl {
-    return this.PositionFormGroup.get('numOfSeats') as FormControl;
+  public get seatsAmountControl(): FormControl {
+    return this.PositionFormGroup.get('seatsAmount') as FormControl;
   }
 
   public ngOnInit(): void {
     this.createPositionForm();
     this.initListeners();
     if (this.position) {
+      this.activateEditMode();
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.position && this.position && this.PositionFormGroup) {
       this.activateEditMode();
     }
   }
@@ -51,65 +57,55 @@ export class CreatePositionFormComponent implements OnInit {
 
   private activateEditMode(): void {
     this.PositionFormGroup.patchValue({
+      language: this.position.language ?? '',
+      description: this.position.description ?? '',
+      department: this.position.department ?? '',
+      seatsAmount: this.position.seatsAmount ?? null,
       fullName: this.position.fullName ?? '',
       shortName: this.position.shortName ?? '',
-      description: this.position.description ?? '',
-      forRuralAres: this.position.forRuralAres ?? false,
-      openedInDepartment: this.position.openedInDepartment ?? '',
-      provider: this.position.provider ?? this.provider?.id,
-      numOfSeats: this.position.numOfSeats ?? null,
-      nameInGenitiveCase: this.position.nameInGenitiveCase ?? '',
-      teachingPosition: this.position.teachingPosition ?? false,
+      genitiveName: this.position.genitiveName ?? '',
+      isTeachingPosition: this.position.isTeachingPosition ?? false,
       rate: this.position.rate ?? '',
       tariff: this.position.tariff ?? '',
-      typeByClassifier: this.position.typeByClassifier ?? ''
+      classifierType: this.position.classifierType ?? '',
+      isForRuralAres: this.position.isForRuralAres ?? false,
+      providerId: this.position.providerId ?? this.provider?.id
     });
 
-    const noLimitSeats = this.position.numOfSeats === null;
-    this.numOfSeatsRadioBtnControl.setValue(noLimitSeats, { emitEvent: false });
+    const noLimitSeats = this.position.seatsAmount === null;
+    this.seatsAmountRadioBtnControl.setValue(noLimitSeats, { emitEvent: false });
 
     if (noLimitSeats) {
-      this.setNumOfSeatsControlValue(null, 'disable', false);
+      this.setSeatsAmountControlValue(null, 'disable', false);
     } else {
-      this.setNumOfSeatsControlValue(this.position.numOfSeats, 'enable', false);
+      this.setSeatsAmountControlValue(this.position.seatsAmount, 'enable', false);
     }
   }
 
   private createPositionForm(): void {
     this.PositionFormGroup = this.fb.group({
-      fullName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(this.validationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)
-        ]
+      language: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_30)]],
+      description: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_500)]],
+      seatsAmount: [
+        { value: null, disabled: true },
+        [Validators.required, Validators.min(this.minSeats), Validators.max(this.validationConstants.MAX_SEATS)]
       ],
-      shortName: [
+      department: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
+      fullName: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
+      shortName: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
+      isTeachingPosition: [false],
+      genitiveName: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
+      rate: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(this.validationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)
-        ]
+        [Validators.required, Validators.min(this.validationConstants.MIN_PRICE), Validators.max(this.validationConstants.MAX_RATE)]
       ],
-      description: [
+      tariff: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(this.validationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(this.validationConstants.INPUT_LENGTH_500)
-        ]
+        [Validators.required, Validators.min(this.validationConstants.MIN_PRICE), Validators.max(this.validationConstants.MAX_RATE)]
       ],
-      forRuralAres: [false],
-      openedInDepartment: [''],
-      provider: [this.provider.id],
-      numOfSeats: [{ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]],
-      nameInGenitiveCase: [''],
-      teachingPosition: [false],
-      rate: ['', [Validators.required, Validators.min(1), Validators.max(10)]],
-      tariff: ['', [Validators.required, Validators.min(1), Validators.max(10)]],
-      typeByClassifier: ['']
+      classifierType: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_100)]],
+      isForRuralAres: [false],
+      providerId: [this.provider.id]
     });
     this.passPositionFormGroup.emit(this.PositionFormGroup);
   }
@@ -119,18 +115,18 @@ export class CreatePositionFormComponent implements OnInit {
   }
 
   private availableSeatsControlListener(): void {
-    this.numOfSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
+    this.seatsAmountRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
       this.markFormAsDirtyOnUserInteraction();
       if (noLimit) {
-        this.setNumOfSeatsControlValue(null, 'disable');
+        this.setSeatsAmountControlValue(null, 'disable');
       } else {
-        this.setNumOfSeatsControlValue(this.minSeats, 'enable');
+        this.setSeatsAmountControlValue(this.minSeats, 'enable');
       }
     });
   }
 
-  private setNumOfSeatsControlValue(numOfSeats: number = null, action: string = 'disable', emitEvent: boolean = true): void {
-    this.numOfSeatsControl[action]({ emitEvent });
-    this.numOfSeatsControl.setValue(numOfSeats, { emitEvent });
+  private setSeatsAmountControlValue(seatsAmount: number = null, action: string = 'disable', emitEvent: boolean = true): void {
+    this.seatsAmountControl[action]({ emitEvent });
+    this.seatsAmountControl.setValue(seatsAmount, { emitEvent });
   }
 }
