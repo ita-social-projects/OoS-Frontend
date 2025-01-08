@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
@@ -12,13 +12,12 @@ import { ShowMessageBar } from 'shared/store/app.actions';
   styleUrls: ['./theme-switcher.component.scss']
 })
 export class ThemeSwitcherComponent implements OnInit {
-  @Output()
-  public readonly themeSwitched = new EventEmitter<boolean>();
   public isDark: boolean = false;
 
   constructor(
     private translate: TranslateService,
     private store: Store,
+    private renderer: Renderer2,
     @Inject(WINDOW) private window: Window
   ) {}
 
@@ -29,19 +28,30 @@ export class ThemeSwitcherComponent implements OnInit {
     } else {
       this.isDark = this.window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-    this.themeSwitched.emit(this.isDark);
+    this.changeThemeClass(this.isDark);
   }
 
   public onToggleChange({ checked }: MatSlideToggleChange): void {
     this.isDark = checked;
-    this.themeSwitched.emit(this.isDark);
     localStorage.setItem('preferred-theme', this.isDark ? 'dark' : 'light');
+
+    this.changeThemeClass(this.isDark);
 
     // send message to user
     const darkThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_ON');
     const lightThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_OFF');
     const message: string = checked ? darkThemeMessage : lightThemeMessage;
     this.showMessage(message, 'success', false);
+  }
+
+  private changeThemeClass(isDark: boolean): void {
+    if (isDark) {
+      this.renderer.addClass(document.body, 'dark-theme');
+      this.renderer.removeClass(document.body, 'light-theme');
+    } else {
+      this.renderer.addClass(document.body, 'light-theme');
+      this.renderer.removeClass(document.body, 'dark-theme');
+    }
   }
 
   private showMessage(message: string, type: MessageBarType, infinityDuration: boolean): void {

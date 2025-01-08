@@ -27,7 +27,7 @@
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
         <div class="mobile-sidenav-theme">
-          <app-theme-switcher (themeSwitched)="onDarkModeSwitched($event)"></app-theme-switcher>
+          <app-theme-switcher></app-theme-switcher>
         </div>
 
         <div class="mobile-sidenav-menu-notification full-width" *ngIf="(featuresList$ | async)?.release2">

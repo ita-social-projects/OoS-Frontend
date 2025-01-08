@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,8 +26,6 @@ import { isRoleProvider } from 'shared/utils/provider.utils';
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
   @Input() public isMobileView: boolean;
-
-  @Output() public readonly darkModeSwitched = new EventEmitter<boolean>();
 
   @Select(NavigationState.sidenavOpenTrue)
   public sidenavOpenTrue$: Observable<boolean>;
@@ -69,10 +67,6 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
       this.user = user;
     });
-  }
-
-  public onDarkModeSwitched(isDark: boolean): void {
-    this.darkModeSwitched.emit(isDark);
   }
 
   public login(): void {

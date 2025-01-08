@@ -12,8 +12,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { ShowMessageBar } from 'shared/store/app.actions';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { Role } from 'shared/enum/role';
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
@@ -30,7 +28,6 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let store: Store;
   let translate: TranslateService;
-  let translateInstantSpyOn: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -99,13 +96,6 @@ describe('HeaderComponent', () => {
 
     expect(translate.currentLang).toEqual(component.selectedLanguage);
     expect(localStorage.getItem('ui-culture')).toEqual(component.selectedLanguage);
-  });
-
-  it('should emit darkModeSwitched event with the correct value', () => {
-    const checked = true;
-    jest.spyOn(component.darkModeSwitched, 'emit');
-    component.onDarkModeSwitched(true);
-    expect(component.darkModeSwitched.emit).toHaveBeenCalledWith(checked);
   });
 });
 

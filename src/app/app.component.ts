@@ -1,9 +1,8 @@
-import { Component, HostBinding, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { WINDOW } from 'ngx-window-token';
 import { Observable, Subject } from 'rxjs';
 
 import { ToggleMobileScreen } from 'shared/store/app.actions';
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAuthorizationLoading$: Observable<boolean>;
 
   public isMobileView: boolean;
-  public isDark: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
@@ -31,13 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
     private router: Router
-    // @Inject(WINDOW) private window: Window
   ) {}
-
-  @HostBinding('class')
-  public get themeMode(): string {
-    return this.isDark ? 'dark-theme' : 'light-theme';
-  }
 
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
@@ -49,17 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.canceledNavigationResolution = 'computed';
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
-
-    // const savedTheme = localStorage.getItem('preferred-theme');
-    // if (savedTheme) {
-    //   this.isDark = savedTheme === 'dark';
-    // } else {
-    //   this.isDark = this.window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // }
-  }
-
-  public switchMode(isDarkMode: boolean): void {
-    this.isDark = isDarkMode;
   }
 
   /**

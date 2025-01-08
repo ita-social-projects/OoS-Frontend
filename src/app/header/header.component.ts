@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -49,9 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(MainPageState.headerInfo)
   public headerInfo$: Observable<CompanyInformation>;
 
-  @Output()
-  public readonly darkModeSwitched = new EventEmitter<boolean>();
-
   public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
   public readonly Languages = Languages;
   public readonly Role = Role;
@@ -95,10 +92,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.headerTitle = headerInfo.title;
       this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
     });
-  }
-
-  public onDarkModeSwitched(isDark: boolean): void {
-    this.darkModeSwitched.emit(isDark);
   }
 
   public onViewChange(): void {
