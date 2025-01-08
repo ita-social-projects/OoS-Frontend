@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 import { ApplicationIcons } from '../../enum/applications';
 import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/statuses';
 import { ApplicationStatuses } from '../../enum/statuses';
@@ -29,9 +30,8 @@ export class StatusInfoCardComponent {
   }
 
   private setStatuses(): void {
-    this.statuses =
-      this.role === Role.provider
-        ? Object.values(ApplicationStatuses)
-        : Object.values(ApplicationStatuses).filter((status: ApplicationStatuses) => status !== ApplicationStatuses.Banned);
+    this.statuses = isRoleProvider(this.role)
+      ? Object.values(ApplicationStatuses)
+      : Object.values(ApplicationStatuses).filter((status: ApplicationStatuses) => status !== ApplicationStatuses.Banned);
   }
 }

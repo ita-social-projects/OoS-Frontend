@@ -48,7 +48,7 @@
       <mat-tab label="{{ ApplicationTitles[ApplicationStatuses.Completed] | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
-      <mat-tab *ngIf="role === Role.provider" label="{{ ApplicationTitles.Blocked | translate }}">
+      <mat-tab *ngIf="isRoleProvider(role)" label="{{ ApplicationTitles.Blocked | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"></ng-container>
       </mat-tab>
     </mat-tab-group>

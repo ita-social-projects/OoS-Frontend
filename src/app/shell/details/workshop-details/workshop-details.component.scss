@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 @import 'src/app/shared/styles/details.scss';
 @import 'src/app/shared/styles/workshop-status.scss';
+@import 'src/app/shared/styles/buttons.scss';
 
 .workshop-title {
   margin-bottom: 0;
@@ -21,4 +22,24 @@
 
 .details-link {
   margin-bottom: 1rem;
+}
+
+.action-buttons-wrapper {
+  padding: 2.4rem 0;
+
+  @media screen and (min-width: 1024px) and (max-width: 1083px), screen and (max-width: 575px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  @media screen and (max-width: 380px) {
+    div {
+      display: contents;
+
+      button {
+        padding: 2px 22px;
+      }
+    }
+  }
 }

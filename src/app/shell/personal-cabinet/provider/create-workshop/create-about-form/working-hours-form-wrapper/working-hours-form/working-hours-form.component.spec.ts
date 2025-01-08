@@ -49,6 +49,37 @@ describe('WorkingHoursFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be valid startTime and endTime', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    const endTime = component.workingHoursForm.get('endTime');
+
+    startTime?.setValue('08:00');
+    endTime?.setValue('18:00');
+    expect(component.workingHoursForm.valid).toBeTruthy();
+
+    endTime?.setValue('07:00');
+    expect(component.workingHoursForm.errors).toEqual({ invalidTimeRange: true });
+  });
+
+  it('should clean input value by removing non-numeric and non-colon characters', () => {
+    const value = '12a:b3#4$';
+
+    const validValue = component.validateTimeInput(value);
+
+    expect(validValue).toBe('12:34');
+  });
+
+  it('should set time via timePicker', () => {
+    component.startTimeFormControl.setValue('');
+    component.endTimeFormControl.setValue('');
+
+    component.onTimeSet('12:30', component.startTimeFormControl);
+    component.onTimeSet('14:30', component.endTimeFormControl);
+
+    expect(component.startTimeFormControl.value).toBe('12:30');
+    expect(component.endTimeFormControl.value).toBe('14:30');
+  });
 });
 @Component({
   selector: 'app-validation-hint',

@@ -1,17 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
+import { TagService } from './tag-workshop.service';
 
-import { ProviderAdminService } from './provider-admin.service';
-
-describe('ProviderAdminService', () => {
-  let service: ProviderAdminService;
+describe('TagService', () => {
+  let service: TagService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, NgxsModule.forRoot([])]
     });
-    service = TestBed.inject(ProviderAdminService);
+    service = TestBed.inject(TagService);
   });
 
   it('should be created', () => {

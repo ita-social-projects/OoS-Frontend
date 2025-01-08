@@ -11,13 +11,10 @@ import { SearchResponse } from 'shared/models/search.model';
 export class RatingService {
   constructor(private http: HttpClient) {}
 
-  public getRateByEntityId(rateParameters: RateParameters): Observable<SearchResponse<Rate[]>> {
+  public getWorkshopRateByEntityId(rateParameters: RateParameters): Observable<SearchResponse<Rate[]>> {
     const params = new HttpParams().set('Size', rateParameters.size.toString()).set('From', rateParameters.from.toString());
     const body = { params };
-    return this.http.get<SearchResponse<Rate[]>>(
-      `/api/v1/Rating/GetByEntityId/${rateParameters.entityType}/${rateParameters.entityId}`,
-      body
-    );
+    return this.http.get<SearchResponse<Rate[]>>(`/api/v1/Rating/GetByEntityId/workshop/${rateParameters.entityId}`, body);
   }
 
   /**

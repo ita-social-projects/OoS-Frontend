@@ -7,6 +7,7 @@ import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
 import { MessagesComponent } from './shared-cabinet/messages/messages.component';
 import { MessagesGuard } from './shared-cabinet/messages/messages.guard';
 import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
+import { ProviderRoleGuard } from './provider/provider-role.guard';
 
 const routes: Routes = [
   {
@@ -26,7 +27,15 @@ const routes: Routes = [
   {
     path: 'provider',
     loadChildren: () => import('./provider/provider.module').then((m) => m.ProviderModule),
-    canLoad: [ProviderGuard]
+    canLoad: [ProviderRoleGuard]
+  },
+  {
+    path: 'employee',
+    redirectTo: 'provider'
+  },
+  {
+    path: 'providerdeputy',
+    redirectTo: 'provider'
   },
   {
     path: 'parent',

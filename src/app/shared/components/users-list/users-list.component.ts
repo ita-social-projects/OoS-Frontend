@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
 
@@ -41,7 +41,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly Role = Role;
 
-  public subrole: string;
   public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(
@@ -50,7 +49,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   public ngOnInit(): void {
-    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.dataSource = new MatTableDataSource(this.users);
   }
 

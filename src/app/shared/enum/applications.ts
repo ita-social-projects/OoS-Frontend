@@ -14,9 +14,8 @@ export enum ApplicationIcons {
 export enum ApplicationEntityType {
   provider = 'providers',
   workshop = 'workshops',
-  None = 'providers',
-  ProviderDeputy = 'provideradmins',
-  ProviderAdmin = 'provideradmins',
+  ProviderDeputy = 'providerdeputies',
+  Employee = 'employees',
   parent = 'parents'
 }
 

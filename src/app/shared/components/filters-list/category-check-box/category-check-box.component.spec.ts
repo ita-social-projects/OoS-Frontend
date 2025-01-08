@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyCheckbox as MatCheckbox, MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -59,7 +59,7 @@ describe('CategoryCheckBoxComponent', () => {
   it('should dispatch SetDirections and select direction id when onDirectionCheck called with checked', () => {
     jest.spyOn(store, 'dispatch');
 
-    component.onDirectionCheck(mockDirections[0], { checked: true } as MatCheckbox);
+    component.onDirectionCheck(mockDirections[0], { checked: true } as MatCheckboxChange);
 
     expect(component.selectedDirectionIds).toContainEqual(mockDirections[0].id);
     expect(store.dispatch).toHaveBeenCalledWith(new SetDirections(component.selectedDirectionIds));
@@ -68,7 +68,7 @@ describe('CategoryCheckBoxComponent', () => {
   it('should dispatch SetDirections and deselect direction id when onDirectionCheck called with not checked', () => {
     jest.spyOn(store, 'dispatch');
 
-    component.onDirectionCheck(mockDirections[1], { checked: false } as MatCheckbox);
+    component.onDirectionCheck(mockDirections[1], { checked: false } as MatCheckboxChange);
 
     expect(component.selectedDirectionIds.length).toBeFalsy();
     expect(store.dispatch).toHaveBeenCalledWith(new SetDirections(component.selectedDirectionIds));

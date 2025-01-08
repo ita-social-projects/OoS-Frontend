@@ -67,11 +67,11 @@ describe('HistoryLogFiltersComponent', () => {
     });
 
     test.each`
-      tab                               | tabName             | expectedFormControlName
-      ${HistoryLogTypes.Providers}      | ${'Providers'}      | ${FilterOptions.PropertyName}
-      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.AdminType}
-      ${HistoryLogTypes.Applications}   | ${'Applications'}   | ${FilterOptions.PropertyName}
-      ${HistoryLogTypes.Users}          | ${'Users'}          | ${FilterOptions.ShowParents}
+      tab                             | tabName           | expectedFormControlName
+      ${HistoryLogTypes.Providers}    | ${'Providers'}    | ${FilterOptions.PropertyName}
+      ${HistoryLogTypes.Employees}    | ${'Employees'}    | ${FilterOptions.AdminType}
+      ${HistoryLogTypes.Applications} | ${'Applications'} | ${FilterOptions.PropertyName}
+      ${HistoryLogTypes.Users}        | ${'Users'}        | ${FilterOptions.ShowParents}
     `(
       'should add to the filtersForm the $expectedFormControlName when the tabName equal to $tabName',
       ({ tab, tabName, expectedFormControlName }) => {
@@ -82,17 +82,17 @@ describe('HistoryLogFiltersComponent', () => {
       }
     );
 
-    it('should add additional form control to filtersForm when tabName is equal to ProviderAdmins', () => {
+    it('should add additional form control to filtersForm when tabName is equal to Employees', () => {
       const expectedAdditionalFormControlName = FilterOptions.OperationType;
 
-      component.tabName = HistoryLogTypes.ProviderAdmins;
+      component.tabName = HistoryLogTypes.Employees;
 
       expect(component.filtersList[1].controlName).toBe(expectedAdditionalFormControlName);
       expect(Object.keys(component.filtersForm.controls)).toContain(expectedAdditionalFormControlName);
     });
 
-    it('should filter additional form control options when tabName is equal to ProviderAdmins', fakeAsync(() => {
-      component.tabName = HistoryLogTypes.ProviderAdmins;
+    it('should filter additional form control options when tabName is equal to Employees', fakeAsync(() => {
+      component.tabName = HistoryLogTypes.Employees;
 
       component.filtersForm.get(FormControlNames.AdminType).setValue('Deputies');
       tick(500);

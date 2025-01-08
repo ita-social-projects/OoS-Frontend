@@ -12,7 +12,8 @@ export enum RecruitmentStatusEnum {
   RecruitmentOngoing = 'ENUM.RECRUITMENT_STATUS.RECRUITMENT_OPEN',
   RecruitmentStoped = 'ENUM.RECRUITMENT_STATUS.RECRUITMENT_CLOSED',
   Stop = 'ENUM.RECRUITMENT_STATUS.STOP',
-  Open = 'ENUM.RECRUITMENT_STATUS.OPEN'
+  Open = 'ENUM.RECRUITMENT_STATUS.OPEN',
+  Draft = 'ENUM.RECRUITMENT_STATUS.DRAFT'
 }
 
 export enum DetailsTabTitlesEnum {

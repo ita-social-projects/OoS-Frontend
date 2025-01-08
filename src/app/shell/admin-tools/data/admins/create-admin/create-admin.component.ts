@@ -12,10 +12,10 @@ import { NAME_REGEX } from 'shared-constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared-constants/validation';
 import { AdminRoles } from 'shared-enum/admins';
 import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
-import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared-enum/enumUA/navigation-bar';
 import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
 import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
-import { Role, Subrole } from 'shared-enum/role';
+import { Role } from 'shared-enum/role';
 import { BaseAdmin } from 'shared-models/admin.model';
 import { Codeficator } from 'shared-models/codeficator.model';
 import { Institution } from 'shared-models/institution.model';
@@ -26,7 +26,6 @@ import { GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'sh
 import { MetaDataState } from 'shared-store/meta-data.state';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
-import { Util } from 'shared-utils/utils';
 import { AreaAdmin } from 'shared/models/area-admin.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { AdminFactory } from 'shared/utils/admin.utils';
@@ -175,8 +174,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
 
     this.store.dispatch(
       new AddNavPath(

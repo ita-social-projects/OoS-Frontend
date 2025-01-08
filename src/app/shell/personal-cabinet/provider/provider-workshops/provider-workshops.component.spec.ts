@@ -12,7 +12,7 @@ import { ApplicationChildFilterPipe } from 'shared/pipes/application-child-filte
 import { ApplicationFilterPipe } from 'shared/pipes/application-filter.pipe';
 import { ProviderWorkshopsComponent } from './provider-workshops.component';
 
-describe('ProviderAdminWorkshopsComponent', () => {
+describe('ProviderWorkshopsComponent', () => {
   let component: ProviderWorkshopsComponent;
   let fixture: ComponentFixture<ProviderWorkshopsComponent>;
 
