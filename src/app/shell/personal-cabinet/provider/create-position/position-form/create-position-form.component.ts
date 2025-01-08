@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
-import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Position } from 'shared/models/position.model';
@@ -24,8 +23,6 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
   public readonly validationConstants = ValidationConstants;
   public seatsAmountRadioBtnControl: FormControl = new FormControl(true);
   public readonly InfoMenuType = InfoMenuType;
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  public readonly minSeats = 0;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -85,10 +82,17 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
   private createPositionForm(): void {
     this.PositionFormGroup = this.fb.group({
       language: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_30)]],
-      description: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_500)]],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(this.validationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(this.validationConstants.INPUT_LENGTH_500)
+        ]
+      ],
       seatsAmount: [
         { value: null, disabled: true },
-        [Validators.required, Validators.min(this.minSeats), Validators.max(this.validationConstants.MAX_SEATS)]
+        [Validators.required, Validators.min(this.validationConstants.MIN_SEATS), Validators.max(this.validationConstants.MAX_SEATS)]
       ],
       department: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
       fullName: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_60)]],
@@ -120,7 +124,7 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
       if (noLimit) {
         this.setSeatsAmountControlValue(null, 'disable');
       } else {
-        this.setSeatsAmountControlValue(this.minSeats, 'enable');
+        this.setSeatsAmountControlValue(this.validationConstants.MIN_SEATS, 'enable');
       }
     });
   }
