@@ -38,6 +38,8 @@ import { HeaderComponent } from './header/header.component';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
+import { LocalStorageEngine } from './shared/store/local-storage-engine';
+import { SessionStorageEngine } from './shared/store/session-storage-engine';
 
 registerLocaleData(localeUk);
 
@@ -65,8 +67,16 @@ registerLocaleData(localeUk);
     ]),
 
     NgxsStoragePluginModule.forRoot({
-      key: AppState,
-      storage: StorageOption.SessionStorage
+      key: [
+        {
+          key: AppState,
+          engine: SessionStorageEngine
+        },
+        {
+          key: FilterState,
+          engine: LocalStorageEngine
+        }
+      ]
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
@@ -101,7 +111,9 @@ registerLocaleData(localeUk);
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandleInterceptor,
       multi: true
-    }
+    },
+    LocalStorageEngine,
+    SessionStorageEngine
   ],
   bootstrap: [AppComponent]
 })

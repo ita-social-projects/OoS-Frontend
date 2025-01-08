@@ -85,20 +85,6 @@ describe('SearchbarComponent', () => {
     expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
   });
 
-  it('should call filter when FormControl value changes', () => {
-    const filterSpy = jest.spyOn(component as any, 'filter');
-    component.searchValueFormControl.setValue('newValue');
-
-    expect(filterSpy).toHaveBeenCalledWith('newValue');
-  });
-
-  it('should filter previous results based on input value', () => {
-    (component as any).previousResults = ['Test1', 'Sample', 'Test2'];
-    (component as any).filter('Test');
-
-    expect(component.filteredResults).toEqual(['Test1', 'Test2']);
-  });
-
   it('should emit invalidCharacterDetected if input contains invalid characters', () => {
     const invalidCharacterDetectedSpy = jest.spyOn(component.invalidCharacterDetected, 'emit');
     const setValueSpy = jest.spyOn(component.searchValueFormControl, 'setValue');

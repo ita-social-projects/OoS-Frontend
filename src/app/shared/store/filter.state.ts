@@ -270,7 +270,6 @@ export class FilterState {
 
     if (normalizedResult && !normalizedResults.includes(normalizedResult)) {
       const updatedResults = [result, ...state.previousResults.slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS - 1)];
-      localStorage.setItem('previousResults', JSON.stringify(updatedResults));
       ctx.patchState({ previousResults: updatedResults });
     }
   }
@@ -278,7 +277,6 @@ export class FilterState {
   @Action(RemovePreviousResult)
   removePreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemovePreviousResult): void {
     const updatedResults = ctx.getState().previousResults.filter((result) => result !== previousResult);
-    localStorage.setItem('previousResults', JSON.stringify(updatedResults));
     ctx.patchState({ previousResults: updatedResults });
   }
 
