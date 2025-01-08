@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { CreatePosition, GetPositionById, UpdatePosition } from 'shared/store/provider.actions';
-import { Observable, takeUntil, filter, take, tap } from 'rxjs';
+import { Observable, takeUntil, filter, tap } from 'rxjs';
 import { ProviderState } from 'shared/store/provider.state';
 import { FormGroup } from '@angular/forms';
 import { Constants } from 'shared/constants/constants';
@@ -14,6 +14,7 @@ import { Role, Subrole } from 'shared/enum/role';
 import { Util } from 'shared/utils/utils';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ValidationConstants } from 'shared/constants/validation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -48,6 +49,15 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
   }
 
   public ngOnInit(): void {
+    this.provider$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((provider: Provider) => provider != null),
+        tap((provider: Provider) => {
+          this.provider = provider;
+        })
+      )
+      .subscribe();
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
@@ -82,13 +92,23 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
   public onSubmit(): void {
     const positionInfo = this.createPosition();
     let position: Position;
+
     if (this.editMode) {
       position = new Position(positionInfo, this.provider, this.position.id);
+      position = this.unlimitedSeatsCheck(position);
       this.store.dispatch(new UpdatePosition(position));
     } else {
       position = new Position(positionInfo, this.provider);
+      position = this.unlimitedSeatsCheck(position);
       this.store.dispatch(new CreatePosition(position));
     }
+  }
+
+  public unlimitedSeatsCheck(position: Position): Position {
+    if (!position.seatsAmount) {
+      position.seatsAmount = ValidationConstants.UNLIMITED_SEATS;
+    }
+    return position;
   }
 
   public onCancel(): void {

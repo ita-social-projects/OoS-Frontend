@@ -53,6 +53,8 @@ export class ValidationConstants {
 
   // Max available seats
   static readonly MAX_SEATS = 10000;
+  static readonly UNLIMITED_SEATS = 2147483647;
+  static readonly MIN_SEATS = 1;
 }
 
 export class FormValidators {

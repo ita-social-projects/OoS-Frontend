@@ -45,15 +45,18 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label for="description" class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
+  <div class="step-label-combined">
+    <label for="description" class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
+    <label for="description" class="step-characters-count">{{  PositionFormGroup.get('description').value.length }}/{{ validationConstants.INPUT_LENGTH_500 }}</label>
+  </div>
   <textarea
     matInput
     formControlName="description"
-    class="step-textarea step-textarea-short"
+    class="step-textarea step-textarea-long"
     placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_DESCRIPTION' | translate }}"></textarea>
   <app-validation-hint
     [validationFormControl]="PositionFormGroup.get('description')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
     [maxCharacters]="validationConstants.INPUT_LENGTH_500">
   </app-validation-hint>
 
@@ -94,15 +97,15 @@
               appDigitOnly
               formControlName="seatsAmount"
               type="number"
-              [min]="minSeats"
-              [max]="UNLIMITED_SEATS" />
+              [min]="validationConstants.MIN_SEATS"
+              [max]="validationConstants.MAX_SEATS" />
           </mat-radio-button>
         </div>
       </div>
       <app-validation-hint
         [isNumberValue]="true"
         [validationFormControl]="PositionFormGroup.get('seatsAmount')"
-        [minValue]="minSeats"
+        [minValue]="validationConstants.MIN_SEATS"
         [maxValue]="validationConstants.MAX_SEATS"></app-validation-hint>
     </mat-radio-group>
   </div>
