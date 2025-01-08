@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
@@ -71,27 +72,17 @@ export class CreateTeacherComponent implements OnInit {
 
       dialogRef
         .afterClosed()
-        .subscribe((result: boolean) => result && (this.TeacherFormArray.removeAt(index), this.checkedCountOfTeacher()));
+        .pipe(filter(Boolean))
+        .subscribe(() => {
+          this.TeacherFormArray.removeAt(index);
+          this.checkedCountOfTeacher();
+        });
     } else {
       this.TeacherFormArray.removeAt(index);
     }
 
     this.checkedCountOfTeacher();
     this.markFormAsDirtyOnUserInteraction();
-  }
-
-  /**
-   * This method make disabled default teacher checkbox form from the FormArray by index
-   * @param index number
-   */
-  public onDefaultTeacherChange(index: number): void {
-    const isChecked = this.TeacherFormArray.at(index).get('defaultTeacher').value;
-
-    if (isChecked) {
-      this.TeacherFormArray.controls
-        .filter((_, formIndex) => formIndex !== index)
-        .forEach((control) => control.get('defaultTeacher').setValue(false));
-    }
   }
 
   /**
@@ -118,7 +109,7 @@ export class CreateTeacherComponent implements OnInit {
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      defaultTeacher: new FormControl(this.TeacherFormArray.controls.length === 0)
+      defaultTeacher: new FormControl(!this.TeacherFormArray.controls.length)
     });
 
     if (teacher) {
