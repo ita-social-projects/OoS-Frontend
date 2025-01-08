@@ -28,7 +28,6 @@
     <ng-template #ShowData>
       <app-workshop-cards-list
         class="cards"
-        (isListInView)="onChangedListVisibility($event)"
         [role]="role"
         [paginationParameters]="paginationParameters"
         [currentPage]="currentPage"
@@ -39,8 +38,12 @@
 </mat-drawer-container>
 
 <app-result-to-top-btn
-  [hidden]="(isListVisible || (filterState$ | async).isLoading || (filteredWorkshops$ | async)?.totalAmount === 0) && !isMobileView"
-  [results]="(filteredWorkshops$ | async)?.totalAmount"></app-result-to-top-btn>
+  class="to-top-btn"
+  [hidden]="(filterState$ | async).isLoading || isMobileView"
+  [class.sticky]="shouldBeSticky"
+  [ngStyle]="!shouldBeSticky ? { 'bottom.px': footerHeight } : {}"
+  [results]="(filteredWorkshops$ | async)?.totalAmount"
+  #stickyButton></app-result-to-top-btn>
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">

@@ -1,6 +1,4 @@
-<div class="button-wrapper">
-  <button mat-raised-button color="primary" (click)="scrollToTop()">
-    <span>{{ ('FOUND' | translate) + ' ' + results }}</span>
-    <mat-icon iconPositionEnd>arrow_upward</mat-icon>
-  </button>
-</div>
+<button class="to-top-btn" mat-raised-button color="primary" (click)="scrollToTop()">
+  <span *ngIf="results && !isSmallScreen">{{ results }}</span>
+  <mat-icon iconPositionEnd>arrow_upward</mat-icon>
+</button>

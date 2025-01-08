@@ -85,13 +85,13 @@
 
   .mat-drawer {
     background-color: inherit;
-    overflow: hidden;
+    overflow: unset;
   }
 
   .mat-drawer-content {
     background-color: inherit;
     color: inherit;
-    overflow: hidden;
+    overflow: unset;
     margin-top: 2rem;
   }
 }
@@ -294,4 +294,16 @@
   :host-context(app-footer) {
     display: none;
   }
+}
+
+.to-top-btn {
+  position: absolute;
+  margin-bottom: 2rem;
+  right: 2rem;
+}
+
+.sticky {
+  position: fixed;
+  bottom: 2rem;
+  margin: 0;
 }

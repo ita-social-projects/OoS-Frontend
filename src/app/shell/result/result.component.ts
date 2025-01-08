@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -27,7 +38,7 @@ import { Util } from 'shared/utils/utils';
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ResultComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
   @Select(FilterState.filteredWorkshops)
   public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Select(AppState.isMobileScreen)
@@ -41,10 +52,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState)
   protected filterState$: Observable<FilterStateModel>;
 
+  @ViewChild('stickyButton', { read: ElementRef }) public stickyButton!: ElementRef;
+
   public readonly ResultViewType = ResultViewType;
   public readonly WorkshopDeclination = WorkshopDeclination;
 
-  public isListVisible: boolean;
   public isMobileView: boolean;
   public role: string;
   public isFiltersSidenavOpen: boolean;
@@ -56,18 +68,30 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public marginLeft: string = '0';
+  public shouldBeSticky: boolean = false;
+  public footerHeight: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
     private navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2,
+    private changeDetection: ChangeDetectorRef
   ) {}
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: Event): void {
     this.calculateMarginLeft();
+    this.footerHeight = this.renderer.selectRootElement('app-footer', true).offsetHeight;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  public onScroll(): void {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+    this.shouldBeSticky = pageHeight - scrollPosition > this.footerHeight;
   }
 
   public ngOnInit(): void {
@@ -81,6 +105,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.setFilterStateURLParams();
+  }
+
+  public ngAfterViewChecked(): void {
+    this.footerHeight = this.renderer.selectRootElement('app-footer', true).offsetHeight;
+    this.changeDetection.detectChanges();
   }
 
   public ngOnDestroy(): void {
@@ -105,10 +134,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
     this.calculateMarginLeft();
-  }
-
-  public onChangedListVisibility(event: boolean): void {
-    this.isListVisible = event;
   }
 
   private addNavPath(): void {
