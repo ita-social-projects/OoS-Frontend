@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { debounceTime, filter } from 'rxjs';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -10,14 +11,13 @@ import { Util } from 'shared/utils/utils';
   templateUrl: './teacher-form.component.html',
   styleUrls: ['./teacher-form.component.scss']
 })
-export class TeacherFormComponent {
+export class TeacherFormComponent implements OnInit {
   @Input() public index: number;
   @Input() public TeacherFormGroup: AbstractControl;
   @Input() public teacherAmount: number;
   @Input() public isImagesFeature: boolean;
 
   @Output() public deleteForm = new EventEmitter();
-  @Output() public defaultTeacherChange = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
@@ -40,12 +40,25 @@ export class TeacherFormComponent {
     return this.TeacherFormGroup as FormGroup;
   }
 
-  public onDeleteTeacher(): void {
-    this.deleteForm.emit(this.index);
+  public ngOnInit(): void {
+    this.TeacherForm.get('defaultTeacher')
+      ?.valueChanges.pipe(debounceTime(300), filter(Boolean))
+      .subscribe(() => {
+        // take form array from create-teacher component
+        const parentArray = this.TeacherForm.parent as FormArray;
+
+        if (parentArray) {
+          parentArray.controls
+            .filter((control) => control !== this.TeacherForm)
+            .forEach((control) => {
+              control.get('defaultTeacher')?.setValue(false, { emitEvent: false });
+            });
+        }
+      });
   }
 
-  public onDefaultTeacherChange(): void {
-    this.defaultTeacherChange.emit(this.index);
+  public onDeleteTeacher(): void {
+    this.deleteForm.emit(this.index);
   }
 
   public onFocusOut(formControlName: string): void {
