@@ -90,15 +90,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public tagsControl: FormControl = new FormControl([]);
 
-  public compareItems(item1: Direction, item2: Direction): boolean {
-    return item1.id === item2.id;
-  }
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private formBuilder: FormBuilder,
-    private tagService: TagService
+    private readonly formBuilder: FormBuilder,
+    private readonly tagService: TagService
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -128,6 +124,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       coverage: new FormControl(this.Coverage.School),
       workshopType: new FormControl(this.WorkshopType.None, Validators.required)
     });
+  }
+
+  public compareItems(item1: Direction, item2: Direction): boolean {
+    return item1.id === item2.id;
   }
 
   public ngOnInit(): void {

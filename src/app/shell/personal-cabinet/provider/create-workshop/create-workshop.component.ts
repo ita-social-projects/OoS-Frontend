@@ -114,7 +114,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
    */
-  public onSubmit(): void {
+  public onSubmit(): void | Observable<any> {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.createAbout();
@@ -122,8 +122,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const teachers = this.createTeachers();
 
     if (teachers.length > 1 && !teachers.some((teacher) => teacher.defaultTeacher)) {
-      this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
-      return;
+      return this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
     }
 
     let workshop: Workshop;
