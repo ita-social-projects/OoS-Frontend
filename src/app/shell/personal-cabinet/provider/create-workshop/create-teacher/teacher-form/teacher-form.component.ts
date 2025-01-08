@@ -30,6 +30,7 @@ export class TeacherFormComponent implements OnInit {
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
+  public readonly defaultDebounceTime: number = 300;
 
   public today: Date = new Date();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
@@ -42,7 +43,7 @@ export class TeacherFormComponent implements OnInit {
 
   public ngOnInit(): void {
     this.TeacherForm.get('defaultTeacher')
-      ?.valueChanges.pipe(debounceTime(300), filter(Boolean))
+      ?.valueChanges.pipe(debounceTime(this.defaultDebounceTime), filter(Boolean))
       .subscribe(() => {
         // take form array from create-teacher component
         const parentArray = this.TeacherForm.parent as FormArray;
