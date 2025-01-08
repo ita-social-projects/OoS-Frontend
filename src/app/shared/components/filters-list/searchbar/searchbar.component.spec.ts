@@ -91,7 +91,7 @@ describe('SearchbarComponent', () => {
 
     component.handleInvalidCharacter('Invalid@Value');
 
-    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue');
+    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue', { emitEvent: false });
     expect(invalidCharacterDetectedSpy).toHaveBeenCalled();
   });
 
