@@ -73,7 +73,7 @@ registerLocaleData(localeUk);
           engine: SessionStorageEngine
         },
         {
-          key: FilterState,
+          key: 'filter.previousResults',
           engine: LocalStorageEngine
         }
       ]

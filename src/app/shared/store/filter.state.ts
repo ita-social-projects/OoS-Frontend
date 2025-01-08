@@ -255,11 +255,8 @@ export class FilterState {
 
   @Action(LoadPreviousResults)
   loadPreviousResults(ctx: StateContext<FilterStateModel>): void {
-    const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults')) || [];
-    if (!previousResults?.length) {
-      localStorage.setItem('previousResults', JSON.stringify([]));
-    }
-    ctx.patchState({ previousResults });
+    const state = ctx.getState();
+    ctx.patchState({ previousResults: state.previousResults || [] });
   }
 
   @Action(AddPreviousResult)
