@@ -130,6 +130,14 @@ export class UserWorkshopService {
     return this.http.put<void>('/api/v1/Workshop/Publish', id);
   }
 
+  public restoreDraftData(): Workshop {
+    return JSON.parse(localStorage.getItem('workshopDraftData'));
+  }
+
+  public removeDraftData(): void {
+    localStorage.removeItem('workshopDraftData');
+  }
+
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
     const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];

@@ -8,6 +8,7 @@ import { ProviderStatuses, UserStatusIcons, UserStatuses } from 'shared/enum/sta
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-provider-status-banner',
@@ -29,7 +30,8 @@ export class ProviderStatusBannerComponent implements OnInit {
     private elementRef: ElementRef<HTMLElement>,
     private translateService: TranslateService,
     private store: Store,
-    private userWorkshopService: UserWorkshopService
+    private userWorkshopService: UserWorkshopService,
+    private router: Router
   ) {}
 
   private get HostElement(): HTMLElement {
@@ -49,11 +51,20 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   public hasDraftData(): boolean {
-    return this.userWorkshopService.restoreDraftData() ? true : false;
+    const savedData = localStorage.getItem('workshopDraftData');
+    if (!savedData) {
+      return false;
+    }
+
+    const draftData = JSON.parse(savedData);
+    return !!(draftData.aboutData || draftData.descriptionData || draftData.addressData || draftData.teachersData);
   }
 
+  public continueDraft(): void {
+    this.router.navigate(['/create-workshop', 'draft']);
+  }
   public cancelDraft(): void {
-    this.userWorkshopService.removeDraftData().subscribe();
+    this.userWorkshopService.removeDraftData();
   }
 
   private setBannerOptions(): void {

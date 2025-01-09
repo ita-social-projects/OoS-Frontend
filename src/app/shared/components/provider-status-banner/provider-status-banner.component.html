@@ -18,11 +18,14 @@
       <p class="text-sm !mt-2">
         {{ 'PROVIDER_DRAFT.DETAILS' | translate }}
       </p>
+      <p class="text-sm !mt-1">
+        {{ 'PROVIDER_DRAFT.DRAFT_AUTO_DELETE' | translate }}
+      </p>
       <div class="flex mt-3 justify-start">
-        <button class="btn !text-white !m-0" mat-raised-button>
+        <button class="btn !text-white !m-0" (click)="continueDraft()" mat-raised-button>
           {{ 'PROVIDER_DRAFT.EDIT_LINK' | translate }}
         </button>
-        <button class="btn !bg-gray-200 !text-gray-800 !border-none" (click)="cancelDraft()" mat-raised-button>
+        <button class="btn btn-cancel" (click)="cancelDraft()" mat-raised-button>
           {{ 'PROVIDER_DRAFT.CANCEL_LINK' | translate }}
         </button>
       </div>

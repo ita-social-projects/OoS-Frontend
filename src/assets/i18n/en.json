@@ -962,6 +962,7 @@
     "DETAILS": "You have an unfinished workshop creation process. Please complete it or cancel the current process to start a new one.",
     "EDIT_LINK": "Continue Creation",
     "CANCEL_LINK": "Undo Creation",
-    "DRAFT_WARNING": "You have an unfinished workshop creation process. Click the Workshops tab to complete the process."
+    "DRAFT_WARNING": "You have an unfinished workshop creation process. Click the Workshops tab to complete the process.",
+    "DRAFT_AUTO_DELETE": "System will automatically delete the draft in 7 days."
   }
 }
