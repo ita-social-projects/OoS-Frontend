@@ -637,7 +637,8 @@
     "ADD_MORE_CONTACTS": "Add more contacts",
     "ADD_MORE_ADDRESS": "Add more address",
     "PUBLISH": "Publish",
-    "ARCHIVE": "Archive"
+    "ARCHIVE": "Archive",
+    "USE_ADDRESS_AS_PRIMARY": "Use as primary"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",

@@ -15,7 +15,9 @@ import { Geocoder } from 'shared/models/geolocation';
 export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   @Input() public address: Address;
 
-  @Output() public passAddressFormGroup = new EventEmitter();
+  // @Output() public passAddressFormGroup = new EventEmitter();
+
+  @Output() public passContactsFormArray = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
 
@@ -55,38 +57,42 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.addressFormGroup = this.formBuilder.group({
-      street: new FormControl('', FormValidators.defaultStreetValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
-      catottgId: new FormControl('', Validators.required),
-      latitude: new FormControl(''),
-      longitude: new FormControl('')
-    });
-    this.searchFormGroup = this.formBuilder.group({
-      settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-      settlement: new FormControl('')
-    });
+    // this.addressFormGroup = this.formBuilder.group({
+    //   street: new FormControl('', FormValidators.defaultStreetValidators),
+    //   buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
+    //   catottgId: new FormControl('', Validators.required),
+    //   latitude: new FormControl(''),
+    //   longitude: new FormControl('')
+    // });
+    // this.searchFormGroup = this.formBuilder.group({
+    //   settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
+    //   settlement: new FormControl('')
+    // });
     this.addressesFormArray = this.formBuilder.array([this.createAddressFormGroup()]);
-    this.passAddressFormGroup.emit(this.addressFormGroup);
+    this.passContactsFormArray.emit(this.addressesFormArray);
+    // this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
-  public onAddressSelect(result: Geocoder): void {
+  public onAddressSelect(result: Geocoder, addressGroup: FormGroup): void {
     this.noAddressFound = !result;
     if (result) {
-      this.addressFormGroup.patchValue(
+      addressGroup.get('address').patchValue(
         {
+          buildingNumber: result.buildingNumber,
+          catottgId: result.catottgId,
+          street: result.street,
           latitude: result.lat,
           longitude: result.lon
         },
         { emitEvent: false }
       );
       if (result.codeficator) {
-        this.settlementFormControl.setValue(result.codeficator, { emitEvent: false });
-        this.settlementSearchFormControl.setValue(result.codeficator.settlement, { emitEvent: false });
+        addressGroup.get('searchGroup').get('settlement').setValue(result.codeficator, { emitEvent: false });
+        addressGroup.get('searchGroup').get('settlementSearch').setValue(result.codeficator.settlement, { emitEvent: false });
         this.markFormAsDirtyOnUserInteraction();
       }
     } else {
-      this.addressFormGroup.setErrors({ noAddressFound: true });
+      addressGroup.get('address').setErrors({ noAddressFound: true });
     }
   }
 
@@ -94,8 +100,8 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
    * This method makes addressFormGroup dirty
    */
   public markFormAsDirtyOnUserInteraction(): void {
-    if (!this.addressFormGroup.dirty) {
-      this.addressFormGroup.markAsDirty({ onlySelf: true });
+    if (!this.addressesFormArray.dirty) {
+      this.addressesFormArray.markAsDirty({ onlySelf: true });
     }
   }
 
@@ -110,6 +116,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]
       ],
+      isPrimary: false,
       searchGroup: this.createSearchFormGroup(),
       address: this.createAddressForm(),
       website: ['', Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)],
@@ -172,16 +179,12 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.setStep(this.addressesFormArray.controls.length - 1);
   }
 
-  public createPhoneFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      phone: ['', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]]
-    });
+  public createPhoneFormGroup(): FormControl {
+    return this.formBuilder.control('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]);
   }
 
-  public createEmailFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      email: ['', [Validators.required, FormValidators.email]]
-    });
+  public createEmailFormGroup(): FormControl {
+    return this.formBuilder.control('', [Validators.required, FormValidators.email]);
   }
 
   public createAddressForm(): FormGroup {
@@ -201,11 +204,33 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     });
   }
 
+  public showForm(): void {
+    console.log(this.addressesFormArray);
+  }
+
   public deletePhoneField(phoneGroup: FormArray, index: number): void {
     (phoneGroup.get('phoneList') as FormArray).removeAt(index);
   }
 
   public deleteEmailField(phoneGroup: FormArray, index: number): void {
     (phoneGroup.get('emailList') as FormArray).removeAt(index);
+  }
+
+  public deleteContactForm(addressForm: FormArray, index: number): void {
+    (addressForm.get('contacts') as FormArray).removeAt(index);
+  }
+
+  public deleteAddressForm(index: number): void {
+    this.addressesFormArray.removeAt(index);
+    this.step = this.addressesFormArray.length - 1;
+  }
+
+  public onIsPrimaryChange(addressGroup: FormGroup, checked: boolean): void {
+    if (checked) {
+      this.addressesFormArray.controls.forEach((formGroup: FormGroup) => {
+        formGroup.get('isPrimary').setValue(false);
+      });
+      addressGroup.get('isPrimary').setValue(true);
+    }
   }
 }

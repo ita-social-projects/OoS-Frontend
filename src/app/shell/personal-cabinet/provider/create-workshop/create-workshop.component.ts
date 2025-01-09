@@ -12,7 +12,7 @@ import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { Workshop, WorkshopAbout, WorkshopContacts } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
@@ -47,6 +47,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public DescriptionFormGroup: FormGroup;
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
+  public WorkshopContactsFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
 
@@ -116,7 +117,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   public onSubmit(): void | Observable<any> {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
+    const contacts = this.createContacts();
+    // const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.createAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
@@ -128,11 +130,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
-      this.store.dispatch(new UpdateWorkshop(workshop));
+      workshop = new Workshop(aboutInfo, descInfo, /* address*/ contacts, teachers, provider, this.workshop.id);
+      console.log(workshop);
+      // this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
-      this.store.dispatch(new CreateWorkshop(workshop));
+      workshop = new Workshop(aboutInfo, descInfo, /* address*/ contacts, teachers, provider);
+      console.log(workshop);
+      // this.store.dispatch(new CreateWorkshop(workshop));
     }
   }
 
@@ -161,6 +165,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
     this.subscribeOnDirtyForm(form);
+  }
+
+  public onReceiveWorkshopContactsFormArray(array: FormArray): void {
+    this.WorkshopContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
@@ -205,5 +214,16 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       });
     }
     return teachers;
+  }
+
+  private createContacts(): WorkshopContacts[] {
+    const contacts: WorkshopContacts[] = [];
+    if (this.WorkshopContactsFormArray?.controls) {
+      this.WorkshopContactsFormArray.controls.forEach((form: FormGroup) => {
+        const contact: WorkshopContacts = new WorkshopContacts(form.value);
+        contacts.push(contact);
+      });
+    }
+    return contacts;
   }
 }

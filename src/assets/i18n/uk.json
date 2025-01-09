@@ -639,7 +639,8 @@
     "ADD_MORE_CONTACTS": "Додати ще контакти",
     "ADD_MORE_ADDRESS": "Додати ще адресу",
     "PUBLISH": "Опублікувати",
-    "ARCHIVE": "Архівувати"
+    "ARCHIVE": "Архівувати",
+    "USE_ADDRESS_AS_PRIMARY": "Використовувати як основну"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
