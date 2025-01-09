@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TeacherFormComponent } from './teacher-form.component';
 
 describe('TeacherFormComponent', () => {
@@ -32,6 +33,7 @@ describe('TeacherFormComponent', () => {
         MatIconModule,
         MatGridListModule,
         MatRadioModule,
+        MatCheckboxModule,
         TranslateModule.forRoot()
       ],
       declarations: [ImageFormControlComponent, TeacherFormComponent, MockValidationHintForInputComponent]
@@ -50,7 +52,8 @@ describe('TeacherFormComponent', () => {
       dateOfBirth: new FormControl(''),
       description: new FormControl(''),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl('')
+      coverImageId: new FormControl(''),
+      defaultTeacher: new FormControl(false)
     });
     fixture.detectChanges();
   });

@@ -4,6 +4,7 @@
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
+          <app-theme-switcher></app-theme-switcher>
           <button mat-flat-button class="info-link" [routerLink]="'./info/about'">
             {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}
           </button>
