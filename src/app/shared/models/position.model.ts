@@ -1,40 +1,39 @@
-import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { PaginationParameters } from './query-parameters.model';
 
 export class Position {
   id?: string;
-  language?: string;
-  description?: string;
+  language: string;
+  description: string;
   isForRuralAres?: boolean;
-  department?: string;
+  department: string;
   seatsAmount: number;
   fullName: string;
-  shortName?: string;
+  shortName: string;
   genitiveName: string;
   isTeachingPosition?: boolean;
   rate: number;
   tariff: number;
   classifierType: string;
-  providerId?: string;
+  providerId: string;
   contactId?: string;
   createdAt?: string;
 
   constructor(position: Partial<Position>, provider: Provider, id?: string) {
-    this.language = position.language || '';
-    this.description = position.description || '';
+    this.language = position.language;
+    this.description = position.description;
     this.isForRuralAres = position.isForRuralAres ?? false;
-    this.department = position.department || '';
+    this.department = position.department;
     this.providerId = provider.id;
     this.contactId = position.contactId || '';
-    this.seatsAmount = position.seatsAmount || null;
+    this.seatsAmount = position.seatsAmount;
     this.fullName = position.fullName;
-    this.shortName = position.shortName || '';
+    this.shortName = position.shortName;
     this.genitiveName = position.genitiveName;
     this.isTeachingPosition = position.isTeachingPosition ?? false;
-    this.rate = position.rate ?? 0;
-    this.tariff = position.tariff ?? 0;
-    this.classifierType = position.classifierType || '';
+    this.rate = position.rate;
+    this.tariff = position.tariff;
+    this.classifierType = position.classifierType;
     this.createdAt = position.createdAt || '';
     if (id) {
       this.id = id;

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, throwError } from 'rxjs';
+import { NotFoundError, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -61,6 +61,7 @@ import {
   OnClearBlockedParents,
   OnCreateAchievementFail,
   OnCreateAchievementSuccess,
+  OnCreatePositionFail,
   OnCreatePositionSuccess,
   OnCreateEmployeeFail,
   OnCreateEmployeeSuccess,
@@ -70,6 +71,8 @@ import {
   OnCreateWorkshopSuccess,
   OnDeleteAchievementFail,
   OnDeleteAchievementSuccess,
+  OnDeletePositionFail,
+  OnDeletePositionSuccess,
   OnDeleteEmployeeFail,
   OnDeleteEmployeeSuccess,
   OnDeleteProviderByIdFail,
@@ -78,8 +81,11 @@ import {
   OnDeleteWorkshopSuccess,
   OnPublishWorkshopFail,
   OnPublishWorkshopSuccess,
+  OnGetPositionByIdFail,
+  OnGetPositionsFail,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
+  OnUpdatePositionFail,
   OnUpdatePositionSuccess,
   OnUpdateEmployeeFail,
   OnUpdateEmployeeSuccess,
@@ -833,13 +839,27 @@ export class ProviderState {
 
   @Action(GetPositions)
   getPositions(
-    { patchState }: StateContext<ProviderStateModel>,
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
     { positionParameters }: GetPositions
-  ): Observable<SearchResponse<Position[]>> {
+  ): Observable<SearchResponse<Position[]> | void> {
     patchState({ isLoading: true });
-    return this.positionService
-      .getPositions(positionParameters)
-      .pipe(tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions, isLoading: false })));
+    return this.positionService.getPositions(positionParameters).pipe(
+      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions, isLoading: false })),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetPositionsFail(error)))
+    );
+  }
+
+  @Action(OnGetPositionsFail)
+  onGetPositionsFail({ patchState, dispatch }: StateContext<ProviderStateModel>, { error }: OnGetPositionsFail): void {
+    const notFoundStatus = 200;
+    patchState({ isLoading: false });
+
+    if (error.status === notFoundStatus) {
+      patchState({ positions: { totalAmount: 0, entities: [] } });
+      dispatch(new ShowMessageBar({ message: SnackbarText.positionByTitleNotFound, type: 'error' }));
+    } else {
+      dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    }
   }
 
   @Action(CreatePosition)
@@ -847,8 +867,21 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.positionService.createPosition(position).pipe(
       tap((res: Position) => dispatch(new OnCreatePositionSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnCreateWorkshopFail(error)))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreatePositionFail(error)))
     );
+  }
+
+  @Action(OnCreatePositionSuccess)
+  onCreatePositionSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, { position }: OnCreatePositionSuccess): void {
+    patchState({ isLoading: false });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.createPositionSuccess, type: 'success' })]);
+    this.router.navigate(['./personal-cabinet/provider/positions']);
+  }
+
+  @Action(OnCreatePositionFail)
+  onCreatePositionFail({ dispatch, patchState }: StateContext<ProviderStateModel>, { error }: OnCreatePositionFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(UpdatePosition)
@@ -856,25 +889,21 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.positionService.updatePosition(position).pipe(
       tap((res: Position) => dispatch(new OnUpdatePositionSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateWorkshopFail(error)))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdatePositionFail(error)))
     );
   }
 
-  @Action(OnCreatePositionSuccess)
-  onCreatePositionSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, { position }: OnCreatePositionSuccess): void {
-    const message = 'Позиція успішно створено';
-    const messageType = 'success';
-    patchState({ isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message, type: messageType })]);
-    this.router.navigate(['./personal-cabinet/provider/positions']);
+  @Action(OnUpdatePositionSuccess)
+  onUpdatePositionSuccess({ dispatch, patchState }: StateContext<ProviderStateModel>, { position }: OnUpdatePositionSuccess): void {
+    patchState({ selectedPosition: null });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.updatePositionSuccess, type: 'success' })]);
+    this.router.navigate(['/personal-cabinet/provider/positions']);
   }
 
-  @Action(OnUpdatePositionSuccess)
-  onUpdatePositionSuccess({ dispatch }: StateContext<ProviderStateModel>, { position }: OnUpdatePositionSuccess): void {
-    const message = 'Позицію успішно оновлено';
-    const messageType = 'success';
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message, type: messageType })]);
-    this.router.navigate(['/personal-cabinet/provider/positions']);
+  @Action(OnUpdatePositionFail)
+  onUpdatePositionFail({ dispatch, patchState }: StateContext<ProviderStateModel>, { error }: OnUpdatePositionFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(DeletePositionById)
@@ -885,30 +914,43 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.positionService.deletePosition(positionParameters, positionId).pipe(
       tap(() => {
-        const message = 'Позицію успішно видалено';
-        const messageType = 'success';
         patchState({ isLoading: false });
-        dispatch([new ShowMessageBar({ message, type: messageType }), new GetPositions(positionParameters)]);
+        dispatch(new OnDeletePositionSuccess(positionParameters));
       }),
       catchError((error: HttpErrorResponse) => {
         patchState({ isLoading: false });
-        return dispatch(new OnUpdateWorkshopFail(error));
+        return dispatch(new OnDeletePositionFail(error));
       })
     );
   }
 
+  @Action(OnDeletePositionSuccess)
+  onDeletePositionSuccess({ dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionSuccess): void {
+    dispatch([
+      new ShowMessageBar({ message: SnackbarText.deletePositionSuccess, type: 'success' }),
+      new GetPositions(payload.positionParameters)
+    ]);
+  }
+
+  @Action(OnDeletePositionFail)
+  onDeletePositionFail({ dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
   @Action(GetPositionById)
-  getPositionById({ patchState }: StateContext<ProviderStateModel>, payload: GetPositionById): Observable<Position | void> {
+  getPositionById({ patchState, dispatch }: StateContext<ProviderStateModel>, payload: GetPositionById): Observable<Position | void> {
     return this.positionService.getPositionById(payload.positionId, payload.providerId).pipe(
       tap((position: Position) => {
         patchState({
           selectedPosition: position
         });
       }),
-      catchError((error) => {
-        console.error('Error fetching position:', error.message);
-        return throwError(() => error);
-      })
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetPositionByIdFail(error)))
     );
+  }
+
+  @Action(OnGetPositionByIdFail)
+  onGetPositionByIdFail({ dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.positionByIdNotFound, type: 'error' }));
   }
 }

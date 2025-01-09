@@ -1,7 +1,6 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { Position, PositionParameters } from 'shared/models/position.model';
 import { ProviderState } from 'shared/store/provider.state';
@@ -23,8 +22,6 @@ import { ProviderComponent } from '../provider.component';
   styleUrls: ['./provider-positions.component.scss']
 })
 export class ProviderPositionsComponent extends ProviderComponent implements OnInit {
-  @ViewChild(MatSort) private readonly sort: MatSort;
-
   public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
   public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
   public positions$: Observable<Position>;
@@ -32,9 +29,9 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public readonly positionParameters: PositionParameters = { size: 12, providerId: '' };
   public isSmallMobileView: boolean;
-  public readonly withoutSort: string = 'FORMS.PLACE_HOLDERS.WITHOUT_SORT';
-  public readonly sortByName: string = 'FORMS.PLACE_HOLDERS.SORT_BY_NAME';
-  public readonly sortByCreatedAt: string = 'FORMS.PLACE_HOLDERS.SORT_BY_CREATED_AT';
+  public readonly withoutSort: string = 'FORMS.PLACEHOLDERS.WITHOUT_SORT';
+  public readonly sortByName: string = 'FORMS.PLACEHOLDERS.SORT_BY_NAME';
+  public readonly sortByCreatedAt: string = 'FORMS.PLACEHOLDERS.SORT_BY_CREATED_AT';
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
