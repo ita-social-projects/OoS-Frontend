@@ -41,7 +41,9 @@ export enum ModalConfirmationType {
   unBlockAdmin = 'unBlockAdmin',
   createAdmin = 'createAdmin',
   updateAdmin = 'updateAdmin',
-  licenseApproved = 'licenseApproved'
+  licenseApproved = 'licenseApproved',
+  publishWorkshop = 'publishWorkshop',
+  archiveWorkshop = 'archiveWorkshop'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
@@ -91,7 +93,9 @@ export enum ModalConfirmationTitle {
   unBlockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UNBLOCK_ADMIN',
   createAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CREATE_ADMIN',
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_ADMIN',
-  licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.LICENSE_APPROVED'
+  licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.LICENSE_APPROVED',
+  publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_WORKSHOP',
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP'
 }
 
 export enum ModalConfirmationText {
@@ -135,7 +139,9 @@ export enum ModalConfirmationText {
   unBlockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UNBLOCK_ADMIN',
   createAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CREATE_ADMIN',
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_ADMIN',
-  licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED'
+  licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED',
+  publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_WORKSHOP',
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP'
 }
 
 export enum ModalConfirmationDescription {

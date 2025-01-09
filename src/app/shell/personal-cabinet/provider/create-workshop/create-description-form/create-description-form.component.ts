@@ -20,8 +20,15 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
-import { FormOfLearning } from 'shared/enum/workshop';
-import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { AgeComposition, Coverage, EducationalShift, FormOfLearning, SpecialNeedsType, WorkshopType } from 'shared/enum/workshop';
+import {
+  AgeCompositionEnum,
+  CoverageEnum,
+  EducationalShiftEnum,
+  FormOfLearningEnum,
+  SpecialNeedsTypeEnum,
+  WorkshopTypeEnum
+} from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { Direction } from '../../../../../shared/models/category.model';
@@ -56,6 +63,18 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
+  // Variables for selects
+  public readonly SpecialNeedsTypeEnum = SpecialNeedsTypeEnum;
+  public readonly SpecialNeedsType = SpecialNeedsType;
+  public readonly EducationalShiftEnum = EducationalShiftEnum;
+  public readonly EducationalShift = EducationalShift;
+  public readonly AgeCompositionEnum = AgeCompositionEnum;
+  public readonly AgeComposition = AgeComposition;
+  public readonly CoverageEnum = CoverageEnum;
+  public readonly Coverage = Coverage;
+  public readonly WorkshopTypeEnum = WorkshopTypeEnum;
+  public readonly WorkshopType = WorkshopType;
+
   public DescriptionFormGroup: FormGroup;
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
@@ -71,15 +90,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public tagsControl: FormControl = new FormControl([]);
 
-  public compareItems(item1: Direction, item2: Direction): boolean {
-    return item1.id === item2.id;
-  }
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private formBuilder: FormBuilder,
-    private tagService: TagService
+    private readonly formBuilder: FormBuilder,
+    private readonly tagService: TagService
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -92,8 +107,27 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl([])
+      tagIds: new FormControl([]),
+      shortStay: new FormControl(false),
+      isSelfFinanced: new FormControl(false),
+      enrollmentProcedureDescription: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+      ]),
+      isSpecial: new FormControl(false),
+      isInclusive: new FormControl(false),
+      specialNeedsType: new FormControl(this.SpecialNeedsType.None),
+      areThereBenefits: new FormControl(false),
+      preferentialTermsOfParticipation: new FormControl(''),
+      educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
+      ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
+      coverage: new FormControl(this.Coverage.School),
+      workshopType: new FormControl(this.WorkshopType.None, Validators.required)
     });
+  }
+
+  public compareItems(item1: Direction, item2: Direction): boolean {
+    return item1.id === item2.id;
   }
 
   public ngOnInit(): void {

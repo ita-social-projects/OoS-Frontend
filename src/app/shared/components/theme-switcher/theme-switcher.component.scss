@@ -1,0 +1,82 @@
+::ng-deep .light-theme .mat-mdc-slide-toggle,
+::ng-deep .dark-theme .mat-mdc-slide-toggle {
+  --mdc-switch-unselected-track-color: #ffffff;
+  --mdc-switch-unselected-pressed-track-color: #ffffff;
+  --mdc-switch-unselected-hover-track-color: #ffffff;
+  --mdc-switch-unselected-focus-track-color: #ffffff;
+  --mdc-switch-unselected-handle-color: #3849f9;
+  --mdc-switch-unselected-pressed-handle-color: #032998;
+  --mdc-switch-unselected-hover-handle-color: #032998;
+  --mdc-switch-unselected-focus-handle-color: #032998;
+  --mdc-switch-unselected-focus-state-layer-color: #032998;
+  --mdc-switch-unselected-hover-state-layer-color: #032998;
+  --mdc-switch-unselected-pressed-state-layer-color: #032998;
+  --mdc-switch-disabled-unselected-handle-color: #c0c0c0;
+  --mdc-switch-disabled-unselected-track-color: #ffffff;
+
+  --mdc-switch-handle-elevation-shadow: 0px 2px 2px 0px #00000033;
+}
+
+::ng-deep .dark-theme .mat-mdc-slide-toggle.mat-accent,
+::ng-deep .light-theme .mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-track-color: #ffffff;
+  --mdc-switch-selected-pressed-track-color: #ffffff;
+  --mdc-switch-selected-hover-track-color: #ffffff;
+  --mdc-switch-selected-focus-track-color: #ffffff;
+  --mdc-switch-selected-handle-color: #3849f9;
+  --mdc-switch-selected-pressed-handle-color: #032998;
+  --mdc-switch-selected-hover-handle-color: #032998;
+  --mdc-switch-selected-focus-handle-color: #032998;
+  --mdc-switch-selected-focus-state-layer-color: #032998;
+  --mdc-switch-selected-hover-state-layer-color: #032998;
+  --mdc-switch-selected-pressed-state-layer-color: #032998;
+  --mdc-switch-disabled-selected-handle-color: #c0c0c0;
+  --mdc-switch-disabled-selected-track-color: #ffffff;
+
+  --mdc-switch-handle-elevation-shadow: 0px 2px 2px 0px #00000033;
+}
+
+::ng-deep .theme-slide-toggle {
+  display: flex;
+  align-items: center;
+
+  .mdc-switch {
+    --mdc-switch-track-width: 50px;
+    --mdc-switch-track-height: 28px;
+    --mdc-switch-track-shape: 14px;
+    --mdc-switch-handle-height: 24px;
+    --mdc-switch-handle-width: 24px;
+    --mdc-switch-handle-shape: 12px;
+    --mdc-switch-disabled-handle-opacity: 1;
+    --mdc-switch-disabled-selected-icon-opacity: 1;
+    --mdc-switch-disabled-track-opacity: 1;
+    --mdc-switch-disabled-unselected-icon-opacity: 1;
+  }
+
+  .mdc-switch--unselected .mdc-switch__handle-track {
+    transform: translateX(2px);
+  }
+
+  .mdc-switch--selected .mdc-switch__handle-track {
+    transform: translateX(calc(100% - 2px));
+  }
+
+  .mdc-switch__icon path {
+    display: none;
+  }
+
+  .mdc-switch__icon--on,
+  .mdc-switch__icon--off {
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: inline-block;
+  }
+
+  .mdc-switch__icon--on {
+    background-image: url('../../../../assets/icons/theme-dark.svg');
+  }
+
+  .mdc-switch__icon--off {
+    background-image: url('../../../../assets/icons/theme-light.svg');
+  }
+}

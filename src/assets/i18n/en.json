@@ -22,6 +22,8 @@
   "CLEAR_FILTERS": "Clear Filters",
   "CLOSE_RECRUITMENT": "Closed Recruitment",
   "CONTACTS": "CONTACTS",
+  "AGREEMENT": "Yes",
+  "DISAGREEMENT": "No",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -185,7 +187,8 @@
       "OPEN": "Open recruitment",
       "RECRUITMENT_CLOSED": "Recruitment is closed",
       "RECRUITMENT_OPEN": "Recruitment is open",
-      "STOP": "Stop recruitment"
+      "STOP": "Stop recruitment",
+      "DRAFT": "Draft"
     },
     "REVIEW_DECLINATION": {
       "FEEDBACK": "feedback",
@@ -300,6 +303,36 @@
         "DELETE": "Removing the administrator",
         "BLOCK": "Administrator lock"
       }
+    },
+    "WORKSHOP_SELECT_DESCRIPTION": {
+      "SPECIAL_NEEDS_TYPE": {
+        "NONE": "None",
+        "HEARING": "Hearing",
+        "SPEAKING": "Speaking",
+        "SIGHT": "Sight",
+        "INTELLIGENCE": "Intelligence",
+        "MUSCULOSKELETAL": "Musculoskeletal",
+        "RETARDATION": "Retardation"
+      },
+      "EDUCATIONAL_SHIFT": {
+        "FIRST": "First",
+        "SECOND": "Second"
+      },
+      "AGE_COMPOSITION": {
+        "SAME_AGE": "Same Age",
+        "DIFFERENT_AGE": "Different Age"
+      },
+      "COVERAGE": {
+        "SCHOOL": "School",
+        "CITY": "City",
+        "DISTRICT": "District",
+        "REGION": "Region",
+        "ALL_UKRAINE": "All Ukraine",
+        "INTERNATIONAL": "International"
+      },
+      "WORKSHOP_TYPE": {
+        "NONE": "None"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -408,7 +441,20 @@
       "USER_DIRECTIONS": "Directions for user",
       "USER_TAGS": "Tags",
       "TERRITORIAL_COMMUNITY": "Territorial community",
-      "SHORT_TITLE": "Short title"
+      "SHORT_TITLE": "Short title",
+      "DEFAULT_TEACHER": "Default Teacher",
+      "SHORT_STAY": "Short-term stay",
+      "IS_SELF_FINANCED": "Works with funds from parents and benefactors",
+      "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
+      "IS_SPECIAL": "Is special",
+      "IS_INCLUSIVE": "Is inclusive",
+      "SPECIAL_NEEDS_TYPE": "Special needs type",
+      "ARE_THERE_BENEFITS": "Are there benefits",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
+      "EDUCATIONAL_SHIFT": "Educational Shift",
+      "AGE_COMPOSITION": "Age Composition",
+      "COVERAGE": "Coverage",
+      "WORKSHOP_TYPE": "Workshop type"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -458,6 +504,8 @@
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
       "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
+      "INVALID_TIME_FORMAT": "Please use the time format \"23:59\"",
+      "INVALID_TIME_RANGE": "\"To\" cannot be earlier than \"From\"",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
@@ -581,7 +629,9 @@
     "DELETE": "Delete",
     "GO_BACK": "Go back",
     "REGISTER": "Register",
-    "ADD_DIRECTION": "Add a direction"
+    "ADD_DIRECTION": "Add a direction",
+    "PUBLISH": "Publish",
+    "ARCHIVE": "Archive"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -724,6 +774,7 @@
       "UPDATE_WORKSHOP": "The workshop has been updated successfully!",
       "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
       "DELETED_WORKSHOP": "This workshop has been deleted!",
+      "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
       "DELETED_NOTIFICATION": "Notification deleted successfully!",
@@ -769,6 +820,8 @@
       "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
       "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
+      "DARK_THEME_ON": "Dark theme on.",
+      "DARK_THEME_OFF": "Dark theme off.",
       "ERROR": "Unfortunately, an error has occurred",
       "ERROR_401": "User not registered.",
       "ERROR_403": "Access denied.",
@@ -794,7 +847,8 @@
         }
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Image size is too small.",
-      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big."
+      "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big.",
+      "ERROR_DEFAULT_TEACHER": "You must choose default teacher"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
@@ -842,6 +896,8 @@
       "CREATE_ADMIN": "Are you sure you want to add a administrator?",
       "UPDATE_ADMIN": "Are you sure you want to edit the administrator?",
       "LICENSE_APPROVED": "Are you sure you want to confirm the provider's license?",
+      "PUBLISH_WORKSHOP": "Are you sure you want to publish workshop?",
+      "ARCHIVE_WORKSHOP": "If you delete a direction, all Profiles, Departments, and Classes associated with it will also be deleted.",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -886,7 +942,9 @@
         "UPDATE_ADMIN": "EDIT ADMINISTRATOR?",
         "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?",
         "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
-        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment."
+        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
+        "PUBLISH_WORKSHOP": "Publish workshop?",
+        "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?"
       }
     }
   },

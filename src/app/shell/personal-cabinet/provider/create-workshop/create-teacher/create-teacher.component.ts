@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { filter } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
@@ -49,6 +50,7 @@ export class CreateTeacherComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
     this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
+    this.checkedCountOfTeacher();
   }
 
   /**
@@ -68,11 +70,18 @@ export class CreateTeacherComponent implements OnInit {
         }
       });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+      dialogRef
+        .afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe(() => {
+          this.TeacherFormArray.removeAt(index);
+          this.checkedCountOfTeacher();
+        });
     } else {
       this.TeacherFormArray.removeAt(index);
     }
 
+    this.checkedCountOfTeacher();
     this.markFormAsDirtyOnUserInteraction();
   }
 
@@ -99,7 +108,8 @@ export class CreateTeacherComponent implements OnInit {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300),
         Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
+      ]),
+      defaultTeacher: new FormControl(!this.TeacherFormArray.controls.length)
     });
 
     if (teacher) {
@@ -116,6 +126,18 @@ export class CreateTeacherComponent implements OnInit {
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
     }
+  }
+
+  private checkedCountOfTeacher(): void {
+    this.TeacherFormArray.controls.forEach((control) => {
+      const defaultTeacherControl = control.get('defaultTeacher');
+      if (this.TeacherFormArray.controls.length <= 1) {
+        defaultTeacherControl.setValue(true);
+        defaultTeacherControl.disable();
+      } else {
+        defaultTeacherControl.enable();
+      }
+    });
   }
 
   /**

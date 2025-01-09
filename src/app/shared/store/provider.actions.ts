@@ -141,6 +141,21 @@ export class OnDeleteWorkshopFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
+export class PublishWorkshop {
+  static readonly type = '[provider] publish Workshop';
+  constructor(public payload: string) {}
+}
+
+export class OnPublishWorkshopSuccess {
+  static readonly type = '[provider] publish Workshop success';
+  constructor() {}
+}
+
+export class OnPublishWorkshopFail {
+  static readonly type = '[provider] publish Workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
 export class CreateProvider {
   static readonly type = '[provider] create Provider';
   constructor(

@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-
+import { takeUntil } from 'rxjs/operators';
+import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
+import { TimeRangeValidator } from 'shared/validators/time-range-validator';
+import { TimeFormatValidator } from 'shared/validators/time-format-validator';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -21,6 +23,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Output() public deleteWorkingHour = new EventEmitter();
   @Output() public dataChanged = new EventEmitter<void>();
 
+  public isEditMode: boolean = false;
+  public fromTime: string = '';
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public workingDays: Set<string> = new Set<string>();
@@ -36,12 +40,29 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.workingHoursForm.valueChanges
-      .pipe(
-        filter(() => !this.workdaysFormControl.touched),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => this.workdaysFormControl.markAsTouched());
+    this.endTimeFormControl.setValidators(TimeFormatValidator);
+    this.startTimeFormControl.setValidators(TimeFormatValidator);
+
+    (this.workingHoursForm as FormGroup).setValidators(TimeRangeValidator('startTime', 'endTime'));
+
+    if (!this.workdaysFormControl.value) {
+      this.startTimeFormControl.disable({ emitEvent: false });
+      this.endTimeFormControl.disable({ emitEvent: false });
+    }
+
+    this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
+      if (value) {
+        this.endTimeFormControl.enable({ emitEvent: false });
+      } else {
+        this.endTimeFormControl.disable({ emitEvent: false });
+      }
+    });
+
+    this.endTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
+    });
+
     if (this.workdaysFormControl.value.length) {
       this.activateEditMode();
     }
@@ -61,7 +82,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     if (this.workingDays.size) {
       this.startTimeFormControl.enable({ emitEvent: false });
-      this.endTimeFormControl.enable({ emitEvent: false });
+      this.startTimeFormControl.updateValueAndValidity();
     } else {
       this.startTimeFormControl.disable({ emitEvent: false });
       this.endTimeFormControl.disable({ emitEvent: false });
@@ -70,42 +91,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
     this.dataChanged.emit();
-  }
-
-  public getMinTime(): string {
-    const startTimeString = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MAX_TIME;
-    const [startHours, startMinutes] = startTimeString.split(':').map(Number);
-
-    let newMinutes = startMinutes + 1;
-    let newHours = startHours;
-
-    if (newMinutes >= 60) {
-      newMinutes = 0;
-      newHours++;
-    }
-
-    newHours = newHours % 24;
-
-    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
-  }
-
-  public getMaxTime(): string {
-    const endTimeString = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
-    const [endHours, endMinutes] = endTimeString.split(':').map(Number);
-
-    let newMinutes = endMinutes - 1;
-    let newHours = endHours;
-
-    if (newMinutes < 0) {
-      newMinutes = 59;
-      newHours--;
-    }
-
-    if (newHours < 0) {
-      newHours = 23;
-    }
-
-    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
   }
 
   public delete(): void {
@@ -119,6 +104,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   public activateEditMode(): void {
+    this.isEditMode = true;
     this.days.forEach((day: WorkingDaysToggleValue) => {
       this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
@@ -127,10 +113,24 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
         }
       });
     });
+    this.workingHoursForm.markAllAsTouched();
+  }
+
+  public onTimeSet(chosenTime: string, formControl: FormControl): void {
+    formControl.setValue(chosenTime);
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  public validateTimeInput(value: string): string {
+    return value.replace(TIME_REGEX_REPLACE, '');
+  }
+
+  public markWorkDaysAsTouched(): void {
+    this.workdaysFormControl.markAsTouched();
+    this.workdaysFormControl.setErrors({ required: true });
   }
 }

@@ -25,7 +25,7 @@
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   .mat-mdc-outlined-button.header-login {
     color: white;
     border-color: white;
@@ -100,6 +100,14 @@
     &-language {
       ::ng-deep .mat-select-value-text {
         color: black !important;
+      }
+    }
+
+    &-theme {
+      padding: 7px 16px;
+
+      ::ng-deep .mdc-switch__track {
+        box-shadow: 0 0 0 1px lightgray;
       }
     }
 

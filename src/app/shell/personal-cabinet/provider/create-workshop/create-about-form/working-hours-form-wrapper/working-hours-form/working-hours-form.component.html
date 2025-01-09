@@ -1,6 +1,6 @@
 <form class="step">
   <div class="flex flex-col">
-    <div class="flex flex-row">
+    <div class="flex flex-col gap-2">
       <div class="days">
         <div
           class="flex flex-row justify-between"
@@ -13,58 +13,75 @@
             {{ day.value | translate }}
           </div>
         </div>
+        <app-validation-hint [validationFormControl]="workdaysFormControl"></app-validation-hint>
       </div>
 
       <div class="time-input-wrapper">
+        <div 
+          class="disabled" 
+          *ngIf="!startTimeFormControl.enabled" 
+          (click)="markWorkDaysAsTouched()"
+          (keydown.Enter)="markWorkDaysAsTouched()">
+        </div>
         <div class="flex flex-col justify-start items-start">
-          <div class="time-input flex flex-row justify-start items-center">
+          <ng-container class="flex flex-col">
+          <div class="time-input flex flex-row justify-start items-center" >
             <p class="text">{{ 'FROM' | translate }}</p>
             <input
               class="input step-input start-time-input"
-              type="text"
               matInput
-              [ngxMatTimepicker]="timepickerStart"
-              [format]="24"
-              readonly
-              required
               [formControl]="startTimeFormControl"
-              [max]="getMaxTime()"
+              required
+              maxlength="5"
               autocomplete="off" />
+            <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()"> <mat-icon>access_time</mat-icon></button>
           </div>
+          <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
+          <app-validation-hint [validationFormControl]="workingHoursForm" [formLevelValidation]="true"></app-validation-hint>
+        </ng-container>
         </div>
 
         <div class="flex flex-col justify-start items-start">
+          <ng-container class="flex flex-col">
           <div class="time-input flex flex-row justify-start items-center">
             <p class="text">{{ 'TO' | translate }}</p>
             <input
-              class="input step-input finish-time-input"
-              type="text"
+              class="input step-input start-time-input"
               matInput
-              [ngxMatTimepicker]="timepickerEnd"
-              [format]="24"
-              readonly
-              required
               [formControl]="endTimeFormControl"
-              [min]="getMinTime()"
-              [max]="ValidationConstants.MAX_TIME"
+              required
+              maxlength="5"
               autocomplete="off" />
+            <button mat-icon-button [disabled]="!endTimeFormControl.enabled" (click)="timepickerEnd.open()"> <mat-icon>access_time</mat-icon></button>
+            <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
+              <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+            </div>
           </div>
-        </div>
-        <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
-          <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+          <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
+        </ng-container>
         </div>
       </div>
     </div>
-    <app-validation-hint [validationFormControl]="workingHoursForm"></app-validation-hint>
   </div>
 </form>
 
-<ng-template #ValidationHintTmpl>
-  <small appValidationMessageStyling>{{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br /></small>
-</ng-template>
 
-<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
-<ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
+<ngx-mat-timepicker
+  #timepickerStart
+  [format]="24"
+  [defaultTime]="startTimeFormControl.value"        
+  (timeSet)="onTimeSet($event, startTimeFormControl)" 
+  [cancelBtnTmpl]="btnCancel"
+  [confirmBtnTmpl]="btnConfirm"
+></ngx-mat-timepicker>
+<ngx-mat-timepicker
+  #timepickerEnd
+  [format]="24"
+  [defaultTime]="endTimeFormControl.value"
+  (timeSet)="onTimeSet($event, endTimeFormControl)" 
+  [cancelBtnTmpl]="btnCancel"
+  [confirmBtnTmpl]="btnConfirm">
+</ngx-mat-timepicker>
 <ng-template #btnCancel>
   <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
 </ng-template>

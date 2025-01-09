@@ -69,6 +69,8 @@ import {
   OnDeleteProviderByIdSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
+  OnPublishWorkshopFail,
+  OnPublishWorkshopSuccess,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
   OnUpdateEmployeeFail,
@@ -81,6 +83,7 @@ import {
   OnUpdateWorkshopStatusFail,
   OnUpdateWorkshopStatusSuccess,
   OnUpdateWorkshopSuccess,
+  PublishWorkshop,
   ReinviteEmployee,
   ResetAchievements,
   UnBlockParent,
@@ -427,6 +430,25 @@ export class ProviderState {
       }),
       new GetProviderViewWorkshops(parameters)
     ]);
+  }
+
+  @Action(PublishWorkshop)
+  publishWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: PublishWorkshop): Observable<Provider | void> {
+    return this.userWorkshopService.publishWorkshop(payload).pipe(
+      tap(() => dispatch(new OnPublishWorkshopSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new OnPublishWorkshopFail(error)))
+    );
+  }
+
+  @Action(OnPublishWorkshopFail)
+  onPublishWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnPublishWorkshopFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnPublishWorkshopSuccess)
+  onPublishWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>): void {
+    this.router.navigate(['/personal-cabinet/provider/workshops']);
+    dispatch(new ShowMessageBar({ message: SnackbarText.publishWorkshop, type: 'success' }));
   }
 
   @Action(CreateProvider)
