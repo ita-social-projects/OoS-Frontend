@@ -23,6 +23,8 @@
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий відбір",
   "CONTACTS": "КОНТАКТИ",
+  "AGREEMENT": "Так",
+  "DISAGREEMENT": "Ні",
   "DAYS": {
     "FRIDAY": "ПТ",
     "MONDAY": "ПН",
@@ -301,6 +303,36 @@
         "DELETE": "Видалення адміністратора",
         "BLOCK": "Блокування адміністратора"
       }
+    },
+    "WORKSHOP_SELECT_DESCRIPTION": {
+      "SPECIAL_NEEDS_TYPE": {
+        "NONE": "Немає",
+        "HEARING": "Слуху",
+        "SPEAKING": "Мови",
+        "SIGHT": "Зору",
+        "INTELLIGENCE": "Інтелекту",
+        "MUSCULOSKELETAL": "Опорно-рухового апарату",
+        "RETARDATION": "Затримкою психічного розвитку"
+      },
+      "EDUCATIONAL_SHIFT": {
+        "FIRST": "Перша",
+        "SECOND": "Друга"
+      },
+      "AGE_COMPOSITION": {
+        "SAME_AGE": "Одновікова",
+        "DIFFERENT_AGE": "Різновікова"
+      },
+      "COVERAGE": {
+        "SCHOOL": "Локальний (Шкільний)",
+        "CITY": "Міський",
+        "DISTRICT": "Районний",
+        "REGION": "Обласний",
+        "ALL_UKRAINE": "Всеукраїнський",
+        "INTERNATIONAL": "Міжнародний"
+      },
+      "WORKSHOP_TYPE": {
+        "NONE": "Немає"
+      }
     }
   },
   "EXACT_MATCH": "Повний збіг",
@@ -409,7 +441,20 @@
       "USER_DIRECTIONS": "Напрямки для користувача",
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
-      "SHORT_TITLE": "Скорочена назва"
+      "SHORT_TITLE": "Скорочена назва",
+      "DEFAULT_TEACHER": "Викладач за замовчуванням",
+      "SHORT_STAY": "Короткотривалого перебування",
+      "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
+      "ENROLLMENT_PROCEDURE_DESCRIPTION": "Опис процедури зарахування",
+      "IS_SPECIAL": "Є спеціальною",
+      "IS_INCLUSIVE": "Є інклюзивною",
+      "SPECIAL_NEEDS_TYPE": "Група з типом порушення",
+      "ARE_THERE_BENEFITS": "Є пільги",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Пільгові умови",
+      "EDUCATIONAL_SHIFT": "Зміна навчання",
+      "AGE_COMPOSITION": "Тип групи за віковим складом",
+      "COVERAGE": "Покриття",
+      "WORKSHOP_TYPE": "Тип групи"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -804,7 +849,8 @@
         }
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Розмір зображення занадто малий.",
-      "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий."
+      "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий.",
+      "ERROR_DEFAULT_TEACHER": "Ви повинні обрати вчителя за замовчуванням"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Вкажіть причину блокування",

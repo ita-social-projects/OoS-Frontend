@@ -19,6 +19,8 @@ import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -112,12 +114,16 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
    */
-  public onSubmit(): void {
+  public onSubmit(): void | Observable<any> {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.createAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
+
+    if (teachers.length > 1 && !teachers.some((teacher) => teacher.defaultTeacher)) {
+      return this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
+    }
 
     let workshop: Workshop;
 
@@ -194,7 +200,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const teachers: Teacher[] = [];
     if (this.TeacherFormArray?.controls) {
       this.TeacherFormArray.controls.forEach((form: FormGroup) => {
-        const teacher: Teacher = new Teacher(form.value);
+        const teacher: Teacher = new Teacher(form.getRawValue());
         teachers.push(teacher);
       });
     }
