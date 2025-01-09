@@ -26,6 +26,10 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
+        <div class="mobile-sidenav-theme">
+          <app-theme-switcher></app-theme-switcher>
+        </div>
+
         <div class="mobile-sidenav-menu-notification full-width" *ngIf="(featuresList$ | async)?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
             <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>

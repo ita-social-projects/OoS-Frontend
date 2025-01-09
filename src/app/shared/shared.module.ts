@@ -80,6 +80,7 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NotificationDescriptionPipe,
     InfoMenuComponent,
     ImageCarouselComponent,
-    CustomCarouselDirective
+    CustomCarouselDirective,
+    ThemeSwitcherComponent
   ],
 
   imports: [
@@ -233,7 +235,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     ProviderStatusBannerComponent,
     PhoneFormControlComponent,
     InfoMenuComponent,
-    ImageCarouselComponent
+    ImageCarouselComponent,
+    ThemeSwitcherComponent
   ]
 })
 export class SharedModule {}
