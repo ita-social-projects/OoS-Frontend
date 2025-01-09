@@ -30,12 +30,7 @@ export abstract class CreateFormComponent implements OnDestroy {
   public isImagesFeature: boolean;
   public isPristine = true;
   public editMode: boolean;
-  public draftData: any = {
-    aboutData: null,
-    descriptionData: null,
-    addressData: null,
-    teachersData: null
-  };
+  public draftMode: boolean;
 
   constructor(
     protected store: Store,
@@ -63,7 +58,7 @@ export abstract class CreateFormComponent implements OnDestroy {
     const paramValue = this.route.snapshot.paramMap.get('param');
 
     if (paramValue === 'draft' && draftData) {
-      this.editMode = false; // keep it false since it's not a real edit
+      this.setEditMode();
       this.loadDraftData();
     } else {
       this.editMode = Boolean(paramValue !== ModeConstants.NEW);
@@ -71,11 +66,6 @@ export abstract class CreateFormComponent implements OnDestroy {
         this.setEditMode();
       }
     }
-  }
-
-  private loadDraftData(): void {
-    const draftData = JSON.parse(localStorage.getItem('workshopDraftData'));
-    this.draftData = draftData;
   }
 
   protected subscribeOnDirtyForm(form: FormGroup | FormArray): void {
@@ -106,4 +96,5 @@ export abstract class CreateFormComponent implements OnDestroy {
   public abstract addNavPath(): void;
   public abstract onSubmit(): void;
   public abstract onCancel(): void;
+  public loadDraftData?(): void;
 }

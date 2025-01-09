@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear>
+      <mat-horizontal-stepper #stepper linear>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>

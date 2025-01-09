@@ -54,10 +54,9 @@ export class ProviderStatusBannerComponent implements OnInit {
     const savedData = localStorage.getItem('workshopDraftData');
     if (!savedData) {
       return false;
+    } else {
+      return true;
     }
-
-    const draftData = JSON.parse(savedData);
-    return !!(draftData.aboutData || draftData.descriptionData || draftData.addressData || draftData.teachersData);
   }
 
   public continueDraft(): void {
