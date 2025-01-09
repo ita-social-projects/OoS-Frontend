@@ -8,7 +8,6 @@ import { CreatePosition, GetPositionById, UpdatePosition } from 'shared/store/pr
 import { Observable, takeUntil, filter, tap } from 'rxjs';
 import { ProviderState } from 'shared/store/provider.state';
 import { FormGroup } from '@angular/forms';
-import { Constants } from 'shared/constants/constants';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { Role, Subrole } from 'shared/enum/role';
 import { Util } from 'shared/utils/utils';
@@ -29,6 +28,7 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
+
   public position: Position;
   public provider: Provider;
   public PositionFormGroup: FormGroup;
@@ -58,6 +58,7 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
         })
       )
       .subscribe();
+
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
@@ -83,7 +84,6 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
         filter((position: Position) => position?.id === positionId),
         tap((position: Position) => {
           this.position = new Position(position, this.provider, positionId);
-          this.editMode = true;
         })
       )
       .subscribe();
@@ -95,20 +95,11 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
     if (this.editMode) {
       position = new Position(positionInfo, this.provider, this.position.id);
-      position = this.unlimitedSeatsCheck(position);
       this.store.dispatch(new UpdatePosition(position));
     } else {
       position = new Position(positionInfo, this.provider);
-      position = this.unlimitedSeatsCheck(position);
       this.store.dispatch(new CreatePosition(position));
     }
-  }
-
-  public unlimitedSeatsCheck(position: Position): Position {
-    if (!position.seatsAmount) {
-      position.seatsAmount = ValidationConstants.UNLIMITED_SEATS;
-    }
-    return position;
   }
 
   public onCancel(): void {
@@ -138,11 +129,6 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
     );
   }
 
-  public onReceiveAddressFormGroup(form: FormGroup): void {
-    this.AddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
-  }
-
   public onReceivePositionFormGroup(form: FormGroup): void {
     this.PositionFormGroup = form;
     this.subscribeOnDirtyForm(form);
@@ -150,8 +136,8 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
   private createPosition(): Position {
     const position = this.PositionFormGroup.getRawValue();
-    if (position.availableSeats === null) {
-      position.availableSeats = Constants.WORKSHOP_UNLIMITED_SEATS;
+    if (position.seatsAmount === null) {
+      position.seatsAmount = ValidationConstants.UNLIMITED_SEATS;
     }
     return position;
   }

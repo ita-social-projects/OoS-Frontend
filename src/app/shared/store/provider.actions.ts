@@ -442,3 +442,32 @@ export class DeletePositionById {
     public positionId: string
   ) {}
 }
+
+export class OnDeletePositionSuccess {
+  static readonly type = '[provider] Delete position success';
+  constructor(public positionParameters: PositionParameters) {}
+}
+
+export class OnDeletePositionFail {
+  static readonly type = '[provider] Delete position fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnGetPositionByIdFail {
+  static readonly type = '[provider] Get position by id fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnGetPositionsFail {
+  static readonly type = '[provider] Get positions fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+export class OnUpdatePositionFail {
+  static readonly type = '[provider] update position fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnCreatePositionFail {
+  static readonly type = '[provider] create position fail';
+  constructor(public error: HttpErrorResponse) {}
+}

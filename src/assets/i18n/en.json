@@ -476,7 +476,9 @@
       "OPENED_IN_DEPARTMENT": "Opened in department",
       "NAME_IN_GENITIVE_CASE": "Name in genitive case",
       "TEACHING_POSITION": "Teaching position",
-      "TYPE_BY_CLASSIFIER": "Type by classifier"
+      "TYPE_BY_CLASSIFIER": "Type by classifier",
+      "CREATED_AT": "Creation date",
+      "LANGUAGE": "Language"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -511,7 +513,12 @@
       "ENTER_NAME_IN_GENITIVE_CASE": "Enter name in genitive case",
       "ENTER_RATE": "Enter the position rating",
       "ENTER_TARIFF": "Enter tariff",
-      "ENTER_TYPE_BY_CLASSIFIER": "Enter the type according to the classifier"
+      "ENTER_TYPE_BY_CLASSIFIER": "Enter the type according to the classifier",
+      "ENTER_LANGUAGE": "Enter the language required for the position",
+      "WITHOUT_SORT": "Without sorting",
+      "SORT_BY_NAME": "By name",
+      "SORT_BY_CREATED_AT": "By creation date",
+      "SEARCH_BY_TITLE": "Search by full title"
     },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
@@ -536,6 +543,7 @@
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "INVALID_TIME_FORMAT": "Please use the time format \"09:59\"",
       "INVALID_TIME_RANGE": "\"To\" cannot be earlier than \"From\"",
+      "INVALID_VALUE_START": " The number can be",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
@@ -866,6 +874,11 @@
       "NOT_UNIQUE_DATA": "Check the entered data. Email and registration code must be unique.",
       "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
       "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
+      "POSITION_CREATED_SUCCESS": "Position successfully created!",
+      "POSITION_UPDATED_SUCCESS": "Position successfully updated!",
+      "POSITION_DELETED_SUCCESS": "Position successfully deleted!",
+      "POSITION_BY_TITLE_NOT_FOUND": "No position found with such a title",
+      "POSITION_NOT_FOUND": "Position not found",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",

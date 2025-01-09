@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Select } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
 import { ValidationConstants } from 'shared/constants/validation';
-import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Position } from 'shared/models/position.model';
 import { Provider } from 'shared/models/provider.model';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -14,7 +13,7 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./create-position-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreatePositionFormComponent implements OnInit, OnChanges {
+export class CreatePositionFormComponent implements OnInit {
   @Input() public position: Position;
   @Output() public passPositionFormGroup = new EventEmitter();
   @Select(RegistrationState.provider) public provider: Provider;
@@ -22,7 +21,6 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
   public PositionFormGroup: FormGroup;
   public readonly validationConstants = ValidationConstants;
   public seatsAmountRadioBtnControl: FormControl = new FormControl(true);
-  public readonly InfoMenuType = InfoMenuType;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -40,12 +38,6 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
     }
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.position && this.position && this.PositionFormGroup) {
-      this.activateEditMode();
-    }
-  }
-
   public markFormAsDirtyOnUserInteraction(): void {
     if (!this.PositionFormGroup.dirty) {
       this.PositionFormGroup.markAsDirty({ onlySelf: true });
@@ -54,22 +46,22 @@ export class CreatePositionFormComponent implements OnInit, OnChanges {
 
   private activateEditMode(): void {
     this.PositionFormGroup.patchValue({
-      language: this.position.language ?? '',
-      description: this.position.description ?? '',
-      department: this.position.department ?? '',
-      seatsAmount: this.position.seatsAmount ?? null,
-      fullName: this.position.fullName ?? '',
-      shortName: this.position.shortName ?? '',
-      genitiveName: this.position.genitiveName ?? '',
-      isTeachingPosition: this.position.isTeachingPosition ?? false,
-      rate: this.position.rate ?? '',
-      tariff: this.position.tariff ?? '',
-      classifierType: this.position.classifierType ?? '',
-      isForRuralAres: this.position.isForRuralAres ?? false,
+      language: this.position.language,
+      description: this.position.description,
+      department: this.position.department,
+      seatsAmount: this.position.seatsAmount,
+      fullName: this.position.fullName,
+      shortName: this.position.shortName,
+      genitiveName: this.position.genitiveName,
+      isTeachingPosition: this.position.isTeachingPosition,
+      rate: this.position.rate,
+      tariff: this.position.tariff,
+      classifierType: this.position.classifierType,
+      isForRuralAres: this.position.isForRuralAres,
       providerId: this.position.providerId ?? this.provider?.id
     });
 
-    const noLimitSeats = this.position.seatsAmount === null;
+    const noLimitSeats = this.position.seatsAmount === this.validationConstants.UNLIMITED_SEATS;
     this.seatsAmountRadioBtnControl.setValue(noLimitSeats, { emitEvent: false });
 
     if (noLimitSeats) {
