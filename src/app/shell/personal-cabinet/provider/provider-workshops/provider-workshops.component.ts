@@ -17,7 +17,8 @@ import {
   DeleteWorkshopById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshops,
-  OnUpdateWorkshopStatusSuccess
+  OnUpdateWorkshopStatusSuccess,
+  GetUnfinishedWorkshop
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
@@ -32,9 +33,14 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerWorkshops)
   public workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
+  public draftLiveTime$: Observable<string>;
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
+  public isLoaded: boolean = false;
 
   public workshops: SearchResponse<WorkshopProviderViewCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -50,6 +56,14 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     @Inject(WINDOW) private window: Window
   ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.store.dispatch(new GetUnfinishedWorkshop());
+    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isLoaded = true;
+    });
   }
 
   /**
@@ -111,9 +125,6 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.workshopCardParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
-  }
-  public hasDraft(): boolean {
-    return localStorage.getItem('workshopDraftData') ? true : false;
   }
 
   private getProviderWorkshops(): void {

@@ -1,13 +1,15 @@
 <div class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_WORKSHOP' | translate }}</p>
-  <button class="btn" mat-raised-button [disabled]="hasDraft()" [routerLink]="['/create-workshop', ModeConstants.NEW]">
+  <button
+    class="btn"
+    mat-raised-button
+    [disabled]="hasUnfinishedWorkshopData$ | async"
+    [routerLink]="['/create-workshop', ModeConstants.NEW]">
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>
-<!-- replace banner into container later-->
-<div *ngIf="hasDraft()" class="mb-8">
-  <app-provider-status-banner [provider]="provider" mode="draft"> </app-provider-status-banner>
-</div>
+<app-provider-status-banner [provider]="provider" mode="unfinished" *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded" class="mb-8">
+</app-provider-status-banner>
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount">
     <app-workshop-card

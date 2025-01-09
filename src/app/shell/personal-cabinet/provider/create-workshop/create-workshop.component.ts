@@ -1,12 +1,13 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, Observable } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { Constants } from 'shared/constants/constants';
+import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
@@ -15,12 +16,23 @@ import { Teacher } from 'shared/models/teacher.model';
 import { Workshop, WorkshopAbout, Contacts } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
+import {
+  CreateWorkshop,
+  GetUnfinishedWorkshop,
+  OnDeleteUnfinishedWorkshop,
+  OnSaveWorkshopStep,
+  UpdateWorkshop
+} from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { WorkshopType } from 'shared/models/draftWorkshop.model';
+import { GetCodeficatorById } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -35,11 +47,15 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   ]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
+  @ViewChild('stepper') public stepper: MatStepper;
   @Select(RegistrationState.provider)
-  private provider$: Observable<Provider>;
+  public provider$: Observable<Provider>;
   @Select(SharedUserState.selectedWorkshop)
-  private selectedWorkshop$: Observable<Workshop>;
-
+  public selectedWorkshop$: Observable<Workshop>;
+  @Select(MetaDataState.codeficator)
+  public codeficator$: Observable<Codeficator>;
+  public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
+  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   public provider: Provider;
   public workshop: Workshop;
 
@@ -49,15 +65,38 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
-
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  public currentStep = 0;
-  private draftData: any = {
-    currentStep: 0,
-    aboutData: null,
-    descriptionData: null,
-    addressData: null,
-    teachersData: null
+  private readonly unfinishedWorkshopTypeMap = {
+    1: WorkshopType.WithMainProperties,
+    2: WorkshopType.WithOtherRequiredProperties,
+    3: WorkshopType.WithDescription,
+    4: WorkshopType.WithContacts
+  };
+  private readonly stepActions = {
+    1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
+    2: (): void => this.dispatchUnfinishedData(2, this.AdditionalAboutGroup.getRawValue()),
+    3: (): void =>
+      this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
+    4: (): void => {
+      const address = new Address(this.AddressFormGroup.value, this.workshop?.address);
+      this.store.dispatch(new GetCodeficatorById(address.catottgId));
+      this.codeficator$
+        .pipe(
+          filter((codeficator) => Boolean(codeficator)),
+          take(1)
+        )
+        .subscribe((codeficatorData) => {
+          const updatedAddress = new Address({
+            ...address,
+            codeficatorAddressDto: codeficatorData
+          });
+          this.dispatchUnfinishedData(4, {
+            ...this.AdditionalAboutGroup.value,
+            ...this.DescriptionFormGroup.getRawValue(),
+            address: updatedAddress,
+            addressId: updatedAddress.id
+          });
+        });
+    }
   };
 
   constructor(
@@ -94,6 +133,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
+    const param = this.getRouteParam();
+    if (param === BannerMode.Unfinished) {
+      this.loadUnfinishedWorkshopData();
+    }
   }
 
   public ngAfterContentChecked(): void {
@@ -123,27 +166,51 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public setEditMode(): void {
-    const workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(workshopId));
-
-    this.selectedWorkshop$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((workshop: Workshop) => workshop?.id === workshopId)
-      )
-      .subscribe((workshop: Workshop) => (this.workshop = workshop));
-  }
-  public saveDraftData(formGroup: FormGroup | FormArray): void {
-    if (formGroup === this.AboutFormGroup) {
-      this.draftData.aboutData = formGroup.getRawValue();
-    } else if (formGroup === this.DescriptionFormGroup) {
-      this.draftData.descriptionData = formGroup.getRawValue();
-    } else if (formGroup === this.AddressFormGroup) {
-      this.draftData.addressData = formGroup.getRawValue();
-    } else if (formGroup === this.TeacherFormArray) {
-      this.draftData.teachersData = formGroup.controls.map((control) => control.value);
+    const param = this.getRouteParam();
+    if (param === BannerMode.Unfinished) {
+      this.loadUnfinishedWorkshopData();
+      this.editMode = false;
+    } else {
+      this.store.dispatch(new GetWorkshopById(param));
+      this.selectedWorkshop$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((workshop: Workshop) => workshop?.id === param)
+        )
+        .subscribe((workshop: Workshop) => (this.workshop = workshop));
     }
-    localStorage.setItem('workshopDraftData', JSON.stringify(this.draftData));
+  }
+  public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
+    const param = this.getRouteParam();
+    if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
+      return;
+    }
+
+    const stepMappings = new Map<FormGroup | FormArray, number>([
+      [this.AboutFormGroup, 1],
+      [this.AdditionalAboutGroup, 2],
+      [this.DescriptionFormGroup, 3],
+      [this.AddressFormGroup, 4]
+    ]);
+
+    const step = stepMappings.get(formGroup) ?? -1;
+    if (step !== -1) {
+      this.stepActions[step]?.();
+    }
+  }
+  public loadUnfinishedWorkshopData(): void {
+    this.store.dispatch(new GetUnfinishedWorkshop());
+    this.unfinishedWorkshop$.subscribe((draft: Workshop) => {
+      this.workshop = draft;
+
+      asyncScheduler.schedule(() => {
+        const stepToGo = this.getFirstInvalidStep();
+
+        if (stepToGo !== -1 && this.stepper) {
+          this.stepper.selectedIndex = stepToGo;
+        }
+      });
+    });
   }
 
   /**
@@ -170,7 +237,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
-    localStorage.removeItem('workshopDraftData');
+    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
   /**
@@ -232,6 +299,36 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.store.dispatch(new ResetProviderWorkshopDetails());
   }
 
+  // eslint-disable-next-line @typescript-eslint/typedef
+  private createDraftData(step: number, extraData = {}): any {
+    const baseData = {
+      $type: this.unfinishedWorkshopTypeMap[step],
+      ...this.createAbout(),
+      providerId: this.provider.id
+    };
+
+    return {
+      ...baseData,
+      ...extraData
+    };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  private dispatchUnfinishedData(step: number, extraData = {}): void {
+    const data = this.createDraftData(step, extraData);
+    this.store.dispatch(new OnSaveWorkshopStep({ data, step }));
+  }
+
+  private getFirstInvalidStep(): number {
+    const steps = [this.AboutFormGroup, this.AdditionalAboutGroup, this.DescriptionFormGroup, this.AddressFormGroup, this.TeacherFormArray];
+
+    return steps.findIndex((step) => !step?.valid);
+  }
+
+  private getRouteParam(): string {
+    return this.route.snapshot.paramMap.get('param');
+  }
+
   /**
    * Prepares 'About' section data from the form, setting 'availableSeats' to 'UNLIMITED_SEATS' if null.
    */
@@ -242,6 +339,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     }
     if (aboutInfo.price === null) {
       aboutInfo.price = 0;
+      aboutInfo.isPaid = false;
     }
     return aboutInfo;
   }

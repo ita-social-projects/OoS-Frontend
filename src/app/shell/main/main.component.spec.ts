@@ -1,12 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { Role } from 'shared/enum/role';
@@ -18,6 +21,8 @@ import { Workshop } from 'shared/models/workshop.model';
 import { ParentStateModel } from 'shared/store/parent.state';
 import { Login } from 'shared/store/registration.actions';
 import { RegistrationStateModel } from 'shared/store/registration.state';
+import { OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
+
 import { FooterComponent } from '../../footer/footer.component';
 import { MainComponent } from './main.component';
 
@@ -25,25 +30,58 @@ describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
   let store: Store;
+  let router: Router;
+  let dialog: MatDialog;
+
+  let hasUnfinishedWorkshopData$: BehaviorSubject<boolean>;
+  let isModalShown$: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
+    hasUnfinishedWorkshopData$ = new BehaviorSubject<boolean>(false);
+    isModalShown$ = new BehaviorSubject<boolean>(false);
     await TestBed.configureTestingModule({
       imports: [
         MatSnackBarModule,
         NgxsModule.forRoot([MockRegistrationState, MockFilterState, MockParentState]),
         HttpClientTestingModule,
         RouterTestingModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        MatDialogModule,
+        RouterTestingModule
       ],
-      declarations: [MainComponent, FooterComponent, MockMainCategoryCardComponent, MockMainWorkshopCardComponent],
-      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+      declarations: [
+        MainComponent,
+        FooterComponent,
+        MockMainCategoryCardComponent,
+        MockMainWorkshopCardComponent,
+        MockConfirmationModalWindowComponent
+      ],
+      providers: [
+        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: jest.fn().mockReturnValue({
+              afterClosed: () => of(undefined)
+            })
+          }
+        }
+      ]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MainComponent);
     component = fixture.componentInstance;
+    Object.defineProperty(component, 'hasUnfinishedWorkshopData$', {
+      get: () => hasUnfinishedWorkshopData$.asObservable()
+    });
+    Object.defineProperty(component, 'isModalShown$', {
+      get: () => isModalShown$.asObservable()
+    });
     store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    dialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
@@ -60,6 +98,48 @@ describe('MainComponent', () => {
 
     expect(component.onRegister).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(new Login(true));
+  });
+  describe('Draft Functionality', () => {
+    it('should continue draft and navigate to create-workshop/draft', () => {
+      jest.spyOn(router, 'navigate');
+      component.continueUnfinishedCreation();
+      expect(router.navigate).toHaveBeenCalledWith(['/create-workshop', 'unfinished']);
+    });
+
+    it('should cancel draft and dispatch OnDeleteDraftWorkshop', () => {
+      jest.spyOn(store, 'dispatch');
+      component.cancelUnfinishedCreation();
+      expect(store.dispatch).toHaveBeenCalledWith(expect.any(OnDeleteUnfinishedWorkshop));
+    });
+
+    it('should show dialog when draft data exists', () => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(true);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not show dialog multiple times', fakeAsync(() => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      const dialogSpy = jest.spyOn(dialog, 'open');
+      hasUnfinishedWorkshopData$.next(true);
+      fixture.detectChanges();
+      tick(2000);
+
+      isModalShown$.next(true);
+      fixture.detectChanges();
+
+      const initialCalls = showDialogSpy.mock.calls.length;
+      const initialDialogCalls = dialogSpy.mock.calls.length;
+
+      hasUnfinishedWorkshopData$.next(true);
+      fixture.detectChanges();
+      tick(2000);
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(initialCalls);
+      expect(dialogSpy).toHaveBeenCalledTimes(initialDialogCalls);
+    }));
   });
 });
 
@@ -148,4 +228,12 @@ class MockMainCategoryCardComponent {
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isCreateFormView: boolean;
+}
+
+@Component({
+  selector: 'app-confirmation-modal-window',
+  template: ''
+})
+class MockConfirmationModalWindowComponent {
+  @Input() data: any;
 }

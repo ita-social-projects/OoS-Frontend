@@ -83,6 +83,7 @@ import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
+import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 
 @NgModule({
   declarations: [
@@ -158,7 +159,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ThemeSwitcherComponent,
     ScrollToTopComponent,
     DateInputDirective,
-    ServerErrorPageComponent
+    ServerErrorPageComponent,
+    TimeRemainingPipe
   ],
 
   imports: [
@@ -244,7 +246,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ThemeSwitcherComponent,
     ScrollToTopComponent,
     DateInputDirective,
-    ServerErrorPageComponent
+    ServerErrorPageComponent,
+    TimeRemainingPipe
   ]
 })
 export class SharedModule {}

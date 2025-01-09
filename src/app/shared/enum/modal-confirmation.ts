@@ -43,7 +43,8 @@ export enum ModalConfirmationType {
   updateAdmin = 'updateAdmin',
   licenseApproved = 'licenseApproved',
   publishWorkshop = 'publishWorkshop',
-  archiveWorkshop = 'archiveWorkshop'
+  archiveWorkshop = 'archiveWorkshop',
+  incompleteWorkshop = 'incompleteWorkshop'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
@@ -95,7 +96,8 @@ export enum ModalConfirmationTitle {
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_ADMIN',
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_WORKSHOP',
-  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP'
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP',
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP'
 }
 
 export enum ModalConfirmationText {
@@ -141,7 +143,8 @@ export enum ModalConfirmationText {
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_ADMIN',
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_WORKSHOP',
-  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP'
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP',
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP'
 }
 
 export enum ModalConfirmationDescription {

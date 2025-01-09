@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear class="main-stepper">
+      <mat-horizontal-stepper #stepper linear>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
@@ -27,7 +27,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AboutFormGroup.invalid"
+              (click)="saveUnfinishedData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -50,7 +55,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AdditionalAboutGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AdditionalAboutGroup?.invalid"
+              (click)="saveUnfinishedData(AdditionalAboutGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -74,7 +84,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="DescriptionFormGroup?.invalid"
+              (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -98,7 +113,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="WorkshopContactsFormArray?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AddressFormGroup?.invalid"
+              (click)="saveUnfinishedData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
