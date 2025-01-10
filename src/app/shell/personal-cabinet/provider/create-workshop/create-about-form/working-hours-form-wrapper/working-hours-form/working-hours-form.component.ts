@@ -52,7 +52,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
-      if (value) {
+      if (value && !this.startTimeFormControl.errors?.invalidTimeFormat) {
         this.endTimeFormControl.enable({ emitEvent: false });
       } else {
         this.endTimeFormControl.disable({ emitEvent: false });
@@ -126,7 +126,11 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   public validateTimeInput(value: string): string {
-    return value.replace(TIME_REGEX_REPLACE, '');
+    value = value.replace(TIME_REGEX_REPLACE, '');
+    if (value.length > 2 && !value.includes(':')) {
+      value = value.slice(0, 2) + ':' + value.slice(2);
+    }
+    return value;
   }
 
   public markWorkDaysAsTouched(): void {
