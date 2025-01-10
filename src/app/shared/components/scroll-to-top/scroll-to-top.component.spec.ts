@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxsModule } from '@ngxs/store';
-
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 describe('ScrollToTopComponent', () => {

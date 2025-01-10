@@ -1,10 +1,8 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AppState } from 'shared/store/app.state';
-import { FilterState } from 'shared/store/filter.state';
-import { FilterStateModel } from 'shared/models/filter-state.model';
 import { Constants } from 'shared/constants/constants';
 
 @Component({
@@ -12,12 +10,10 @@ import { Constants } from 'shared/constants/constants';
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.scss']
 })
-export class ScrollToTopComponent implements OnInit, AfterViewChecked {
+export class ScrollToTopComponent implements OnInit, AfterViewInit {
   @Input() public results: number;
   @Select(AppState.isMobileScreen)
   public isMobileView$: Observable<boolean>;
-  @Select(FilterState)
-  public filterState$: Observable<FilterStateModel>;
   public shouldBeSticky: boolean = false;
   public showScroll: boolean = false;
   public footerHeight: number;
@@ -44,12 +40,12 @@ export class ScrollToTopComponent implements OnInit, AfterViewChecked {
     this.checkScreenWidth();
   }
 
-  public ngAfterViewChecked(): void {
-    this.footerHeight = this.renderer.selectRootElement('app-footer', true).offsetHeight;
-    if (this.footerHeight) {
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.footerHeight = this.renderer.selectRootElement('app-footer', true).offsetHeight;
       this.checkSticky();
       this.changeDetection.detectChanges();
-    }
+    });
   }
 
   public scrollToTop(): void {

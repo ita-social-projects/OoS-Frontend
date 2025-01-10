@@ -1,6 +1,6 @@
 <button
   mat-raised-button
-  *ngIf="!(filterState$ | async).isLoading && showScroll"
+  *ngIf="showScroll"
   class="to-top-btn"
   color="primary"
   [ngStyle]="!shouldBeSticky ? { 'bottom.px': footerHeight } : {}"
