@@ -9,7 +9,6 @@
   <div class="workshops-search flex flex-row items-center justify-between flex-1 max-lg:flex-col max-lg:justify-center max-lg:flex-wrap">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
-  <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
 </div>
 
 <mat-drawer-container>
@@ -37,13 +36,7 @@
   </mat-drawer-content>
 </mat-drawer-container>
 
-<app-result-to-top-btn
-  class="to-top-btn"
-  [hidden]="(filterState$ | async).isLoading || isMobileView"
-  [class.sticky]="shouldBeSticky"
-  [ngStyle]="!shouldBeSticky ? { 'bottom.px': footerHeight } : {}"
-  [results]="(filteredWorkshops$ | async)?.totalAmount"
-  #stickyButton></app-result-to-top-btn>
+<app-scroll-to-top [results]="(filteredWorkshops$ | async)?.totalAmount"></app-scroll-to-top>
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">
