@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -22,7 +22,8 @@ import { Util } from 'shared/utils/utils';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
-  styleUrls: ['./filters-list.component.scss']
+  styleUrls: ['./filters-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Constants } from 'shared/constants/constants';
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.scss']
 })
-export class ScrollToTopComponent implements OnInit, AfterViewInit {
+export class ScrollToTopComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public results: number;
   @Select(AppState.isMobileScreen)
   public isMobileView$: Observable<boolean>;
@@ -18,12 +18,10 @@ export class ScrollToTopComponent implements OnInit, AfterViewInit {
   public showScroll: boolean = false;
   public footerHeight: number;
   public isSmallScreen: boolean;
+  private observer: ResizeObserver;
   private readonly constants: typeof Constants = Constants;
 
-  constructor(
-    private renderer: Renderer2,
-    private changeDetection: ChangeDetectorRef
-  ) {}
+  constructor(private renderer: Renderer2) {}
 
   @HostListener('window:resize', [])
   public onResize(): void {
@@ -41,11 +39,19 @@ export class ScrollToTopComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.footerHeight = this.renderer.selectRootElement('app-footer', true).offsetHeight;
-      this.checkSticky();
-      this.changeDetection.detectChanges();
+    const footer = this.renderer.selectRootElement('app-footer', true);
+
+    this.observer = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        this.footerHeight = entry.contentRect.height;
+      });
     });
+
+    this.observer.observe(footer);
+  }
+
+  public ngOnDestroy(): void {
+    this.observer?.disconnect();
   }
 
   public scrollToTop(): void {
