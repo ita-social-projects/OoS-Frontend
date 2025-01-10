@@ -77,10 +77,6 @@ export class SetSearchQueryValue {
   constructor(public payload: string) {}
 }
 
-export class LoadPreviousResults {
-  static readonly type = '[Search] Load Previous Results';
-}
-
 export class AddPreviousResult {
   static readonly type = '[Search] Add Previous Result';
   constructor(public result: string) {}

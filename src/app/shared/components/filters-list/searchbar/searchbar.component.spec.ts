@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
 
-import { LoadPreviousResults, SetSearchQueryValue, AddPreviousResult, RemovePreviousResult } from 'shared/store/filter.actions';
+import { SetSearchQueryValue, AddPreviousResult, RemovePreviousResult } from 'shared/store/filter.actions';
 import { SearchbarComponent } from './searchbar.component';
 
 class MockStore {
@@ -139,10 +139,6 @@ describe('SearchbarComponent', () => {
     (component as any).performSearch();
 
     expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
-  });
-
-  it('should dispatch LoadPreviousResults on initialization', () => {
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new LoadPreviousResults());
   });
 
   it('should save search result by dispatching AddPreviousResult', () => {

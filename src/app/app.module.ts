@@ -10,7 +10,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
+import { NgxsStoragePluginModule, LOCAL_STORAGE_ENGINE, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -38,8 +38,6 @@ import { HeaderComponent } from './header/header.component';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
-import { LocalStorageEngine } from './shared/store/local-storage-engine';
-import { SessionStorageEngine } from './shared/store/session-storage-engine';
 
 registerLocaleData(localeUk);
 
@@ -70,11 +68,11 @@ registerLocaleData(localeUk);
       key: [
         {
           key: AppState,
-          engine: SessionStorageEngine
+          engine: SESSION_STORAGE_ENGINE
         },
         {
           key: 'filter.previousResults',
-          engine: LocalStorageEngine
+          engine: LOCAL_STORAGE_ENGINE
         }
       ]
     }),
@@ -111,9 +109,7 @@ registerLocaleData(localeUk);
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandleInterceptor,
       multi: true
-    },
-    LocalStorageEngine,
-    SessionStorageEngine
+    }
   ],
   bootstrap: [AppComponent]
 })

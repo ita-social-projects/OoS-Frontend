@@ -7,7 +7,7 @@ import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, t
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { Navigation } from 'shared/models/navigation.model';
-import { AddPreviousResult, LoadPreviousResults, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
 import { SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
@@ -42,8 +42,6 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new LoadPreviousResults());
-
     this.navigationPaths$
       .pipe(takeUntil(this.destroy$))
       .subscribe(

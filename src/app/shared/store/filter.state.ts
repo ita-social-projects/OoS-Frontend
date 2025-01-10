@@ -20,7 +20,6 @@ import {
   FilterChange,
   FilterClear,
   GetFilteredWorkshops,
-  LoadPreviousResults,
   RemovePreviousResult,
   ResetFilteredWorkshops,
   SetCity,
@@ -251,12 +250,6 @@ export class FilterState {
   @Action(SetSearchQueryValue)
   setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
     patchState({ searchQuery: payload, from: 0 });
-  }
-
-  @Action(LoadPreviousResults)
-  loadPreviousResults(ctx: StateContext<FilterStateModel>): void {
-    const state = ctx.getState();
-    ctx.patchState({ previousResults: state.previousResults || [] });
   }
 
   @Action(AddPreviousResult)
