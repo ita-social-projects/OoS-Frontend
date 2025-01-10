@@ -237,7 +237,7 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     PhoneFormControlComponent,
     InfoMenuComponent,
     ImageCarouselComponent,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
     ScrollToTopComponent
   ]
 })
