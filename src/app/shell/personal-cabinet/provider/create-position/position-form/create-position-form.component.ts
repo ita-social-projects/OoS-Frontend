@@ -20,7 +20,6 @@ export class CreatePositionFormComponent implements OnInit {
 
   public PositionFormGroup: FormGroup;
   public readonly validationConstants = ValidationConstants;
-  public seatsAmountRadioBtnControl: FormControl = new FormControl(true);
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -57,12 +56,12 @@ export class CreatePositionFormComponent implements OnInit {
       rate: this.position.rate,
       tariff: this.position.tariff,
       classifierType: this.position.classifierType,
-      isForRuralAres: this.position.isForRuralAres,
+      isForRuralAreas: this.position.isForRuralAreas,
       providerId: this.position.providerId ?? this.provider?.id
     });
 
     const noLimitSeats = this.position.seatsAmount === this.validationConstants.UNLIMITED_SEATS;
-    this.seatsAmountRadioBtnControl.setValue(noLimitSeats, { emitEvent: false });
+    this.PositionFormGroup.get('seatsAmountRadioBtnControl').setValue(noLimitSeats, { emitEvent: false });
 
     if (noLimitSeats) {
       this.setSeatsAmountControlValue(null, 'disable', false);
@@ -100,7 +99,8 @@ export class CreatePositionFormComponent implements OnInit {
         [Validators.required, Validators.min(this.validationConstants.MIN_PRICE), Validators.max(this.validationConstants.MAX_RATE)]
       ],
       classifierType: ['', [Validators.required, Validators.maxLength(this.validationConstants.INPUT_LENGTH_100)]],
-      isForRuralAres: [false],
+      isForRuralAreas: [false],
+      seatsAmountRadioBtnControl: [true],
       providerId: [this.provider.id]
     });
     this.passPositionFormGroup.emit(this.PositionFormGroup);
@@ -111,14 +111,16 @@ export class CreatePositionFormComponent implements OnInit {
   }
 
   private availableSeatsControlListener(): void {
-    this.seatsAmountRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
-      this.markFormAsDirtyOnUserInteraction();
-      if (noLimit) {
-        this.setSeatsAmountControlValue(null, 'disable');
-      } else {
-        this.setSeatsAmountControlValue(this.validationConstants.MIN_SEATS, 'enable');
-      }
-    });
+    this.PositionFormGroup.get('seatsAmountRadioBtnControl')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((noLimit: boolean) => {
+        this.markFormAsDirtyOnUserInteraction();
+        if (noLimit) {
+          this.setSeatsAmountControlValue(null, 'disable');
+        } else {
+          this.setSeatsAmountControlValue(this.validationConstants.MIN_SEATS, 'enable');
+        }
+      });
   }
 
   private setSeatsAmountControlValue(seatsAmount: number = null, action: string = 'disable', emitEvent: boolean = true): void {

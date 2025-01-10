@@ -60,7 +60,7 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_500">
   </app-validation-hint>
 
-  <mat-checkbox class="step-label" color="primary" formControlName="isForRuralAres">
+  <mat-checkbox class="step-label" color="primary" formControlName="isForRuralAreas">
     {{ 'FORMS.LABELS.FOR_RURAL_AREAS' | translate }}
   </mat-checkbox>
 
@@ -86,7 +86,7 @@
         >{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label
       >
     </div>
-    <mat-radio-group [formControl]="seatsAmountRadioBtnControl" color="primary">
+    <mat-radio-group formControlName="seatsAmountRadioBtnControl" color="primary">
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
