@@ -448,7 +448,7 @@
       "USER_DIRECTIONS": "Напрямки для користувача",
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
-    },      "SHORT_TITLE": "Скорочена назва",
+      "SHORT_TITLE": "Скорочена назва",
       "DEFAULT_TEACHER": "Викладач за замовчуванням",
       "SHORT_STAY": "Короткотривалого перебування",
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
@@ -472,6 +472,7 @@
       "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
       "CREATED_AT": "Дата створення",
       "LANGUAGE": "Мова"
+    },
 
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
