@@ -6,6 +6,8 @@ import { NgxsModule } from '@ngxs/store';
 import { ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
+import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProviderStatusBannerComponent } from './provider-status-banner.component';
 
 describe('FullWidthBannerComponent', () => {
@@ -14,8 +16,9 @@ describe('FullWidthBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), MatIconModule],
-      declarations: [ProviderStatusBannerComponent]
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), MatIconModule, HttpClientTestingModule],
+      declarations: [ProviderStatusBannerComponent],
+      providers: [UserWorkshopService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProviderStatusBannerComponent);
