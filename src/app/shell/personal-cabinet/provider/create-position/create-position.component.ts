@@ -9,9 +9,9 @@ import { Observable, takeUntil, filter, tap } from 'rxjs';
 import { ProviderState } from 'shared/store/provider.state';
 import { FormGroup } from '@angular/forms';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { Util } from 'shared/utils/utils';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ValidationConstants } from 'shared/constants/validation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
@@ -108,8 +108,7 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
