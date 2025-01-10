@@ -5,7 +5,7 @@ export class Position {
   id?: string;
   language: string;
   description: string;
-  isForRuralAres?: boolean;
+  isForRuralAreas?: boolean;
   department: string;
   seatsAmount: number;
   fullName: string;
@@ -22,7 +22,7 @@ export class Position {
   constructor(position: Partial<Position>, provider: Provider, id?: string) {
     this.language = position.language;
     this.description = position.description;
-    this.isForRuralAres = position.isForRuralAres ?? false;
+    this.isForRuralAreas = position.isForRuralAreas ?? false;
     this.department = position.department;
     this.providerId = provider.id;
     this.contactId = position.contactId || '';
