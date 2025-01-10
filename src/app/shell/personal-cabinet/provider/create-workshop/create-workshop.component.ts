@@ -82,7 +82,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
-    this.loadDraftData();
+    if (this.route.snapshot.paramMap.get('param') === 'draft') {
+      this.loadDraftData();
+    }
   }
 
   public ngAfterContentChecked(): void {
@@ -171,7 +173,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       );
     }
     workshopData.dateTimeRanges[0].id = 1;
-    console.log('DRAFT', workshopData);
     this.workshop = workshopData;
     setTimeout(() => {
       this.stepper.selectedIndex = data.currentStep;
