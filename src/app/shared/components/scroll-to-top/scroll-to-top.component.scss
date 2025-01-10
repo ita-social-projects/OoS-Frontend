@@ -2,12 +2,21 @@
   position: absolute;
   margin-bottom: 2rem;
   animation: fadeIn 0.3s ease-out;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 1rem;
+
+  .mat-icon {
+    margin: 0;
+  }
 }
 
 .sticky {
   position: fixed;
   bottom: 2rem;
   margin: 0;
+  z-index: 999;
 }
 
 .desktop {
@@ -15,8 +24,7 @@
 }
 
 .mobile {
-  right: 50%;
-  transform: translateX(50%);
+  right: 2rem;
 }
 
 @keyframes fadeIn {
@@ -25,11 +33,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-@media (max-width: 840px) {
-  .to-top-btn .mat-icon {
-    margin: 0;
   }
 }

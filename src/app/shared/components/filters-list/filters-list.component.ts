@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
@@ -51,7 +51,6 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   public filterList: FilterList;
   private visibleFiltersSidenav: boolean;
-  private statuses: WorkshopOpenStatus[];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -63,8 +62,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       .subscribe(([visibleFiltersSidenav, filterList]) => {
         this.visibleFiltersSidenav = visibleFiltersSidenav;
         this.filterList = filterList;
-        this.statuses = filterList.statuses;
-        this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
+        this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
+        this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });
+        this.WithDisabilityOptionControl.setValue(this.filterList.withDisabilityOption, { emitEvent: false });
       });
 
     combineLatest(
@@ -78,12 +78,12 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
     this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
       this.statusHandler(val, this.workshopStatus.Open);
-      this.store.dispatch(new SetOpenRecruitment(this.statuses));
+      this.store.dispatch(new SetOpenRecruitment(this.filterList.statuses));
     });
 
     this.ClosedRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
       this.statusHandler(val, this.workshopStatus.Closed);
-      this.store.dispatch(new SetClosedRecruitment(this.statuses));
+      this.store.dispatch(new SetClosedRecruitment(this.filterList.statuses));
     });
 
     this.WithDisabilityOptionControl.valueChanges
@@ -97,9 +97,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    */
   public statusHandler(val: boolean, status: string): void {
     if (val) {
-      this.statuses.push(this.workshopStatus[status]);
+      this.filterList.statuses.push(this.workshopStatus[status]);
     } else {
-      this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
+      this.filterList.statuses.splice(this.filterList.statuses.indexOf(this.workshopStatus[status]), 1);
     }
   }
 
