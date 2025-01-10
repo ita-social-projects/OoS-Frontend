@@ -121,8 +121,8 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
       this.positionParameters.orderByCreatedAt = false;
       this.positionParameters.orderByFullName = true;
     } else {
-      this.positionParameters.orderByCreatedAt = true;
-      this.positionParameters.orderByFullName = true;
+      this.positionParameters.orderByCreatedAt = false;
+      this.positionParameters.orderByFullName = false;
     }
     this.getPositions();
   }
