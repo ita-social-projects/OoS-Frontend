@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import { UploadExcelComponent } from 'shared/base-components/upload-excel/upload-excel.component';
 import { ImportEmployeesColumnsNames, ImportEmployeesStandardHeaders } from 'shared/enum/enumUA/import-export';
 import { Employee, FieldsConfig } from 'shared/models/admin-import-export.model';
+import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { UserService } from 'shared/services/user/user.service';
 
 @Component({
   selector: 'app-provider-employees-upload',
@@ -36,8 +40,13 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
     }
   ];
 
-  constructor(importValidationService: ImportValidationService, excelService: ExcelUploadProcessorService) {
-    super(importValidationService, excelService);
+  constructor(
+    importValidationService: ImportValidationService,
+    excelService: ExcelUploadProcessorService,
+    employeeUploadProcessor: EmployeeUploadProcessorService,
+    providerService: ProviderService
+  ) {
+    super(importValidationService, excelService, employeeUploadProcessor, providerService);
     this.extendsComponentConfig = this.componentFieldsConfig;
   }
 
@@ -45,6 +54,9 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
     this.setColumnNames(this.displayedColumns);
     this.setStandardHeaders(this.standardHeaders);
     this.initializeLoadingObserver();
+    this.getCurrentProviderId().subscribe((provider) => {
+      this.currentUserId = provider;
+    });
   }
 
   public ngOnDestroy(): void {
