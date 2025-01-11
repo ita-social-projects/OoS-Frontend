@@ -32,7 +32,7 @@
       <mat-card-subtitle>{{ 'IMPORT/EXPORT.HUNDRED_WARNING' | translate }}</mat-card-subtitle>
     </div>
     <ng-container *ngIf="dataSourceInvalid?.length">
-      <mat-slide-toggle [(ngModel)]="isToggle" color="warn">
+      <mat-slide-toggle [(ngModel)]="isToggle" class="custom-color-toggle" color="warn">
         <span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }}</span>
         <span class="incorrect-row-number">{{ dataSourceInvalid.length }}</span>
       </mat-slide-toggle>

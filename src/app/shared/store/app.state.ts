@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
 import { ActivateEditMode, ClearMessageBar, MarkFormDirty, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 

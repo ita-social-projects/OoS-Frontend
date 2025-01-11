@@ -13,11 +13,19 @@ import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Constants } from 'shared/constants/constants';
+import { of } from 'rxjs';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
+  let expectingMatDialogData: object;
+  let matDialog: MatDialog;
+  let matDialogSpy: jest.SpyInstance;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -28,7 +36,8 @@ describe('WorkshopDetailsComponent', () => {
         MatChipsModule,
         NgxsModule.forRoot([]),
         TranslateModule.forRoot(),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDialogModule
       ],
       declarations: [
         WorkshopDetailsComponent,
@@ -38,7 +47,8 @@ describe('WorkshopDetailsComponent', () => {
         MockWorkshopTeachersComponent,
         MockWorkshopAboutComponent,
         ImageCarouselComponent,
-        MockActionsComponent
+        MockActionsComponent,
+        ConfirmationModalWindowComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -49,11 +59,27 @@ describe('WorkshopDetailsComponent', () => {
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
     component.provider = {} as Provider;
+    matDialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open confirmation dialog and dispatch PublishWorkshop on confirm', () => {
+    expectingMatDialogData = {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.publishWorkshop
+      }
+    };
+    matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+      afterClosed: () => of(true)
+    } as MatDialogRef<ConfirmationModalWindowComponent>);
+    component.onActionButtonClick(ModalConfirmationType.publishWorkshop);
+    expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
   });
 });
 @Component({

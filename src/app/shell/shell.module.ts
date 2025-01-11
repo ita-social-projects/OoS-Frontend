@@ -23,7 +23,7 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
-import { NotProviderAdminGuard } from './personal-cabinet/provider/not-provider-admin.guard';
+import { NotEmployeeGuard } from './personal-cabinet/provider/not-employee.guard';
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { OrderingComponent } from './result/ordering/ordering.component';
 import { ResultComponent } from './result/result.component';
@@ -64,7 +64,7 @@ import { CreateParentGuard } from './personal-cabinet/parent/create-parent/creat
     CreateProviderGuard,
     CreateParentGuard,
     IsMobileGuard,
-    NotProviderAdminGuard,
+    NotEmployeeGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },

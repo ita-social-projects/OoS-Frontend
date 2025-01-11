@@ -18,7 +18,6 @@ export class ImagesService {
 
   public setCarouselImages(entity: Workshop | Provider): ImgPath[] {
     let images: ImgPath[];
-
     if (entity.imageIds?.length) {
       images = entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
     } else {

@@ -65,12 +65,12 @@ describe('SearchbarComponent', () => {
     jest.spyOn(component.searchValueFormControl, 'setValue');
     jest.spyOn(component.invalidCharacterDetected, 'emit');
 
-    const inputValue = 'Test@Value#123';
-    const expectedValue = 'TestValue123';
+    const inputValue = 'Test@Value-#123';
+    const expectedValue = 'TestValue-123';
 
     component.handleInvalidCharacter(inputValue);
 
-    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue);
+    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue, { emitEvent: false });
     expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
   });
 });

@@ -34,14 +34,12 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
-        <ng-container *ngIf="!isCabinetView">
-          <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
-            <span class="card_link">
-              {{ 'MORE_DETAILS' | translate }}
-            </span>
-            <mat-icon>arrow_forward</mat-icon>
-          </a>
-        </ng-container>
+        <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
+          <span class="card_link">
+            {{ 'MORE_DETAILS' | translate }}
+          </span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
         <ng-container *ngIf="isCabinetView">
           <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
             <mat-icon>add</mat-icon>

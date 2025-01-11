@@ -11,17 +11,17 @@ import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew } from 'shared/enum/enumUA/provider-admin';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { EmployeesFormTitlesEdit, EmployeesFormTitlesNew } from 'shared/enum/enumUA/employee';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { ProviderAdminRole } from 'shared/enum/provider-admin';
-import { Role, Subrole } from 'shared/enum/role';
+import { EmployeeRole } from 'shared/enum/employee';
+import { Role } from 'shared/enum/role';
 import { TruncatedItem } from 'shared/models/item.model';
-import { ProviderAdmin } from 'shared/models/provider-admin.model';
+import { Employee } from 'shared/models/employee.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin } from 'shared/store/provider.actions';
+import { CreateEmployee, GetEmployeeById, GetWorkshopListByProviderId, UpdateEmployee } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
@@ -34,32 +34,32 @@ const defaultValidators: ValidatorFn[] = [
 ];
 
 @Component({
-  selector: 'app-create-provider-admin',
-  templateUrl: './create-provider-admin.component.html',
-  styleUrls: ['./create-provider-admin.component.scss']
+  selector: 'app-create-employee',
+  templateUrl: './create-employee.component.html',
+  styleUrls: ['./create-employee.component.scss']
 })
-export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class CreateEmployeeComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
   public truncatedItems$: Observable<TruncatedItem[]>;
-  @Select(ProviderState.selectedProviderAdmin)
-  public providerAdmin$: Observable<ProviderAdmin>;
+  @Select(ProviderState.selectedEmployee)
+  public employee$: Observable<Employee>;
 
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly WorkshopDeclination = WorkshopDeclination;
-  public readonly providerAdminRole = ProviderAdminRole;
+  public readonly employeeRole = EmployeeRole;
 
-  public ProviderAdminFormGroup: FormGroup;
+  public EmployeeFormGroup: FormGroup;
   public managedWorkshopIds: string[];
   public isDeputy: boolean;
   public entityControl = new FormControl();
   public formTitle: string;
 
   private provider: Provider;
-  private providerRole: ProviderAdminRole;
-  private providerAdminId: string;
+  private providerRole: EmployeeRole;
+  private employeeId: string;
 
   constructor(
     protected store: Store,
@@ -71,7 +71,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   ) {
     super(store, route, navigationBarService);
 
-    this.ProviderAdminFormGroup = this.formBuilder.group({
+    this.EmployeeFormGroup = this.formBuilder.group({
       lastName: new FormControl('', [Validators.required, ...defaultValidators]),
       firstName: new FormControl('', [Validators.required, ...defaultValidators]),
       middleName: new FormControl('', defaultValidators),
@@ -79,10 +79,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       email: new FormControl('', [Validators.required, FormValidators.email])
     });
 
-    this.providerRole = ProviderAdminRole[this.route.snapshot.paramMap.get('param')];
-    this.isDeputy = this.providerRole === ProviderAdminRole.deputy;
+    this.providerRole = EmployeeRole[this.route.snapshot.paramMap.get('param')];
+    this.isDeputy = this.providerRole === EmployeeRole.deputy;
 
-    this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
+    this.subscribeOnDirtyForm(this.EmployeeFormGroup);
   }
 
   public ngOnInit(): void {
@@ -96,9 +96,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   public determineEditMode(): void {
-    this.providerAdminId = this.route.snapshot.paramMap.get('id');
-    this.editMode = !!this.providerAdminId;
-    this.formTitle = this.editMode ? ProviderAdminsFormTitlesEdit[this.providerRole] : ProviderAdminsFormTitlesNew[this.providerRole];
+    this.employeeId = this.route.snapshot.paramMap.get('id');
+    this.editMode = !!this.employeeId;
+    this.formTitle = this.editMode ? EmployeesFormTitlesEdit[this.providerRole] : EmployeesFormTitlesNew[this.providerRole];
     this.addNavPath();
 
     if (this.editMode) {
@@ -107,7 +107,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   public setEditMode(): void {
-    const editObservables: Observable<ProviderAdmin | TruncatedItem[]>[] = [this.providerAdmin$.pipe(filter(Boolean))];
+    const editObservables: Observable<Employee | TruncatedItem[]>[] = [this.employee$.pipe(filter(Boolean))];
 
     if (!this.isDeputy) {
       editObservables.push(this.truncatedItems$.pipe(filter(Boolean)));
@@ -115,30 +115,29 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     combineLatest(editObservables)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => {
-        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
+      .subscribe(([employee, allEntities]: [Employee, TruncatedItem[]]) => {
+        this.EmployeeFormGroup.patchValue(employee, { emitEvent: false });
         if (allEntities) {
           this.entityControl.setValue(
             allEntities.filter((entity: TruncatedItem) =>
-              providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
+              employee.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
             )
           );
         }
       });
 
-    this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
+    this.store.dispatch(new GetEmployeeById(this.employeeId));
   }
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
     let navBarTitle: string;
 
     if (this.editMode) {
-      navBarTitle = this.isDeputy ? NavBarName.UpdateProviderDeputy : NavBarName.UpdateProviderAdmin;
+      navBarTitle = this.isDeputy ? NavBarName.UpdateProviderDeputy : NavBarName.UpdateEmployee;
     } else {
-      navBarTitle = this.isDeputy ? NavBarName.CreateProviderDeputy : NavBarName.CreateProviderAdmin;
+      navBarTitle = this.isDeputy ? NavBarName.CreateProviderDeputy : NavBarName.UpdateEmployee;
     }
 
     this.store.dispatch(
@@ -178,9 +177,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     let confirmationType: string;
 
     if (this.editMode) {
-      confirmationType = this.isDeputy ? ModalConfirmationType.updateProviderAdminDeputy : ModalConfirmationType.updateProviderAdmin;
+      confirmationType = this.isDeputy ? ModalConfirmationType.updateEmployeeDeputy : ModalConfirmationType.updateEmployee;
     } else {
-      confirmationType = this.isDeputy ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin;
+      confirmationType = this.isDeputy ? ModalConfirmationType.createEmployeeDeputy : ModalConfirmationType.createEmployee;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -194,16 +193,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        const providerAdmin = new ProviderAdmin(
-          this.ProviderAdminFormGroup.value,
-          this.isDeputy,
-          this.providerAdminId,
-          this.managedWorkshopIds,
-          this.provider.id
-        );
-        this.store.dispatch(
-          this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin)
-        );
+        const employee = new Employee(this.EmployeeFormGroup.value, this.employeeId, this.managedWorkshopIds, this.provider.id);
+        this.store.dispatch(this.editMode ? new UpdateEmployee(this.provider.id, employee) : new CreateEmployee(employee));
       });
   }
 
@@ -212,11 +203,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   /**
-   * This method makes ProviderAdminFormGroup dirty
+   * This method makes EmployeeFormGroup dirty
    */
   public markFormAsDirtyOnUserInteraction(): void {
-    if (!this.ProviderAdminFormGroup.dirty) {
-      this.ProviderAdminFormGroup.markAsDirty({ onlySelf: true });
+    if (!this.EmployeeFormGroup.dirty) {
+      this.EmployeeFormGroup.markAsDirty({ onlySelf: true });
     }
   }
 }

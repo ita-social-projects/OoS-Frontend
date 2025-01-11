@@ -157,7 +157,9 @@ describe('CreateInfoFormComponent', () => {
         legalAddress: null,
         institution: null,
         institutionType: InstitutionTypes.Complex,
-        providerSectionItems: []
+        providerSectionItems: [],
+        coverImage: null,
+        coverImageId: ''
       };
     });
 

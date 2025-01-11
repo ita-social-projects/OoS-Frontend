@@ -1,8 +1,60 @@
-.image-container {
-  height: 300px;
+$image-height: 400px;
+$dots-height: 24px;
+$icon-size: 24px;
+$button-size: 50px;
+$button-bg-color-hover: #3849f9;
+$button-padding: 50px;
 
-  .image {
-    object-fit: contain;
-    width: 100%;
+.image {
+  object-fit: contain;
+  width: 100%;
+  height: $image-height;
+  position: relative;
+}
+
+:host ::ng-deep .owl-carousel {
+  position: relative;
+
+  .owl-prev,
+  .owl-next {
+    position: absolute;
+    top: calc(50% - $dots-height);
+    width: $button-size;
+    height: $button-size;
+    transform: translateY(-50%);
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.1s;
+
+    &:hover {
+      background-color: $button-bg-color-hover;
+    }
+  }
+
+  .owl-prev {
+    left: 0;
+    margin-left: $button-padding;
+
+    span {
+      position: absolute;
+      left: calc($button-size / 2 - $icon-size / 3);
+    }
+  }
+
+  .owl-next {
+    right: 0;
+    margin-right: $button-padding;
+  }
+
+  .owl-dots {
+    .owl-dot {
+      &:hover span,
+      &.active span {
+        background-color: $button-bg-color-hover;
+      }
+    }
   }
 }

@@ -44,7 +44,7 @@ describe('CreatePhotoFormComponent', () => {
     component = fixture.componentInstance;
     component.PhotoFormGroup = new FormGroup({
       imageFiles: new FormControl(''),
-      imageIds: new FormControl(''),
+      imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl('', Validators.required),
       facebook: new FormControl(''),
       instagram: new FormControl(''),

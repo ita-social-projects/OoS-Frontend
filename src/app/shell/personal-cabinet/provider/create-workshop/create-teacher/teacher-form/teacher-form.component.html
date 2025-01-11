@@ -2,6 +2,16 @@
   [formGroup]="TeacherForm"
   class="step flex flex-col box-border items-stretch justify-center"
   [class.step-border]="teacherAmount > 1 && index !== teacherAmount - 1">
+  <mat-checkbox
+    class="step-label"
+    color="primary"
+    formControlName="defaultTeacher"
+    (focusout)="onFocusOut('defaultTeacher')"
+    id="default-teacher"
+    >{{ 'FORMS.LABELS.DEFAULT_TEACHER' | translate }}</mat-checkbox
+  >
+  <app-validation-hint [validationFormControl]="TeacherFormGroup.get('defaultTeacher')"> </app-validation-hint>
+
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"

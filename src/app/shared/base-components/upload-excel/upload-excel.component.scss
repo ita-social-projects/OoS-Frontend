@@ -7,6 +7,10 @@ $wrong-language: #22b01280;
 $wrong-format: #ffff0080;
 $length-warning-message: #ff0000;
 
+::ng-deep .custom-color-toggle .mdc-switch__track::before {
+  background-color: #e5e9f2 !important;
+}
+
 .import-buttons {
   display: flex;
   align-items: center;

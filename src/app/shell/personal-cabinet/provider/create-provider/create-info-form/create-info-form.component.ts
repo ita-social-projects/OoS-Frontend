@@ -150,7 +150,9 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ])
+      ]),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl('')
     });
   }
 

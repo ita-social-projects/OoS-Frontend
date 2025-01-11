@@ -12,6 +12,10 @@
   padding: 1rem;
   min-width: 20px !important;
 
+  .mat-icon {
+    margin: 0;
+  }
+
   &-selected {
     color: #3849f9;
   }

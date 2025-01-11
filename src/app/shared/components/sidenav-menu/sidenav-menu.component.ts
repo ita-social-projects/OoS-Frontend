@@ -17,6 +17,7 @@ import { SidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
 import { Login, Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-sidenav-menu',
@@ -30,8 +31,6 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   public sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.user)
   public user$: Observable<User>;
-  @Select(RegistrationState.subrole)
-  public subrole$: Observable<string>;
   @Select(RegistrationState.isAuthorized)
   public isAuthorized$: Observable<string>;
   @Select(MetaDataState.featuresList)
@@ -42,6 +41,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   public readonly Role = Role;
   public readonly RoleLinks = RoleLinks;
   public readonly title = 'out-of-school';
+  public readonly isRoleProvider = isRoleProvider;
 
   public showModalReg = false;
   public visibleSidenav: boolean;

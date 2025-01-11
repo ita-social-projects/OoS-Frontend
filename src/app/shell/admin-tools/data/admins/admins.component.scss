@@ -6,22 +6,28 @@
 .table-wrapper {
   padding: 1rem;
 }
+
 .admins-wrapper {
   position: relative;
 }
+
 .tab-wrapper {
   margin-bottom: 4rem;
 }
+
 .search-bar {
   margin-right: 1rem;
 }
+
 .btn {
   margin: 0;
+  height: 40px;
 
   mat-icon {
     height: auto;
   }
 }
+
 @media (max-width: 1340px) {
   .search-area {
     position: static;
@@ -31,6 +37,7 @@
     .mat-menu-panel.header_menu {
       background-color: #fff;
     }
+
     .mat-menu-item {
       color: rgba(0, 0, 0, 0.87);
     }

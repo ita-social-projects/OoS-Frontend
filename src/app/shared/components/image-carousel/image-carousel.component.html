@@ -1,3 +1,5 @@
-<div class="image-container">
-  <img class="image" [src]="images[0]?.path" alt="Image of workshop or provider" height="300" appCustomCarousel />
-</div>
+<owl-carousel-o [options]="customOptions">
+  <ng-template carouselSlide *ngFor="let image of images">
+    <img class="image" [src]="image.path" alt="{{ 'ALT.IMAGE_WORKSHOP_PROVIDER' | translate }}" />
+  </ng-template>
+</owl-carousel-o>
