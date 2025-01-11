@@ -17,6 +17,14 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScrollToTopComponent);
+    const template = document.createElement('div');
+    template.innerHTML = '<app-footer></app-footer>';
+    document.body.appendChild(template);
+    (window as any).ResizeObserver = class {
+      observe() {}
+
+      disconnect() {}
+    };
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,8 +5,7 @@
   color="primary"
   [ngStyle]="!shouldBeSticky ? { 'bottom.px': footerHeight } : {}"
   [class.sticky]="shouldBeSticky"
-  (click)="scrollToTop()"
-  [ngClass]="(isMobileView$ | async) ? 'mobile' : 'desktop'">
+  (click)="scrollToTop()">
   <span *ngIf="results && !isSmallScreen">{{ results }}</span>
   <mat-icon iconPositionEnd>arrow_upward</mat-icon>
 </button>
