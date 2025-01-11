@@ -26,6 +26,7 @@
     }
     .workshop_actions {
       flex: 0.5;
+      min-width: 352px;
     }
     & > div > .card-block__child-name {
       min-width: 250px !important;
@@ -118,6 +119,12 @@
       justify-content: center;
       gap: 10px;
       max-width: 176px;
+    }
+
+    &__info {
+      .workshop_actions {
+        min-width: 160px;
+      }
     }
   }
 }

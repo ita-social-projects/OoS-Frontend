@@ -1,10 +1,10 @@
-export enum ProviderAdminRole {
+export enum EmployeeRole {
   all = 'all',
   deputy = 'deputy',
   admin = 'admin'
 }
 
-export enum ProviderAdminParams {
+export enum EmployeeParams {
   all,
   deputy,
   admin

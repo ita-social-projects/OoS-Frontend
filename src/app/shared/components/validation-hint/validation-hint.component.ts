@@ -32,6 +32,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For min number validation
   @Input() public minNumberValue: number;
 
+  // For form level validation
+  @Input() public formLevelValidation: boolean;
+
   public required: boolean;
   public invalidSymbols: boolean;
   public invalidCharacters: boolean;
@@ -47,6 +50,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidSectionName: boolean;
   public mustContainLetters: boolean;
   public invalidSearch: boolean;
+  public invalidTimeFormat: boolean;
+  public invalidTimeRange: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -54,7 +59,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
-      if (this.validationFormControl instanceof FormGroup) {
+      if (this.formLevelValidation) {
+        this.checkFormLevelValidationErrors(this.validationFormControl.errors);
+      } else if (this.validationFormControl instanceof FormGroup) {
         Object.keys(this.validationFormControl.controls).forEach((key) => {
           this.updateValidationState(this.validationFormControl.get(key) as FormControl);
         });
@@ -114,6 +121,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
+    this.invalidTimeFormat = errors?.invalidTimeFormat;
+  }
+
+  private checkFormLevelValidationErrors(errors: ValidationErrors): void {
+    this.invalidTimeRange = errors?.invalidTimeRange;
   }
 
   private checkInvalidText(errors: ValidationErrors): void {

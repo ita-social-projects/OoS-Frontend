@@ -211,7 +211,7 @@ export class MetaDataState {
   ): Observable<SearchResponse<Rate[]>> {
     patchState({ isLoading: true });
     return this.ratingService
-      .getRateByEntityId(rateParameters)
+      .getWorkshopRateByEntityId(rateParameters)
       .pipe(tap((rating: SearchResponse<Rate[]>) => patchState({ rating: rating ?? EMPTY_RESULT, isLoading: false })));
   }
 

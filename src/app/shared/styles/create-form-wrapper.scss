@@ -75,12 +75,9 @@ h3 {
   max-width: 654px;
 }
 
-::ng-deep .mat-checkbox-label {
+.mat-mdc-checkbox .mdc-label {
   white-space: normal;
-}
-
-::ng-deep .mat-checkbox-layout .mat-checkbox-label {
-  font-family: unset !important;
+  font-family: unset;
 }
 
 .link {

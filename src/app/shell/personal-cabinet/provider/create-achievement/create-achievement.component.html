@@ -45,7 +45,7 @@
                 placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
                 [compareWith]="compareEntities">
                 <mat-select-trigger>
-                  <mat-chip-list>
+                  <mat-chip-set>
                     <mat-chip
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
@@ -60,7 +60,7 @@
                       </div>
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
-                  </mat-chip-list>
+                  </mat-chip-set>
                 </mat-select-trigger>
                 <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option">
                   <div
@@ -105,7 +105,7 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
               [compareWith]="compareEntities">
               <mat-select-trigger>
-                <mat-chip-list #chipList>
+                <mat-chip-set #chipSet>
                   <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
                     <div
                       class="truncated-text"
@@ -117,7 +117,7 @@
                     </div>
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
-                </mat-chip-list>
+                </mat-chip-set>
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
                 <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option">

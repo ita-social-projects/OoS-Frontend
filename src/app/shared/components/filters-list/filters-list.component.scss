@@ -11,6 +11,7 @@
 .side-nav-filter {
   width: 100%;
 }
+
 .search-bar {
   background: #ffffff;
   padding: 0 1rem;
@@ -18,10 +19,12 @@
   box-sizing: border-box;
   border-radius: 60px;
 }
+
 .list {
   list-style-type: none;
   margin-top: 4px;
 }
+
 .filter-text {
   margin: 0;
   margin-bottom: 16px;
@@ -30,6 +33,7 @@
   line-height: 14.6px;
   color: #444444;
 }
+
 .check-boxes {
   margin-top: 30px;
 
@@ -40,7 +44,7 @@
   }
 }
 
-.resetFilter {
+.reset-filter {
   padding: 0;
   margin-bottom: 3px;
   font-family: Innerspace;

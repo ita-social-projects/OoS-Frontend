@@ -41,6 +41,19 @@ export abstract class WorkshopBase {
   providerId: string;
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
+  tagIds: number[];
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  enrollmentProcedureDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  specialNeedsType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  educationalShift: string;
+  ageComposition: string;
+  coverage: string;
+  workshopType: string;
 
   constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -58,14 +71,27 @@ export abstract class WorkshopBase {
     this.competitiveSelectionDescription = about.competitiveSelectionDescription;
     this.workshopDescriptionItems = description.workshopDescriptionItems;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = description.institutionId;
-    this.institutionHierarchyId = description.institutionHierarchyId;
+    this.institutionId = about.institutionId;
+    this.institutionHierarchyId = about.institutionHierarchyId;
     this.keywords = description.keyWords;
     this.addressId = address.id;
     this.address = address;
     this.teachers = teachers;
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
+    this.tagIds = description.tagIds;
+    this.shortStay = description.shortStay;
+    this.isSelfFinanced = description.isSelfFinanced;
+    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
+    this.isSpecial = description.isSpecial;
+    this.isInclusive = description.isInclusive;
+    this.specialNeedsType = description.specialNeedsType;
+    this.areThereBenefits = description.areThereBenefits;
+    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
+    this.educationalShift = description.educationalShift;
+    this.ageComposition = description.ageComposition;
+    this.coverage = description.coverage;
+    this.workshopType = description.workshopType;
 
     if (id) {
       this.id = id;
@@ -154,6 +180,11 @@ export interface WorkshopBaseCard {
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  enrollmentProcedureDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
@@ -206,14 +237,27 @@ export interface WorkshopAbout {
   competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
+  institutionId: string;
+  institutionHierarchyId: string;
 }
 
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
-  institutionId: string;
-  institutionHierarchyId: string;
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];
+  tagIds: number[];
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  enrollmentProcedureDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  specialNeedsType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  educationalShift: string;
+  ageComposition: string;
+  coverage: string;
+  workshopType: string;
 }

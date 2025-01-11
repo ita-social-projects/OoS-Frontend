@@ -66,12 +66,12 @@
       [compareWith]="compareSocialGroups"
       [formControl]="socialGroupControl">
       <mat-select-trigger>
-        <mat-chip-list #chipList>
+        <mat-chip-set #chipSet>
           <mat-chip *ngFor="let group of socialGroupControl.value" (removed)="onRemoveItem(group)">
             <span>{{ group.name }}</span>
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-set>
       </mat-select-trigger>
       <mat-option class="dropdown-option" *ngFor="let group of socialGroups" [value]="group" [disabled]="checkDisabled(group)">
         {{ group.name }}

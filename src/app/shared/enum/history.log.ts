@@ -1,6 +1,6 @@
 export enum HistoryLogTypes {
   Providers,
-  ProviderAdmins,
+  Employees,
   Applications,
   Users
 }

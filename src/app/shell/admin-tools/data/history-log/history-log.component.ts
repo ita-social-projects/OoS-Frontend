@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
-import { ApplicationOptions, ParentsBlockingByAdminOptions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { ApplicationOptions, ParentsBlockingByAdminOptions, EmployeeOptions, ProviderOptions } from 'shared/constants/drop-down';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
@@ -19,7 +19,7 @@ import {
   DropdownData,
   FilterData,
   ParentsBlockingByAdminHistory,
-  ProviderAdminHistory,
+  EmployeeHistory,
   ProviderHistory
 } from 'shared/models/history-log.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
@@ -27,7 +27,7 @@ import { SearchResponse } from 'shared/models/search.model';
 import {
   GetApplicationHistory,
   GetParentsBlockingByAdminHistory,
-  GetProviderAdminHistory,
+  GetEmployeeHistory,
   GetProviderHistory
 } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
@@ -45,8 +45,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.providerHistory)
   public providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
-  @Select(AdminState.providerAdminHistory)
-  public providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
+  @Select(AdminState.employeeHistory)
+  public employeeHistory$: Observable<SearchResponse<EmployeeHistory[]>>;
   @Select(AdminState.applicationHistory)
   public applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
   @Select(AdminState.parentsBlockingByAdminHistory)
@@ -150,10 +150,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.dropdownData = ProviderOptions;
         this.tabName = HistoryLogTypes.Providers;
         break;
-      case HistoryLogTypes.ProviderAdmins:
-        this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
-        this.dropdownData = ProviderAdminOptions;
-        this.tabName = HistoryLogTypes.ProviderAdmins;
+      case HistoryLogTypes.Employees:
+        this.store.dispatch([new GetEmployeeHistory(filters, searchString)]);
+        this.dropdownData = EmployeeOptions;
+        this.tabName = HistoryLogTypes.Employees;
         break;
       case HistoryLogTypes.Applications:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
@@ -185,10 +185,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   private initSubscribeOnEachHistory(): void {
-    merge(this.providersHistory$, this.providerAdminHistory$, this.applicationHistory$, this.parentsBlockingByAdminHistory$)
+    merge(this.providersHistory$, this.employeeHistory$, this.applicationHistory$, this.parentsBlockingByAdminHistory$)
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(
-        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
+        (history: SearchResponse<ProviderHistory[] | EmployeeHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
           (this.totalAmount = history.totalAmount)
       );
   }
