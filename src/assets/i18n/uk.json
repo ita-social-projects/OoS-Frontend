@@ -451,6 +451,8 @@
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
       "SHORT_TITLE": "Скорочена назва",
+      "ADDRESS_TITLE": "Заголовок адреси",
+      "CONTACTS_OWNER": "Власник контактів",
       "DEFAULT_TEACHER": "Викладач за замовчуванням",
       "SHORT_STAY": "Короткотривалого перебування",
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
@@ -670,8 +672,13 @@
     "REGISTER": "Зареєструватися",
     "ADD_DIRECTION": "Додати напрямок",
     "ADD_POSITION": "Додати посаду",
+    "ADD_MORE_EMAIL": "Додати ще електронну пошту",
+    "ADD_MORE_PHONE": "Додати ще телефон",
+    "ADD_MORE_CONTACTS": "Додати ще контакти",
+    "ADD_MORE_ADDRESS": "Додати ще адресу",
     "PUBLISH": "Опублікувати",
-    "ARCHIVE": "Архівувати"
+    "ARCHIVE": "Архівувати",
+    "USE_ADDRESS_AS_PRIMARY": "Використовувати як основну"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
