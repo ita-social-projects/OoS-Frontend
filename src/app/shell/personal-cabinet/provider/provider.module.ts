@@ -32,6 +32,12 @@ import { ProviderEmployeesUploadComponent } from './provider-employees-upload/pr
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { CreatePositionFormComponent } from './create-position/position-form/create-position-form.component';
+import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateRequiredFormComponent } from './create-competition/create-required-form/create-required-form.component';
+import { CreateCompetitionDescriptionFormComponent } from './create-competition/create-competition-description-form/create-competition-description-form.component';
+import { CreateCompetitionAddressComponent } from './create-competition/create-competition-address/create-competition-address.component';
+import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
+import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +63,12 @@ import { CreatePositionFormComponent } from './create-position/position-form/cre
     ProviderPositionsComponent,
     CreatePositionComponent,
     CreatePositionFormComponent,
+    CreateCompetitionComponent,
+    CreateRequiredFormComponent,
+    CreateCompetitionDescriptionFormComponent,
+    CreateCompetitionAddressComponent,
+    CreateJudgeComponent,
+    JudgeFormComponent,
   ],
   imports: [
     CommonModule,
@@ -68,7 +80,6 @@ import { CreatePositionFormComponent } from './create-position/position-form/cre
     FormsModule,
     TranslateModule
   ],
-
   providers: [DatePipe, GeolocationService]
 })
 export class ProviderModule {}

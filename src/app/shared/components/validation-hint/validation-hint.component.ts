@@ -45,6 +45,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidCharacters: boolean;
   public invalidFieldLength: boolean;
   public invalidDateRange: boolean;
+  public invalidStartEndDate: boolean;
   public invalidDateFormat: boolean;
   public invalidEmail: boolean;
   public invalidEdrpouIpn: boolean;
@@ -153,5 +154,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange =
       this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax');
+    this.invalidStartEndDate = this.validationFormControl.get('start').valid && this.validationFormControl.get('end').invalid;
   }
 }

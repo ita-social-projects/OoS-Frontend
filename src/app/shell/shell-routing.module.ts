@@ -35,6 +35,7 @@ import { ResultComponent } from './result/result.component';
 import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
+import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -176,6 +177,20 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canDeactivate: [CreateGuard],
     canLoad: [CreateParentGuard]
+  },
+  {
+    path: 'create-competition/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-competition/:id/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
   },
   { path: '**', component: ErrorPageComponent }
 ];

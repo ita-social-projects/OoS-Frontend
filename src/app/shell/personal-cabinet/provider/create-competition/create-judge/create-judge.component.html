@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutAlign="center">
+  <label *ngIf="!JudgeFormArray.controls.length" class="label">{{ 'FORMS.ADD_JUDGE_LATER' | translate }}</label>
+
+  <ng-container>
+    <app-judge-form
+      *ngFor="let form of JudgeFormArray.controls"
+      [JudgeFormGroup]="form"
+      [index]="JudgeFormArray.controls.indexOf(form)"
+      [judgeAmount]="JudgeFormArray.controls.length"
+      (deleteForm)="onDeleteForm($event)">
+    </app-judge-form>
+  </ng-container>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <button class="btn-add" mat-button (click)="onAddJudge()" [disabled]="JudgeFormArray.invalid">
+      <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_JUDGE' | translate }}
+    </button>
+  </div>
+</div>
