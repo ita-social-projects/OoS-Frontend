@@ -30,6 +30,7 @@ export abstract class CreateFormComponent implements OnDestroy {
   public isImagesFeature: boolean;
   public isPristine = true;
   public editMode: boolean;
+  public draftMode: boolean;
 
   constructor(
     protected store: Store,
@@ -53,9 +54,17 @@ export abstract class CreateFormComponent implements OnDestroy {
   }
 
   protected determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param') !== ModeConstants.NEW);
-    if (this.editMode) {
+    const draftData = localStorage.getItem('workshopDraftData');
+    const paramValue = this.route.snapshot.paramMap.get('param');
+
+    if (paramValue === 'draft' && draftData) {
       this.setEditMode();
+      this.loadDraftData();
+    } else {
+      this.editMode = Boolean(paramValue !== ModeConstants.NEW);
+      if (this.editMode) {
+        this.setEditMode();
+      }
     }
   }
 
@@ -87,4 +96,5 @@ export abstract class CreateFormComponent implements OnDestroy {
   public abstract addNavPath(): void;
   public abstract onSubmit(): void;
   public abstract onCancel(): void;
+  public loadDraftData?(): void;
 }

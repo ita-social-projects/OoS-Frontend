@@ -109,6 +109,9 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     this.workshopCardParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
+  public hasDraft(): boolean {
+    return localStorage.getItem('workshopDraftData') ? true : false;
+  }
 
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
