@@ -1,4 +1,4 @@
-<form [formGroup]="JudgeForm" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<form [formGroup]="JudgeForm" class="step flex flex-col justify-center items-between">
   <label class="step-label" for="last-name">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input
@@ -58,7 +58,7 @@
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
   </app-validation-hint>
 
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="index !== 0">
+  <div class="flex flex-row justify-center" *ngIf="index !== 0">
     <button class="btn-reset" mat-button (click)="onDeleteJudge()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_JUDGE_DATA' | translate }}
     </button>
