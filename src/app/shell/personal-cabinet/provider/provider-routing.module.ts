@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'workshops', component: ProviderWorkshopsComponent },
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'upload-employees', component: ProviderEmployeesUploadComponent },
-  { path: 'positions', component: ProviderPositionsComponent },
+  { path: 'positions', component: ProviderPositionsComponent }
 ];
 
 @NgModule({

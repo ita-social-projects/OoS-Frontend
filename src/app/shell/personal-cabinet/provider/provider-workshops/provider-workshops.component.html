@@ -4,6 +4,10 @@
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>
+<div class="add-wrapper">
+  <p class="text">Конкурси для демо</p>
+  <button class="btn" mat-raised-button [routerLink]="['/create-competition', ModeConstants.NEW]">Додати конкурс</button>
+</div>
 <!-- replace banner into container later-->
 <div *ngIf="hasDraft()" class="mb-8">
   <app-provider-status-banner [provider]="provider" mode="draft"> </app-provider-status-banner>

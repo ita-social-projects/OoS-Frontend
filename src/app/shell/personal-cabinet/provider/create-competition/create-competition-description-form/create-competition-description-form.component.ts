@@ -7,7 +7,7 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
-import { CompetitionCoverage } from 'shared/enum/Competition';
+import { CompetitionCoverage } from 'shared/enum/competition';
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';

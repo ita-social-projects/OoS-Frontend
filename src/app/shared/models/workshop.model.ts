@@ -36,7 +36,7 @@ export abstract class WorkshopBase {
   directionIds: number[];
   keywords: string[];
   // addressId: number;
-  // address: Address;
+  address: Address;
   workshopContacts: WorkshopContacts[];
   teachers: Teacher[];
   providerId: string;

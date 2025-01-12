@@ -150,6 +150,8 @@
       [routerLink]="'./personal-cabinet/provider/upload-employees'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.IMPORT' | translate }}
+      </button>
+    </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/positions'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.POSITIONS' | translate }}

@@ -30,7 +30,7 @@
         </h5>
         <div
           class="flex flex-row justify-center items-center"
-          *ngIf="isRoleProvider(userRole) && application?.workshop.availableSeats !== Constants.WORKSHOP_UNLIMITED_SEATS">
+          *ngIf="isRoleProvider(userRole) && application?.workshop.availableSeats !== Constants.UNLIMITED_SEATS">
           <mat-icon class="text_icon">person</mat-icon>
           <p class="text">
             Доступних місць:&nbsp;

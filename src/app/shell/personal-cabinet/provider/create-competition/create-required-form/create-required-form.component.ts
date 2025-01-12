@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
-import { TypeOfCompetition } from 'shared/enum/Competition';
+import { TypeOfCompetition } from 'shared/enum/competition';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';

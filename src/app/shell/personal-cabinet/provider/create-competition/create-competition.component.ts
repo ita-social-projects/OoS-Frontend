@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { Competition, CompetitionRequired } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
@@ -78,8 +78,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

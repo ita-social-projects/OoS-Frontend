@@ -68,7 +68,7 @@ import { JudgeFormComponent } from './create-competition/create-judge/judge-form
     CreateCompetitionDescriptionFormComponent,
     CreateCompetitionAddressComponent,
     CreateJudgeComponent,
-    JudgeFormComponent,
+    JudgeFormComponent
   ],
   imports: [
     CommonModule,

@@ -50,7 +50,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
 
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   @ViewChild('stepper') public stepper: MatStepper;
   private readonly DRAFT_STORAGE_KEY = 'workshopDraftData';
   public stepsCompleted = Array(4).fill(false);
@@ -168,7 +168,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshopData = new Workshop(
         data.workshop.about,
         data.workshop.description,
-        new Address(data.workshop.address),
+        this.createContacts(),
         data.workshop.teachers,
         this.provider
       );

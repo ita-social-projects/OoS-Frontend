@@ -1,8 +1,7 @@
-import { CompetitionCoverage, CompetitionStatus, TypeOfCompetition } from 'shared/enum/Competition';
+import { CompetitionCoverage, CompetitionStatus, TypeOfCompetition, FormOfLearning } from 'shared/enum/competition';
 import { Direction } from 'shared/models/category.model';
 import { Address } from 'shared/models/address.model';
 import { Judge } from 'shared/models/judge.model';
-import { FormOfLearning } from 'shared/enum/Competition';
 import { Provider } from 'shared/models/provider.model';
 
 export abstract class CompetitionBase {
