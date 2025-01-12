@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxsModule } from '@ngxs/store';
-
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 describe('ScrollToTopComponent', () => {
@@ -18,6 +17,14 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScrollToTopComponent);
+    const template = document.createElement('div');
+    template.innerHTML = '<app-footer></app-footer>';
+    document.body.appendChild(template);
+    (window as any).ResizeObserver = class {
+      observe() {}
+
+      disconnect() {}
+    };
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

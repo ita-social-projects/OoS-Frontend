@@ -43,12 +43,15 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
-      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
+      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
+        this.workshops = workshops;
+      });
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
+    this.scrollToTop();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -64,5 +67,12 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+  }
+
+  private scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 }
