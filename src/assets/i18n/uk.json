@@ -879,7 +879,7 @@
       "POSITION_CREATED_SUCCESS": "Посаду успішно створено!",
       "POSITION_UPDATED_SUCCESS": "Посаду успішно оновлено!",
       "POSITION_DELETED_SUCCESS": "Посаду успішно видалено!",
-      "POSITION_BY_TITLE_NOT_FOUND": "Не знайдено жодної посади з такою назвою",
+      "POSITION_BY_TITLE_NOT_FOUND": "Не знайдено жодної посади",
       "POSITION_NOT_FOUND": "Посаду не знайдено",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",

@@ -877,7 +877,7 @@
       "POSITION_CREATED_SUCCESS": "Position successfully created!",
       "POSITION_UPDATED_SUCCESS": "Position successfully updated!",
       "POSITION_DELETED_SUCCESS": "Position successfully deleted!",
-      "POSITION_BY_TITLE_NOT_FOUND": "No position found with such a title",
+      "POSITION_BY_TITLE_NOT_FOUND": "No position found",
       "POSITION_NOT_FOUND": "Position not found",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
