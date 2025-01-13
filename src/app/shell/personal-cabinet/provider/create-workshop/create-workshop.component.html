@@ -89,7 +89,12 @@
               matStepperNext
               [disabled]="AddressFormGroup?.invalid"
               (click)="saveDraftData(AddressFormGroup)"> -->
-            <button class="btn" mat-raised-button matStepperNext [disabled]="WorkshopContactsFormArray?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="WorkshopContactsFormArray?.invalid"
+              (click)="saveDraftData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>

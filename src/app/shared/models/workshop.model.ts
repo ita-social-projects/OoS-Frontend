@@ -64,42 +64,42 @@ export abstract class WorkshopBase {
     provider: Provider,
     id?: string
   ) {
-    this.title = about.title;
-    this.shortTitle = about.shortTitle;
+    this.title = about?.title;
+    this.shortTitle = about?.shortTitle;
     // this.phone = about.phone;
     // this.email = about.email;
-    this.minAge = about.minAge;
-    this.maxAge = about.maxAge;
-    this.dateTimeRanges = about.workingHours;
-    this.price = about.price;
-    this.payRate = about.payRate;
-    this.formOfLearning = about.formOfLearning;
-    this.availableSeats = about.availableSeats;
-    this.competitiveSelection = about.competitiveSelection;
-    this.competitiveSelectionDescription = about.competitiveSelectionDescription;
-    this.workshopDescriptionItems = description.workshopDescriptionItems;
-    this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = about.institutionId;
-    this.institutionHierarchyId = about.institutionHierarchyId;
-    this.keywords = description.keyWords;
+    this.minAge = about?.minAge;
+    this.maxAge = about?.maxAge;
+    this.dateTimeRanges = about?.workingHours;
+    this.price = about?.price;
+    this.payRate = about?.payRate;
+    this.formOfLearning = about?.formOfLearning;
+    this.availableSeats = about?.availableSeats;
+    this.competitiveSelection = about?.competitiveSelection;
+    this.competitiveSelectionDescription = about?.competitiveSelectionDescription;
+    this.workshopDescriptionItems = description?.workshopDescriptionItems;
+    this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
+    this.institutionId = about?.institutionId;
+    this.institutionHierarchyId = about?.institutionHierarchyId;
+    this.keywords = description?.keyWords;
     // this.addressId = address.id;
     // this.address = address;
     this.teachers = teachers;
-    this.providerId = provider.id;
-    this.providerTitle = provider.fullTitle;
-    this.tagIds = description.tagIds;
-    this.shortStay = description.shortStay;
-    this.isSelfFinanced = description.isSelfFinanced;
-    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
-    this.isSpecial = description.isSpecial;
-    this.isInclusive = description.isInclusive;
-    this.specialNeedsType = description.specialNeedsType;
-    this.areThereBenefits = description.areThereBenefits;
-    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
-    this.educationalShift = description.educationalShift;
-    this.ageComposition = description.ageComposition;
-    this.coverage = description.coverage;
-    this.workshopType = description.workshopType;
+    this.providerId = provider?.id;
+    this.providerTitle = provider?.fullTitle;
+    this.tagIds = description?.tagIds;
+    this.shortStay = description?.shortStay;
+    this.isSelfFinanced = description?.isSelfFinanced;
+    this.enrollmentProcedureDescription = description?.enrollmentProcedureDescription;
+    this.isSpecial = description?.isSpecial;
+    this.isInclusive = description?.isInclusive;
+    this.specialNeedsType = description?.specialNeedsType;
+    this.areThereBenefits = description?.areThereBenefits;
+    this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
+    this.educationalShift = description?.educationalShift;
+    this.ageComposition = description?.ageComposition;
+    this.coverage = description?.coverage;
+    this.workshopType = description?.workshopType;
     this.workshopContacts = workshopContacts;
 
     if (id) {
@@ -114,7 +114,7 @@ export abstract class WorkshopBase {
     // if (about.instagram) {
     //   this.instagram = about.instagram;
     // }
-    if (description.disabilityOptionsDesc) {
+    if (description?.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
   }
@@ -134,11 +134,11 @@ export class Workshop extends WorkshopBase {
   imageFiles?: File[];
 
   constructor(
-    about: WorkshopAbout,
-    description: Description,
-    /* address: Address*/ workshopContacts: WorkshopContacts[],
-    teachers: Teacher[],
-    provider: Provider,
+    about?: WorkshopAbout,
+    description?: Description,
+    /* address: Address*/ workshopContacts?: WorkshopContacts[],
+    teachers?: Teacher[],
+    provider?: Provider,
     id?: string
   ) {
     super(about, description, workshopContacts, teachers, provider, id);
@@ -258,7 +258,7 @@ export interface WorkshopAbout {
 }
 
 export interface Description {
-  workshopDescriptionItems: WorkshopDescriptionItem[];
+  workshopDescriptionItems?: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
   keyWords: string[];
   imageIds?: string[];
@@ -283,22 +283,22 @@ export class WorkshopContacts {
   website?: string;
   facebook?: string;
   instagram?: string;
-  address: Address;
-  contacts: Contacts[];
+  address?: Address;
+  contacts?: Contacts[];
   isPrimary: boolean;
 
-  constructor(info: WorkshopContacts) {
-    this.addressTitle = info.addressTitle;
-    this.address = info.address;
-    this.contacts = info.contacts;
-    this.isPrimary = info.isPrimary;
-    if (info.website) {
+  constructor(info?: WorkshopContacts) {
+    this.addressTitle = info?.addressTitle;
+    this.address = info?.address;
+    this.contacts = info?.contacts;
+    this.isPrimary = info?.isPrimary;
+    if (info?.website) {
       this.website = info.website;
     }
-    if (info.facebook) {
+    if (info?.facebook) {
       this.facebook = info.facebook;
     }
-    if (info.instagram) {
+    if (info?.instagram) {
       this.instagram = info.instagram;
     }
   }

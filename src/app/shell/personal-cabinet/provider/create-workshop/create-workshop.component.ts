@@ -54,13 +54,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   @ViewChild('stepper') public stepper: MatStepper;
   private readonly DRAFT_STORAGE_KEY = 'workshopDraftData';
   public stepsCompleted = Array(4).fill(false);
-  public draftData = {
-    currentStep: 0,
-    aboutData: null,
-    descriptionData: null,
-    addressData: null,
-    teachersData: null
-  };
 
   constructor(
     protected store: Store,
@@ -123,7 +116,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         this.workshop = new Workshop(
           workshop.about,
           workshop.description,
-          workshop.address,
+          workshop.workshopContacts,
           workshop.teachers,
           workshop.provider,
           workshop.id
@@ -140,25 +133,28 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     }
   }
   public saveDraftData(formGroup: FormGroup | FormArray): void {
-    const draftData = JSON.parse(localStorage.getItem(this.DRAFT_STORAGE_KEY)) || {
-      currentStep: 0,
-      workshop: {}
-    };
-    if (formGroup === this.AboutFormGroup) {
-      draftData.workshop.about = this.createAbout();
-      this.stepsCompleted[0] = true;
-    } else if (formGroup === this.DescriptionFormGroup) {
-      draftData.workshop.description = this.DescriptionFormGroup.getRawValue();
-      this.stepsCompleted[1] = true;
-    } else if (formGroup === this.AddressFormGroup) {
-      draftData.workshop.address = new Address(this.AddressFormGroup.value, this.workshop?.address);
-      this.stepsCompleted[2] = true;
-    } else if (formGroup === this.TeacherFormArray) {
-      draftData.workshop.teachers = this.createTeachers();
-      this.stepsCompleted[3] = true;
+    const param = this.route.snapshot.paramMap.get('param');
+    if (param === 'draft' || param === 'new') {
+      const draftData = JSON.parse(localStorage.getItem(this.DRAFT_STORAGE_KEY)) || {
+        currentStep: 0,
+        workshop: {}
+      };
+      if (formGroup === this.AboutFormGroup) {
+        draftData.workshop.about = this.createAbout();
+        this.stepsCompleted[0] = true;
+      } else if (formGroup === this.DescriptionFormGroup) {
+        draftData.workshop.description = this.DescriptionFormGroup.getRawValue();
+        this.stepsCompleted[1] = true;
+      } else if (formGroup === this.WorkshopContactsFormArray) {
+        draftData.workshop.workshopContacts = this.createContacts();
+        this.stepsCompleted[2] = true;
+      } else if (formGroup === this.TeacherFormArray) {
+        draftData.workshop.teachers = this.createTeachers();
+        this.stepsCompleted[3] = true;
+      }
+      draftData.currentStep = this.stepper.selectedIndex;
+      localStorage.setItem(this.DRAFT_STORAGE_KEY, JSON.stringify(draftData));
     }
-    draftData.currentStep = this.stepper.selectedIndex;
-    localStorage.setItem(this.DRAFT_STORAGE_KEY, JSON.stringify(draftData));
   }
 
   public loadDraftData(): void {
@@ -168,7 +164,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshopData = new Workshop(
         data.workshop.about,
         data.workshop.description,
-        this.createContacts(),
+        data.workshop.workshopContacts,
         data.workshop.teachers,
         this.provider
       );
