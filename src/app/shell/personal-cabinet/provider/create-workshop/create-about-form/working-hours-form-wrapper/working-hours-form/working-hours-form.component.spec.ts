@@ -80,6 +80,12 @@ describe('WorkingHoursFormComponent', () => {
     expect(component.startTimeFormControl.value).toBe('12:30');
     expect(component.endTimeFormControl.value).toBe('14:30');
   });
+
+  it('should place ":" automatically', () => {
+    component.startTimeFormControl.setValue('1230');
+
+    expect(component.startTimeFormControl.value).toBe('12:30');
+  });
 });
 @Component({
   selector: 'app-validation-hint',
