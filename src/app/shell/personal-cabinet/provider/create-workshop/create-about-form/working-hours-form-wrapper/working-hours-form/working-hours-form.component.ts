@@ -52,7 +52,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
-      if (value && !this.startTimeFormControl.errors?.invalidTimeFormat) {
+      if (value && !this.startTimeFormControl.hasError('invalidTimeFormat')) {
         this.endTimeFormControl.enable({ emitEvent: false });
       } else {
         this.endTimeFormControl.disable({ emitEvent: false });
