@@ -16,8 +16,8 @@ export function TimeRangeValidator(startCtrlName: string = 'startTime', endCtrlN
     if (startTime.isSameOrAfter(endTime)) {
       const newGroupErrors = { invalidTimeRange: true };
 
-      startCtrl.setErrors({...startCtrl.errors, invalidTimeRange: true });
-      endCtrl.setErrors({...endCtrl.errors, invalidTimeRange: true });
+      startCtrl.setErrors({ ...startCtrl.errors, invalidTimeRange: true });
+      endCtrl.setErrors({ ...endCtrl.errors, invalidTimeRange: true });
 
       return newGroupErrors;
     } else {
