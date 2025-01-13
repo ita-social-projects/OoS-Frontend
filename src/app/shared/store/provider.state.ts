@@ -118,7 +118,8 @@ import {
   UpdateProviderLicenseStatus,
   UpdateProviderStatus,
   UpdateWorkshop,
-  UpdateWorkshopStatus
+  UpdateWorkshopStatus,
+  CreateStudySubject
 } from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 
@@ -1006,5 +1007,19 @@ export class ProviderState {
   @Action(OnUpdateCompetitionFail)
   onUpdateCompetitionFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateCompetitionFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(CreateStudySubject)
+  CreateStudySubject({ dispatch }: StateContext<ProviderStateModel>): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.createSubject,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
+    this.router.navigate(['/personal-cabinet/provider/study-subjects'], {
+      queryParams: { status: 'Subjects' }
+    });
   }
 }

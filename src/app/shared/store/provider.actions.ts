@@ -502,3 +502,8 @@ export class OnUpdateCompetitionSuccess {
   static readonly type = '[provider] update Competition success';
   constructor(public payload: Competition) {}
 }
+
+export class CreateStudySubject {
+  static readonly type = '[provider] create subject';
+  constructor() {}
+}

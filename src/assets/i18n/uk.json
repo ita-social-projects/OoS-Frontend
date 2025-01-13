@@ -137,6 +137,8 @@
       "USERS": "Користувачі",
       "MY_WORKSHOPS": "Мої гуртки",
       "COMPETITION": "Конкурси",
+      "SUBJECTS":"Навчальні предмети",
+      "ADD_SUBJECTS":"Додати навчальний предмет",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
       "POSITIONS": "Посади",
@@ -403,7 +405,8 @@
       "EDIT_POSITION_DESCRIPTION": "Редагуйте інформацію про посаду або контактну інформацію",
       "NEW_POSITION_DESCRIPTION": "Створіть нову посаду",
       "NEW_COMPETITION": "НОВИЙ КОНКУРС",
-      "EDIT_COMPETITION": "РЕДАГУВАННЯ КОНКУРСУ"
+      "EDIT_COMPETITION": "РЕДАГУВАННЯ КОНКУРСУ",
+      "ADD_STUDY_SUBJECT": "ДОДАТИ НАВЧАЛЬНИЙ ПРЕДМЕТ"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -499,7 +502,6 @@
       "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Пільгові умови",
       "EDUCATIONAL_SHIFT": "Зміна навчання",
       "AGE_COMPOSITION": "Тип групи за віковим складом",
-      "COVERAGE": "Покриття",
       "WORKSHOP_TYPE": "Тип групи",
       "FULL_TITLE": "Повна назва",
       "RATE": "Рейтинг",
@@ -510,7 +512,13 @@
       "TEACHING_POSITION": "Вчительська посада",
       "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
       "CREATED_AT": "Дата створення",
-      "LANGUAGE": "Мова"
+      "LANGUAGE": "Мова",
+      "SUBJECT_NAME": "Назва предмету",
+      "TEACHING_LANGUAGE_SUBJECT_NAME":"Назва предмету мовою викладання",
+      "TEACHING_LANGUAGE":"Мова викладання",
+      "CREATION_DATE": "Дата створення",
+      "LAST_REFERRED":"Дата останнього посилання на навчальний предмет",
+      "USED_IN":"Кількість гуртків у яких використовується"
     },
 
     "PLACEHOLDERS": {
@@ -529,6 +537,7 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПОУ, імейлом, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
+      "SEARCH_STUDY_SUBJECT": "Пошук навчального предмету за назвою, мовою",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
@@ -551,7 +560,8 @@
       "WITHOUT_SORT": "Без сортування",
       "SORT_BY_NAME": "За назвою",
       "SORT_BY_CREATED_AT": "За датою створення",
-      "SEARCH_BY_TITLE": "Пошук за повною назвою"
+      "SEARCH_BY_TITLE": "Пошук за повною назвою",
+      "SELECT_LANGUAGE_OF_INSTRUCTION":"Оберіть мову викладання"
     },
     "UAH_FOR": "грн за",
     "UAH": "грн",
@@ -664,6 +674,7 @@
     "MAX_CHILDREN_AMOUNT": "Можливо додати не більш, ніж 20 дітей",
     "ADD_WORKSHOP": "Тут ви можете створити гурток, секцію або групу для навчання",
     "ADD_COMPETITION": "Тут ви можете створити конкурс",
+    "ADD_SUBJECTS": "Тут ви можете створити навчальний предмет",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Додавання досягнень можливе лише за наявності учасників у гуртку.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані тренера/викладачі:",
     "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.",
@@ -675,6 +686,7 @@
     "ADD_CHILDREN": "Додати дитину",
     "ADD_WORKSHOP": "Додати гурток",
     "ADD_COMPETITION": "Додати конкурс",
+    "ADD_SUBJECT": "Додати навчальний предмет",
     "APPROVE_APPLICATION": "Прийняти",
     "ACCEPT_TO_COMPETITIVE_SELECTION": "Прийняти до відбору",
     "ENROLL_TO_WORKSHOP": "Зарахувати",
@@ -756,7 +768,8 @@
     "NO_SETTLEMENT": "Такого населеного пункту немає",
     "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
     "NO_CHILD_WORKSHOPS": "Гуртків поки немає!",
-    "NO_CHAT_HISTORY": "У чаті ще немає повідомлень"
+    "NO_CHAT_HISTORY": "У чаті ще немає повідомлень",
+    "NO_STUDY_SUBJECTS":"Навчальних предметів поки немає"
   },
   "NOTIFICATIONS": "Сповіщення",
   "APPLICATION_STATUSES": "Статуси заявок",
@@ -903,6 +916,7 @@
       "UPDATE_PROVIDER_DEPUTY": "Заступника директора успішно відредаговано!",
       "COMPLETE_PROVIDER_REGISTRATION": "Будь ласка, завершіть реєстрацію закладу.",
       "COMPLETE_USER_REGISTRATION": "Будь ласка, завершіть реєстрацію користувача.",
+      "CREATE_SUBJECT":"Навчальний предмет успішно створено!",
       "CREATE_RATING": "Оцінка успішно поставлена!",
       "UPDATE_PORTAL": "Інформація про портал успішно відредагована",
       "UPDATE_USER": "Особиста інформація успішно відредагована!",

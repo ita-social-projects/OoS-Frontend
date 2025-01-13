@@ -8,6 +8,7 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
 import { NotEmployeeGuard } from './not-employee.guard';
 import { ProviderEmployeesUploadComponent } from './provider-employees-upload/provider-employees-upload.component';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
+import { ProviderStudySubjectsComponent } from './provider-study-subject/provider-study-subjects.component';
 
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'workshops', component: ProviderWorkshopsComponent },
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'upload-employees', component: ProviderEmployeesUploadComponent },
-  { path: 'positions', component: ProviderPositionsComponent }
+  { path: 'positions', component: ProviderPositionsComponent },
+  { path: 'study-subjects', component: ProviderStudySubjectsComponent }
 ];
 
 @NgModule({

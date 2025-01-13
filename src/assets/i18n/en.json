@@ -139,6 +139,8 @@
       "USERS": "Users",
       "MY_WORKSHOPS": "My workshops",
       "COMPETITION": "Competition",
+      "SUBJECTS":"Study Subjects",
+      "ADD_SUBJECTS":"Add new study subject",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
       "POSITIONS": "Positions",
@@ -403,7 +405,8 @@
       "EDIT_POSITION_DESCRIPTION": "Edit information about position or contact information",
       "NEW_POSITION_DESCRIPTION": "Create new position",
       "NEW_COMPETITION": "NEW COMPETITION",
-      "EDIT_COMPETITION": "EDIT COMPETITION"
+      "EDIT_COMPETITION": "EDIT COMPETITION",
+      "ADD_STUDY_SUBJECT": "ADD STUDY SUBJECT"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -499,7 +502,6 @@
       "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
-      "COVERAGE": "Coverage",
       "WORKSHOP_TYPE": "Workshop type",
       "FULL_TITLE": "Full title",
       "RATE": "Rate",
@@ -510,7 +512,13 @@
       "TEACHING_POSITION": "Teaching position",
       "TYPE_BY_CLASSIFIER": "Type by classifier",
       "CREATED_AT": "Creation date",
-      "LANGUAGE": "Language"
+      "LANGUAGE": "Language",
+      "SUBJECT_NAME": "Subject name",
+      "TEACHING_LANGUAGE_SUBJECT_NAME":"Subject name in the language of instruction",
+      "TEACHING_LANGUAGE":"Language of instruction",
+      "CREATION_DATE": "Creation date",
+      "LAST_REFERRED":"Date of the last reference",
+      "USED_IN":"Times used in workshops"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -528,6 +536,7 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "SEARCH_BY_DIRECTIONS": "Search by directions",
+      "SEARCH_STUDY_SUBJECT": "Search study subject by name, language",
       "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
@@ -550,7 +559,8 @@
       "WITHOUT_SORT": "Without sorting",
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
-      "SEARCH_BY_TITLE": "Search by full title"
+      "SEARCH_BY_TITLE": "Search by full title",
+      "SELECT_LANGUAGE_OF_INSTRUCTION":"Select language of instruction"
     },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
@@ -661,6 +671,7 @@
     "MAX_CHILDREN_AMOUNT": "It is possible to add no more than 20 children",
     "ADD_WORKSHOP": "You can add information about the new workshop",
     "ADD_COMPETITION": "You can add information about the new competition",
+    "ADD_SUBJECTS": "You can add information about the new study subject",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
@@ -672,6 +683,7 @@
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP": "Add workshop",
     "ADD_COMPETITION": "Add competition",
+    "ADD_SUBJECT": "Add subject",
     "APPROVE_APPLICATION": "Approve",
     "ACCEPT_TO_COMPETITIVE_SELECTION": "Accept to selection",
     "ENROLL_TO_WORKSHOP": "Enroll",
@@ -753,7 +765,9 @@
     "NO_SETTLEMENT": "There is no such settlement",
     "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
     "NO_CHILD_WORKSHOPS": "There are no workshops yet",
-    "NO_CHAT_HISTORY": "There are no messages in the chat yet"
+    "NO_CHAT_HISTORY": "There are no messages in the chat yet",
+    "NO_STUDY_SUBJECTS":"There are no study subjects yet"
+
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -900,6 +914,7 @@
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
       "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
       "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
+      "CREATE_SUBJECT":"Study subject successfully created!",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",

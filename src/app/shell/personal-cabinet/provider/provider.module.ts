@@ -38,6 +38,8 @@ import { CreateCompetitionDescriptionFormComponent } from './create-competition/
 import { CreateCompetitionAddressComponent } from './create-competition/create-competition-address/create-competition-address.component';
 import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
+import { ProviderStudySubjectsComponent } from './provider-study-subject/provider-study-subjects.component';
+import { CreateStudySubjectComponent } from './create-study-subject/create-study-subject.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { JudgeFormComponent } from './create-competition/create-judge/judge-form
     CreateCompetitionDescriptionFormComponent,
     CreateCompetitionAddressComponent,
     CreateJudgeComponent,
-    JudgeFormComponent
+    JudgeFormComponent,
+    ProviderStudySubjectsComponent,
+    CreateStudySubjectComponent
   ],
   imports: [
     CommonModule,
