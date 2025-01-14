@@ -79,8 +79,21 @@ export class AppState {
 
   @Action(SetErrorTimerData)
   setErrorTimerData({ patchState }: StateContext<AppStateModel>, { payload }: SetErrorTimerData): void {
-    const isTimeExpired = payload.time && Date.now() - payload.time >= 10 * 60 * 1000;
     // check if 10 minutes have passed since the last click and change timer values
+    const isTimeExpired = payload.time && Date.now() - payload.time >= 10 * 60 * 1000;
+
+    /**
+     * Sets values based on the time elapsed since the user's last interaction.
+     * - If the user clicks after 10 minutes or more, default values are set.
+     * - Otherwise, values are taken from the component's timer.
+     *
+     * Logic:
+     * - @timerValue : If the timer value is >= 32 seconds, it is set to 1 minute.
+     *                Else, the timer value is doubled.
+     * - @time : If @timerValue is more than one second, the current time is set.
+     *          Else, the time is taken from the component.
+     */
+
     const newData: TimerData = isTimeExpired
       ? { timerValue: 1000, time: 0 } // default values
       : {
