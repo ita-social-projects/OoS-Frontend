@@ -1,4 +1,12 @@
-import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpContextToken,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpStatusCode
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,7 +32,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status >= 501) {
+        if (error.status >= HttpStatusCode.NotImplemented) {
           this.router.navigate(['/server-error']);
           request.clone({
             context: request.context.set(ERROR_HANDLED, true)
@@ -36,16 +44,16 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
           this.displayErrorMessageBar(message, 10000);
         } else {
           switch (error.status) {
-            case 401:
+            case HttpStatusCode.Unauthorized:
               this.displayErrorMessageBar(SnackbarText.error401);
               break;
-            case 403:
+            case HttpStatusCode.Forbidden:
               this.displayErrorMessageBar(SnackbarText.error403);
               break;
-            case 404:
+            case HttpStatusCode.NotFound:
               this.displayErrorMessageBar(SnackbarText.error404);
               break;
-            case 500:
+            case HttpStatusCode.InternalServerError:
               this.displayErrorMessageBar(SnackbarText.error500);
               break;
             default:
