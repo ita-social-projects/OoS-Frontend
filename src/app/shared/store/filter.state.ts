@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { EMPTY_RESULT } from 'shared/constants/constants';
+import { EMPTY_RESULT, Constants } from 'shared/constants/constants';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { FilterList } from 'shared/models/filter-list.model';
@@ -12,6 +12,7 @@ import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
 import {
+  AddPreviousResult,
   CleanCity,
   ClearCoordsByMap,
   ClearRadiusSize,
@@ -19,6 +20,7 @@ import {
   FilterChange,
   FilterClear,
   GetFilteredWorkshops,
+  RemovePreviousResult,
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
@@ -59,7 +61,8 @@ import {
     userRadiusSize: null,
     isMapView: false,
     from: null,
-    size: null
+    size: null,
+    previousResults: []
   }
 })
 @Injectable()
@@ -99,6 +102,11 @@ export class FilterState {
   @Selector()
   static searchQuery(state: FilterStateModel): string {
     return state.searchQuery;
+  }
+
+  @Selector()
+  static previousResults(state: FilterStateModel): string[] {
+    return state.previousResults;
   }
 
   @Selector()
@@ -242,6 +250,24 @@ export class FilterState {
   @Action(SetSearchQueryValue)
   setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
     patchState({ searchQuery: payload, from: 0 });
+  }
+
+  @Action(AddPreviousResult)
+  addPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddPreviousResult): void {
+    const state = ctx.getState();
+    const normalizedResult = result.trim().toLowerCase();
+    const normalizedResults = state.previousResults.map((res) => res.trim().toLowerCase());
+
+    if (normalizedResult && !normalizedResults.includes(normalizedResult)) {
+      const updatedResults = [result, ...state.previousResults.slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS - 1)];
+      ctx.patchState({ previousResults: updatedResults });
+    }
+  }
+
+  @Action(RemovePreviousResult)
+  removePreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemovePreviousResult): void {
+    const updatedResults = ctx.getState().previousResults.filter((result) => result !== previousResult);
+    ctx.patchState({ previousResults: updatedResults });
   }
 
   @Action(SetOpenRecruitment)

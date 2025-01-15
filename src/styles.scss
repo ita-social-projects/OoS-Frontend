@@ -92,14 +92,13 @@ $dark-theme: mat.define-dark-theme(
 );
 
 /* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated */
-.light-theme {
-  @include mat.all-legacy-component-themes($light-theme);
-  @include angular-material-theme($light-theme);
-}
+
+@include mat.all-legacy-component-themes($light-theme);
+@include angular-material-theme($light-theme);
 
 .dark-theme {
-  @include mat.all-legacy-component-themes($dark-theme);
-  @include angular-material-theme($dark-theme);
+  @include mat.all-legacy-component-colors($dark-theme);
+  @include angular-material-color($dark-theme);
 }
 
 /* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated */
@@ -311,7 +310,7 @@ a {
 
     .mat-mdc-menu-item-text {
       font-family: 'Open Sans', sans-serif !important;
-      font-weight: 700 ;
+      font-weight: 700;
       font-size: 13px;
       line-height: 18px;
     }
