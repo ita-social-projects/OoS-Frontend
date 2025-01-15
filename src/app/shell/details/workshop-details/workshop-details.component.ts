@@ -58,6 +58,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public workshopStatusOpen: boolean;
   public selectedIndex: number;
   public tabIndex: number;
+  public coverImage: string;
   public images: ImgPath[] = [];
   public providerParameters: ProviderParameters = {
     providerId: '',
@@ -123,7 +124,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshopData(): void {
-    this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.coverImage = this.imagesService.setCoverImage(this.workshop);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new AddNavPath(

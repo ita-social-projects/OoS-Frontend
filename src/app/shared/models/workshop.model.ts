@@ -185,6 +185,7 @@ export interface WorkshopBaseCard {
   enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
+  _meta?: string;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {

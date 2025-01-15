@@ -77,7 +77,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input()
   public set workshop(workshop: WorkshopBaseCard) {
     this.workshopData = workshop;
-    this.imagesService.setWorkshopCoverImage(workshop);
+    this.workshopData._meta = this.imagesService.setWorkshopCardCoverImage(workshop);
   }
 
   public ngOnInit(): void {

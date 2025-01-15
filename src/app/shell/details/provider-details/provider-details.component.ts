@@ -23,7 +23,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
 
   public readonly tabTitles = DetailsTabTitlesEnum;
-
+  public coverImage: string;
   public selectedIndex: number;
   public images: ImgPath[] = [];
   public providerParameters: ProviderParameters = {
@@ -51,7 +51,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getProviderData(): void {
-    this.images = this.imagesService.setCarouselImages(this.provider);
+    this.coverImage = this.imagesService.setCoverImage(this.provider);
     this.store.dispatch([
       new AddNavPath(
         this.navigationBarService.createNavPaths(
