@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { NotFoundError, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -149,14 +149,14 @@ export interface ProviderStateModel {
 @Injectable()
 export class ProviderState {
   constructor(
-    private achievementsService: AchievementsService,
-    private router: Router,
-    private userWorkshopService: UserWorkshopService,
-    private employeeService: EmployeeService,
-    private providerService: ProviderService,
-    private applicationService: ApplicationService,
-    private blockService: BlockService,
-    private positionService: PositionService
+    private readonly achievementsService: AchievementsService,
+    private readonly router: Router,
+    private readonly userWorkshopService: UserWorkshopService,
+    private readonly employeeService: EmployeeService,
+    private readonly providerService: ProviderService,
+    private readonly applicationService: ApplicationService,
+    private readonly blockService: BlockService,
+    private readonly positionService: PositionService
   ) {}
 
   @Selector()

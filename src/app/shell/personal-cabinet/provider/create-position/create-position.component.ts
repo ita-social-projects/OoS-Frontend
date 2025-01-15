@@ -10,7 +10,6 @@ import { ProviderState } from 'shared/store/provider.state';
 import { FormGroup } from '@angular/forms';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { Role } from 'shared/enum/role';
-import { Util } from 'shared/utils/utils';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ValidationConstants } from 'shared/constants/validation';
