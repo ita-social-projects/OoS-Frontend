@@ -22,7 +22,7 @@ export class OrderingComponent {
 
   constructor(
     private store: Store,
-    protected ts: TranslateService
+    protected translateService: TranslateService
   ) {}
 
   public onSelectOption(event: MatSelectChange): void {

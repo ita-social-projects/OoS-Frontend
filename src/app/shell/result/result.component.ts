@@ -30,16 +30,16 @@ import { Util } from 'shared/utils/utils';
 export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState.filteredWorkshops)
   public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Select(NavigationState.filtersSidenavOpenTrue)
+  protected isFiltersSidenavOpen$: Observable<boolean>;
+  @Select(FilterState)
+  protected filterState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
   private isMobileView$: Observable<boolean>;
   @Select(RegistrationState.role)
   private role$: Observable<string>;
-  @Select(NavigationState.filtersSidenavOpenTrue)
-  protected isFiltersSidenavOpen$: Observable<boolean>;
   @Select(FilterState.isMapView)
   private isMapView$: Observable<boolean>;
-  @Select(FilterState)
-  protected filterState$: Observable<FilterStateModel>;
 
   public readonly ResultViewType = ResultViewType;
   public readonly WorkshopDeclination = WorkshopDeclination;

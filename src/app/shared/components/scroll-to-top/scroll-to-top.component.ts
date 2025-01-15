@@ -1,9 +1,11 @@
-import { AfterViewInit, Component, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AppState } from 'shared/store/app.state';
 import { Constants } from 'shared/constants/constants';
+import { DOCUMENT } from '@angular/common';
+import { WINDOW } from 'ngx-window-token';
 
 @Component({
   selector: 'app-scroll-to-top',
@@ -19,9 +21,12 @@ export class ScrollToTopComponent implements OnInit, AfterViewInit, OnDestroy {
   public footerHeight: number;
   public isSmallScreen: boolean;
   private observer: ResizeObserver;
-  private readonly constants: typeof Constants = Constants;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window,
+    private renderer: Renderer2
+  ) {}
 
   @HostListener('window:resize', [])
   public onResize(): void {
@@ -55,24 +60,24 @@ export class ScrollToTopComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public scrollToTop(): void {
-    window.scrollTo({
+    this.window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }
 
   private checkScroll(): void {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.showScroll = scrollPosition >= this.constants.SCROLL_TO_TOP_BUTTON_POS;
+    const scrollPosition = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+    this.showScroll = scrollPosition >= Constants.SCROLL_TO_TOP_BUTTON_POS;
   }
 
   private checkSticky(): void {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const pageHeight = document.documentElement.scrollHeight;
+    const scrollPosition = this.window.scrollY + this.window.innerHeight;
+    const pageHeight = this.document.documentElement.scrollHeight;
     this.shouldBeSticky = pageHeight - scrollPosition > this.footerHeight;
   }
 
   private checkScreenWidth(): void {
-    this.isSmallScreen = window.innerWidth < 840;
+    this.isSmallScreen = this.window.innerWidth < 840;
   }
 }

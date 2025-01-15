@@ -1,14 +1,16 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, pairwise, Subject } from 'rxjs';
 
 import { ToggleMobileScreen } from 'shared/store/app.actions';
 import { GetFeaturesList } from 'shared/store/meta-data.actions';
 import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ViewportScroller } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +30,23 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router
-  ) {}
+    private router: Router,
+    private viewportScroller: ViewportScroller
+  ) {
+    this.router.events
+      .pipe(
+        filter((event: Event) => event instanceof NavigationEnd),
+        pairwise()
+      )
+      .subscribe(([previousEvent, currentEvent]: [NavigationEnd, NavigationEnd]) => {
+        const previousUrl = previousEvent.urlAfterRedirects;
+        const currentUrl = currentEvent.urlAfterRedirects;
+
+        if (!previousUrl.includes('/result') || !currentUrl.includes('/result')) {
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }
+      });
+  }
 
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
