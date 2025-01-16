@@ -45,6 +45,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public AboutFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
+  public AdditionalAboutGroup: FormGroup;
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
 
@@ -118,6 +119,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.createAbout();
+    const additionalAboutInfo = this.AdditionalAboutGroup.getRawValue();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
@@ -128,10 +130,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+      workshop = new Workshop(aboutInfo, additionalAboutInfo, descInfo, address, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
+      workshop = new Workshop(aboutInfo, additionalAboutInfo, descInfo, address, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }
@@ -169,6 +171,15 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   public onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
+    this.subscribeOnDirtyForm(form);
+  }
+
+  /**
+   * This method receives a form from create-additional-about child component and assigns to the AdditionalAbout FormGroup
+   * @param FormGroup form
+   */
+  public onReceiveAdditionalAboutGroup(form: FormGroup): void {
+    this.AdditionalAboutGroup = form;
     this.subscribeOnDirtyForm(form);
   }
 
