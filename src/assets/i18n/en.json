@@ -39,7 +39,7 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
   "ALT": {
-    "IMG_WORKSHOP_PROVIDER": "Workshop photo",
+    "CAROUSEL_IMG": "photo",
     "IMG_COVER": "Cover"
   },
   "ENUM": {
