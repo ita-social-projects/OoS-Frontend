@@ -17,19 +17,58 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScrollToTopComponent);
-    const template = document.createElement('div');
-    template.innerHTML = '<app-footer></app-footer>';
-    document.body.appendChild(template);
+    const footer = document.createElement('app-footer');
+    document.body.appendChild(footer);
+    Object.defineProperty(footer, 'clientHeight', { value: 160 });
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 1000 });
     (window as any).ResizeObserver = class {
       observe() {}
 
       disconnect() {}
     };
     component = fixture.componentInstance;
+    component.footerHeight = footer.clientHeight;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should scroll to top by click', () => {
+    const scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    component.scrollToTop();
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+    scrollToSpy.mockRestore();
+  });
+
+  it('should show button scroll if scroll is greater or equal than scroll show constraint', () => {
+    Object.defineProperty(window, 'scrollY', { value: 200 });
+    component.onScroll();
+    expect(component.showScroll).toBe(true);
+  });
+
+  it('should hide button if scroll is less than scroll show constraint', () => {
+    Object.defineProperty(window, 'scrollY', { value: 199 });
+    component.onScroll();
+    expect(component.showScroll).toBe(false);
+  });
+
+  it('should be sticky when scroll is over the footer', () => {
+    Object.defineProperty(window, 'scrollY', { value: 200 });
+    Object.defineProperty(window, 'innerHeight', { value: 300 });
+    component.onScroll();
+    expect(component.shouldBeSticky).toBe(true);
+  });
+
+  it('should be static when scroll is over the footer', () => {
+    Object.defineProperty(window, 'scrollY', { value: 440 });
+    Object.defineProperty(window, 'innerHeight', { value: 400 });
+    component.onScroll();
+    expect(component.shouldBeSticky).toBe(false);
   });
 });

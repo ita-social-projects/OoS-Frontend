@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { WorkshopCard } from 'shared/models/workshop.model';
 import { GetFilteredWorkshops, SetFilterPagination } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { Util } from 'shared/utils/utils';
+import { WINDOW } from 'ngx-window-token';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -35,7 +36,10 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public workshops: SearchResponse<WorkshopCard[]>;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store) {}
+  constructor(
+    public store: Store,
+    @Inject(WINDOW) private window: Window
+  ) {}
 
   public ngOnInit(): void {
     this.workshops$
@@ -70,7 +74,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   }
 
   private scrollToTop(): void {
-    window.scrollTo({
+    this.window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });

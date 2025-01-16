@@ -67,7 +67,7 @@ export class ScrollToTopComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private checkScroll(): void {
-    const scrollPosition = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+    const scrollPosition = this.window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
     this.showScroll = scrollPosition >= Constants.SCROLL_TO_TOP_BUTTON_POS;
   }
 

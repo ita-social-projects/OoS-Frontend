@@ -25,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
+  private readonly ignoreScrollToTopRoutes = ['/result'];
 
   constructor(
     private store: Store,
@@ -42,7 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
         const previousUrl = previousEvent.urlAfterRedirects;
         const currentUrl = currentEvent.urlAfterRedirects;
 
-        if (!previousUrl.includes('/result') || !currentUrl.includes('/result')) {
+        if (
+          !this.ignoreScrollToTopRoutes.some((route) => previousUrl.includes(route)) ||
+          !this.ignoreScrollToTopRoutes.some((route) => currentUrl.includes(route))
+        ) {
           this.viewportScroller.scrollToPosition([0, 0]);
         }
       });
