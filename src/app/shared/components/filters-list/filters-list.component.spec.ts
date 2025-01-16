@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Direction } from '../../models/category.model';
 import { FiltersListComponent } from './filters-list.component';
 
@@ -40,10 +42,38 @@ describe('FiltersListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FiltersListComponent);
     component = fixture.componentInstance;
+    const mockFilterList$ = new BehaviorSubject<any>({
+      statuses: [WorkshopOpenStatus.Open, WorkshopOpenStatus.Closed],
+      withDisabilityOption: false
+    });
+    Object.defineProperty(component, 'filterList$', {
+      get: () => mockFilterList$.asObservable()
+    });
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize filters from state', () => {
+    component.ngOnInit();
+    expect(component.OpenRecruitmentControl.value).toBe(true);
+    expect(component.ClosedRecruitmentControl.value).toBe(true);
+    expect(component.WithDisabilityOptionControl.value).toBe(false);
+  });
+
+  it('should append and splice recruitment array', () => {
+    component.ngOnInit();
+    component.filterList.statuses = [];
+    component.statusHandler(true, component.workshopStatus.Open);
+    expect(component.filterList.statuses.includes(component.workshopStatus.Open)).toBe(true);
+    expect(component.filterList.statuses.length).toBe(1);
+    component.statusHandler(true, component.workshopStatus.Closed);
+    expect(component.filterList.statuses.includes(component.workshopStatus.Closed)).toBe(true);
+    expect(component.filterList.statuses.length).toBe(2);
+    component.statusHandler(false, component.workshopStatus.Open);
+    expect(component.filterList.statuses.includes(component.workshopStatus.Open)).toBe(false);
+    expect(component.filterList.statuses.length).toBe(1);
   });
 });
 

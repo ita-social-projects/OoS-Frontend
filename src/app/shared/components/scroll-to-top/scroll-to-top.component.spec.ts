@@ -71,4 +71,11 @@ describe('ScrollToTopComponent', () => {
     component.onScroll();
     expect(component.shouldBeSticky).toBe(false);
   });
+
+  it('should set small screen after resize', () => {
+    Object.defineProperty(window, 'innerWidth', { value: 800 });
+    component.isSmallScreen = false;
+    component.onResize();
+    expect(component.isSmallScreen).toBe(true);
+  });
 });
