@@ -461,7 +461,7 @@
       "WORKSHOP_TYPE": "Тип групи",
       "WORKSHOP_IMAGES": "Фото гуртка",
       "COVER_IMAGE": "Обкладинка",
-      "INSTITUTION_IMAGES": "Фото закладу"
+      "PROVIDER_IMAGES": "Фото закладу"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
