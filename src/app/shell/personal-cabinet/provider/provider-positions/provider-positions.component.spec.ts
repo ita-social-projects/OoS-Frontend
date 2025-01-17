@@ -62,17 +62,6 @@ describe('ProviderPositionsComponent', () => {
       expect(component.sortFormControl.valueChanges.pipe).toHaveBeenCalled();
     });
   });
-
-  describe('onResize', () => {
-    it('should update isSmallMobileView based on window size', () => {
-      component.onResize({ innerWidth: 400 } as any);
-      expect(component.isSmallMobileView).toBeTruthy();
-
-      component.onResize({ innerWidth: 800 } as any);
-      expect(component.isSmallMobileView).toBeFalsy();
-    });
-  });
-
   describe('onItemsPerPageChange', () => {
     it('should update items per page and fetch positions', () => {
       jest.spyOn(component, 'onPageChange');

@@ -37,7 +37,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public sortFormControl: FormControl = new FormControl(PositionSortEnum.WithoutSort);
   public filterFormControl: FormControl = new FormControl('');
-  public isSmallMobileView: boolean;
   public positions$: Observable<Position>;
 
   constructor(
@@ -45,11 +44,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     protected matDialog: MatDialog
   ) {
     super(store, matDialog);
-  }
-
-  @HostListener('window: resize', ['$event.target'])
-  public onResize(event: Window): void {
-    this.isSmallMobileView = event.innerWidth <= this.smallMobileWidth;
   }
 
   public ngOnInit(): void {
