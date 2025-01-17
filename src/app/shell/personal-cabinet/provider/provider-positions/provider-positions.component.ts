@@ -24,14 +24,6 @@ import { ProviderComponent } from '../provider.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderPositionsComponent extends ProviderComponent implements OnInit {
-  public isSmallMobileView: boolean;
-  public positions$: Observable<Position>;
-  public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
-  public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
-  public totalElements = 0;
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public sortFormControl: FormControl = new FormControl(PositionSortEnum.WithoutSort);
-  public filterFormControl: FormControl = new FormControl('');
   public readonly smallMobileWidth = 480;
   public readonly debounceInputTime = 500;
   public readonly positionParameters: PositionParameters = { size: 12, providerId: '' };
@@ -39,6 +31,14 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
   public readonly sortList: string[] = Object.values(PositionSortEnum);
+  public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
+  public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
+  public totalElements = 0;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public sortFormControl: FormControl = new FormControl(PositionSortEnum.WithoutSort);
+  public filterFormControl: FormControl = new FormControl('');
+  public isSmallMobileView: boolean;
+  public positions$: Observable<Position>;
 
   constructor(
     protected store: Store,

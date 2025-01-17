@@ -18,8 +18,9 @@ export class CreatePositionFormComponent implements OnInit {
   @Output() public passPositionFormGroup = new EventEmitter();
   @Select(RegistrationState.provider) public provider: Provider;
 
-  public PositionFormGroup: FormGroup;
   public readonly validationConstants = ValidationConstants;
+
+  public PositionFormGroup: FormGroup;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
