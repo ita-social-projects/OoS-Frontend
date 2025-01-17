@@ -14,6 +14,7 @@ import { of } from 'rxjs';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { Position } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
+import { PositionSortEnum } from 'shared/enum/enumUA/provider';
 import { ProviderPositionsComponent } from './provider-positions.component';
 
 describe('ProviderPositionsComponent', () => {
@@ -118,16 +119,16 @@ describe('ProviderPositionsComponent', () => {
     it('should set orderBy parameters and fetch positions', () => {
       jest.spyOn(component as any, 'getPositions');
 
-      (component as any).sortData(component.sortByName);
+      (component as any).sortData(PositionSortEnum.SortByName);
       expect(component.positionParameters.orderByFullName).toBeTruthy();
       expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
       expect((component as any).getPositions).toHaveBeenCalled();
 
-      (component as any).sortData(component.sortByCreatedAt);
+      (component as any).sortData(PositionSortEnum.SortByCreatedAt);
       expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
       expect(component.positionParameters.orderByFullName).toBeFalsy();
 
-      (component as any).sortData(component.withoutSort);
+      (component as any).sortData(PositionSortEnum.WithoutSort);
       expect(component.positionParameters.orderByFullName).toBeFalsy();
       expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
     });
