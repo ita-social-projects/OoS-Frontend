@@ -23,8 +23,6 @@ export class PaginatorComponent implements OnChanges {
   public totalPageAmount: number;
   public listOfValues: number[] = [8, 12, 16, 20];
 
-  private readonly VISIBLE_PAGES = 4;
-
   constructor() {}
 
   public init(): void {
@@ -75,20 +73,20 @@ export class PaginatorComponent implements OnChanges {
     let startPage: number;
     let endPage: number;
 
-    if (this.totalPageAmount <= this.VISIBLE_PAGES) {
-      startPage = 1;
+    if (this.totalPageAmount <= this.constants.VISIBLE_PAGES) {
+      startPage = this.constants.FIRST_PAGINATION_PAGE;
       endPage = this.totalPageAmount;
     } else {
-      startPage = Math.max(1, currentPage - 2);
+      startPage = Math.max(this.constants.FIRST_PAGINATION_PAGE, currentPage - this.constants.CENTER_OFFSET);
 
-      if (currentPage > this.totalPageAmount - 2) {
-        startPage = this.totalPageAmount - 3;
+      if (currentPage > this.totalPageAmount - this.constants.CENTER_OFFSET) {
+        startPage = this.totalPageAmount - this.constants.WINDOW_SIZE;
       }
 
-      endPage = Math.min(startPage + 3, this.totalPageAmount);
+      endPage = Math.min(startPage + this.constants.WINDOW_SIZE, this.totalPageAmount);
 
-      if (endPage - startPage < 3) {
-        startPage = Math.max(1, endPage - 3);
+      if (endPage - startPage < this.constants.MINIMUM_DISPLAY_LENGTH) {
+        startPage = Math.max(this.constants.FIRST_PAGINATION_PAGE, endPage - this.constants.WINDOW_SIZE);
       }
     }
 

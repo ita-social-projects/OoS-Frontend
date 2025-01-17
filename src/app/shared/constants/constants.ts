@@ -63,11 +63,13 @@ export class Constants {
 
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
-  static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
   static readonly PAGINATION_DOTS = '...';
-  static readonly PAGINATION_SHIFT_DELTA = 3;
   static readonly ITEMS_PER_PAGE_TEN = 10;
   static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / 332);
+  static readonly VISIBLE_PAGES = 4;
+  static readonly CENTER_OFFSET = 2;
+  static readonly MINIMUM_DISPLAY_LENGTH = 3;
+  static readonly WINDOW_SIZE = 3;
   static readonly firstPage = {
     element: 1,
     isActive: true
