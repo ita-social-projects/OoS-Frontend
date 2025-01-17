@@ -22,12 +22,14 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
 
   public readonly tabTitles = DetailsTabTitlesEnum;
-  public coverImage: string;
-  public selectedIndex: number;
   public providerParameters: ProviderParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
+
+  public coverImage: string;
+  public selectedIndex: number;
+
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(

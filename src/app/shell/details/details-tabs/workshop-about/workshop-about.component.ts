@@ -19,8 +19,10 @@ export class WorkshopAboutComponent implements OnInit {
   public readonly workingDays = WorkingDays;
   public readonly workingDaysReverse = WorkingDaysReverse;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
-  public images: ImgPath[];
+
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
+
+  public images: ImgPath[];
 
   constructor(private readonly imagesService: ImagesService) {}
 

@@ -54,15 +54,16 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public readonly InfoMenuType = InfoMenuType;
   public readonly modalType = ModalConfirmationType;
 
-  public workshopStatusOpen: boolean;
-  public selectedIndex: number;
-  public tabIndex: number;
-  public coverImage: string;
   public providerParameters: ProviderParameters = {
     providerId: '',
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
+
+  public workshopStatusOpen: boolean;
+  public selectedIndex: number;
+  public tabIndex: number;
+  public coverImage: string;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
