@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
@@ -24,7 +24,6 @@ import { ProviderComponent } from '../provider.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderPositionsComponent extends ProviderComponent implements OnInit {
-  public readonly smallMobileWidth = 480;
   public readonly debounceInputTime = 500;
   public readonly positionParameters: PositionParameters = { size: 12, providerId: '' };
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
