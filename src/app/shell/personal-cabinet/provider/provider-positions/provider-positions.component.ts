@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
@@ -14,30 +14,32 @@ import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil, tap 
 import { SearchResponse } from 'shared/models/search.model';
 import { FormControl } from '@angular/forms';
 import { ValidationConstants } from 'shared/constants/validation';
+import { PositionSortEnum } from 'shared/enum/enumUA/provider';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
   selector: 'app-provider-positions',
   templateUrl: './provider-positions.component.html',
-  styleUrls: ['./provider-positions.component.scss']
+  styleUrls: ['./provider-positions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderPositionsComponent extends ProviderComponent implements OnInit {
+  public isSmallMobileView: boolean;
+  public positions$: Observable<Position>;
   public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
   public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
-  public positions$: Observable<Position>;
   public totalElements = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public sortFormControl: FormControl = new FormControl(PositionSortEnum.WithoutSort);
+  public filterFormControl: FormControl = new FormControl('');
+  public readonly smallMobileWidth = 480;
+  public readonly debounceInputTime = 500;
   public readonly positionParameters: PositionParameters = { size: 12, providerId: '' };
-  public isSmallMobileView: boolean;
-  public readonly withoutSort: string = 'FORMS.PLACEHOLDERS.WITHOUT_SORT';
-  public readonly sortByName: string = 'FORMS.PLACEHOLDERS.SORT_BY_NAME';
-  public readonly sortByCreatedAt: string = 'FORMS.PLACEHOLDERS.SORT_BY_CREATED_AT';
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
-  public filterFormControl: FormControl = new FormControl('');
-  public readonly sortList: string[] = [this.withoutSort, this.sortByName, this.sortByCreatedAt];
-  public sortFormControl: FormControl = new FormControl(this.withoutSort);
+  public readonly sortList: string[] = Object.values(PositionSortEnum);
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog
@@ -47,7 +49,7 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
-    this.isSmallMobileView = event.innerWidth <= 480;
+    this.isSmallMobileView = event.innerWidth <= this.smallMobileWidth;
   }
 
   public ngOnInit(): void {
@@ -57,13 +59,13 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500),
+        debounceTime(this.debounceInputTime),
         distinctUntilChanged(),
         tap((value: string) => {
           this.positionParameters.searchString = value;
           this.getPositions();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -104,8 +106,8 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     this.store
       .select(ProviderState.positions)
       .pipe(
-        takeUntil(this.destroy$),
-        filter((position: SearchResponse<Position[]>) => position != null)
+        filter((position: SearchResponse<Position[]>) => position != null),
+        takeUntil(this.destroy$)
       )
       .subscribe((positions: SearchResponse<Position[]>) => {
         this.dataSource.data = positions.entities;
@@ -114,10 +116,10 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   }
 
   private sortData(value: string): void {
-    if (value === this.sortByCreatedAt) {
+    if (value === PositionSortEnum.SortByCreatedAt) {
       this.positionParameters.orderByCreatedAt = true;
       this.positionParameters.orderByFullName = false;
-    } else if (value === this.sortByName) {
+    } else if (value === PositionSortEnum.SortByName) {
       this.positionParameters.orderByCreatedAt = false;
       this.positionParameters.orderByFullName = true;
     } else {

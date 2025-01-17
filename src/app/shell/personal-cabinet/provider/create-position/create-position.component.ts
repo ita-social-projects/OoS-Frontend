@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Position } from 'shared/models/position.model';
 import { Provider } from 'shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
@@ -21,7 +21,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   styleUrls: ['./create-position.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreatePositionComponent extends CreateFormComponent implements AfterContentChecked, OnInit {
+export class CreatePositionComponent extends CreateFormComponent implements OnInit {
   @Select(ProviderState.selectedPosition)
   public selectedPosition$: Observable<Position>;
 
@@ -43,18 +43,14 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
     super(store, route, navigationBarService);
   }
 
-  public ngAfterContentChecked(): void {
-    this.changeDetector.detectChanges();
-  }
-
   public ngOnInit(): void {
     this.provider$
       .pipe(
-        takeUntil(this.destroy$),
         filter((provider: Provider) => provider != null),
         tap((provider: Provider) => {
           this.provider = provider;
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
@@ -68,22 +64,23 @@ export class CreatePositionComponent extends CreateFormComponent implements Afte
 
     this.provider$
       .pipe(
-        takeUntil(this.destroy$),
         filter((provider: Provider) => provider != null),
         tap((provider: Provider) => {
           this.provider = provider;
           this.store.dispatch(new GetPositionById(positionId, this.provider.id));
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
     this.selectedPosition$
       .pipe(
-        takeUntil(this.destroy$),
         filter((position: Position) => position?.id === positionId),
         tap((position: Position) => {
           this.position = new Position(position, this.provider, positionId);
-        })
+          this.changeDetector.markForCheck();
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

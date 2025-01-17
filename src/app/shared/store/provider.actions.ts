@@ -407,17 +407,24 @@ export class GetPositions {
   constructor(public positionParameters: PositionParameters) {}
 }
 
-export class GetPositionById {
-  static readonly type = '[provider] Get position by position Id';
-  constructor(
-    public positionId: string,
-    public providerId: string
-  ) {}
+export class OnGetPositionsFail {
+  static readonly type = '[provider] Get positions fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class CreatePosition {
   static readonly type = '[provider] Create position';
   constructor(public position: Position) {}
+}
+
+export class OnCreatePositionSuccess {
+  static readonly type = '[provider] Create position success';
+  constructor(public position: Position) {}
+}
+
+export class OnCreatePositionFail {
+  static readonly type = '[provider] create position fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class UpdatePosition {
@@ -430,9 +437,9 @@ export class OnUpdatePositionSuccess {
   constructor(public position: Position) {}
 }
 
-export class OnCreatePositionSuccess {
-  static readonly type = '[provider] Create position success';
-  constructor(public position: Position) {}
+export class OnUpdatePositionFail {
+  static readonly type = '[provider] update position fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class DeletePositionById {
@@ -452,22 +459,15 @@ export class OnDeletePositionFail {
   static readonly type = '[provider] Delete position fail';
   constructor(public payload: HttpErrorResponse) {}
 }
+export class GetPositionById {
+  static readonly type = '[provider] Get position by position Id';
+  constructor(
+    public positionId: string,
+    public providerId: string
+  ) {}
+}
 
 export class OnGetPositionByIdFail {
   static readonly type = '[provider] Get position by id fail';
-  constructor(public error: HttpErrorResponse) {}
-}
-
-export class OnGetPositionsFail {
-  static readonly type = '[provider] Get positions fail';
-  constructor(public error: HttpErrorResponse) {}
-}
-export class OnUpdatePositionFail {
-  static readonly type = '[provider] update position fail';
-  constructor(public error: HttpErrorResponse) {}
-}
-
-export class OnCreatePositionFail {
-  static readonly type = '[provider] create position fail';
   constructor(public error: HttpErrorResponse) {}
 }

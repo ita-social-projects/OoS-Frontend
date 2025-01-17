@@ -895,7 +895,7 @@ export class ProviderState {
 
   @Action(OnUpdatePositionSuccess)
   onUpdatePositionSuccess({ dispatch, patchState }: StateContext<ProviderStateModel>, { position }: OnUpdatePositionSuccess): void {
-    patchState({ selectedPosition: null });
+    patchState({ selectedPosition: null, isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.updatePositionSuccess, type: 'success' })]);
     this.router.navigate(['/personal-cabinet/provider/positions']);
   }
@@ -914,18 +914,15 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.positionService.deletePosition(positionParameters, positionId).pipe(
       tap(() => {
-        patchState({ isLoading: false });
         dispatch(new OnDeletePositionSuccess(positionParameters));
       }),
-      catchError((error: HttpErrorResponse) => {
-        patchState({ isLoading: false });
-        return dispatch(new OnDeletePositionFail(error));
-      })
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeletePositionFail(error)))
     );
   }
 
   @Action(OnDeletePositionSuccess)
-  onDeletePositionSuccess({ dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionSuccess): void {
+  onDeletePositionSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionSuccess): void {
+    patchState({ isLoading: false });
     dispatch([
       new ShowMessageBar({ message: SnackbarText.deletePositionSuccess, type: 'success' }),
       new GetPositions(payload.positionParameters)
@@ -933,7 +930,8 @@ export class ProviderState {
   }
 
   @Action(OnDeletePositionFail)
-  onDeletePositionFail({ dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionFail): void {
+  onDeletePositionFail({ patchState, dispatch }: StateContext<ProviderStateModel>, payload: OnDeletePositionFail): void {
+    patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
