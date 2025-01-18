@@ -459,6 +459,7 @@ export class OnDeletePositionFail {
   static readonly type = '[provider] Delete position fail';
   constructor(public payload: HttpErrorResponse) {}
 }
+
 export class GetPositionById {
   static readonly type = '[provider] Get position by position Id';
   constructor(

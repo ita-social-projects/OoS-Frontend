@@ -1,20 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { MatTableDataSource } from '@angular/material/table';
-import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
-import { Position, PositionParameters } from 'shared/models/position.model';
-import { ProviderState } from 'shared/store/provider.state';
-import { PaginationElement } from 'shared/models/pagination-element.model';
-import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { Util } from 'shared/utils/utils';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { PushNavPath } from 'shared/store/navigation.actions';
-import { MatDialog } from '@angular/material/dialog';
-import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil, tap } from 'rxjs';
-import { SearchResponse } from 'shared/models/search.model';
 import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil, tap } from 'rxjs';
+
+import { ProviderState } from 'shared/store/provider.state';
+import { GetPositions, DeletePositionById } from 'shared/store/provider.actions';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { Position, PositionParameters } from 'shared/models/position.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ValidationConstants } from 'shared/constants/validation';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { PositionSortEnum } from 'shared/enum/enumUA/provider';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
 
 @Component({

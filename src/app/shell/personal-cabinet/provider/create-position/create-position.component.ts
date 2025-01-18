@@ -37,7 +37,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
-    private readonly changeDetector: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
     private readonly router: Router
   ) {
     super(store, route, navigationBarService);
@@ -64,7 +64,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
 
     this.provider$
       .pipe(
-        filter((provider: Provider) => provider != null),
+        filter((provider: Provider) => Boolean(provider)),
         tap((provider: Provider) => {
           this.provider = provider;
           this.store.dispatch(new GetPositionById(positionId, this.provider.id));
@@ -78,7 +78,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
         filter((position: Position) => position?.id === positionId),
         tap((position: Position) => {
           this.position = new Position(position, this.provider, positionId);
-          this.changeDetector.markForCheck();
+          this.cdr.markForCheck();
         }),
         takeUntil(this.destroy$)
       )
