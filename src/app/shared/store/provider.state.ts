@@ -483,7 +483,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: providerActions.OnUpdateProviderSuccess): void {
+  onUpdateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.updateProvider,
@@ -732,12 +732,12 @@ export class ProviderState {
   }
 
   @Action(providerActions.OnClearBlockedParents)
-  onClearBlockedParents({ patchState }: StateContext<ProviderStateModel>, {}: providerActions.OnClearBlockedParents): void {
+  onClearBlockedParents({ patchState }: StateContext<ProviderStateModel>): void {
     patchState({ blockedParent: null });
   }
 
   @Action(providerActions.ResetAchievements)
-  resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: providerActions.ResetAchievements): void {
+  resetAchievement({ patchState }: StateContext<ProviderStateModel>): void {
     patchState({ selectedAchievement: null, achievements: null });
   }
 
