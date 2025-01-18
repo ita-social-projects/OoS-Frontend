@@ -126,6 +126,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     this.invalidTimeRange = errors?.invalidTimeRange;
+    this.cdr.detectChanges();
   }
 
   private checkInvalidText(errors: ValidationErrors): void {

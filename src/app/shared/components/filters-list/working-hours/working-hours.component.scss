@@ -1,5 +1,6 @@
 @import 'src/app/shared/styles/buttons.scss';
-
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/working-hours.scss';
 .filter-text {
   margin: 0 1rem 0 0;
   font-family: Innerspace;
@@ -22,13 +23,21 @@
   margin-bottom: 0;
 }
 
+.time-input-wrapper {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  gap: 10px;
+}
 .time-input {
   border: 1px solid #e3e3e3;
   background-color: #ffffff;
   box-sizing: border-box;
+  position: relative;
   border-radius: 21px;
   padding: 0.5rem;
   max-height: 34px;
+  max-width: 114px;
   text-align: center;
 }
 :host ::ng-deep .mat-form-field {
@@ -96,7 +105,7 @@
   font-size: 18px;
   color: #adadad;
   top: 8px;
-  left: 114px;
+  left: 85px;
 }
 .clear-time:hover {
   visibility: visible;
