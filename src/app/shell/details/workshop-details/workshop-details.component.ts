@@ -123,7 +123,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshopData(): void {
-    this.coverImage = this.imagesService.setCoverImage(this.workshop);
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new AddNavPath(

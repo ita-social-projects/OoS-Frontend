@@ -51,7 +51,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getProviderData(): void {
-    this.coverImage = this.imagesService.setCoverImage(this.provider);
+    this.coverImage = this.imagesService.getCoverImage(this.provider);
     this.store.dispatch([
       new AddNavPath(
         this.navigationBarService.createNavPaths(
