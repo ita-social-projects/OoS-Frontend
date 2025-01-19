@@ -100,7 +100,7 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     this.store
       .select(ProviderState.positions)
       .pipe(
-        filter((position: SearchResponse<Position[]>) => position != null),
+        filter((position: SearchResponse<Position[]>) => Boolean(position)),
         takeUntil(this.destroy$)
       )
       .subscribe((positions: SearchResponse<Position[]>) => {

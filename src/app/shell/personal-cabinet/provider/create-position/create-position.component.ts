@@ -46,7 +46,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
   public ngOnInit(): void {
     this.provider$
       .pipe(
-        filter((provider: Provider) => provider != null),
+        filter((provider: Provider) => Boolean(provider)),
         tap((provider: Provider) => {
           this.provider = provider;
         }),
