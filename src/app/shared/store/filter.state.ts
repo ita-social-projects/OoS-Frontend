@@ -254,14 +254,17 @@ export class FilterState {
 
   @Action(AddPreviousResult)
   addPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddPreviousResult): void {
-    const state = ctx.getState();
-    const normalizedResult = result.trim().toLowerCase();
-    const normalizedResults = state.previousResults.map((res) => res.trim().toLowerCase());
-
-    if (normalizedResult && !normalizedResults.includes(normalizedResult)) {
-      const updatedResults = [result, ...state.previousResults.slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS - 1)];
-      ctx.patchState({ previousResults: updatedResults });
+    const trimmedResult = result.trim();
+    if (!trimmedResult) {
+      return;
     }
+    const state = ctx.getState();
+    const updatedResults = [
+      trimmedResult,
+      ...state.previousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
+    ].slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS);
+
+    ctx.patchState({ previousResults: updatedResults });
   }
 
   @Action(RemovePreviousResult)
