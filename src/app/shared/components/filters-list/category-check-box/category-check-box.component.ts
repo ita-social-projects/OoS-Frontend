@@ -47,7 +47,10 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     });
     this.directionSearchFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((value: string) => this.filterDirections(value));
+      .subscribe((value: string) => {
+        this.filterDirections(value);
+        this.cdr.detectChanges();
+      });
   }
 
   public ngAfterViewInit(): void {

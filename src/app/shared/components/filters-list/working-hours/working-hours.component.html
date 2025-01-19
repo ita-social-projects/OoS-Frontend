@@ -29,7 +29,7 @@
     <div class="flex flex-col justify-start items-start">
       <ng-container class="flex flex-col">
         <div class="flex flex-row justify-start items-center">
-          <p class="filter-text">{{ 'FROM' | translate }}</p>
+          <p class="filter-text w-[20px]">{{ 'FROM' | translate }}</p>
           <div class="relative">
             <input class="time-input" matInput [formControl]="startTimeFormControl" maxlength="5" autocomplete="off" />
             <mat-icon class="clear-time" (click)="clearStart()" (keydown.enter)="clearStart()">clear</mat-icon>
@@ -43,7 +43,7 @@
     <div class="flex flex-col justify-start items-start">
       <ng-container class="flex flex-col">
         <div class="flex flex-row justify-start items-center">
-          <p class="filter-text">{{ 'TO' | translate }}</p>
+          <p class="filter-text w-[20px]">{{ 'TO' | translate }}</p>
           <div class="relative">
             <input class="time-input" matInput [formControl]="endTimeFormControl" maxlength="5" autocomplete="off" />
             <mat-icon class="clear-time" (click)="clearEnd()" (keydown.enter)="clearEnd()">clear</mat-icon>

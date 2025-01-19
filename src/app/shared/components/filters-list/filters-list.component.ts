@@ -58,16 +58,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   public ngOnInit(): void {
-    combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
-      .pipe(take(1))
-      .subscribe(([visibleFiltersSidenav, filterList]) => {
-        this.visibleFiltersSidenav = visibleFiltersSidenav;
-        this.filterList = filterList;
-        this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
-        this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });
-        this.WithDisabilityOptionControl.setValue(this.filterList.withDisabilityOption, { emitEvent: false });
-      });
-
+    this.setFiltersValue();
     combineLatest(
       Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
     )
@@ -110,10 +101,27 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   public onFilterReset(): void {
     this.store.dispatch(new FilterClear());
+    this.setFiltersValue();
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setFiltersValue(): void {
+    combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
+      .pipe(take(1))
+      .subscribe(([visibleFiltersSidenav, filterList]) => {
+        this.visibleFiltersSidenav = visibleFiltersSidenav;
+        this.filterList = filterList;
+        Object.keys(this.formOfLearningControls).forEach((key) => {
+          const formKey = key as FormOfLearning;
+          this.formOfLearningControls[key].setValue(filterList.formsOfLearning.includes(formKey));
+        });
+        this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
+        this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });
+        this.WithDisabilityOptionControl.setValue(this.filterList.withDisabilityOption, { emitEvent: false });
+      });
   }
 }
