@@ -122,6 +122,7 @@
       "EDIT_PERSONAL_INFORMATION": "Редагування особистої інформації",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
+      "EDIT_POSITION": "Редагування посади",
       "ADD_NEW_ADMIN": "Додати адміністратора",
       "EDIT_ADMIN": "Редагування адміністратора",
       "INFORMATION_ABOUT_CHILDREN": "Інформація про дітей",
@@ -129,6 +130,7 @@
       "MAIN_PAGE": "Головна сторінка",
       "MESSAGES": "Повідомлення",
       "NEW_WORKSHOP": "Новий гурток",
+      "NEW_POSITION": "Нова посада",
       "NEW_WORKSHOP_APPLICATION": "Заявка на гурток",
       "PERSONAL_INFORMATION": "Особиста інформація",
       "PLATFORM": "Портал",
@@ -140,6 +142,7 @@
       "MY_WORKSHOPS": "Мої гуртки",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
+      "POSITIONS": "Посади",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
@@ -377,7 +380,11 @@
       "EMPLOYEES_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
       "ADD_ACHIEVEMENT": "ДОДАТИ ДОСЯГНЕННЯ",
       "ADD_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході",
-      "NEW_USER": "РЕЄСТРАЦІЯ НОВОГО КОРИСТУВАЧА"
+      "NEW_USER": "РЕЄСТРАЦІЯ НОВОГО КОРИСТУВАЧА",
+      "NEW_POSITION": "НОВА ПОСАДА",
+      "EDIT_POSITION": "Редагування посади",
+      "EDIT_POSITION_DESCRIPTION": "Редагуйте інформацію про посаду або контактну інформацію",
+      "NEW_POSITION_DESCRIPTION": "Створіть нову посаду"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -461,7 +468,17 @@
       "WORKSHOP_TYPE": "Тип групи",
       "WORKSHOP_IMAGES": "Фото гуртка",
       "COVER_IMAGE": "Обкладинка",
-      "PROVIDER_IMAGES": "Фото закладу"
+      "PROVIDER_IMAGES": "Фото закладу",
+      "FULL_TITLE": "Повна назва",
+      "RATE": "Рейтинг",
+      "TARIFF": "Заробітна плата",
+      "FOR_RURAL_AREAS": "Для сільської місцевості",
+      "OPENED_IN_DEPARTMENT": "Відкрито у відділенні",
+      "NAME_IN_GENITIVE_CASE": "Назва в родовому відмінку",
+      "TEACHING_POSITION": "Вчительська посада",
+      "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
+      "CREATED_AT": "Дата створення",
+      "LANGUAGE": "Мова"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -488,7 +505,20 @@
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",
       "SELECT_INSTITUTION_CATEGORY": "Оберіть категорію закладу",
-      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
+      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації",
+      "ENTER_FULL_TITLE": "Введіть повну назву",
+      "ENTER_SHORT_TITLE": "Введіть скорочену назву",
+      "ENTER_DESCRIPTION": "Введіть опис",
+      "ENTER_DEPARTMENT_NAME": "Введіть назві відділення",
+      "ENTER_NAME_IN_GENITIVE_CASE": "Введіть назву посади у родовому відмінку",
+      "ENTER_RATE": "Введіть рейтинг посади",
+      "ENTER_TARIFF": "Введіть заробітну плату",
+      "ENTER_TYPE_BY_CLASSIFIER": "Введіть тип за класифікатором",
+      "ENTER_LANGUAGE": "Введіть мову необхідну для посади",
+      "WITHOUT_SORT": "Без сортування",
+      "SORT_BY_NAME": "За назвою",
+      "SORT_BY_CREATED_AT": "За датою створення",
+      "SEARCH_BY_TITLE": "Пошук за повною назвою"
     },
     "UAH_FOR": "грн за",
     "UAH": "грн",
@@ -511,6 +541,7 @@
       "INVALID_SYMBOLS": ", використовуйте, будь ласка, тільки кирилицю та символи ( ' - )",
       "INVALID_SECTION_NAME": ", будь ласка, назва розділу має починатися з літери кирилиці або латинського алфавіту",
       "INVALID_SEARCH": "Використовуйте, будь ласка, тільки кирилицю, латиницю, числа та символи (` ' / . , № \")",
+      "INVALID_VALUE_START": "Це число може бути тільки",
       "INVALID_TIME_FORMAT": "Використовуйте, будь ласка, часовий формат \"09:59\"",
       "INVALID_TIME_RANGE": "\"Від\" не може бути пізніше ніж \"До\"",
       "REQUIRED_INPUT": "Це поле є обов'язковим.",
@@ -569,7 +600,9 @@
     "ABOUT_THE_PROVIDER_INFO": "Інформація про заклад",
     "ACCESS_MANAGMENT": "Керування доступами",
     "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Редагувати напрямок",
-    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Редагуйте новий напрямок"
+    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Редагуйте новий напрямок",
+    "ACTIONS": "Дії",
+    "ABOUT_THE_POSITION_SHORT": "Про посаду"
   },
   "TO": "До",
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
@@ -598,6 +631,7 @@
     "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані тренера/викладачі:",
     "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.",
     "ADD_ACHIEVEMENT_SUBHEADER": "Тут ви можете додати досягнення.",
+    "ADD_POSITION": "Тут ви можете додати посади для робітників",
     "ADD_IMG_SUBHEADER": "Додайте фото натистувши на “+”. Максимальна кількість фото -"
   },
   "BUTTONS": {
@@ -640,6 +674,7 @@
     "GO_BACK": "Повернутись",
     "REGISTER": "Зареєструватися",
     "ADD_DIRECTION": "Додати напрямок",
+    "ADD_POSITION": "Додати посаду",
     "PUBLISH": "Опублікувати",
     "ARCHIVE": "Архівувати"
   },
@@ -841,6 +876,11 @@
       "NOT_UNIQUE_DATA": "Перевірте введені дані. Електронна пошта та ІПН/ЄДРПОУ мають бути унікальними.",
       "MAP_WARNING": "Важливо! Тільки 100 найближчих гуртків будуть відображені на карті.",
       "GEOLOCATION_WARNING": "Надайте доступ до вашої геолокації, це можна зробити в налаштуваннях браузера.",
+      "POSITION_CREATED_SUCCESS": "Посаду успішно створено!",
+      "POSITION_UPDATED_SUCCESS": "Посаду успішно оновлено!",
+      "POSITION_DELETED_SUCCESS": "Посаду успішно видалено!",
+      "POSITION_BY_TITLE_NOT_FOUND": "Не знайдено жодної посади",
+      "POSITION_NOT_FOUND": "Посаду не знайдено",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",
