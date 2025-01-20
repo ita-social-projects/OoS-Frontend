@@ -127,3 +127,21 @@
     margin-bottom: 10px;
   }
 }
+
+.time-input.ng-invalid.ng-touched,
+.redBorder {
+  outline: none;
+  border: 1px solid #c72a21;
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: red;
+}
+
+mat-error {
+  margin-top: 8px;
+}

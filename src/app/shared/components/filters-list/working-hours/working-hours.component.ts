@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
@@ -22,6 +22,8 @@ import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 export class WorkingHoursComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
   public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  public readonly checkBoxDebounceTime: number = 300;
+  public readonly inputDebounceTime: number = 500;
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 
   public startTimeFormControl = new FormControl('');
@@ -30,13 +32,9 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   public isAppropriateHoursControl = new FormControl(false);
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public selectedWorkingDays: string[] = [];
-  public workingHoursFormGroup: FormGroup;
-  constructor(
-    private readonly store: Store,
-    private readonly fb: FormBuilder
-  ) {
-    this.workingHoursFormGroup = fb.group({ startTime: this.startTimeFormControl, endTime: this.endTimeFormControl });
-  }
+  public workingHoursFormGroup: FormGroup = new FormGroup({ startTime: this.startTimeFormControl, endTime: this.endTimeFormControl });
+
+  constructor(private readonly store: Store) {}
 
   @Input()
   public set workingHours(filter: WorkingHoursFilter) {
@@ -64,7 +62,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
         tap((value) => {
           this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
         }),
-        debounceTime(500),
+        debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
@@ -77,7 +75,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
         tap((value) => {
           this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
         }),
-        debounceTime(500),
+        debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
@@ -86,11 +84,11 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       });
 
     this.isStrictWorkdaysControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(this.checkBoxDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
 
     this.isAppropriateHoursControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(this.checkBoxDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
   }
 
@@ -102,12 +100,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  public clearStart(): void {
-    this.startTimeFormControl.reset();
-  }
-
-  public clearEnd(): void {
-    this.endTimeFormControl.reset();
+  public onClearTime(formControl: FormControl): void {
+    formControl.reset();
   }
 
   public onTimeSet(chosenTime: string, formControl: FormControl): void {
