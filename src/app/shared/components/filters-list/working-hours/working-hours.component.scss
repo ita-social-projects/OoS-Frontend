@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/working-hours.scss';
+
 .filter-text {
   margin: 0 1rem 0 0;
   font-family: Innerspace;
@@ -29,6 +30,7 @@
   align-items: flex-start;
   gap: 10px;
 }
+
 .time-input {
   border: 1px solid #e3e3e3;
   background-color: #ffffff;
@@ -40,16 +42,20 @@
   max-width: 114px;
   text-align: center;
 }
+
 :host ::ng-deep .mat-form-field {
   max-width: 150px !important;
 }
+
 :host ::ng-deep .mat-form-field-underline {
   display: none;
 }
+
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
+
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0 !important;
 }
@@ -77,19 +83,23 @@
     opacity: 0.8;
   }
 }
+
 ::ng-deep .mat-mdc-dialog-container {
   [mat-dialog-actions] {
     display: flex;
     justify-content: center !important;
   }
 }
+
 .btn {
   min-width: 150px;
   margin: 0 0 0.5rem 0;
 }
+
 ::ng-deep .mat-toolbar.mat-primary {
   background-color: #3849f9 !important;
 }
+
 ::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
@@ -98,6 +108,7 @@
 .time-input:hover + .clear-time {
   visibility: visible;
 }
+
 .clear-time {
   cursor: pointer;
   visibility: hidden;
@@ -107,9 +118,11 @@
   top: 8px;
   left: 85px;
 }
+
 .clear-time:hover {
   visibility: visible;
 }
+
 .check-boxes {
   margin-top: 20px;
 }

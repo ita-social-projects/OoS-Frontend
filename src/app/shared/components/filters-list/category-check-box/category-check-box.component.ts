@@ -34,7 +34,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private store: Store,
+    private readonly store: Store,
     private readonly cdr: ChangeDetectorRef
   ) {}
 
@@ -43,13 +43,13 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
       this.allDirections = directions;
       this.filteredDirections = directions;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
     this.directionSearchFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: string) => {
         this.filterDirections(value);
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       });
   }
 
