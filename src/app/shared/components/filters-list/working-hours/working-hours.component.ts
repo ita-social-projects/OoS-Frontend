@@ -32,7 +32,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   public isAppropriateHoursControl = new FormControl(false);
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public selectedWorkingDays: string[] = [];
-  public workingHoursFormGroup: FormGroup = new FormGroup({ startTime: this.startTimeFormControl, endTime: this.endTimeFormControl });
+  public workingHoursFormGroup: FormGroup;
 
   constructor(private readonly store: Store) {}
 
@@ -52,6 +52,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.workingHoursFormGroup = new FormGroup({ startTime: this.startTimeFormControl, endTime: this.endTimeFormControl });
+
     this.endTimeFormControl.setValidators(TimeFormatValidator);
     this.startTimeFormControl.setValidators(TimeFormatValidator);
 
@@ -59,9 +61,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.startTimeFormControl.valueChanges
       .pipe(
-        tap((value) => {
-          this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
-        }),
+        tap((value) => this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -72,9 +72,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.endTimeFormControl.valueChanges
       .pipe(
-        tap((value) => {
-          this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
-        }),
+        tap((value) => this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -129,18 +127,10 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   private applyFilters(): void {
     if (this.endTimeFormControl.valid) {
-      if (!this.endTimeFormControl.value) {
-        this.store.dispatch(new SetEndTime(''));
-      } else {
-        this.store.dispatch(new SetEndTime(this.endTimeFormControl.value));
-      }
+      this.store.dispatch(new SetEndTime(this.endTimeFormControl.value || ''));
     }
     if (this.startTimeFormControl.valid) {
-      if (!this.startTimeFormControl.value) {
-        this.store.dispatch(new SetStartTime(''));
-      } else {
-        this.store.dispatch(new SetStartTime(this.startTimeFormControl.value));
-      }
+      this.store.dispatch(new SetStartTime(this.startTimeFormControl.value || ''));
     }
   }
 }

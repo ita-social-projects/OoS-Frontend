@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { startWith, take, takeUntil } from 'rxjs/operators';
+import { first, startWith, takeUntil } from 'rxjs/operators';
 
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
@@ -111,7 +111,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   private setFiltersValue(): void {
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
-      .pipe(take(1))
+      .pipe(first())
       .subscribe(([visibleFiltersSidenav, filterList]) => {
         this.visibleFiltersSidenav = visibleFiltersSidenav;
         this.filterList = filterList;
