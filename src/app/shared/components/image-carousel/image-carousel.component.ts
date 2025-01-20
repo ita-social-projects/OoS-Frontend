@@ -11,7 +11,7 @@ import { DefaultCarouselOptions } from 'shared/configs/carousel.config';
 })
 export class ImageCarouselComponent implements OnInit {
   @Input() public images: ImgPath[] = [];
-
+  public readonly indexOffset = 1;
   protected customOptions: OwlOptions = { ...DefaultCarouselOptions };
 
   public ngOnInit(): void {

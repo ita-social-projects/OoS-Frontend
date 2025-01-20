@@ -11,7 +11,6 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
 import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
-import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -55,25 +54,26 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public readonly InfoMenuType = InfoMenuType;
   public readonly modalType = ModalConfirmationType;
 
-  public workshopStatusOpen: boolean;
-  public selectedIndex: number;
-  public tabIndex: number;
-  public images: ImgPath[] = [];
   public providerParameters: ProviderParameters = {
     providerId: '',
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public workshopStatusOpen: boolean;
+  public selectedIndex: number;
+  public tabIndex: number;
+  public coverImage: string;
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private imagesService: ImagesService,
-    private store: Store,
-    private navigationBarService: NavigationBarService,
-    private dialog: MatDialog
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly imagesService: ImagesService,
+    private readonly store: Store,
+    private readonly navigationBarService: NavigationBarService,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -123,7 +123,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshopData(): void {
-    this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new AddNavPath(

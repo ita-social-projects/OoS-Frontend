@@ -38,6 +38,10 @@
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
+  "ALT": {
+    "CAROUSEL_IMG": "photo",
+    "IMG_COVER": "Cover"
+  },
   "ENUM": {
     "CHAT_CHANGES": {
       "CHANGE_IN_MESSAGES": "change in messages",
@@ -454,7 +458,10 @@
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
       "COVERAGE": "Coverage",
-      "WORKSHOP_TYPE": "Workshop type"
+      "WORKSHOP_TYPE": "Workshop type",
+      "WORKSHOP_IMAGES": "Photos of the workshop",
+      "COVER_IMAGE": "Cover image",
+      "PROVIDER_IMAGES": "Photos of the provider"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
