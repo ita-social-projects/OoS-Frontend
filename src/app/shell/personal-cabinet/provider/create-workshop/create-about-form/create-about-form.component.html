@@ -220,10 +220,4 @@
       <app-validation-hint [validationFormControl]="availableSeatsControl" [minNumberValue]="minSeats"></app-validation-hint>
     </mat-radio-group>
   </div>
-
-  <app-institution-hierarchy
-    [instituitionHierarchyIdFormControl]="AboutFormGroup.get('institutionHierarchyId')"
-    [instituitionIdFormControl]="AboutFormGroup.get('institutionId')"
-    [provider]="provider">
-  </app-institution-hierarchy>
 </form>
