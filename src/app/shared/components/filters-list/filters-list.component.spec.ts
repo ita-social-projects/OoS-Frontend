@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -44,7 +44,8 @@ describe('FiltersListComponent', () => {
     component = fixture.componentInstance;
     const mockFilterList$ = new BehaviorSubject<any>({
       statuses: [WorkshopOpenStatus.Open, WorkshopOpenStatus.Closed],
-      withDisabilityOption: false
+      withDisabilityOption: false,
+      formsOfLearning: ['Offline', 'Online']
     });
     Object.defineProperty(component, 'filterList$', {
       get: () => mockFilterList$.asObservable()
@@ -55,12 +56,18 @@ describe('FiltersListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize filters from state', () => {
+  it('should initialize filters from state', fakeAsync(() => {
     component.ngOnInit();
+
+    tick();
+
     expect(component.OpenRecruitmentControl.value).toBe(true);
     expect(component.ClosedRecruitmentControl.value).toBe(true);
     expect(component.WithDisabilityOptionControl.value).toBe(false);
-  });
+    expect(component.formOfLearningControls.Online.value).toBe(true);
+    expect(component.formOfLearningControls.Offline.value).toBe(true);
+    expect(component.formOfLearningControls.Mixed.value).toBe(false);
+  }));
 
   it('should append and splice recruitment array', () => {
     component.ngOnInit();
