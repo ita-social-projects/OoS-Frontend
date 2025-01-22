@@ -16,12 +16,16 @@ export class PositionService {
   ) {}
 
   public getPositions(parameters: PositionParameters): Observable<SearchResponse<Position[]>> {
-    const params = new HttpParams()
-      .set('OrderByFullName', parameters.orderByFullName || 'false')
-      .set('OrderByCreatedAt', parameters.orderByCreatedAt || 'false')
+    let params = new HttpParams()
       .set('SearchString', parameters.searchString || '')
       .set('From', parameters.from.toString() || '0')
       .set('Size', parameters.size?.toString() || '10');
+    if (parameters.orderByCreatedAt !== undefined) {
+      params = params.set('OrderByCreatedAt', parameters.orderByCreatedAt);
+    }
+    if (parameters.orderByFullName !== undefined) {
+      params = params.set('OrderByFullName', parameters.orderByFullName);
+    }
     return this.http.get<SearchResponse<Position[]>>(`${this.baseUrl}/${parameters.providerId}/positions/GetByFilter`, { params });
   }
 

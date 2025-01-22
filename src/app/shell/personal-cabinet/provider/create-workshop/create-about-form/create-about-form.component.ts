@@ -13,6 +13,8 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { validateAgeInput } from 'shared/validators/age-input-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -61,7 +63,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ]);
   private minimumSeats: number = 1;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   public get priceControl(): FormControl {
     return this.AboutFormGroup.get('price') as FormControl;
@@ -152,48 +154,62 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    this.AboutFormGroup = this.formBuilder.group({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
-      ]),
-      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email]),
-      minAge: new FormControl(null, [Validators.required]),
-      maxAge: new FormControl(null, [Validators.required]),
-      image: new FormControl(''),
-      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
-      workingHours: this.workingHoursFormArray,
-      formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
-      availableSeats: new FormControl(
-        {
-          value: null,
-          disabled: true
-        },
-        [Validators.required, Validators.min(this.minSeats)]
-      ),
-      competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null
-    });
+    this.AboutFormGroup = this.formBuilder.group(
+      {
+        title: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
+        shortTitle: new FormControl('', [
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.required,
+          Validators.pattern(MUST_CONTAIN_LETTERS),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+        ]),
+        phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+        email: new FormControl('', [Validators.required, FormValidators.email]),
+        minAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        maxAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        image: new FormControl(''),
+        website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+        facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+        instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+        price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+        workingHours: this.workingHoursFormArray,
+        formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
+        payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
+        coverImage: new FormControl(''),
+        coverImageId: new FormControl(''),
+        availableSeats: new FormControl(
+          {
+            value: null,
+            disabled: true
+          },
+          [Validators.required, Validators.min(this.minSeats)]
+        ),
+        competitiveSelection: new FormControl(false),
+        competitiveSelectionDescription: null
+      },
+      {
+        validators: [AgeRangeValidator('minAge', 'maxAge')]
+      }
+    );
   }
 
   private initListeners(): void {
     this.useProviderInfo();
     this.availableSeatsControlListener();
+    this.ageControlListener();
     this.priceControlListener();
     this.competitiveSelectionListener();
     this.showHintAboutClosingWorkshop();
@@ -288,6 +304,18 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       }
     });
+  }
+
+  private ageControlListener(): void {
+    const maxAgeControl = this.AboutFormGroup.get('maxAge');
+    const minAgeControl = this.AboutFormGroup.get('minAge');
+
+    maxAgeControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => maxAgeControl.setValue(validateAgeInput(value), { emitEvent: false }));
+    minAgeControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => minAgeControl.setValue(validateAgeInput(value), { emitEvent: false }));
   }
 
   private showHintAboutClosingWorkshop(): void {

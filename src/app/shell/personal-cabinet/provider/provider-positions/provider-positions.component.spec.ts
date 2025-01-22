@@ -54,12 +54,10 @@ describe('ProviderPositionsComponent', () => {
   describe('ngOnInit', () => {
     it('should initialize component and set up subscriptions', () => {
       const getPositionsSpy = jest.spyOn(component as any, 'getPositions').mockImplementation(() => {});
-      jest.spyOn(component.sortFormControl.valueChanges, 'pipe').mockReturnValue(of('test'));
 
       component.ngOnInit();
 
       expect(getPositionsSpy).toHaveBeenCalled();
-      expect(component.sortFormControl.valueChanges.pipe).toHaveBeenCalled();
     });
   });
   describe('onItemsPerPageChange', () => {
@@ -105,21 +103,29 @@ describe('ProviderPositionsComponent', () => {
   });
 
   describe('sortData', () => {
-    it('should set orderBy parameters and fetch positions', () => {
+    it('should set the correct sort parameters and fetch positions', () => {
       jest.spyOn(component as any, 'getPositions');
 
-      (component as any).sortData(PositionSortEnum.SortByName);
+      component.sortData({ active: 'orderByFullName', direction: 'asc' });
       expect(component.positionParameters.orderByFullName).toBeTruthy();
-      expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
+      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
       expect((component as any).getPositions).toHaveBeenCalled();
 
-      (component as any).sortData(PositionSortEnum.SortByCreatedAt);
-      expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
+      component.sortData({ active: 'orderByFullName', direction: 'desc' });
       expect(component.positionParameters.orderByFullName).toBeFalsy();
+      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
 
-      (component as any).sortData(PositionSortEnum.WithoutSort);
-      expect(component.positionParameters.orderByFullName).toBeFalsy();
+      component.sortData({ active: 'orderByCreatedAt', direction: 'asc' });
+      expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
+      expect(component.positionParameters.orderByFullName).toBeUndefined();
+
+      component.sortData({ active: 'orderByCreatedAt', direction: 'desc' });
       expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
+      expect(component.positionParameters.orderByFullName).toBeUndefined();
+
+      component.sortData({ active: 'orderByCreatedAt', direction: '' });
+      expect(component.positionParameters.orderByFullName).toBeUndefined();
+      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
     });
   });
 

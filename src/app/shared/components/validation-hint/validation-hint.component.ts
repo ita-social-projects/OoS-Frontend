@@ -58,6 +58,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidValue: boolean;
   public invalidTimeFormat: boolean;
   public invalidTimeRange: boolean;
+  public invalidAgeRange: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -136,6 +137,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     this.invalidTimeRange = errors?.invalidTimeRange;
+    this.invalidAgeRange = errors?.invalidAgeRange;
     this.cdr.markForCheck();
   }
 
