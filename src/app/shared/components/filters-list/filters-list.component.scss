@@ -45,7 +45,7 @@
 }
 
 .reset-filter {
-  padding: 0;
+  padding: 0 2px 0 2px;
   margin-bottom: 3px;
   font-family: Innerspace;
   border: none;
@@ -64,4 +64,8 @@
     height: 16px;
     width: 16px;
   }
+}
+
+.matFilter {
+  padding-right: 4px;
 }
