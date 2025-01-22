@@ -47,7 +47,7 @@ describe('PositionService', () => {
     });
 
     const req = httpTestingController.expectOne(
-      `${mockBaseUrl}/${mockParameters.providerId}/positions/GetByFilter?OrderByFullName=true&OrderByCreatedAt=false&SearchString=&From=0&Size=10`
+      `${mockBaseUrl}/${mockParameters.providerId}/positions/GetByFilter?SearchString=&From=0&Size=10&OrderByCreatedAt=false&OrderByFullName=true`
     );
 
     expect(req.request.method).toBe('GET');

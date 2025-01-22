@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,7 +14,6 @@ import { of } from 'rxjs';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { Position } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { PositionSortEnum } from 'shared/enum/enumUA/provider';
 import { ProviderPositionsComponent } from './provider-positions.component';
 
 describe('ProviderPositionsComponent', () => {
@@ -52,14 +51,16 @@ describe('ProviderPositionsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should initialize component and set up subscriptions', () => {
-      const getPositionsSpy = jest.spyOn(component as any, 'getPositions').mockImplementation(() => {});
+    it('should initialize component and set up subscriptions', fakeAsync(() => {
+      const valueChangesSpy = jest.spyOn(component.filterFormControl.valueChanges, 'pipe').mockReturnValue(of('test'));
 
       component.ngOnInit();
+      tick(component.debounceInputTime);
 
-      expect(getPositionsSpy).toHaveBeenCalled();
-    });
+      expect(valueChangesSpy).toHaveBeenCalled();
+    }));
   });
+
   describe('onItemsPerPageChange', () => {
     it('should update items per page and fetch positions', () => {
       jest.spyOn(component, 'onPageChange');
