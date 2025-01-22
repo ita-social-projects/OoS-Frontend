@@ -153,7 +153,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     InfoMenuComponent,
     ImageCarouselComponent,
     CustomCarouselDirective,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
+    ScrollToTopComponent
   ],
 
   imports: [
@@ -236,7 +237,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     PhoneFormControlComponent,
     InfoMenuComponent,
     ImageCarouselComponent,
-    ThemeSwitcherComponent
+    ThemeSwitcherComponent,
+    ScrollToTopComponent
   ]
 })
 export class SharedModule {}

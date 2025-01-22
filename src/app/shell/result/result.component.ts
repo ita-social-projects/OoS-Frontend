@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
@@ -30,16 +30,16 @@ import { Util } from 'shared/utils/utils';
 export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState.filteredWorkshops)
   public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Select(NavigationState.filtersSidenavOpenTrue)
+  protected isFiltersSidenavOpen$: Observable<boolean>;
+  @Select(FilterState)
+  protected filterState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
   private isMobileView$: Observable<boolean>;
   @Select(RegistrationState.role)
   private role$: Observable<string>;
-  @Select(NavigationState.filtersSidenavOpenTrue)
-  private isFiltersSidenavOpen$: Observable<boolean>;
   @Select(FilterState.isMapView)
   private isMapView$: Observable<boolean>;
-  @Select(FilterState)
-  private filterState$: Observable<FilterStateModel>;
 
   public readonly ResultViewType = ResultViewType;
   public readonly WorkshopDeclination = WorkshopDeclination;
@@ -65,13 +65,12 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   @HostListener('window:resize', ['$event'])
-  public onResize(event: Event): void {
+  public onResize(): void {
     this.calculateMarginLeft();
   }
 
   public ngOnInit(): void {
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
-
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
@@ -104,7 +103,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
-    this.isFiltersSidenavOpen = !this.isFiltersSidenavOpen;
     this.calculateMarginLeft();
   }
 
@@ -160,7 +158,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       if (this.router.url.startsWith('/result')) {
-        this.router.navigate([`result/${this.currentViewType}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+        this.router.navigate([`result/${this.currentViewType}`], {
+          queryParams: { filter: filterQueryParams },
+          replaceUrl: true
+        });
       }
     });
   }

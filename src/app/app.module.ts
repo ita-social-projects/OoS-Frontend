@@ -10,7 +10,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
+import { NgxsStoragePluginModule, LOCAL_STORAGE_ENGINE, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -65,8 +65,16 @@ registerLocaleData(localeUk);
     ]),
 
     NgxsStoragePluginModule.forRoot({
-      key: AppState,
-      storage: StorageOption.SessionStorage
+      key: [
+        {
+          key: AppState,
+          engine: SESSION_STORAGE_ENGINE
+        },
+        {
+          key: 'filter.previousResults',
+          engine: LOCAL_STORAGE_ENGINE
+        }
+      ]
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production

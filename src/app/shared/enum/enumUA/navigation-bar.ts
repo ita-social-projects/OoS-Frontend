@@ -26,6 +26,8 @@ export enum NavBarName {
   Applications = 'ENUM.NAV_BAR_NAME.APPLICATIONS',
   Workshops = 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS',
   Favorite = 'ENUM.NAV_BAR_NAME.FAVORITE',
+  NewPosition = 'ENUM.NAV_BAR_NAME.NEW_POSITION',
+  EditPosition = 'ENUM.NAV_BAR_NAME.EDIT_POSITION',
   Administration = 'ENUM.NAV_BAR_NAME.ADMINISTRATION',
   Children = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_CHILDREN',
   ProviderInfo = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_PROVIDER',
@@ -41,7 +43,8 @@ export enum NavBarName {
   Chat = 'ENUM.NAV_BAR_NAME.CHAT',
   HistoryLog = 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES',
   Statistics = 'ENUM.NAV_BAR_NAME.STATISTICS',
-  CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION'
+  CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION',
+  Positions = 'ENUM.NAV_BAR_NAME.POSITIONS'
 }
 
 export enum PersonalCabinetTitle {
