@@ -77,6 +77,16 @@ export class SetSearchQueryValue {
   constructor(public payload: string) {}
 }
 
+export class AddPreviousResult {
+  static readonly type = '[Search] Add Previous Result';
+  constructor(public result: string) {}
+}
+
+export class RemovePreviousResult {
+  static readonly type = '[Search] Remove Previous Result';
+  constructor(public previousResult: string) {}
+}
+
 export class SetOpenRecruitment {
   static readonly type = '[filter] Set Open Recruitment';
   constructor(public payload: WorkshopOpenStatus[]) {}

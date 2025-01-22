@@ -16,3 +16,9 @@ export enum LicenseStatusEnum {
   Approved = 'ENUM.LICENSE_STATUS.APPROVED',
   Pending = 'ENUM.LICENSE_STATUS.PENDING'
 }
+
+export enum PositionSortEnum {
+  WithoutSort = 'FORMS.PLACEHOLDERS.WITHOUT_SORT',
+  SortByName = 'FORMS.PLACEHOLDERS.SORT_BY_NAME',
+  SortByCreatedAt = 'FORMS.PLACEHOLDERS.SORT_BY_CREATED_AT'
+}

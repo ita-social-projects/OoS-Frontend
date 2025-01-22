@@ -55,7 +55,15 @@ export abstract class WorkshopBase {
   coverage: string;
   workshopType: string;
 
-  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(
+    about: WorkshopAbout,
+    additionalAbout: AdditionalAbout,
+    description: Description,
+    address: Address,
+    teachers: Teacher[],
+    provider: Provider,
+    id?: string
+  ) {
     this.title = about.title;
     this.shortTitle = about.shortTitle;
     this.phone = about.phone;
@@ -71,8 +79,8 @@ export abstract class WorkshopBase {
     this.competitiveSelectionDescription = about.competitiveSelectionDescription;
     this.workshopDescriptionItems = description.workshopDescriptionItems;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = about.institutionId;
-    this.institutionHierarchyId = about.institutionHierarchyId;
+    this.institutionId = description.institutionId;
+    this.institutionHierarchyId = description.institutionHierarchyId;
     this.keywords = description.keyWords;
     this.addressId = address.id;
     this.address = address;
@@ -80,18 +88,18 @@ export abstract class WorkshopBase {
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.tagIds = description.tagIds;
-    this.shortStay = description.shortStay;
-    this.isSelfFinanced = description.isSelfFinanced;
+    this.shortStay = additionalAbout.shortStay;
+    this.isSelfFinanced = additionalAbout.isSelfFinanced;
     this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
-    this.isSpecial = description.isSpecial;
-    this.isInclusive = description.isInclusive;
-    this.specialNeedsType = description.specialNeedsType;
+    this.isSpecial = additionalAbout.isSpecial;
+    this.isInclusive = additionalAbout.isInclusive;
+    this.specialNeedsType = additionalAbout.specialNeedsType;
     this.areThereBenefits = description.areThereBenefits;
     this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
-    this.educationalShift = description.educationalShift;
-    this.ageComposition = description.ageComposition;
+    this.educationalShift = additionalAbout.educationalShift;
+    this.ageComposition = additionalAbout.ageComposition;
     this.coverage = description.coverage;
-    this.workshopType = description.workshopType;
+    this.workshopType = additionalAbout.workshopType;
 
     if (id) {
       this.id = id;
@@ -124,8 +132,16 @@ export class Workshop extends WorkshopBase {
   imageIds?: string[];
   imageFiles?: File[];
 
-  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    super(about, description, address, teachers, provider, id);
+  constructor(
+    about: WorkshopAbout,
+    additionalAbout: AdditionalAbout,
+    description: Description,
+    address: Address,
+    teachers: Teacher[],
+    provider: Provider,
+    id?: string
+  ) {
+    super(about, additionalAbout, description, address, teachers, provider, id);
 
     if (about.coverImageId) {
       this.coverImageId = about.coverImageId[0];
@@ -185,6 +201,7 @@ export interface WorkshopBaseCard {
   enrollmentProcedureDescription: string;
   isSpecial: boolean;
   isInclusive: boolean;
+  _meta?: string;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
@@ -237,10 +254,19 @@ export interface WorkshopAbout {
   competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
-  institutionId: string;
-  institutionHierarchyId: string;
 }
 
+interface AdditionalAbout {
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  specialNeedsType: string;
+  educationalShift: string;
+  ageComposition: string;
+  workshopType: string;
+  // languageOfEducationId: string;
+}
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
@@ -248,16 +274,11 @@ interface Description {
   imageIds?: string[];
   imageFiles?: File[];
   tagIds: number[];
-  shortStay: boolean;
-  isSelfFinanced: boolean;
   enrollmentProcedureDescription: string;
-  isSpecial: boolean;
-  isInclusive: boolean;
-  specialNeedsType: string;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
-  educationalShift: string;
-  ageComposition: string;
   coverage: string;
-  workshopType: string;
+  institutionId: string;
+  institutionHierarchyId: string;
+  // directionIds: number[];
 }

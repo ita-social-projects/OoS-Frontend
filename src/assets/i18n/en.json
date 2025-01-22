@@ -38,6 +38,10 @@
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
+  "ALT": {
+    "CAROUSEL_IMG": "photo",
+    "IMG_COVER": "Cover"
+  },
   "ENUM": {
     "CHAT_CHANGES": {
       "CHANGE_IN_MESSAGES": "change in messages",
@@ -118,6 +122,7 @@
       "EDIT_PERSONAL_INFORMATION": "Edit personal information",
       "EDIT_PROVIDER_INFORMATION": "Edit provider information",
       "EDIT_WORKSHOP": "Edit workshop",
+      "EDIT_POSITION": "Edit position",
       "ADD_NEW_ADMIN": "Add new administrator",
       "EDIT_ADMIN": "Edit administrator",
       "HISTORY_OF_CHANGES": "History of changes",
@@ -127,6 +132,7 @@
       "MAIN_PAGE": "Main page",
       "MESSAGES": "Messages",
       "NEW_WORKSHOP": "Add new workshop",
+      "NEW_POSITION": "Add new position",
       "NEW_WORKSHOP_APPLICATION": "New workshop application",
       "PERSONAL_INFORMATION": "Personal information",
       "PLATFORM": "Platform",
@@ -138,6 +144,7 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
+      "POSITIONS": "Positions",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
       "PROVIDER_REGISTRATION": "Provider registration",
       "USER_REGISTRATION": "User registration"
@@ -373,7 +380,11 @@
       "SUBHEADER_TITLE": "Title",
       "EMPLOYEES_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
       "ADD_ACHIEVEMENT": "ADD ACHIEVEMENT",
-      "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login"
+      "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login",
+      "NEW_POSITION": "NEW POSITION",
+      "EDIT_POSITION": "EDIT POSITION",
+      "EDIT_POSITION_DESCRIPTION": "Edit information about position or contact information",
+      "NEW_POSITION_DESCRIPTION": "Create new position"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -454,7 +465,20 @@
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
       "COVERAGE": "Coverage",
-      "WORKSHOP_TYPE": "Workshop type"
+      "WORKSHOP_TYPE": "Workshop type",
+      "WORKSHOP_IMAGES": "Photos of the workshop",
+      "COVER_IMAGE": "Cover image",
+      "PROVIDER_IMAGES": "Photos of the provider",
+      "FULL_TITLE": "Full title",
+      "RATE": "Rate",
+      "TARIFF": "Tariff",
+      "FOR_RURAL_AREAS": "For rural areas",
+      "OPENED_IN_DEPARTMENT": "Opened in department",
+      "NAME_IN_GENITIVE_CASE": "Name in genitive case",
+      "TEACHING_POSITION": "Teaching position",
+      "TYPE_BY_CLASSIFIER": "Type by classifier",
+      "CREATED_AT": "Creation date",
+      "LANGUAGE": "Language"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -481,7 +505,20 @@
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
-      "SELECT_ORGANIZATION_TYPE": "Select institution type"
+      "SELECT_ORGANIZATION_TYPE": "Select institution type",
+      "ENTER_FULL_TITLE": "Enter full title",
+      "ENTER_SHORT_TITLE": "Enter short title",
+      "ENTER_DESCRIPTION": "Enter description",
+      "ENTER_DEPARTMENT_NAME": "Enter the department name",
+      "ENTER_NAME_IN_GENITIVE_CASE": "Enter name in genitive case",
+      "ENTER_RATE": "Enter the position rating",
+      "ENTER_TARIFF": "Enter tariff",
+      "ENTER_TYPE_BY_CLASSIFIER": "Enter the type according to the classifier",
+      "ENTER_LANGUAGE": "Enter the language required for the position",
+      "WITHOUT_SORT": "Without sorting",
+      "SORT_BY_NAME": "By name",
+      "SORT_BY_CREATED_AT": "By creation date",
+      "SEARCH_BY_TITLE": "Search by full title"
     },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
@@ -504,8 +541,9 @@
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
       "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
-      "INVALID_TIME_FORMAT": "Please use the time format \"23:59\"",
+      "INVALID_TIME_FORMAT": "Please use the time format \"09:59\"",
       "INVALID_TIME_RANGE": "\"To\" cannot be earlier than \"From\"",
+      "INVALID_VALUE_START": " The number can be",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
@@ -549,6 +587,7 @@
   "TITLES": {
     "ABOUT_THE_PROVIDER": "About the provider",
     "ABOUT_THE_WORKSHOP": "About the workshop",
+    "ADDITIONAL_ABOUT": "Additional",
     "ABOUT_THE_WORKSHOP_SHORT": "About",
     "ACHIEVEMENTS": "Achievements",
     "CONTACTS": "Contacts",
@@ -560,7 +599,9 @@
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
     "ACCESS_MANAGMENT": "Access managment",
     "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Edit direction",
-    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Edit new direction"
+    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Edit new direction",
+    "ACTIONS": "Actions",
+    "ABOUT_THE_POSITION_SHORT": "About the position"
   },
   "TO": "To",
   "TOP_DIRECTIONS": "Top categories",
@@ -588,6 +629,7 @@
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
+    "ADD_POSITION": "You can add positions here",
     "ADD_IMG_SUBHEADER": "Add a photo by clicking on the “+”. The maximum number of photos -"
   },
   "BUTTONS": {
@@ -630,6 +672,7 @@
     "GO_BACK": "Go back",
     "REGISTER": "Register",
     "ADD_DIRECTION": "Add a direction",
+    "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
     "ARCHIVE": "Archive"
   },
@@ -831,6 +874,11 @@
       "NOT_UNIQUE_DATA": "Check the entered data. Email and registration code must be unique.",
       "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
       "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
+      "POSITION_CREATED_SUCCESS": "Position successfully created!",
+      "POSITION_UPDATED_SUCCESS": "Position successfully updated!",
+      "POSITION_DELETED_SUCCESS": "Position successfully deleted!",
+      "POSITION_BY_TITLE_NOT_FOUND": "No position found",
+      "POSITION_NOT_FOUND": "Position not found",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
@@ -923,7 +971,7 @@
         "LEAVE_WORKSHOP": "LEAVE WORKSHOP?",
         "LEAVE_PAGE": "LEAVE PAGE?",
         "LEAVE_REGISTRATION": "LEAVE REGISTRATION?",
-        "RATE": "Please rate this workshop",
+        "RATE": "Rate the workshop",
         "CREATE_APPLICATION": "SUBMIT AN APPLICATION?",
         "CREATE_ACHIEVEMENT": "ADD ACHIEVEMENT?",
         "REJECT_APPLICATION": "REJECT?",

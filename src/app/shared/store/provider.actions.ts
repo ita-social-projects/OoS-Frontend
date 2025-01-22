@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement, AchievementParameters } from 'shared/models/achievement.model';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { BlockedParent, EmployeeBlockData } from 'shared/models/block.model';
+import { Position, PositionParameters } from 'shared/models/position.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -399,4 +400,75 @@ export class ReinviteEmployee {
 export class GetPendingApplicationsByProviderId {
   static readonly type = '[provider] Get Pending Applications By Provider Id';
   constructor(public id: string) {}
+}
+
+export class GetPositions {
+  static readonly type = '[provider] Get positions by provider Id';
+  constructor(public positionParameters: PositionParameters) {}
+}
+
+export class OnGetPositionsFail {
+  static readonly type = '[provider] Get positions fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class CreatePosition {
+  static readonly type = '[provider] Create position';
+  constructor(public position: Position) {}
+}
+
+export class OnCreatePositionSuccess {
+  static readonly type = '[provider] Create position success';
+  constructor(public position: Position) {}
+}
+
+export class OnCreatePositionFail {
+  static readonly type = '[provider] create position fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class UpdatePosition {
+  static readonly type = '[provider] Update postion';
+  constructor(public position: Position) {}
+}
+
+export class OnUpdatePositionSuccess {
+  static readonly type = '[provider] Update position success';
+  constructor(public position: Position) {}
+}
+
+export class OnUpdatePositionFail {
+  static readonly type = '[provider] update position fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class DeletePositionById {
+  static readonly type = '[provider] Delete position by id';
+  constructor(
+    public positionParameters: PositionParameters,
+    public positionId: string
+  ) {}
+}
+
+export class OnDeletePositionSuccess {
+  static readonly type = '[provider] Delete position success';
+  constructor(public positionParameters: PositionParameters) {}
+}
+
+export class OnDeletePositionFail {
+  static readonly type = '[provider] Delete position fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetPositionById {
+  static readonly type = '[provider] Get position by position Id';
+  constructor(
+    public positionId: string,
+    public providerId: string
+  ) {}
+}
+
+export class OnGetPositionByIdFail {
+  static readonly type = '[provider] Get position by id fail';
+  constructor(public error: HttpErrorResponse) {}
 }

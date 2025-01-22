@@ -1,5 +1,11 @@
-<div>
-  <button class="scroll-up" mat-button *ngIf="showScrollButton" (click)="scrolltoTop()">
-    <mat-icon class="material-icons-two-tone">arrow_upward</mat-icon>
-  </button>
-</div>
+<button
+  mat-raised-button
+  *ngIf="showScroll"
+  class="to-top-btn"
+  color="primary"
+  [ngStyle]="!shouldBeSticky ? { 'bottom.px': footerHeight } : {}"
+  [class.sticky]="shouldBeSticky"
+  (click)="scrollToTop()">
+  <span *ngIf="results && !isSmallScreen">{{ results }}</span>
+  <mat-icon iconPositionEnd>arrow_upward</mat-icon>
+</button>

@@ -7,7 +7,6 @@ import { PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
@@ -23,20 +22,21 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
 
   public readonly tabTitles = DetailsTabTitlesEnum;
-
-  public selectedIndex: number;
-  public images: ImgPath[] = [];
   public providerParameters: ProviderParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public coverImage: string;
+  public selectedIndex: number;
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private route: ActivatedRoute,
-    private imagesService: ImagesService,
-    private store: Store,
-    private navigationBarService: NavigationBarService
+    private readonly route: ActivatedRoute,
+    private readonly imagesService: ImagesService,
+    private readonly store: Store,
+    private readonly navigationBarService: NavigationBarService
   ) {}
 
   public ngOnInit(): void {
@@ -51,7 +51,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getProviderData(): void {
-    this.images = this.imagesService.setCarouselImages(this.provider);
+    this.coverImage = this.imagesService.getCoverImage(this.provider);
     this.store.dispatch([
       new AddNavPath(
         this.navigationBarService.createNavPaths(

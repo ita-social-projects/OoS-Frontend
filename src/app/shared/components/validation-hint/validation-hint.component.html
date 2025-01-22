@@ -15,6 +15,7 @@
     <ng-container *ngIf="invalidSearch; then invalidSearchTmpl"></ng-container>
     <ng-container *ngIf="invalidTimeFormat; then invalidTimeFormatTmpl"></ng-container>
     <ng-container *ngIf="invalidTimeRange; then invalidTimeRangeTmpl"></ng-container>
+    <ng-container *ngIf="invalidValue; then invalidValueTmpl"></ng-container>
     <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
     <ng-container
       *ngIf="
@@ -83,6 +84,11 @@
 
 <ng-template #minNumberValueTmpl>
   {{ 'FORMS.VALIDATIONS.LESS_THAN_PARTICIPANTS' | translate }}
+</ng-template>
+
+<ng-template #invalidValueTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_VALUE_START' | translate }} {{ 'FROM' | translate | lowercase }} {{ minValue }}
+  {{ 'TO' | translate | lowercase }} {{ maxValue }}<br />
 </ng-template>
 
 <ng-template #invalidSearchTmpl> {{ 'FORMS.VALIDATIONS.INVALID_SEARCH' | translate }}<br /> </ng-template>

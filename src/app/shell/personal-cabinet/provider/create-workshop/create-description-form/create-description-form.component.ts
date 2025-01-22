@@ -64,16 +64,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   };
 
   // Variables for selects
-  public readonly SpecialNeedsTypeEnum = SpecialNeedsTypeEnum;
-  public readonly SpecialNeedsType = SpecialNeedsType;
-  public readonly EducationalShiftEnum = EducationalShiftEnum;
-  public readonly EducationalShift = EducationalShift;
-  public readonly AgeCompositionEnum = AgeCompositionEnum;
-  public readonly AgeComposition = AgeComposition;
   public readonly CoverageEnum = CoverageEnum;
   public readonly Coverage = Coverage;
-  public readonly WorkshopTypeEnum = WorkshopTypeEnum;
-  public readonly WorkshopType = WorkshopType;
 
   public DescriptionFormGroup: FormGroup;
   public EditFormGroup: FormGroup;
@@ -107,22 +99,16 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl([]),
-      shortStay: new FormControl(false),
-      isSelfFinanced: new FormControl(false),
+      tagIds: new FormControl('[]'),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
       ]),
-      isSpecial: new FormControl(false),
-      isInclusive: new FormControl(false),
-      specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       areThereBenefits: new FormControl(false),
       preferentialTermsOfParticipation: new FormControl(''),
-      educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
-      ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
       coverage: new FormControl(this.Coverage.School),
-      workshopType: new FormControl(this.WorkshopType.None, Validators.required)
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required)
     });
   }
 
