@@ -137,6 +137,11 @@ export class OnUpdateWorkshopSuccess {
   constructor(public payload: Workshop) {}
 }
 
+export class SaveWorkshopDraft {
+  static readonly type = '[provider] save draft Workshop';
+  constructor(public payload: Workshop) {}
+}
+
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
   constructor(

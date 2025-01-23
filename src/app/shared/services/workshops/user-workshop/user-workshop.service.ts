@@ -120,6 +120,15 @@ export class UserWorkshopService {
   }
 
   /**
+   * This method save workshop draft
+   * @param workshop Workshop
+   */
+  public saveWorkshopDraft(workshop: Workshop): Observable<Workshop> {
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+  }
+
+  /**
    * This method update workshop status
    * @param workshopStatus WorkshopStatus
    */

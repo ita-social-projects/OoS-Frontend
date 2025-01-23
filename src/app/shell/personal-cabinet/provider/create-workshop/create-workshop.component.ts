@@ -220,6 +220,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     let workshop: Workshop;
 
+    // TODO: change for drafts
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));

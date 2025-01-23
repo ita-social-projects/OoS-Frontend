@@ -466,6 +466,14 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
+  // @Action(providerActions.SaveWorkshopDraft)
+  // saveWorkshopDraft(
+  //   { dispatch }: StateContext<ProviderStateModel>,
+  //   { payload }: providerActions.SaveWorkshopDraft
+  // ): Observable<Workshop | void> {
+  //
+  // }
+
   @Action(providerActions.DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { id, parameters }: providerActions.DeleteWorkshopById): Observable<void> {
     return this.userWorkshopService.deleteWorkshop(id).pipe(

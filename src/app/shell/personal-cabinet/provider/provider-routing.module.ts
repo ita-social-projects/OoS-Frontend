@@ -13,6 +13,7 @@ import { ProviderStudySubjectsComponent } from './provider-study-subjects/provid
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
   { path: 'workshops', component: ProviderWorkshopsComponent },
+  { path: 'drafts', component: ProviderWorkshopsComponent },
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'provider-employees', component: ProviderEmployeesComponent },
   { path: 'positions', component: ProviderPositionsComponent },
