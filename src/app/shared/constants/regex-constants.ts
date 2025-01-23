@@ -47,7 +47,7 @@ export const SEARCHBAR_REGEX_VALID: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ
 export const SEARCHBAR_REGEX_REPLACE: RegExp = /[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\-\s]/g;
 
 // Regex for time format validation
-export const TIME_FORMAT_REGEX: RegExp = /^(2[0-3]|[01]?\d):([0-5]\d)$/;
+export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 // Regex for time input replace invalid characters
 export const TIME_REGEX_REPLACE: RegExp = /[^0-9:]/g;

@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear>
+      <mat-horizontal-stepper linear class="main-stepper">
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
@@ -28,6 +28,29 @@
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
             <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="AdditionalAboutGroup" [completed]="!AboutFormGroup.invalid && !AdditionalAboutGroup.invalid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}</p>
+          </ng-template>
+          <app-create-additional-about-form
+            class="flex flex-row justify-center items-center"
+            [workshop]="workshop"
+            [provider]="provider"
+            (passAdditionalAboutGroup)="onReceiveAdditionalAboutGroup($event)">
+          </app-create-additional-about-form>
+          <div class="footer flex flex-row justify-center items-center">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="AdditionalAboutGroup?.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>

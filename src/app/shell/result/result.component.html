@@ -9,11 +9,10 @@
   <div class="workshops-search flex flex-row items-center justify-between flex-1 max-lg:flex-col max-lg:justify-center max-lg:flex-wrap">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
-  <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
 </div>
 
 <mat-drawer-container>
-  <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
+  <mat-drawer mode="side" [opened]="isFiltersSidenavOpen$ | async">
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="marginLeft" [style.marginTop]="isMapView ? '0' : '2rem'">
@@ -36,6 +35,8 @@
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
+
+<app-scroll-to-top [results]="(filteredWorkshops$ | async)?.totalAmount"></app-scroll-to-top>
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">

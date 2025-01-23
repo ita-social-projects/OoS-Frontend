@@ -61,7 +61,6 @@ export class PaginatorComponent implements OnChanges {
   private createPageList(): void {
     this.carouselPageList = [];
     const pageList = this.createDisplayedPageList();
-
     this.createCarouselPageList(pageList);
   }
 
@@ -70,54 +69,67 @@ export class PaginatorComponent implements OnChanges {
   }
 
   private createDisplayedPageList(): PaginationElement[] {
-    let startPage = +this.currentPage.element - this.constants.PAGINATION_SHIFT_DELTA;
-    startPage = startPage < this.constants.FIRST_PAGINATION_PAGE ? this.constants.FIRST_PAGINATION_PAGE : startPage;
+    const currentPage = +this.currentPage.element;
+    let startPage: number;
+    let endPage: number;
 
-    const carouselLength = this.constants.MAX_PAGE_PAGINATOR_DISPLAY + startPage - 1;
+    if (this.totalPageAmount <= this.constants.VISIBLE_PAGES) {
+      startPage = this.constants.FIRST_PAGINATION_PAGE;
+      endPage = this.totalPageAmount;
+    } else {
+      startPage = Math.max(this.constants.FIRST_PAGINATION_PAGE, currentPage - this.constants.CENTER_OFFSET);
 
-    const endPage = carouselLength <= this.totalPageAmount ? carouselLength : this.totalPageAmount;
+      if (currentPage > this.totalPageAmount - this.constants.CENTER_OFFSET) {
+        startPage = this.totalPageAmount - this.constants.WINDOW_SIZE;
+      }
+
+      endPage = Math.min(startPage + this.constants.WINDOW_SIZE, this.totalPageAmount);
+
+      if (endPage - startPage < this.constants.MINIMUM_DISPLAY_LENGTH) {
+        startPage = Math.max(this.constants.FIRST_PAGINATION_PAGE, endPage - this.constants.WINDOW_SIZE);
+      }
+    }
 
     const pageList: PaginationElement[] = [];
-
-    while (startPage < endPage + 1) {
-      pageList.push({
-        element: startPage,
-        isActive: true
-      });
-      startPage++;
+    for (let i = startPage; i <= endPage; i++) {
+      pageList.push({ element: i, isActive: true });
     }
     return pageList;
   }
 
   private createCarouselPageList(pageList: PaginationElement[]): void {
-    if (pageList[0]?.element !== this.constants.FIRST_PAGINATION_PAGE) {
-      const start: PaginationElement[] = [
-        {
-          element: this.constants.FIRST_PAGINATION_PAGE,
-          isActive: true
-        },
-        {
+    this.carouselPageList = [];
+    const firstPageElement = Number(pageList[0]?.element);
+    const lastPageElement = Number(pageList[pageList.length - 1]?.element);
+
+    if (firstPageElement > 1) {
+      this.carouselPageList.push({
+        element: 1,
+        isActive: true
+      });
+
+      if (firstPageElement > 2) {
+        this.carouselPageList.push({
           element: this.constants.PAGINATION_DOTS,
           isActive: false
-        }
-      ];
-      this.carouselPageList = this.carouselPageList.concat(start);
+        });
+      }
     }
 
     this.carouselPageList = this.carouselPageList.concat(pageList);
 
-    if (pageList[pageList.length - 1]?.element !== this.totalPageAmount) {
-      const end: PaginationElement[] = [
-        {
+    if (lastPageElement < this.totalPageAmount) {
+      if (lastPageElement < this.totalPageAmount - 1) {
+        this.carouselPageList.push({
           element: this.constants.PAGINATION_DOTS,
           isActive: false
-        },
-        {
-          element: this.totalPageAmount,
-          isActive: true
-        }
-      ];
-      this.carouselPageList = this.carouselPageList.concat(end);
+        });
+      }
+
+      this.carouselPageList.push({
+        element: this.totalPageAmount,
+        isActive: true
+      });
     }
   }
 }

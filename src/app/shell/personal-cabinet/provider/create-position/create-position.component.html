@@ -1,0 +1,39 @@
+<ng-container *ngIf="provider">
+  <div class="create-form" *ngIf="(editMode && position) || !editMode">
+    <div class="wrapper">
+      <div class="create-form-header flex flex-col justify-center items-center">
+        <h3 class="wrapper-title">
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_POSITION' : 'FORMS.HEADERS.NEW_POSITION') | translate }}
+        </h3>
+        <p class="wrapper-text">
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_POSITION_DESCRIPTION' : 'FORMS.HEADERS.NEW_POSITION_DESCRIPTION') | translate }}
+        </p>
+      </div>
+      <div>
+        <ng-template matStepLabel>
+          <p class="step-name">{{ 'TITLES.ABOUT_THE_POSITION_SHORT' | translate }}</p>
+        </ng-template>
+        <div>
+          <app-create-position-form
+            [position]="position"
+            class="flex flex-row justify-center items-center"
+            (passPositionFormGroup)="onReceivePositionFormGroup($event)">
+          </app-create-position-form>
+        </div>
+        <div class="footer flex flex-row justify-center items-center">
+          <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
+          <button
+            class="btn"
+            [disabled]="(isLoading$ | async) || !PositionFormGroup.dirty || PositionFormGroup.invalid"
+            mat-button
+            type="submit"
+            (click)="onSubmit()">
+            {{ 'BUTTONS.SAVE' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
