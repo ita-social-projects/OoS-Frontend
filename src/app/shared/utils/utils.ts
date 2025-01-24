@@ -315,7 +315,7 @@ export class Util {
    * @param value
    */
   public static formatAgeString(value: number): number {
-    if (value === null || isNaN(value)) {
+    if (isNaN(value) || value === null) {
       return null;
     }
     const stringValue: string = value?.toString();
