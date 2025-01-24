@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operato
 import { ValidationConstants } from 'shared/constants/validation';
 import { AgeFilter } from 'shared/models/filter-list.model';
 import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
-import { validateAgeInput } from 'shared/validators/age-input-validator';
+import { Util } from 'shared/utils/utils';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 
 @Component({
@@ -53,7 +53,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
     this.minAgeFormControl.valueChanges
       .pipe(
-        tap((value: number) => this.minAgeFormControl.setValue(validateAgeInput(value), { emitEvent: false })),
+        tap((value: number) => this.minAgeFormControl.setValue(Util.formatAgeString(value), { emitEvent: false })),
         debounceTime(formControlDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -64,7 +64,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
     this.maxAgeFormControl.valueChanges
       .pipe(
-        tap((value: number) => this.maxAgeFormControl.setValue(validateAgeInput(value), { emitEvent: false })),
+        tap((value: number) => this.maxAgeFormControl.setValue(Util.formatAgeString(value), { emitEvent: false })),
         debounceTime(formControlDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -91,6 +91,9 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   }
 
   private applyFilters(): void {
+    if (!this.ageFormGroup.valid) {
+      return;
+    }
     if (this.maxAgeFormControl.valid) {
       this.store.dispatch(new SetMaxAge(this.maxAgeFormControl.value || null));
     }

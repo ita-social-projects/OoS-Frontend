@@ -109,24 +109,24 @@ describe('ProviderPositionsComponent', () => {
 
       component.sortData({ active: 'orderByFullName', direction: 'asc' });
       expect(component.positionParameters.orderByFullName).toBeTruthy();
-      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
       expect((component as any).getPositions).toHaveBeenCalled();
 
       component.sortData({ active: 'orderByFullName', direction: 'desc' });
       expect(component.positionParameters.orderByFullName).toBeFalsy();
-      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
 
       component.sortData({ active: 'orderByCreatedAt', direction: 'asc' });
       expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
-      expect(component.positionParameters.orderByFullName).toBeUndefined();
+      expect(component.positionParameters.orderByFullName).toBeNull();
 
       component.sortData({ active: 'orderByCreatedAt', direction: 'desc' });
       expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
-      expect(component.positionParameters.orderByFullName).toBeUndefined();
+      expect(component.positionParameters.orderByFullName).toBeNull();
 
       component.sortData({ active: 'orderByCreatedAt', direction: '' });
-      expect(component.positionParameters.orderByFullName).toBeUndefined();
-      expect(component.positionParameters.orderByCreatedAt).toBeUndefined();
+      expect(component.positionParameters.orderByFullName).toBeNull();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
     });
   });
 

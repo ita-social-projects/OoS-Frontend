@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
@@ -14,7 +14,6 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { validateAgeInput } from 'shared/validators/age-input-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -209,7 +208,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private initListeners(): void {
     this.useProviderInfo();
     this.availableSeatsControlListener();
-    this.ageControlListener();
+    this.validateAgeControls();
     this.priceControlListener();
     this.competitiveSelectionListener();
     this.showHintAboutClosingWorkshop();
@@ -306,16 +305,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private ageControlListener(): void {
-    const maxAgeControl = this.AboutFormGroup.get('maxAge');
-    const minAgeControl = this.AboutFormGroup.get('minAge');
-
-    maxAgeControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => maxAgeControl.setValue(validateAgeInput(value), { emitEvent: false }));
-    minAgeControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => minAgeControl.setValue(validateAgeInput(value), { emitEvent: false }));
+  private validateAgeControls(): void {
+    const controls = ['maxAge', 'minAge'];
+    controls.forEach((controlName) => {
+      const control = this.AboutFormGroup.get(controlName);
+      control.valueChanges
+        .pipe(
+          map((value: number) => Util.formatAgeString(value)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((value: number) => control.setValue(value, { emitEvent: false }));
+    });
   }
 
   private showHintAboutClosingWorkshop(): void {

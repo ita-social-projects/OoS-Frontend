@@ -109,8 +109,8 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
   public sortData(sortData: Sort): void {
     const ascendingDirection = 'asc';
-    this.positionParameters.orderByFullName = undefined;
-    this.positionParameters.orderByCreatedAt = undefined;
+    this.positionParameters.orderByFullName = null;
+    this.positionParameters.orderByCreatedAt = null;
     if (sortData.direction) {
       this.positionParameters[sortData.active] = sortData.direction === ascendingDirection;
     }

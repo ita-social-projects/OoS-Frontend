@@ -8,7 +8,7 @@ import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 import { TimeFormatValidator } from 'shared/validators/time-format-validator';
-import { validateTimeInput } from 'shared/validators/time-input-validator';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -51,7 +51,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     }
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      this.startTimeFormControl.setValue(validateTimeInput(value), { emitEvent: false });
+      this.startTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false });
       if (value && !this.startTimeFormControl.hasError('invalidTimeFormat')) {
         this.endTimeFormControl.enable({ emitEvent: false });
       } else {
@@ -60,7 +60,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     });
 
     this.endTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      this.endTimeFormControl.setValue(validateTimeInput(value), { emitEvent: false });
+      this.endTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false });
     });
 
     if (this.workdaysFormControl.value.length) {

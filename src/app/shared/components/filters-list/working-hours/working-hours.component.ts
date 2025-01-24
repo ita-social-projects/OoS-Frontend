@@ -11,7 +11,7 @@ import { WorkingHoursFilter } from 'shared/models/filter-list.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'shared/store/filter.actions';
 import { TimeFormatValidator } from 'shared/validators/time-format-validator';
-import { validateTimeInput } from 'shared/validators/time-input-validator';
+import { Util } from 'shared/utils/utils';
 import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 
 @Component({
@@ -61,7 +61,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.startTimeFormControl.valueChanges
       .pipe(
-        tap((value) => this.startTimeFormControl.setValue(validateTimeInput(value), { emitEvent: false })),
+        tap((value) => this.startTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -72,7 +72,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.endTimeFormControl.valueChanges
       .pipe(
-        tap((value) => this.endTimeFormControl.setValue(validateTimeInput(value), { emitEvent: false })),
+        tap((value) => this.endTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)

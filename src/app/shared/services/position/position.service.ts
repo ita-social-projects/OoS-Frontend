@@ -20,10 +20,10 @@ export class PositionService {
       .set('SearchString', parameters.searchString || '')
       .set('From', parameters.from.toString() || '0')
       .set('Size', parameters.size?.toString() || '10');
-    if (parameters.orderByCreatedAt !== undefined) {
+    if (typeof parameters.orderByCreatedAt === 'boolean') {
       params = params.set('OrderByCreatedAt', parameters.orderByCreatedAt);
     }
-    if (parameters.orderByFullName !== undefined) {
+    if (typeof parameters.orderByFullName === 'boolean') {
       params = params.set('OrderByFullName', parameters.orderByFullName);
     }
     return this.http.get<SearchResponse<Position[]>>(`${this.baseUrl}/${parameters.providerId}/positions/GetByFilter`, { params });
