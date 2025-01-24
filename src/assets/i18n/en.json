@@ -149,7 +149,8 @@
       "PROVIDER_REGISTRATION": "Provider registration",
       "USER_REGISTRATION": "User registration",
       "IMPORT": "Import",
-      "EXPORT": "Export"
+      "EXPORT": "Export",
+      "EMPLOYEES": "Employees"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -1031,5 +1032,7 @@
       "WRONG_FORMAT":"Incorrect format",
       "WRONG_LANGUAGE":"Incorrectly selected language"
     }
-  }
+  },
+  "EMPLOYEES":"Employees",
+  "EMPLOYEES_REGISTRATION":"Employees registration"
 }

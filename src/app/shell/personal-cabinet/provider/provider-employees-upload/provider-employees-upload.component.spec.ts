@@ -1,25 +1,89 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { Store } from '@ngxs/store';
+import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
+import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
+import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProviderEmployeesUploadComponent } from './provider-employees-upload.component';
 
 describe('ProviderEmployeesUploadComponent', () => {
   let component: ProviderEmployeesUploadComponent;
   let fixture: ComponentFixture<ProviderEmployeesUploadComponent>;
+  let importValidationService: jest.Mocked<ImportValidationService>;
+  let excelService: jest.Mocked<ExcelUploadProcessorService>;
+  let employeeUploadProcessor: jest.Mocked<EmployeeUploadProcessorService>;
+  let store: jest.Mocked<Store>;
 
   beforeEach(async () => {
+    importValidationService = {
+      checkForInvalidData: jest.fn()
+    } as unknown as jest.Mocked<ImportValidationService>;
+
+    excelService = {
+      convertExcelToJSON: jest.fn()
+    } as unknown as jest.Mocked<ExcelUploadProcessorService>;
+
+    employeeUploadProcessor = {} as unknown as jest.Mocked<EmployeeUploadProcessorService>;
+    store = { dispatch: jest.fn() } as unknown as jest.Mocked<Store>;
+
     await TestBed.configureTestingModule({
       declarations: [ProviderEmployeesUploadComponent],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        { provide: ImportValidationService, useValue: importValidationService },
+        { provide: ExcelUploadProcessorService, useValue: excelService },
+        { provide: EmployeeUploadProcessorService, useValue: employeeUploadProcessor },
+        { provide: Store, useValue: store }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProviderEmployeesUploadComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize displayedColumns and standardHeaders', () => {
+    expect(component.displayedColumns).toEqual(Object.values(component.displayedColumns));
+    expect(component.standardHeaders).toEqual(Object.values(component.standardHeaders));
+  });
+
+  it('should set componentFieldsConfig during initialization', () => {
+    expect(component.extendsComponentConfig).toEqual(component.componentFieldsConfig);
+  });
+
+  it('should call cleanup on ngOnDestroy', () => {
+    const cleanupSpy = jest.spyOn(component, 'cleanup');
+    component.ngOnDestroy();
+    expect(cleanupSpy).toHaveBeenCalled();
+  });
+
+  it('should rename keys correctly in renamingKeys', () => {
+    const inputItems = [
+      {
+        employeeAssignedRole: 'Employee',
+        employeeFatherName: 'MiddleName',
+        employeeName: 'FirstName',
+        employeeRNOKPP: 1234567890,
+        employeeSurname: 'LastName'
+      }
+    ];
+
+    const expectedOutput = [
+      {
+        assignedRole: 'Employee',
+        middleName: 'MiddleName',
+        firstName: 'FirstName',
+        rnokpp: '1234567890',
+        lastName: 'LastName'
+      }
+    ];
+
+    const result = component.renamingKeys(inputItems);
+    expect(result).toEqual(expectedOutput);
   });
 });

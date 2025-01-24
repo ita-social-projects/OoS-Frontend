@@ -33,6 +33,7 @@ import { CreateAdditionalAboutFormComponent } from './create-workshop/create-add
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { CreatePositionFormComponent } from './create-position/position-form/create-position-form.component';
+import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { CreatePositionFormComponent } from './create-position/position-form/cre
     CreateAdditionalAboutFormComponent,
     ProviderPositionsComponent,
     CreatePositionComponent,
-    CreatePositionFormComponent
+    CreatePositionFormComponent,
+    ProviderEmployeesComponent
   ],
   imports: [
     CommonModule,

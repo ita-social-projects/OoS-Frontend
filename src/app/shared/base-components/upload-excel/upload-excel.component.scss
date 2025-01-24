@@ -10,7 +10,6 @@ $length-warning-message: #ff0000;
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
   background-color: #e5e9f2 !important;
 }
-
 .import-buttons {
   display: flex;
   align-items: center;
@@ -114,7 +113,6 @@ $length-warning-message: #ff0000;
     white-space: nowrap;
   }
 }
-
 .load-result {
   display: flex;
   p {
@@ -130,7 +128,6 @@ $length-warning-message: #ff0000;
     font-size: 40px;
   }
 }
-
 .error-field {
   &-empty {
     background-color: $empty-field;

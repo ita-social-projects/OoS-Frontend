@@ -76,11 +76,11 @@ export class ExcelUploadProcessorService {
     return isValid;
   }
 
-  private setLoading(isLoading: boolean): void {
+  public setLoading(isLoading: boolean): void {
     this.isLoadingSubject.next(isLoading);
   }
 
-  private showAlert(message: string): void {
+  public showAlert(message: string): void {
     alert(message);
   }
 }

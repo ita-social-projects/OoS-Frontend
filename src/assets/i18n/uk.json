@@ -149,7 +149,8 @@
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
       "PROVIDER_REGISTRATION": "Реєстрація закладу",
-      "USER_REGISTRATION": "Реєстрація користувача"
+      "USER_REGISTRATION": "Реєстрація користувача",
+      "EMPLOYEES": "Співробітники"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",
@@ -1009,6 +1010,7 @@
   },
   "MORE": "...Більше",
   "LESS": "...Менше",
+  "EMPLOYEES": "Співробітники",
   "IMPORT/EXPORT": {
     "SELECT_FILE": "Вибрати файл",
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
@@ -1033,5 +1035,7 @@
       "WRONG_FORMAT":"Некоректний формат",
       "WRONG_LANGUAGE":"Некоректно вибрана мова"
     }
-  }
+  },
+  "EMPLOYEES":"Співробітники",
+  "EMPLOYEES_REGISTRATION":"Реєстрація співробітників"
 }

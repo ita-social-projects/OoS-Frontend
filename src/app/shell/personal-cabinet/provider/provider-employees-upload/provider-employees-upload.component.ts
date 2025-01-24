@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngxs/store';
 
 import { UploadExcelComponent } from 'shared/base-components/upload-excel/upload-excel.component';
 import { ImportEmployeesColumnsNames, ImportEmployeesStandardHeaders } from 'shared/enum/enumUA/import-export';
@@ -6,8 +7,6 @@ import { Employee, FieldsConfig } from 'shared/models/admin-import-export.model'
 import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
-import { ProviderService } from 'shared/services/provider/provider.service';
-import { UserService } from 'shared/services/user/user.service';
 
 @Component({
   selector: 'app-provider-employees-upload',
@@ -44,22 +43,36 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
     importValidationService: ImportValidationService,
     excelService: ExcelUploadProcessorService,
     employeeUploadProcessor: EmployeeUploadProcessorService,
-    providerService: ProviderService
+    store: Store
   ) {
-    super(importValidationService, excelService, employeeUploadProcessor, providerService);
+    super(importValidationService, excelService, employeeUploadProcessor, store);
     this.extendsComponentConfig = this.componentFieldsConfig;
   }
 
   public ngOnInit(): void {
     this.setColumnNames(this.displayedColumns);
     this.setStandardHeaders(this.standardHeaders);
-    this.initializeLoadingObserver();
-    this.getCurrentProviderId().subscribe((provider) => {
-      this.currentUserId = provider;
-    });
+    this.initializeLoadingIndicatorObserver();
+    this.getCurrentUserId();
   }
 
   public ngOnDestroy(): void {
     this.cleanup();
+  }
+
+  /**
+   * This method rename existing keys names in accordance with the backend requirements
+   * This method rewrite in derived component with an evaluation of the key names appropriate for this component
+   * @param items - array of uploaded items that pass all checks
+   * @return new array with renamed keys
+   */
+  public renamingKeys(items: any[]): any[] {
+    return items.map((item) => ({
+      assignedRole: (item as any).employeeAssignedRole,
+      middleName: (item as any).employeeFatherName,
+      firstName: (item as any).employeeName,
+      rnokpp: (item as any).employeeRNOKPP.toString(),
+      lastName: (item as any).employeeSurname
+    }));
   }
 }
