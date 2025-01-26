@@ -34,7 +34,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.providerTypes)
-  public providerTypes$: Observable<Institution[]>;
+  public providerTypes$: Observable<DataItem[]>;
   @Select(MetaDataState.institutionStatuses)
   public institutionStatuses$: Observable<DataItem[]>;
 
@@ -150,7 +150,9 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ])
+      ]),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl('')
     });
   }
 

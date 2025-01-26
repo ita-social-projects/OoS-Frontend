@@ -3,7 +3,6 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { of } from 'rxjs';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from '../../../shared/models/user.model';
@@ -17,7 +16,7 @@ describe('SideMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgxsModule.forRoot([]), FlexLayoutModule],
+      imports: [RouterTestingModule, NgxsModule.forRoot([])],
       declarations: [SideMenuComponent, MockActionsComponent, MockContactsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

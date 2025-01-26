@@ -29,3 +29,7 @@
 :host ::ng-deep .mat-icon-button {
   width: auto !important;
 }
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 8px 0;
+}

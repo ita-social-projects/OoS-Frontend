@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
+
 import { PhoneFormControlComponent } from './phone-form-control.component';
 
 describe('PhoneFormControlComponent', () => {
@@ -12,11 +15,12 @@ describe('PhoneFormControlComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PhoneFormControlComponent],
-      imports: [NgxMatIntlTelInputComponent, TranslateModule.forRoot()]
+      imports: [NgxMatIntlTelInputComponent, MatFormFieldModule, ReactiveFormsModule, BrowserAnimationsModule, TranslateModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PhoneFormControlComponent);
     component = fixture.componentInstance;
+    component.parentFormControl = new FormControl();
     fixture.detectChanges();
   });
 

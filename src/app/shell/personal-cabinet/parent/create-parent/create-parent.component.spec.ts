@@ -1,20 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatLegacyDialogModule } from '@angular/material/legacy-dialog';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateParent } from 'shared/store/parent.actions';
-import { Store, NgxsModule } from '@ngxs/store';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormControl } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MatLegacyDialog as MatDialog
-} from '@angular/material/legacy-dialog';
 import { CreateParentComponent } from './create-parent.component';
 
 describe('CreateParentComponent', () => {
@@ -37,7 +32,7 @@ describe('CreateParentComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         MatDialogModule,
-        MatLegacyDialogModule,
+        MatDialogModule,
         TranslateModule.forRoot()
       ]
     }).compileComponents();

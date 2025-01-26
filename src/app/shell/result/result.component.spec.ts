@@ -70,11 +70,20 @@ describe('ResultComponent', () => {
 
   it('should dispatch FiltersSidenavToggle when filterHandler method is called', () => {
     jest.spyOn(store, 'dispatch');
-    component.isFiltersSidenavOpen = false;
+    const initialSidenavState = component.isFiltersSidenavOpen;
 
     component.filterHandler();
 
-    expect(store.dispatch).toHaveBeenCalledWith(new FiltersSidenavToggle(!component.isFiltersSidenavOpen));
+    expect(store.dispatch).toHaveBeenCalledWith(new FiltersSidenavToggle(!initialSidenavState));
+  });
+
+  it('should call calculateMarginLeft on window resize', () => {
+    jest.spyOn(component, 'calculateMarginLeft');
+
+    const event = new Event('resize');
+    window.dispatchEvent(event);
+
+    expect(component.calculateMarginLeft).toHaveBeenCalled();
   });
 });
 

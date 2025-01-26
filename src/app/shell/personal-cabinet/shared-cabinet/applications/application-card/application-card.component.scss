@@ -2,7 +2,8 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
-  width: 100%;
+  max-width: 100%;
+  padding: 0 !important;
 
   &:first-child {
     width: 100%;
@@ -22,6 +23,10 @@
       &:not(:first-child) {
         padding-left: 8px;
       }
+    }
+    .workshop_actions {
+      flex: 0.5;
+      min-width: 352px;
     }
     & > div > .card-block__child-name {
       min-width: 250px !important;
@@ -113,7 +118,13 @@
       flex-direction: column;
       justify-content: center;
       gap: 10px;
-      width: 176px;
+      max-width: 176px;
+    }
+
+    &__info {
+      .workshop_actions {
+        min-width: 160px;
+      }
     }
   }
 }

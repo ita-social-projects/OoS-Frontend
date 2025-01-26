@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,8 +17,7 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-about-form.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -180,7 +179,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
+      availableSeats: new FormControl(
+        {
+          value: null,
+          disabled: true
+        },
+        [Validators.required, Validators.min(this.minSeats)]
+      ),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });

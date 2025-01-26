@@ -17,6 +17,7 @@ export class User implements Person {
   role: string;
   dateOfBirth: string;
   isBlocked: boolean;
+  emailConfirmed: boolean;
 
   constructor(info: Partial<User>, id: string) {
     this.firstName = info.firstName;

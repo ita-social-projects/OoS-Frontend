@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { ValidationConstants } from 'shared/constants/validation';
 
@@ -11,12 +11,16 @@ import { ValidationConstants } from 'shared/constants/validation';
 export class InfoFormComponent {
   @Input() public index: number;
   @Input() public formAmount: number;
-  @Input() public infoEditFormGroup: FormGroup;
+  @Input() public infoEditFormGroup: AbstractControl;
   @Input() public maxDescriptionLength: number;
 
   @Output() public deleteForm = new EventEmitter();
 
   public readonly ValidationConstants = ValidationConstants;
+
+  public get infoEditForm(): FormGroup {
+    return this.infoEditFormGroup as FormGroup;
+  }
 
   public onDelete(): void {
     this.deleteForm.emit(this.index);

@@ -1,10 +1,10 @@
 <mat-card
   [ngClass]="{ hoverOnCard: !workshopsCount }"
-  class="category"
-  fxLayout="column"
-  fxLayoutAlign="center center"
+  class="category flex flex-col items-center justify-center"
   (click)="!workshopsCount && selectDirection(direction)">
-  <img class="icon" [src]="categoryIcons[direction.id]" alt="{{ direction.title }}" />
+  <div class="flex items-center justify-center">
+    <img class="icon" [src]="categoryIcons[direction.id]" alt="{{ direction.title }}" />
+  </div>
 
   <ng-container *ngIf="isEditMode">
     <div [routerLink]="['./create', direction.id]" class="config_edit-icon">

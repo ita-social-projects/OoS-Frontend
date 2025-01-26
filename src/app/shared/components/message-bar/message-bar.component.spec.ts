@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA,
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule
-} from '@angular/material/legacy-snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
 import { MessageBarData } from 'shared/models/message-bar.model';
 import { MessageBarComponent } from './message-bar.component';
@@ -21,7 +18,8 @@ describe('SnackBarComponent', () => {
     mockData = {
       type: 'success',
       message: 'messageText',
-      info: 'messageInfo'
+      info: 'messageInfo',
+      unclosable: false
     };
 
     await TestBed.configureTestingModule({
@@ -45,7 +43,7 @@ describe('SnackBarComponent', () => {
   it('should display correct message', () => {
     const messageTextContainer = fixture.debugElement.query(By.css('[data-testid="message-text"]'));
 
-    expect(messageTextContainer.nativeElement.textContent).toBe(' messageText ');
+    expect(messageTextContainer.nativeElement.textContent.trim()).toBe('messageText');
   });
 
   it('should display error message when data type is error', () => {
@@ -74,5 +72,50 @@ describe('SnackBarComponent', () => {
     closingButton.nativeElement.click();
 
     expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set tabindex="0" on the closing button', () => {
+    fixture.detectChanges();
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+    expect(closingButton.nativeElement.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('should close the snackBar when Enter is pressed', () => {
+    const snackBarDismissSpy = jest.spyOn(matSnackBar, 'dismiss');
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+
+    const event = new KeyboardEvent('keydown', { keyCode: ENTER });
+    closingButton.nativeElement.dispatchEvent(event);
+
+    expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should close the snackBar and prevent default behavior when Space is pressed', () => {
+    const snackBarDismissSpy = jest.spyOn(matSnackBar, 'dismiss');
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+
+    const event = new KeyboardEvent('keydown', { keyCode: SPACE });
+    const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+
+    closingButton.nativeElement.dispatchEvent(event);
+
+    expect(snackBarDismissSpy).toHaveBeenCalledTimes(1);
+    expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not display the closing button if data.unclosable is true', () => {
+    mockData.unclosable = true;
+    fixture.detectChanges();
+
+    const closingButton = fixture.debugElement.query(By.css('[data-testid="closing-button"]'));
+    expect(closingButton).toBeFalsy();
+  });
+
+  it('should apply the correct background color based on the message type', () => {
+    mockData.type = 'success';
+    fixture.detectChanges();
+
+    const snackBarContainer = fixture.debugElement.query(By.css('.popup-body'));
+    expect(snackBarContainer.nativeElement.classList).toContain('success');
   });
 });

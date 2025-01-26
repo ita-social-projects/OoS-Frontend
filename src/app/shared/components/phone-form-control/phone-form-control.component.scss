@@ -29,13 +29,12 @@
   max-height: 500px;
   overflow-x: hidden;
   box-sizing: border-box;
-
-  .mat-menu-content {
+  border-radius: 5px !important;
+  .mat-mdc-menu-content {
     padding: 0;
   }
 
   .country-search {
-    padding: 4px !important;
     outline: none !important;
     padding-left: 13px !important;
     margin: 4px !important;
@@ -45,8 +44,20 @@
     box-sizing: border-box;
   }
 
+  .label-wrapper {
+    font-family: var(--mat-menu-item-label-text-font);
+    line-height: var(--mat-menu-item-label-text-line-height);
+    font-size: var(--mat-menu-item-label-text-size);
+    letter-spacing: var(--mat-menu-item-label-text-tracking);
+    font-weight: var(--mat-menu-item-label-text-weight);
+  }
+
   .country-list-button {
     font-size: 13px !important;
     font-family: 'Open Sans', sans-serif !important;
+  }
+
+  .mat-mdc-menu-item {
+    padding: 14px 24px !important;
   }
 }

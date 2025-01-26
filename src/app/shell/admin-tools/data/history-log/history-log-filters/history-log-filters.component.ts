@@ -72,12 +72,16 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
     this.dateFromFilters.emit(dateFilters);
   }
 
+  public setFormControlDependsOnTab(controlName: string): FormControl {
+    return this.filtersForm.controls[controlName] as FormControl;
+  }
+
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
     switch (tabName) {
       case HistoryLogTypes.Providers:
         this.addFormControlForFiltersForm(CustomFormControlNames.ProvidersPropertyName);
         break;
-      case HistoryLogTypes.ProviderAdmins:
+      case HistoryLogTypes.Employees:
         this.addFormControlForFiltersForm(CustomFormControlNames.AdminType, CustomFormControlNames.OperationType);
         this.addFormControlListeners(FormControlNames.AdminType, (adminType: string) => {
           const adminTypeOptions = this.filtersList.find((filter) => filter.controlName === FormControlNames.AdminType).options;

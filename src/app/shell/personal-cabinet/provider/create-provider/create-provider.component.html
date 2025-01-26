@@ -1,6 +1,6 @@
 <div class="create-form" *ngIf="(isEditMode && provider) || !isEditMode">
   <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">
         {{ (isEditMode ? 'FORMS.HEADERS.EDIT_PROVIDER' : 'FORMS.HEADERS.NEW_PROVIDER') | translate }}
       </h3>
@@ -17,7 +17,7 @@
           [provider]="provider"
           (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
         </app-create-info-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+        <div class="footer flex flex-row justify-center items-center">
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
@@ -36,7 +36,7 @@
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)"
           [provider]="provider">
         </app-create-contacts-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+        <div class="footer flex flex-row justify-center items-center">
           <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
@@ -62,7 +62,7 @@
           (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
         </app-create-photo-form>
 
-        <div *ngIf="!isEditMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
+        <div *ngIf="!isEditMode" class="wrapper-check-box step flex flex-col justify-start items-start">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
             {{ 'AGREEMENTS.I_AGREE_FOR_DATA_USE' | translate }}
           </mat-checkbox>
@@ -70,7 +70,7 @@
             {{ 'AGREEMENTS.I_AM_NOT_ROBOT' | translate }}
           </mat-checkbox>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+        <div class="footer flex flex-col justify-center items-center">
           <button class="btn" mat-raised-button matStepperPrevious>
             {{ 'BUTTONS.BACK' | translate }}
           </button>

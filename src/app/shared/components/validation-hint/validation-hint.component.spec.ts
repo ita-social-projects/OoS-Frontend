@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormControl, ValidationErrors } from '@angular/forms';
-import { tap } from 'rxjs';
+import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { Subject, tap } from 'rxjs';
 
 import { EventEmitter, SimpleChange } from '@angular/core';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
@@ -49,6 +49,28 @@ describe('ValidationHintComponent', () => {
       tick(200);
     }));
 
+    it('should call updateValidationState for each control in FormGroup', () => {
+      const mockStatusChanges = new Subject<void>();
+      const control1 = new FormControl('');
+      const control2 = new FormControl('');
+      const formGroup = new FormGroup({
+        control1: control1,
+        control2: control2
+      });
+
+      jest.spyOn(formGroup.statusChanges, 'pipe').mockReturnValue(mockStatusChanges.asObservable());
+      jest.spyOn(component, 'updateValidationState');
+
+      component.validationFormControl = formGroup;
+
+      component.ngOnInit();
+
+      mockStatusChanges.next();
+
+      expect(component.updateValidationState).toHaveBeenCalledWith(control1);
+      expect(component.updateValidationState).toHaveBeenCalledWith(control2);
+    });
+
     it('should not mark validationFormControl as touched if already touched', fakeAsync(() => {
       component.validationFormControl.markAsTouched();
       component.validationFormControl.statusChanges.pipe(tap(() => tick(200))).subscribe(() => {
@@ -74,6 +96,19 @@ describe('ValidationHintComponent', () => {
       component.validationFormControl.setValue('test');
       tick(200);
     }));
+
+    it('should validate TimeFormat in FormLevel', fakeAsync(() => {
+      const control1 = new FormControl('');
+      const formGroup = new FormGroup({ control1: control1 });
+      component.validationFormControl = formGroup;
+      component.formLevelValidation = true;
+
+      component.ngOnInit();
+      formGroup.setErrors({ invalidTimeRange: true });
+      tick(200);
+
+      expect(component.invalidTimeRange).toBeTruthy();
+    }));
   });
 
   describe('checkValidationErrors method', () => {
@@ -81,7 +116,7 @@ describe('ValidationHintComponent', () => {
     let control: FormControl;
 
     beforeEach(() => {
-      control = component.validationFormControl;
+      control = component.validationFormControl as FormControl;
     });
 
     it('should assign to invalidEmail if email error is present', () => {
@@ -134,6 +169,15 @@ describe('ValidationHintComponent', () => {
       (component as any).checkValidationErrors(errors);
 
       expect(component.invalidFieldLength).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidSearch if isSearchBar and errors are present', () => {
+      component.isSearchBar = true;
+      errors = { minlength: true, maxlength: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidSearch).toBeTruthy();
     });
   });
 
@@ -206,7 +250,7 @@ describe('ValidationHintComponent', () => {
     let formControlHasErrorSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      control = component.validationFormControl;
+      control = component.validationFormControl as FormControl;
       formControlHasErrorSpy = jest.spyOn(control, 'hasError');
     });
 

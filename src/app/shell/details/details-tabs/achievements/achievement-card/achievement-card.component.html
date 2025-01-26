@@ -1,6 +1,6 @@
 <mat-card class="position" *ngIf="achievement">
-  <div class="card_achievement" fxLayout="column" fxLayoutAlign="start space-between">
-    <div class="wrap-for-details" fxLayout="row" fxLayoutAlign="start space-between">
+  <div class="card_achievement flex flex-col justify-between items-start">
+    <div class="wrap-for-details flex flex-row box-border items-stretch justify-start content-between">
       <img class="image" src="../../../../assets/icons/award.svg" />
       <div>
         <h3
@@ -37,7 +37,7 @@
         </mat-card-content>
       </div>
       <ng-container *ngIf="isAllowedEdit">
-        <div fxLayout="row" fxLayoutAlign="end" class="actions">
+        <div class="actions flex flex-row justify-end">
           <div
             class="actions_btn"
             [routerLink]="['/create-achievement', achievement.workshopId]"

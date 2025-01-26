@@ -1,11 +1,12 @@
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit, Provider } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import { EntityType, Role } from '../../shared/enum/role';
+import { Provider } from 'shared/models/provider.model';
+import { Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
@@ -20,6 +21,8 @@ import { SharedUserState } from '../../shared/store/shared-user.state';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.provider)
+  public currentProvider$: Observable<Provider>;
   @Select(AppState.isMobileScreen)
   private isMobileScreen$: Observable<boolean>;
   @Select(SharedUserState.selectedWorkshop)
@@ -29,14 +32,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
 
-  public readonly entityType = EntityType;
-
   public isMobileScreen: boolean;
   public workshop: Workshop;
   public provider: Provider;
   public role: Role;
 
-  public entity: EntityType;
+  public isWorkshop = false;
   public displayActionCard: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -50,7 +51,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
-      this.entity = params.entity;
+      this.isWorkshop = params.entity === 'workshop';
 
       this.getEntity(params.id);
 
@@ -77,7 +78,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.role = role;
         this.workshop = workshop;
         this.provider = provider;
-
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
       });
   }
@@ -86,7 +86,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    if (this.entity === EntityType.workshop) {
+    if (this.isWorkshop) {
       this.store.dispatch(new GetWorkshopById(id));
     } else {
       this.store.dispatch(new GetProviderById(id));

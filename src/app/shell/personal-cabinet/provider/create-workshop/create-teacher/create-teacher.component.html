@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center">
+<div class="flex flex-col justify-center">
   <label *ngIf="!TeacherFormArray.controls.length" class="label">{{ 'FORMS.ADD_TEACHER_LATER' | translate }}</label>
 
   <ng-container>
@@ -11,7 +11,7 @@
       (deleteForm)="onDeleteForm($event)">
     </app-teacher-form>
   </ng-container>
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div class="flex flex-col justify-center items-center">
     <button class="btn-add" mat-button (click)="onAddTeacher()" [disabled]="TeacherFormArray.invalid">
       <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_TEACHER' | translate }}
     </button>

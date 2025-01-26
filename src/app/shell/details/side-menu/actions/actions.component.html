@@ -1,18 +1,14 @@
 <div
   [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'"
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  fxLayoutGap="1.5rem">
-  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center">
+  class="flex flex-col justify-center items-center gap-6">
+  <h4 class="card-title justify-center" *ngIf="workshop.price">
     {{ workshop.price }} {{ 'UAH' | translate }}/{{ PayRateTypeEnum[workshop.payRate] | translate }}
   </h4>
   <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
   <a [ngClass]="{ disable: hideApplicationSubmission }" (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
-      class="button button-application"
+      class="button button-application flex flex-row justify-center items-center"
       mat-raised-button
-      fxLayout="row"
-      fxLayoutAlign="center center"
       [disabled]="hideApplicationSubmission">
       {{ 'APPLY_AN_APPLICATION' | translate }}
     </button>
@@ -25,7 +21,7 @@
   <ng-container *ngIf="isFavorite; then dislike; else like"></ng-container>
 
   <ng-template #dislike>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDislike()">
+    <button mat-button class="button button-msg flex flex-row justify-center items-center" (click)="role === Role.parent && onDislike()">
       <mat-icon>favorite</mat-icon>
       {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>
@@ -34,9 +30,7 @@
   <ng-template #like>
     <button
       mat-button
-      class="button button-msg"
-      fxLayout="row"
-      fxLayoutAlign="center center"
+      class="button button-msg flex flex-row justify-center items-center"
       (click)="role === Role.parent ? onLike() : onOpenDialog(ModalTypeAction.unregisteredFavoriteWarning)">
       <mat-icon>favorite_border</mat-icon>
       {{ 'ADD_TO_FAVORITES' | translate }}

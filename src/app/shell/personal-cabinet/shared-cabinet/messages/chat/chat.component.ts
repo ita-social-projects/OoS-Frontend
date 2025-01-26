@@ -29,6 +29,7 @@ import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 import { Util } from 'shared/utils/utils';
 
 @Component({
@@ -179,7 +180,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getUserRole(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    this.userIsProvider = this.userRole === Role.provider;
+    this.userIsProvider = isRoleProvider(this.userRole);
   }
 
   private getChatRoom(): void {

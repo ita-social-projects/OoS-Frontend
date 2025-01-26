@@ -1,3 +1,8 @@
 {
-  "*.{ts,scss,html}": ["yarn lint:fix"]
+  "*.{ts,html}": [
+    "yarn eslint:fix"
+  ],
+  "*.{ts,scss,html}": [
+    "yarn prettier:fix"
+  ]
 }

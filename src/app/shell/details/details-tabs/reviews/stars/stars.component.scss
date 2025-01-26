@@ -24,8 +24,7 @@
     color: #3849f9;
   }
 }
-::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay,
-.mat-button-toggle-checked {
+::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay {
   display: none;
 }
 ::ng-deep .stars-toggle-group .mat-ripple:not(:empty) {

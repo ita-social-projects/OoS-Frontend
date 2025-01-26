@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 
@@ -9,6 +8,7 @@ import { NoResultCardComponent } from 'shared/components/no-result-card/no-resul
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Parent } from 'shared/models/parent.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { Util } from 'shared/utils/utils';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 
 describe('WorkshopCardsListComponentt', () => {
@@ -25,7 +25,7 @@ describe('WorkshopCardsListComponentt', () => {
         NoResultCardComponent,
         MockListWorkshopCardPaginatorComponent
       ],
-      imports: [FlexLayoutModule, CommonModule, NgxsModule.forRoot([])]
+      imports: [CommonModule, NgxsModule.forRoot([])]
     }).compileComponents();
   });
 
@@ -35,11 +35,35 @@ describe('WorkshopCardsListComponentt', () => {
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     component.workshops$ = new Observable();
+    store = {
+      dispatch: jest.fn()
+    } as any;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should scroll to top after paginator page change event', () => {
+    jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    component.paginationParameters = { from: 1, size: 8 };
+    component.onPageChange({ element: 1, isActive: true });
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+  });
+
+  it('should change pagination size', () => {
+    jest.spyOn(Util, 'setFromPaginationParam');
+    component.paginationParameters = { from: 1, size: 8 };
+    component.onItemsPerPageChange(12);
+    expect(Util.setFromPaginationParam).toHaveBeenCalledWith(
+      { from: 0, size: 12 },
+      {
+        element: 1,
+        isActive: true
+      },
+      undefined
+    );
   });
 });
 

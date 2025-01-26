@@ -1,8 +1,8 @@
 <div
-  fxLayout="column"
-  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row'"
-  [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
-  fxLayoutGap="2rem">
+  [ngClass]="{
+    'flex flex-row gap-5': isMobileScreen,
+    'flex flex-col items-start justify-start gap-5 box-border md:flex-row lg:flex-col': !isMobileScreen
+  }">
   <app-actions
     *ngIf="workshop && displayActionCard && !isMobileScreen"
     [role]="role"

@@ -5,6 +5,7 @@ import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { WorkingDays } from 'shared/enum/enumUA/working-hours';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
+import { ImageFormat } from 'shared/enum/image-format';
 
 /**
  * Constants for OutOfSchool
@@ -31,7 +32,7 @@ export class Constants {
   static readonly DASH_VALUE = 'dash';
   static readonly DASH = '—';
 
-  static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
+  static readonly SCROLL_TO_TOP_BUTTON_POS = 200;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
 
   static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
@@ -56,15 +57,19 @@ export class Constants {
   static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
+
+  static readonly MAX_PREVIOUS_SEARCH_RESULTS = 10;
 }
 
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
-  static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
   static readonly PAGINATION_DOTS = '...';
-  static readonly PAGINATION_SHIFT_DELTA = 3;
   static readonly ITEMS_PER_PAGE_TEN = 10;
   static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / 332);
+  static readonly VISIBLE_PAGES = 4;
+  static readonly CENTER_OFFSET = 2;
+  static readonly MINIMUM_DISPLAY_LENGTH = 3;
+  static readonly WINDOW_SIZE = 3;
   static readonly firstPage = {
     element: 1,
     isActive: true
@@ -130,7 +135,7 @@ export class CropperConfigurationConstants {
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;
   static readonly cropperMaxHeight = 8000;
-  static readonly croppedFormat = 'jpeg';
+  static readonly croppedFormat = [ImageFormat.PNG, ImageFormat.JPEG];
   static readonly croppedQuality = 90;
   static readonly croppedGalleryImage = {
     height: 300

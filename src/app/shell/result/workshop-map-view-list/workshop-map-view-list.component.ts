@@ -93,7 +93,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public triggerNameDone(e: AnimationEvent): void {
+  public triggerNameDone(): void {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
       this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) - 92;
     }

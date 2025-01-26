@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector

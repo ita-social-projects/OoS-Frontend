@@ -76,8 +76,7 @@ describe('MainComponent', () => {
     ministryAdmin: undefined,
     regionAdmin: undefined,
     areaAdmin: undefined,
-    role: Role.unauthorized,
-    subrole: undefined
+    role: Role.unauthorized
   }
 })
 @Injectable()

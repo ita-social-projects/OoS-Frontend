@@ -1,9 +1,7 @@
 <mat-button-toggle-group [formControl]="ratingFormControl" class="stars-toggle-group">
   <mat-button-toggle
     *ngFor="let rate of ratingStars"
-    class="toggle"
-    fxLayout="row"
-    fxLayoutAlign="center center"
+    class="toggle flex flex-row justify-center items-center"
     [value]="rate"
     (click)="onClick(rate)">
     <mat-icon *ngIf="modalWindow" class="star-icon-modal" [ngClass]="selectedStars >= rate ? 'selected-star' : ''">

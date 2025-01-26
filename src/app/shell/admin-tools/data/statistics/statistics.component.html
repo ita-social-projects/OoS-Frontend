@@ -1,7 +1,7 @@
 <div [formGroup]="filtersForm" class="statistics-filters">
   <div class="filter-wrapper">
     <span class="title">{{ 'STATISTICS.DATE_RANGE' | translate }}</span>
-    <mat-form-field floatLabel="never" appearance="none">
+    <mat-form-field appearance="fill">
       <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
         <ng-container *ngFor="let type of StatisticPeriodTitles | keyvalue">
           <mat-option [value]="type.key" class="dropdown-option">

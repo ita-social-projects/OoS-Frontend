@@ -14,8 +14,8 @@
   color: #aaaaaa;
 }
 
-.mat-card-header {
-  .mat-card-title {
+.mat-mdc-card-header {
+  .mat-mdc-card-title {
     max-width: 235px;
     width: 100%;
   }
@@ -36,4 +36,8 @@
       opacity: 0.5;
     }
   }
+}
+
+.mat-mdc-card-content .card_text {
+  margin-top: 0;
 }

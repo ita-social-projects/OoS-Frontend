@@ -11,7 +11,7 @@ export class ColumnsListForChangesLogHistory {
     'newValue'
   ];
 
-  static readonly ProviderAdmins = [
+  static readonly Employees = [
     'pib',
     'email',
     'providerTitle',
