@@ -1,0 +1,9 @@
+@media (max-width: 750px) {
+  .wrapper {
+    margin-top: 20px;
+  }
+}
+.workshop-page-wrap {
+  overflow: hidden;
+  width: 100%;
+}/*# sourceMappingURL=details.component.css.map */

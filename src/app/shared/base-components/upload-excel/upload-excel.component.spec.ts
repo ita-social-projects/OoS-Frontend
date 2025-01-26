@@ -1,35 +1,226 @@
+/* eslint-disable dot-notation */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of, throwError } from 'rxjs';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Store } from '@ngxs/store';
+import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
+import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
+import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
+
 import { UploadExcelComponent } from './upload-excel.component';
 
 describe('UploadExcelComponent', () => {
   window.alert = jest.fn();
-  const example = [{ text: 'example' }];
-
   let component: UploadExcelComponent<any>;
+  let mockImportValidationService: jest.Mocked<ImportValidationService>;
+  let excelService: ExcelUploadProcessorService;
+  let mockExcelService: Partial<ExcelUploadProcessorService>;
+  let mockEmployeeUploadProcessor: EmployeeUploadProcessorService;
+  let mockStore: jest.Mocked<Store>;
   let fixture: ComponentFixture<UploadExcelComponent<any>>;
+  let mockSubscription: { unsubscribe: jest.Mock };
+  let httpMock: HttpTestingController;
   beforeEach(async () => {
+    mockExcelService = {
+      convertExcelToJSON: jest.fn()
+    };
+    mockSubscription = { unsubscribe: jest.fn() };
+    mockImportValidationService = { checkForInvalidData: jest.fn() } as any;
+    component = new UploadExcelComponent(mockImportValidationService, excelService, mockEmployeeUploadProcessor, mockStore);
+    mockStore = {
+      select: jest.fn()
+    } as unknown as jest.Mocked<Store>;
     await TestBed.configureTestingModule({
       declarations: [UploadExcelComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
-        {
-          provide: Store,
-          useValue: {
-            dispatch: jest.fn(),
-            select: jest.fn().mockReturnValue(of())
-          }
-        }
+        EmployeeUploadProcessorService,
+        { provide: ExcelUploadProcessorService, useValue: mockExcelService },
+        { provide: ImportValidationService, useValue: mockImportValidationService },
+        { provide: Store, useValue: mockStore }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(UploadExcelComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-    component.standardHeadersBase = ['Header1', 'Header2', 'Header3']; // Initialize standardHeadersBase
     component.isLoading = true;
+    component.subscription = mockSubscription as any;
+    mockEmployeeUploadProcessor = TestBed.inject(EmployeeUploadProcessorService);
+    httpMock = TestBed.inject(HttpTestingController);
+    excelService = TestBed.inject(ExcelUploadProcessorService);
+    fixture.detectChanges();
+  });
+
+  describe('sendValidItems method', () => {
+    it('should handle a successful response', () => {
+      // Arrange
+      component.currentUserId = '123';
+      component.dataSource = [
+        { sequenceNumber: 1, errors: {} },
+        { sequenceNumber: 2, errors: {} }
+      ];
+
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      // Act
+      component.sendValidItems();
+
+      // Assert
+      const req = httpMock.expectOne(`/api/v1/Provider/Upload/${component.currentUserId}/employees/upload`);
+      expect(req.request.method).toBe('PUT');
+      req.flush({ status: 200, body: 'Success' });
+
+      expect(component.isLoading).toBe(false);
+      expect(component.loadSuccess).toBe(true);
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+    });
+    it('should handle an error response', () => {
+      // Arrange
+      component.currentUserId = '123';
+      component.dataSource = [
+        { sequenceNumber: 1, errors: {} },
+        { sequenceNumber: 2, errors: {} }
+      ];
+
+      // Spy on console.error
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      // Act
+      component.sendValidItems();
+
+      // Assert
+      const req = httpMock.expectOne(`/api/v1/Provider/Upload/${component.currentUserId}/employees/upload`); // Тестуємо правильний URL
+      expect(req.request.method).toBe('PUT');
+      req.flush('Error', { status: 500, statusText: 'Server Error' }); // Відправка фіктивної помилки
+
+      // Перевіряємо, що відповідні зміни відбулись
+      expect(component.isLoading).toBe(false);
+      expect(component.loadFailure).toBe(true);
+      expect(consoleErrorSpy).toHaveBeenCalled(); // Перевірка, що помилка була зафіксована
+    });
+    it('should handle an unknown error response', () => {
+      // Arrange
+      component.currentUserId = '123';
+      component.dataSource = [
+        { sequenceNumber: 1, errors: {} },
+        { sequenceNumber: 2, errors: {} }
+      ];
+
+      // Spy on console.error to verify that the error is logged
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      // Act
+      component.sendValidItems();
+
+      // Simulate an HTTP error response with a 500 status (Unknown error)
+      const req = httpMock.expectOne(`/api/v1/Provider/Upload/${component.currentUserId}/employees/upload`);
+      expect(req.request.method).toBe('PUT');
+      req.flush('Error', { status: 500, statusText: 'Server Error' });
+
+      // Assert
+      expect(component.isLoading).toBe(false); // Ensure isLoading is set to false
+      expect(component.loadFailure).toBe(true); // Ensure loadFailure is set to true
+
+      // Check that the correct error message was logged
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error Response:',
+        expect.objectContaining({
+          message: 'Http failure response for /api/v1/Provider/Upload/123/employees/upload: 500 Server Error'
+        })
+      );
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error Message:',
+        'Http failure response for /api/v1/Provider/Upload/123/employees/upload: 500 Server Error'
+      );
+    });
+  });
+  describe('onFileSelected method', () => {
+    it('should handle file selection and process successfully', () => {
+      // Arrange
+      const mockFile = new File(['dummy content'], 'test.xlsx', {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      const event = { target: { files: [mockFile] } } as unknown as Event;
+
+      const mockItems = [{ sequenceNumber: 1, errors: {} }];
+      jest.spyOn(mockExcelService, 'convertExcelToJSON').mockReturnValue(of(mockItems));
+      jest.spyOn(component, 'resetValues').mockImplementation();
+      jest.spyOn(component, 'processUploadData').mockImplementation();
+
+      // Act
+      component.onFileSelected(event);
+
+      // Assert
+      expect(component.selectedFile).toBe(mockFile); // Ensure the file is assigned
+      expect(component.isLoading).toBe(true); // Ensure loading starts
+      expect(component.resetValues).toHaveBeenCalled(); // Reset values
+      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeadersBase, component.columnNamesBase); // Call service
+      expect(component.processUploadData).toHaveBeenCalledWith(mockItems); // Verify items processed
+      expect((event.target as HTMLInputElement).value).toBe(''); // Input reset
+    });
+
+    it('should handle file selection and log an error when conversion fails', () => {
+      // Arrange
+      const mockFile = new File(['dummy content'], 'test.xlsx', {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      const event = { target: { files: [mockFile] } } as unknown as Event;
+
+      const mockError = new Error('Excel conversion failed');
+      jest.spyOn(mockExcelService, 'convertExcelToJSON').mockReturnValue(throwError(() => mockError));
+      jest.spyOn(component, 'resetValues').mockImplementation();
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      // Act
+      component.onFileSelected(event);
+
+      // Assert
+      expect(component.selectedFile).toBe(mockFile); // Ensure the file is assigned
+      expect(component.isLoading).toBe(true); // Ensure loading starts
+      expect(component.resetValues).toHaveBeenCalled(); // Reset values
+      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeadersBase, component.columnNamesBase); // Call service
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Excel conversion error:', mockError); // Verify error logging
+      expect((event.target as HTMLInputElement).value).toBe(''); // Input reset
+    });
+  });
+  describe('initializeLoadingIndicatorObserver method', () => {});
+
+  describe('getCurrentUserId method', () => {
+    it('should update currentUserId with the value from the store', (done) => {
+      const mockUserId = '1234';
+      mockStore.select.mockReturnValue(of(mockUserId));
+      component.getCurrentUserId();
+      setTimeout(() => {
+        expect(component.currentUserId).toBe(mockUserId);
+        done();
+      }, 0);
+    });
+
+    it('should not update currentUserId if store emits no value', (done) => {
+      mockStore.select.mockReturnValue(of(undefined));
+      component.getCurrentUserId();
+      setTimeout(() => {
+        expect(component.currentUserId).toBeUndefined();
+        done();
+      }, 0);
+    });
+  });
+  describe('renamingKeys method', () => {
+    it('should return the same array when renamingKeys is called', () => {
+      const mockItems = [
+        { key1: 'value1', key2: 'value2' },
+        { key1: 'value3', key2: 'value4' }
+      ];
+      const result = component.renamingKeys(mockItems);
+      expect(result).toEqual(mockItems);
+    });
+    it('should call resetValues and unsubscribe when cleanup is called', () => {
+      component.subscription = mockSubscription as any;
+      const resetValuesSpy = jest.spyOn(component, 'resetValues');
+      component.cleanup();
+      expect(resetValuesSpy).toHaveBeenCalled();
+      expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+    });
   });
 
   it('should create', () => {
@@ -57,6 +248,7 @@ describe('UploadExcelComponent', () => {
   });
 
   describe('showsIsTruncated method tests', () => {
+    const example = [{ text: 'example' }];
     it('should return true and cut the array when more than 100 providers', () => {
       const itemData = Array.from({ length: 150 }, (_, i) => example[0]);
       const result = component.showsIsTruncated(itemData);
@@ -87,7 +279,6 @@ describe('UploadExcelComponent', () => {
         { id: 3, errors: { nameError: null, ageError: 'Invalid age' } }
       ];
       const result = component.filterInvalidItems(items);
-
       expect(result.length).toBe(2);
       expect(result).toEqual([
         { id: 2, errors: { nameError: 'Invalid name', ageError: null } },
@@ -96,70 +287,45 @@ describe('UploadExcelComponent', () => {
     });
   });
 
-  // describe('checkHeadersIsValid method tests', () => {
-  //   afterEach(() => {
-  //     jest.restoreAllMocks();
-  //   });
+  describe('processUploadData method test', () => {
+    it('should process items data correctly', () => {
+      const inputItems = [{ name: 'Item1' }, { name: 'Item2' }];
+      const showsIsTruncatedSpy = jest.spyOn(component, 'showsIsTruncated').mockReturnValue(true);
+      const handleDataSpy = jest.spyOn(component, 'handleData').mockImplementation(() => {});
+      component.processUploadData(inputItems);
+      expect(showsIsTruncatedSpy).toHaveBeenCalledWith(inputItems);
+      showsIsTruncatedSpy.mockRestore();
+      handleDataSpy.mockRestore();
+    });
+  });
 
-  //   it('should return true for valid headers', () => {
-  //     const currentHeaders = ['Header1', 'Header2', 'Header3'];
+  describe('setStandardHeaders method test', () => {
+    it('should set standard headers correctly', () => {
+      const headers = ['Header1', 'Header2', 'Header3'];
+      component.setStandardHeaders(headers);
+      expect(component.standardHeadersBase).toEqual(headers);
+    });
+  });
 
-  //     const result = component.checkHeadersIsValid(currentHeaders);
-
-  //     expect(result).toBe(true);
-  //     expect(component.isLoading).toBe(true);
-  //     expect(window.alert).not.toHaveBeenCalled();
-  //   });
-
-  //   it('should return false and show alert for invalid headers', () => {
-  //     const currentHeadersError = ['Header1', 'WrongHeader', 'Header3'];
-
-  //     const result = component.checkHeadersIsValid(currentHeadersError);
-
-  //     expect(result).toBe(false);
-  //     expect(component.isLoading).toBe(false);
-  //     expect(window.alert).toHaveBeenCalled();
-  //   });
-
-  //   it('should return false if headers are partially correct but in the wrong order', () => {
-  //     const currentHeadersWrongOrder = ['Header3', 'Header1', 'Header2'];
-
-  //     const result = component.checkHeadersIsValid(currentHeadersWrongOrder);
-
-  //     expect(result).toBe(false);
-  //     expect(component.isLoading).toBe(false); // isLoading should be set to false
-  //     expect(window.alert).toHaveBeenCalled();
-  //   });
-  // });
-
-  // describe('processProvidersData method test', () => {
-  //   it('should process items data correctly', () => {
-  //     const inputItems = [{ name: 'Item1' }, { name: 'Item2' }];
-
-  //     const showsIsTruncatedSpy = jest.spyOn(component, 'showsIsTruncated').mockReturnValue(true);
-  //     const handleDataSpy = jest.spyOn(component, 'handleData').mockImplementation(() => {});
-
-  //     component.processUploadData(inputItems);
-
-  //     expect(showsIsTruncatedSpy).toHaveBeenCalledWith(inputItems);
-
-  //     const expectedItemsWithIds = inputItems.map((elem, index) => ({ ...elem, id: index }));
-  //     expect(handleDataSpy).toHaveBeenCalledWith(expectedItemsWithIds, true);
-
-  //     showsIsTruncatedSpy.mockRestore();
-  //     handleDataSpy.mockRestore();
-  //   });
-  // });
+  describe('setColumnNames method test', () => {
+    it('should set column names correctly', () => {
+      const columnNames = ['Column1', 'Column2', 'Column3'];
+      component.setColumnNames(columnNames);
+      expect(component.columnNamesBase).toEqual(columnNames);
+    });
+  });
 
   describe('handleData method test', () => {
     let checkForInvalidDataSpy: jest.SpyInstance;
     beforeEach(() => {
-      checkForInvalidDataSpy = jest.spyOn((component as any).importValidationService, 'checkForInvalidData').mockImplementation(() => {});
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      checkForInvalidDataSpy = jest.spyOn(component['importValidationService'], 'checkForInvalidData').mockImplementation(() => {});
     });
     afterEach(() => {
-      checkForInvalidDataSpy.mockRestore(); // Restore the mock after each test
+      if (checkForInvalidDataSpy) {
+        checkForInvalidDataSpy.mockRestore();
+      }
     });
-
     it('should handle data correctly, call checkForInvalidData, and set component properties', () => {
       const isCorrectLength = true;
       const items = [
@@ -174,49 +340,4 @@ describe('UploadExcelComponent', () => {
       expect(component.isWarningVisible).toBe(isCorrectLength);
     });
   });
-
-  // describe('onFileSelected method test', () => {
-  //   let excelServiceMock: any;
-  //   beforeEach(() => {
-  //     excelServiceMock = {
-  //       convertExcelToJSON: jest.fn()
-  //     };
-
-  //     // component = new UploadExcelComponent(excelServiceMock);
-  //     component.resetValues = jest.fn(); // Spy on resetValues
-  //     component.processUploadData = jest.fn(); // Spy on processUploadData
-  //   });
-
-  //   it('should handle errors during Excel conversion', () => {
-  //     const mockFile = new File(['mock content'], 'test.xlsx', {
-  //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  //     });
-  //     const mockEvent = {
-  //       target: {
-  //         files: [mockFile],
-  //         value: 'mockValue'
-  //       }
-  //     } as unknown as Event;
-
-  //     const mockError = new Error('Conversion failed');
-  //     excelServiceMock.convertExcelToJSON.mockReturnValue(throwError(() => mockError)); // Mock the observable to throw an error
-
-  //     console.error = jest.fn(); // Spy on console.error
-
-  //     // Ensure these properties are initialized
-  //     component.standardHeadersBase = ['Header1', 'Header2', 'Header3'];
-  //     component.columnNamesBase = undefined;
-
-  //     // Call the method
-  //     component.onFileSelected(mockEvent);
-
-  //     // Check if the mock was called with the correct arguments
-  //     expect(excelServiceMock.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeadersBase, component.columnNamesBase);
-  //     expect(component.isLoading).toBe(true);
-  //     expect(component.resetValues).toHaveBeenCalled();
-  //     expect(component.processUploadData).not.toHaveBeenCalled();
-  //     expect(console.error).toHaveBeenCalledWith('Excel conversion error:', mockError);
-  //     expect((mockEvent.target as HTMLInputElement).value).toBe('');
-  //   });
-  // });
 });

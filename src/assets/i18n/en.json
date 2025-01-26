@@ -1016,6 +1016,7 @@
     "HUNDRED_WARNING": "WARNING! Processed first hundred lines",
     "FILE_READER_WARNING": "An error occurred while reading the file. Please try again.",
     "FILE_HEADERS_WARNING": "Discrepancy in : ",
+    "FILE_EMPTY_HEADER_WARNING": "One of the headers is missing!",
     "FILE_HEADERS_EXAMPLE": "example",
     "EMPLOYEE_LIST": {
       "EMPLOYEE_NAME": "Name",

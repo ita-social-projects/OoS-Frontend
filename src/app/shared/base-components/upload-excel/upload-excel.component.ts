@@ -25,7 +25,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
   public standardHeadersBase: string[];
   public dataSource: ImitatorInterface[];
   public dataSourceInvalid: ImitatorInterface[];
-  private subscription: Subscription;
+  public subscription: Subscription;
   constructor(
     protected readonly importValidationService: ImportValidationService,
     private readonly excelService: ExcelUploadProcessorService,
@@ -168,7 +168,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
    * @param items - array of uploaded items that pass all checks
    * @return new array with renamed keys
    */
-  protected renamingKeys(items: any[]): any[] {
+  public renamingKeys(items: any[]): any[] {
     return items;
   }
 }

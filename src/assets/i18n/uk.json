@@ -1019,6 +1019,7 @@
     "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
     "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
     "FILE_HEADERS_WARNING": "Невідповідність в : ",
+    "FILE_EMPTY_HEADER_WARNING": "Відсутній один з заголовків!",
     "FILE_HEADERS_EXAMPLE": "Зразок",
     "EMPLOYEE_LIST": {
       "EMPLOYEE_NAME": "Ім'я",

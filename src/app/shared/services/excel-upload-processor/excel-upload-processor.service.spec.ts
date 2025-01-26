@@ -73,7 +73,7 @@ describe('ExcelUploadProcessorService', () => {
       Sheets: { Sheet1: {} }
     } as XLSX.WorkBook;
     jest.spyOn(service, 'getCurrentHeaders').mockReturnValue(mockHeaders);
-    jest.spyOn(service, 'getProvidersData').mockReturnValue(mockData);
+    jest.spyOn(service, 'getItemsData').mockReturnValue(mockData);
     jest.spyOn(service, 'checkHeadersIsValid').mockReturnValue(true);
     jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
     const fileReaderMock = {

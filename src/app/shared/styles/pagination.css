@@ -1,0 +1,59 @@
+.pagination-wrapper {
+  margin-bottom: 62px;
+}
+
+pagination-controls {
+  font-family: "Innerspace";
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+pagination-controls li {
+  color: #444444;
+}
+pagination-controls li.current {
+  color: #3849f9;
+  background-color: inherit;
+}
+
+.pagination ::ng-deep .ngx-pagination {
+  display: flex;
+  align-items: center;
+  padding-inline-start: 0px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.pagination ::ng-deep .ngx-pagination a {
+  color: #444444;
+  line-height: 15px;
+  outline: none;
+}
+
+.pagination ::ng-deep .ngx-pagination .current {
+  background: inherit;
+  color: #3849f9;
+  line-height: 19px;
+}
+
+.pagination ::ng-deep .ngx-pagination .pagination-next a::after {
+  color: #3849f9;
+  font-family: "Material Icons";
+  content: "arrow_forward";
+  font-size: 13px;
+  line-height: 24px;
+}
+
+.pagination ::ng-deep .ngx-pagination .pagination-previous a::before {
+  color: #3849f9;
+  font-family: "Material Icons";
+  content: "arrow_backward";
+  width: 16px;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+.pagination ::ng-deep .ngx-pagination .pagination-next.disabled::after,
+.pagination ::ng-deep .ngx-pagination .pagination-previous.disabled::before {
+  content: none;
+}/*# sourceMappingURL=pagination.css.map */

@@ -1,0 +1,9 @@
+.info-picture {
+  width: 100%;
+}
+
+@media (max-width: 750px) {
+  .info_wrapper {
+    padding: 0;
+  }
+}/*# sourceMappingURL=info.component.css.map */

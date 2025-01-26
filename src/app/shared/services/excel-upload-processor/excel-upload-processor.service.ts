@@ -10,7 +10,7 @@ export class ExcelUploadProcessorService {
   public readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading$ = this.isLoadingSubject.asObservable();
 
-  constructor(private readonly translate: TranslateService) {}
+  constructor(public readonly translate: TranslateService) {}
 
   public convertExcelToJSON(file: File, standartHeadersBase: string[], columnNamesBase: string[]): Observable<any[]> {
     return new Observable((observer) => {
@@ -29,7 +29,7 @@ export class ExcelUploadProcessorService {
           const wsname = workBook.SheetNames[0];
           const currentHeaders = this.getCurrentHeaders(workBook, wsname);
           if (this.checkHeadersIsValid(currentHeaders, standartHeadersBase)) {
-            const items = this.getProvidersData(workBook, wsname, columnNamesBase) as unknown as any[];
+            const items = this.getItemsData(workBook, wsname, columnNamesBase) as unknown as any[];
             this.setLoading(false);
             observer.next(items);
             observer.complete();
@@ -57,7 +57,7 @@ export class ExcelUploadProcessorService {
    * in the file (header:Director`s name = key:directorsName)the order is strict
    * @returns array of objects,each object is provider`s data
    */
-  public getProvidersData(workBook: XLSX.WorkBook, wsname: string, columnNamesBase: string[]): any[] {
+  public getItemsData(workBook: XLSX.WorkBook, wsname: string, columnNamesBase: string[]): any[] {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], {
       header: columnNamesBase,
       range: 1
@@ -65,11 +65,18 @@ export class ExcelUploadProcessorService {
   }
 
   public checkHeadersIsValid(currentHeaders: string[], standartHeadersBase: string[]): boolean {
-    const isValid = standartHeadersBase.every((header, index) => currentHeaders[index].trim() === header);
+    const isValid = standartHeadersBase.every((header, index) => {
+      const currentHeader = currentHeaders[index];
+      return currentHeader && currentHeader.trim() === header;
+    });
     if (!isValid) {
-      const invalidHeader = currentHeaders.find((header, index) => header !== standartHeadersBase[index]);
+      const invalidHeader = currentHeaders.find((header, index) => {
+        const currentHeader = header || '';
+        return currentHeader.trim() !== standartHeadersBase[index];
+      });
+      const headerMessage = invalidHeader ? invalidHeader : this.translate.instant('IMPORT/EXPORT.FILE_EMPTY_HEADER_WARNING');
       this.showAlert(
-        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",
+        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${headerMessage}",
         \n\n${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_EXAMPLE')}:\n${standartHeadersBase.join(' | ')}`
       );
     }
