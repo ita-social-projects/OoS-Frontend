@@ -11,7 +11,7 @@
 
 $primary-color: #3849f9;
 
-$config: mat.define-legacy-typography-config(
+$config: mat.define-typography-config(
   $font-family: 'Innerspace',
   $button: mat.define-typography-level(13px, 15px, 700)
 );
@@ -30,7 +30,7 @@ $config: mat.define-legacy-typography-config(
   }
 }
 
-$primary-palette: mat.define-palette(
+$primary-light-palette: mat.define-palette(
   (
     50: #eaeaff,
     100: #cacafe,
@@ -67,25 +67,48 @@ $primary-palette: mat.define-palette(
 
 $accent-palette: mat.define-palette(mat.$deep-orange-palette);
 
-$theme: mat.define-light-theme(
+$light-theme: mat.define-light-theme(
   (
     color: (
-      primary: $primary-palette,
+      primary: $primary-light-palette,
       accent: $accent-palette
     ),
-    typography: mat.define-legacy-typography-config(),
+    typography: mat.define-typography-config(),
     density: 0
   )
 );
 
-@include mat.core();
-@include mat.legacy-core();
+$primary-dark-palette: mat-palette($mat-blue-grey, 500, 100, 900);
 
-@include mat.all-component-themes($theme);
-@include mat.all-legacy-component-themes($theme);
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary-dark-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+/* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated */
+
+@include mat.all-legacy-component-themes($light-theme);
+@include angular-material-theme($light-theme);
+
+.dark-theme {
+  @include mat.all-legacy-component-colors($dark-theme);
+  @include angular-material-color($dark-theme);
+}
+
+/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated */
+@include mat.legacy-core();
+@include mat.core();
 
 @include mat.button-toggle-typography($config);
-@include mat.legacy-button-typography($config);
+@include mat.button-typography($config);
+@include mat.fab-typography($config);
+@include mat.icon-button-typography($config);
 @include mat-form-typography($config);
 
 html,
@@ -216,30 +239,47 @@ a {
   opacity: 0.3;
 }
 
-.mat-checkbox-inner-container {
-  height: 18px !important;
-  width: 18px !important;
-  align-items: center !important;
-}
+.mat-mdc-dialog-surface {
+  --mdc-dialog-supporting-text-font: 'Open Sans', serif;
+  padding: 10px 24px 24px;
 
-.mat-checkbox-checked {
-  & .mat-checkbox-background,
-  .mat-checkbox-frame {
-    background-color: $primary-color !important;
-    border-radius: 3px;
+  .mdc-dialog__title {
+    margin-bottom: 11px;
   }
 }
 
-.mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  border-color: $primary-color !important;
-  border-width: 5px;
+.mat-mdc-checkbox {
+  .mdc-label {
+    padding: 0;
+    margin-left: 8px;
+    font-size: 13px;
+  }
+
+  .mdc-checkbox {
+    padding: 0;
+
+    .mdc-checkbox__native-control {
+      width: 18px;
+      height: 18px;
+      position: static;
+    }
+
+    .mdc-checkbox__background {
+      top: 0;
+      left: 0;
+    }
+
+    .mdc-checkbox__ripple {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 40px;
+      width: 40px;
+    }
+  }
 }
 
-.mat-radio-button.mat-primary .mat-radio-inner-circle {
-  background-color: #ffffff !important;
-}
-
-.mat-card-image:first-child {
+.mat-mdc-card-image:first-child {
   margin-top: 0 !important;
 }
 
@@ -251,7 +291,7 @@ a {
   .notification-menu {
     max-width: none;
 
-    .mat-menu-content {
+    .mat-mdc-menu-content {
       padding: 0;
     }
   }
@@ -260,7 +300,7 @@ a {
     border-radius: 5px !important;
     min-height: 0;
 
-    .mat-menu-content {
+    .mat-mdc-menu-content {
       padding: 0;
       display: flex;
       flex-direction: column;
@@ -268,21 +308,17 @@ a {
       justify-content: space-around;
     }
 
-    .mat-menu-item {
-      padding: 0.75rem;
-
-      height: auto !important;
-
-      font-family: 'Open Sans', sans-serif;
+    .mat-mdc-menu-item-text {
+      font-family: 'Open Sans', sans-serif !important;
       font-weight: 700;
       font-size: 13px;
       line-height: 18px;
+    }
 
+    .mat-mdc-menu-item {
+      padding: 0.75rem !important;
+      height: 36px;
       color: #272425;
-
-      &[disabled] {
-        color: lighten($color: #272425, $amount: 50);
-      }
     }
   }
 
@@ -318,3 +354,42 @@ input:-webkit-autofill:active {
 .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
   transform: translateY(0) !important;
 }
+
+.mat-mdc-radio-button {
+  .mdc-form-field .mdc-radio {
+    padding: 0;
+  }
+
+  .mdc-label {
+    padding: 0.8rem 0 0.8rem 8px;
+    font-size: 13px;
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
+  .mdc-radio:hover .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
+  .mdc-radio:not(:disabled):active .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
+    .mdc-radio__outer-circle {
+      border-color: $primary-color;
+      border-width: 5px;
+    }
+
+    .mdc-radio__inner-circle {
+      border-color: #fff;
+    }
+  }
+}
+
+button.mdc-button {
+  .mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    margin: 0 8px 0 0;
+  }
+
+  .mdc-button__label {
+    line-height: 1;
+  }
+}
+
+@import 'tailwind.css';

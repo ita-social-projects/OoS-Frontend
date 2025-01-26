@@ -1,8 +1,6 @@
 <form
   [formGroup]="ChildForm"
-  fxLayout="column"
-  fxLayoutAlign="center space-between"
-  class="step form"
+  class="step form flex flex-col justify-between items-stretch"
   [class.step-border]="childrenAmount > 1 && index !== childrenAmount - 1">
   <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
@@ -68,12 +66,12 @@
       [compareWith]="compareSocialGroups"
       [formControl]="socialGroupControl">
       <mat-select-trigger>
-        <mat-chip-list #chipList>
+        <mat-chip-set #chipSet>
           <mat-chip *ngFor="let group of socialGroupControl.value" (removed)="onRemoveItem(group)">
             <span>{{ group.name }}</span>
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-set>
       </mat-select-trigger>
       <mat-option class="dropdown-option" *ngFor="let group of socialGroups" [value]="group" [disabled]="checkDisabled(group)">
         {{ group.name }}
@@ -91,7 +89,7 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="childrenAmount > 1" class="removeChild">
+  <div *ngIf="childrenAmount > 1" class="removeChild flex flex-row justify-center">
     <button class="btn-reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>
       {{ 'BUTTONS.REMOVE_CHILD_DATA' | translate }}

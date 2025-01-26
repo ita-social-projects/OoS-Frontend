@@ -1,6 +1,6 @@
 export enum HistoryLogTabTitles {
   Providers = 'ENUM.HISTORY_LOG.PROVIDERS',
-  ProviderAdmins = 'ENUM.HISTORY_LOG.ADMINS',
+  Employees = 'ENUM.HISTORY_LOG.EMPLOYEES',
   Applications = 'ENUM.HISTORY_LOG.APPLICATIONS',
   Users = 'ENUM.HISTORY_LOG.USERS'
 }

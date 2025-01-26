@@ -16,7 +16,7 @@ export class ProviderGuard {
   public canLoad(): Observable<boolean> {
     return this.role$.pipe(
       filter(Boolean),
-      map((role: string) => role === Role.provider)
+      map((role) => role === Role.provider || role === Role.providerDeputy)
     );
   }
 }

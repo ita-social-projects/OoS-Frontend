@@ -1,25 +1,27 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
 
-import { PaginationConstants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
 import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
-import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { ResetAchievements } from 'shared/store/provider.actions';
+import { PublishWorkshop, ResetAchievements } from 'shared/store/provider.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-workshop-details',
@@ -40,6 +42,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public isMobileScreen: boolean;
   @Input()
   public displayActionCard: boolean;
+  @Input()
+  public currentProvider: Provider;
 
   public readonly categoryIcons = CategoryIcons;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
@@ -48,25 +52,28 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Role = Role;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly modalType = ModalConfirmationType;
 
-  public workshopStatusOpen: boolean;
-  public selectedIndex: number;
-  public tabIndex: number;
-  public images: ImgPath[] = [];
   public providerParameters: ProviderParameters = {
     providerId: '',
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public workshopStatusOpen: boolean;
+  public selectedIndex: number;
+  public tabIndex: number;
+  public coverImage: string;
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private imagesService: ImagesService,
-    private store: Store,
-    private navigationBarService: NavigationBarService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly imagesService: ImagesService,
+    private readonly store: Store,
+    private readonly navigationBarService: NavigationBarService,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -95,8 +102,28 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ResetAchievements());
   }
 
+  public onActionButtonClick(modalType: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: modalType
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          if (modalType === this.modalType.publishWorkshop) {
+            return this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
+          }
+        })
+      )
+      .subscribe();
+  }
+
   private getWorkshopData(): void {
-    this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new AddNavPath(

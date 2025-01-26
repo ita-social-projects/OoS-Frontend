@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -8,6 +7,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 
 import { SetOrder } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { Ordering } from 'shared/enum/ordering';
+import { HttpClientModule } from '@angular/common/http';
 import { OrderingComponent } from './ordering.component';
 
 describe('OrderingComponent', () => {
@@ -19,13 +21,12 @@ describe('OrderingComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [OrderingComponent],
       imports: [
+        HttpClientModule,
         MatFormFieldModule,
         MatSelectModule,
         MatOptionModule,
         BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([FilterState]),
         TranslateModule.forRoot()
       ]
     }).compileComponents();
@@ -35,6 +36,11 @@ describe('OrderingComponent', () => {
     fixture = TestBed.createComponent(OrderingComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
+    store.reset({
+      filter: {
+        filterList: { order: Ordering.rating }
+      }
+    });
     fixture.detectChanges();
   });
 

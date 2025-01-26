@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable } from 'rxjs';
@@ -10,9 +10,9 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role, Subrole } from 'shared/enum/role';
+import { Role } from 'shared/enum/role';
 import { Achievement, AchievementType } from 'shared/models/achievement.model';
 import { Child } from 'shared/models/child.model';
 import { Navigation } from 'shared/models/navigation.model';
@@ -28,7 +28,6 @@ import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -151,8 +150,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       };
     } else {
       const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-      const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-      const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+      const personalCabinetTitle = PersonalCabinetTitle[userRole];
 
       prevPath = {
         name: personalCabinetTitle,

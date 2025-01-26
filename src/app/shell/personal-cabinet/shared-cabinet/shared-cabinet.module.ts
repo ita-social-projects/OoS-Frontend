@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -26,7 +25,7 @@ import { MessagesComponent } from './messages/messages.component';
     ChatComponent,
     MessageComponent
   ],
-  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule, TranslateModule],
+  imports: [MaterialModule, SharedModule, CommonModule, RouterModule, TranslateModule],
   exports: [ApplicationsComponent]
 })
 export class SharedCabinetModule {}

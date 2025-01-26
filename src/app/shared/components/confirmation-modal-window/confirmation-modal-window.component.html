@@ -1,14 +1,14 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div class="flex flex-col box-border justify-center items-center content-center">
   <h2 mat-dialog-title>{{ modalTitle | translate }}</h2>
   <p class="confirmation">
     {{ modalConfirmationText | translate }}
     {{ modalConfirmationProperty && modalConfirmationProperty + '?' }}
   </p>
 
-  <div *ngIf="data.type === modalConfirmationType.rate">
+  <div *ngIf="data.type === modalConfirmationType.rate" class="mt-4">
     <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
   </div>
-  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-dialog-actions class="flex flex-row flex-wrap box-border !justify-center items-center">
     <button
       class="btn"
       mat-button
@@ -16,7 +16,7 @@
       [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true">
       {{ (data.type === modalConfirmationType.delete ? 'BUTTONS.REMOVE' : 'BUTTONS.CONFIRM') | translate | uppercase }}
     </button>
-    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">
+    <button class="btn-cancel btn" mat-button [mat-dialog-close]="false">
       {{ 'BUTTONS.CANCEL' | translate | uppercase }}
     </button>
   </mat-dialog-actions>

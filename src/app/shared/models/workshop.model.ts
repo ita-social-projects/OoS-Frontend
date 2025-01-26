@@ -41,8 +41,29 @@ export abstract class WorkshopBase {
   providerId: string;
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
+  tagIds: number[];
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  enrollmentProcedureDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  specialNeedsType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  educationalShift: string;
+  ageComposition: string;
+  coverage: string;
+  workshopType: string;
 
-  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(
+    about: WorkshopAbout,
+    additionalAbout: AdditionalAbout,
+    description: Description,
+    address: Address,
+    teachers: Teacher[],
+    provider: Provider,
+    id?: string
+  ) {
     this.title = about.title;
     this.shortTitle = about.shortTitle;
     this.phone = about.phone;
@@ -66,6 +87,19 @@ export abstract class WorkshopBase {
     this.teachers = teachers;
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
+    this.tagIds = description.tagIds;
+    this.shortStay = additionalAbout.shortStay;
+    this.isSelfFinanced = additionalAbout.isSelfFinanced;
+    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
+    this.isSpecial = additionalAbout.isSpecial;
+    this.isInclusive = additionalAbout.isInclusive;
+    this.specialNeedsType = additionalAbout.specialNeedsType;
+    this.areThereBenefits = description.areThereBenefits;
+    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
+    this.educationalShift = additionalAbout.educationalShift;
+    this.ageComposition = additionalAbout.ageComposition;
+    this.coverage = description.coverage;
+    this.workshopType = additionalAbout.workshopType;
 
     if (id) {
       this.id = id;
@@ -98,8 +132,16 @@ export class Workshop extends WorkshopBase {
   imageIds?: string[];
   imageFiles?: File[];
 
-  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    super(about, description, address, teachers, provider, id);
+  constructor(
+    about: WorkshopAbout,
+    additionalAbout: AdditionalAbout,
+    description: Description,
+    address: Address,
+    teachers: Teacher[],
+    provider: Provider,
+    id?: string
+  ) {
+    super(about, additionalAbout, description, address, teachers, provider, id);
 
     if (about.coverImageId) {
       this.coverImageId = about.coverImageId[0];
@@ -154,6 +196,12 @@ export interface WorkshopBaseCard {
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  enrollmentProcedureDescription: string;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  _meta?: string;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
@@ -208,12 +256,29 @@ export interface WorkshopAbout {
   coverImage?: File;
 }
 
+interface AdditionalAbout {
+  shortStay: boolean;
+  isSelfFinanced: boolean;
+  isSpecial: boolean;
+  isInclusive: boolean;
+  specialNeedsType: string;
+  educationalShift: string;
+  ageComposition: string;
+  workshopType: string;
+  // languageOfEducationId: string;
+}
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
-  institutionId: string;
-  institutionHierarchyId: string;
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];
+  tagIds: number[];
+  enrollmentProcedureDescription: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  coverage: string;
+  institutionId: string;
+  institutionHierarchyId: string;
+  // directionIds: number[];
 }

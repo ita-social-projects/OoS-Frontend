@@ -36,3 +36,15 @@ export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А
 
 // Regex for checking if string has a letter
 export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;
+
+// Regex for searchbar validation
+export const SEARCHBAR_REGEX_VALID: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\-\s]*$/;
+
+// Regex for searchbar replace invalid characters
+export const SEARCHBAR_REGEX_REPLACE: RegExp = /[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\-\s]/g;
+
+// Regex for time format validation
+export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+// Regex for time input replace invalid characters
+export const TIME_REGEX_REPLACE: RegExp = /[^0-9:]/g;

@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { EmployeesComponent } from './employees/employees.component';
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
-import { NotProviderAdminGuard } from './not-provider-admin.guard';
+import { NotEmployeeGuard } from './not-employee.guard';
+import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
-  { path: 'administration', component: ProviderAdminsComponent, canActivate: [NotProviderAdminGuard] },
+  { path: 'administration', component: EmployeesComponent, canActivate: [NotEmployeeGuard] },
   { path: 'workshops', component: ProviderWorkshopsComponent },
-  { path: 'applications', component: ProviderApplicationsComponent }
+  { path: 'applications', component: ProviderApplicationsComponent },
+  { path: 'positions', component: ProviderPositionsComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [NotProviderAdminGuard]
+  providers: [NotEmployeeGuard]
 })
 export class ProviderRoutingModule {}

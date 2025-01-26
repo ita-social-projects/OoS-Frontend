@@ -1,4 +1,4 @@
-<div *ngIf="childrenCards" class="add-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
+<div *ngIf="childrenCards" class="add-wrapper flex flex-row justify-between items-center">
   <p class="text">{{ 'BANNERS.ADD_CHILDREN' | translate }}</p>
   <ng-container *ngIf="childrenCards.totalAmount >= 20">
     <span class="text">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</span>

@@ -1,5 +1,5 @@
-<div class="paginator" fxLayout="row wrap" fxLayoutAlign="center center">
-  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="totalPageAmount; else singlePageTmpl">
+<div class="paginator flex flex-row flex-wrap box-border justify-center items-center content-center">
+  <div class="flex flex-row box-border justify-center items-center content-center" *ngIf="totalPageAmount; else singlePageTmpl">
     <button mat-button *ngIf="currentPage.element !== 1" class="page arrow" (click)="onArroveClick(false)">
       <mat-icon>arrow_back</mat-icon>
     </button>

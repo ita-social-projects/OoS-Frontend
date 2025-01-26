@@ -32,4 +32,5 @@ export interface FilterStateModel {
   isMapView: boolean;
   from: number;
   size: number;
+  previousResults: string[];
 }

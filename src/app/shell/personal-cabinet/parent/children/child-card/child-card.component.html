@@ -1,6 +1,6 @@
 <div *ngIf="child && !child.isParent">
   <mat-card class="position">
-    <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+    <div class="actions flex flex-row justify-end items-start">
       <div class="actions_btn" [routerLink]="['/create-child', child.id]">
         <mat-icon>edit</mat-icon>
       </div>
@@ -8,8 +8,8 @@
         <mat-icon>delete</mat-icon>
       </div>
     </div>
-    <div class="card" fxLayout="column" fxLayoutAlign="start">
-      <div fxLayout="row" fxLayoutAlign="center" class="img-section">
+    <div class="card flex flex-col justify-start">
+      <div class="img-section flex flex-row justify-center">
         <img class="card-image" mat-card-image src="assets/icons/child-{{ child.gender }}.png" alt="child-photo" />
       </div>
       <div class="wrap-for-details">
@@ -23,7 +23,7 @@
             >{{ childFullName }}
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
+        <mat-card-content class="flex flex-col justify-between items-start">
           <p class="card_text">
             <mat-icon class="card_icon">calendar_today</mat-icon>
             {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{

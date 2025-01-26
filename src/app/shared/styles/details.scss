@@ -72,6 +72,10 @@
   font-style: normal;
 }
 
+:host ::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 :host ::ng-deep .mat-tab-label-content {
   font-weight: bold;
   font-size: 13px;
@@ -129,4 +133,21 @@
 
 .rating-number {
   color: #bbbbbb;
+}
+
+.img-wrapper {
+  width: 100%;
+  max-height: 400px;
+}
+
+.coverImage {
+  max-width: 100%;
+  min-height: 400px;
+  object-fit: contain;
+}
+
+@media(max-width: 1200px) {
+  .coverImage {
+    min-height: inherit;
+  }
 }

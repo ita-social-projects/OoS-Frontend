@@ -9,6 +9,7 @@ export class Teacher implements Person {
   gender: number;
   dateOfBirth?: Date | string;
   description?: string;
+  defaultTeacher?: boolean;
   coverImageId?: string[] | string;
   coverImage?: File[] | File;
 
@@ -19,6 +20,7 @@ export class Teacher implements Person {
     this.gender = info.gender;
     this.dateOfBirth = new Date(info.dateOfBirth).toISOString();
     this.description = info.description;
+    this.defaultTeacher = info.defaultTeacher;
     if (info.id) {
       this.id = info.id;
     }

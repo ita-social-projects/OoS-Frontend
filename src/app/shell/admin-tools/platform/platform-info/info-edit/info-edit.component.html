@@ -1,11 +1,11 @@
 <div class="create-form">
   <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+    <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">{{ 'FORMS.HEADERS.EDIT_INFO' | translate | uppercase }} "{{ editTitle | translate | uppercase }}"</h3>
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
+    <div class="flex flex-col justify-center items-center">
+      <div class="step flex flex-col justify-between items-start">
         <label class="step-label">
           {{ 'FORMS.HEADERS.SUBHEADER_TITLE' | translate }}
           <span class="step-required">*</span>
@@ -31,7 +31,7 @@
       </button>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <div class="footer flex flex-row justify-center items-center">
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
         {{ 'BUTTONS.CANCEL' | translate }}
       </button>
