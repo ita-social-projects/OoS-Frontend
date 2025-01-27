@@ -62,14 +62,6 @@ describe('WorkingHoursFormComponent', () => {
     expect(component.workingHoursForm.errors).toEqual({ invalidTimeRange: true });
   });
 
-  it('should clean input value by removing non-numeric and non-colon characters', () => {
-    const value = '12a:b3#4$';
-
-    const validValue = component.validateTimeInput(value);
-
-    expect(validValue).toBe('12:34');
-  });
-
   it('should set time via timePicker', () => {
     component.startTimeFormControl.setValue('');
     component.endTimeFormControl.setValue('');

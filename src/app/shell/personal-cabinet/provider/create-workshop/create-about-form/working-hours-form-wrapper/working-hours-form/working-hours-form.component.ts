@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 import { TimeFormatValidator } from 'shared/validators/time-format-validator';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -51,7 +51,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     }
 
     this.startTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
+      this.startTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false });
       if (value && !this.startTimeFormControl.hasError('invalidTimeFormat')) {
         this.endTimeFormControl.enable({ emitEvent: false });
       } else {
@@ -60,7 +60,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     });
 
     this.endTimeFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false });
+      this.endTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false });
     });
 
     if (this.workdaysFormControl.value.length) {
@@ -123,14 +123,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  public validateTimeInput(value: string): string {
-    value = value.replace(TIME_REGEX_REPLACE, '');
-    if (value.length > 2 && !value.includes(':')) {
-      value = value.slice(0, 2) + ':' + value.slice(2);
-    }
-    return value;
   }
 
   public markWorkDaysAsTouched(): void {

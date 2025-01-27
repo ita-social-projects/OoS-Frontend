@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil, tap } from 'rxjs';
 
@@ -35,7 +36,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
   public totalElements = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public sortFormControl: FormControl = new FormControl(PositionSortEnum.WithoutSort);
   public filterFormControl: FormControl = new FormControl('');
   public positions$: Observable<Position>;
 
@@ -48,8 +48,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
   public ngOnInit(): void {
     super.ngOnInit();
-
-    this.sortFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: string) => this.sortData(value));
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -109,16 +107,12 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
       });
   }
 
-  private sortData(value: string): void {
-    if (value === PositionSortEnum.SortByCreatedAt) {
-      this.positionParameters.orderByCreatedAt = true;
-      this.positionParameters.orderByFullName = false;
-    } else if (value === PositionSortEnum.SortByName) {
-      this.positionParameters.orderByCreatedAt = false;
-      this.positionParameters.orderByFullName = true;
-    } else {
-      this.positionParameters.orderByCreatedAt = false;
-      this.positionParameters.orderByFullName = false;
+  public sortData(sortData: Sort): void {
+    const ascendingDirection = 'asc';
+    this.positionParameters.orderByFullName = null;
+    this.positionParameters.orderByCreatedAt = null;
+    if (sortData.direction) {
+      this.positionParameters[sortData.active] = sortData.direction === ascendingDirection;
     }
     this.getPositions();
   }
