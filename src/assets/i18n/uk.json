@@ -547,6 +547,7 @@
       "INVALID_VALUE_START": "Це число може бути тільки",
       "INVALID_TIME_FORMAT": "Використовуйте, будь ласка, часовий формат \"09:59\"",
       "INVALID_TIME_RANGE": "\"Від\" не може бути пізніше ніж \"До\"",
+      "INVALID_AGE_RANGE": "\"Від\" не може бути більше ніж \"До\"",
       "REQUIRED_INPUT": "Це поле є обов'язковим.",
       "NO_MORE_CHILDREN": "Можливо додати не більш, ніж",
       "APPLICATION_ALREADY_APPLIED": "Заявка вже подана",

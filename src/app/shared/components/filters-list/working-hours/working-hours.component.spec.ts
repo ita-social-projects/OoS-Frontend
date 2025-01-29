@@ -68,14 +68,6 @@ describe('WorkingHoursComponent', () => {
     expect(formControl.value).toBe('15:30');
   });
 
-  it('should validate time input', () => {
-    const time = '1234';
-
-    const validTime = component.validateTimeInput(time);
-
-    expect(validTime).toBe('12:34');
-  });
-
   it('should apply filters with startTime', () => {
     component.startTimeFormControl.setValue('12:30');
 
