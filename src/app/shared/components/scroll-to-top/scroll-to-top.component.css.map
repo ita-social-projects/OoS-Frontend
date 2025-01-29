@@ -1,1 +1,0 @@
-{"version":3,"sources":["scroll-to-top.component.scss","scroll-to-top.component.css"],"names":[],"mappings":"AAAA;EACE,kBAAA;EACA,mBAAA;EACA,+BAAA;EACA,kBAAA;EACA,eAAA;EACA,YAAA;EACA,WAAA;EACA,eAAA;ACCF;ADCE;EACE,SAAA;ACCJ;;ADGA;EACE,eAAA;EACA,YAAA;EACA,SAAA;EACA,YAAA;ACAF;;ADGA;EACE;IACE,UAAA;ECAF;EDEA;IACE,UAAA;ECAF;AACF","file":"scroll-to-top.component.css"}
