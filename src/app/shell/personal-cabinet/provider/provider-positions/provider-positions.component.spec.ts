@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,7 +14,6 @@ import { of } from 'rxjs';
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { Position } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { PositionSortEnum } from 'shared/enum/enumUA/provider';
 import { ProviderPositionsComponent } from './provider-positions.component';
 
 describe('ProviderPositionsComponent', () => {
@@ -52,16 +51,16 @@ describe('ProviderPositionsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should initialize component and set up subscriptions', () => {
-      const getPositionsSpy = jest.spyOn(component as any, 'getPositions').mockImplementation(() => {});
-      jest.spyOn(component.sortFormControl.valueChanges, 'pipe').mockReturnValue(of('test'));
+    it('should initialize component and set up subscriptions', fakeAsync(() => {
+      const valueChangesSpy = jest.spyOn(component.filterFormControl.valueChanges, 'pipe').mockReturnValue(of('test'));
 
       component.ngOnInit();
+      tick(component.debounceInputTime);
 
-      expect(getPositionsSpy).toHaveBeenCalled();
-      expect(component.sortFormControl.valueChanges.pipe).toHaveBeenCalled();
-    });
+      expect(valueChangesSpy).toHaveBeenCalled();
+    }));
   });
+
   describe('onItemsPerPageChange', () => {
     it('should update items per page and fetch positions', () => {
       jest.spyOn(component, 'onPageChange');
@@ -105,21 +104,29 @@ describe('ProviderPositionsComponent', () => {
   });
 
   describe('sortData', () => {
-    it('should set orderBy parameters and fetch positions', () => {
+    it('should set the correct sort parameters and fetch positions', () => {
       jest.spyOn(component as any, 'getPositions');
 
-      (component as any).sortData(PositionSortEnum.SortByName);
+      component.sortData({ active: 'orderByFullName', direction: 'asc' });
       expect(component.positionParameters.orderByFullName).toBeTruthy();
-      expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
       expect((component as any).getPositions).toHaveBeenCalled();
 
-      (component as any).sortData(PositionSortEnum.SortByCreatedAt);
-      expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
+      component.sortData({ active: 'orderByFullName', direction: 'desc' });
       expect(component.positionParameters.orderByFullName).toBeFalsy();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
 
-      (component as any).sortData(PositionSortEnum.WithoutSort);
-      expect(component.positionParameters.orderByFullName).toBeFalsy();
+      component.sortData({ active: 'orderByCreatedAt', direction: 'asc' });
+      expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
+      expect(component.positionParameters.orderByFullName).toBeNull();
+
+      component.sortData({ active: 'orderByCreatedAt', direction: 'desc' });
       expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
+      expect(component.positionParameters.orderByFullName).toBeNull();
+
+      component.sortData({ active: 'orderByCreatedAt', direction: '' });
+      expect(component.positionParameters.orderByFullName).toBeNull();
+      expect(component.positionParameters.orderByCreatedAt).toBeNull();
     });
   });
 

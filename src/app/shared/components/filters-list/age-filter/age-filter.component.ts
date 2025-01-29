@@ -1,12 +1,14 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 
 import { ValidationConstants } from 'shared/constants/validation';
 import { AgeFilter } from 'shared/models/filter-list.model';
 import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
+import { Util } from 'shared/utils/utils';
+import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 
 @Component({
   selector: 'app-age-filter',
@@ -19,9 +21,10 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   public minAgeFormControl = new FormControl(null);
   public maxAgeFormControl = new FormControl(null);
   public isAppropriateAgeControl = new FormControl(false);
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  public ageFormGroup: FormGroup;
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  constructor(private readonly store: Store) {}
 
   @Input()
   public set ageFilter(filter: AgeFilter) {
@@ -32,14 +35,43 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.ageFormGroup = new FormGroup({ startAge: this.minAgeFormControl, endAge: this.maxAgeFormControl });
+
+    this.ageFormGroup.setValidators(AgeRangeValidator());
+
+    this.minAgeFormControl.setValidators([
+      Validators.max(this.validationConstants.BIRTH_AGE_MAX),
+      Validators.min(this.validationConstants.AGE_MIN)
+    ]);
+
+    this.maxAgeFormControl.setValidators([
+      Validators.max(this.validationConstants.BIRTH_AGE_MAX),
+      Validators.min(this.validationConstants.AGE_MIN)
+    ]);
+
     const formControlDebounceTime = 500;
 
     this.minAgeFormControl.valueChanges
-      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
+      .pipe(
+        tap((value: number) => this.minAgeFormControl.setValue(Util.formatAgeString(value), { emitEvent: false })),
+        debounceTime(formControlDebounceTime),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.applyFilters();
+      });
+
     this.maxAgeFormControl.valueChanges
-      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
+      .pipe(
+        tap((value: number) => this.maxAgeFormControl.setValue(Util.formatAgeString(value), { emitEvent: false })),
+        debounceTime(formControlDebounceTime),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.applyFilters();
+      });
     this.isAppropriateAgeControl.valueChanges
       .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
@@ -56,5 +88,17 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   public clearMax(): void {
     this.maxAgeFormControl.reset();
+  }
+
+  private applyFilters(): void {
+    if (!this.ageFormGroup.valid) {
+      return;
+    }
+    if (this.maxAgeFormControl.valid) {
+      this.store.dispatch(new SetMaxAge(this.maxAgeFormControl.value || null));
+    }
+    if (this.minAgeFormControl.valid) {
+      this.store.dispatch(new SetMinAge(this.minAgeFormControl.value || null));
+    }
   }
 }
