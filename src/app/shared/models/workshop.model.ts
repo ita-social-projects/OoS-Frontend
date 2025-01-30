@@ -136,6 +136,26 @@ export class Workshop extends WorkshopBase {
   }
 }
 
+export class WorkshopDraft extends WorkshopBase {
+  coverImageId?: string;
+  coverImage?: string;
+  imageFiles?: string[];
+  takenSeats?: number;
+  rating?: number;
+  tags?: string[];
+  numberOfRatings?: number;
+  status?: string;
+  isBlocked?: boolean;
+  providerOwnership?: string;
+  providerStatus?: string;
+  isPaid?: boolean;
+  providerTitleEn?: string;
+  activeFrom?: string;
+  activeTo?: string;
+  defaultTeacherId?: string;
+  parentWorkshopId?: string;
+}
+
 export interface WorkshopTruncated {
   id?: string;
   title: string;

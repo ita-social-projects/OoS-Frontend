@@ -17,6 +17,7 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
   CreateWorkshop,
+  CreateWorkshopDraft
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,
@@ -226,7 +227,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
-      this.store.dispatch(new CreateWorkshop(workshop));
+      this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
     this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }

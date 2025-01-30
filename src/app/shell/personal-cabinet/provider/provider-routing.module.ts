@@ -7,13 +7,14 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
 import { NotEmployeeGuard } from './not-employee.guard';
 import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
+import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.component';
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
 import { ProviderStudySubjectsComponent } from './provider-study-subjects/provider-study-subjects.component';
 
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
   { path: 'workshops', component: ProviderWorkshopsComponent },
-  { path: 'drafts', component: ProviderWorkshopsComponent },
+  { path: 'drafts', component: ProviderDraftsComponent },
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'provider-employees', component: ProviderEmployeesComponent },
   { path: 'positions', component: ProviderPositionsComponent },

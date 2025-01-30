@@ -55,6 +55,7 @@ export interface ProviderStateModel {
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
+  providerDrafts: SearchResponse<WorkshopProviderViewCard[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -79,6 +80,7 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerCompetition: null,
     officialEmployees: null,
+    providerDrafts: null,
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
@@ -131,6 +133,11 @@ export class ProviderState {
   @Selector()
   static providerWorkshops(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
     return state.providerWorkshops;
+  }
+
+  @Selector()
+  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
+    return state.providerDrafts;
   }
 
   @Selector()
@@ -245,6 +252,17 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopListByProviderId(payload)
+      .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
+  }
+
+  @Action(providerActions.GetWorkshopDraftListByProviderId)
+  getWorkshopDraftListByProviderId(
+    { patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetWorkshopDraftListByProviderId
+  ): Observable<TruncatedItem[]> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService
+      .getWorkshopDraftListByProviderId(payload)
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
@@ -384,6 +402,21 @@ export class ProviderState {
       );
   }
 
+  @Action(providerActions.GetProviderViewWorkshopDrafts)
+  getProviderWorkshopDrafts(
+    { patchState }: StateContext<ProviderStateModel>,
+    { workshopCardParameters }: providerActions.GetProviderViewWorkshopDrafts
+  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService
+      .getProviderViewWorkshopDrafts(workshopCardParameters)
+      .pipe(
+        tap((providerWorkshopDrafts: SearchResponse<WorkshopProviderViewCard[]>) =>
+          patchState({ providerDrafts: providerWorkshopDrafts ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
   @Action(providerActions.GetProviderViewCompetitions)
   getProviderViewCompetitions(
     { patchState }: StateContext<ProviderStateModel>,
@@ -414,13 +447,13 @@ export class ProviderState {
       );
   }
 
-  @Action(providerActions.CreateWorkshop)
-  createWorkshop(
+  @Action(providerActions.CreateWorkshopDraft)
+  createWorkshopDraft(
     { patchState, dispatch }: StateContext<ProviderStateModel>,
-    { payload }: providerActions.CreateWorkshop
+    { payload }: providerActions.CreateWorkshopDraft
   ): Observable<Workshop | void> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.createWorkshop(payload).pipe(
+    return this.userWorkshopService.createWorkshopDraft(payload).pipe(
       tap((res: Workshop) => dispatch(new providerActions.OnCreateWorkshopSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateWorkshopFail(error)))
     );

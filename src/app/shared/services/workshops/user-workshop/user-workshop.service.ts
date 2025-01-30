@@ -51,6 +51,22 @@ export class UserWorkshopService {
   }
 
   /**
+   * This method get related workshop drafts for provider personal cabinet
+   */
+  public getProviderViewWorkshopDrafts(
+    workshopCardParameters: WorkshopCardParameters
+  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
+    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+
+    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>(
+      `/api/v2/WorkshopDraft/GetByProviderId/${workshopCardParameters.providerId}`,
+      {
+        params
+      }
+    );
+  }
+
+  /**
    * This method get workshops by Provider id for details page
    */
   public getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
@@ -75,6 +91,10 @@ export class UserWorkshopService {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
+  public getWorkshopDraftListByProviderId(id: string): Observable<TruncatedItem[]> {
+    return this.http.get<TruncatedItem[]>(`/api/v2/WorkshopDraft/GetByProviderId/${id}`);
+  }
+
   public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {
     return this.http.get(`/api/v1/Workshop/GetCompetitiveSelectionDescription/${id}`, { responseType: 'text' });
   }
@@ -84,21 +104,23 @@ export class UserWorkshopService {
   }
 
   /**
-   * This method create workshop
+   * This method create workshop draft
    * @param workshop Workshop
    */
-  public createWorkshop(workshop: Workshop): Observable<Workshop> {
+  public createWorkshopDraft(workshop: Workshop): Observable<Workshop> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+    if (this.isImagesFeature) {
+      return this.createWorkshopDraftV2(workshop);
+    }
   }
 
-  public createWorkshopV1(workshop: Workshop): Observable<Workshop> {
-    return this.http.post<Workshop>('/api/v1/Workshop/Create', workshop);
-  }
+  // TODO: deprecated?
+  // public createWorkshopDraftV1(workshop: Workshop): Observable<Workshop> {
+  //   return this.http.post<Workshop>('/api/v1/WorkshopDraft/Create', workshop);
+  // }
 
-  public createWorkshopV2(workshop: Workshop): Observable<Workshop> {
-    const formData = this.createFormData(workshop);
-    return this.http.post<Workshop>('/api/v2/Workshop/Create', formData);
+  public createWorkshopDraftV2(workshop: Workshop): Observable<Workshop> {
+    return this.http.post<Workshop>('/api/v2/WorkshopDraft/Create', this.createFormData(workshop));
   }
 
   /**
@@ -117,15 +139,6 @@ export class UserWorkshopService {
   public updateWorkshopV2(workshop: Workshop): Observable<Workshop> {
     const formData = this.createFormData(workshop);
     return this.http.put<Workshop>('/api/v2/Workshop/Update', formData);
-  }
-
-  /**
-   * This method save workshop draft
-   * @param workshop Workshop
-   */
-  public saveWorkshopDraft(workshop: Workshop): Observable<Workshop> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
   /**

@@ -87,6 +87,11 @@ export class GetProviderViewWorkshops {
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
+export class GetProviderViewWorkshopDrafts {
+  static readonly type = '[provider] get Workshops Drafts for provider cabinet';
+  constructor(public workshopCardParameters: WorkshopCardParameters) {}
+}
+
 export class GetProviderViewCompetitions {
   static readonly type = '[provider] get Competitions for provider cabinet';
   constructor(public competitionCardParameters: CompetitionCardParameters) {}
@@ -97,8 +102,18 @@ export class GetFilteredOfficialEmployees {
   constructor(public payload: EmployeeParameters) {}
 }
 
+export class GetFilteredEmployees {
+  static readonly type = '[provider] get filtered Employee users';
+  constructor(public payload: EmployeeParameters) {}
+}
+
 export class GetWorkshopListByProviderId {
   static readonly type = '[user] get Workshop List By Provider Id';
+  constructor(public payload: string) {}
+}
+
+export class GetWorkshopDraftListByProviderId {
+  static readonly type = '[user] get Workshop Draft List By Provider Id';
   constructor(public payload: string) {}
 }
 
@@ -107,8 +122,8 @@ export class GetWorkshopListByEmployeeId {
   constructor(public id: string) {}
 }
 
-export class CreateWorkshop {
-  static readonly type = '[provider] create Workshop';
+export class CreateWorkshopDraft {
+  static readonly type = '[provider] create Workshop Draft';
   constructor(public payload: Workshop) {}
 }
 
