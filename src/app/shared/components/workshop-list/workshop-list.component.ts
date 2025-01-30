@@ -1,6 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +15,7 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
 import { ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
@@ -23,16 +25,20 @@ import { Institution } from 'shared/models/institution.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopFilterAdministration } from 'shared/models/workshop.model';
-import { GetAreaAdminProfile, GetMinistryAdminProfile, GetRegionAdminProfile } from 'shared/store/admin.actions';
+import { Workshop, WorkshopFilterAdministration, WorkshopStatus } from 'shared/models/workshop.model';
+import { GetAreaAdminProfile, GetMinistryAdminProfile, GetModeratorProfile, GetRegionAdminProfile } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { FilterState } from 'shared/store/filter.state';
 import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { DeleteWorkshopById, UpdateWorkshopStatus } from 'shared/store/provider.actions';
 import { GetProfile } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
+import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
   selector: 'app-workshop-list',
@@ -42,10 +48,13 @@ import { Util } from 'shared/utils/utils';
 export class WorkshopListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) public sort: MatSort;
 
-  @Input() public workshops: SearchResponse<Workshop[]>;
-  @Input() public setWorkshopFiltersByDefault: (workshopParameters: WorkshopFilterAdministration) => void;
+  @Input() public setWorkshopFiltersByDefault: (
+    workshopParameters: WorkshopFilterAdministration,
+    role: Role,
+    selectedAdmin: BaseAdmin
+  ) => void;
 
-  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration>; // TODO: Add filter for Provider
+  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration> = new EventEmitter(); // TODO: Add filter for Provider
 
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
@@ -62,13 +71,13 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
   public readonly noWorkshops = NoResultsTitle.noResult;
   public readonly ModeConstants = ModeConstants;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipTypes = OwnershipTypes;
   public readonly statusIcons = UserStatusIcons;
-  public readonly providerStatuses = ProviderStatuses;
-  public readonly providerStatusTitles = ProviderStatusTitles;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly workshopOpenStatus = WorkshopOpenStatus;
 
   public readonly blockedStatus = 'Blocked'; // TODO: should be localized
 
@@ -88,21 +97,20 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'rating'
   ];
   public filterGroup: FormGroup;
-  public dataSource = new MatTableDataSource([{}]);
+  public dataSource = new MatTableDataSource<Workshop>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public totalEntities: number;
-  public workshopParameters: WorkshopFilterAdministration;
+  public workshopParameters: WorkshopFilterAdministration = {};
   public regions$: Observable<Codeficator[]>;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    private liveAnnouncer: LiveAnnouncer,
-    protected route: ActivatedRoute,
-    private store: Store,
-    // private matDialog: MatDialog,
-    // TODO: Add when dialog actions will be implemented
-    private formBuilder: FormBuilder
+    private readonly liveAnnouncer: LiveAnnouncer,
+    protected readonly route: ActivatedRoute,
+    private readonly store: Store,
+    private readonly matDialog: MatDialog,
+    private readonly formBuilder: FormBuilder
   ) {}
 
   public get isTechAdmin(): boolean {
@@ -141,6 +149,12 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     return this.filterGroup.get('area') as FormControl;
   }
 
+  @Input()
+  public set workshops(value: SearchResponse<Workshop[]>) {
+    this.dataSource.data = value?.entities;
+    this.totalEntities = value?.totalAmount;
+  }
+
   public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
     return codeficator1.id === codeficator2.id;
   }
@@ -164,8 +178,9 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
             case Role.areaAdmin:
               return this.store.dispatch(new GetAreaAdminProfile());
             case Role.moderator:
+              return this.store.dispatch(new GetModeratorProfile());
             case Role.provider:
-              // TODO: Add moderator Profile fetch
+              // TO DO: Add moderator profile fetch
               return this.store.dispatch(new GetProfile());
           }
         })
@@ -183,9 +198,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.dataSource = new MatTableDataSource(this.workshops.entities);
     this.dataSource.sort = this.sort;
-    this.totalEntities = this.workshops.totalAmount;
 
     this.filterGroup = this.formBuilder.group({
       searchBarFilter: new FormControl(''),
@@ -211,37 +224,37 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onChangeStatus(workshop: Workshop, status: ProviderStatuses): void {
-    // TODO: Implement workshop status change
-    // const statusUpdateData = new WorkshopWithStatus(workshop.id, status);
-    // if (status === ProviderStatuses.Editing) {
-    //   const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-    //     data: { type: ModalConfirmationType.editingWorkshop }
-    //   });
-    //   dialogRef
-    //     .afterClosed()
-    //     .pipe(filter(Boolean))
-    //     .subscribe((statusReason: string) =>
-    //       this.store.dispatch(new UpdateWorkshopStatus({ ...statusUpdateData, statusReason }, this.workshopParameters))
-    //     );
-    // } else {
-    //   this.store.dispatch(new UpdateWorkshopStatus(statusUpdateData, this.workshopParameters));
-    // }
+  public onChangeStatus(workshop: Workshop, status: WorkshopOpenStatus): void {
+    const statusUpdateData = { workshopId: workshop.id, status: status } as WorkshopStatus;
+    if (status === WorkshopOpenStatus.NeedChanges) {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.editingWorkshop }
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe((statusReason: string) =>
+          this.store.dispatch(new UpdateWorkshopStatus({ ...statusUpdateData, statusReason }, workshop.providerId))
+        );
+    } else {
+      this.store.dispatch(new UpdateWorkshopStatus(statusUpdateData, workshop.providerId));
+    }
   }
 
   public onDelete(workshop: Workshop): void {
-    // TODO: Implement workshop delete
-    // const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-    //   width: Constants.MODAL_SMALL,
-    //   data: {
-    //     type: ModalConfirmationType.deleteWorkshop,
-    //     property: workshop.title
-    //   }
-    // });
-    // dialogRef
-    //   .afterClosed()
-    //   .pipe(filter(Boolean))
-    //   .subscribe(() => this.store.dispatch(new DeleteWorkshopById(workshop.id, this.workshopParameters)));
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteWorkshop,
+        property: workshop.title
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() =>
+        this.store.dispatch(new DeleteWorkshopById(workshop.id, { ...this.workshopParameters, providerId: workshop.providerId }))
+      );
   }
 
   public onPageChange(page: PaginationElement): void {
@@ -337,6 +350,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     if (this.isRegionAdmin) {
       this.selectedAdmin$
         .pipe(
+          filter((admin: RegionAdmin) => Boolean(admin)),
           takeUntil(this.destroy$),
           switchMap((admin: RegionAdmin) =>
             this.store
@@ -355,7 +369,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
           }
         });
       this.selectedAdmin$
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          filter((admin: RegionAdmin) => Boolean(admin)),
+          takeUntil(this.destroy$)
+        )
         .subscribe((admin: RegionAdmin) =>
           this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
         );
@@ -413,7 +430,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   private setInitialWorkshopFilterByDefault(): void {
     this.workshopParameters.searchString = '';
     this.workshopParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    this.setWorkshopFiltersByDefault(this.workshopParameters);
+    this.setWorkshopFiltersByDefault(this.workshopParameters, this.role, this.selectedAdmin);
   }
 
   private getWorkshops(): void {

@@ -45,6 +45,8 @@ export enum ModalConfirmationType {
   licenseApproved = 'licenseApproved',
   publishWorkshop = 'publishWorkshop',
   archiveWorkshop = 'archiveWorkshop',
+  deleteWorkshop = 'deleteWorkshop',
+  editingWorkshop = 'editingWorkshop',
   incompleteWorkshop = 'incompleteWorkshop',
   publishCompetition = 'publishCompetition',
   archiveCompetition = 'archiveCompetition',
@@ -109,7 +111,9 @@ export enum ModalConfirmationTitle {
   editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDIT_SUBJECT',
   createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CREATE_SUBJECT',
   publishCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_COMPETITION',
-  archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_COMPETITION'
+  archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_COMPETITION',
+  deleteWorkshop = 'SERVICE_MESSAGE.MODAL_CONFIRMATIONS.TITLES.DELETE_WORKSHOP',
+  editingWorkshop = 'SERVICE_MESSAGE.MODAL_CONFIRMATIONS.TITLES.EDITING_WORKSHOP'
 }
 
 export enum ModalConfirmationText {
@@ -162,7 +166,9 @@ export enum ModalConfirmationText {
   editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDIT_SUBJECT',
   createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CREATE_SUBJECT',
   publishCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_COMPETITION',
-  archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_COMPETITION'
+  archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_COMPETITION',
+  deleteWorkshop = 'SERVICE_MESSAGE.MODAL_CONFIRMATIONS.DELETE_WORKSHOP',
+  editingWorkshop = 'SERVICE_MESSAGE.MODAL_CONFIRMATIONS.EDITING_WORKSHOP'
 }
 
 export enum ModalConfirmationDescription {

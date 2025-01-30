@@ -206,6 +206,7 @@ export interface WorkshopProviderViewCard extends WorkshopBaseCard {
 
 export interface WorkshopStatus {
   workshopId: string;
+  statusReason?: string;
   status: string;
 }
 

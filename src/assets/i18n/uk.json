@@ -535,7 +535,10 @@
       "TEACHING_LANGUAGE": "Мова викладання",
       "LAST_REFERRED": "Дата останнього посилання на навчальний предмет",
       "USED_IN": "Кількість гуртків у яких використовується",
-      "SUBJECT_NAME": "Назва навчального предмету"
+      "SUBJECT_NAME": "Назва навчального предмету",
+      "INFORMATION_ABOUT_WORKSHOP": "Про гурток",
+      "INSTITUTION_HIERARCHY": "Профіль/наукове відділення",
+      "INSTITUTION": "Підпорядкування"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",

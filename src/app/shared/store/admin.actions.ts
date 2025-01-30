@@ -8,10 +8,11 @@ import { ChildrenParameters } from 'shared/models/child.model';
 import { CompanyInformation } from 'shared/models/company-information.model';
 import { FilterData } from 'shared/models/history-log.model';
 import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
+import { ModeratorParameters, Moderator, ModeratorBlockData } from 'shared/models/moderator.model';
 import { ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from 'shared/models/region-admin.model';
 import { StatisticParameters } from 'shared/models/statistic.model';
-import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { Workshop, WorkshopFilterAdministration, WorkshopStatus } from 'shared/models/workshop.model';
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get About Portal';
@@ -572,4 +573,10 @@ export class ReinviteAreaAdminFail {
   static readonly type = '[admin] Reinvite Area Admin Fail';
 
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class GetModeratorProfile {
+  static readonly type = '[admin] Get Moderator Profile';
+
+  constructor() {}
 }

@@ -90,6 +90,7 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
+import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
 
 @NgModule({
   declarations: [
@@ -166,6 +167,7 @@ import { WorkshopListComponent } from './components/workshop-list/workshop-list.
     ThemeSwitcherComponent,
     ScrollToTopComponent,
     WorkshopListComponent,
+    WorkshopInfoComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,

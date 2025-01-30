@@ -1,0 +1,83 @@
+<div class="wrapper">
+  <div *ngIf="(isWorkshopView && role === Role.provider) || role === Role.providerDeputy" class="flex flex-row justify-end">
+    <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
+      <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
+    </a>
+  </div>
+  <div *ngIf="isWorkshopView" class="justify-end">
+    <a (click)="onCloseInfo()" class="close-icon">
+      <mat-icon>close</mat-icon>
+    </a>
+  </div>
+
+  <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
+    <mat-tab label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
+      <h5>{{ 'FORMS.LABELS.FULL_ORGANIZATION_NAME' | translate }}</h5>
+      <p>{{ workshop.title }}</p>
+      <h5>{{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}</h5>
+      <p>{{ workshop.shortTitle }}</p>
+      <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
+      <p>{{ workshop.phone | phone }}</p>
+      <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
+      <p>{{ workshop.email }}</p>
+      <h5>{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</h5>
+      <p>{{ ('FROM' | translate) + ' ' + workshop.minAge + ' ' + ('TO' | translate)+ ' ' + workshop.maxAge }}</p>
+      <ng-container *ngIf="workshop.institution">
+        <h5>{{ 'FORMS.LABELS.INSTITUTION' | translate }}</h5>
+        <p class="description">{{ workshop.institution }}</p>
+      </ng-container>
+      <ng-container *ngIf="workshop.institutionHierarchy">
+        <h5>{{ 'FORMS.LABELS.INSTITUTION_HIERARCHY' | translate }}</h5>
+        <p>{{ workshop.institutionHierarchy }}</p>
+      </ng-container>
+      <h5>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</h5>
+      <p>{{ workshop.providerTitle }}</p>
+    <ng-container *ngIf="workshop.competitiveSelectionDescription">
+      <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
+      <p>{{ workshop.competitiveSelectionDescription | translate }}</p>
+    </ng-container>
+    </mat-tab>
+
+    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
+      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
+      <ng-container *ngIf="workshop?.address; else LegalAddress">
+        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
+        <p>{{ workshop.address.codeficatorAddressDto.fullName }}</p>
+        <h5 *ngIf="workshop.address.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
+        <p>{{ workshop.address.codeficatorAddressDto.cityDistrict }}</p>
+        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
+        <p>{{ workshop.address.street }}</p>
+        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+        <p>{{ workshop.address.buildingNumber }}</p>
+      </ng-container>
+    </mat-tab>
+
+    <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">
+      <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
+        <h5>{{ 'TITLES.ABOUT_THE_PROVIDER' | translate }}</h5>
+        <div *ngFor="let item of workshop.workshopDescriptionItems">
+          <h5 class="section-title">{{ item.sectionName }}</h5>
+          <p class="line-break">{{ item.description }}</p>
+        </div>
+      </ng-container>
+
+      <h5 *ngIf="workshop.website">{{ 'FORMS.LABELS.WEBSITE' | translate }}</h5>
+      <p>{{ workshop.website }}</p>
+      <h5 *ngIf="workshop.facebook">Facebook</h5>
+      <p>{{ workshop.facebook }}</p>
+      <h5 *ngIf="workshop.instagram">Instagram</h5>
+      <p>{{ workshop.instagram }}</p>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #LegalAddress>
+  <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
+  <p>{{ workshop.legalAddress.codeficatorAddressDto.fullName }}</p>
+  <h5 *ngIf="workshop.legalAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
+  <p>{{ workshop.legalAddress.codeficatorAddressDto.cityDistrict }}</p>
+  <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
+  <p>{{ workshop.legalAddress.street }}</p>
+  <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+  <p>{{ workshop.legalAddress.buildingNumber }}</p>
+</ng-template>

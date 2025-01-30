@@ -138,7 +138,7 @@ export interface AdminStateModel {
   providers: SearchResponse<Provider[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   employeeHistory: SearchResponse<EmployeeHistory[]>;
-  workshops: SearchResponse<WorkshopCard[]>;
+  workshops: SearchResponse<Workshop[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
@@ -254,7 +254,7 @@ export class AdminState {
   }
 
   @Selector()
-  static workshops(state: AdminStateModel): SearchResponse<WorkshopCard[]> {
+  static workshops(state: AdminStateModel): SearchResponse<Workshop[]> {
     return state.workshops;
   }
 
@@ -560,7 +560,9 @@ export class AdminState {
     { workshopParameters }: GetFilteredWorkshops
   ): Observable<SearchResponse<Workshop[]>> {
     patchState({ isLoading: true });
-    return this.adminService.getAllWorkshops(workshopParameters).pipe(tap((workshops) => patchState({ isLoading: false })));
+    return this.adminService
+      .getAllWorkshops(workshopParameters)
+      .pipe(tap((workshops) => patchState({ isLoading: false, workshops: workshops })));
   }
 
   @Action(GetApplicationHistory)

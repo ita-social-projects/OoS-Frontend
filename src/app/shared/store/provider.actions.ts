@@ -140,7 +140,7 @@ export class OnUpdateWorkshopSuccess {
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
   constructor(
-    public payload: WorkshopProviderViewCard,
+    public id: string,
     public parameters: WorkshopCardParameters
   ) {}
 }

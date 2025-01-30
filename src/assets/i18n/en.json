@@ -535,7 +535,10 @@
       "TEACHING_LANGUAGE": "Language of instruction",
       "LAST_REFERRED": "Date of the last reference",
       "USED_IN": "Times used in workshops",
-      "SUBJECT_NAME": "Study subject name"
+      "SUBJECT_NAME": "Study subject name",
+      "INFORMATION_ABOUT_WORKSHOP": "Information About the workshop",
+      "INSTITUTION_HIERARCHY": "Profile/scientific department",
+      "INSTITUTION": "Institution"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
