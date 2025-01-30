@@ -14,13 +14,15 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { EmployeeTitles } from 'shared/enum/enumUA/employee';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { EmployeeParams, EmployeeRole } from 'shared/enum/employee';
+import { EmployeeRole } from 'shared/enum/employee';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
+import { Official } from 'shared/models/official.model';
+import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { EmployeesBlockData, EmployeesTableData } from 'shared/models/users-table';
+import { EmployeesBlockData, EmployeesTableData, OfficialTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import { BlockEmployeeById, DeleteEmployeeById, GetFilteredEmployees, ReinviteEmployee } from 'shared/store/provider.actions';
+import { BlockEmployeeById, DeleteEmployeeById, GetFilteredOfficials, ReinviteEmployee } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
@@ -33,8 +35,8 @@ import { ProviderComponent } from '../provider.component';
 export class EmployeesComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
-  @Select(ProviderState.employees)
-  private employees$: Observable<SearchResponse<Employee[]>>;
+  @Select(ProviderState.officials)
+  private officials$: Observable<SearchResponse<Official[]>>;
 
   public readonly EmployeeTitles = EmployeeTitles;
   public readonly employeeRole = EmployeeRole;
@@ -42,15 +44,18 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
   public readonly constants = Constants;
   public readonly statusesTitles = UserStatusesTitles;
 
-  public employees: SearchResponse<Employee[]>;
-  public employeesData: EmployeesTableData[] = [];
+  public officials: SearchResponse<Official[]>;
+  public officialsData: OfficialTableData[] = [];
+  public filteredOfficials: OfficialTableData[] = this.officialsData;
   public filterFormControl: FormControl = new FormControl('');
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public tabIndex: number;
   public filterParams: EmployeeParameters = {
+    providerId: '',
     searchString: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  public displayedColumns: string[] = ['pib', 'rnokpp', 'role', 'actions'];
   public isSmallMobileView: boolean;
 
   constructor(
@@ -69,32 +74,19 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
 
   public ngOnInit(): void {
     super.ngOnInit();
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.employees?.totalAmount);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officials?.totalAmount);
 
-    this.setTabOptions();
-    this.getFilteredEmployees();
-    this.onResize(window);
-  }
-
-  /**
-   * This method filter users according to selected tab
-   * @param event MatTabChangeEvent
-   */
-  public onTabChange(event: MatTabChangeEvent): void {
-    this.currentPage = PaginationConstants.firstPage;
-    this.filterFormControl.reset('', { emitEvent: false });
-    this.filterParams.searchString = '';
-    this.filterParams.from = 0;
-    this.getFilteredEmployees();
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { role: EmployeeParams[event.index] }
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.filterParams.providerId = provider.id;
+      this.setTabOptions();
+      this.getFilteredOfficials();
     });
+    this.onResize(window);
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getFilteredEmployees();
+    this.getFilteredOfficials();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -192,9 +184,9 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
     this.currentPage = PaginationConstants.firstPage;
   }
 
-  private getFilteredEmployees(): void {
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.employees?.totalAmount);
-    this.store.dispatch(new GetFilteredEmployees(this.filterParams));
+  private getFilteredOfficials(): void {
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officials?.totalAmount);
+    this.store.dispatch(new GetFilteredOfficials(this.filterParams));
   }
 
   /**
@@ -206,12 +198,12 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
       .subscribe((val: string) => {
         this.filterParams.searchString = val;
         this.currentPage = PaginationConstants.firstPage;
-        this.getFilteredEmployees();
+        this.getFilteredOfficials();
       });
 
-    this.employees$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((employees: SearchResponse<Employee[]>) => {
-      this.employees = employees;
-      this.employeesData = Util.updateStructureForTheTableEmployees(employees.entities);
+    this.officials$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((officials: SearchResponse<Official[]>) => {
+      this.officials = officials;
+      this.officialsData = Util.updateStructureForTheTableOfficials(officials.entities);
     });
   }
 }

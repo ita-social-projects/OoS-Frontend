@@ -48,3 +48,10 @@ export interface InvitationData {
   user: AdminsTableData;
   adminType: AdminRoles;
 }
+
+export interface OfficialTableData {
+  id: string;
+  pib: string;
+  role: string;
+  rnokpp: string;
+}

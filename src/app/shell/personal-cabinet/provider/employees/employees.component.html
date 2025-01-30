@@ -1,5 +1,5 @@
 <div class="users-wrapper">
-  <div class="search-area">
+  <div class="search-container">
     <div class="search-bar flex flex-row box-border items-center justify-start content-center">
       <mat-icon class="search-icon">search</mat-icon>
       <input
@@ -21,13 +21,14 @@
 </div>
 
 <ng-template #UsersList let-users>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!employees">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!officials">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
           [statusesTitles]="statusesTitles"
           [users]="users"
           [isEdit]="true"
+          [displayedColumns]="displayedColumns"
           (delete)="onDelete($event)"
           (block)="onBlockUnblock($event)"
           (unblock)="onBlockUnblock($event)"
@@ -36,7 +37,7 @@
         </app-users-list>
       </div>
       <app-paginator
-        [totalEntities]="employees.totalAmount"
+        [totalEntities]="officials.totalAmount"
         [currentPage]="currentPage"
         [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
@@ -57,23 +58,13 @@
 </ng-template>
 
 <ng-template #ProviderTableViewTmpl>
-  <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{ EmployeeTitles.All | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-    <mat-tab label="{{ EmployeeTitles.Deputy | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-    <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-  </mat-tab-group>
+  <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
 </ng-template>
 
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
     <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

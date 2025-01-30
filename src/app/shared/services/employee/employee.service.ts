@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { EmployeeBlockData } from 'shared/models/block.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
+import { Official } from 'shared/models/official.model';
 import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
@@ -23,13 +24,13 @@ export class EmployeeService {
   /**
    * This method get provider admisn with filter parameters
    */
-  public getFilteredEmployees(filterParams: EmployeeParameters): Observable<SearchResponse<Employee[]>> {
+  public getFilteredOfficials(filterParams: EmployeeParameters): Observable<SearchResponse<Official[]>> {
     const params = new HttpParams()
       .set('searchString', `${filterParams.searchString}`)
       .set('from', `${filterParams.from}`)
       .set('size', `${filterParams.size}`);
 
-    return this.http.get<SearchResponse<Employee[]>>('/api/v1/Employees/GetFilteredEmployees', {
+    return this.http.get<SearchResponse<Official[]>>(`/api/v1/providers/${filterParams.providerId}/officials/Get`, {
       params
     });
   }

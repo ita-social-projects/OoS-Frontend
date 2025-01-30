@@ -14,6 +14,7 @@ import { BlockedParent } from 'shared/models/block.model';
 import { Child } from 'shared/models/child.model';
 import { TruncatedItem } from 'shared/models/item.model';
 import { Employee } from 'shared/models/employee.model';
+import { Official } from 'shared/models/official.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
@@ -37,7 +38,7 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
-  employees: SearchResponse<Employee[]>;
+  officials: SearchResponse<Official[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -54,7 +55,7 @@ export interface ProviderStateModel {
     achievements: null,
     selectedAchievement: null,
     providerWorkshops: null,
-    employees: null,
+    officials: null,
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
@@ -102,8 +103,8 @@ export class ProviderState {
   }
 
   @Selector()
-  static employees(state: ProviderStateModel): SearchResponse<Employee[]> {
-    return state.employees;
+  static officials(state: ProviderStateModel): SearchResponse<Official[]> {
+    return state.officials;
   }
 
   @Selector()
@@ -322,15 +323,15 @@ export class ProviderState {
       );
   }
 
-  @Action(providerActions.GetFilteredEmployees)
+  @Action(providerActions.GetFilteredOfficials)
   getFilteredEmployees(
     { patchState }: StateContext<ProviderStateModel>,
-    { payload }: providerActions.GetFilteredEmployees
-  ): Observable<SearchResponse<Employee[]>> {
+    { payload }: providerActions.GetFilteredOfficials
+  ): Observable<SearchResponse<Official[]>> {
     patchState({ isLoading: true });
     return this.employeeService
-      .getFilteredEmployees(payload)
-      .pipe(tap((employees: SearchResponse<Employee[]>) => patchState({ employees: employees ?? EMPTY_RESULT, isLoading: false })));
+      .getFilteredOfficials(payload)
+      .pipe(tap((officials: SearchResponse<Official[]>) => patchState({ officials: officials ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(providerActions.CreateWorkshop)
@@ -595,7 +596,7 @@ export class ProviderState {
     { payload, filterParams }: providerActions.OnBlockEmployeeSuccess
   ): void {
     dispatch([
-      new providerActions.GetFilteredEmployees(filterParams),
+      new providerActions.GetFilteredOfficials(filterParams),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success'
@@ -622,7 +623,7 @@ export class ProviderState {
   @Action(providerActions.OnDeleteEmployeeSuccess)
   onDeleteEmployeeSuccess({ dispatch }: StateContext<ProviderStateModel>, { filterParams }: providerActions.OnDeleteEmployeeSuccess): void {
     dispatch([
-      new providerActions.GetFilteredEmployees(filterParams),
+      new providerActions.GetFilteredOfficials(filterParams),
       new ShowMessageBar({
         message: SnackbarText.deleteEmployee,
         type: 'success'

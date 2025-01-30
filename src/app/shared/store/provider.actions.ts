@@ -79,7 +79,7 @@ export class GetProviderViewWorkshops {
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
-export class GetFilteredEmployees {
+export class GetFilteredOfficials {
   static readonly type = '[provider] get filtered Employee users';
   constructor(public payload: EmployeeParameters) {}
 }
