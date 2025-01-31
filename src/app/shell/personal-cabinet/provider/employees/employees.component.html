@@ -8,15 +8,15 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
-        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
+        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
         [matTooltipDisabled]="!isSmallMobileView" />
     </div>
 
     <ng-container *ngIf="role === Role.provider; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
-    <ng-container *ngIf="role === Role.provider; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+    <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
   </div>
 </div>
 
@@ -55,10 +55,6 @@
   <a [routerLink]="['/create-employee', employeeRole.admin]">
     <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
   </a>
-</ng-template>
-
-<ng-template #ProviderTableViewTmpl>
-  <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
 </ng-template>
 
 <ng-template #DeputyTableViewTmpl>
