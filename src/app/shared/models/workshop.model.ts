@@ -12,11 +12,6 @@ export abstract class WorkshopBase {
   id?: string;
   title: string;
   shortTitle: string;
-  // phone: string;
-  // email: string;
-  // website?: string;
-  // facebook?: string;
-  // instagram?: string;
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
@@ -35,9 +30,7 @@ export abstract class WorkshopBase {
   institutionHierarchy: string;
   directionIds: number[];
   keywords: string[];
-  // addressId: number;
-  // address: Address;
-  workshopContacts: WorkshopContacts[];
+  contacts: Contacts[];
   teachers: Teacher[];
   providerId: string;
   providerTitle: string;
@@ -59,7 +52,7 @@ export abstract class WorkshopBase {
   constructor(
     about: WorkshopAbout,
     description: Description,
-    /* address: Address*/ workshopContacts: WorkshopContacts[],
+    workshopContacts: Contacts[],
     additionalAbout: AdditionalAbout,
     teachers: Teacher[],
     provider: Provider,
@@ -67,8 +60,6 @@ export abstract class WorkshopBase {
   ) {
     this.title = about.title;
     this.shortTitle = about.shortTitle;
-    // this.phone = about.phone;
-    // this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.dateTimeRanges = about.workingHours;
@@ -83,8 +74,6 @@ export abstract class WorkshopBase {
     this.institutionId = description.institutionId;
     this.institutionHierarchyId = description.institutionHierarchyId;
     this.keywords = description.keyWords;
-    // this.addressId = address.id;
-    // this.address = address;
     this.teachers = teachers;
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
@@ -100,21 +89,12 @@ export abstract class WorkshopBase {
     this.educationalShift = additionalAbout.educationalShift;
     this.ageComposition = additionalAbout.ageComposition;
     this.coverage = description.coverage;
-    this.workshopContacts = workshopContacts;
+    this.contacts = workshopContacts;
     this.workshopType = additionalAbout.workshopType;
 
     if (id) {
       this.id = id;
     }
-    // if (about.facebook) {
-    //   this.facebook = about.facebook;
-    // }
-    // if (about.website) {
-    //   this.website = about.website;
-    // }
-    // if (about.instagram) {
-    //   this.instagram = about.instagram;
-    // }
     if (description.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
@@ -137,13 +117,13 @@ export class Workshop extends WorkshopBase {
   constructor(
     about: WorkshopAbout,
     description: Description,
-    /* address: Address*/ workshopContacts: WorkshopContacts[],
+    workshopContacts: Contacts[],
     additionalAbout: AdditionalAbout,
     teachers: Teacher[],
     provider: Provider,
     id?: string
   ) {
-    super(about, additionalAbout, description, workshopContacts, teachers, provider, id);
+    super(about, description, workshopContacts, additionalAbout, teachers, provider, id);
 
     if (about.coverImageId) {
       this.coverImageId = about.coverImageId[0];
@@ -240,15 +220,10 @@ export interface WorkshopCardParameters extends PaginationParameters {
 export interface WorkshopAbout {
   title: string;
   shortTitle: string;
-  // phone: string;
-  // email: string;
   minAge: number;
   maxAge: number;
   workingHours: DateTimeRanges[];
   price: number;
-  // website?: string;
-  // facebook?: string;
-  // instagram?: string;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
   availableSeats: number;
@@ -267,7 +242,6 @@ interface AdditionalAbout {
   educationalShift: string;
   ageComposition: string;
   workshopType: string;
-  // languageOfEducationId: string;
 }
 interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
@@ -282,37 +256,45 @@ interface Description {
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
-  // directionIds: number[];
 }
 
-export class WorkshopContacts {
-  addressTitle: string;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
+export class Contacts {
+  title: string;
   address: Address;
-  contacts: Contacts[];
-  isPrimary: boolean;
+  phones: PhoneType[];
+  emails: EmailType[];
+  socialNetworks?: SocialNetworks[];
+  isDefault: boolean;
 
-  constructor(info: WorkshopContacts) {
-    this.addressTitle = info.addressTitle;
+  constructor(info: Contacts) {
+    this.title = info.title;
     this.address = info.address;
-    this.contacts = info.contacts;
-    this.isPrimary = info.isPrimary;
-    if (info.website) {
-      this.website = info.website;
-    }
-    if (info.facebook) {
-      this.facebook = info.facebook;
-    }
-    if (info.instagram) {
-      this.instagram = info.instagram;
+    this.phones = info.phones;
+    this.emails = info.emails;
+    this.isDefault = info.isDefault;
+    if (info.socialNetworks) {
+      this.socialNetworks = info.socialNetworks;
     }
   }
 }
 
-interface Contacts {
-  owner: string;
-  phones: string[];
-  emails: string[];
+interface PhoneType {
+  type: string;
+  number: string;
+}
+
+interface EmailType {
+  type: string;
+  address: string;
+}
+
+interface SocialNetworks {
+  type: Socials;
+  url: string;
+}
+
+enum Socials {
+  Facebook,
+  Instagram,
+  Website
 }

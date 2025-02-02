@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Address } from 'shared/models/address.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 
 describe('CreateWorkshopAddressComponent', () => {
@@ -23,6 +24,7 @@ describe('CreateWorkshopAddressComponent', () => {
         MatFormFieldModule,
         NgxsModule.forRoot([]),
         MatInputModule,
+        MatCheckboxModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],

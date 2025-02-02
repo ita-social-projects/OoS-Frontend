@@ -27,7 +27,6 @@
 }
 
 .contacts-wrapper {
-  // margin-left: 5px;
   border: 0;
   border-top: 2px solid #e3e3e3;
   border-bottom: 2px solid #e3e3e3;
@@ -40,8 +39,6 @@
 .accordion-item {
   padding-left: 1px;
   padding-right: 1px;
-  // border: 2px solid #e3e3e3;
-  // border-bottom: 2px solid #e3e3e3;
   ::ng-deep .mat-expansion-panel-body,
   .mat-expansion-panel-header {
     padding: 0;
@@ -62,10 +59,6 @@
   }
 }
 
-.address-form {
-  // margin-left: 5px;
-}
-
 .add-button {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -75,6 +68,10 @@
   background-color: transparent !important;
   border: none !important;
   padding: 0;
+}
+
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
 }
 
 .step-input {

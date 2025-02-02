@@ -34,17 +34,12 @@ export class SideMenuComponent implements OnInit {
 
   private getContactsData(): void {
     this.contactsData = {
-      phone: this.workshop?.workshopContacts[0].contacts[0].phones[0] || this.provider.phoneNumber,
-      email: this.workshop?.workshopContacts[0].contacts[0].emails[0] || this.provider.email,
-      facebook: this.workshop?.workshopContacts[0].facebook || this.provider.facebook,
-      instagram: this.workshop?.workshopContacts[0].instagram || this.provider.instagram,
-      website: this.workshop?.workshopContacts[0].website || this.provider.website
-      // phone: this.workshop?.phone || this.provider.phoneNumber,
-      // email: this.workshop?.email || this.provider.email,
-      // facebook: this.workshop?.facebook || this.provider.facebook,
-      // instagram: this.workshop?.instagram || this.provider.instagram,
-      // website: this.workshop?.website || this.provider.website
+      phone: this.workshop?.contacts[0].phones[0].number || this.provider.phoneNumber,
+      email: this.workshop?.contacts[0].emails[0].address || this.provider.email,
+      facebook: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.facebook,
+      instagram: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.instagram,
+      website: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.website
     };
-    this.address = { ...(this.workshop?.workshopContacts[0].address || this.provider?.actualAddress || this.provider.legalAddress) };
+    this.address = { ...(this.workshop?.contacts[0].address || this.provider?.actualAddress || this.provider.legalAddress) };
   }
 }

@@ -480,7 +480,8 @@
       "TEACHING_POSITION": "Вчительська посада",
       "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
       "CREATED_AT": "Дата створення",
-      "LANGUAGE": "Мова"
+      "LANGUAGE": "Мова",
+      "SOCIAL_NETWORKS": "Соціальні мережі"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -678,7 +679,7 @@
     "ADD_DIRECTION": "Додати напрямок",
     "ADD_MORE_EMAIL": "Додати ще електронну пошту",
     "ADD_MORE_PHONE": "Додати ще телефон",
-    "ADD_MORE_CONTACTS": "Додати ще контакти",
+    "ADD_MORE_SOCIAL_NETWORK": "Додати ще соціальну мережу",
     "ADD_MORE_ADDRESS": "Додати ще адресу",
     "ADD_POSITION": "Додати посаду",
     "PUBLISH": "Опублікувати",

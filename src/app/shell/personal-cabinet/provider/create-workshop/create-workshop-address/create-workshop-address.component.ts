@@ -6,6 +6,8 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { Address } from 'shared/models/address.model';
 import { Geocoder } from 'shared/models/geolocation';
+import { SocialNetworks } from 'shared/enum/workshop';
+import { Contacts } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -14,8 +16,7 @@ import { Geocoder } from 'shared/models/geolocation';
 })
 export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   @Input() public address: Address;
-
-  // @Output() public passAddressFormGroup = new EventEmitter();
+  @Input() public contacts: Contacts[];
 
   @Output() public passContactsFormArray = new EventEmitter();
 
@@ -26,10 +27,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   public addressesFormArray: FormArray;
   public noAddressFound = false;
   public step = 0;
+  public socialTypes = SocialNetworks;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {}
+
+  public socialTypesKeys(): string[] {
+    return Object.keys(this.socialTypes);
+  }
 
   public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
@@ -57,20 +63,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    // this.addressFormGroup = this.formBuilder.group({
-    //   street: new FormControl('', FormValidators.defaultStreetValidators),
-    //   buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
-    //   catottgId: new FormControl('', Validators.required),
-    //   latitude: new FormControl(''),
-    //   longitude: new FormControl('')
-    // });
-    // this.searchFormGroup = this.formBuilder.group({
-    //   settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-    //   settlement: new FormControl('')
-    // });
-    this.addressesFormArray = this.formBuilder.array([this.createAddressFormGroup()]);
+    this.addressesFormArray = this.formBuilder.array([]);
+    if (this.contacts) {
+      this.contacts.forEach((contact) => {
+        this.addAddressGroup(contact);
+      });
+    } else {
+      this.addressesFormArray = this.formBuilder.array([this.createAddressFormGroup()]);
+    }
     this.passContactsFormArray.emit(this.addressesFormArray);
-    // this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
   public onAddressSelect(result: Geocoder, addressGroup: FormGroup): void {
@@ -105,9 +106,9 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     }
   }
 
-  public createAddressFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      addressTitle: [
+  public createAddressFormGroup(address?: Contacts): FormGroup {
+    const contactFormGroup = this.formBuilder.group({
+      title: [
         '',
         [
           Validators.required,
@@ -116,61 +117,54 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]
       ],
-      isPrimary: false,
+      isDefault: false,
       searchGroup: this.createSearchFormGroup(),
       address: this.createAddressForm(),
-      website: ['', Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)],
-      facebook: ['', Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)],
-      instagram: ['', Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)],
-      contacts: this.formBuilder.array([this.createContactsFormGroup()])
+      phones: this.formBuilder.array([this.createPhoneFormGroup()]),
+      emails: this.formBuilder.array([this.createEmailFormGroup()]),
+      socialNetworks: this.formBuilder.array([])
     });
+
+    if (address) {
+      this.activateEditMode(contactFormGroup, address);
+    }
+
+    return contactFormGroup;
   }
 
-  public createContactsFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      type: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-          Validators.pattern(MUST_CONTAIN_LETTERS)
-        ]
-      ],
-      phoneList: this.formBuilder.array([this.createPhoneFormGroup()]),
-      emailList: this.formBuilder.array([this.createEmailFormGroup()])
-    });
+  private activateEditMode(contactsFormGroup: FormGroup, contact: Contacts): void {
+    contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
 
   public addPhoneField(contact: FormGroup): void {
     const phoneGroup = this.createPhoneFormGroup();
-    (contact.get('phoneList') as FormArray).controls.push(phoneGroup);
-    (contact.get('phoneList') as FormArray).updateValueAndValidity();
+    (contact.get('phones') as FormArray).controls.push(phoneGroup);
+    (contact.get('phones') as FormArray).updateValueAndValidity();
     phoneGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (contact.get('phoneList') as FormArray).updateValueAndValidity();
+      (contact.get('phones') as FormArray).updateValueAndValidity();
     });
   }
 
   public addEmailField(contact: FormGroup): void {
     const emailGroup = this.createEmailFormGroup();
-    (contact.get('emailList') as FormArray).controls.push(emailGroup);
-    (contact.get('emailList') as FormArray).updateValueAndValidity();
+    (contact.get('emails') as FormArray).controls.push(emailGroup);
+    (contact.get('emails') as FormArray).updateValueAndValidity();
     emailGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (contact.get('emailList') as FormArray).updateValueAndValidity();
+      (contact.get('emails') as FormArray).updateValueAndValidity();
     });
   }
 
-  public addContactsForm(address: FormGroup): void {
-    const contactsForm = this.createContactsFormGroup();
-    (address.get('contacts') as FormArray).controls.push(contactsForm);
-    (address.get('contacts') as FormArray).updateValueAndValidity();
-    contactsForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (address.get('contacts') as FormArray).updateValueAndValidity();
+  public addSocialsField(contact: FormGroup): void {
+    const socialsGroup = this.createSocialNetworksFormGroup();
+    (contact.get('socialNetworks') as FormArray).controls.push(socialsGroup);
+    (contact.get('socialNetworks') as FormArray).updateValueAndValidity();
+    socialsGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      (contact.get('socialNetworks') as FormArray).updateValueAndValidity();
     });
   }
 
-  public addAddressGroup(): void {
-    const addressGroup = this.createAddressFormGroup();
+  public addAddressGroup(contact?: Contacts): void {
+    const addressGroup = this.createAddressFormGroup(contact);
     this.addressesFormArray.controls.push(addressGroup);
     this.addressesFormArray.updateValueAndValidity();
     addressGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
@@ -179,12 +173,25 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.setStep(this.addressesFormArray.controls.length - 1);
   }
 
-  public createPhoneFormGroup(): FormControl {
-    return this.formBuilder.control('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]);
+  public createPhoneFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+      number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
+    });
   }
 
-  public createEmailFormGroup(): FormControl {
-    return this.formBuilder.control('', [Validators.required, FormValidators.email]);
+  public createEmailFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+      address: new FormControl('', [Validators.required, FormValidators.email])
+    });
+  }
+
+  public createSocialNetworksFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      type: new FormControl('', [Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+      url: new FormControl('', [])
+    });
   }
 
   public createAddressForm(): FormGroup {
@@ -204,20 +211,8 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public showForm(): void {
-    console.log(this.addressesFormArray);
-  }
-
-  public deletePhoneField(phoneGroup: FormArray, index: number): void {
-    (phoneGroup.get('phoneList') as FormArray).removeAt(index);
-  }
-
-  public deleteEmailField(phoneGroup: FormArray, index: number): void {
-    (phoneGroup.get('emailList') as FormArray).removeAt(index);
-  }
-
-  public deleteContactForm(addressForm: FormArray, index: number): void {
-    (addressForm.get('contacts') as FormArray).removeAt(index);
+  public deleteFormField(Array: FormArray, index: number): void {
+    Array.removeAt(index);
   }
 
   public deleteAddressForm(index: number): void {
@@ -225,12 +220,12 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.step = this.addressesFormArray.length - 1;
   }
 
-  public onIsPrimaryChange(addressGroup: FormGroup, checked: boolean): void {
+  public onIsDefaultChange(addressGroup: FormGroup, checked: boolean): void {
     if (checked) {
       this.addressesFormArray.controls.forEach((formGroup: FormGroup) => {
-        formGroup.get('isPrimary').setValue(false);
+        formGroup.get('isDefault').setValue(false);
       });
-      addressGroup.get('isPrimary').setValue(true);
+      addressGroup.get('isDefault').setValue(true);
     }
   }
 }

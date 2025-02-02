@@ -19,18 +19,16 @@
             <mat-checkbox
               class="step-label"
               color="primary"
-              formControlName="isPrimary"
-              (change)="onIsPrimaryChange(addressForm, $event.checked)">
+              formControlName="isDefault"
+              (change)="onIsDefaultChange(addressForm, $event.checked)">
               {{ 'BUTTONS.USE_ADDRESS_AS_PRIMARY' | translate }}
             </mat-checkbox>
-            <label class="step-label" for="addressTitle"
-              >{{ 'FORMS.LABELS.ADDRESS_TITLE' | translate }}<span class="step-required">*</span></label
-            >
+            <label class="step-label" for="title">{{ 'FORMS.LABELS.ADDRESS_TITLE' | translate }}<span class="step-required">*</span></label>
             <mat-form-field class="flex items-stretch">
-              <input matInput class="step-input" type="text" formControlName="addressTitle" autocomplete="none" appTrimValue />
+              <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue />
             </mat-form-field>
             <app-validation-hint
-              [validationFormControl]="addressForm.get('addressTitle')"
+              [validationFormControl]="addressForm.get('title')"
               [minCharacters]="3"
               [maxCharacters]="60"></app-validation-hint>
             <app-create-address-form
@@ -38,100 +36,120 @@
               [searchFormGroup]="addressForm.get('searchGroup')"
               [address]="address">
             </app-create-address-form>
-            <label class="step-label" for="website">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
-            <mat-form-field>
-              <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
-            </mat-form-field>
-            <label class="step-label" for="facebook">Facebook</label>
-            <mat-form-field>
-              <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
-            </mat-form-field>
-            <label class="step-label" for="instagram">Instagram</label>
-            <mat-form-field>
-              <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
-            </mat-form-field>
-            <div formArrayName="contacts">
-              <div class="flex flex-col contacts-wrapper" *ngFor="let contactsForm of addressForm?.get('contacts').controls; let i = index">
-                <div formGroupName="{{ i }}" class="flex flex-col">
-                  <div class="flex flex-row justify-between" *ngIf="i !== 0">
-                    <div class="spacer"></div>
-                    <p class="step-label contacts-title">{{ 'TITLES.CONTACTS' | translate }} {{ i + 1 }}</p>
-                    <button class="delete-block" mat-button (click)="deleteContactForm(addressForm, i)">
-                      <mat-icon class="mat-icon-delete">delete</mat-icon>
-                    </button>
-                  </div>
-                  <p class="step-label contacts-title" *ngIf="i === 0">{{ 'TITLES.CONTACTS' | translate }} {{ i + 1 }}</p>
-                  <label class="step-label" for="type"
-                    >{{ 'FORMS.LABELS.CONTACTS_OWNER' | translate }}<span class="step-required">*</span></label
-                  >
-                  <mat-form-field>
-                    <input matInput class="step-input" id="type" type="text" formControlName="type" autocomplete="none" appTrimValue />
+            <div formArrayName="phones" class="flex flex-col">
+              <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
+              <div *ngFor="let phoneField of addressForm.get('phones').controls; let j = index">
+                <div class="flex flex-col grow" formGroupName="{{ j }}">
+                  <mat-form-field class="grow">
+                    <input
+                      formControlName="type"
+                      matInput
+                      class="step-input"
+                      type="text"
+                      id="phone-{{ j }}"
+                      autocomplete="none"
+                      appTrimValue />
                   </mat-form-field>
-                  <div formArrayName="phoneList" class="flex flex-col">
-                    <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
-                    <div *ngFor="let phoneField of contactsForm.get('phoneList').controls; let j = index">
-                      <div class="flex flex-row">
-                        <div class="flex flex-col grow">
-                          <app-phone-form-control class="grow" [parentFormControl]="phoneField"></app-phone-form-control>
-                          <app-validation-hint
-                            [validationFormControl]="phoneField"
-                            [minCharacters]="validationConstants.PHONE_LENGTH"
-                            [isPhoneNumber]="true">
-                          </app-validation-hint>
-                        </div>
-                        <button class="delete-block" mat-button (click)="deletePhoneField(contactsForm, j)" *ngIf="j !== 0">
-                          <mat-icon class="mat-icon-delete">delete</mat-icon>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-row justify-start items-center content-center">
-                    <button
-                      class="btn-add"
-                      mat-button
-                      (click)="addPhoneField(contactsForm)"
-                      [disabled]="contactsForm.get('phoneList').invalid">
-                      <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_PHONE' | translate }}
-                    </button>
-                  </div>
-                  <div formArrayName="emailList" class="flex flex-col">
-                    <label class="step-label" for="email-{{ j }}">
-                      {{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span>
-                    </label>
-                    <div class="flex" *ngFor="let emailField of contactsForm.get('emailList').controls; let j = index">
-                      <div class="flex flex-col grow">
-                        <mat-form-field class="grow">
-                          <input
-                            [formControlName]="j"
-                            matInput
-                            class="step-input"
-                            type="text"
-                            id="email-{{ j }}"
-                            autocomplete="none"
-                            appTrimValue />
-                        </mat-form-field>
-                        <app-validation-hint [validationFormControl]="emailField"></app-validation-hint>
-                      </div>
-                      <button class="delete-block" mat-button (click)="deleteEmailField(contactsForm, j)" *ngIf="j !== 0">
-                        <mat-icon class="mat-icon-delete">delete</mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="flex flex-row justify-start items-center content-center">
-                    <button
-                      class="btn-add"
-                      mat-button
-                      (click)="addEmailField(contactsForm)"
-                      [disabled]="contactsForm.get('emailList').invalid">
-                      <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_EMAIL' | translate }}
+                  <div class="flex flex-row">
+                    <app-phone-form-control class="grow" [parentFormControl]="phoneField.get('number')"></app-phone-form-control>
+                    <app-validation-hint
+                      [validationFormControl]="phoneField.get('number')"
+                      [minCharacters]="validationConstants.PHONE_LENGTH"
+                      [isPhoneNumber]="true">
+                    </app-validation-hint>
+                    <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('phones'), j)" *ngIf="j !== 0">
+                      <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="flex flex-row justify-start items-center content-center add-button">
-              <button class="btn-add" mat-button (click)="addContactsForm(addressForm)" [disabled]="addressForm.get('contacts').invalid">
-                <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_CONTACTS' | translate }}
+            <div class="flex flex-row justify-start items-center content-center">
+              <button class="btn-add" mat-button (click)="addPhoneField(addressForm)" [disabled]="addressForm.get('phones').invalid">
+                <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_PHONE' | translate }}
+              </button>
+            </div>
+
+            <div formArrayName="emails" class="flex flex-col">
+              <label class="step-label" for="email-{{ j }}">
+                {{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span>
+              </label>
+              <div class="flex" *ngFor="let emailField of addressForm.get('emails').controls; let j = index">
+                <div class="flex flex-col grow" formGroupName="{{ j }}">
+                  <mat-form-field class="grow">
+                    <input
+                      formControlName="type"
+                      matInput
+                      class="step-input"
+                      type="text"
+                      id="email-{{ j }}"
+                      autocomplete="none"
+                      appTrimValue />
+                  </mat-form-field>
+                  <div class="flex flex-row">
+                    <mat-form-field class="grow">
+                      <input
+                        formControlName="address"
+                        matInput
+                        class="step-input"
+                        type="text"
+                        id="email-{{ j }}"
+                        autocomplete="none"
+                        appTrimValue />
+                    </mat-form-field>
+                    <app-validation-hint [validationFormControl]="emailField.get('address')"></app-validation-hint>
+
+                    <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('emails'), j)" *ngIf="j !== 0">
+                      <mat-icon class="mat-icon-delete">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-row justify-start items-center content-center">
+              <button class="btn-add" mat-button (click)="addEmailField(addressForm)" [disabled]="addressForm.get('emails').invalid">
+                <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_EMAIL' | translate }}
+              </button>
+            </div>
+
+            <div formArrayName="socialNetworks" class="flex flex-col">
+              <label class="step-label" for="email-{{ j }}">
+                {{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}
+              </label>
+              <div class="flex" *ngFor="let socialNetwork of addressForm.get('socialNetworks').controls; let j = index">
+                <div class="flex flex-col grow" formGroupName="{{ j }}">
+                  <mat-form-field class="grow">
+                    <mat-select formControlName="type" class="step-input" disableOptionCentering panelClass="dropdown-panel">
+                      <mat-option *ngFor="let socialType of socialTypesKeys()" [value]="socialType">
+                        {{ socialTypes[socialType] }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="flex flex-row">
+                    <mat-form-field class="grow">
+                      <input
+                        formControlName="url"
+                        matInput
+                        class="step-input"
+                        type="text"
+                        id="email-{{ j }}"
+                        autocomplete="none"
+                        appTrimValue />
+                    </mat-form-field>
+                    <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('socialNetworks'), j)">
+                      <mat-icon class="mat-icon-delete">delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-row justify-start items-center content-center">
+              <button
+                class="btn-add"
+                mat-button
+                (click)="addSocialsField(addressForm)"
+                [disabled]="addressForm.get('socialNetworks').invalid">
+                <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_SOCIAL_NETWORK' | translate }}
               </button>
             </div>
             <div class="map">
@@ -151,16 +169,5 @@
         <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_ADDRESS' | translate }}
       </button>
     </div>
-    <!-- <button (click)="showForm()"></button> -->
   </div>
-  <!-- <div class="address-wrapper-border">
-    <app-create-address-form [addressFormGroup]="addressFormGroup" [searchFormGroup]="searchFormGroup" [address]="address">
-    </app-create-address-form>
-  </div>
-  <small *ngIf="noAddressFound" class="warning">{{ 'FORMS.VALIDATIONS.INVALID_MAP' | translate }}</small>
-  <p class="text">{{ 'FORMS.LABELS.OR_SELECT_ON_THE_MAP' | translate }}</p>
-  <div class="map">
-    <app-map [settelmentFormGroup]="settlementFormControl" [addressFormGroup]="addressFormGroup" (addressSelect)="onAddressSelect($event)">
-    </app-map>
-  </div> -->
 </div>

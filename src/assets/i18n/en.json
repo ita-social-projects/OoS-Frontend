@@ -480,7 +480,8 @@
       "TEACHING_POSITION": "Teaching position",
       "TYPE_BY_CLASSIFIER": "Type by classifier",
       "CREATED_AT": "Creation date",
-      "LANGUAGE": "Language"
+      "LANGUAGE": "Language",
+      "SOCIAL_NETWORKS": "Social networks"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -676,7 +677,7 @@
     "ADD_DIRECTION": "Add a direction",
     "ADD_MORE_EMAIL": "Add more email",
     "ADD_MORE_PHONE": "Add more phone",
-    "ADD_MORE_CONTACTS": "Add more contacts",
+    "ADD_MORE_SOCIAL_NETWORK": "Add more social network",
     "ADD_MORE_ADDRESS": "Add more address",
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
