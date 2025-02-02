@@ -98,6 +98,7 @@ describe('EmployeesComponent', () => {
         isBlocking: false
       } as EmployeesBlockData;
       mockFilterParams = {
+        providerId: '',
         from: 0,
         searchString: '',
         size: 12
