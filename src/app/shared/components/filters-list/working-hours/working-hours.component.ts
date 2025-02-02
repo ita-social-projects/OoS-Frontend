@@ -5,13 +5,13 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 
 import { WorkingDaysValues } from 'shared/constants/constants';
-import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingHoursFilter } from 'shared/models/filter-list.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'shared/store/filter.actions';
 import { TimeFormatValidator } from 'shared/validators/time-format-validator';
+import { Util } from 'shared/utils/utils';
 import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 
 @Component({
@@ -61,7 +61,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.startTimeFormControl.valueChanges
       .pipe(
-        tap((value) => this.startTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false })),
+        tap((value) => this.startTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -72,7 +72,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.endTimeFormControl.valueChanges
       .pipe(
-        tap((value) => this.endTimeFormControl.setValue(this.validateTimeInput(value), { emitEvent: false })),
+        tap((value) => this.endTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
         debounceTime(this.inputDebounceTime),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
@@ -88,14 +88,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.isAppropriateHoursControl.valueChanges
       .pipe(debounceTime(this.checkBoxDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
-  }
-
-  public validateTimeInput(value: string): string {
-    value = value?.replace(TIME_REGEX_REPLACE, '');
-    if (value?.length > 2 && !value?.includes(':')) {
-      value = value?.slice(0, 2) + ':' + value?.slice(2);
-    }
-    return value;
   }
 
   public onClearTime(formControl: FormControl): void {

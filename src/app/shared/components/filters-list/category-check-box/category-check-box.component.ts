@@ -4,6 +4,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 
 import { Direction } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
@@ -95,7 +96,10 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    */
   private filterDirections(value: string): void {
     this.filteredDirections = this.allDirections.filter((direction: Direction) =>
-      direction.title.toLowerCase().startsWith(value.toLowerCase())
+      direction.title
+        .toLowerCase()
+        .split(WORD_SPLIT_REGEX)
+        .some((word) => word.startsWith(value.toLowerCase()))
     );
   }
 

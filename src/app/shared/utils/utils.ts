@@ -20,6 +20,8 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, EmployeesTableData, UsersTableData } from 'shared/models/users-table';
 import { Workshop } from 'shared/models/workshop.model';
+import { ValidationConstants } from 'shared/constants/validation';
+import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -305,6 +307,31 @@ export class Util {
           ? notification.data.ProviderShortTitle
           : notification.data.ProviderFullTitle;
     }
+  }
+
+  /**
+   * Formats a age value by limiting the length to 3 characters
+   * Removing non-numeric characters implemented by DigitOnly directive
+   * @param value
+   */
+  public static formatAgeString(value: number): number {
+    if (isNaN(value) || value === null) {
+      return null;
+    }
+    const stringValue: string = value?.toString();
+    return stringValue?.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : value;
+  }
+
+  /**
+   * Formats a time string by removing non-numeric characters and adding a colon separator
+   * @param value
+   */
+  public static formatTimeString(value: string): string {
+    value = value?.replace(TIME_REGEX_REPLACE, '');
+    if (value?.length > 2 && !value?.includes(':')) {
+      value = value?.slice(0, 2) + ':' + value?.slice(2);
+    }
+    return value;
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
