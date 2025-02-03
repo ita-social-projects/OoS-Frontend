@@ -1,3 +1,4 @@
+import { GetFilteredOfficials } from 'shared/store/provider.actions';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,10 +13,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Util } from 'shared/utils/utils';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
-import { Constants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { EmployeeParameters } from 'shared/models/employee.model';
@@ -78,6 +81,26 @@ describe('EmployeesComponent', () => {
 
     expect(component.onResize).toHaveBeenCalled();
     expect(component.isSmallMobileView).toBeFalsy();
+  });
+
+  it('should update currentPage and call getFilteredOfficials on page change', () => {
+    const mockPage: PaginationElement = { element: 1, isActive: true };
+    jest.spyOn(component as any, 'getFilteredOfficials');
+
+    component.onPageChange(mockPage);
+
+    expect(component.currentPage).toEqual(mockPage);
+    expect((component as any).getFilteredOfficials).toHaveBeenCalled();
+  });
+
+  it('should update items per page and trigger first page load', () => {
+    const testItemsPerPage = 20;
+    jest.spyOn(component, 'onPageChange');
+
+    component.onItemsPerPageChange(testItemsPerPage);
+
+    expect(component.filterParams.size).toBe(testItemsPerPage);
+    expect(component.onPageChange).toHaveBeenCalledWith(PaginationConstants.firstPage);
   });
 
   describe('onBlockUnblock method', () => {
@@ -181,15 +204,15 @@ describe('EmployeesComponent', () => {
       expect(dispatchSpy).toHaveBeenCalledWith(expectingUnblockingData);
     });
   });
-});
 
-@Component({
-  selector: 'app-users-list',
-  template: ''
-})
-class MockUsersListComponent {
-  @Input() employees: EmployeesTableData[];
-  @Input() users: EmployeesTableData[];
-  @Input() userType: string;
-  @Input() isEdit: boolean;
-}
+  @Component({
+    selector: 'app-users-list',
+    template: ''
+  })
+  class MockUsersListComponent {
+    @Input() employees: EmployeesTableData[];
+    @Input() users: EmployeesTableData[];
+    @Input() userType: string;
+    @Input() isEdit: boolean;
+  }
+});

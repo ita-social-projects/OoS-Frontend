@@ -324,7 +324,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.GetFilteredOfficials)
-  getFilteredEmployees(
+  getFilteredOfficials(
     { patchState }: StateContext<ProviderStateModel>,
     { payload }: providerActions.GetFilteredOfficials
   ): Observable<SearchResponse<Official[]>> {

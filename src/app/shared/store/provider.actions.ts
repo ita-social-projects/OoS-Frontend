@@ -80,7 +80,7 @@ export class GetProviderViewWorkshops {
 }
 
 export class GetFilteredOfficials {
-  static readonly type = '[provider] get filtered Employee users';
+  static readonly type = '[provider] get filtered Official users';
   constructor(public payload: EmployeeParameters) {}
 }
 
