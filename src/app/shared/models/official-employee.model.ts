@@ -1,6 +1,6 @@
 import { Person } from './user.model';
 
-export class Official implements Person {
+export class OfficialEmployee implements Person {
   id?: string;
   userId?: string;
   position: string;

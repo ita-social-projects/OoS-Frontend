@@ -16,12 +16,12 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { EmployeeRole } from 'shared/enum/employee';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
-import { Official } from 'shared/models/official.model';
+import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { EmployeesBlockData, EmployeesTableData, OfficialTableData } from 'shared/models/users-table';
+import { EmployeesBlockData, EmployeesTableData, OfficialEmployeeTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import { BlockEmployeeById, DeleteEmployeeById, GetFilteredOfficials, ReinviteEmployee } from 'shared/store/provider.actions';
+import { BlockEmployeeById, DeleteEmployeeById, GetFilteredOfficialEmployees, ReinviteEmployee } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
@@ -34,8 +34,8 @@ import { ProviderComponent } from '../provider.component';
 export class EmployeesComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
-  @Select(ProviderState.officials)
-  private officials$: Observable<SearchResponse<Official[]>>;
+  @Select(ProviderState.officialEmployees)
+  private officialEmployees$: Observable<SearchResponse<OfficialEmployee[]>>;
 
   public readonly EmployeeTitles = EmployeeTitles;
   public readonly employeeRole = EmployeeRole;
@@ -43,9 +43,8 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
   public readonly constants = Constants;
   public readonly statusesTitles = UserStatusesTitles;
 
-  public officials: SearchResponse<Official[]>;
-  public officialsData: OfficialTableData[] = [];
-  public filteredOfficials: OfficialTableData[] = this.officialsData;
+  public officialEmployees: SearchResponse<OfficialEmployee[]>;
+  public officialEmployeesData: OfficialEmployeeTableData[] = [];
   public filterFormControl: FormControl = new FormControl('');
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public tabIndex: number;
@@ -73,19 +72,19 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
 
   public ngOnInit(): void {
     super.ngOnInit();
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officials?.totalAmount);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officialEmployees?.totalAmount);
 
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.filterParams.providerId = provider.id;
       this.setTabOptions();
-      this.getFilteredOfficials();
+      this.getFilteredOfficialEmployees();
     });
     this.onResize(window);
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getFilteredOfficials();
+    this.getFilteredOfficialEmployees();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -183,9 +182,9 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
     this.currentPage = PaginationConstants.firstPage;
   }
 
-  private getFilteredOfficials(): void {
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officials?.totalAmount);
-    this.store.dispatch(new GetFilteredOfficials(this.filterParams));
+  private getFilteredOfficialEmployees(): void {
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.officialEmployees?.totalAmount);
+    this.store.dispatch(new GetFilteredOfficialEmployees(this.filterParams));
   }
 
   /**
@@ -197,12 +196,12 @@ export class EmployeesComponent extends ProviderComponent implements OnInit, OnD
       .subscribe((val: string) => {
         this.filterParams.searchString = val;
         this.currentPage = PaginationConstants.firstPage;
-        this.getFilteredOfficials();
+        this.getFilteredOfficialEmployees();
       });
 
-    this.officials$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((officials: SearchResponse<Official[]>) => {
-      this.officials = officials;
-      this.officialsData = Util.updateStructureForTheTableOfficials(officials.entities);
+    this.officialEmployees$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((officials: SearchResponse<OfficialEmployee[]>) => {
+      this.officialEmployees = officials;
+      this.officialEmployeesData = Util.updateStructureForTheTableOfficialEmployees(officials.entities);
     });
   }
 }

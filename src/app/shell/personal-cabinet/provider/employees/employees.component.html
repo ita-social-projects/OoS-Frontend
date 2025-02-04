@@ -16,12 +16,12 @@
     <ng-container *ngIf="role === Role.provider; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
-    <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
+    <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
   </div>
 </div>
 
 <ng-template #UsersList let-users>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!officials">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!officialEmployees">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
@@ -37,7 +37,7 @@
         </app-users-list>
       </div>
       <app-paginator
-        [totalEntities]="officials.totalAmount"
+        [totalEntities]="officialEmployees.totalAmount"
         [currentPage]="currentPage"
         [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
@@ -60,7 +60,7 @@
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
     <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialsData }"></ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

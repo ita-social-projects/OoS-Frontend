@@ -16,11 +16,11 @@ import { Notification } from 'shared/models/notification.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { AdminsTableData, OfficialTableData, UsersTableData } from 'shared/models/users-table';
+import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
 import { Workshop } from 'shared/models/workshop.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
-import { Official } from 'shared/models/official.model';
+import { OfficialEmployee } from 'shared/models/official-employee.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -137,21 +137,21 @@ export class Util {
   }
 
   /**
-   * This method returns updated array structure for the Officials table
-   * @param admins Official[]
+   * This method returns updated array structure for the Official Employees table
+   * @param admins OfficialEmployee[]
    * @returns array of objects
    */
-  public static updateStructureForTheTableOfficials(admins: Official[]): OfficialTableData[] {
-    const updatedOfficials: OfficialTableData[] = [];
-    admins.forEach((admin: Official) => {
-      updatedOfficials.push({
+  public static updateStructureForTheTableOfficialEmployees(admins: OfficialEmployee[]): OfficialEmployeeTableData[] {
+    const updatedOfficialEmployees: OfficialEmployeeTableData[] = [];
+    admins.forEach((admin: OfficialEmployee) => {
+      updatedOfficialEmployees.push({
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         role: admin.position,
         rnokpp: admin.rnokpp
       });
     });
-    return updatedOfficials;
+    return updatedOfficialEmployees;
   }
 
   /**

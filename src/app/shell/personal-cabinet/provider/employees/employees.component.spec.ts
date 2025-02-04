@@ -1,4 +1,4 @@
-import { GetFilteredOfficials } from 'shared/store/provider.actions';
+import { GetFilteredOfficialEmployees } from 'shared/store/provider.actions';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { Util } from 'shared/utils/utils';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
@@ -83,14 +82,14 @@ describe('EmployeesComponent', () => {
     expect(component.isSmallMobileView).toBeFalsy();
   });
 
-  it('should update currentPage and call getFilteredOfficials on page change', () => {
+  it('should update currentPage and call getFilteredOfficialEmployees on page change', () => {
     const mockPage: PaginationElement = { element: 1, isActive: true };
-    jest.spyOn(component as any, 'getFilteredOfficials');
+    jest.spyOn(component as any, 'getFilteredOfficialEmployees');
 
     component.onPageChange(mockPage);
 
     expect(component.currentPage).toEqual(mockPage);
-    expect((component as any).getFilteredOfficials).toHaveBeenCalled();
+    expect((component as any).getFilteredOfficialEmployees).toHaveBeenCalled();
   });
 
   it('should update items per page and trigger first page load', () => {

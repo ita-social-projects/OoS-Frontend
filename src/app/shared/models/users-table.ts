@@ -49,7 +49,7 @@ export interface InvitationData {
   adminType: AdminRoles;
 }
 
-export interface OfficialTableData {
+export interface OfficialEmployeeTableData {
   id: string;
   pib: string;
   role: string;

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Official } from 'shared/models/official.model';
+import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { EmployeeBlockData } from 'shared/models/block.model';
 import { EmployeeService } from './employee.service';
 
@@ -42,7 +42,7 @@ describe('EmployeeService', () => {
     req.flush(mockEmployee);
   });
 
-  it('should GET filtered officials', () => {
+  it('should GET filtered official employees', () => {
     const filterParams: EmployeeParameters = {
       searchString: 'John',
       from: 0,
@@ -50,7 +50,7 @@ describe('EmployeeService', () => {
       providerId: '1'
     };
 
-    const mockResponse: SearchResponse<Official[]> = {
+    const mockResponse: SearchResponse<OfficialEmployee[]> = {
       entities: [
         {
           id: '1',
@@ -70,7 +70,7 @@ describe('EmployeeService', () => {
       totalAmount: 1
     };
 
-    service.getFilteredOfficials(filterParams).subscribe((response) => {
+    service.getFilteredOfficialEmployees(filterParams).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
 
