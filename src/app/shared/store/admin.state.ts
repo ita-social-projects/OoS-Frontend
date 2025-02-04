@@ -21,7 +21,7 @@ import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticReport } from 'shared/models/statistic.model';
-import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ChildrenService } from 'shared/services/children/children.service';
@@ -31,7 +31,7 @@ import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-ad
 import { PlatformService } from 'shared/services/platform/platform.service';
 import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
 import { StatisticReportsService } from 'shared/services/statistics-reports/statistic-reports.service';
-import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
+import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import {
   BlockAdminById,
   BlockAreaAdminById,
@@ -62,7 +62,6 @@ import {
   GetDirectionById,
   GetFilteredDirections,
   GetFilteredProviders,
-  GetFilteredWorkshops,
   GetLawsAndRegulations,
   GetMainPageInformation,
   GetMinistryAdminById,
@@ -118,7 +117,15 @@ import {
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
-  UpdateRegionAdmin
+  UpdateRegionAdmin,
+  GetFilteredWorkshopDrafts,
+  OnGetFilteredWorkshopDraftsFail,
+  ApproveWorkshopDraft,
+  OnApproveDraftFail,
+  OnApproveDraftSuccess,
+  OnRejectDraftFail,
+  OnRejectDraftSuccess,
+  RejectWorkshopDraft
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -138,7 +145,7 @@ export interface AdminStateModel {
   providers: SearchResponse<Provider[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   employeeHistory: SearchResponse<EmployeeHistory[]>;
-  workshops: SearchResponse<Workshop[]>;
+  workshopDrafts: SearchResponse<WorkshopDraft[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
@@ -163,7 +170,7 @@ export interface AdminStateModel {
     providers: null,
     providerHistory: null,
     employeeHistory: null,
-    workshops: null,
+    workshopDrafts: null,
     applicationHistory: null,
     parentsBlockingByAdminHistory: null,
     admins: null,
@@ -183,6 +190,7 @@ export class AdminState {
     private readonly ministryAdminService: MinistryAdminService,
     private readonly regionAdminService: RegionAdminService,
     private readonly areaAdminService: AreaAdminService,
+    private readonly userWorkshopService: UserWorkshopService,
     private readonly router: Router,
     private readonly location: Location,
     private readonly store: Store
@@ -254,8 +262,8 @@ export class AdminState {
   }
 
   @Selector()
-  static workshops(state: AdminStateModel): SearchResponse<Workshop[]> {
-    return state.workshops;
+  static workshopDrafts(state: AdminStateModel): SearchResponse<Workshop[]> {
+    return state.workshopDrafts;
   }
 
   @Selector()
@@ -554,15 +562,77 @@ export class AdminState {
     );
   }
 
-  @Action(GetFilteredWorkshops)
-  getFilteredWorkshops(
-    { patchState }: StateContext<AdminStateModel>,
-    { workshopParameters }: GetFilteredWorkshops
-  ): Observable<SearchResponse<Workshop[]>> {
+  @Action(GetFilteredWorkshopDrafts)
+  getFilteredWorkshopDrafts(
+    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { workshopParameters }: GetFilteredWorkshopDrafts
+  ): Observable<SearchResponse<WorkshopDraft[]> | void> {
     patchState({ isLoading: true });
-    return this.adminService
-      .getAllWorkshops(workshopParameters)
-      .pipe(tap((workshops) => patchState({ isLoading: false, workshops: workshops })));
+    return this.adminService.getWorkshopDrafts(workshopParameters).pipe(
+      tap((workshops) => patchState({ isLoading: false, workshopDrafts: workshops })),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetFilteredWorkshopDraftsFail(error)))
+    );
+  }
+
+  @Action(OnGetFilteredWorkshopDraftsFail)
+  getFilteredWorkshopDraftsFail({ patchState, dispatch }: StateContext<AdminStateModel>, { error }: OnGetFilteredWorkshopDraftsFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(ApproveWorkshopDraft)
+  approveWorkshopDraft({ patchState, dispatch }: StateContext<AdminStateModel>, { draftId }: ApproveWorkshopDraft): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.approveWorkshopDraft(draftId).pipe(
+      tap(() => dispatch(new OnApproveDraftSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new OnApproveDraftFail(error)))
+    );
+  }
+
+  @Action(OnApproveDraftSuccess)
+  onApproveDraftSuccess({ dispatch, patchState }: StateContext<AdminStateModel>): void {
+    patchState({ isLoading: false });
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.approveDraftSuccess,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(OnApproveDraftFail)
+  onApproveDraftFail({ dispatch, patchState }: StateContext<AdminStateModel>, { error }: OnApproveDraftFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(RejectWorkshopDraft)
+  rejectWorkshopDraft(
+    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { draftId, rejectReason }: RejectWorkshopDraft
+  ): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.rejectWorkshopDraft(draftId, rejectReason).pipe(
+      tap(() => dispatch(new OnRejectDraftSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new OnRejectDraftFail(error)))
+    );
+  }
+
+  @Action(OnRejectDraftSuccess)
+  onRejectDraftSuccess({ dispatch, patchState }: StateContext<AdminStateModel>): void {
+    patchState({ isLoading: false });
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.rejectDraftSuccess,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(OnRejectDraftFail)
+  onRejectDraftFail({ dispatch, patchState }: StateContext<AdminStateModel>, { error }: OnRejectDraftFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetApplicationHistory)

@@ -12,8 +12,13 @@ export enum PayRateType {
 export enum WorkshopOpenStatus {
   Open = 'Open',
   Closed = 'Closed',
+  Draft = 'Draft'
+}
+
+export enum WorkshopDraftStatus {
   Draft = 'Draft',
-  NeedChanges = 'NeedChanges',
+  PendingModeration = 'PendingModeration',
+  Rejected = 'Rejected',
   Approved = 'Approved'
 }
 

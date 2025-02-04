@@ -1,5 +1,5 @@
 <form class="wrapper-header" [formGroup]="filterGroup">
-  <div class="search-area">
+  <div class="search-area" *ngIf="!isModerator">
     <div class="search-bar h-[42px] flex flex-row flex-start justify-center align-start">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
@@ -63,7 +63,7 @@
   </div>
 </form>
 
-<ng-container *ngIf="!(isLoadingCabinet$ | async)">
+<ng-container>
   <ng-container *ngIf="totalEntities; else isEmptyList">
     <div class="wrapper-workshop-list">
       <div class="wrapper-workshop-list-container">
@@ -179,14 +179,13 @@
               </th>
               <td mat-cell *matCellDef="let element">
                 <div
-                [matTooltip]="element.address | getAddress: ModeConstants.SHORT | emptyValueTransform"
-                showTooltipIfTruncated
-                matTooltipClass="tooltip"
-                [matTooltipPosition]="tooltipPosition"
-                class="tab-text">
-                {{ element.address | getAddress: ModeConstants.SHORT | emptyValueTransform }}
-              </div>
-
+                  [matTooltip]="element.address | getAddress: ModeConstants.SHORT | emptyValueTransform"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ element.address | getAddress: ModeConstants.SHORT | emptyValueTransform }}
+                </div>
               </td>
             </ng-container>
 
@@ -209,28 +208,9 @@
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                <ng-container *ngIf="!element.isBlocked; else BlockStatus">
-                  <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
-                    <ng-container
-                      *ngTemplateOutlet="
-                        WorkshopStatusTmpl;
-                        context: { $implicit: element.status, titles: providerStatusTitles }
-                      "></ng-container>
-                  </ng-container>
-
-                  <ng-container *ngIf="element.ownership === ownershipTypes.Private">
-                    <ng-container
-                      *ngTemplateOutlet="
-                        WorkshopStatusTmpl;
-                        context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
-                      "></ng-container>
-                  </ng-container>
+                <ng-container
+                  *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: element.draftStatus, titles: workshopDraftStatusTitles }">
                 </ng-container>
-
-                <ng-template #BlockStatus>
-                  <ng-container
-                    *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"></ng-container>
-                </ng-template>
               </td>
             </ng-container>
 
@@ -249,22 +229,20 @@
                   </a>
                 </div>
 
-                <mat-menu #actions="matMenu" class="header_menu">    
-                    <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
-                      <button
-                        *ngIf="element.status !== workshopOpenStatus.Approved"
-                        mat-menu-item
-                        (click)="onChangeStatus(element, workshopOpenStatus.Approved)">
-                        {{ 'BUTTONS.CONFIRM' | translate }}
-                      </button>
-                      <button
-                        *ngIf="element.status !== workshopOpenStatus.NeedChanges"
-                        mat-menu-item
-                        (click)="onChangeStatus(element, workshopOpenStatus.NeedChanges)">
-                        {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
-                      </button>
-                    </ng-container>
-                  <button mat-menu-item (click)="onDelete(element)">{{ 'BUTTONS.DELETE' | translate }}</button>
+                <mat-menu #actions="matMenu" class="header_menu">
+                  <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
+                    <button
+                      *ngIf="element.draftStatus !== workshopDraftStatus.Rejected"
+                      mat-menu-item
+                      (click)="onRejectDraft(element)">
+                      {{ 'BUTTONS.REJECT' | translate }}
+                    </button>
+                    <button
+                    mat-menu-item
+                    (click)="onApproveDraft(element)">
+                    {{ 'BUTTONS.CONFIRM' | translate }}
+                  </button>
+                  </ng-container>
                 </mat-menu>
               </td>
             </ng-container>
@@ -298,9 +276,9 @@
 </ng-template>
 
 <ng-template #WorkshopStatusTmpl let-status let-titles="titles">
-  <div class="workshop-list-status {{ status }}">
-    <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
-    <!-- <span>{{ titles[status] || 'ENUM.WORKSHOP_STATUSES.BLOCK' | translate }}</span> -->
-    <!-- TODO: Add translation for the statuses -->
+  <div class="workshop-list-status {{status}}">
+    <span>
+      <i class="status-icon {{ statusIcons[status] }}">{{ titles[status] | translate }}</i>
+    </span>
   </div>
 </ng-template>

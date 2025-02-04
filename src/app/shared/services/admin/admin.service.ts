@@ -9,7 +9,7 @@ import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-a
 import { Provider, ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,10 +49,10 @@ export class AdminService {
     return this.http.put<void>(`${this.baseApiUrl}/BlockProvider`, provider);
   }
 
-  public getAllWorkshops(parameters: WorkshopFilterAdministration): Observable<SearchResponse<Workshop[]>> {
+  public getWorkshopDrafts(parameters: WorkshopFilterAdministration): Observable<SearchResponse<WorkshopDraft[]>> {
     const options = { params: this.setProviderWorkshopParams(parameters) };
 
-    return this.http.get<SearchResponse<Workshop[]>>(`${this.baseApiUrl}/GetWorkshopsByFilter`, options);
+    return this.http.get<SearchResponse<WorkshopDraft[]>>(`${this.baseApiUrl}/GetWorkshopDraftsByFilter`, options);
   }
 
   private setMinistryAdminParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {

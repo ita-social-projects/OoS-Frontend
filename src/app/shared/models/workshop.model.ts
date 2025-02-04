@@ -1,6 +1,6 @@
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { FormOfLearning, PayRateType, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, PayRateType, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
@@ -303,4 +303,9 @@ enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
+}
+
+export interface WorkshopDraft extends Workshop {
+  draftStatus: WorkshopDraftStatus;
+  tags: string;
 }

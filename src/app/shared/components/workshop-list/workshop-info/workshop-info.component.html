@@ -12,72 +12,183 @@
 
   <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
-      <h5>{{ 'FORMS.LABELS.FULL_ORGANIZATION_NAME' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</h5>
       <p>{{ workshop.title }}</p>
-      <h5>{{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}</h5>
+
+      <h5>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</h5>
       <p>{{ workshop.shortTitle }}</p>
+
       <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
       <p>{{ workshop.phone | phone }}</p>
+
       <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
       <p>{{ workshop.email }}</p>
+
+      <ng-container *ngIf="workshop.website">
+        <h5>{{ 'FORMS.LABELS.WEBSITE' | translate }}</h5>
+        <p>{{ workshop.website }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.facebook">
+        <h5>{{ 'FORMS.LABELS.FACEBOOK' | translate }}</h5>
+        <p>{{ workshop.facebook }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.instagram">
+        <h5>{{ 'FORMS.LABELS.INSTAGRAM' | translate }}</h5>
+        <p>{{ workshop.instagram }}</p>
+      </ng-container>
+
       <h5>{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</h5>
-      <p>{{ ('FROM' | translate) + ' ' + workshop.minAge + ' ' + ('TO' | translate)+ ' ' + workshop.maxAge }}</p>
-      <ng-container *ngIf="workshop.institution">
-        <h5>{{ 'FORMS.LABELS.INSTITUTION' | translate }}</h5>
-        <p class="description">{{ workshop.institution }}</p>
-      </ng-container>
-      <ng-container *ngIf="workshop.institutionHierarchy">
-        <h5>{{ 'FORMS.LABELS.INSTITUTION_HIERARCHY' | translate }}</h5>
-        <p>{{ workshop.institutionHierarchy }}</p>
-      </ng-container>
+      <p>{{ ('FROM' | translate) + ' ' + workshop.minAge + ' ' + ('TO' | translate) + ' ' + workshop.maxAge }}</p>
+
+      <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
+      <div *ngFor="let timeRange of workshop.dateTimeRanges">
+        <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
+          <div class="flex flex-row justify-between">
+            <div
+              *ngFor="let day of days"
+              class="toggle flex flex-row justify-center items-center"
+              [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
+              {{ day.value | translate }}
+            </div>
+          </div>
+          <div class="flex flex-row justify-center items-center">
+            <p class="text">{{ timeRange.startTime }}</p>
+            <p class="text">- {{ timeRange.endTime }}</p>
+          </div>
+        </div>
+      </div>
+
+      <h5>{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</h5>
+      <p class="description">{{ formOfLearningEnum[workshop.formOfLearning] | translate }}</p>
+
+      <h5>{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
+      <p *ngIf="workshop.price; else isFree">{{ workshop.price }}</p>
+      <ng-template #isFree>
+        <p>{{ 'IS_FREE' | translate }}</p>
+      </ng-template>
+
+      <h5>{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</h5>
+      <p *ngIf="workshop.availableSeats === unlimitedSeats; else limitedSeats">{{ 'UNLIMITED' | translate }}</p>
+      <ng-template #limitedSeats>
+        <p>{{ workshop.availableSeats }}</p>
+      </ng-template>
+
       <h5>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</h5>
       <p>{{ workshop.providerTitle }}</p>
-    <ng-container *ngIf="workshop.competitiveSelectionDescription">
-      <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
-      <p>{{ workshop.competitiveSelectionDescription | translate }}</p>
-    </ng-container>
     </mat-tab>
 
-    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
-      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
-      <ng-container *ngIf="workshop?.address; else LegalAddress">
-        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-        <p>{{ workshop.address.codeficatorAddressDto.fullName }}</p>
-        <h5 *ngIf="workshop.address.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
-        <p>{{ workshop.address.codeficatorAddressDto.cityDistrict }}</p>
-        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-        <p>{{ workshop.address.street }}</p>
-        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-        <p>{{ workshop.address.buildingNumber }}</p>
-      </ng-container>
+    <mat-tab label="{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}">
+      <h5>{{ 'FORMS.LABELS.SHORT_STAY' | translate }}</h5>
+      <p>{{ workshop.shortStay ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+
+      <h5>{{ 'FORMS.LABELS.IS_SELF_FINANCED' | translate }}</h5>
+      <p>{{ workshop.isSelfFinanced ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+
+      <h5>{{ 'FORMS.LABELS.IS_SPECIAL' | translate }}</h5>
+      <p>{{ workshop.isSpecial ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+
+      <h5>{{ 'FORMS.LABELS.IS_INCLUSIVE' | translate }}</h5>
+      <p>{{ workshop.isInclusive ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+
+      <h5>{{ 'FORMS.LABELS.SPECIAL_NEEDS_TYPE' | translate }}</h5>
+      <p>{{ specialNeedsType[workshop.specialNeedsType] | translate }}</p>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">
       <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
-        <h5>{{ 'TITLES.ABOUT_THE_PROVIDER' | translate }}</h5>
+        <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
         <div *ngFor="let item of workshop.workshopDescriptionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
           <p class="line-break">{{ item.description }}</p>
         </div>
       </ng-container>
 
-      <h5 *ngIf="workshop.website">{{ 'FORMS.LABELS.WEBSITE' | translate }}</h5>
-      <p>{{ workshop.website }}</p>
-      <h5 *ngIf="workshop.facebook">Facebook</h5>
-      <p>{{ workshop.facebook }}</p>
-      <h5 *ngIf="workshop.instagram">Instagram</h5>
-      <p>{{ workshop.instagram }}</p>
+      <h5>{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
+      <ng-container *ngIf="workshop.withDisabilityOptions; else disabilityNotAvailable">
+        <p>{{ 'AVAILABLE' | translate}}</p>
+        <p>{{ workshop.withDisabilityOptionsDesc }}</p>
+      </ng-container>
+      <ng-template #disabilityNotAvailable>
+        <p>{{ 'NOT_AVAILABLE' | translate}}</p>
+      </ng-template>
+
+      <ng-container *ngIf="workshop.tags?.length">
+        <h5>{{ 'FORMS.LABELS.USER_TAGS' | translate }}</h5>
+        <div *ngFor="let item of workshop.tags">
+          <p>item</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.keywords?.length">
+        <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
+        <div *ngFor="let item of workshop.keywords">
+          <p>item</p>
+        </div>
+      </ng-container>
+
+      <h5>{{ 'COMPETITIVE_SELECTION' | translate }}</h5>
+      <ng-container *ngIf="workshop.competitiveSelection; else withoutCompetitiveSelection">
+        <p>{{ 'WITH_COMPETITIVE_SELECTION' | translate }}</p>
+        <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
+        <p>{{ workshop.competitiveSelectionDescription }}</p>
+      </ng-container>
+      <ng-template #withoutCompetitiveSelection>
+        <p>{{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}</p>
+      </ng-template>
+
+      <ng-container *ngIf="workshop.enrollmentProcedureDescription">
+        <h5>{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</h5>
+        <p>{{ workshop.enrollmentProcedureDescription }}</p>
+      </ng-container>
+
+      <h5>{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</h5>
+      <p>{{ workshop.areThereBenefits ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+
+      <ng-container *ngIf="workshop.preferentialTermsOfParticipation">
+        <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
+        <p>{{ workshop.preferentialTermsOfParticipation }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.coverage">
+        <h5>{{ 'FORMS.LABELS.COVERAGE' | translate }}</h5>
+        <p>{{ coverageEnum[workshop.coverage] | translate}}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.institution">
+        <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
+        <p>{{ workshop.institution }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshopDirection">
+        <h5>{{ 'FORMS.LABELS.DIRECTION' | translate }}</h5>
+        <p>{{ workshopDirection.title }}</p>
+      </ng-container>
+
+      <ng-container *ngIf="workshop.institutionHierarchy">
+        <h5>{{ 'FORMS.LABELS.INSTITUTION_HIERARCHY' | translate }}</h5>
+        <p>{{ workshop.institutionHierarchy }}</p>
+      </ng-container>
+    </mat-tab>
+
+    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
+      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
+      <ng-container *ngIf="workshopCodeficator">
+        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
+        <p>{{ workshopCodeficator.fullName }}</p>
+        <h5 *ngIf="workshopCodeficator.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
+        <p>{{ workshopCodeficator.cityDistrict }}</p>
+        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
+        <p>{{ workshop.address?.street }}</p>
+        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+        <p>{{ workshop.address?.buildingNumber }}</p>
+      </ng-container>
+    </mat-tab>
+
+    <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">
+
     </mat-tab>
   </mat-tab-group>
 </div>
 
-<ng-template #LegalAddress>
-  <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-  <p>{{ workshop.legalAddress.codeficatorAddressDto.fullName }}</p>
-  <h5 *ngIf="workshop.legalAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
-  <p>{{ workshop.legalAddress.codeficatorAddressDto.cityDistrict }}</p>
-  <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-  <p>{{ workshop.legalAddress.street }}</p>
-  <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-  <p>{{ workshop.legalAddress.buildingNumber }}</p>
-</ng-template>

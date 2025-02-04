@@ -179,10 +179,15 @@ export class GetEmployeeHistory {
   ) {}
 }
 
-export class GetFilteredWorkshops {
-  static readonly type = '[admin] Get Filtered Workshops';
+export class GetFilteredWorkshopDrafts {
+  static readonly type = '[admin] Get Filtered Workshop Drafts';
 
   constructor(public workshopParameters: WorkshopFilterAdministration) {}
+}
+
+export class OnGetFilteredWorkshopDraftsFail {
+  static readonly type = '[admin] Get Filtered Workshop Drafts Fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class GetApplicationHistory {
@@ -579,4 +584,35 @@ export class GetModeratorProfile {
   static readonly type = '[admin] Get Moderator Profile';
 
   constructor() {}
+}
+
+export class ApproveWorkshopDraft {
+  static readonly type = '[admin] Approve Workshop Draft';
+  constructor(public draftId: string) {}
+}
+
+export class OnApproveDraftFail {
+  static readonly type = '[admin] Approve Workshop Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnApproveDraftSuccess {
+  static readonly type = '[admin] Approve Workshop Draft Success';
+}
+
+export class RejectWorkshopDraft {
+  static readonly type = '[admin] Reject Workshop Draft';
+  constructor(
+    public draftId: string,
+    public rejectReason: string
+  ) {}
+}
+
+export class OnRejectDraftFail {
+  static readonly type = '[admin] Approve Workshop Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnRejectDraftSuccess {
+  static readonly type = '[admin] Approve Workshop Draft Success';
 }

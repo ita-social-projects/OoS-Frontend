@@ -8,8 +8,8 @@ import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/area-admin.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopFilterAdministration } from 'shared/models/workshop.model';
-import { GetFilteredWorkshops } from 'shared/store/admin.actions';
+import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 
 @Component({
@@ -18,8 +18,8 @@ import { AdminState } from 'shared/store/admin.state';
   styleUrls: ['./admin-workshop-list.component.scss']
 })
 export class AdminWorkshopListComponent {
-  @Select(AdminState.workshops)
-  public workshops$: Observable<SearchResponse<Workshop[]>>;
+  @Select(AdminState.workshopDrafts)
+  public workshops$: Observable<SearchResponse<WorkshopDraft[]>>;
 
   constructor(private readonly store: Store) {}
 
@@ -48,6 +48,6 @@ export class AdminWorkshopListComponent {
   }
 
   public onGetWorkshopsByFilter(workshopParameters: WorkshopFilterAdministration): void {
-    this.store.dispatch(new GetFilteredWorkshops(workshopParameters));
+    this.store.dispatch(new GetFilteredWorkshopDrafts(workshopParameters));
   }
 }

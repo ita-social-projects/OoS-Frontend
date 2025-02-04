@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -149,6 +149,15 @@ export class UserWorkshopService {
 
   public getTimeToLiveOfUnfinishedWorkshop(): Observable<string> {
     return this.http.get<string>('/api/v1/WorkshopTempSave/GetTimeToLive');
+  }
+
+  public rejectWorkshopDraft(draftId: string, rejectReason: string): Observable<void> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Reject/${draftId}`, JSON.stringify(rejectReason), { headers });
+  }
+
+  public approveWorkshopDraft(draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Approve/${draftId}`, null);
   }
 
   private createFormData(workshop: Workshop): FormData {

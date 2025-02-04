@@ -538,7 +538,8 @@
       "SUBJECT_NAME": "Study subject name",
       "INFORMATION_ABOUT_WORKSHOP": "Information About the workshop",
       "INSTITUTION_HIERARCHY": "Profile/scientific department",
-      "INSTITUTION": "Institution"
+      "INSTITUTION": "Institution",
+      "DIRECTION": "Direction name"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -641,6 +642,7 @@
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
+  "IS_FREE": "For free",
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
@@ -1075,6 +1077,7 @@
       "DELETE_SUBJECT": "Are you sure you want to delete the study subject?",
       "EDIT_SUBJECT": "Are you sure you want to edit the study subject?",
       "CREATE_SUBJECT": "Are you sure you want to add the study subject?",
+      "EDITING_WORKSHOP": "Are you sure you want to submit the workshop for editing?",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1123,6 +1126,7 @@
         "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
         "PUBLISH_WORKSHOP": "Publish workshop?",
         "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?",
+        "EDITING_WORKSHOP": "SUBMIT WORKSHOP FOR EDITING?",
         "INCOMPLETE_WORKSHOP": "Incomplete workshop",
         "PUBLISH_COMPETITION": "Publish competition?",
         "ARCHIVE_COMPETITION": "Archive competition?",
