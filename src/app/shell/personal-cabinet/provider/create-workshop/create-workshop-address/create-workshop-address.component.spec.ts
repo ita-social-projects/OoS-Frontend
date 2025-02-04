@@ -1,4 +1,4 @@
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,11 +10,14 @@ import { Address } from 'shared/models/address.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SocialNetworks } from 'shared/enum/workshop';
+import { Contacts } from 'shared/models/workshop.model';
+import { Geocoder } from 'shared/models/geolocation';
 import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 
 describe('CreateWorkshopAddressComponent', () => {
   let component: CreateWorkshopAddressComponent;
   let fixture: ComponentFixture<CreateWorkshopAddressComponent>;
+  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,6 +39,7 @@ describe('CreateWorkshopAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateWorkshopAddressComponent);
     component = fixture.componentInstance;
+    formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
 
@@ -118,6 +122,89 @@ describe('CreateWorkshopAddressComponent', () => {
     expect(emailGroup instanceof FormGroup).toBeTruthy();
     expect(emailGroup.controls.type).toBeDefined();
     expect(emailGroup.controls.address).toBeDefined();
+  });
+
+  it('should add an email field', () => {
+    const contact = new FormGroup({ emails: new FormArray([]) });
+    component.addEmailField(contact);
+    expect((contact.get('emails') as FormArray).length).toBe(1);
+  });
+
+  it('should add a social network field', () => {
+    const contact = new FormGroup({ socialNetworks: new FormArray([]) });
+    component.addSocialsField(contact);
+    expect((contact.get('socialNetworks') as FormArray).length).toBe(1);
+  });
+
+  it('should add an address group', () => {
+    component.addressesFormArray = new FormArray([]);
+    component.addAddressGroup();
+    expect(component.addressesFormArray.length).toBe(1);
+  });
+
+  it('should activate edit mode', () => {
+    const contact = { title: 'Test' } as Contacts;
+    const contactFormGroup = formBuilder.group({ title: '' });
+    component.activateEditMode(contactFormGroup, contact);
+    expect(contactFormGroup.get('title').value).toBe('Test');
+  });
+
+  describe('onAddressSelect', () => {
+    let addressGroup: FormGroup;
+
+    beforeEach(() => {
+      addressGroup = formBuilder.group({
+        address: new FormGroup({
+          buildingNumber: new FormControl(''),
+          catottgId: new FormControl(''),
+          street: new FormControl(''),
+          latitude: new FormControl(''),
+          longitude: new FormControl('')
+        }),
+        searchGroup: new FormGroup({
+          settlement: new FormControl(''),
+          settlementSearch: new FormControl('')
+        })
+      });
+    });
+
+    it('should set noAddressFound to true and set error when result is null', () => {
+      component.onAddressSelect(null, addressGroup);
+      expect(component.noAddressFound).toBeTruthy();
+      expect(addressGroup.get('address').errors).toEqual({ noAddressFound: true });
+    });
+
+    it('should patch address fields when result is provided without codeficator', () => {
+      const result: Geocoder = {
+        buildingNumber: '123',
+        catottgId: 456,
+        street: 'Main Street',
+        lat: 50.123,
+        lon: 30.456
+      };
+      component.onAddressSelect(result, addressGroup);
+
+      expect(component.noAddressFound).toBeFalsy();
+      expect(addressGroup.get('address').value).toEqual({
+        buildingNumber: '123',
+        catottgId: 456,
+        street: 'Main Street',
+        latitude: 50.123,
+        longitude: 30.456
+      });
+    });
+  });
+
+  it('should initialize addressesFormArray correctly', () => {
+    component.contacts = [{}, {}] as any;
+    component.ngOnInit();
+    expect(component.addressesFormArray.length).toBe(2);
+  });
+
+  it('should initialize addressesFormArray with one form group if no contacts', () => {
+    component.contacts = null;
+    component.ngOnInit();
+    expect(component.addressesFormArray.length).toBe(1);
   });
 });
 

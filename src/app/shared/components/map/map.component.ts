@@ -177,25 +177,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * method init start position on map
    */
   private initMap(): void {
-    // this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
-
-    // Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
-    //   updateWhenZooming: true,
-    //   subdomains: '123',
-    //   maxZoom: 19,
-    //   tms: true,
-    //   // eslint-disable-next-line @typescript-eslint/quotes
-    //   attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
-    // }).addTo(this.map);
-
-    // this.map.on('click', (L: Layer.LeafletMouseEvent) => {
-    //   if (this.workshops) {
-    //     this.unselectMarkers();
-    //     this.selectedWorkshopAddress.emit(null);
-    //   } else {
-    //     this.setMapLocation(L.latlng);
-    //   }
-    // });
     this.map = Layer.map('map-' + this.mapId).setView(this.defaultCoords, this.zoom);
 
     Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
@@ -293,7 +274,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private addressDecode(address: Geocoder): void {
-    console.log(address);
     this.geocoderService
       .addressDecode(address)
       .pipe(take(1))

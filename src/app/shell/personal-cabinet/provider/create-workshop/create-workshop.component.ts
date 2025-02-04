@@ -131,10 +131,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, /* address*/ contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      workshop = new Workshop(aboutInfo, descInfo, /* address*/ contacts, additionalAboutInfo, teachers, provider);
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }

@@ -132,7 +132,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     return contactFormGroup;
   }
 
-  private activateEditMode(contactsFormGroup: FormGroup, contact: Contacts): void {
+  public activateEditMode(contactsFormGroup: FormGroup, contact: Contacts): void {
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
 
