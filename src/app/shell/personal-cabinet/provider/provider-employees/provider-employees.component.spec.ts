@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProviderEmployeesComponent } from './provider-employees.component';
 
-describe('YourComponent', () => {
+describe('ProviderEmployeesComponent', () => {
   let component: ProviderEmployeesComponent;
   let fixture: ComponentFixture<ProviderEmployeesComponent>;
 
@@ -11,12 +11,10 @@ describe('YourComponent', () => {
       declarations: [ProviderEmployeesComponent],
       imports: [TranslateModule.forRoot()]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProviderEmployeesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Ініціалізація змін
+    fixture.detectChanges();
   });
 
   it('should be created', () => {

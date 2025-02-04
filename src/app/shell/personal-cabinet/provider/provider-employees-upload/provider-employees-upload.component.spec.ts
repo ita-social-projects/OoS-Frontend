@@ -1,10 +1,12 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
+
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { ProviderEmployeesUploadComponent } from './provider-employees-upload.component';
 
 describe('ProviderEmployeesUploadComponent', () => {
@@ -19,11 +21,9 @@ describe('ProviderEmployeesUploadComponent', () => {
     importValidationService = {
       checkForInvalidData: jest.fn()
     } as unknown as jest.Mocked<ImportValidationService>;
-
     excelService = {
       convertExcelToJSON: jest.fn()
     } as unknown as jest.Mocked<ExcelUploadProcessorService>;
-
     employeeUploadProcessor = {} as unknown as jest.Mocked<EmployeeUploadProcessorService>;
     store = { dispatch: jest.fn() } as unknown as jest.Mocked<Store>;
 
@@ -58,7 +58,9 @@ describe('ProviderEmployeesUploadComponent', () => {
 
   it('should call cleanup on ngOnDestroy', () => {
     const cleanupSpy = jest.spyOn(component, 'cleanup');
+
     component.ngOnDestroy();
+
     expect(cleanupSpy).toHaveBeenCalled();
   });
 
@@ -84,6 +86,7 @@ describe('ProviderEmployeesUploadComponent', () => {
     ];
 
     const result = component.renamingKeys(inputItems);
+
     expect(result).toEqual(expectedOutput);
   });
 });

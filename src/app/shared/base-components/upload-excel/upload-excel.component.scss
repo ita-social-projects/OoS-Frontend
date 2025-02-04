@@ -1,14 +1,13 @@
 @import 'src/app/shared/styles/buttons.scss';
-
-$duplicated-value: #fd0707b3;
-$empty-field: #fd07071a;
-$wrong-length: #0d138980;
-$wrong-language: #22b01280;
-$wrong-format: #ffff0080;
-$length-warning-message: #ff0000;
+@import 'src/app/shared/styles/animations.scss';
+@import 'src/app/shared/styles/variables.scss';
 
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
   background-color: #e5e9f2 !important;
+}
+
+.sequence-number-cell-width {
+  min-width: 30px;
 }
 .import-buttons {
   display: flex;
@@ -100,6 +99,7 @@ $length-warning-message: #ff0000;
   width: 100%;
   height: fit-content;
 }
+
 .custom-table-style {
   width: inherit;
   th,
@@ -113,21 +113,27 @@ $length-warning-message: #ff0000;
     white-space: nowrap;
   }
 }
+
 .load-result {
   display: flex;
   p {
     line-height: 13px;
     margin-left: 5px;
   }
-  &.load-result-success > span {
+  &.load-result-success > mat-icon {
+    width: fit-content;
+    height: fit-content;
     color: #3849f9;
     font-size: 40px;
   }
-  &.load-result-error > span {
+  &.load-result-error > mat-icon {
+    width: fit-content;
+    height: fit-content;
     color: red;
     font-size: 40px;
   }
 }
+
 .error-field {
   &-empty {
     background-color: $empty-field;
@@ -159,43 +165,7 @@ $length-warning-message: #ff0000;
   border-radius: 50%;
   animation: loader 1s infinite linear alternate;
 }
-@keyframes loader {
-  0% {
-    box-shadow:
-      10px 0 #3849f9,
-      -10px 0 #3849f933;
-    background: #3849f9;
-  }
-  33% {
-    box-shadow:
-      10px 0 #3849f9,
-      -10px 0 #3849f933;
-    background: #3849f933;
-  }
-  66% {
-    box-shadow:
-      10px 0 #3849f933,
-      -10px 0 #3849f9;
-    background: #3849f933;
-  }
-  100% {
-    box-shadow:
-      10px 0 #3849f933,
-      -10px 0 #3849f9;
-    background: #3849f9;
-  }
-}
-@keyframes pulse {
-  0% {
-    color: $length-warning-message;
-  }
-  50% {
-    opacity: 0.2;
-  }
-  100% {
-    color: $length-warning-message;
-  }
-}
+
 ::ng-deep .import-providers-table-tooltip {
   color: #f6f6f6;
   background-color: #505050;
@@ -209,6 +179,7 @@ $length-warning-message: #ff0000;
   text-overflow: unset !important;
   transform: scale(1.3) !important;
 }
+
 @media screen and (max-width: 930px) {
   .import-buttons {
     align-items: flex-start;

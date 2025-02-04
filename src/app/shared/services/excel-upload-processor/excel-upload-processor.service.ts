@@ -19,7 +19,7 @@ export class ExcelUploadProcessorService {
       reader.onerror = (): void => {
         this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
         this.setLoading(false);
-        observer.error('Помилка при читанні файлу');
+        observer.error(this.translate.instant('IMPORT/EXPORT.FILE_READER_ERROR'));
       };
 
       reader.onload = (e: any): void => {
@@ -35,7 +35,7 @@ export class ExcelUploadProcessorService {
             observer.complete();
           } else {
             this.setLoading(false);
-            observer.error('Заголовки не відповідають очікуваним');
+            observer.error(this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_ERROR'));
           }
         } catch (error) {
           this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));

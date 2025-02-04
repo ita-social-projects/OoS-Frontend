@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 
 import { UploadExcelComponent } from 'shared/base-components/upload-excel/upload-excel.component';
 import { ImportEmployeesColumnsNames, ImportEmployeesStandardHeaders } from 'shared/enum/enumUA/import-export';
-import { Employee, FieldsConfig } from 'shared/models/admin-import-export.model';
+import { Employee, FieldsConfig, RenamedEmployee } from 'shared/models/admin-import-export.model';
 import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
@@ -53,11 +53,6 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
     this.setColumnNames(this.displayedColumns);
     this.setStandardHeaders(this.standardHeaders);
     this.initializeLoadingIndicatorObserver();
-    this.getCurrentUserId();
-  }
-
-  public ngOnDestroy(): void {
-    this.cleanup();
   }
 
   /**
@@ -66,13 +61,13 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
    * @param items - array of uploaded items that pass all checks
    * @return new array with renamed keys
    */
-  public renamingKeys(items: any[]): any[] {
+  public renamingKeys(items: Employee[]): RenamedEmployee[] {
     return items.map((item) => ({
-      assignedRole: (item as any).employeeAssignedRole,
-      middleName: (item as any).employeeFatherName,
-      firstName: (item as any).employeeName,
-      rnokpp: (item as any).employeeRNOKPP.toString(),
-      lastName: (item as any).employeeSurname
+      assignedRole: item.employeeAssignedRole,
+      middleName: item.employeeFatherName,
+      firstName: item.employeeName,
+      rnokpp: item.employeeRNOKPP.toString(),
+      lastName: item.employeeSurname
     }));
   }
 }

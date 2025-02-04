@@ -16,6 +16,14 @@ export interface Employee {
   errors: EmployeeValidationErrors;
 }
 
+export interface RenamedEmployee {
+  assignedRole: string;
+  middleName: string;
+  firstName: string;
+  rnokpp: string;
+  lastName: string;
+}
+
 export interface EmployeeValidationErrors {
   employeeSurnameEmpty?: boolean;
   employeeNameEmpty?: boolean;

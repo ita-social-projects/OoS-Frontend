@@ -29,11 +29,13 @@ describe('ExcelUploadProcessorService', () => {
     });
 
     service.setLoading(true);
+
     service.isLoading$.subscribe((isLoading) => {
       expect(isLoading).toBe(true);
     });
 
     service.setLoading(false);
+
     service.isLoading$.subscribe((isLoading) => {
       expect(isLoading).toBe(false);
     });
@@ -42,7 +44,9 @@ describe('ExcelUploadProcessorService', () => {
   it('should call alert with the correct message', () => {
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     const testMessage = 'Test Alert';
+
     service.showAlert(testMessage);
+
     expect(alertSpy).toHaveBeenCalledWith(testMessage);
   });
 
@@ -50,6 +54,7 @@ describe('ExcelUploadProcessorService', () => {
     const headers = ['Header1', 'InvalidHeader'];
     const validHeaders = ['Header1', 'Header2'];
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
     const result = service.checkHeadersIsValid(headers, validHeaders);
 
     expect(result).toBe(false);
@@ -59,6 +64,7 @@ describe('ExcelUploadProcessorService', () => {
   it('should validate headers correctly', () => {
     const headers = ['Header1', 'Header2'];
     const validHeaders = ['Header1', 'Header2'];
+
     const result = service.checkHeadersIsValid(headers, validHeaders);
 
     expect(result).toBe(true);
@@ -72,19 +78,21 @@ describe('ExcelUploadProcessorService', () => {
       SheetNames: ['Sheet1'],
       Sheets: { Sheet1: {} }
     } as XLSX.WorkBook;
-    jest.spyOn(service, 'getCurrentHeaders').mockReturnValue(mockHeaders);
-    jest.spyOn(service, 'getItemsData').mockReturnValue(mockData);
-    jest.spyOn(service, 'checkHeadersIsValid').mockReturnValue(true);
-    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
+    const standartHeadersBase = ['Header1', 'Header2'];
+    const columnNamesBase = ['Header1', 'Header2'];
     const fileReaderMock = {
       readAsArrayBuffer: jest.fn(),
       onload: null as any,
       onerror: null as any
     };
+
+    jest.spyOn(service, 'getCurrentHeaders').mockReturnValue(mockHeaders);
+    jest.spyOn(service, 'getItemsData').mockReturnValue(mockData);
+    jest.spyOn(service, 'checkHeadersIsValid').mockReturnValue(true);
+    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
     jest.spyOn(globalThis, 'FileReader').mockImplementation(() => fileReaderMock as unknown as FileReader);
     jest.spyOn(XLSX, 'read').mockReturnValue(mockWorkBook);
-    const standartHeadersBase = ['Header1', 'Header2'];
-    const columnNamesBase = ['Header1', 'Header2'];
+
     service.convertExcelToJSON(mockFile, standartHeadersBase, columnNamesBase).subscribe({
       next: (result) => {
         expect(result).toEqual(mockData);
@@ -104,24 +112,26 @@ describe('ExcelUploadProcessorService', () => {
       SheetNames: ['Sheet1'],
       Sheets: { Sheet1: {} }
     } as XLSX.WorkBook;
-    jest.spyOn(service, 'getCurrentHeaders').mockReturnValue(mockHeaders);
-    jest.spyOn(service, 'checkHeadersIsValid').mockReturnValue(false);
-    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
     const fileReaderMock = {
       readAsArrayBuffer: jest.fn(),
       onload: null as any,
       onerror: null as any
     };
-    jest.spyOn(globalThis, 'FileReader').mockImplementation(() => fileReaderMock as unknown as FileReader);
-    jest.spyOn(XLSX, 'read').mockReturnValue(mockWorkBook);
     const standartHeadersBase = ['Header1', 'Header2'];
     const columnNamesBase = ['Header1', 'Header2'];
+
+    jest.spyOn(service, 'getCurrentHeaders').mockReturnValue(mockHeaders);
+    jest.spyOn(service, 'checkHeadersIsValid').mockReturnValue(false);
+    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
+    jest.spyOn(globalThis, 'FileReader').mockImplementation(() => fileReaderMock as unknown as FileReader);
+    jest.spyOn(XLSX, 'read').mockReturnValue(mockWorkBook);
+
     service.convertExcelToJSON(mockFile, standartHeadersBase, columnNamesBase).subscribe({
       next: () => {
         fail('Should not emit next for invalid headers');
       },
       error: (error) => {
-        expect(error).toEqual('Заголовки не відповідають очікуваним');
+        expect(error).toEqual('IMPORT/EXPORT.FILE_HEADERS_ERROR');
         done();
       }
     });
@@ -135,16 +145,18 @@ describe('ExcelUploadProcessorService', () => {
       onload: null as any,
       onerror: null as any
     };
-    jest.spyOn(globalThis, 'FileReader').mockImplementation(() => fileReaderMock as unknown as FileReader);
-    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
     const standartHeadersBase = ['Header1', 'Header2'];
     const columnNamesBase = ['Header1', 'Header2'];
+
+    jest.spyOn(globalThis, 'FileReader').mockImplementation(() => fileReaderMock as unknown as FileReader);
+    jest.spyOn(service as any, 'showAlert').mockImplementation(() => {});
+
     service.convertExcelToJSON(mockFile, standartHeadersBase, columnNamesBase).subscribe({
       next: () => {
         fail('Should not emit next for FileReader error');
       },
       error: (error) => {
-        expect(error).toEqual('Помилка при читанні файлу');
+        expect(error).toEqual('IMPORT/EXPORT.FILE_READER_ERROR');
         done();
       }
     });

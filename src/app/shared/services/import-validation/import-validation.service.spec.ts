@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { FieldsConfig } from 'shared/models/admin-import-export.model';
 import { ImportValidationService } from './import-validation.service';
 
 describe('ImportValidationService', () => {
@@ -77,13 +76,13 @@ describe('ImportValidationService', () => {
   });
 
   it('should not mark an error for RNOKPP format when config.checkRNOKPP is true but not handled', () => {
-    const items = [{ name: '1233454', errors: {} }]; // Assume this RNOKPP format is valid per service logic
+    const items = [{ name: '1233454', errors: {} }];
     const config = [
       {
         fieldName: 'name',
         validationParam: {
-          checkRNOKPP: true, // Indicates RNOKPP logic (currently not implemented in the service)
-          checkLength: false, // Disabled to avoid conflicting with RNOKPP
+          checkRNOKPP: true,
+          checkLength: false,
           checkEmpty: false,
           checkLanguage: false,
           checkAssignedRole: false,
@@ -94,7 +93,6 @@ describe('ImportValidationService', () => {
 
     service.checkForInvalidData(items, config);
 
-    // Since RNOKPP is not explicitly handled, no errors should be added
     expect(items[0].errors).toEqual({});
   });
   it('should mark error when assigned role is invalid and config.checkAssignedRole is true', () => {

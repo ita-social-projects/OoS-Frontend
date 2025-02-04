@@ -1,26 +1,26 @@
-import { Component } from '@angular/core';
-import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
-import { FieldsConfig } from 'shared/models/admin-import-export.model';
-import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
-import { Subscription } from 'rxjs';
-import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Subscription, finalize } from 'rxjs';
 import { Store } from '@ngxs/store';
+
+import { FieldsConfig } from 'shared/models/admin-import-export.model';
+import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
+import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
+import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
 
 @Component({
   selector: 'app-import-providers',
   template: '<div></div>',
   styleUrls: ['./upload-excel.component.scss']
 })
-export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; sequenceNumber: unknown }> {
+export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; sequenceNumber: unknown }> implements OnDestroy, OnInit {
   public extendsComponentConfig: FieldsConfig[];
-  public currentUserId: string | null = null;
   public isToggle: boolean;
   public isLoading = false;
   public loadSuccess = false;
   public loadFailure = false;
   public isWarningVisible: boolean = false;
-  public selectedFile: any = null;
+  public selectedFile: File = null;
   public columnNamesBase: string[];
   public standardHeadersBase: string[];
   public dataSource: ImitatorInterface[];
@@ -30,19 +30,10 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
     protected readonly importValidationService: ImportValidationService,
     private readonly excelService: ExcelUploadProcessorService,
     private readonly employeeUploadProcessor: EmployeeUploadProcessorService,
-    private readonly store: Store
+    private store: Store
   ) {}
 
-  /**
-   * This method get current user id from state
-   */
-  public getCurrentUserId(): void {
-    this.store
-      .select((state) => state.registration?.provider?.id)
-      .subscribe((id) => {
-        this.currentUserId = id;
-      });
-  }
+  ngOnInit(): void {}
 
   public initializeLoadingIndicatorObserver(): void {
     this.subscription = this.excelService.isLoading$.subscribe((loading) => {
@@ -113,46 +104,49 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
    * @return array with all invalid items
    */
   public filterInvalidItems(items: ImitatorInterface[]): ImitatorInterface[] {
-    return items.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
+    return items.filter((elem) => Object.values(elem.errors).find(Boolean));
   }
 
-  public showsIsTruncated(items: any[]): boolean {
+  public showsIsTruncated(items: ImitatorInterface[]): boolean {
     const cutItems = items.splice(100, items.length);
     return Boolean(cutItems.length);
   }
 
   public sendValidItems(): void {
     this.isLoading = true;
-    if (!this.currentUserId) {
+    const currentId = this.store.selectSnapshot((store) => store.registration?.provider?.id);
+    if (!currentId) {
       console.error('User ID is not available');
       return;
     }
     const deletedTemporaryKeys = this.dataSource.map(({ errors, sequenceNumber, ...rest }) => rest);
     const changedItems = this.renamingKeys(deletedTemporaryKeys);
-    this.employeeUploadProcessor.uploadEmployeesList(changedItems, this.currentUserId).subscribe({
-      next: (response: HttpResponse<any>) => {
-        if (response.status === 200) {
+    this.employeeUploadProcessor
+      .uploadEmployeesList(changedItems, currentId)
+      .pipe(
+        finalize(() => {
           this.isLoading = false;
-          this.loadSuccess = true;
-        } else {
-          this.isLoading = false;
-          this.loadFailure = true;
-          console.error('Unexpected Response Status:', response.status);
+        })
+      )
+      .subscribe({
+        next: (response: HttpResponse<string>) => {
+          if (response.status === 200) {
+            this.loadSuccess = true;
+          } else {
+            this.loadFailure = true;
+            console.error('Unexpected Response Status:', response.status);
+          }
+        },
+        error: (err) => {
+          if (err instanceof HttpErrorResponse) {
+            console.error('Error Message:', err.message);
+            this.loadFailure = true;
+          } else {
+            console.error('Unknown Error:', err);
+            this.loadFailure = true;
+          }
         }
-      },
-      error: (err) => {
-        console.error('Error Response:', err);
-        if (err instanceof HttpErrorResponse) {
-          console.error('Error Message:', err.message);
-          this.isLoading = false;
-          this.loadFailure = true;
-        } else {
-          console.error('Unknown Error:', err);
-          this.isLoading = false;
-          this.loadFailure = true;
-        }
-      }
-    });
+      });
   }
 
   public cleanup(): void {
@@ -168,7 +162,11 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
    * @param items - array of uploaded items that pass all checks
    * @return new array with renamed keys
    */
-  public renamingKeys(items: any[]): any[] {
+  public renamingKeys(items: Omit<ImitatorInterface, 'errors' | 'sequenceNumber'>[]): any[] {
     return items;
+  }
+
+  public ngOnDestroy(): void {
+    this.cleanup();
   }
 }

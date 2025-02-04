@@ -24,10 +24,12 @@ describe('EmployeeUploadProcessorService', () => {
     const mockResponse = 'Upload successful';
     const mockItems = [{ name: 'Employee1' }];
     const mockId = '123';
+
     service.uploadEmployeesList(mockItems, mockId).subscribe((response) => {
       expect(response.body).toBe(mockResponse);
       expect(response.status).toBe(200);
     });
+
     const req = httpTestingController.expectOne('/api/v1/Provider/Upload/123/employees/upload');
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(mockItems);
@@ -39,12 +41,14 @@ describe('EmployeeUploadProcessorService', () => {
   it('should handle error response from HttpClient', () => {
     const mockItems = [{ name: 'Employee1' }];
     const mockId = '123';
+
     service.uploadEmployeesList(mockItems, mockId).subscribe(
       () => {},
       (error) => {
         expect(error).toEqual(new HttpResponse({ body: 'Error uploading employees', status: 500 }));
       }
     );
+
     const req = httpTestingController.expectOne('/api/v1/Provider/Upload/123/employees/upload');
     req.flush('Error uploading employees', { status: 500, statusText: 'Internal Server Error' });
     httpTestingController.verify();
