@@ -1,4 +1,3 @@
-import { GetFilteredOfficialEmployees } from 'shared/store/provider.actions';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +12,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { PaginationElement } from 'shared/models/pagination-element.model';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
@@ -23,6 +21,7 @@ import { Role } from 'shared/enum/role';
 import { EmployeeParameters } from 'shared/models/employee.model';
 import { Provider } from 'shared/models/provider.model';
 import { EmployeesBlockData, EmployeesTableData } from 'shared/models/users-table';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { EmployeesComponent } from './employees.component';
 
 describe('EmployeesComponent', () => {
