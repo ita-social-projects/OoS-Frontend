@@ -1,0 +1,28 @@
+.app-wrapper {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.hide-content {
+  visibility: hidden;
+}
+
+.content {
+  min-height: calc(100vh - 121px);
+  flex-grow: 1;
+}
+@media (max-width: 900px) {
+  .content {
+    min-height: calc(100vh - 113px);
+  }
+}
+@media (max-width: 750px) {
+  .content {
+    min-height: calc(100vh - 154px);
+  }
+}
+@media (max-width: 600px) {
+  .content {
+    min-height: calc(100vh - 106px);
+  }
+}/*# sourceMappingURL=app.component.css.map */

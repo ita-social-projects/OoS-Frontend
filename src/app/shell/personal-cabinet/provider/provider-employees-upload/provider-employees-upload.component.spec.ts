@@ -47,11 +47,6 @@ describe('ProviderEmployeesUploadComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize displayedColumns and standardHeaders', () => {
-    expect(component.displayedColumns).toEqual(Object.values(component.displayedColumns));
-    expect(component.standardHeaders).toEqual(Object.values(component.standardHeaders));
-  });
-
   it('should set componentFieldsConfig during initialization', () => {
     expect(component.extendsComponentConfig).toEqual(component.componentFieldsConfig);
   });
@@ -71,7 +66,9 @@ describe('ProviderEmployeesUploadComponent', () => {
         employeeFatherName: 'MiddleName',
         employeeName: 'FirstName',
         employeeRNOKPP: 1234567890,
-        employeeSurname: 'LastName'
+        employeeSurname: 'LastName',
+        errors: {},
+        sequenceNumber: 1
       }
     ];
 

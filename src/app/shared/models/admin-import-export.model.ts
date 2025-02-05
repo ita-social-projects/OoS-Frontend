@@ -17,6 +17,7 @@ export interface Employee {
 }
 
 export interface RenamedEmployee {
+  [key: string]: string;
   assignedRole: string;
   middleName: string;
   firstName: string;
@@ -24,7 +25,12 @@ export interface RenamedEmployee {
   lastName: string;
 }
 
+export interface ValidationError {
+  [key: string]: boolean;
+}
+
 export interface EmployeeValidationErrors {
+  [key: string]: boolean;
   employeeSurnameEmpty?: boolean;
   employeeNameEmpty?: boolean;
   employeeFatherNameEmpty?: boolean;

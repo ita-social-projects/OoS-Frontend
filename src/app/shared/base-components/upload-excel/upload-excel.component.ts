@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Component, OnDestroy } from '@angular/core';
+import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Subscription, finalize } from 'rxjs';
 import { Store } from '@ngxs/store';
 
-import { FieldsConfig } from 'shared/models/admin-import-export.model';
+import { FieldsConfig, ValidationError } from 'shared/models/admin-import-export.model';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
@@ -13,51 +13,25 @@ import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-
   template: '<div></div>',
   styleUrls: ['./upload-excel.component.scss']
 })
-export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; sequenceNumber: unknown }> implements OnDestroy, OnInit {
+export class UploadExcelComponent<ImitatorInterface extends { errors: ValidationError; sequenceNumber: number }> implements OnDestroy {
   public extendsComponentConfig: FieldsConfig[];
   public isToggle: boolean;
-  public isLoading = false;
-  public loadSuccess = false;
-  public loadFailure = false;
+  public isLoading: boolean = false;
+  public loadSuccess: boolean = false;
+  public loadFailure: boolean = false;
   public isWarningVisible: boolean = false;
   public selectedFile: File = null;
-  public columnNamesBase: string[];
-  public standardHeadersBase: string[];
+  public columnNames: string[];
+  public standardHeaders: string[];
   public dataSource: ImitatorInterface[];
   public dataSourceInvalid: ImitatorInterface[];
   public subscription: Subscription;
   constructor(
     protected readonly importValidationService: ImportValidationService,
-    private readonly excelService: ExcelUploadProcessorService,
+    private readonly excelUploadProcessor: ExcelUploadProcessorService,
     private readonly employeeUploadProcessor: EmployeeUploadProcessorService,
     private store: Store
   ) {}
-
-  ngOnInit(): void {}
-
-  public initializeLoadingIndicatorObserver(): void {
-    this.subscription = this.excelService.isLoading$.subscribe((loading) => {
-      this.isLoading = loading;
-    });
-  }
-
-  public setColumnNames(columnNames: string[]): void {
-    this.columnNamesBase = columnNames;
-  }
-
-  public setStandardHeaders(headers: string[]): void {
-    this.standardHeadersBase = headers;
-  }
-
-  public resetValues(): void {
-    this.dataSource = null;
-    this.dataSourceInvalid = null;
-    this.isToggle = false;
-    this.isWarningVisible = false;
-    this.isLoading = false;
-    this.loadFailure = false;
-    this.loadSuccess = false;
-  }
 
   /**
    * This method process array of items
@@ -87,11 +61,13 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
     this.selectedFile = target.files[0];
     this.isLoading = true;
     this.resetValues();
-    this.excelService.convertExcelToJSON(this.selectedFile, this.standardHeadersBase, this.columnNamesBase).subscribe({
+    this.excelUploadProcessor.convertExcelToJSON(this.selectedFile, this.standardHeaders, this.columnNames).subscribe({
       next: (items) => {
+        this.isLoading = false;
         this.processUploadData(items);
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Excel conversion error:', err);
       }
     });
@@ -130,7 +106,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
       )
       .subscribe({
         next: (response: HttpResponse<string>) => {
-          if (response.status === 200) {
+          if (response.status === HttpStatusCode.Ok) {
             this.loadSuccess = true;
           } else {
             this.loadFailure = true;
@@ -140,20 +116,10 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
         error: (err) => {
           if (err instanceof HttpErrorResponse) {
             console.error('Error Message:', err.message);
-            this.loadFailure = true;
-          } else {
-            console.error('Unknown Error:', err);
-            this.loadFailure = true;
           }
+          this.loadFailure = true;
         }
       });
-  }
-
-  public cleanup(): void {
-    this.resetValues();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   /**
@@ -164,6 +130,23 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: unknown; s
    */
   public renamingKeys(items: Omit<ImitatorInterface, 'errors' | 'sequenceNumber'>[]): any[] {
     return items;
+  }
+
+  public resetValues(): void {
+    this.dataSource = null;
+    this.dataSourceInvalid = null;
+    this.isToggle = false;
+    this.isWarningVisible = false;
+    this.isLoading = false;
+    this.loadFailure = false;
+    this.loadSuccess = false;
+  }
+
+  public cleanup(): void {
+    this.resetValues();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public ngOnDestroy(): void {

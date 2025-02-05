@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExcelUploadProcessorService {
-  public readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
-  public isLoading$ = this.isLoadingSubject.asObservable();
-
   constructor(public readonly translate: TranslateService) {}
 
   public convertExcelToJSON(file: File, standartHeadersBase: string[], columnNamesBase: string[]): Observable<any[]> {
     return new Observable((observer) => {
       const reader: FileReader = new FileReader();
-      this.setLoading(true);
       reader.onerror = (): void => {
         this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
-        this.setLoading(false);
         observer.error(this.translate.instant('IMPORT/EXPORT.FILE_READER_ERROR'));
       };
 
@@ -30,16 +25,13 @@ export class ExcelUploadProcessorService {
           const currentHeaders = this.getCurrentHeaders(workBook, wsname);
           if (this.checkHeadersIsValid(currentHeaders, standartHeadersBase)) {
             const items = this.getItemsData(workBook, wsname, columnNamesBase) as unknown as any[];
-            this.setLoading(false);
             observer.next(items);
             observer.complete();
           } else {
-            this.setLoading(false);
             observer.error(this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_ERROR'));
           }
         } catch (error) {
           this.showAlert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
-          this.setLoading(false);
           observer.error(error);
         }
       };
@@ -81,10 +73,6 @@ export class ExcelUploadProcessorService {
       );
     }
     return isValid;
-  }
-
-  public setLoading(isLoading: boolean): void {
-    this.isLoadingSubject.next(isLoading);
   }
 
   public showAlert(message: string): void {

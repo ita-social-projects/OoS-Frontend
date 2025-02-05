@@ -1,0 +1,44 @@
+.image {
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+:host ::ng-deep .owl-carousel {
+  position: relative;
+}
+:host ::ng-deep .owl-carousel .owl-prev,
+:host ::ng-deep .owl-carousel .owl-next {
+  position: absolute;
+  top: calc(50% - 24px);
+  width: 50px;
+  height: 50px;
+  transform: translateY(-50%);
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.1s;
+}
+:host ::ng-deep .owl-carousel .owl-prev:hover,
+:host ::ng-deep .owl-carousel .owl-next:hover {
+  background-color: #3849f9;
+}
+:host ::ng-deep .owl-carousel .owl-prev {
+  left: 0;
+  margin-left: 50px;
+}
+:host ::ng-deep .owl-carousel .owl-prev span {
+  position: absolute;
+  left: 17px;
+}
+:host ::ng-deep .owl-carousel .owl-next {
+  right: 0;
+  margin-right: 50px;
+}
+:host ::ng-deep .owl-carousel .owl-dots .owl-dot:hover span, :host ::ng-deep .owl-carousel .owl-dots .owl-dot.active span {
+  background-color: #3849f9;
+}/*# sourceMappingURL=image-carousel.component.css.map */

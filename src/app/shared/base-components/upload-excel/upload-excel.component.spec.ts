@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
@@ -74,12 +75,11 @@ describe('UploadExcelComponent', () => {
     });
     it('should handle a successful response', () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
       component.sendValidItems();
 
       const req = httpMock.expectOne(`/api/v1/Provider/Upload/${mockCurrentId}/employees/upload`);
       expect(req.request.method).toBe('PUT');
-      req.flush({ status: 200, body: 'Success' });
+      req.flush({ status: HttpStatusCode.Ok, body: 'Success' });
       expect(component.isLoading).toBe(false);
       expect(component.loadSuccess).toBe(true);
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -129,9 +129,9 @@ describe('UploadExcelComponent', () => {
       component.onFileSelected(event);
 
       expect(component.selectedFile).toBe(mockFile);
-      expect(component.isLoading).toBe(true);
+      expect(component.isLoading).toBe(false);
       expect(component.resetValues).toHaveBeenCalled();
-      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeadersBase, component.columnNamesBase);
+      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeaders, component.columnNames);
       expect(component.processUploadData).toHaveBeenCalledWith(mockItems);
       expect((event.target as HTMLInputElement).value).toBe('');
     });
@@ -149,38 +149,14 @@ describe('UploadExcelComponent', () => {
       component.onFileSelected(event);
 
       expect(component.selectedFile).toBe(mockFile);
-      expect(component.isLoading).toBe(true);
+      expect(component.isLoading).toBe(false);
       expect(component.resetValues).toHaveBeenCalled();
-      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeadersBase, component.columnNamesBase);
+      expect(mockExcelService.convertExcelToJSON).toHaveBeenCalledWith(mockFile, component.standardHeaders, component.columnNames);
       expect(consoleErrorSpy).toHaveBeenCalledWith('Excel conversion error:', mockError);
       expect((event.target as HTMLInputElement).value).toBe('');
     });
   });
 
-  // describe('getCurrentUserId method', () => {
-  //   it('should update currentUserId with the value from the store', (done) => {
-  //     const mockUserId = '1234';
-  //     mockStore.select.mockReturnValue(of(mockUserId));
-
-  //     component.getCurrentUserId();
-
-  //     setTimeout(() => {
-  //       expect(component.currentUserId).toBe(mockUserId);
-  //       done();
-  //     }, 0);
-  //   });
-
-  //   it('should not update currentUserId if store emits no value', (done) => {
-  //     mockStore.select.mockReturnValue(of(undefined));
-
-  //     component.getCurrentUserId();
-
-  //     setTimeout(() => {
-  //       expect(component.currentUserId).toBeUndefined();
-  //       done();
-  //     }, 0);
-  //   });
-  // });
   describe('renamingKeys method', () => {
     it('should return the same array when renamingKeys is called', () => {
       const mockItems = [
@@ -287,26 +263,6 @@ describe('UploadExcelComponent', () => {
       expect(showsIsTruncatedSpy).toHaveBeenCalledWith(inputItems);
       showsIsTruncatedSpy.mockRestore();
       handleDataSpy.mockRestore();
-    });
-  });
-
-  describe('setStandardHeaders method test', () => {
-    it('should set standard headers correctly', () => {
-      const headers = ['Header1', 'Header2', 'Header3'];
-
-      component.setStandardHeaders(headers);
-
-      expect(component.standardHeadersBase).toEqual(headers);
-    });
-  });
-
-  describe('setColumnNames method test', () => {
-    it('should set column names correctly', () => {
-      const columnNames = ['Column1', 'Column2', 'Column3'];
-
-      component.setColumnNames(columnNames);
-
-      expect(component.columnNamesBase).toEqual(columnNames);
     });
   });
 

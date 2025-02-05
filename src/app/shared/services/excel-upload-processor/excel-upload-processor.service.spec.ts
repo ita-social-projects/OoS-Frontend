@@ -23,24 +23,6 @@ describe('ExcelUploadProcessorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set loading state to true and false', () => {
-    service.isLoading$.subscribe((isLoading) => {
-      expect(isLoading).toBe(false);
-    });
-
-    service.setLoading(true);
-
-    service.isLoading$.subscribe((isLoading) => {
-      expect(isLoading).toBe(true);
-    });
-
-    service.setLoading(false);
-
-    service.isLoading$.subscribe((isLoading) => {
-      expect(isLoading).toBe(false);
-    });
-  });
-
   it('should call alert with the correct message', () => {
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     const testMessage = 'Test Alert';

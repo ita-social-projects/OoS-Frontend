@@ -1,0 +1,29 @@
+@keyframes loader {
+  0% {
+    box-shadow: 10px 0 #3849f9, -10px 0 rgba(56, 73, 249, 0.2);
+    background: #3849f9;
+  }
+  33% {
+    box-shadow: 10px 0 #3849f9, -10px 0 rgba(56, 73, 249, 0.2);
+    background: rgba(56, 73, 249, 0.2);
+  }
+  66% {
+    box-shadow: 10px 0 rgba(56, 73, 249, 0.2), -10px 0 #3849f9;
+    background: rgba(56, 73, 249, 0.2);
+  }
+  100% {
+    box-shadow: 10px 0 rgba(56, 73, 249, 0.2), -10px 0 #3849f9;
+    background: #3849f9;
+  }
+}
+@keyframes pulse {
+  0% {
+    color: #ff0000;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    color: #ff0000;
+  }
+}/*# sourceMappingURL=animations.css.map */

@@ -14,8 +14,6 @@ import { ImportValidationService } from 'shared/services/import-validation/impor
   styleUrls: ['./provider-employees-upload.component.scss']
 })
 export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Employee> implements OnInit, OnDestroy {
-  public readonly displayedColumns: string[] = Object.values(ImportEmployeesColumnsNames);
-  public readonly standardHeaders: string[] = Object.values(ImportEmployeesStandardHeaders);
   public componentFieldsConfig: FieldsConfig[] = [
     {
       fieldName: 'employeeName',
@@ -41,18 +39,17 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
 
   constructor(
     importValidationService: ImportValidationService,
-    excelService: ExcelUploadProcessorService,
+    excelUploadProcessor: ExcelUploadProcessorService,
     employeeUploadProcessor: EmployeeUploadProcessorService,
     store: Store
   ) {
-    super(importValidationService, excelService, employeeUploadProcessor, store);
+    super(importValidationService, excelUploadProcessor, employeeUploadProcessor, store);
     this.extendsComponentConfig = this.componentFieldsConfig;
   }
 
   public ngOnInit(): void {
-    this.setColumnNames(this.displayedColumns);
-    this.setStandardHeaders(this.standardHeaders);
-    this.initializeLoadingIndicatorObserver();
+    this.columnNames = Object.values(ImportEmployeesColumnsNames);
+    this.standardHeaders = Object.values(ImportEmployeesStandardHeaders);
   }
 
   /**

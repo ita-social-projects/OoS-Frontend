@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+}
+:host.Editing {
+  background: linear-gradient(0deg, rgba(255, 189, 0, 0.1), rgba(255, 189, 0, 0.1)), #ffffff;
+}
+:host.Editing .status-icon, :host.Editing .status-title {
+  color: #ffbd00;
+}
+:host.Approved {
+  background: linear-gradient(0deg, rgba(25, 153, 83, 0.1), rgba(25, 153, 83, 0.1)), #ffffff;
+}
+:host.Approved .status-icon, :host.Approved .status-title {
+  color: #199953;
+}
+:host.Pending, :host.Recheck {
+  background: #e1f1f9;
+}
+:host.Pending .status-icon, :host.Pending .status-title, :host.Recheck .status-icon, :host.Recheck .status-title {
+  color: #007bda;
+}
+:host.Blocked {
+  background: #f9ebe1;
+}
+:host.Blocked .status-icon, :host.Blocked .status-title {
+  color: #c72a21;
+}/*# sourceMappingURL=status-themes.css.map */

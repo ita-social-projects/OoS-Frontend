@@ -1,0 +1,35 @@
+.mat-button-toggle-button :active {
+  color: #3849f9;
+}
+
+.mat-button-toggle-checked {
+  background-color: rgba(56, 73, 249, 0.07);
+  color: #3849f9;
+  border-top-left-radius: 1.2rem;
+  border-bottom-left-radius: 1.2rem;
+  border: 2px solid #3849f9;
+}
+
+.mat-button-toggle-group {
+  background-color: none !important;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+  border-top-right-radius: 1.2rem !important;
+  border-bottom-right-radius: 1.2rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 32px;
+}
+
+.mat-button-toggle-group .mat-button-toggle:nth-child(2).mat-button-toggle-checked {
+  border-left: 2px solid #3849f9;
+}/*# sourceMappingURL=toggle-button.css.map */
