@@ -1,0 +1,23 @@
+<mat-card class="position">
+  <div class="card flex flex-col justify-between items-start">
+    <div class="card-img card-img-full flex flex-row justify-center">
+      <img [ngClass]="{ 'card-img-full': judge.coverImageId }" mat-card-image [src]="coverImageUrl" alt="judge-photo" />
+    </div>
+
+    <div class="wrap-for-details">
+      <mat-card-header>
+        <mat-card-title
+          [matTooltip]="judgeFullName"
+          showTooltipIfTruncated
+          matTooltipClass="tooltip"
+          [matTooltipPosition]="tooltipPosition"
+          class="card-title"
+          >{{ judge.firstName }} {{ judge.lastName }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex flex-col justify-between items-start">
+        <p class="card_text">{{ judge.description }}</p>
+      </mat-card-content>
+    </div>
+  </div>
+</mat-card>
