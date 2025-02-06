@@ -1,7 +1,12 @@
-<div fxLayout="column" fxLayoutAlign="center">
-  <label *ngIf="!JudgeFormArray.controls.length" class="label">{{ 'FORMS.ADD_JUDGE_LATER' | translate }}</label>
+<div class="flex flex-col justify-center">
+  <!-- This html for future when we will understand what we want to make with judges -->
+  <!-- <label *ngIf="!JudgeFormArray.controls.length" class="label">{{ 'FORMS.ADD_JUDGE_LATER' | translate }}</label> -->
 
-  <ng-container>
+  <!-- Delete when add feature for judges  -->
+  <app-no-result-card [title]="noFeature"></app-no-result-card>
+
+  <!-- This html for future when we will understand what we want to make with judges -->
+  <!-- <ng-container>
     <app-judge-form
       *ngFor="let form of JudgeFormArray.controls"
       [JudgeFormGroup]="form"
@@ -10,9 +15,9 @@
       (deleteForm)="onDeleteForm($event)">
     </app-judge-form>
   </ng-container>
-  <div fxLayout="column" fxLayoutAlign="center center">
+  <div class="flex flex-col justify-center items-center">
     <button class="btn-add" mat-button (click)="onAddJudge()" [disabled]="JudgeFormArray.invalid">
       <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_JUDGE' | translate }}
     </button>
-  </div>
+  </div> -->
 </div>

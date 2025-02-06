@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
-import { TypeOfCompetition } from 'shared/enum/Competition';
+import { TypeOfCompetition } from 'shared/enum/competition';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
@@ -30,12 +30,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
-  protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 1));
-  protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
-  protected readonly TypeOfCompetition = TypeOfCompetition;
-  protected readonly InfoMenuType = InfoMenuType;
-  protected readonly ownershipType = OwnershipTypes;
-
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -52,13 +46,19 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public filteredTypeOfCompetition: { key: string; value: string }[] = [];
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private minimumSeats: number = 1;
+  protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 1));
+  protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  protected readonly TypeOfCompetition = TypeOfCompetition;
+  protected readonly InfoMenuType = InfoMenuType;
+  protected readonly ownershipType = OwnershipTypes;
 
-  constructor(private formBuilder: FormBuilder) {}
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly minimumSeats: number = 1;
+
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   public get availableSeatsControl(): FormControl {
-    return this.RequiredFormGroup.get('availableSeats') as FormControl;
+    return this.RequiredFormGroup.get('numberOfSeats') as FormControl;
   }
 
   public get typeOfCompetitionControl(): FormControl {
@@ -73,15 +73,9 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   private get availableSeats(): number {
-    return this.competition?.availableSeats === undefined || this.competition?.availableSeats === this.UNLIMITED_SEATS
+    return this.competition?.numberOfSeats === undefined || this.competition?.numberOfSeats === this.UNLIMITED_SEATS
       ? this.MIN_SEATS
-      : this.competition?.availableSeats;
-  }
-
-  private filterTypeOfCompetition(stage?: boolean): void {
-    this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
-      .filter(([key]) => stage || key !== 'CompetitionStage')
-      .map(([key, value]) => ({ key, value }));
+      : this.competition?.numberOfSeats;
   }
 
   public ngOnInit(): void {
@@ -124,31 +118,33 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
    */
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
-    if (this.competition.startDate) {
-      this.minDate = new Date(new Date(this.competition.startDate).setMonth(new Date(this.competition.startDate).getMonth() - 1));
+    if (this.competition.scheduledStartTime) {
+      this.minDate = new Date(
+        new Date(this.competition.scheduledStartTime).setMonth(new Date(this.competition.scheduledStartTime).getMonth() - 1)
+      );
     }
 
-    if (this.competition.startDate && this.competition.endDate) {
+    if (this.competition.scheduledStartTime && this.competition.scheduledEndTime) {
       this.RequiredFormGroup.get('competitionDateRangeGroup')?.patchValue({
-        start: this.competition.startDate,
-        end: this.competition.endDate
+        start: this.competition.scheduledStartTime,
+        end: this.competition.scheduledEndTime
       });
 
       this.RequiredFormGroup.get('competitionDateRangeGroup')?.get('start')?.markAsTouched();
       this.RequiredFormGroup.get('competitionDateRangeGroup')?.get('end')?.markAsTouched();
     }
 
-    if (this.competition.regStartDate && this.competition.regEndDate) {
+    if (this.competition.registrationStartTime && this.competition.registrationEndTime) {
       this.RequiredFormGroup.get('registrationDateRangeGroup')?.patchValue({
-        start: this.competition.regStartDate,
-        end: this.competition.regEndDate
+        start: this.competition.registrationStartTime,
+        end: this.competition.registrationEndTime
       });
 
       this.RequiredFormGroup.get('registrationDateRangeGroup')?.get('start')?.markAsTouched();
       this.RequiredFormGroup.get('registrationDateRangeGroup')?.get('end')?.markAsTouched();
     }
 
-    if (this.competition.availableSeats === this.UNLIMITED_SEATS) {
+    if (this.competition.numberOfSeats === this.UNLIMITED_SEATS) {
       this.setAvailableSeatsControlValue(null, 'disable', false);
     } else {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
@@ -188,7 +184,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       }),
       typeOfCompetition: new FormControl<TypeOfCompetition | null>(null, Validators.required),
       parentCompetitionControl: new FormControl(null),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)])
+      numberOfSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)])
     });
   }
 
@@ -242,10 +238,16 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   private showHintAboutClosingCompetition(): void {
-    this.RequiredFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
+    this.RequiredFormGroup.controls.numberOfSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
       if (availableSeats) {
         this.isShowHintAboutCompetitionAutoClosing = availableSeats === this.competition?.takenSeats;
       }
     });
+  }
+
+  private filterTypeOfCompetition(stage?: boolean): void {
+    this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
+      .filter(([key]) => stage || key !== 'CompetitionStage')
+      .map(([key, value]) => ({ key, value }));
   }
 }

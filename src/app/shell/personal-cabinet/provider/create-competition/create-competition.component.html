@@ -1,7 +1,7 @@
 <ng-container *ngIf="provider">
   <div class="create-form" *ngIf="(editMode && competition) || !editMode">
     <div class="wrapper">
-      <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <div class="create-form-header flex flex-col items-center justify-center">
         <h3 class="wrapper-title">
           {{ (editMode ? 'FORMS.HEADERS.EDIT_COMPETITION' : 'FORMS.HEADERS.NEW_COMPETITION') | translate }}
         </h3>
@@ -17,15 +17,14 @@
             <p class="step-name">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</p>
           </ng-template>
           <app-create-required-form
-            fxLayout="row"
-            fxLayoutAlign="center center"
+            class="flex flex-row items-center justify-center"
             [competition]="competition"
             [parentCompetition]="parentCompetition"
             [isImagesFeature]="isImagesFeature"
             [provider]="provider"
             (PassRequiredFormGroup)="onReceiveRequiredFormGroup($event)">
           </app-create-required-form>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="flex flex-row items-center justify-center footer">
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
@@ -40,14 +39,13 @@
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
           <app-create-competition-description-form
-            fxLayout="row"
-            fxLayoutAlign="center center"
+            class="flex flex-row items-center justify-center"
             [competition]="competition"
             [isImagesFeature]="isImagesFeature"
             [provider]="provider"
             (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-competition-description-form>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="flex flex-row items-center justify-center footer">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>
@@ -66,7 +64,7 @@
           </ng-template>
           <app-create-competition-address [address]="competition?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-competition-address>
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="flex flex-row items-center justify-center footer">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>
@@ -91,7 +89,7 @@
             (passJudgeFormArray)="onReceiveJudgeFormArray($event)">
           </app-create-judge>
 
-          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <div class="flex flex-row items-center justify-center footer">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
             </button>

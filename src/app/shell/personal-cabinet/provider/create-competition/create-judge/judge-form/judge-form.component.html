@@ -1,4 +1,14 @@
-<form [formGroup]="JudgeForm" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<form [formGroup]="JudgeForm" class="flex flex-col justify-center items-between step">
+  <mat-checkbox
+    class="step-label"
+    color="primary"
+    formControlName="isChiefJudge"
+    (focusout)="onFocusOut('isChiefJudge')"
+    id="is-chief-judge"
+    >{{ 'FORMS.LABELS.CHIEF_JUDGE' | translate }}</mat-checkbox
+  >
+  <app-validation-hint [validationFormControl]="JudgeFormGroup.get('isChiefJudge')"> </app-validation-hint>
+
   <label class="step-label" for="last-name">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input
@@ -33,10 +43,33 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
+  <label class="step-label" for="gender">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
+  <mat-radio-group formControlName="gender" color="primary" id="gender">
+    <mat-radio-button class="step-radio" [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
+    <mat-radio-button class="step-radio" [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
+  </mat-radio-group>
+  <app-validation-hint [validationFormControl]="JudgeFormGroup.get('gender')"> </app-validation-hint>
+
+  <label class="step-label" for="date-of-birth">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+    <input
+      [max]="today"
+      [min]="minDate"
+      matInput
+      [matDatepicker]="picker"
+      formControlName="dateOfBirth"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
+      (focusout)="onFocusOut('dateOfBirth')"
+      id="date-of-birth" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="JudgeFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>
+
   <div class="step-label-combined">
-    <label class="step-label" for="judgeInfo"> {{ 'FORMS.LABELS.JUDGE_INFO' | translate }}</label>
+    <label class="step-label" for="description"> {{ 'FORMS.LABELS.JUDGE_INFO' | translate }}</label>
     <span class="step-characters-count">
-      {{ JudgeFormGroup.get('judgeInfo').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}</span
+      {{ JudgeFormGroup.get('description').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}</span
     >
   </div>
   <mat-form-field appearance="fill">
@@ -46,19 +79,19 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }} {{
         'FORMS.PLACEHOLDERS.SYMBOLS' | translate
       }}"
-      formControlName="judgeInfo"
+      formControlName="description"
       maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}"
       appTrimValue
-      (focusout)="onFocusOut('judgeInfo')"
-      id="judgeInfo"></textarea>
+      (focusout)="onFocusOut('description')"
+      id="description"></textarea>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="JudgeFormGroup.get('judgeInfo')"
+    [validationFormControl]="JudgeFormGroup.get('description')"
     [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
   </app-validation-hint>
 
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="index !== 0">
+  <div class="flex flex-row justify-center" *ngIf="index !== 0">
     <button class="btn-reset" mat-button (click)="onDeleteJudge()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_JUDGE_DATA' | translate }}
     </button>

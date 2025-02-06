@@ -7,7 +7,6 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
-import { CompetitionCoverage } from 'shared/enum/Competition';
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
@@ -17,6 +16,7 @@ import { Select, Store } from '@ngxs/store';
 import { InstituitionHierarchy, Institution } from 'shared/models/institution.model';
 import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetAllInstitutionsHierarchy } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { CompetitionCoverage } from 'shared/enum/competition';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -25,17 +25,15 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+  public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.instituitionsHierarchy)
-  instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  public instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
 
   @Input() public competition: Competition;
   @Input() public isImagesFeature: boolean;
   @Input() public provider: Provider;
 
   @Output() public passDescriptionFormGroup = new EventEmitter();
-
-  protected readonly CompetitionCoverage = CompetitionCoverage;
 
   public readonly CompetitionCoverageEnum = CompetitionCoverageEnum;
   public readonly validationConstants = ValidationConstants;
@@ -59,12 +57,22 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public benefitsOptionRadioBtn: FormControl = new FormControl(false);
   public priceRadioBtn: FormControl = new FormControl(false);
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly CompetitionCoverage = CompetitionCoverage;
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private formBuilder: FormBuilder,
-    private store: Store
+    private readonly formBuilder: FormBuilder,
+    private readonly store: Store
   ) {}
+
+  public get categoryControl(): FormControl {
+    return this.DescriptionFormGroup.get('institutionHierarchyId') as FormControl;
+  }
+
+  public get coverageControl(): FormControl {
+    return this.DescriptionFormGroup.get('coverage') as FormControl;
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
@@ -87,14 +95,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.onPriceControlInit();
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
-  }
-
-  public get categoryControl(): FormControl {
-    return this.DescriptionFormGroup.get('category') as FormControl;
-  }
-
-  public get coverageControl(): FormControl {
-    return this.DescriptionFormGroup.get('coverage') as FormControl;
   }
 
   public ngOnDestroy(): void {
@@ -182,8 +182,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
 
-    if (this.competition.disabilities) {
-      this.disabilityOptionRadioBtn.setValue(this.competition.disabilities, { emitEvent: false });
+    if (this.competition.optionsForPeopleWithDisabilities) {
+      this.disabilityOptionRadioBtn.setValue(this.competition.optionsForPeopleWithDisabilities, { emitEvent: false });
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
 
@@ -197,7 +197,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
     }
 
-    if (this.competition.benefits) {
+    if (this.competition.areThereBenefits) {
       this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
       this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
     }
@@ -207,7 +207,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
-      category: new FormControl(null),
+      institutionHierarchyId: new FormControl(null),
       subcategory: new FormControl(null),
       description: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
@@ -216,6 +216,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       ]),
       coverage: new FormControl(null),
       formOfLearning: new FormControl(FormOfLearning.Offline),
+      optionsForPeopleWithDisabilities: this.disabilityOptionRadioBtn,
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
@@ -231,6 +232,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
       price: new FormControl({ value: 0, disabled: true }),
+      areThereBenefits: this.benefitsOptionRadioBtn,
       benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)

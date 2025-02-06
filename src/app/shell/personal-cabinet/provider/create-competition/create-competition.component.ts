@@ -5,8 +5,8 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Role, Subrole } from 'shared/enum/role';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
 import { Competition, CompetitionRequired } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
@@ -14,7 +14,6 @@ import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetCompetitionById, ResetProviderCompetitionDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { Util } from 'shared/utils/utils';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { Address } from 'shared/models/address.model';
@@ -78,8 +77,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -100,7 +98,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public setEditMode(): void {
-    const competitionId = this.route.snapshot.paramMap.get('id');
+    const competitionId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetCompetitionById(competitionId));
     this.selectedCompetition$
       .pipe(
@@ -119,6 +117,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const address: Address = new Address(this.AddressFormGroup.value, this.competition?.address);
     const judges: Judge[] = this.createJudges();
+    console.log(judges);
 
     let competition: Competition;
 

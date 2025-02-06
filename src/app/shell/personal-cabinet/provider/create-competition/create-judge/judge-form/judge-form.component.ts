@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { debounceTime, filter } from 'rxjs';
 
 import { ValidationConstants } from 'shared/constants/validation';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-judge-form',
   templateUrl: './judge-form.component.html',
   styleUrls: ['./judge-form.component.scss']
 })
-export class JudgeFormComponent {
+export class JudgeFormComponent implements OnInit {
   @Input() public index: number;
   @Input() public JudgeFormGroup: AbstractControl;
   @Input() public judgeAmount: number;
@@ -17,10 +19,32 @@ export class JudgeFormComponent {
 
   public readonly validationConstants = ValidationConstants;
 
+  public today: Date = new Date();
+  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+
+  private readonly defaultDebounceTime: number = 300;
+
   constructor() {}
 
   public get JudgeForm(): FormGroup {
     return this.JudgeFormGroup as FormGroup;
+  }
+
+  public ngOnInit(): void {
+    this.JudgeForm.get('isChiefJudge')
+      ?.valueChanges.pipe(debounceTime(this.defaultDebounceTime), filter(Boolean))
+      .subscribe(() => {
+        // take form array from create-judge component
+        const parentArray = this.JudgeForm.parent as FormArray;
+
+        if (parentArray) {
+          parentArray.controls
+            .filter((control) => control !== this.JudgeForm)
+            .forEach((control) => {
+              control.get('isChiefJudge')?.setValue(false, { emitEvent: false });
+            });
+        }
+      });
   }
 
   public onDeleteJudge(): void {
