@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { NO_LATIN_REGEX } from 'shared/constants/regex-constants';
 import { ImportEmployeesChosenRole } from 'shared/enum/enumUA/import-export';
-import { FieldValidationConfig, FieldsConfig } from 'shared/models/admin-import-export.model';
+import { Employee, FieldValidationConfig, FieldsConfig, ValidationError } from 'shared/models/admin-import-export.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImportValidationService {
+export class ImportValidationService<ChildInterface extends { errors: ValidationError }> {
   constructor() {}
-  public checkForInvalidData(items: any[], config: FieldsConfig[]): void {
+  public checkForInvalidData(items: ChildInterface[], config: FieldsConfig[]): void {
     items.forEach((item) => {
-      this.findDuplicates(items, item);
       item.errors = {};
       config.forEach((field) => {
         this.validateField(field.fieldName, item, items, field.validationParam);
@@ -18,12 +17,11 @@ export class ImportValidationService {
     });
   }
 
-  public findDuplicates(items: any[], item: unknown): boolean {
-    const rnokppList = items.map(({ employeeRNOKPP }) => employeeRNOKPP);
-    return rnokppList.filter((e) => e === item).length > 1;
+  public findDuplicates<T extends ChildInterface & { employeeRNOKPP?: number }>(items: T[], item: number): boolean {
+    return items.map((rnokpp) => rnokpp.employeeRNOKPP ?? null).filter((e) => e === item).length > 1;
   }
 
-  private validateField(fieldName: string, item: any, items: any, config: FieldValidationConfig): void {
+  private validateField(fieldName: string, item: ChildInterface, items: ChildInterface[], config: FieldValidationConfig): void {
     const fieldValue = item[fieldName];
     if (config.checkEmpty && !fieldValue) {
       item.errors[`${fieldName}Empty`] = true;

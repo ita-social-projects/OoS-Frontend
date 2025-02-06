@@ -11,7 +11,7 @@ export interface Employee {
   employeeSurname: string;
   employeeName: string;
   employeeFatherName: string;
-  employeeRNOKPP: number;
+  employeeRNOKPP?: number;
   employeeAssignedRole: string;
   errors: EmployeeValidationErrors;
 }

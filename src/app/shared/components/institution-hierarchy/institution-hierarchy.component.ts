@@ -64,7 +64,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     } else {
       this.setFieldsDescriptionSubscribe();
     }
-    this.institutions$.subscribe((data) => console.log(data));
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {

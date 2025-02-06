@@ -13,7 +13,7 @@ import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-
   template: '<div></div>',
   styleUrls: ['./upload-excel.component.scss']
 })
-export class UploadExcelComponent<ImitatorInterface extends { errors: ValidationError; sequenceNumber: number }> implements OnDestroy {
+export class UploadExcelComponent<ChildInterface extends { errors: ValidationError; sequenceNumber: number }> implements OnDestroy {
   public extendsComponentConfig: FieldsConfig[];
   public isToggle: boolean;
   public isLoading: boolean = false;
@@ -23,13 +23,13 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: Validation
   public selectedFile: File = null;
   public columnNames: string[];
   public standardHeaders: string[];
-  public dataSource: ImitatorInterface[];
-  public dataSourceInvalid: ImitatorInterface[];
+  public dataSource: ChildInterface[];
+  public dataSourceInvalid: ChildInterface[];
   public subscription: Subscription;
   constructor(
-    protected readonly importValidationService: ImportValidationService,
+    protected readonly importValidationService: ImportValidationService<ChildInterface>,
     private readonly excelUploadProcessor: ExcelUploadProcessorService,
-    private readonly employeeUploadProcessor: EmployeeUploadProcessorService,
+    private readonly employeeUploadProcessor: EmployeeUploadProcessorService<ChildInterface>,
     private store: Store
   ) {}
 
@@ -38,7 +38,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: Validation
    * 1. check array length ,proper length 100
    * @param items
    */
-  public processUploadData(items: ImitatorInterface[]): void {
+  public processUploadData(items: ChildInterface[]): void {
     const isArrayTruncated = this.showsIsTruncated(items);
     this.handleData(items, isArrayTruncated);
   }
@@ -48,7 +48,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: Validation
    * @param items - array of uploaded items
    * @param isArrayTruncated - boolean;indicates whether the array was truncated
    */
-  public handleData(items: ImitatorInterface[], isArrayTruncated: boolean): void {
+  public handleData(items: ChildInterface[], isArrayTruncated: boolean): void {
     this.importValidationService.checkForInvalidData(items, this.extendsComponentConfig);
     this.dataSource = items;
     this.dataSourceInvalid = this.filterInvalidItems(items);
@@ -79,11 +79,11 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: Validation
    * @param items - array of uploaded items
    * @return array with all invalid items
    */
-  public filterInvalidItems(items: ImitatorInterface[]): ImitatorInterface[] {
+  public filterInvalidItems(items: ChildInterface[]): ChildInterface[] {
     return items.filter((elem) => Object.values(elem.errors).find(Boolean));
   }
 
-  public showsIsTruncated(items: ImitatorInterface[]): boolean {
+  public showsIsTruncated(items: ChildInterface[]): boolean {
     const cutItems = items.splice(100, items.length);
     return Boolean(cutItems.length);
   }
@@ -128,7 +128,7 @@ export class UploadExcelComponent<ImitatorInterface extends { errors: Validation
    * @param items - array of uploaded items that pass all checks
    * @return new array with renamed keys
    */
-  public renamingKeys(items: Omit<ImitatorInterface, 'errors' | 'sequenceNumber'>[]): any[] {
+  public renamingKeys(items: Omit<ChildInterface, 'errors' | 'sequenceNumber'>[]): any[] {
     return items;
   }
 

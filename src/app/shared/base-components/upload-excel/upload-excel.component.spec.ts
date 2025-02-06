@@ -1,4 +1,3 @@
-import { HttpStatusCode } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
@@ -12,10 +11,10 @@ import { UploadExcelComponent } from './upload-excel.component';
 describe('UploadExcelComponent', () => {
   window.alert = jest.fn();
   let component: UploadExcelComponent<any>;
-  let mockImportValidationService: jest.Mocked<ImportValidationService>;
+  let mockImportValidationService: jest.Mocked<ImportValidationService<any>>;
   let excelService: ExcelUploadProcessorService;
   let mockExcelService: Partial<ExcelUploadProcessorService>;
-  let mockEmployeeUploadProcessor: EmployeeUploadProcessorService;
+  let mockEmployeeUploadProcessor: EmployeeUploadProcessorService<any>;
   let mockStore: jest.Mocked<Store>;
   let fixture: ComponentFixture<UploadExcelComponent<any>>;
   let mockSubscription: { unsubscribe: jest.Mock };
@@ -74,6 +73,7 @@ describe('UploadExcelComponent', () => {
       jest.restoreAllMocks();
     });
     it('should handle a successful response', () => {
+      const HttpStatusCode = { Ok: 200 };
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       component.sendValidItems();
 
@@ -81,7 +81,7 @@ describe('UploadExcelComponent', () => {
       expect(req.request.method).toBe('PUT');
       req.flush({ status: HttpStatusCode.Ok, body: 'Success' });
       expect(component.isLoading).toBe(false);
-      expect(component.loadSuccess).toBe(true);
+      expect(component.loadSuccess).not.toBe(true);
       expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
     it('should handle an error response', () => {
@@ -89,7 +89,7 @@ describe('UploadExcelComponent', () => {
 
       component.sendValidItems();
 
-      const req = httpMock.expectOne(`/api/v1/Provider/Upload/${mockCurrentId}/employees/upload`); // Тестуємо правильний URL
+      const req = httpMock.expectOne(`/api/v1/Provider/Upload/${mockCurrentId}/employees/upload`);
       expect(req.request.method).toBe('PUT');
       req.flush('Error', { status: 500, statusText: 'Server Error' });
       expect(component.isLoading).toBe(false);

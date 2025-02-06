@@ -38,9 +38,9 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
   ];
 
   constructor(
-    importValidationService: ImportValidationService,
+    importValidationService: ImportValidationService<Employee>,
     excelUploadProcessor: ExcelUploadProcessorService,
-    employeeUploadProcessor: EmployeeUploadProcessorService,
+    employeeUploadProcessor: EmployeeUploadProcessorService<Employee>,
     store: Store
   ) {
     super(importValidationService, excelUploadProcessor, employeeUploadProcessor, store);

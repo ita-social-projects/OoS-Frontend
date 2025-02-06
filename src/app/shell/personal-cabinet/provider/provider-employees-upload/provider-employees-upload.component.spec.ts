@@ -12,19 +12,19 @@ import { ProviderEmployeesUploadComponent } from './provider-employees-upload.co
 describe('ProviderEmployeesUploadComponent', () => {
   let component: ProviderEmployeesUploadComponent;
   let fixture: ComponentFixture<ProviderEmployeesUploadComponent>;
-  let importValidationService: jest.Mocked<ImportValidationService>;
+  let importValidationService: jest.Mocked<ImportValidationService<any>>;
   let excelService: jest.Mocked<ExcelUploadProcessorService>;
-  let employeeUploadProcessor: jest.Mocked<EmployeeUploadProcessorService>;
+  let employeeUploadProcessor: jest.Mocked<EmployeeUploadProcessorService<any>>;
   let store: jest.Mocked<Store>;
 
   beforeEach(async () => {
     importValidationService = {
       checkForInvalidData: jest.fn()
-    } as unknown as jest.Mocked<ImportValidationService>;
+    } as unknown as jest.Mocked<ImportValidationService<any>>;
     excelService = {
       convertExcelToJSON: jest.fn()
     } as unknown as jest.Mocked<ExcelUploadProcessorService>;
-    employeeUploadProcessor = {} as unknown as jest.Mocked<EmployeeUploadProcessorService>;
+    employeeUploadProcessor = {} as unknown as jest.Mocked<EmployeeUploadProcessorService<any>>;
     store = { dispatch: jest.fn() } as unknown as jest.Mocked<Store>;
 
     await TestBed.configureTestingModule({
@@ -41,6 +41,37 @@ describe('ProviderEmployeesUploadComponent', () => {
 
     fixture = TestBed.createComponent(ProviderEmployeesUploadComponent);
     component = fixture.componentInstance;
+  });
+
+  it('should initialize columnNames and standardHeaders on ngOnInit', () => {
+    const importEmployeesColumnsNames = {
+      sequenceNumber: 'sequenceNumber',
+      employeeSurname: 'employeeSurname',
+      employeeName: 'employeeName',
+      employeeFatherName: 'employeeFatherName',
+      employeeRNOKPP: 'employeeRNOKPP',
+      employeeAssignedRole: 'employeeAssignedRole'
+    };
+    const importEmployeesStandardHeaders = {
+      sequenceNumber: '№',
+      employeeSurname: 'Прізвище',
+      employeeName: 'Імя',
+      employeeFatherName: 'По батькові',
+      employeeRNOKPP: 'РНОКПП',
+      employeeAssignedRole: 'Призначені ролі'
+    };
+
+    // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
+    component['ImportEmployeesColumnsNames'] = importEmployeesColumnsNames;
+    // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
+    component['ImportEmployeesStandardHeaders'] = importEmployeesStandardHeaders;
+
+    // Act
+    component.ngOnInit();
+
+    // Assert
+    expect(component.columnNames).toEqual(Object.keys(importEmployeesColumnsNames)); // Compare with field names (keys)
+    expect(component.standardHeaders).toEqual(Object.values(importEmployeesStandardHeaders)); // Assuming this matches your test expectations
   });
 
   it('should create the component', () => {

@@ -32,9 +32,9 @@
           <p class="filter-text w-[20px]">{{ 'FROM' | translate }}</p>
           <div class="relative">
             <input class="time-input" matInput [formControl]="startTimeFormControl" maxlength="5" autocomplete="off" />
-            <mat-icon class="clear-time" (click)="onClearTime(startTimeFormControl)" (keydown.enter)="onClearTime(startTimeFormControl)"
-              >clear</mat-icon
-            >
+            <mat-icon class="clear-time" (click)="onClearTime(startTimeFormControl)" (keydown.enter)="onClearTime(startTimeFormControl)">
+              clear
+            </mat-icon>
           </div>
           <button mat-icon-button (click)="timepickerStart.open()"><mat-icon>access_time</mat-icon></button>
         </div>
@@ -48,9 +48,9 @@
           <p class="filter-text w-[20px]">{{ 'TO' | translate }}</p>
           <div class="relative">
             <input class="time-input" matInput [formControl]="endTimeFormControl" maxlength="5" autocomplete="off" />
-            <mat-icon class="clear-time" (click)="onClearTime(endTimeFormControl)" (keydown.enter)="onClearTime(endTimeFormControl)"
-              >clear</mat-icon
-            >
+            <mat-icon class="clear-time" (click)="onClearTime(endTimeFormControl)" (keydown.enter)="onClearTime(endTimeFormControl)">
+              clear
+            </mat-icon>
           </div>
           <button mat-icon-button (click)="timepickerEnd.open()"><mat-icon>access_time</mat-icon></button>
         </div>
