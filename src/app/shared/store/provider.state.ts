@@ -34,7 +34,7 @@ import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -53,6 +53,7 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
+  providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
@@ -76,6 +77,7 @@ export interface ProviderStateModel {
     achievements: null,
     selectedAchievement: null,
     providerWorkshops: null,
+    providerCompetition: null,
     officialEmployees: null,
     selectedEmployee: null,
     blockedParent: null,
@@ -129,6 +131,11 @@ export class ProviderState {
   @Selector()
   static providerWorkshops(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
     return state.providerWorkshops;
+  }
+
+  @Selector()
+  static providerCompetition(state: ProviderStateModel): SearchResponse<CompetitionProviderViewCard[]> {
+    return state.providerCompetition;
   }
 
   @Selector()
@@ -373,6 +380,21 @@ export class ProviderState {
       .pipe(
         tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
+  @Action(providerActions.GetProviderViewCompetitions)
+  getProviderViewCompetitions(
+    { patchState }: StateContext<ProviderStateModel>,
+    { competitionCardParameters }: providerActions.GetProviderViewCompetitions
+  ): Observable<SearchResponse<CompetitionProviderViewCard[]>> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService
+      .getProviderViewCompetitions(competitionCardParameters)
+      .pipe(
+        tap((providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>) =>
+          patchState({ providerCompetition: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -1055,6 +1077,31 @@ export class ProviderState {
 
   @Action(providerActions.OnUpdateCompetitionFail)
   onUpdateCompetitionFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateCompetitionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.DeleteCompetitionById)
+  deleteCompetitionById(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { competition, parameters }: providerActions.DeleteCompetitionById
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.deleteCompetitionById(competition.id).pipe(
+      tap(() => dispatch(new providerActions.DeleteCompetitionByIdSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.DeleteCompetitionByIdFail(error)))
+    );
+  }
+
+  @Action(providerActions.DeleteCompetitionByIdSuccess)
+  deleteCompetitionByIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { competition }: providerActions.DeleteCompetitionByIdSuccess
+  ): void {
+    const messageData = Util.getCompetitionMessage(competition, SnackbarText.deleteCompetition);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+  }
+
+  @Action(providerActions.DeleteCompetitionByIdFail)
+  deleteCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>, { error }: providerActions.DeleteCompetitionByIdFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
