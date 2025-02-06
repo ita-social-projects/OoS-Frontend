@@ -47,7 +47,8 @@ describe('CompetitionCardComponent', () => {
       price: 0,
       withDisabilityOptions: false,
       rating: 0,
-      numberOfRatings: 0
+      numberOfRatings: 0,
+      directionIds: []
     };
     fixture.detectChanges();
   });
