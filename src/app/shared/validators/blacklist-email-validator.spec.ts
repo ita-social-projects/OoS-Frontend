@@ -33,4 +33,24 @@ describe('BlacklistEmailDomainsValidator', () => {
     const control = new FormControl('test@EXAMPLE.RU');
     expect(validator(control)).toEqual({ blacklistedDomain: true });
   });
+
+  it('should handle empty string', () => {
+    const control = new FormControl('');
+    expect(validator(control)).toBeNull();
+  });
+
+  it('should handle invalid email format', () => {
+    const control = new FormControl('invalid-email');
+    expect(validator(control)).toBeNull();
+  });
+
+  it('should not block valid domain containing blocked suffix', () => {
+    const control = new FormControl('test@guru.com');
+    expect(validator(control)).toBeNull();
+  });
+
+  it('should block subdomain of blocked domain', () => {
+    const control = new FormControl('test@mail.example.ru');
+    expect(validator(control)).toEqual({ blacklistedDomain: true });
+  });
 });

@@ -8,7 +8,14 @@ export function BlacklistEmailValidator(blockedDomains: string[] = ['.ru', '.rf'
       return null;
     }
 
-    const isBlacklisted = blockedDomains.some((domain) => email.toLowerCase().trim().endsWith(domain));
+    const emailParts = email.toLowerCase().trim().split('@');
+    if (emailParts.length !== 2) {
+      return null;
+    }
+    const domain = emailParts[1];
+    const isBlacklisted = blockedDomains.some(
+      (blockedDomain) => domain === blockedDomain.substring(1) || domain.endsWith('.' + blockedDomain.substring(1))
+    );
     return isBlacklisted ? { blacklistedDomain: true } : null;
   };
 }
