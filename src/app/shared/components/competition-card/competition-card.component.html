@@ -1,0 +1,158 @@
+<mat-card *ngIf="competitionData">
+  <ng-container *ngIf="role === Role.parent; then UserWorkshopView; else ProviderActions"></ng-container>
+
+  <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
+    <div class="card-img card-img-full flex flex-row justify-center">
+      <img
+        [ngClass]="{ 'card-img-full': competitionData.coverImageId }"
+        mat-card-image
+        [src]="competitionData['_meta']"
+        alt="{{ competitionData.title }}" />
+    </div>
+
+    <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
+      <mat-card-header>
+        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow" class="card-title !flex !flex-row">
+          <a
+            *ngIf="isCabinetView"
+            matTooltip="{{ 'MORE_DETAILS' | translate }}"
+            [matTooltipPosition]="tooltipPositionAbove"
+            [routerLink]="['/details/competition', competitionData.id]">
+            <mat-icon class="icon_launch">launch</mat-icon>
+          </a>
+          <div class="workshop-title-container">
+            <span [matTooltip]="competitionData.title" showTooltipIfTruncated>{{ competitionData.title }}</span>
+          </div>
+        </mat-card-title>
+        <ng-container *ngFor="let id of competitionData.directionIds">
+          <img class="img" mat-card-image [src]="categoryIcons[id]" />
+        </ng-container>
+      </mat-card-header>
+
+      <mat-card-content class="flex flex-col justify-between">
+        <ng-container *ngIf="isCabinetView; then ProviderCompetitionView"></ng-container>
+      </mat-card-content>
+
+      <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
+        <a class="more-details" [routerLink]="['/details/competition', competitionData.id]">
+          <span class="card_link">
+            {{ 'MORE_DETAILS' | translate }}
+          </span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card-footer>
+    </div>
+  </div>
+</mat-card>
+
+<ng-template #ProviderActions>
+  <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
+    <div class="actions_btn action-icon" [routerLink]="['/create-competition', competitionData.id]">
+      <mat-icon>edit</mat-icon>
+    </div>
+    <div class="actions_btn action-icon" (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ProviderCompetitionView>
+  <ng-container
+    *ngIf="competitionData.state === workshopStatus.Open || competitionData.availableSeats === UNLIMITED_SEATS; else WorkshopStatusClosed">
+    <div class="flex justify-between">
+      <div class="chip-color-open">
+        {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+      </div>
+      <a
+        *ngIf="canChangeWorkshopStatus"
+        class="more-details"
+        (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
+        <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
+      </a>
+    </div>
+  </ng-container>
+  <div *ngIf="competitionData.competitiveSelection" class="provider-content flex justify-between items-center">
+    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
+  </div>
+  <div class="provider-content flex justify-between items-center">
+    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
+    <span class="card_text card_text_blue">
+      {{ competitionData.numberOfOccupiedSeats }}
+      <ng-container *ngIf="competitionData.numberOfSeats !== UNLIMITED_SEATS"> / {{ competitionData.numberOfSeats }} </ng-container>
+    </span>
+  </div>
+  <div class="provider-content flex justify-between items-center">
+    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
+    <span class="card_text card_text_blue"> {{ competitionData.amountOfPendingApplications }}</span>
+  </div>
+  <div class="provider-content flex justify-between items-center">
+    <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+    <span class="card_text card_text_blue"> {{ competitionData.unreadMessages }}</span>
+  </div>
+</ng-template>
+
+<ng-template #UserWorkshopView>
+  <p *ngIf="!isHorizontalView" class="card_text">
+    <mat-icon class="card_icon">star</mat-icon>
+    {{ competitionData.rating }}&nbsp;
+    <span class="rating-number">({{ competitionData.numberOfRatings }})</span>
+  </p>
+
+  <!-- AFTER ADDING MORE INFO IN COMPETITION (providerTitle) -->
+  <!-- <a [routerLink]="['/details/provider', competitionData.organizerOfTheEventId]" class="provider-link flex items-center">
+    <mat-icon class="card_icon">home</mat-icon>
+    <p
+      class="card_text_label"
+      [matTooltip]="competitionData.providerTitle"
+      matTooltipClass="tooltip"
+      showTooltipIfTruncated
+      [matTooltipPosition]="tooltipPositionBelow">
+      {{ competitionData.providerTitle }}
+    </p>
+  </a> -->
+
+  <p class="card_text">
+    <mat-icon class="card_icon">school</mat-icon>
+    {{ FormOfLearningEnum[competitionData.plannedFormatOfClasses] | translate }}
+  </p>
+
+  <!-- AFTER ADDING providerOwnership -->
+  <!-- <p class="card_text" *ngIf="OwnershipTypeEnum[competitionData.providerOwnership] && !isHorizontalView">
+    <mat-icon class="card_icon">account_balance</mat-icon>
+    {{ 'FORMS.LABELS.OWNERSHIP' | translate }}: {{ OwnershipTypeEnum[competitionData.providerOwnership] | translate }}
+  </p> -->
+  <p class="card_text">
+    <mat-icon class="card_icon">person</mat-icon>
+    {{ competitionData.minimumAge }} - {{ competitionData.maximumAge }}
+    {{ 'YEARS' | translate }}
+  </p>
+  <p class="card_text" *ngIf="!competitionData.price">
+    <mat-icon class="card_icon">attach_money</mat-icon>
+    {{ 'FOR_FREE' | translate }}
+  </p>
+  <p class="card_text" *ngIf="competitionData.price">
+    <mat-icon class="card_icon">attach_money</mat-icon>
+    {{ competitionData.price }} {{ 'UAH' | translate }}/
+    {{ PayRateTypeEnum[competitionData.payRate] | translate }}
+  </p>
+  <div class="card_text">
+    <mat-icon class="card_icon">location_on</mat-icon>
+
+    <!-- AFTER ADDING everything related to the address -->
+    <!-- <p
+      class="card_text_label"
+      [matTooltip]="
+        competitionData.address.codeficatorAddressDto.settlement +
+        ', ' +
+        competitionData.address.street +
+        ', ' +
+        competitionData.address.buildingNumber
+      "
+      showTooltipIfTruncated
+      matTooltipClass="tooltip"
+      [matTooltipPosition]="tooltipPositionAbove">
+      {{ competitionData.address.codeficatorAddressDto.settlement }}, {{ competitionData.address.street }},
+      {{ competitionData.address.buildingNumber }}
+    </p> -->
+  </div>
+</ng-template>

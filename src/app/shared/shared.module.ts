@@ -85,6 +85,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 
 @NgModule({
   declarations: [
@@ -162,7 +163,8 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
-    StepperDirective
+    StepperDirective,
+    CompetitionCardComponent
   ],
 
   imports: [
@@ -250,7 +252,8 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
-    StepperDirective
+    StepperDirective,
+    CompetitionCardComponent
   ]
 })
 export class SharedModule {}
