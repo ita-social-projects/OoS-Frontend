@@ -1,5 +1,5 @@
 <div class="users-wrapper">
-  <div class="search-area">
+  <div class="search-container">
     <div class="search-bar flex flex-row box-border items-center justify-start content-center">
       <mat-icon class="search-icon">search</mat-icon>
       <input
@@ -8,26 +8,27 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
-        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
+        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
         [matTooltipDisabled]="!isSmallMobileView" />
     </div>
 
     <ng-container *ngIf="role === Role.provider; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
-    <ng-container *ngIf="role === Role.provider; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+    <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
   </div>
 </div>
 
 <ng-template #UsersList let-users>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!employees">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!officialEmployees">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
           [statusesTitles]="statusesTitles"
           [users]="users"
           [isEdit]="true"
+          [displayedColumns]="displayedColumns"
           (delete)="onDelete($event)"
           (block)="onBlockUnblock($event)"
           (unblock)="onBlockUnblock($event)"
@@ -36,7 +37,7 @@
         </app-users-list>
       </div>
       <app-paginator
-        [totalEntities]="employees.totalAmount"
+        [totalEntities]="officialEmployees.totalAmount"
         [currentPage]="currentPage"
         [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
@@ -56,24 +57,10 @@
   </a>
 </ng-template>
 
-<ng-template #ProviderTableViewTmpl>
-  <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{ EmployeeTitles.All | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-    <mat-tab label="{{ EmployeeTitles.Deputy | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-    <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
-    </mat-tab>
-  </mat-tab-group>
-</ng-template>
-
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
     <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
-      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: employeesData }"></ng-container>
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
