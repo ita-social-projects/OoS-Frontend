@@ -15,12 +15,13 @@ import { of } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
-import { Constants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { EmployeeParameters } from 'shared/models/employee.model';
 import { Provider } from 'shared/models/provider.model';
 import { EmployeesBlockData, EmployeesTableData } from 'shared/models/users-table';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { EmployeesComponent } from './employees.component';
 
 describe('EmployeesComponent', () => {
@@ -80,6 +81,26 @@ describe('EmployeesComponent', () => {
     expect(component.isSmallMobileView).toBeFalsy();
   });
 
+  it('should update currentPage and call getFilteredOfficialEmployees on page change', () => {
+    const mockPage: PaginationElement = { element: 1, isActive: true };
+    jest.spyOn(component as any, 'getFilteredOfficialEmployees');
+
+    component.onPageChange(mockPage);
+
+    expect(component.currentPage).toEqual(mockPage);
+    expect((component as any).getFilteredOfficialEmployees).toHaveBeenCalled();
+  });
+
+  it('should update items per page and trigger first page load', () => {
+    const testItemsPerPage = 20;
+    jest.spyOn(component, 'onPageChange');
+
+    component.onItemsPerPageChange(testItemsPerPage);
+
+    expect(component.filterParams.size).toBe(testItemsPerPage);
+    expect(component.onPageChange).toHaveBeenCalledWith(PaginationConstants.firstPage);
+  });
+
   describe('onBlockUnblock method', () => {
     let expectingMatDialogData: object;
     let matDialogSpy: jest.SpyInstance;
@@ -98,6 +119,7 @@ describe('EmployeesComponent', () => {
         isBlocking: false
       } as EmployeesBlockData;
       mockFilterParams = {
+        providerId: '',
         from: 0,
         searchString: '',
         size: 12
@@ -180,15 +202,15 @@ describe('EmployeesComponent', () => {
       expect(dispatchSpy).toHaveBeenCalledWith(expectingUnblockingData);
     });
   });
-});
 
-@Component({
-  selector: 'app-users-list',
-  template: ''
-})
-class MockUsersListComponent {
-  @Input() employees: EmployeesTableData[];
-  @Input() users: EmployeesTableData[];
-  @Input() userType: string;
-  @Input() isEdit: boolean;
-}
+  @Component({
+    selector: 'app-users-list',
+    template: ''
+  })
+  class MockUsersListComponent {
+    @Input() employees: EmployeesTableData[];
+    @Input() users: EmployeesTableData[];
+    @Input() userType: string;
+    @Input() isEdit: boolean;
+  }
+});
