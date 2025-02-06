@@ -42,6 +42,7 @@ import { CreateCompetitionDescriptionFormComponent } from './create-competition/
 import { CreateCompetitionAddressComponent } from './create-competition/create-competition-address/create-competition-address.component';
 import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
+import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { JudgeFormComponent } from './create-competition/create-judge/judge-form
     CreateCompetitionDescriptionFormComponent,
     CreateCompetitionAddressComponent,
     CreateJudgeComponent,
-    JudgeFormComponent
+    JudgeFormComponent,
+    ProviderCompetitionComponent
   ],
   imports: [
     CommonModule,
