@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Competition } from 'shared/models/competition.model';
 import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { Provider } from '../../../shared/models/provider.model';
@@ -11,6 +12,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 export class SideMenuComponent implements OnInit {
   @Input() public provider: Provider;
   @Input() public workshop: Workshop;
+  @Input() public competition: Competition;
   @Input() public role: string;
   @Input() public isMobileScreen: boolean;
   @Input() public displayActionCard: boolean;
