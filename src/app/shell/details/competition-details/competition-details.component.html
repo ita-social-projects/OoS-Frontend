@@ -1,0 +1,123 @@
+<div class="container">
+  <!-- <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions> -->
+  <app-image-carousel [images]="images"></app-image-carousel>
+
+  <div class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper">
+    <button (click)="onActionButtonClick(modalType.archiveCompetition)" class="btn btn-cancel" mat-button>
+      {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
+    </button>
+    <div class="flex">
+      <a [routerLink]="['/create-competition', competition.id]" class="btn btn-cancel" mat-button>
+        {{ 'BUTTONS.EDIT' | translate | uppercase }}
+      </a>
+      <button
+        class="btn"
+        [disabled]="competition.state !== competitionStatus.Draft"
+        (click)="onActionButtonClick(modalType.publishCompetition)"
+        mat-button>
+        {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
+      </button>
+    </div>
+  </div>
+
+  <div class="details-wrapper">
+    <div class="flex flex-col justify-between">
+      <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-col items-start sm:flex-wrap">
+          <div class="flex flex-row items-center">
+            <h1 class="title">{{ competition.title }}</h1>
+            <ng-container *ngIf="competitionStatusOpen; else ClosedWorkshopStatus">
+              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+            </ng-container>
+          </div>
+          <h3 class="short-title" *ngIf="competition.shortTitle">{{ competition.shortTitle }}</h3>
+        </div>
+        <div *ngFor="let directionId of competition.directionIds">
+          <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ competition.title }}" />
+        </div>
+      </div>
+
+      <div class="flex flex-row">
+        <div class="flex flex-col">
+          <span class="icon-text">
+            <mat-icon class="icon">star</mat-icon>
+            {{ competition.rating }}&nbsp;
+            <span class="rating-number">({{ competition.numberOfRatings }})</span>
+          </span>
+          <a [routerLink]="['/details/provider', competition.organizerOfTheEventId]">
+            <span class="icon-text details-link" [ngClass]="{ 'workshop-title': competition.competitiveSelection }">
+              <mat-icon class="icon">home</mat-icon>
+              {{ competition.title }}
+            </span>
+          </a>
+          <span class="icon-text" *ngIf="competition.scheduledStartTime">
+            <mat-icon class="icon">schedule</mat-icon>
+            {{ competition.scheduledStartTime | date: 'd MMMM, HH:mm' }}
+          </span>
+          <span class="icon-text" *ngIf="competition.registrationEndTime">
+            <mat-icon class="icon">event_clock</mat-icon>
+            {{ 'DEADLINE' | translate }}:
+            {{ competition.registrationEndTime | date: 'd MMMM' }}
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ competition.minimumAge }} - {{ competition.maximumAge }}
+            {{ 'YEARS' | translate }}
+          </span>
+        </div>
+        <div class="flex flex-col" *ngIf="competition.competitiveSelection">
+          <span class="flex flex-row items-center">
+            <span class="icon-text">
+              <mat-icon class="icon">person_add</mat-icon>
+              {{ 'COMPETITIVE_SELECTION' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ competition.competitiveSelectionDescription }}
+              </app-info-menu>
+            </span>
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">school</mat-icon>
+            {{ FormOfLearningEnum[competition.formOfLearning] | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+      <mat-tab class="label" label="{{ competitionTitles.AboutCompetition | translate | uppercase }}">
+        <app-competition-about [competition]="competition"></app-competition-about>
+      </mat-tab>
+      <mat-tab class="label" label="{{ competitionTitles.Judges | translate | uppercase }}">
+        <app-competition-judges [teachers]="competition.judges"></app-competition-judges>
+      </mat-tab>
+      <!-- <mat-tab class="label" label="{{ competitionTitles.Contacts| translate | uppercase }}">
+        <app-provider-about [provider]="provider"></app-provider-about>
+      </mat-tab> -->
+      <!-- <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
+        <app-workshop-teachers [teachers]="competition.teachers"></app-workshop-teachers>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
+        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
+      </mat-tab>
+      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+        <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
+        <app-achievements [workshop]="workshop"></app-achievements>
+      </mat-tab> -->
+    </mat-tab-group>
+  </div>
+</div>
+<ng-template #ClosedWorkshopStatus>
+  <div
+    class="chip"
+    [ngClass]="{
+      'chip-color-close': competition.state === competitionStatus.Completed,
+      'chip-color-draft': competition.state === competitionStatus.Draft
+    }">
+    {{
+      (competition.state === competitionStatus.Completed ? recruitmentStatusEnum.RecruitmentStoped : recruitmentStatusEnum.Draft)
+        | translate
+    }}
+  </div>
+</ng-template>
