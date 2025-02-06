@@ -49,7 +49,8 @@ export enum NavBarName {
   CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION',
   Positions = 'ENUM.NAV_BAR_NAME.POSITIONS',
   NewCompetition = 'ENUM.NAV_BAR_NAME.NEW_COMPETITION',
-  EditCompetition = 'ENUM.NAV_BAR_NAME.EDIT_COMPETITION'
+  EditCompetition = 'ENUM.NAV_BAR_NAME.EDIT_COMPETITION',
+  Competition = 'ENUM.NAV_BAR_NAME.MY_COMPETITIONS'
 }
 
 export enum PersonalCabinetTitle {

@@ -13,3 +13,9 @@ export enum CompetitionCoverageEnum {
   National = 'ENUM.COMPETITION_COVERAGE.NATIONAL',
   International = 'ENUM.COMPETITION_COVERAGE.INTERNATIONAL'
 }
+
+export enum CompetitionDetailsTabTitlesEnum {
+  AboutCompetition = 'TITLES.ABOUT_THE_COMPETITION',
+  Contacts = 'TITLES.CONTACTS',
+  Judges = 'TITLES.JUDGES'
+}

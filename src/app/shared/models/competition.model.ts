@@ -1,15 +1,17 @@
-import { CompetitionCoverage, CompetitionStatus, TypeOfCompetition } from 'shared/enum/Competition';
+import { CompetitionCoverage, CompetitionStatus, TypeOfCompetition, FormOfLearning } from 'shared/enum/competition';
 import { Direction } from 'shared/models/category.model';
 import { Address } from 'shared/models/address.model';
 import { Judge } from 'shared/models/judge.model';
-import { FormOfLearning } from 'shared/enum/Competition';
 import { Provider } from 'shared/models/provider.model';
+import { PaginationParameters } from './query-parameters.model';
+import { SectionItem } from './section-item.model';
 
 export abstract class CompetitionBase {
   id?: string;
-  providerId: string;
+  organizerOfTheEventId: string;
   childParticipant: string;
   termsOfParticipation: string;
+  preferentialTermsOfParticipation: string;
   title: string;
   shortTitle: string;
   phone: string;
@@ -17,49 +19,59 @@ export abstract class CompetitionBase {
   website?: string;
   facebook?: string;
   instagram?: string;
-  startDate: Date;
-  endDate: Date;
-  regStartDate?: Date;
-  regEndDate?: Date;
+  scheduledStartTime: Date;
+  scheduledEndTime: Date;
+  registrationStartTime?: Date;
+  registrationEndTime?: Date;
   typeOfCompetition: TypeOfCompetition;
   parentCompetition?: string;
-  availableSeats: number;
-  category?: Direction;
+  numberOfSeats: number;
+  institutionHierarchyId?: string;
   subcategory?: string;
   description?: string;
   coverage?: CompetitionCoverage;
-  formOfLearning?: FormOfLearning;
-  disabilities?: boolean;
+  plannedFormatOfClasses?: FormOfLearning;
+  optionsForPeopleWithDisabilities?: boolean;
   disabilityOptionsDesc?: string;
-  additionalDescription?: string;
-  minAge?: number;
-  maxAge?: number;
+  descriptionOfOptionsForPeopleWithDisabilities?: string;
+  minimumAge?: number;
+  maximumAge?: number;
   competitiveSelection?: boolean;
   selectionOptionsDesc?: string;
   price?: number;
-  benefits: boolean;
-  benefitsOptionsDesc?: string;
+  areThereBenefits: boolean;
+  benefits?: string;
   address: Address;
-  chiefJudge: Judge;
   judges: Judge[];
+  directionIds: number[];
+  competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
+  contacts: CompetitionContacts[];
+  parentId: string;
+  buildingHoldingId: string;
+  childParticipantId: string;
+  competitiveEventAccountingTypeId: number;
+  descriptionOfTheEnrollmentProcedure: string;
+  venueId?: string;
+  venueName?: string;
+  participantsOfTheEvent: string[];
 
   constructor(required: CompetitionRequired, description: Description, address: Address, judges: Judge[], provider: Provider, id?: string) {
     this.title = required.title;
     this.shortTitle = required.shortTitle;
     this.phone = required.phone;
     this.email = required.email;
-    this.startDate = required.competitionDateRangeGroup.start;
-    this.endDate = required.competitionDateRangeGroup.end;
+    this.scheduledStartTime = required.competitionDateRangeGroup.start;
+    this.scheduledEndTime = required.competitionDateRangeGroup.end;
     this.typeOfCompetition = required.typeOfCompetition;
-    this.availableSeats = required.availableSeats;
+    this.numberOfSeats = required.numberOfSeats;
     this.address = address;
-    this.chiefJudge = judges[0];
-    this.judges = judges.slice(1);
-    this.providerId = provider.id;
+    this.judges = judges;
+    this.organizerOfTheEventId = provider.id;
 
-    this.disabilities = Boolean(description.disabilityOptionsDesc);
+    this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
     this.competitiveSelection = Boolean(description.selectionOptionsDesc);
-    this.benefits = Boolean(description.benefitsOptionsDesc);
+    this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
+    this.optionsForPeopleWithDisabilities = description.optionsForPeopleWithDisabilities;
 
     if (id) {
       this.id = id;
@@ -74,16 +86,16 @@ export abstract class CompetitionBase {
       this.instagram = required.instagram;
     }
     if (required.registrationDateRangeGroup.start) {
-      this.regStartDate = required.registrationDateRangeGroup.start;
+      this.registrationStartTime = required.registrationDateRangeGroup.start;
     }
     if (required.registrationDateRangeGroup.end) {
-      this.regEndDate = required.registrationDateRangeGroup.end;
+      this.registrationEndTime = required.registrationDateRangeGroup.end;
     }
     if (required.parentCompetition) {
       this.parentCompetition = required.parentCompetition;
     }
-    if (description.category) {
-      this.category = description.category;
+    if (description.institutionHierarchyId) {
+      this.institutionHierarchyId = description.institutionHierarchyId;
     }
     if (description.subcategory) {
       this.subcategory = description.subcategory;
@@ -95,19 +107,19 @@ export abstract class CompetitionBase {
       this.coverage = description.coverage;
     }
     if (description.formOfLearning) {
-      this.formOfLearning = description.formOfLearning;
+      this.plannedFormatOfClasses = description.formOfLearning;
     }
     if (description.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
     if (description.additionalDescription) {
-      this.additionalDescription = description.additionalDescription;
+      this.descriptionOfOptionsForPeopleWithDisabilities = description.additionalDescription;
     }
     if (description.minAge) {
-      this.minAge = description.minAge;
+      this.minimumAge = description.minAge;
     }
     if (description.maxAge) {
-      this.maxAge = description.maxAge;
+      this.maximumAge = description.maxAge;
     }
     if (description.selectionOptionsDesc) {
       this.selectionOptionsDesc = description.selectionOptionsDesc;
@@ -116,7 +128,10 @@ export abstract class CompetitionBase {
       this.price = description.price;
     }
     if (description.benefitsOptionsDesc) {
-      this.benefitsOptionsDesc = description.benefitsOptionsDesc;
+      this.benefits = description.benefitsOptionsDesc;
+    }
+    if (description.competitiveEventDescriptionItems) {
+      this.competitiveEventDescriptionItems = description.competitiveEventDescriptionItems;
     }
   }
 }
@@ -125,7 +140,7 @@ export class Competition extends CompetitionBase {
   takenSeats: number;
   rating: number;
   numberOfRatings: number;
-  status: CompetitionStatus;
+  state: CompetitionStatus;
   coverImageId?: string;
   coverImage?: File;
   imageIds?: string[];
@@ -155,13 +170,66 @@ export interface CompetitionRequired {
   registrationDateRangeGroup?: { start: Date; end: Date };
   typeOfCompetition: TypeOfCompetition;
   parentCompetition?: string;
-  availableSeats: number;
+  numberOfSeats: number;
   coverImageId?: string;
   coverImage?: File;
 }
 
+export interface CompetitionBaseCard {
+  id: string;
+  title: string;
+  plannedFormatOfClasses: FormOfLearning;
+  institutionHierarchy: string;
+  institutionHierarchyId: string;
+  coverImageId?: string;
+  scheduledStartTime: string;
+  scheduledEndTime: string;
+  minimumAge: number;
+  maximumAge: number;
+  competitiveSelection: boolean;
+  price: number;
+  address?: Address;
+  withDisabilityOptions: boolean;
+  rating: number;
+  numberOfRatings: number;
+  directionIds: number[];
+}
+
+export interface CompetitionProviderViewCard extends CompetitionBaseCard {
+  numberOfSeats: number;
+  numberOfOccupiedSeats: number;
+  amountOfPendingApplications: number;
+  state: CompetitionStatus;
+  unreadMessages: number;
+}
+
+export interface CompetitionCardParameters extends PaginationParameters {
+  providerId: string;
+}
+
+export class CompetitiveDescriptionItem extends SectionItem {
+  competitionId?: string;
+
+  constructor(info: { id?: string; sectionName: string; description: string; competitionId?: string }) {
+    super(info);
+
+    if (info.competitionId) {
+      this.competitionId = info.competitionId;
+    }
+  }
+}
+
+interface CompetitionContacts {
+  title: string;
+  isDefault: boolean;
+  address: Address;
+  phones: CompetitionPhone[];
+  emails: CompetitionEmail[];
+  socialNetworks: CompetitionSocialNetwork[];
+}
+
 interface Description {
-  category?: Direction;
+  institutionHierarchyId?: string;
   subcategory?: string;
   description?: string;
   coverage?: CompetitionCoverage;
@@ -173,4 +241,21 @@ interface Description {
   selectionOptionsDesc?: string;
   price?: number;
   benefitsOptionsDesc?: string;
+  competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
+  optionsForPeopleWithDisabilities: boolean;
+}
+
+interface CompetitionPhone {
+  type: string;
+  number: string;
+}
+
+interface CompetitionEmail {
+  type: string;
+  address: string;
+}
+
+interface CompetitionSocialNetwork {
+  type: string;
+  url: string;
 }

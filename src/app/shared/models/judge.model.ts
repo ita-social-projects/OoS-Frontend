@@ -2,15 +2,26 @@ import { Person } from './user.model';
 
 export class Judge implements Person {
   id?: string;
-  competitionId?: string;
+  competetiveEventId?: string;
   firstName: string;
   lastName: string;
-  judgeInfo?: string;
+  middleName?: string;
+  dateOfBirth: string;
+  gender: string;
+  description?: string;
+  isChiefJudge: boolean;
+  coverImageId: string;
 
   constructor(info: Partial<Judge>) {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
-    this.judgeInfo = info.judgeInfo;
+    this.middleName = info.middleName;
+    this.description = info.description;
+    this.dateOfBirth = info.dateOfBirth;
+    this.gender = info.gender;
+    this.description = info.description;
+    this.isChiefJudge = info.isChiefJudge;
+    this.coverImageId = info.coverImageId;
     if (info.id) {
       this.id = info.id;
     }

@@ -76,6 +76,7 @@ export class PaginationConstants {
   };
   static readonly ACHIEVEMENTS_PER_PAGE = 12;
   static readonly WORKSHOPS_PER_PAGE = 12;
+  static readonly COMPETITIONS_PER_PAGE = 12;
   static readonly DIRECTIONS_PER_PAGE = 12;
   static readonly APPLICATIONS_PER_PAGE = 8;
   static readonly CHILDREN_PER_PAGE = 8;
@@ -153,6 +154,7 @@ export class ModeConstants {
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
   static readonly UNFINISHED = 'unfinished';
+  static readonly COMPETITION = 'competition';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

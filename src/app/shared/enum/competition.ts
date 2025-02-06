@@ -1,9 +1,8 @@
 export enum CompetitionStatus {
-  NULL = 'NULL',
-  DRAFT = 'DRAFT',
-  PUBLISHED = 'PUBLISHED',
-  COMPLETED = 'COMPLETED',
-  ARCHIVED = 'ARCHIVED'
+  Draft = 'Draft',
+  Published = 'Published',
+  Completed = 'Completed',
+  Archived = 'Archived'
 }
 
 export enum TypeOfCompetition {
@@ -26,4 +25,10 @@ export enum FormOfLearning {
   Offline = 'Offline',
   Online = 'Online',
   Mixed = 'Mixed'
+}
+
+export enum CompetitionDetailsTabTitlesParams {
+  'AboutCompetition',
+  'Judges',
+  'Contacts'
 }
