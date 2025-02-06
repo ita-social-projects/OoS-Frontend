@@ -113,7 +113,7 @@ export class SharedUserState {
   ): Observable<Competition | void> {
     patchState({ isLoading: true });
     return this.userCompetitionService.getCompetitionById(payload).pipe(
-      tap((Competition: Competition) => patchState({ selectedCompetition: Competition, isLoading: false })),
+      tap((competition: Competition) => patchState({ selectedCompetition: competition, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetCompetitionByIdFail(error)))
     );
   }
