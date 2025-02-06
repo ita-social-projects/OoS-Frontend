@@ -132,6 +132,11 @@
         {{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate }}
       </button>
     </a>
+    <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/competitions'">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.MY_COMPETITIONS' | translate }}
+      </button>
+    </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate }}
