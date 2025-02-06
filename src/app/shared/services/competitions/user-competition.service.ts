@@ -1,10 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { CompetitionCardParameters } from './../../models/competition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,24 @@ export class UserCompetitionService {
    * @param id string
    */
   public getCompetitionById(id: string): Observable<Competition> {
-    return this.http.get<Competition>(`/api/v1/Competition/GetById/${id}`);
+    return this.http.get<Competition>(`/api/v1/CompetitiveEvent/${id}`);
+  }
+
+  /**
+   * This method get related competitions for provider personal cabinet
+   */
+  public getProviderViewCompetitions(
+    competitionCardParameters: CompetitionCardParameters
+  ): Observable<SearchResponse<CompetitionProviderViewCard[]>> {
+    const params = new HttpParams()
+      .set('From', competitionCardParameters.from.toString())
+      .set('Size', competitionCardParameters.size.toString());
+    return this.http.get<SearchResponse<CompetitionProviderViewCard[]>>(
+      `/api/v1/provider/${competitionCardParameters?.providerId}/competitiveevents`,
+      {
+        params
+      }
+    );
   }
 
   /**
@@ -35,12 +54,12 @@ export class UserCompetitionService {
   }
 
   public createCompetitionV1(competition: Competition): Observable<Competition> {
-    return this.http.post<Competition>('/api/v1/Competition/Create', competition);
+    return this.http.post<Competition>('/api/v1/CompetitiveEvent', competition);
   }
 
   public createCompetitionV2(competition: Competition): Observable<Competition> {
     const formData = this.createFormData(competition);
-    return this.http.post<Competition>('/api/v2/Competition/Create', formData);
+    return this.http.post<Competition>('/api/v2/CompetitiveEvent', formData);
   }
 
   /**
@@ -53,12 +72,16 @@ export class UserCompetitionService {
   }
 
   public updateCompetitionV1(competition: Competition): Observable<Competition> {
-    return this.http.put<Competition>('/api/v1/Competition/Update', competition);
+    return this.http.put<Competition>('/api/v1/CompetitiveEvent', competition);
   }
 
   public updateCompetitionV2(competition: Competition): Observable<Competition> {
     const formData = this.createFormData(competition);
-    return this.http.put<Competition>('/api/v2/Competition/Update', formData);
+    return this.http.put<Competition>('/api/v2/CompetitiveEvent', formData);
+  }
+
+  public deleteCompetitionById(id: string): Observable<any> {
+    return this.http.delete(`/api/v2/CompetitiveEvent/${id}`);
   }
 
   private createFormData(competition: Competition): FormData {

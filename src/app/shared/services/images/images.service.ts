@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { Competition } from 'shared/models/competition.model';
 import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
 import { ImgPath } from '../../models/carousel.model';
@@ -20,10 +21,14 @@ export class ImagesService {
     return entity.coverImageId ? environment.storageUrl + entity.coverImageId : this.defaultCoverImage;
   }
 
-  public getCarouselImages(entity: Workshop | Provider): ImgPath[] {
+  public getCarouselImages(entity: Workshop | Provider | Competition): ImgPath[] {
     let images: ImgPath[];
     if (entity.imageIds?.length) {
       images = entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
+    } else if (entity instanceof Workshop) {
+      images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
+    } else {
+      images = [{ path: 'assets/images/groupimages/competition-img.png' }];
     }
 
     return images;
