@@ -294,7 +294,7 @@ interface SocialNetworks {
 }
 
 enum Socials {
-  Facebook,
-  Instagram,
-  Website
+  Facebook = 'Facebook',
+  Instagram = 'Instagram',
+  Website = 'Website'
 }

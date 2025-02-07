@@ -125,14 +125,7 @@
             </button>
             <button
               class="btn"
-              [disabled]="
-                (isLoading$ | async) ||
-                (!AboutFormGroup.dirty && !DescriptionFormGroup.dirty && !WorkshopContactsFormArray.dirty && !TeacherFormArray?.dirty) ||
-                AboutFormGroup.invalid ||
-                DescriptionFormGroup.invalid ||
-                WorkshopContactsFormArray.invalid ||
-                TeacherFormArray?.invalid
-              "
+              [disabled]="(isLoading$ | async) || IsAllFormsNotDirtyAndInvalid"
               mat-button
               type="submit"
               (click)="onSubmit()">

@@ -34,12 +34,12 @@ export class SideMenuComponent implements OnInit {
 
   private getContactsData(): void {
     this.contactsData = {
-      phone: this.workshop?.contacts[0].phones[0].number || this.provider.phoneNumber,
-      email: this.workshop?.contacts[0].emails[0].address || this.provider.email,
-      facebook: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.facebook,
-      instagram: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.instagram,
-      website: this.workshop?.contacts[0].socialNetworks[0].url || this.provider.website
+      phone: this.workshop?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
+      email: this.workshop?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,
+      facebook: this.workshop?.contacts?.[0]?.socialNetworks?.[0]?.url ?? this.provider.facebook,
+      instagram: this.workshop?.contacts?.[0]?.socialNetworks?.[1]?.url ?? this.provider.instagram,
+      website: this.workshop?.contacts?.[0]?.socialNetworks?.[2]?.url ?? this.provider.website
     };
-    this.address = { ...(this.workshop?.contacts[0].address || this.provider?.actualAddress || this.provider.legalAddress) };
+    this.address = { ...(this.workshop?.contacts?.[0]?.address ?? this.provider?.actualAddress ?? this.provider.legalAddress) };
   }
 }

@@ -30,7 +30,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public addressFormGroup: FormGroup;
   @Input() public settelmentFormGroup: FormGroup;
-  @Input() public mapId: string; // Add this Input
+  @Input() public mapId: string = 'default';
 
   @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
@@ -177,7 +177,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * method init start position on map
    */
   private initMap(): void {
-    this.map = Layer.map('map-' + this.mapId).setView(this.defaultCoords, this.zoom);
+    const mapElementId = `map-${this.mapId ?? 'default'}`;
+    const mapElement = document.getElementById(mapElementId);
+    if (!mapElement) {
+      console.error(`Map element with id ${mapElementId} not found`);
+      return;
+    }
+    this.map = Layer.map(mapElementId).setView(this.defaultCoords, this.zoom);
 
     Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
       updateWhenZooming: true,

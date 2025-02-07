@@ -62,6 +62,19 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     super(store, route, navigationBarService);
   }
 
+  public get IsAllFormsNotDirtyAndInvalid(): boolean {
+    return (
+      (!this.AboutFormGroup.dirty &&
+        !this.DescriptionFormGroup.dirty &&
+        !this.WorkshopContactsFormArray.dirty &&
+        !this.TeacherFormArray?.dirty) ||
+      this.AboutFormGroup.invalid ||
+      this.DescriptionFormGroup.invalid ||
+      this.WorkshopContactsFormArray.invalid ||
+      this.TeacherFormArray?.invalid
+    );
+  }
+
   public ngOnInit(): void {
     this.provider$
       .pipe(

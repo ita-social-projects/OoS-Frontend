@@ -51,7 +51,9 @@ describe('CreateWorkshopAddressComponent', () => {
     const contactForm = new FormGroup({
       phones: new FormArray([])
     });
+
     component.addPhoneField(contactForm);
+
     expect((contactForm.get('phones') as FormArray).length).toBe(1);
   });
 
@@ -69,56 +71,68 @@ describe('CreateWorkshopAddressComponent', () => {
 
   it('should return socialTypes keys', () => {
     component.socialTypes = SocialNetworks;
+
     expect(component.socialTypesKeys()).toEqual(Object.keys(SocialNetworks));
   });
 
   it('should set the step value', () => {
     component.setStep(3);
-    expect(component.step).toBe(3);
+
+    expect(component.stepIndex).toBe(3);
   });
 
   it('should increment the step value', () => {
     component.setStep(2);
     component.nextStep();
-    expect(component.step).toBe(3);
+
+    expect(component.stepIndex).toBe(3);
   });
 
   it('should decrement the step value', () => {
     component.setStep(2);
     component.prevStep();
-    expect(component.step).toBe(1);
+
+    expect(component.stepIndex).toBe(1);
   });
 
   it('should delete a form field', () => {
     const formArray = new FormArray([new FormControl('test1'), new FormControl('test2')]);
+
     component.deleteFormField(formArray, 0);
+
     expect(formArray.length).toBe(1);
   });
 
   it('should delete an address form and update the step', () => {
     component.addressesFormArray = new FormArray([new FormGroup({}), new FormGroup({})]);
+
     component.deleteAddressForm(0);
+
     expect(component.addressesFormArray.length).toBe(1);
-    expect(component.step).toBe(0);
+    expect(component.stepIndex).toBe(0);
   });
 
   it('should update isDefault values correctly', () => {
     const address1 = new FormGroup({ isDefault: new FormControl(false) });
     const address2 = new FormGroup({ isDefault: new FormControl(true) });
     component.addressesFormArray = new FormArray([address1, address2]);
+
     component.onIsDefaultChange(address1, true);
+
     expect(address1.get('isDefault').value).toBe(true);
     expect(address2.get('isDefault').value).toBe(false);
   });
 
   it('should create a social networks form group', () => {
     const socialForm = component.createSocialNetworksFormGroup();
+
     expect(socialForm.get('type')).toBeTruthy();
     expect(socialForm.get('url')).toBeTruthy();
   });
 
   it('should create an email form group', () => {
     const emailGroup = component.createEmailFormGroup();
+
     expect(emailGroup instanceof FormGroup).toBeTruthy();
     expect(emailGroup.controls.type).toBeDefined();
     expect(emailGroup.controls.address).toBeDefined();
@@ -126,26 +140,34 @@ describe('CreateWorkshopAddressComponent', () => {
 
   it('should add an email field', () => {
     const contact = new FormGroup({ emails: new FormArray([]) });
+
     component.addEmailField(contact);
+
     expect((contact.get('emails') as FormArray).length).toBe(1);
   });
 
   it('should add a social network field', () => {
     const contact = new FormGroup({ socialNetworks: new FormArray([]) });
+
     component.addSocialsField(contact);
+
     expect((contact.get('socialNetworks') as FormArray).length).toBe(1);
   });
 
   it('should add an address group', () => {
     component.addressesFormArray = new FormArray([]);
+
     component.addAddressGroup();
+
     expect(component.addressesFormArray.length).toBe(1);
   });
 
   it('should activate edit mode', () => {
     const contact = { title: 'Test' } as Contacts;
     const contactFormGroup = formBuilder.group({ title: '' });
+
     component.activateEditMode(contactFormGroup, contact);
+
     expect(contactFormGroup.get('title').value).toBe('Test');
   });
 
@@ -170,6 +192,7 @@ describe('CreateWorkshopAddressComponent', () => {
 
     it('should set noAddressFound to true and set error when result is null', () => {
       component.onAddressSelect(null, addressGroup);
+
       expect(component.noAddressFound).toBeTruthy();
       expect(addressGroup.get('address').errors).toEqual({ noAddressFound: true });
     });
@@ -182,6 +205,7 @@ describe('CreateWorkshopAddressComponent', () => {
         lat: 50.123,
         lon: 30.456
       };
+
       component.onAddressSelect(result, addressGroup);
 
       expect(component.noAddressFound).toBeFalsy();
@@ -197,13 +221,17 @@ describe('CreateWorkshopAddressComponent', () => {
 
   it('should initialize addressesFormArray correctly', () => {
     component.contacts = [{}, {}] as any;
+
     component.ngOnInit();
+
     expect(component.addressesFormArray.length).toBe(2);
   });
 
   it('should initialize addressesFormArray with one form group if no contacts', () => {
     component.contacts = null;
+
     component.ngOnInit();
+
     expect(component.addressesFormArray.length).toBe(1);
   });
 });

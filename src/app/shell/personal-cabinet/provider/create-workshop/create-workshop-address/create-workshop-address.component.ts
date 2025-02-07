@@ -26,7 +26,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   public searchFormGroup: FormGroup;
   public addressesFormArray: FormArray;
   public noAddressFound = false;
-  public step = 0;
+  public stepIndex = 0;
   public socialTypes = SocialNetworks;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -46,15 +46,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public setStep(index: number): void {
-    this.step = index;
+    this.stepIndex = index;
   }
 
   public nextStep(): void {
-    this.step++;
+    this.stepIndex++;
   }
 
   public prevStep(): void {
-    this.step--;
+    this.stepIndex--;
   }
 
   public ngOnDestroy(): void {
@@ -97,9 +97,6 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * This method makes addressFormGroup dirty
-   */
   public markFormAsDirtyOnUserInteraction(): void {
     if (!this.addressesFormArray.dirty) {
       this.addressesFormArray.markAsDirty({ onlySelf: true });
@@ -129,6 +126,11 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
       this.activateEditMode(contactFormGroup, address);
     }
 
+    const isDefaultFormControl = contactFormGroup.get('isDefault');
+    isDefaultFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.onIsDefaultChange(contactFormGroup, isDefaultFormControl.value);
+    });
+
     return contactFormGroup;
   }
 
@@ -138,28 +140,31 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
 
   public addPhoneField(contact: FormGroup): void {
     const phoneGroup = this.createPhoneFormGroup();
-    (contact.get('phones') as FormArray).controls.push(phoneGroup);
-    (contact.get('phones') as FormArray).updateValueAndValidity();
+    const phonesArray = contact.get('phones') as FormArray;
+    phonesArray.controls.push(phoneGroup);
+    phonesArray.updateValueAndValidity();
     phoneGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (contact.get('phones') as FormArray).updateValueAndValidity();
+      phonesArray.updateValueAndValidity();
     });
   }
 
   public addEmailField(contact: FormGroup): void {
     const emailGroup = this.createEmailFormGroup();
-    (contact.get('emails') as FormArray).controls.push(emailGroup);
-    (contact.get('emails') as FormArray).updateValueAndValidity();
+    const emailsArray = contact.get('emails') as FormArray;
+    emailsArray.controls.push(emailGroup);
+    emailsArray.updateValueAndValidity();
     emailGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (contact.get('emails') as FormArray).updateValueAndValidity();
+      emailsArray.updateValueAndValidity();
     });
   }
 
   public addSocialsField(contact: FormGroup): void {
     const socialsGroup = this.createSocialNetworksFormGroup();
-    (contact.get('socialNetworks') as FormArray).controls.push(socialsGroup);
-    (contact.get('socialNetworks') as FormArray).updateValueAndValidity();
+    const socialsArray = contact.get('socialNetworks') as FormArray;
+    socialsArray.controls.push(socialsGroup);
+    socialsArray.updateValueAndValidity();
     socialsGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      (contact.get('socialNetworks') as FormArray).updateValueAndValidity();
+      socialsArray.updateValueAndValidity();
     });
   }
 
@@ -211,21 +216,21 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public deleteFormField(Array: FormArray, index: number): void {
-    Array.removeAt(index);
+  public deleteFormField(fields: FormArray, index: number): void {
+    fields.removeAt(index);
   }
 
   public deleteAddressForm(index: number): void {
     this.addressesFormArray.removeAt(index);
-    this.step = this.addressesFormArray.length - 1;
+    this.stepIndex = this.addressesFormArray.length - 1;
   }
 
   public onIsDefaultChange(addressGroup: FormGroup, checked: boolean): void {
     if (checked) {
       this.addressesFormArray.controls.forEach((formGroup: FormGroup) => {
-        formGroup.get('isDefault').setValue(false);
+        formGroup.get('isDefault').patchValue(false, { emitEvent: false });
       });
-      addressGroup.get('isDefault').setValue(true);
+      addressGroup.get('isDefault').patchValue(true, { emitEvent: false });
     }
   }
 }
