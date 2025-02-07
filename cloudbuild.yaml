@@ -9,7 +9,7 @@ steps:
           production: true,
           stsServer: '$_STS_SERVER',
           serverUrl: '$_API_SERVER',
-          storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
+          storageUrl: '$_IMAGE_URL'
         };
         EOF
   # Build the container image
