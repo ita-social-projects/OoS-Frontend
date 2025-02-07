@@ -15,7 +15,7 @@
     <ng-container *ngIf="invalidSearch; then invalidSearchTmpl"></ng-container>
     <ng-container *ngIf="invalidTimeFormat; then invalidTimeFormatTmpl"></ng-container>
     <ng-container *ngIf="invalidTimeRange; then invalidTimeRangeTmpl"></ng-container>
-    <ng-container *ngIf="invalidAgeRange; then invalidAgeRangeTmpl" ></ng-container>
+    <ng-container *ngIf="invalidAgeRange; then invalidAgeRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidValue; then invalidValueTmpl"></ng-container>
     <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
     <ng-container
@@ -24,6 +24,7 @@
         then mustContainLettersTmpl
       "></ng-container>
     <ng-container *ngIf="minNumberValue; then minNumberValueTmpl"></ng-container>
+    <ng-container *ngIf="invalidEmailType; then invalidEmailTypeTmpl"></ng-container>
   </ng-container>
 </small>
 
@@ -99,3 +100,5 @@
 <ng-template #invalidTimeFormatTmpl>{{ 'FORMS.VALIDATIONS.INVALID_TIME_FORMAT' | translate }}</ng-template>
 
 <ng-template #invalidAgeRangeTmpl>{{ 'FORMS.VALIDATIONS.INVALID_AGE_RANGE' | translate }}</ng-template>
+
+<ng-template #invalidEmailTypeTmpl>{{ 'FORMS.VALIDATIONS.INVALID_EMAIL_TYPE' | translate }}</ng-template>
