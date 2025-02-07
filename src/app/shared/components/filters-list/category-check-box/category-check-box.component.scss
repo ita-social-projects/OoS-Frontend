@@ -1,22 +1,39 @@
 .wrapper-full-width {
   width: 100%;
 }
-
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 .search-bar {
   background: #ffffff;
   border: 1px solid #ffffff;
   box-sizing: border-box;
   border-radius: 60px;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  margin: 1rem 0.5rem;
+  margin: 8px 0rem 23px 0rem;
 }
 
 :host ::ng-deep .mat-form-field-infix {
   padding: 0;
 }
+.mat-expansion-panel-header.mat-expanded {
+  height: auto;
+  min-height: 34px;
+}
+.mat-expansion-panel-header {
+  transition: min-height 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-behavior: normal;
+  transition-duration: 225ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
+  transition-property: min-height;
+}
 
 .list-wrapper {
   max-height: 200px;
+  padding: 15px 15px 15px 15px;
   overflow: auto;
   position: relative;
 }

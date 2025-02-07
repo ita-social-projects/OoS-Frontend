@@ -6,6 +6,7 @@ import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
  */
 export class DefaultFilterState {
   directionIds: number[] = [];
+  subDirectionIds: number[] = [];
   maxAge: number = null;
   minAge: number = null;
   isAppropriateAge = false;

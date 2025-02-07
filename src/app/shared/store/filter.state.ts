@@ -45,6 +45,7 @@ import {
   SetRadiusSize,
   SetSearchQueryValue,
   SetStartTime,
+  SetSubDirections,
   SetWithDisabilityOption,
   SetWorkingDays
 } from './filter.actions';
@@ -67,7 +68,7 @@ import {
 })
 @Injectable()
 export class FilterState {
-  constructor(private appWorkshopsService: AppWorkshopsService) {}
+  constructor(private readonly appWorkshopsService: AppWorkshopsService) {}
 
   @Selector()
   static FilterState(state: FilterStateModel): FilterStateModel {
@@ -82,6 +83,11 @@ export class FilterState {
   @Selector()
   static directions(state: FilterStateModel): number[] {
     return state.directionIds;
+  }
+
+  @Selector()
+  static subDirections(state: FilterStateModel): number[] {
+    return state.subDirectionIds;
   }
 
   @Selector()
@@ -205,6 +211,11 @@ export class FilterState {
   @Action(SetDirections)
   setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
     patchState({ directionIds: payload, from: 0 });
+  }
+
+  @Action(SetSubDirections)
+  setSubDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetSubDirections): void {
+    patchState({ subDirectionIds: payload, from: 0 });
   }
 
   @Action(SetWorkingDays)
