@@ -163,6 +163,13 @@
       "EDIT_COMPETITION": "Edit competition event",
       "WORKSHOP_DRAFTS": "Workshop drafts"
     },
+    "WORKSHOP_DRAFT": {
+      "STATUS": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending for moderation",
+        "REJECTED": "Rejected"
+      }
+    },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
       "PROFILE": "Profile",
@@ -792,6 +799,7 @@
     "ADD_MORE_ADDRESS": "Add more address",
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
+    "CANCEL_MODERATION": "Cancel",
     "ARCHIVE": "Archive",
     "CONTINUE": "Continue",
     "USE_ADDRESS_AS_PRIMARY": "Use as primary",
@@ -944,6 +952,8 @@
       "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
       "DELETED_WORKSHOP": "This workshop has been deleted!",
       "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
+      "CREATE_DRAFT": "The workshop was successfully created as draft",
+      "SEND_FOR_MODERATION": "Draft sent for moderation",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
       "CREATE_COMPETITION": "Thank you! New competition successfully added.",
@@ -1078,6 +1088,7 @@
       "UNBLOCK_USER": "Are you sure you want to unblock the user?",
       "CLOSE_SET": "Are you sure you want to pause the workshop recruitment?",
       "OPEN_SET": "Are you sure you want to open the workshop recruitment?",
+      "DRAFT_SET": "Are you sure you want to send the workshop draft for moderation?",
       "DELETE_ADMIN": "Are you sure you want to delete an administrator",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
@@ -1131,6 +1142,7 @@
         "UNBLOCK_USER": "UNBLOCK USER?",
         "CLOSE_SET": "CLOSE RECRUITMENT?",
         "OPEN_SET": "OPEN RECRUITMENT?",
+        "DRAFT_SET": "SEND FOR MODERATION?",
         "DELETE_ADMIN": "DELETE ADMINISTRATOR?",
         "BLOCK_ADMIN": "BLOCK ADMINISTRATOR?",
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",

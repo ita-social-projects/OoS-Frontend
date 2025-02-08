@@ -97,37 +97,73 @@
 </ng-template>
 
 <ng-template #ProviderWorkshopView>
-  <ng-container
-    *ngIf="workshopData.status === workshopStatus.Open || workshopData.availableSeats === UNLIMITED_SEATS; else WorkshopStatusClosed">
+  <ng-container *ngIf="!!!workshopData.draftStatus; else ProviderDraftView">
+    <ng-container
+      *ngIf="workshopData.status === workshopStatus.Open || workshopData.availableSeats === UNLIMITED_SEATS; else WorkshopStatusClosed">
+      <div class="flex justify-between">
+        <div class="chip-color-open">
+          {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+        </div>
+        <a
+          *ngIf="canChangeWorkshopStatus"
+          class="more-details"
+          (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
+          <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
+        </a>
+      </div>
+    </ng-container>
+    <div *ngIf="workshopData.competitiveSelection" class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
+    </div>
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
+      <span class="card_text card_text_blue">
+        {{ workshopData.takenSeats }}
+        <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
+      </span>
+    </div>
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
+      <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
+    </div>
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+      <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #ProviderDraftView>
+  <ng-container *ngIf="workshopData.draftStatus === workshopDraftStatus.Draft; else DraftStatusPending">
     <div class="flex justify-between">
-      <div class="chip-color-open">
-        {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+      <div class="chip-color-draft">
+        {{ draftStatusEnum.Draft | translate }}
       </div>
       <a
-        *ngIf="canChangeWorkshopStatus"
+        *ngIf="workshopData.draftStatus === workshopDraftStatus.Draft"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
-        <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
+        (click)="onSendForModeration(workshopData.id, ModalConfirmationType.draftSet)">
+        <span class="card_link">{{ 'BUTTONS.PUBLISH' | translate }}</span>
       </a>
     </div>
   </ng-container>
-  <div *ngIf="workshopData.competitiveSelection" class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
-  </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
-    <span class="card_text card_text_blue">
-      {{ workshopData.takenSeats }}
-      <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
-    </span>
-  </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
-    <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
-  </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
-    <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
+</ng-template>
+
+<ng-template #DraftStatusPending>
+  <ng-container *ngIf="workshopData.draftStatus === workshopDraftStatus.PendingModeration; else DraftStatusRejected">
+    <div class="flex justify-">
+      <div class="chip-color-pending">
+        {{ draftStatusEnum.PendingForModeration | translate }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #DraftStatusRejected>
+  <div class="flex justify-between">
+    <div class="chip-color-rejected">
+      {{ draftStatusEnum.Rejected | translate }}
+    </div>
   </div>
 </ng-template>
 

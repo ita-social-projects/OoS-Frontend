@@ -11,17 +11,17 @@ import { Constants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DraftActionsEnum, DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationDescription, ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
-import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Favorite } from 'shared/models/favorite.model';
-import { WorkshopBaseCard, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { WorkshopBaseCard, WorkshopDraft, WorkshopDraftCard, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
-import { UpdateWorkshopStatus } from 'shared/store/provider.actions';
+import { DraftSendForModeration, UpdateWorkshopStatus } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -57,11 +57,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly workshopDraftStatus = WorkshopDraftStatus;
+  public readonly draftActionsEnum = DraftActionsEnum;
+  public readonly draftStatusEnum = DraftStatusEnum;
   public readonly modalConfirmationType = ModalConfirmationType;
 
   public isFavorite = false;
   public canChangeWorkshopStatus: boolean;
-  public workshopData: WorkshopBaseCard;
+  public workshopData: WorkshopBaseCard | WorkshopDraftCard;
 
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
@@ -79,7 +82,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  public set workshop(workshop: WorkshopBaseCard) {
+  public set workshop(workshop: WorkshopBaseCard | WorkshopDraftCard) {
     this.workshopData = workshop;
     this.workshopData._meta = this.imagesService.getWorkshopCardCoverImage(workshop);
   }
@@ -153,6 +156,21 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onSendForModeration(id: number, type: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: type
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res) {
+        this.store.dispatch(new DraftSendForModeration(id));
+      }
+    });
+  }
+
   public onOpenDialog(): void {
     this.dialog.open(UnregisteredUserWarningModalComponent, {
       autoFocus: false,
@@ -182,4 +200,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  protected readonly WorkshopDraft = WorkshopDraft;
+  protected readonly WorkshopDraftStatus = WorkshopDraftStatus;
+  protected readonly ModalConfirmationType = ModalConfirmationType;
 }

@@ -8,7 +8,14 @@ import { TruncatedItem } from 'shared/models/item.model';
 import { ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  Workshop,
+  WorkshopCard,
+  WorkshopCardParameters,
+  WorkshopDraft,
+  WorkshopProviderViewCard,
+  WorkshopStatus
+} from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { BaseWorkshop } from 'shared/models/draftWorkshop.model';
 
@@ -87,12 +94,20 @@ export class UserWorkshopService {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
   }
 
+  public getWorkshopDraftById(id: string): Observable<Workshop> {
+    return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/GetByProviderId/${id}`);
+  }
+
   public getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
   public getWorkshopDraftListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v2/WorkshopDraft/GetByProviderId/${id}`);
+  }
+
+  public sendDraftForModeration(id: number): Observable<any> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/SendForModeration/${id}`, {});
   }
 
   public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {

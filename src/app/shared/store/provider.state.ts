@@ -266,6 +266,29 @@ export class ProviderState {
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
+  @Action(providerActions.DraftSendForModeration)
+  sendDraftForModeration({ dispatch }: StateContext<ProviderStateModel>, { id }: providerActions.DraftSendForModeration): Observable<void> {
+    return this.userWorkshopService.sendDraftForModeration(id).pipe(
+      tap((res: any) => dispatch(new providerActions.OnDraftSendForModerationSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDraftSendForModerationFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDraftSendForModerationSuccess)
+  onDraftSendForModerationSuccess({ dispatch }: StateContext<ProviderStateModel>): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.sendDraftForModeration,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(providerActions.OnDraftSendForModerationFail)
+  onDraftSendForModerationFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnCreateAchievementFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
   @Action(providerActions.GetWorkshopListByEmployeeId)
   getWorkshopListByEmployeeId(
     { patchState }: StateContext<ProviderStateModel>,
@@ -473,10 +496,10 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.OnCreateWorkshopSuccess
   ): void {
-    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createDraft);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
-    this.router.navigate(['./personal-cabinet/provider/workshops']);
+    this.router.navigate(['./personal-cabinet/provider/drafts']);
   }
 
   @Action(providerActions.UpdateWorkshop)

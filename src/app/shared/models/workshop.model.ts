@@ -136,24 +136,9 @@ export class Workshop extends WorkshopBase {
   }
 }
 
-export class WorkshopDraft extends WorkshopBase {
-  coverImageId?: string;
-  coverImage?: string;
-  imageFiles?: string[];
-  takenSeats?: number;
-  rating?: number;
-  tags?: string[];
-  numberOfRatings?: number;
-  status?: string;
-  isBlocked?: boolean;
-  providerOwnership?: string;
-  providerStatus?: string;
-  isPaid?: boolean;
-  providerTitleEn?: string;
-  activeFrom?: string;
-  activeTo?: string;
-  defaultTeacherId?: string;
-  parentWorkshopId?: string;
+export class WorkshopDraft extends Workshop {
+  draftStatus: string;
+  includedStudyGroupsId: string[];
 }
 
 export interface WorkshopTruncated {
@@ -210,12 +195,19 @@ export interface WorkshopCard extends WorkshopBaseCard {
   status: WorkshopOpenStatus;
 }
 
+export interface WorkshopDraftCard extends WorkshopBaseCard {
+  id: number;
+  draftStatus: string;
+}
+
 export interface WorkshopProviderViewCard extends WorkshopBaseCard {
   availableSeats: number;
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
   unreadMessages: number;
+  id: string;
+  draftStatus: string;
 }
 
 export interface WorkshopStatus {

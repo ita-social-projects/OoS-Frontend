@@ -21,6 +21,7 @@ import {
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
+import { HttpClient } from '@angular/common/http';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -56,8 +57,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
   public addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
-        // TODO: add nav path and translation for drafts
-        name: NavBarName.Workshops,
+        name: NavBarName.Drafts,
         isActive: false,
         disable: true
       })
@@ -71,9 +71,9 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderWorkshops();
 
-    this.workshopDrafts$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((workshopDrafts: SearchResponse<WorkshopProviderViewCard[]>) => (this.workshopDrafts = workshopDrafts));
+    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopProviderViewCard[]>) => {
+      this.workshopDrafts = workshopDrafts;
+    });
     this.actions$
       .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
       .pipe(takeUntil(this.destroy$))

@@ -13,6 +13,11 @@ export class GetWorkshopById {
   constructor(public payload: string) {}
 }
 
+export class GetWorkshopDraftById {
+  static readonly type = '[user] get Workshop Draft By Draft Id';
+  constructor(public payload: string) {}
+}
+
 export class GetCompetitionById {
   static readonly type = '[user] get Competition By Competition Id';
   constructor(public payload: string) {}

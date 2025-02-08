@@ -117,6 +117,21 @@ export class GetWorkshopDraftListByProviderId {
   constructor(public payload: string) {}
 }
 
+export class DraftSendForModeration {
+  static readonly type = '[user] send Draft for Moderation';
+  constructor(public id: number) {}
+}
+
+export class OnDraftSendForModerationFail {
+  static readonly type = '[provider] send for Moderation fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnDraftSendForModerationSuccess {
+  static readonly type = '[provider] send for Moderation success';
+  constructor(public payload: void) {}
+}
+
 export class GetWorkshopListByEmployeeId {
   static readonly type = '[user] get Workshop List By Employee Id';
   constructor(public id: string) {}

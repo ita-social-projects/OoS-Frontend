@@ -11,7 +11,7 @@ import { Application } from 'shared/models/application.model';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopDraft } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
@@ -26,6 +26,7 @@ import {
   GetCompetitionById,
   GetProviderById,
   GetWorkshopById,
+  GetWorkshopDraftById,
   GetWorkshopsByProviderId,
   OnGetCompetitionByIdFail,
   OnGetProviderByIdFail,
@@ -40,6 +41,7 @@ export interface SharedUserStateModel {
   isLoading: boolean;
   workshops: SearchResponse<WorkshopCard[]>;
   selectedWorkshop: Workshop;
+  selectedDraft: WorkshopDraft;
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
   selectedCompetition: Competition;
@@ -51,6 +53,7 @@ export interface SharedUserStateModel {
     isLoading: false,
     workshops: null,
     selectedWorkshop: null,
+    selectedDraft: null,
     selectedProvider: null,
     applicationCards: null,
     selectedCompetition: null
@@ -88,6 +91,11 @@ export class SharedUserState {
   }
 
   @Selector()
+  static selectedDraft(state: SharedUserStateModel): WorkshopDraft {
+    return state.selectedDraft;
+  }
+
+  @Selector()
   static selectedCompetition(state: SharedUserStateModel): Competition {
     return state.selectedCompetition;
   }
@@ -102,6 +110,18 @@ export class SharedUserState {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopById(payload).pipe(
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
+    );
+  }
+
+  @Action(GetWorkshopDraftById)
+  getWorkshopDraftById(
+    { patchState, dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: GetWorkshopDraftById
+  ): Observable<WorkshopDraft | void> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.getWorkshopDraftById(payload).pipe(
+      tap((workshop: WorkshopDraft) => patchState({ selectedDraft: workshop, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
     );
   }
