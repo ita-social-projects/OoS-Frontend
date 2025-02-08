@@ -38,6 +38,8 @@ export class CreateTeacherComponent implements OnInit {
   public ngOnInit(): void {
     if (this.teachers?.length) {
       this.teachers.forEach((teacher: Teacher) => this.onAddTeacher(teacher));
+    } else {
+      this.TeacherFormArray.controls.push(this.createNewForm());
     }
   }
 

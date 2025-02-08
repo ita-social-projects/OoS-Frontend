@@ -31,7 +31,8 @@ import {
 } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
-import { Direction } from '../../../../../shared/models/category.model';
+import { maxArrayLength, minArrayLength } from 'shared/validators/tags/array-length-validator';
+import { Direction } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-create-description-form',
@@ -80,7 +81,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public separatorKeysCodes = [ENTER];
 
-  public tagsControl: FormControl = new FormControl([]);
+  public tagsControl: FormControl = new FormControl<Tag[]>(
+    [],
+    [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
+  );
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -99,7 +103,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl('[]'),
+      tagIds: new FormControl('[]', Validators.required),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
@@ -134,6 +138,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       .pipe(take(1))
       .subscribe((tags) => {
         this.tags = tags;
+        this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
@@ -274,11 +279,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       );
     }
 
-    if (this.workshop?.tagIds?.length) {
-      const selectedTags = this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id));
-      this.tagsControl.setValue(selectedTags);
-    }
-
     this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
@@ -343,4 +343,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.enable({ emitEvent: false });
     }
   }
+
+  protected readonly ValidationConstants = ValidationConstants;
 }
