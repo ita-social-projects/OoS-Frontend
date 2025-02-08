@@ -4,6 +4,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
@@ -81,6 +82,7 @@ import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
+import { FilterableChecklistComponent } from './components/filters-list/filterable-checklist/filterable-checklist.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +156,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ImageCarouselComponent,
     CustomCarouselDirective,
     ThemeSwitcherComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    FilterableChecklistComponent
   ],
 
   imports: [
@@ -164,6 +167,7 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     RouterModule,
     FormsModule,
     NgxSliderModule,
+    ScrollingModule,
     NgxMatTimepickerModule,
     NgxMatIntlTelInputComponent,
     ImageCropperComponent,

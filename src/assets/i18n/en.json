@@ -34,6 +34,7 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
+  "SUB_DIRECTIONS": "Subcategory",
   "DIRECTIONS_FOR_THE_USER": "Directions for the user",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
@@ -581,6 +582,7 @@
   "RATE": "RATE",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
+  "SEARCH_BY_SUB_DIRECTIONS": "Search by subcategory",
   "SEARCH_PHONE_COUNTRY": "Search country by name or dial code",
   "SELECTED": "selected",
   "SELECT_AGE": "Select age",

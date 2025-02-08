@@ -1,0 +1,37 @@
+<p class="filter-text">{{ title | translate }}</p>
+<mat-expansion-panel (opened)="onOpenPanel()" (closed)="openPanelState = false">
+  <mat-expansion-panel-header class="!h-auto min-h-[18px] !py-[15px]">
+    <mat-panel-title>
+      <span *ngIf="selectedItemIds && !selectedItemIds.length" class="search-title">{{ placeholder | translate }}</span>
+      <mat-chip-listbox *ngIf="selectedItemIds && selectedItemIds.length" class="chip-list !max-w-[200px]">
+        <mat-chip class="!max-w-[200px] !h-[auto] py-[6px]" *ngFor="let itemId of selectedItemIds" (removed)="onCheckChange(itemId, false);">
+          <div class="!max-w-[150px] whitespace-normal">{{ getItemTitleById(itemId) }}</div>
+          <mat-icon class="w-[auto]" matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-listbox>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="search-bar flex flex-row justify-evenly items-center">
+    <button mat-stroked-button>
+      <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
+    </button>
+    <mat-form-field appearance="fill">
+      <input
+        matInput
+        type="text"
+        maxlength="200"
+        [formControl]="searchFormControl"
+        class="search"
+        matInput
+        placeholder="{{ placeholder | translate }}"
+        autocomplete="off" />
+    </mat-form-field>
+  </div>
+  <cdk-virtual-scroll-viewport itemSize="36" class="list-wrapper !static h-[200px]" #listWrapper>
+    <div class="list" *cdkVirtualFor="let item of filteredItems">
+      <mat-checkbox color="primary" (change)="onCheckChange(item.id, $event.checked)" [checked]="isChecked(item)">
+        {{ item.title }}
+      </mat-checkbox>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</mat-expansion-panel>

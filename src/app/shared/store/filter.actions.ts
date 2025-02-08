@@ -34,7 +34,7 @@ export class SetDirections {
 
 export class SetSubDirections {
   static readonly type = '[filter] Set SubDirection';
-  constructor(public payload: number[]) {}
+  constructor(public payload: string[]) {}
 }
 
 export class SetWorkingDays {

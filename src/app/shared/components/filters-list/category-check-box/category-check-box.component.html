@@ -1,80 +1,20 @@
 <div [ngClass]="{ 'wrapper-full-width': (isMobileScreen$ | async) }">
-  <p class="filter-text">{{ 'DIRECTIONS' | translate }}</p>
-
-  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header class="!h-auto min-h-[18px] !py-[15px]">
-      <mat-panel-title>
-        <span *ngIf="!selectedDirectionIds.length" class="search-title">{{ 'SEARCH_BY_DIRECTIONS' | translate }}</span>
-        <mat-chip-listbox *ngIf="allDirections.length" class="chip-list">
-          <mat-chip *ngFor="let directionId of selectedDirectionIds" (removed)="OnDirectionChipsRemove(directionId)">
-            {{ getDirectionTitle(directionId) }}
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-listbox>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="search-bar flex flex-row justify-evenly items-center">
-      <button mat-stroked-button>
-        <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
-      </button>
-      <mat-form-field appearance="fill">
-        <input
-          matInput
-          type="text"
-          maxlength="200"
-          [formControl]="directionSearchFormControl"
-          class="search"
-          matInput
-          placeholder="{{ 'SEARCH_BY_DIRECTIONS' | translate }}"
-          autocomplete="off" />
-      </mat-form-field>
-    </div>
-    <ul class="list-wrapper" #listWrapper>
-      <li class="list" *ngFor="let direction of filteredDirections">
-        <mat-checkbox color="primary" (change)="onDirectionCheck(direction, $event)" [checked]="onDirectionSelectCheck(direction)">
-          {{ direction.title }}
-        </mat-checkbox>
-      </li>
-    </ul>
-  </mat-expansion-panel>
-
-  <ng-container *ngIf="isSelected(sportDirectionId)">
-    <p class="filter-text">{{ 'Піднапрямки' | translate }}</p>
-    <mat-expansion-panel (opened)="subDirectionPanelOpenState = true" (closed)="subDirectionPanelOpenState = false">
-      <mat-expansion-panel-header class="!h-auto min-h-[18px] !py-[15px]">
-        <mat-panel-title>
-          <span *ngIf="!selectedSubDirectionIds?.length" class="search-title">{{ 'Шукати за піднапрямками' | translate }}</span>
-          <mat-chip-listbox *ngIf="allDirections.length" class="chip-list">
-            <mat-chip *ngFor="let subDirectionId of selectedSubDirectionIds" (removed)="OnSubDirectionChipsRemove(directionId)">
-              {{ getSubDirectionTitle(directionId) }}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-          </mat-chip-listbox>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="search-bar flex flex-row justify-evenly items-center">
-        <button mat-stroked-button>
-          <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
-        </button>
-        <mat-form-field appearance="fill">
-          <input
-            matInput
-            type="text"
-            maxlength="200"
-            [formControl]="subDirectionSearchFormControl"
-            class="search"
-            matInput
-            placeholder="{{ 'Шукати за піднапрямками' | translate }}"
-            autocomplete="off" />
-        </mat-form-field>
-      </div>
-      <ul class="list-wrapper" #listWrapper>
-        <li class="list" *ngFor="let subDirection of filteredSubDirections">
-          <mat-checkbox color="primary" (change)="onSubDirectionCheck(direction, $event)" [checked]="onSubDirectionSelectCheck(direction)">
-            {{ subDirection.title }}
-          </mat-checkbox>
-        </li>
-      </ul>
-    </mat-expansion-panel>
+  <ng-container *ngIf="allDirections.length">
+    <app-filterable-checklist
+      [items]="allDirections"
+      [selectedItemIds]="selectedDirectionIds"
+      [title]="'DIRECTIONS'"
+      [placeholder]="'SEARCH_BY_DIRECTIONS'"
+      (selectedItemsChange)="onDirectionCheckChange($event)">
+    </app-filterable-checklist>
+  </ng-container>
+  <ng-container *ngIf="isSelected(sportDirectionId) && allSubDirections.length">
+    <app-filterable-checklist
+      [items]="allSubDirections"
+      [selectedItemIds]="selectedSubDirectionIds"
+      [title]="'SUB_DIRECTIONS'"
+      [placeholder]="'SEARCH_BY_SUB_DIRECTIONS'"
+      (selectedItemsChange)="onSubDirectionCheckChange($event)">
+    </app-filterable-checklist>
   </ng-container>
 </div>

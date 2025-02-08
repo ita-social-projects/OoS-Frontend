@@ -5,6 +5,7 @@ export interface FilterList {
   statuses: WorkshopOpenStatus[];
   formsOfLearning: FormOfLearning[];
   directionIds: number[];
+  subDirectionIds: string[];
   ageFilter: AgeFilter;
   priceFilter: PriceFilter;
   workingHours: WorkingHoursFilter;
@@ -30,4 +31,9 @@ export interface WorkingHoursFilter {
   endTime: string;
   isStrictWorkdays: boolean;
   isAppropriateHours: boolean;
+}
+
+export interface CheckChangeEvent {
+  selectedItemsIds: (string | number)[];
+  changedItemId: string | number;
 }

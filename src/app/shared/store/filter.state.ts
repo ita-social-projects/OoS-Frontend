@@ -86,7 +86,7 @@ export class FilterState {
   }
 
   @Selector()
-  static subDirections(state: FilterStateModel): number[] {
+  static subDirections(state: FilterStateModel): string[] {
     return state.subDirectionIds;
   }
 
@@ -151,6 +151,7 @@ export class FilterState {
       minAge,
       maxAge,
       directionIds,
+      subDirectionIds,
       minPrice,
       maxPrice,
       formsOfLearning,
@@ -167,6 +168,7 @@ export class FilterState {
       statuses,
       formsOfLearning,
       directionIds,
+      subDirectionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
