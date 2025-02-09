@@ -7,8 +7,8 @@
     <div class="search-bar-wrap flex justify-between items-center">
       <app-searchbar
         class="search-bar"
-        (invalidCharacterDetected)="showErrorMessage()"
-        (validCharacterDetected)="hideErrorMessage()"></app-searchbar>
+        (searchBarFormControl)="setErrorFormControl($event)">
+      </app-searchbar>
     </div>
   </div>
   <div class="validation-hint-wrapper">
@@ -16,6 +16,9 @@
       [validationFormControl]="displayErrorFormControl"
       class="invalid-input"
       [matTooltip]="'FORMS.VALIDATIONS.INVALID_SEARCH' | translate"
+      [maxCharacters]="validationConstants.MAX_SEARCH_LENGTH_200"
+      [minCharacters]="validationConstants.MIN_SEARCH_LENGTH_0"
+      [currentCharactersCount]="displayErrorFormControl.value.length"
       isSearchBar="true"></app-validation-hint>
   </div>
 </div>

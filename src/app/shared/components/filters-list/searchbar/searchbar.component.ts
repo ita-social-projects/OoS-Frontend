@@ -10,8 +10,8 @@ import { Navigation } from 'shared/models/navigation.model';
 import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
-import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { SEARCHBAR_REGEX_VALID, SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { ValidationConstants } from 'shared/constants/validation';
 
 @Component({
   selector: 'app-searchbar',
@@ -19,26 +19,28 @@ import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  @Output() public invalidCharacterDetected = new EventEmitter<void>();
-  @Output() public validCharacterDetected = new EventEmitter<void>();
+  @Output() public searchBarFormControl = new EventEmitter<FormControl>();
 
   @Select(NavigationState.navigationPaths)
-  private navigationPaths$: Observable<Navigation[]>;
+  private readonly navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
-  private searchQuery$: Observable<string>;
+  private readonly searchQuery$: Observable<string>;
   @Select(FilterState.previousResults)
   private readonly previousResults$: Observable<string[]>;
 
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(64), Validators.pattern(SEARCHBAR_REGEX_VALID)]);
+  public searchValueFormControl = new FormControl('', [
+    Validators.maxLength(ValidationConstants.MAX_SEARCH_LENGTH_200),
+    Validators.pattern(SEARCHBAR_REGEX_VALID)
+  ]);
 
   private isResultPage = false;
   private searchedText: string;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private store: Store,
-    private router: Router
+    private readonly store: Store,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -61,8 +63,8 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(([value, _]: [string, string[]]) => {
-        this.searchedText = value;
-        this.handleInvalidCharacter(value);
+        const validValue = this.handleInvalidCharacter(value);
+        this.searchedText = validValue;
       });
 
     this.searchQuery$
@@ -83,21 +85,24 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   public onValueEnter(): void {
     this.performSearch();
-    this.saveSearchResults();
   }
 
   public onValueSelect(): void {
     this.performSearch();
   }
 
-  public handleInvalidCharacter(value: string): void {
+  public handleInvalidCharacter(value: string): string {
     const validValue = value?.replace(SEARCHBAR_REGEX_REPLACE, '');
     if (validValue !== value) {
-      this.searchValueFormControl.setValue(validValue, { emitEvent: false });
-      this.invalidCharacterDetected.emit();
+      this.searchValueFormControl.setValue(validValue, { emitEvent: true });
+      this.searchValueFormControl.setErrors({ ...this.searchValueFormControl.errors, invalidSearch: true });
     } else {
-      this.validCharacterDetected.emit();
+      const currentErrors = { ...this.searchValueFormControl.errors };
+      delete currentErrors.invalidSearch;
+      this.searchValueFormControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
     }
+    this.searchBarFormControl.emit(this.searchValueFormControl);
+    return validValue;
   }
 
   public onDeletePreviousSearchValue(previousValue: string, event: Event): void {
@@ -107,11 +112,16 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private performSearch(): void {
-    const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
-    if (!this.isResultPage) {
-      this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: false });
+    if (this.searchValueFormControl.valid) {
+      this.saveSearchResults();
+      const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
+      if (!this.isResultPage) {
+        this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: false });
+      }
+      this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
+    } else {
+      this.searchValueFormControl.markAllAsTouched();
     }
-    this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
 
   /**

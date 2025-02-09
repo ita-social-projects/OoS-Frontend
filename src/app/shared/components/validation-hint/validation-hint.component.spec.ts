@@ -172,8 +172,7 @@ describe('ValidationHintComponent', () => {
     });
 
     it('should assign TRUE to invalidSearch if isSearchBar and errors are present', () => {
-      component.isSearchBar = true;
-      errors = { minlength: true, maxlength: true };
+      errors = { invalidSearch: true };
 
       (component as any).checkValidationErrors(errors);
 

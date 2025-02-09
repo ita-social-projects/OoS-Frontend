@@ -41,7 +41,8 @@
 
 <ng-template #invalidLengthTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ 'FROM' | translate | lowercase }} {{ minCharacters }}
-  {{ 'TO' | translate | lowercase }} {{ maxCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}<br />
+  {{ 'TO' | translate | lowercase }} {{ maxCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }} 
+  <span *ngIf="currentCharactersCount">{{ 'FORMS.VALIDATIONS.CURRENT_COUNT' | translate }} {{ currentCharactersCount }}</span><br />
 </ng-template>
 
 <ng-template #incorrectDateFieldTmpl>

@@ -22,9 +22,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
+  @Input() public currentCharactersCount: number;
   @Input() public isPhoneNumber: boolean; // required to display validation for phone number
   @Input() public isEdrpouIpn: boolean;
-  @Input() public isSearchBar: boolean = false;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
@@ -88,11 +88,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       formControl.markAsTouched();
     }
 
-    // Check is the field required and empty
-    if (!this.isSearchBar) {
-      this.required = errors?.required && !formControl.value;
-    }
-
     // Check Date Picker Format
     if (this.minMaxDate) {
       this.checkMatDatePicker();
@@ -125,13 +120,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     this.invalidEmail = errors?.email;
     this.invalidEmailType = errors?.blacklistedDomain;
+    this.invalidSearch = errors?.invalidSearch;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = errors?.minlength;
       this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
     } else if (this.isEdrpouIpn) {
       this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
-    } else if (this.isSearchBar) {
-      this.invalidSearch = errors?.length !== 0;
     } else {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
