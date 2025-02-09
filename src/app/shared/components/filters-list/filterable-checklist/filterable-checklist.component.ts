@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
@@ -26,6 +26,7 @@ export class FilterableChecklistComponent<T extends { title: string; id: number 
 
   private readonly destroy$ = new Subject<void>();
 
+  constructor(public readonly cdr: ChangeDetectorRef) {}
   public ngOnInit(): void {
     this.filteredItems = [...this.items];
 
@@ -86,6 +87,7 @@ export class FilterableChecklistComponent<T extends { title: string; id: number 
         .split(WORD_SPLIT_REGEX)
         .some((word) => word.startsWith(value.toLowerCase()))
     );
+    this.cdr.markForCheck();
   }
 
   private scrollToSelectedDirection(): void {

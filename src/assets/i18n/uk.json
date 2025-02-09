@@ -39,6 +39,7 @@
     "WEDNESDAY": "СР"
   },
   "DIRECTIONS": "Напрямки",
+  "SUB_DIRECTIONS": "Піднапрямки",
   "DIRECTIONS_FOR_THE_USER": "Напрямки для користувача",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
@@ -116,7 +117,6 @@
       "APPLICATIONS": "Заявки",
       "CHAT": "Чат",
       "DIRECTIONS": "Напрямки",
-      "SUB_DIRECTION": "Піднапрямки",
       "EDIT_ACHIEVEMENT": "Редагувати досягнення",
       "EDIT_DIRECTION": "Редагувати напрямок",
       "EDIT_INFORMATION_ABOUT_CHILD": "Редагувати дані про дитину",
