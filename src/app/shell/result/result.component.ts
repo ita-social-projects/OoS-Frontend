@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, pipe, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
@@ -70,7 +70,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
@@ -104,6 +103,15 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
     this.calculateMarginLeft();
+  }
+
+  public onCurrentPageChange(newPage: PaginationElement): void {
+    this.currentPage = newPage;
+    this.router.navigate([`result/${this.currentViewType}`], {
+      queryParams: { page: this.currentPage.element },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 
   private addNavPath(): void {
@@ -148,7 +156,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
         const filterParams = queryParamMap.get('filter');
-        this.currentPage = { element: 1, isActive: true };
+        const pageParam = +queryParamMap.get('page') || 1;
+        this.currentPage = { element: pageParam, isActive: true };
+        Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
+        this.store.dispatch(new SetFilterPagination(this.paginationParameters));
         this.isMapView = isMapView;
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
@@ -159,7 +170,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       if (this.router.url.startsWith('/result')) {
         this.router.navigate([`result/${this.currentViewType}`], {
-          queryParams: { filter: filterQueryParams },
+          queryParams: { filter: filterQueryParams, page: this.currentPage.element },
           replaceUrl: true
         });
       }

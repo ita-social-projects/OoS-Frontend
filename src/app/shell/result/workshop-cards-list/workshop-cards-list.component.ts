@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
   @Input() public currentPage: PaginationElement;
+  @Output() public currentPageChange: EventEmitter<PaginationElement> = new EventEmitter<PaginationElement>(); // Створюємо подію
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
@@ -56,6 +57,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
     this.currentPage = page;
     this.getWorkshops();
     Util.scrollToTop(this.window);
+    this.currentPageChange.emit(this.currentPage);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
