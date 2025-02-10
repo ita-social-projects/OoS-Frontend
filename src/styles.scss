@@ -26,7 +26,7 @@ $config: mat.define-typography-config(
 
 @mixin mat-form-typography($config) {
   .mat-form-field {
-    font-family: Innerspace, sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
 }
 
@@ -277,6 +277,10 @@ a {
       width: 40px;
     }
   }
+}
+
+mat-card.mat-mdc-card {
+  box-shadow: none;
 }
 
 .mat-mdc-card-image:first-child {
