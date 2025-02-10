@@ -5,20 +5,17 @@
       <app-city-filter></app-city-filter>
     </div>
     <div class="search-bar-wrap flex justify-between items-center">
-      <app-searchbar
-        class="search-bar"
-        (searchBarFormControl)="setErrorFormControl($event)">
-      </app-searchbar>
+      <app-searchbar class="search-bar" (outputSearchFormControl)="setErrorFormControl($event)"> </app-searchbar>
     </div>
   </div>
   <div class="validation-hint-wrapper">
     <app-validation-hint
+      #validationHint
       [validationFormControl]="displayErrorFormControl"
       class="invalid-input"
-      [matTooltip]="'FORMS.VALIDATIONS.INVALID_SEARCH' | translate"
+      [matTooltip]="tooltipText"
       [maxCharacters]="validationConstants.MAX_SEARCH_LENGTH_200"
-      [minCharacters]="validationConstants.MIN_SEARCH_LENGTH_0"
-      [currentCharactersCount]="displayErrorFormControl.value.length"
-      isSearchBar="true"></app-validation-hint>
+      [currentCharactersCount]="displayErrorFormControl.value?.length"
+      ></app-validation-hint>
   </div>
 </div>

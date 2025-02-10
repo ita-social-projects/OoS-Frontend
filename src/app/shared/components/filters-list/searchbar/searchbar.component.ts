@@ -19,7 +19,7 @@ import { ValidationConstants } from 'shared/constants/validation';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  @Output() public searchBarFormControl = new EventEmitter<FormControl>();
+  @Output() public outputSearchFormControl = new EventEmitter<FormControl>();
 
   @Select(NavigationState.navigationPaths)
   private readonly navigationPaths$: Observable<Navigation[]>;
@@ -101,7 +101,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
       delete currentErrors.invalidSearch;
       this.searchValueFormControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
     }
-    this.searchBarFormControl.emit(this.searchValueFormControl);
+    this.outputSearchFormControl.emit(this.searchValueFormControl);
     return validValue;
   }
 
