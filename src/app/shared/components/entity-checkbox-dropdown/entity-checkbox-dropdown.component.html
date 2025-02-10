@@ -2,12 +2,7 @@
   <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">
     {{ getLabelTitle(entities?.length) | translate }}
   </mat-label>
-  <mat-select
-    [formControl]="entityControl"
-    multiple
-    class="dropdown"
-    disableOptionCentering
-    panelClass="dropdown-panel application-dropdown">
+  <mat-select [formControl]="entityControl" multiple class="dropdown" disableOptionCentering [panelClass]="panelClasses">
     <mat-select-trigger showTooltipIfTruncated>
       <div *ngIf="entityControl.value?.length">
         <div class="workshops-amount">
