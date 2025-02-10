@@ -17,6 +17,7 @@ import { AppState } from 'shared/store/app.state';
 import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 
 @Component({
   selector: 'app-create-info-form',
@@ -135,7 +136,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email]),
+      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()]),
       typeId: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),

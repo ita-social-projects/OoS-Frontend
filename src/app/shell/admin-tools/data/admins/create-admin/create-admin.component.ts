@@ -29,6 +29,7 @@ import { RegistrationState } from 'shared-store/registration.state';
 import { AreaAdmin } from 'shared/models/area-admin.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { AdminFactory } from 'shared/utils/admin.utils';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -77,7 +78,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       middleName: new FormControl('', defaultValidators.slice(1)),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       institution: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, FormValidators.email])
+      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
     });
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 
