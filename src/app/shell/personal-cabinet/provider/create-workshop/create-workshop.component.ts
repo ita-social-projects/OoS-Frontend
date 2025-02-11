@@ -238,14 +238,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   private createContacts(): Contacts[] {
-    // const contacts: Contacts[] = [];
-    // if (this.WorkshopContactsFormArray?.controls) {
-    //   this.WorkshopContactsFormArray.controls.forEach((form: FormGroup) => {
-    //     const contact: Contacts = new Contacts(form.value);
-    //     contacts.push(contact);
-    //   });
-    // }
-    // return contacts;
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 }

@@ -178,6 +178,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.setStep(this.addressesFormArray.controls.length - 1);
   }
 
+  public onIsDefaultChange(addressGroup: FormGroup, checked: boolean): void {
+    if (checked) {
+      this.addressesFormArray.controls.forEach((formGroup: FormGroup) => {
+        formGroup.get('isDefault').patchValue(false, { emitEvent: false });
+      });
+      addressGroup.get('isDefault').patchValue(true, { emitEvent: false });
+    }
+  }
+
   private createPhoneFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
@@ -224,14 +233,5 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.addressesFormArray.removeAt(index);
     this.stepIndex = this.addressesFormArray.length - 1;
-  }
-
-  public onIsDefaultChange(addressGroup: FormGroup, checked: boolean): void {
-    if (checked) {
-      this.addressesFormArray.controls.forEach((formGroup: FormGroup) => {
-        formGroup.get('isDefault').patchValue(false, { emitEvent: false });
-      });
-      addressGroup.get('isDefault').patchValue(true, { emitEvent: false });
-    }
   }
 }
