@@ -1,6 +1,13 @@
 @import 'src/app/shared/styles/list-wrappers.scss';
 @import 'src/app/shared/styles/card-wrapper.scss';
 
+$breakpoint-xl: 1535px;
+$breakpoint-lg: 1310px;
+$breakpoint-md: 1180px;
+$breakpoint-sm: 960px;
+$breakpoint-xs: 785px;
+$breakpoint-mobile: 500px;
+
 .main {
   width: 100%;
   min-height: 500px;
@@ -72,6 +79,14 @@ app-footer {
   position: absolute;
 }
 
+.direction-card {
+  min-width: 190px;
+}
+
+.workshop-card {
+  min-width: 300px;
+}
+
 @media (max-width: 675px) {
   .main-registration {
     padding: 20px;
@@ -123,5 +138,45 @@ app-footer {
       margin-right: 8px;
       scroll-snap-align: center;
     }
+  }
+}
+
+@media (max-width: $breakpoint-xl) {
+  .direction-card:nth-child(n + 7) {
+    display: none;
+  }
+  .workshop-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-lg) {
+  .direction-card:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .workshop-card:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .direction-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .workshop-card:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .direction-card,
+  .workshop-card {
+    display: block !important;
   }
 }
