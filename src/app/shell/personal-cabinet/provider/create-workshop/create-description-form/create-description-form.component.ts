@@ -103,7 +103,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl('[]', Validators.required),
+      tagIds: new FormControl<number[]>(null, [
+        Validators.required,
+        minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
+        maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
+      ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
@@ -138,7 +142,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       .pipe(take(1))
       .subscribe((tags) => {
         this.tags = tags;
-        this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
+        if (this.workshop?.tagIds) {
+          this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
+        }
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
@@ -332,8 +338,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
-    const stringifiedTagIds = JSON.stringify(tagIds);
-    this.DescriptionFormGroup.get('tagIds')?.setValue(stringifiedTagIds);
+    // const stringifiedTagIds = JSON.stringify(tagIds);
+    this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
   }
 
   private updateKeywordsInputState(): void {

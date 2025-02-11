@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs';
@@ -39,7 +39,7 @@ export class CreateTeacherComponent implements OnInit {
     if (this.teachers?.length) {
       this.teachers.forEach((teacher: Teacher) => this.onAddTeacher(teacher));
     } else {
-      this.TeacherFormArray.controls.push(this.createNewForm());
+      this.onAddTeacher();
     }
   }
 
