@@ -72,7 +72,7 @@ describe('CreateWorkshopAddressComponent', () => {
   it('should return socialTypes keys', () => {
     component.socialTypes = SocialNetworks;
 
-    expect(component.socialTypesKeys()).toEqual(Object.keys(SocialNetworks));
+    expect(component.socialTypesKeys).toEqual(Object.keys(SocialNetworks));
   });
 
   it('should set the step value', () => {
@@ -97,16 +97,19 @@ describe('CreateWorkshopAddressComponent', () => {
 
   it('should delete a form field', () => {
     const formArray = new FormArray([new FormControl('test1'), new FormControl('test2')]);
+    const deleteFormFieldSpy = jest.spyOn(component, 'deleteFormField');
 
-    component.deleteFormField(formArray, 0);
+    (component as any).deleteFormField(formArray, 0);
 
+    expect(deleteFormFieldSpy).toHaveBeenCalledWith(formArray, 0);
     expect(formArray.length).toBe(1);
   });
 
   it('should delete an address form and update the step', () => {
     component.addressesFormArray = new FormArray([new FormGroup({}), new FormGroup({})]);
+    const event = new MouseEvent('click');
 
-    component.deleteAddressForm(0);
+    (component as any).deleteAddressForm(0, event);
 
     expect(component.addressesFormArray.length).toBe(1);
     expect(component.stepIndex).toBe(0);
@@ -124,14 +127,14 @@ describe('CreateWorkshopAddressComponent', () => {
   });
 
   it('should create a social networks form group', () => {
-    const socialForm = component.createSocialNetworksFormGroup();
+    const socialForm = (component as any).createSocialNetworksFormGroup();
 
     expect(socialForm.get('type')).toBeTruthy();
     expect(socialForm.get('url')).toBeTruthy();
   });
 
   it('should create an email form group', () => {
-    const emailGroup = component.createEmailFormGroup();
+    const emailGroup = (component as any).createEmailFormGroup();
 
     expect(emailGroup instanceof FormGroup).toBeTruthy();
     expect(emailGroup.controls.type).toBeDefined();
