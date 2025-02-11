@@ -56,7 +56,6 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
   public isDeputy: boolean;
   public entityControl = new FormControl();
   public formTitle: string;
-  public shouldRemoveApplicationDropdown: boolean;
 
   private provider: Provider;
   private providerRole: EmployeeRole;
@@ -94,7 +93,6 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
         this.store.dispatch(new GetWorkshopListByProviderId(this.provider.id));
       }
     });
-    this.shouldRemoveApplicationDropdown = true;
   }
 
   public determineEditMode(): void {
