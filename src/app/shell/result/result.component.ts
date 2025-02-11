@@ -73,7 +73,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
-    this.subscribeForMapView();
     this.setPageParam();
     this.setFiltersFromQueryParams();
     this.calculateMarginLeft();
@@ -110,7 +109,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public onCurrentPageChange(newPage: PaginationElement): void {
     this.currentPage = newPage;
     this.router.navigate([`result/${this.currentViewType}`], {
-      queryParams: { page: this.currentPage.element },
+      queryParams: { pagination: `${this.currentPage.element},${this.paginationParameters.size}` },
       queryParamsHandling: 'merge',
       replaceUrl: true
     });
@@ -151,22 +150,21 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isFiltersSidenavOpen = val;
       this.calculateMarginLeft();
     });
+
+    this.isMapView$.pipe(takeUntil(this.destroy$)).subscribe((isMapView) => {
+      this.isMapView = isMapView;
+    });
   }
 
   private setPageParam(): void {
-    const pageParam = +this.route.snapshot.queryParamMap.get('page') || 1;
-    this.paginationParameters.size = +this.route.snapshot.queryParamMap.get('size') || PaginationConstants.WORKSHOPS_PER_PAGE;
-    this.currentPage = { element: pageParam, isActive: true };
+    const paginationParam = this.route.snapshot.queryParamMap.get('pagination');
+    const [page, size] = paginationParam.split(',').map(Number);
+    this.currentPage = { element: page || 1, isActive: true };
+    this.paginationParameters.size = size || PaginationConstants.WORKSHOPS_PER_PAGE;
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
     const filterParam = this.route.snapshot.queryParamMap.get('filter') || null;
     this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParam)));
-  }
-
-  private subscribeForMapView(): void {
-    this.isMapView$.pipe(takeUntil(this.destroy$)).subscribe((isMapView) => {
-      this.isMapView = isMapView;
-    });
   }
 
   private setFiltersFromQueryParams(): void {
@@ -189,10 +187,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       if (this.router.url.startsWith('/result')) {
-        console.log('navigate');
-        console.log(filterQueryParams);
         this.router.navigate([`result/${this.currentViewType}`], {
-          queryParams: { filter: filterQueryParams, page: this.currentPage.element, size: this.paginationParameters.size },
+          queryParams: {
+            filter: filterQueryParams,
+            pagination: `${this.currentPage.element},${this.paginationParameters.size}`
+          },
           queryParamsHandling: 'merge',
           replaceUrl: true
         });
