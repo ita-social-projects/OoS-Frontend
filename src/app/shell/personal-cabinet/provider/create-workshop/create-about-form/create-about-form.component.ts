@@ -326,6 +326,4 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  protected readonly ValidationConstants = ValidationConstants;
 }
