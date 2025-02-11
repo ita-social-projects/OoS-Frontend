@@ -9,7 +9,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title class="flex flex-row justify-between">
             <p class="step-label step-title">{{ 'FORMS.LABELS.ADDRESS' | translate }} {{ index + 1 }}</p>
-            <button *ngIf="index !== 0" class="delete-block" mat-button (click)="$event.stopPropagation(); deleteAddressForm(index)">
+            <button *ngIf="index !== 0" class="delete-block" mat-button (click)="deleteAddressForm(index, $event)">
               <mat-icon class="mat-icon-delete">delete</mat-icon>
             </button>
           </mat-panel-title>
@@ -121,7 +121,7 @@
                 <div class="flex flex-col grow" [formGroupName]="jindex">
                   <mat-form-field class="grow">
                     <mat-select formControlName="type" class="step-input" disableOptionCentering panelClass="dropdown-panel">
-                      <mat-option *ngFor="let socialType of socialTypesKeys()" [value]="socialType">
+                      <mat-option *ngFor="let socialType of socialTypesKeys" [value]="socialType">
                         {{ socialTypes[socialType] }}
                       </mat-option>
                     </mat-select>

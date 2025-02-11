@@ -1,8 +1,4 @@
 <form [formGroup]="AboutFormGroup" class="step flex flex-col justify-between items-stretch">
-  <!-- <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl">
-    {{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
-  </mat-checkbox> -->
-
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"

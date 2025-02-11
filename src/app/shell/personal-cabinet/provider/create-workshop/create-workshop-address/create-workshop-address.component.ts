@@ -33,7 +33,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  public socialTypesKeys(): string[] {
+  public get socialTypesKeys(): string[] {
     return Object.keys(this.socialTypes);
   }
 
@@ -178,28 +178,28 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.setStep(this.addressesFormArray.controls.length - 1);
   }
 
-  public createPhoneFormGroup(): FormGroup {
+  private createPhoneFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
       number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
     });
   }
 
-  public createEmailFormGroup(): FormGroup {
+  private createEmailFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
       address: new FormControl('', [Validators.required, FormValidators.email])
     });
   }
 
-  public createSocialNetworksFormGroup(): FormGroup {
+  private createSocialNetworksFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
       url: new FormControl('', [])
     });
   }
 
-  public createAddressForm(): FormGroup {
+  private createAddressForm(): FormGroup {
     return this.formBuilder.group({
       street: new FormControl('', FormValidators.defaultStreetValidators),
       buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
@@ -209,18 +209,19 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public createSearchFormGroup(): FormGroup {
+  private createSearchFormGroup(): FormGroup {
     return this.formBuilder.group({
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
       settlement: new FormControl('')
     });
   }
 
-  public deleteFormField(fields: FormArray, index: number): void {
+  private deleteFormField(fields: FormArray, index: number): void {
     fields.removeAt(index);
   }
 
-  public deleteAddressForm(index: number): void {
+  private deleteAddressForm(index: number, $event: Event): void {
+    $event.stopPropagation();
     this.addressesFormArray.removeAt(index);
     this.stepIndex = this.addressesFormArray.length - 1;
   }
