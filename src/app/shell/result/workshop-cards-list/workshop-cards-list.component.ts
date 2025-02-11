@@ -51,6 +51,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
         this.workshops = workshops;
       });
+    console.log(this.currentPage);
   }
 
   public onPageChange(page: PaginationElement): void {
