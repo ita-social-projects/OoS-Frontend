@@ -83,7 +83,7 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
       (focusout)="onFocusOut('dateOfBirth')"
       id="date-of-birth" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle matSuffix [for]="picker" class="custom-datepicker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>

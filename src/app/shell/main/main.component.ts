@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil, map } from 'rxjs/operators';
 
 import { Role } from 'shared/enum/role';
 import { Direction } from 'shared/models/category.model';
@@ -36,6 +36,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public settlement$: Observable<Codeficator>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
+  public topDirectionsLimited$: Observable<Direction[]>;
+  public topWorkshopsLimited$: Observable<WorkshopCard[]>;
 
   public readonly Role = Role;
 
@@ -50,6 +52,9 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   public ngOnInit(): void {
+    this.topDirectionsLimited$ = this.topDirections$.pipe(map((directions) => directions?.slice(0, 6)));
+    this.topWorkshopsLimited$ = this.topWorkshops$.pipe(map((workshops) => workshops?.slice(0, 4)));
+
     combineLatest([this.role$, this.settlement$])
       .pipe(
         filter(([role, settlement]: [Role, Codeficator]) => !!(role && settlement)),

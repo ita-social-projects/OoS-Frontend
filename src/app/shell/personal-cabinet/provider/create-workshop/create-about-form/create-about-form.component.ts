@@ -14,6 +14,7 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -168,7 +169,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
         ]),
         phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-        email: new FormControl('', [Validators.required, FormValidators.email]),
+        email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()]),
         minAge: new FormControl(null, [
           Validators.required,
           Validators.max(ValidationConstants.BIRTH_AGE_MAX),
@@ -194,7 +195,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
             value: null,
             disabled: true
           },
-          [Validators.required, Validators.min(this.minSeats)]
+          [Validators.required, Validators.min(this.minSeats), Validators.max(ValidationConstants.MAX_SEATS)]
         ),
         competitiveSelection: new FormControl(false),
         competitiveSelectionDescription: null
