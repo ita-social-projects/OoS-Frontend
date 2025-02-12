@@ -126,6 +126,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
       formControl.markAsTouched();
     }
 
+    // Check is the field required and empty
+    this.required = errors?.required || !formControl?.value;
+
     // Check Date Picker Format
     if (this.minMaxDate) {
       this.checkMatDatePicker();
@@ -172,7 +175,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
     this.invalidTimeFormat = errors?.invalidTimeFormat;
-    this.invalidTagsLength = errors?.minArrayLength || errors?.maxArrayLength;
+    this.cdr.markForCheck();
   }
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
