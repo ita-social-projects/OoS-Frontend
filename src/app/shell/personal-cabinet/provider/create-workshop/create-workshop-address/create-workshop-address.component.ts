@@ -28,14 +28,11 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   public noAddressFound = false;
   public stepIndex = 0;
   public socialTypes = SocialNetworks;
+  public socialTypesKeys = Object.keys(this.socialTypes);
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {}
-
-  public get socialTypesKeys(): string[] {
-    return Object.keys(this.socialTypes);
-  }
 
   public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
@@ -139,33 +136,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public addPhoneField(contact: FormGroup): void {
-    const phoneGroup = this.createPhoneFormGroup();
-    const phonesArray = contact.get('phones') as FormArray;
-    phonesArray.controls.push(phoneGroup);
-    phonesArray.updateValueAndValidity();
-    phoneGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      phonesArray.updateValueAndValidity();
-    });
+    this.addFormField(contact, 'phones', () => this.createPhoneFormGroup());
   }
 
   public addEmailField(contact: FormGroup): void {
-    const emailGroup = this.createEmailFormGroup();
-    const emailsArray = contact.get('emails') as FormArray;
-    emailsArray.controls.push(emailGroup);
-    emailsArray.updateValueAndValidity();
-    emailGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      emailsArray.updateValueAndValidity();
-    });
+    this.addFormField(contact, 'emails', () => this.createEmailFormGroup());
   }
 
   public addSocialsField(contact: FormGroup): void {
-    const socialsGroup = this.createSocialNetworksFormGroup();
-    const socialsArray = contact.get('socialNetworks') as FormArray;
-    socialsArray.controls.push(socialsGroup);
-    socialsArray.updateValueAndValidity();
-    socialsGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      socialsArray.updateValueAndValidity();
-    });
+    this.addFormField(contact, 'socialNetworks', () => this.createSocialNetworksFormGroup());
   }
 
   public addAddressGroup(contact?: Contacts): void {
@@ -187,6 +166,16 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     }
   }
 
+  private addFormField<T extends FormGroup>(contact: FormGroup, arrayName: string, createFormGroup: () => T): void {
+    const formGroup = createFormGroup();
+    const formArray = contact.get(arrayName) as FormArray;
+    formArray.controls.push(formGroup);
+    formArray.updateValueAndValidity();
+    formGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      formArray.updateValueAndValidity();
+    });
+  }
+
   private createPhoneFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
@@ -204,7 +193,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   private createSocialNetworksFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-      url: new FormControl('', [])
+      url: new FormControl('', [Validators.pattern('^https?://[\\w\\d.-]+\\.[a-z]{2,}(?:/.*)?$')])
     });
   }
 
