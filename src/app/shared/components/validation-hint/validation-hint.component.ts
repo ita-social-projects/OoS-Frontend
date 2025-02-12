@@ -125,7 +125,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         errorKey: ValidationErrorsEnum.InvalidValue
       },
       {
-        condition: () => errors.email,
+        condition: () => errors.email && !this.errors.includes(ValidationErrorsEnum.Required),
         errorKey: ValidationErrorsEnum.InvalidEmail
       },
       {
@@ -218,7 +218,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       maxCharacters: JSON.stringify(this.maxCharacters) || '',
       minValue: JSON.stringify(this.minValue) || '',
       maxValue: JSON.stringify(this.maxValue) || '',
-      currentCharactersCount: JSON.stringify(this.validationFormControl.value?.length) || ''
+      currentCharactersCount: JSON.stringify(this.currentCharactersCount) || ''
     };
   }
 }

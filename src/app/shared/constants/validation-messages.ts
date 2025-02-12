@@ -14,6 +14,7 @@ export interface ValidationMessageConfig {
   detail?: string;
   parts?: string[];
 }
+
 export interface ValidationParams {
   minCharacters: string;
   maxCharacters: string;
@@ -21,6 +22,7 @@ export interface ValidationParams {
   maxValue: string;
   currentCharactersCount: string;
 }
+
 export class ValidationMessages {
   // For message's base
   public readonly REQUIRED_INPUT = 'FORMS.VALIDATIONS.REQUIRED_INPUT';
