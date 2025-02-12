@@ -87,10 +87,11 @@
           </mat-card-content>
         </ng-container>
         <mat-card-content class="card-block card-block__buttons flex flex-row justify-end items-center" *ngIf="userRole === Role.parent">
-          <div
-            fxLayout="column"
-            fxLayoutAlign="start start">
-            <button class="btn btn-gray" (click)="leave.emit(application)" [class.hidden]="application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected">
+          <div>
+            <button
+              class="btn btn-gray"
+              (click)="leave.emit(application)"
+              [class.hidden]="application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected">
               <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
             </button>
           </div>

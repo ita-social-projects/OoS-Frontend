@@ -147,7 +147,10 @@
       "POSITIONS": "Positions",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
       "PROVIDER_REGISTRATION": "Provider registration",
-      "USER_REGISTRATION": "User registration"
+      "USER_REGISTRATION": "User registration",
+      "IMPORT": "Import",
+      "EXPORT": "Export",
+      "EMPLOYEES": "Employees"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -1008,5 +1011,37 @@
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
   },
   "MORE": "...More",
-  "LESS": "...Less"
+  "LESS": "...Less",
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Select file",
+    "SELECT_ANOTHER_FILE": "Select another file",
+    "SUBMIT_FILE": "Submit file",
+    "UPLOAD_SUCCESS":"Data uploaded successfully",
+    "UPLOAD_FAILURE":"Error loading, try again later",
+    "INCORRECT_ROWS": "Incorrect rows: ",
+    "HUNDRED_WARNING": "WARNING! Processed first hundred lines",
+    "FILE_READER_WARNING": "An error occurred while reading the file. Please try again.",
+    "FILE_READER_ERROR": "An error occurred while reading the file",
+    "FILE_HEADERS_WARNING": "Discrepancy in : ",
+    "FILE_HEADERS_ERROR": "The headlines are not as expected",
+    "FILE_EMPTY_HEADER_WARNING": "One of the headers is missing!",
+    "FILE_HEADERS_EXAMPLE": "example",
+    "EMPLOYEE_LIST": {
+      "EMPLOYEE_NAME": "Name",
+      "EMPLOYEE_SURNAME": "Surname",
+      "EMPLOYEE_FATHER_NAME": "Father name",
+      "EMPLOYEE_RNOKPP": "RNOKPP",
+      "EMPLOYEE_ASSIGNED_ROLE": "Assigned roles"
+    },
+    "ERRORS": {
+      "ERRORS_TYPES":"Errors types",
+      "DATA_DUPLICATE":"Duplicated information",
+      "MISSING_INFO_EMPTY_FIELD":"No information/empty field",
+      "WRONG_LENGTH":"Incorrect number of characters",
+      "WRONG_FORMAT":"Incorrect format",
+      "WRONG_LANGUAGE":"Incorrectly selected language"
+    }
+  },
+  "EMPLOYEES":"Employees",
+  "EMPLOYEES_REGISTRATION":"Employees registration"
 }
