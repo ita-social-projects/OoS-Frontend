@@ -1,4 +1,16 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -17,7 +29,8 @@ import {
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html'
 })
-export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
+export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
   @Input() public validationFormControl: FormControl | FormGroup; // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
@@ -40,6 +53,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For form level validation
   @Input() public formLevelValidation: boolean;
 
+  @Input() public displayToolTip: boolean;
+
   public required: boolean;
   public invalidSymbols: boolean;
   public invalidCharacters: boolean;
@@ -61,10 +76,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidTagsLength: boolean;
   public invalidAgeRange: boolean;
   public invalidEmailType: boolean;
+  public tooltipText: string = '';
+  private mutationObserver: MutationObserver | null = null;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
@@ -78,6 +95,27 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         this.updateValidationState(this.validationFormControl as FormControl);
       }
     });
+  }
+
+  public ngAfterViewInit(): void {
+    if (!this.validationHint?.nativeElement) {
+      return;
+    }
+
+    if (this.displayToolTip) {
+      const element = this.validationHint.nativeElement;
+      this.mutationObserver = new MutationObserver(() => {
+        const text = element.textContent;
+        this.tooltipText = text;
+        this.cdr.markForCheck();
+      });
+
+      this.mutationObserver.observe(element, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
   }
 
   public updateValidationState(formControl: FormControl): void {
@@ -111,6 +149,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
+    }
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {

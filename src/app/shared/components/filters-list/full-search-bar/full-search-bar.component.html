@@ -10,12 +10,10 @@
   </div>
   <div class="validation-hint-wrapper">
     <app-validation-hint
-      #validationHint
       [validationFormControl]="displayErrorFormControl"
       class="invalid-input"
-      [matTooltip]="tooltipText"
+      [displayToolTip]="true"
       [maxCharacters]="validationConstants.MAX_SEARCH_LENGTH_200"
-      [currentCharactersCount]="displayErrorFormControl.value?.length"
-      ></app-validation-hint>
+      [currentCharactersCount]="displayErrorFormControl.value?.length"></app-validation-hint>
   </div>
 </div>
