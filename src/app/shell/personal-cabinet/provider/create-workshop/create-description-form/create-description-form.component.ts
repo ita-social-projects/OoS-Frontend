@@ -31,7 +31,7 @@ import {
 } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
-import { maxArrayLength, minArrayLength } from 'shared/validators/tags/array-length-validator';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction } from 'shared/models/category.model';
 
 @Component({
