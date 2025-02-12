@@ -23,7 +23,8 @@
     class="btn-add"
     mat-button
     (click)="onAddForm()">
-    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
+    <mat-icon class="mat-icon-add">add</mat-icon>
+    {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 
   <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
@@ -66,7 +67,7 @@
         <mat-select-trigger>
           <mat-chip-set #chipSet>
             <mat-chip class="flex items-center" *ngFor="let tag of tagsControl.value" (removed)="onRemoveItem(tag)">
-              <img class="min-logo" src="../../assets/icons/hashtag.svg" alt="Link" />
+              <img class="min-logo" src="src/assets/icons/hashtag.svg" alt="Link" />
               <span>{{ tag.name }}</span>
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
@@ -77,14 +78,14 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-validation-hint [validationFormControl]="tagsControl"> </app-validation-hint>
+    <app-validation-hint [validationFormControl]="tagsControl"></app-validation-hint>
   </ng-container>
 
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
-  <div class="step-input keywords step-textarea-short" (click)="setFocus()">
+  <div class="step-input keywords step-textarea-short" (click)="setFocus()" tabindex="0" (keydown)="setFocus()">
     <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
@@ -129,7 +130,7 @@
               validationConstants.MAX_DESCRIPTION_LENGTH_500
             }}
           </ng-container>
-          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
+          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
         </label>
       </div>
       <textarea
@@ -153,10 +154,11 @@
     <label class="step-label">{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</label>
     <label class="step-characters-count">
       <ng-container *ngIf="DescriptionFormGroup.get('enrollmentProcedureDescription').value; else elseBlock">
-        {{ DescriptionFormGroup.get('enrollmentProcedureDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+        {{ DescriptionFormGroup.get('enrollmentProcedureDescription').value?.length }}
+        /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
       </ng-container>
-      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template></label
-    >
+      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
+    </label>
   </div>
   <textarea
     matInput
@@ -189,8 +191,8 @@
           validationConstants.MAX_DESCRIPTION_LENGTH_500
         }}
       </ng-container>
-      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template></label
-    >
+      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
+    </label>
   </div>
   <textarea
     matInput
