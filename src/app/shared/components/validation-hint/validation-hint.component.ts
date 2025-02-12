@@ -214,11 +214,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private setValidationParams(): void {
     this.validationParams = {
-      minCharacters: JSON.stringify(this.minCharacters) || '',
-      maxCharacters: JSON.stringify(this.maxCharacters) || '',
-      minValue: JSON.stringify(this.minValue) || '',
-      maxValue: JSON.stringify(this.maxValue) || '',
-      currentCharactersCount: JSON.stringify(this.currentCharactersCount) || ''
+      minCharacters: String(this.minCharacters ?? ''),
+      maxCharacters: String(this.maxCharacters ?? ''),
+      minValue: String(this.minValue ?? ''),
+      maxValue: String(this.maxValue ?? ''),
+      currentCharactersCount: String(this.currentCharactersCount ?? '')
     };
   }
 }

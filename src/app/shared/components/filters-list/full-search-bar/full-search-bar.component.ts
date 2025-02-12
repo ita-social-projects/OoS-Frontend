@@ -13,8 +13,6 @@ export class FullSearchBarComponent {
 
   public readonly validationConstants = ValidationConstants;
 
-  constructor() {}
-
   public setErrorFormControl(searchBarFormControl: FormControl): void {
     this.displayErrorFormControl = searchBarFormControl;
   }
