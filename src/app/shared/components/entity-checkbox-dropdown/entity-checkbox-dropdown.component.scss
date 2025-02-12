@@ -39,12 +39,17 @@ mat-form-field mat-label {
   height: 0;
 }
 
-::ng-deep .custom-overlay-panel .application-dropdown {
-  max-width: 180px;
-}
-
 .workshops-amount {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+::ng-deep {
+  .cdk-overlay-container {
+    .dropdown-panel.application-dropdown {
+      min-width: 350px !important;
+      left: calc(100% - 565px) !important;
+    }
+  }
 }
