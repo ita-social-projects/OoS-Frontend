@@ -190,7 +190,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
             value: null,
             disabled: true
           },
-          [Validators.required, Validators.min(this.minSeats)]
+          [Validators.required, Validators.min(this.minSeats), Validators.max(ValidationConstants.MAX_SEATS)]
         ),
         competitiveSelection: new FormControl(false),
         competitiveSelectionDescription: null
