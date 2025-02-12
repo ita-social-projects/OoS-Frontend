@@ -145,6 +145,13 @@
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
     </a>
+    <a
+      *ngIf="user.role === Role.provider || user.role === Role.providerDeputy"
+      [routerLink]="'./personal-cabinet/provider/provider-employees'">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.EMPLOYEES' | translate }}
+      </button>
+    </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/positions'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.POSITIONS' | translate }}
