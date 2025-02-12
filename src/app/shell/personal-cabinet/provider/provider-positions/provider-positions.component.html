@@ -11,15 +11,6 @@
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}"/>
     </div>
     <div class="select-create-container">
-      <mat-form-field class="select-form-field">
-        <mat-select disableOptionCentering [formControl]="sortFormControl" panelClass="dropdown-panel" class="select">
-          <ng-container *ngFor="let option of sortList">
-            <mat-option [value]="option" class="dropdown-option">
-              {{ option | translate }}
-            </mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
       <a [routerLink]="['/create-position', ModeConstants.NEW]">
         <button class="btn !mx-0" mat-raised-button>{{ 'BUTTONS.ADD_POSITION' | translate }}</button>
       </a>
@@ -29,9 +20,9 @@
 
 <div class="mt-[20px]">
   <div class="table-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" appStretchTable>
+    <table mat-table [dataSource]="dataSource" matSort appStretchTable (matSortChange)="sortData($event)">
       <ng-container matColumnDef="fullName">
-        <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="orderByFullName">{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <div
             [matTooltip]="element.fullName"
@@ -115,7 +106,7 @@
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.CREATED_AT' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="orderByCreatedAt">{{ 'FORMS.LABELS.CREATED_AT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <div
             [matTooltip]="element.createdAt | date: 'dd.MM.yy HH:mm'"

@@ -96,6 +96,7 @@
               [entities]="truncatedItems$ | async"
               [declination]="WorkshopDeclination"
               [entityControl]="entityControl"
+              [shouldRemoveApplicationDropdown]="true"
               labelByDefault="FORMS.LABELS.CHECK_WORKSHOPS"
               dropdownContainerClass="create-admin"
               (entityCheck)="onWorkshopsSelect($event)"

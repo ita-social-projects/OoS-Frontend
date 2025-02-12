@@ -1,8 +1,10 @@
 <div [ngClass]="isMobileView ? 'side-nav-filter' : 'filters-wrapper'">
   <div class="flex flex-row justify-between">
     <button mat-raised-button class="reset-filter" (click)="onFilterReset()">
-      <mat-icon class="matFilter">delete_forever</mat-icon>
-      {{ 'CLEAR_FILTERS' | translate }}
+      <div class="flex">
+        <i class="mat-filter"></i>
+        <span>{{ 'CLEAR_FILTERS' | translate }}</span>
+      </div>
     </button>
     <ng-container *ngIf="isMobileView">
       <button mat-button (click)="changeView()">

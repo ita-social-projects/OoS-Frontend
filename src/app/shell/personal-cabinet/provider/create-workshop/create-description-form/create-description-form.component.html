@@ -13,7 +13,7 @@
     [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
-    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
     (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
@@ -173,7 +173,7 @@
     <mat-radio-button [value]="true">{{ 'AGREEMENT' | translate }}</mat-radio-button>
     <mat-radio-button [value]="false">{{ 'DISAGREEMENT' | translate }}</mat-radio-button>
   </mat-radio-group>
-  <div>
+  <div class="flex flex-row justify-between">
     <label class="step-label">{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
     <label class="step-characters-count">
       <ng-container *ngIf="DescriptionFormGroup.get('preferentialTermsOfParticipation').value; else elseBlock">

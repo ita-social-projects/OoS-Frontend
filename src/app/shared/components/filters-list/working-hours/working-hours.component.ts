@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -10,6 +10,9 @@ import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingHoursFilter } from 'shared/models/filter-list.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'shared/store/filter.actions';
+import { TimeFormatValidator } from 'shared/validators/time-format-validator';
+import { Util } from 'shared/utils/utils';
+import { TimeRangeValidator } from 'shared/validators/time-range-validator';
 
 @Component({
   selector: 'app-working-hours',
@@ -17,13 +20,10 @@ import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, S
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-  public minTime: string;
-  public maxTime: string;
-
-  public isFree$: Observable<boolean>;
-
   public readonly validationConstants = ValidationConstants;
   public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  public readonly checkBoxDebounceTime: number = 300;
+  public readonly inputDebounceTime: number = 500;
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 
   public startTimeFormControl = new FormControl('');
@@ -32,8 +32,9 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   public isAppropriateHoursControl = new FormControl(false);
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public selectedWorkingDays: string[] = [];
+  public workingHoursFormGroup: FormGroup;
 
-  constructor(private store: Store) {}
+  constructor(private readonly store: Store) {}
 
   @Input()
   public set workingHours(filter: WorkingHoursFilter) {
@@ -51,35 +52,50 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.workingHoursFormGroup = new FormGroup({ startTime: this.startTimeFormControl, endTime: this.endTimeFormControl });
+
+    this.endTimeFormControl.setValidators(TimeFormatValidator);
+    this.startTimeFormControl.setValidators(TimeFormatValidator);
+
+    this.workingHoursFormGroup.setValidators(TimeRangeValidator('startTime', 'endTime'));
+
     this.startTimeFormControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((time: string) => {
-        this.store.dispatch(new SetStartTime(time));
-        this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
+      .pipe(
+        tap((value) => this.startTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
+        debounceTime(this.inputDebounceTime),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.applyFilters();
       });
 
     this.endTimeFormControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((time: string) => {
-        this.store.dispatch(new SetEndTime(time));
-        this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
+      .pipe(
+        tap((value) => this.endTimeFormControl.setValue(Util.formatTimeString(value), { emitEvent: false })),
+        debounceTime(this.inputDebounceTime),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.applyFilters();
       });
 
     this.isStrictWorkdaysControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(this.checkBoxDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
 
     this.isAppropriateHoursControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(this.checkBoxDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
   }
 
-  public clearStart(): void {
-    this.startTimeFormControl.reset();
+  public onClearTime(formControl: FormControl): void {
+    formControl.reset();
   }
 
-  public clearEnd(): void {
-    this.endTimeFormControl.reset();
+  public onTimeSet(chosenTime: string, formControl: FormControl): void {
+    formControl.setValue(chosenTime);
   }
 
   /**
@@ -99,5 +115,14 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private applyFilters(): void {
+    if (this.endTimeFormControl.valid) {
+      this.store.dispatch(new SetEndTime(this.endTimeFormControl.value || ''));
+    }
+    if (this.startTimeFormControl.valid) {
+      this.store.dispatch(new SetStartTime(this.startTimeFormControl.value || ''));
+    }
   }
 }

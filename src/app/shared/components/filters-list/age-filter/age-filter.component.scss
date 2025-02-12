@@ -21,6 +21,7 @@
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
+  width: 114px;
   max-height: 34px;
   text-align: center;
 }
@@ -59,7 +60,7 @@
   font-size: 18px;
   color: #adadad;
   top: 8px;
-  left: 114px;
+  left: 85px;
 }
 
 .clear-age:hover {
@@ -83,3 +84,22 @@
     margin-bottom: 10px;
   }
 }
+
+.age-input.ng-invalid.ng-touched,
+.redBorder {
+  outline: none;
+  border: 1px solid #c72a21;
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: red;
+}
+
+mat-error {
+  margin-top: 8px;
+}
+

@@ -58,6 +58,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidValue: boolean;
   public invalidTimeFormat: boolean;
   public invalidTimeRange: boolean;
+  public invalidAgeRange: boolean;
+  public invalidEmailType: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -121,6 +123,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.invalidEmail = errors?.email;
+    this.invalidEmailType = errors?.blacklistedDomain;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = errors?.minlength;
       this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
@@ -136,6 +139,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     this.invalidTimeRange = errors?.invalidTimeRange;
+    this.invalidAgeRange = errors?.invalidAgeRange;
+    this.cdr.markForCheck();
   }
 
   private checkInvalidText(errors: ValidationErrors): void {

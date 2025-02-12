@@ -2,7 +2,6 @@ import { KeyValue } from '@angular/common';
 
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
-import { EmployeeTitles } from 'shared/enum/enumUA/employee';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
@@ -15,11 +14,13 @@ import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Notification } from 'shared/models/notification.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { Employee } from 'shared/models/employee.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { AdminsTableData, EmployeesTableData, UsersTableData } from 'shared/models/users-table';
+import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
 import { Workshop } from 'shared/models/workshop.model';
+import { ValidationConstants } from 'shared/constants/validation';
+import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { OfficialEmployee } from 'shared/models/official-employee.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -136,23 +137,21 @@ export class Util {
   }
 
   /**
-   * This method returns updated array structure for the Employee table
-   * @param admins Employee[]
+   * This method returns updated array structure for the Official Employees table
+   * @param admins OfficialEmployee[]
    * @returns array of objects
    */
-  public static updateStructureForTheTableEmployees(admins: Employee[]): EmployeesTableData[] {
-    const updatedEmployees = [];
-    admins.forEach((admin: Employee) => {
-      updatedEmployees.push({
+  public static updateStructureForTheTableOfficialEmployees(admins: OfficialEmployee[]): OfficialEmployeeTableData[] {
+    const updatedOfficialEmployees: OfficialEmployeeTableData[] = [];
+    admins.forEach((admin: OfficialEmployee) => {
+      updatedOfficialEmployees.push({
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
-        email: admin.email,
-        phoneNumber: `${admin.phoneNumber}`,
-        role: EmployeeTitles.Admin,
-        status: admin.accountStatus
+        role: admin.position,
+        rnokpp: admin.rnokpp
       });
     });
-    return updatedEmployees;
+    return updatedOfficialEmployees;
   }
 
   /**
@@ -305,6 +304,31 @@ export class Util {
           ? notification.data.ProviderShortTitle
           : notification.data.ProviderFullTitle;
     }
+  }
+
+  /**
+   * Formats a age value by limiting the length to 3 characters
+   * Removing non-numeric characters implemented by DigitOnly directive
+   * @param value
+   */
+  public static formatAgeString(value: number): number {
+    if (isNaN(value) || value === null) {
+      return null;
+    }
+    const stringValue: string = value?.toString();
+    return stringValue?.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : value;
+  }
+
+  /**
+   * Formats a time string by removing non-numeric characters and adding a colon separator
+   * @param value
+   */
+  public static formatTimeString(value: string): string {
+    value = value?.replace(TIME_REGEX_REPLACE, '');
+    if (value?.length > 2 && !value?.includes(':')) {
+      value = value?.slice(0, 2) + ':' + value?.slice(2);
+    }
+    return value;
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

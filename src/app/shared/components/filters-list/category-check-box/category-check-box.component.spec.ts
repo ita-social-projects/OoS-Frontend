@@ -73,6 +73,15 @@ describe('CategoryCheckBoxComponent', () => {
     expect(component.selectedDirectionIds.length).toBeFalsy();
     expect(store.dispatch).toHaveBeenCalledWith(new SetDirections(component.selectedDirectionIds));
   });
+
+  it('should find directions by second word', () => {
+    (component as any).allDirections = [{ title: 'North East Direction' } as Direction, { title: 'South West Direction' } as Direction];
+    const searchValue = 'east';
+
+    (component as any).filterDirections(searchValue);
+
+    expect((component as any).filteredDirections).toStrictEqual([{ title: 'North East Direction' }]);
+  });
 });
 
 const mockDirections: Direction[] = [

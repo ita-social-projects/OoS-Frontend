@@ -6,7 +6,7 @@ export class ValidationConstants {
   // Age
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
-  static readonly MAX_AGE_LENGTH = 2;
+  static readonly MAX_AGE_LENGTH = 3;
   static readonly BIRTH_AGE_MAX = 120;
 
   // Price
@@ -52,7 +52,7 @@ export class ValidationConstants {
   static readonly MIN_RATE = 1;
 
   // Max available seats
-  static readonly MAX_SEATS = 10000;
+  static readonly MAX_SEATS = 100000;
   static readonly UNLIMITED_SEATS = 2147483647;
   static readonly MIN_SEATS = 1;
 }

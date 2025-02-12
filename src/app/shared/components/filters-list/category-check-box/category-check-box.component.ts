@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 
 import { Direction } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
@@ -33,17 +34,24 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   private allDirections: Direction[] = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetDirections());
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
       this.allDirections = directions;
       this.filteredDirections = directions;
+      this.cdr.markForCheck();
     });
     this.directionSearchFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((value: string) => this.filterDirections(value));
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((value: string) => {
+        this.filterDirections(value);
+        this.cdr.markForCheck();
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -88,7 +96,10 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    */
   private filterDirections(value: string): void {
     this.filteredDirections = this.allDirections.filter((direction: Direction) =>
-      direction.title.toLowerCase().startsWith(value.toLowerCase())
+      direction.title
+        .toLowerCase()
+        .split(WORD_SPLIT_REGEX)
+        .some((word) => word.startsWith(value.toLowerCase()))
     );
   }
 
