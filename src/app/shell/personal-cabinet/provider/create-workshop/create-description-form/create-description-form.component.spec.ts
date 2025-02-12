@@ -165,7 +165,7 @@ describe('CreateDescriptionFormComponent', () => {
 
     (component as any).updateTagIds(mockTags);
 
-    expect(component.DescriptionFormGroup.get('tagIds').value).toBe(JSON.stringify([1, 2]));
+    expect(component.DescriptionFormGroup.get('tagIds').value).toEqual([1, 2]);
   });
 
   it('should mark form as dirty after deletion', () => {

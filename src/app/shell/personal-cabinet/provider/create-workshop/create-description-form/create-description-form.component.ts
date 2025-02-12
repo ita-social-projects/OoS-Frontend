@@ -20,15 +20,8 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
-import { AgeComposition, Coverage, EducationalShift, FormOfLearning, SpecialNeedsType, WorkshopType } from 'shared/enum/workshop';
-import {
-  AgeCompositionEnum,
-  CoverageEnum,
-  EducationalShiftEnum,
-  FormOfLearningEnum,
-  SpecialNeedsTypeEnum,
-  WorkshopTypeEnum
-} from 'shared/enum/enumUA/workshop';
+import { Coverage, FormOfLearning } from 'shared/enum/workshop';
+import { CoverageEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
@@ -85,6 +78,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     [],
     [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
   );
+
+  protected readonly ValidationConstants = ValidationConstants;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -338,7 +333,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
-    // const stringifiedTagIds = JSON.stringify(tagIds);
     this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
   }
 
@@ -349,6 +343,4 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.enable({ emitEvent: false });
     }
   }
-
-  protected readonly ValidationConstants = ValidationConstants;
 }
