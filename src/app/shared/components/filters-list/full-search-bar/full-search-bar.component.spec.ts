@@ -28,19 +28,6 @@ describe('FullSearchBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should change matToolTip text', () => {
-    component.validationHint.nativeElement.textContent = 'Validation hint';
-    component.tooltipText = '';
-
-    component.ngAfterViewInit();
-
-    component.validationHint.nativeElement.textContent = 'Text changed';
-
-    timer(0).subscribe(() => {
-      expect(component.tooltipText).toBe('Text changed');
-    });
-  });
 });
 @Component({
   selector: 'app-searchbar',

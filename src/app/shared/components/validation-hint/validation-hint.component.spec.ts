@@ -1,18 +1,25 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject, tap } from 'rxjs';
-
+import { ValidationErrorsEnum } from 'shared/enum/validation-errors';
 import { EventEmitter, SimpleChange } from '@angular/core';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
+import { ValidationMessageService } from 'shared/services/validation-message/validation-message.service';
+import { TranslateService } from '@ngx-translate/core';
 import { ValidationHintComponent } from './validation-hint.component';
 
 describe('ValidationHintComponent', () => {
   let component: ValidationHintComponent;
   let fixture: ComponentFixture<ValidationHintComponent>;
-
+  class MockTranslateService {
+    get(key: string): string {
+      return key;
+    }
+  }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidationHintComponent]
+      declarations: [ValidationHintComponent],
+      providers: [ValidationMessageService, { provide: TranslateService, useClass: MockTranslateService }]
     }).compileComponents();
   });
 
@@ -97,7 +104,7 @@ describe('ValidationHintComponent', () => {
       tick(200);
     }));
 
-    it('should validate TimeFormat in FormLevel', fakeAsync(() => {
+    it('should validate TimeRange in FormLevel', fakeAsync(() => {
       const control1 = new FormControl('');
       const formGroup = new FormGroup({ control1: control1 });
       component.validationFormControl = formGroup;
@@ -107,7 +114,7 @@ describe('ValidationHintComponent', () => {
       formGroup.setErrors({ invalidTimeRange: true });
       tick(200);
 
-      expect(component.invalidTimeRange).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidTimeRange);
     }));
   });
 
@@ -119,128 +126,127 @@ describe('ValidationHintComponent', () => {
       control = component.validationFormControl as FormControl;
     });
 
-    it('should assign to invalidEmail if email error is present', () => {
+    it('should add InvalidEmail to errors array if email error is present', () => {
       errors = { email: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.invalidEmail).toEqual(errors.email);
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidEmail);
     });
 
-    it('should assign TRUE to invalidPhoneLength if isPhoneNumber and minlength error are present', () => {
+    it('should add InvalidPhoneLength to errors array if isPhoneNumber is true and minlength error is present', () => {
       component.isPhoneNumber = true;
       errors = { minlength: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.invalidPhoneLength).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidPhoneLength);
     });
 
-    it('should assign TRUE to invalidPhoneLength if validationFormControl has minlength error and if isPhoneNumber', () => {
+    it('should add InvalidPhoneLength to errors array if validationFormControl has minlength error and isPhoneNumber is true', () => {
       component.isPhoneNumber = true;
       control.setErrors({ minlength: true });
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(component.invalidPhoneLength).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidPhoneLength);
     });
 
-    it('should assign TRUE to invalidPhoneNumber if validationFormControl has validatePhoneNumber error and if isPhoneNumber', () => {
+    it('should add InvalidPhoneNumber to errors array if FormControl has validatePhoneNumber error and isPhoneNumber is true', () => {
       component.isPhoneNumber = true;
       control.setErrors({ validatePhoneNumber: true, minlength: false });
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(component.invalidPhoneNumber).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidPhoneNumber);
     });
 
-    it('should assign TRUE to invalidEdrpouIpn if isEdrpouIpn and minlength error are present', () => {
+    it('should add InvalidEdrpouIpn to errors array if isEdrpouIpn is true and minlength error is present', () => {
       component.isEdrpouIpn = true;
       errors = { minlength: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.invalidEdrpouIpn).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidEdrpouIpn);
     });
 
-    it('should assign TRUE to invalidFieldLength if minlength/maxlength errors are present', () => {
+    it('should add InvalidFieldLength to errors array if minlength/maxlength errors are present', () => {
       errors = { minlength: true, maxlength: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.invalidFieldLength).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidFieldLength);
     });
 
-    it('should assign TRUE to invalidSearch if isSearchBar and errors are present', () => {
+    it('should add InvalidSearch to errors array if invalidSearch error is present', () => {
       errors = { invalidSearch: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.invalidSearch).toBeTruthy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidSearch);
     });
   });
-
   describe('checkInvalidText method', () => {
     let errors: ValidationErrors;
 
-    it('should assign to invalidSymbols TRUE if required pattern is equal to NAME_REGEX and others should be FALSE', () => {
+    it('should push invalidSymbols to error array if required pattern is equal to NAME_REGEX and others should not be in errors', () => {
       errors = { pattern: { requiredPattern: NAME_REGEX } };
 
       (component as any).checkInvalidText(errors);
 
-      expect(component.invalidSymbols).toBeTruthy();
-      expect(component.invalidCharacters).toBeFalsy();
-      expect(component.invalidStreet).toBeFalsy();
-      expect(component.invalidHouse).toBeFalsy();
-      expect(component.invalidSectionName).toBeFalsy();
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidSymbols);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidCharacters);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidStreet);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidHouse);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSectionName);
     });
 
-    it('should assign to invalidCharacters TRUE if required pattern is equal to NO_LATIN_REGEX and others should be FALSE', () => {
+    it('should add invalidCharacters to errors if required pattern is equal to NO_LATIN_REGEX and others should not be in errors', () => {
       errors = { pattern: { requiredPattern: NO_LATIN_REGEX } };
 
       (component as any).checkInvalidText(errors);
 
-      expect(component.invalidSymbols).toBeFalsy();
-      expect(component.invalidCharacters).toBeTruthy();
-      expect(component.invalidStreet).toBeFalsy();
-      expect(component.invalidHouse).toBeFalsy();
-      expect(component.invalidSectionName).toBeFalsy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSymbols);
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidCharacters);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidStreet);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidHouse);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSectionName);
     });
 
-    it('should assign to invalidStreet TRUE if required pattern is equal to STREET_REGEX and others should be FALSE', () => {
+    it('should push invalidStreet to error array if required pattern is equal to STREET_REGEX and others should not be in errors', () => {
       errors = { pattern: { requiredPattern: STREET_REGEX } };
 
       (component as any).checkInvalidText(errors);
 
-      expect(component.invalidSymbols).toBeFalsy();
-      expect(component.invalidCharacters).toBeFalsy();
-      expect(component.invalidStreet).toBeTruthy();
-      expect(component.invalidHouse).toBeFalsy();
-      expect(component.invalidSectionName).toBeFalsy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSymbols);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidCharacters);
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidStreet);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidHouse);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSectionName);
     });
 
-    it('should assign to invalidHouse TRUE if required pattern is equal to HOUSE_REGEX and others should be FALSE', () => {
+    it('should push invalidHouse to error array if required pattern is equal to HOUSE_REGEX and others should not be in errors', () => {
       errors = { pattern: { requiredPattern: HOUSE_REGEX } };
 
       (component as any).checkInvalidText(errors);
 
-      expect(component.invalidSymbols).toBeFalsy();
-      expect(component.invalidCharacters).toBeFalsy();
-      expect(component.invalidStreet).toBeFalsy();
-      expect(component.invalidHouse).toBeTruthy();
-      expect(component.invalidSectionName).toBeFalsy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSymbols);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidCharacters);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidStreet);
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidHouse);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSectionName);
     });
 
-    it('should assign to invalidSectionName TRUE if required pattern is equal to SECTION_NAME_REGEX and others should be FALSE', () => {
+    it('should add invalidSectionName to errors if required pattern equals to SECTION_NAME_REGEX and others should not be in error', () => {
       errors = { pattern: { requiredPattern: SECTION_NAME_REGEX } };
 
       (component as any).checkInvalidText(errors);
 
-      expect(component.invalidSymbols).toBeFalsy();
-      expect(component.invalidCharacters).toBeFalsy();
-      expect(component.invalidStreet).toBeFalsy();
-      expect(component.invalidHouse).toBeFalsy();
-      expect(component.invalidSectionName).toBeTruthy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidSymbols);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidCharacters);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidStreet);
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidHouse);
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidSectionName);
     });
   });
 
@@ -255,50 +261,51 @@ describe('ValidationHintComponent', () => {
 
     it('should assign TRUE to invalidDateFormat if validationFormControl has matDatepickerParse error', () => {
       control.setErrors({ matDatepickerParse: true });
+      component.errors = ['required'];
 
       (component as any).checkMatDatePicker();
 
       expect(formControlHasErrorSpy).toHaveBeenCalled();
-      expect(formControlHasErrorSpy).toBeCalledWith('matDatepickerParse');
-      expect(component.invalidDateFormat).toBeTruthy();
+      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerParse');
+      expect(component.errors).toContain(ValidationErrorsEnum.IncorrectDateField);
     });
 
-    it('should assign FALSE to invalidDateFormat if validationFormControl has NO matDatepickerParse error', () => {
+    it('should not contain invalidDateFormat if validationFormControl has NO matDatepickerParse error', () => {
       control.setErrors({ matDatepickerParse: false, matDatepickerMin: true });
 
       (component as any).checkMatDatePicker();
 
       expect(formControlHasErrorSpy).toHaveBeenCalled();
-      expect(component.invalidDateFormat).toBeFalsy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.IncorrectDateField);
     });
 
-    it('should assign TRUE to invalidDateRange if validationFormControl has matDatepickerMin error', () => {
+    it('should add invalidDateRange error if validationFormControl has matDatepickerMin error', () => {
       control.setErrors({ matDatepickerMin: true, matDatepickerMax: false });
 
       (component as any).checkMatDatePicker();
 
       expect(formControlHasErrorSpy).toHaveBeenCalled();
-      expect(formControlHasErrorSpy).toBeCalledWith('matDatepickerMin');
-      expect(component.invalidDateRange).toBeTruthy();
+      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerMin');
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidDateRange);
     });
 
-    it('should assign TRUE to invalidDateRange if validationFormControl has matDatepickerMax error', () => {
+    it('should add invalidDateRange error if validationFormControl has matDatepickerMax error', () => {
       control.setErrors({ matDatepickerMin: false, matDatepickerMax: true });
 
       (component as any).checkMatDatePicker();
 
       expect(formControlHasErrorSpy).toHaveBeenCalled();
-      expect(formControlHasErrorSpy).toBeCalledWith('matDatepickerMax');
-      expect(component.invalidDateRange).toBeTruthy();
+      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerMax');
+      expect(component.errors).toContain(ValidationErrorsEnum.InvalidDateRange);
     });
 
-    it('should assign FALSE to invalidDateRange if validationFormControl has NO matDatepickerMin or matDatepickerMax errors', () => {
+    it('should not contain invalidDateRange if validationFormControl has NO matDatepickerMin or matDatepickerMax errors', () => {
       control.setErrors({ matDatepickerParse: false, matDatepickerMin: false });
 
       (component as any).checkMatDatePicker();
 
       expect(formControlHasErrorSpy).toHaveBeenCalled();
-      expect(component.invalidDateRange).toBeFalsy();
+      expect(component.errors).not.toContain(ValidationErrorsEnum.InvalidDateRange);
     });
   });
 });

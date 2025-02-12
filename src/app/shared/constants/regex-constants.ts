@@ -12,7 +12,7 @@ export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`-]*[А-�
 export const FULL_NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ\s'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
 
 // Regex for email
-export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
+export const EMAIL_REGEX: RegExp = /^^$|[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 
 // Regex for EDRPOU and IPN
 export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;

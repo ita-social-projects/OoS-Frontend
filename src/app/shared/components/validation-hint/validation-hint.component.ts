@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -14,22 +13,15 @@ import {
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-
-import {
-  FULL_NAME_REGEX,
-  HOUSE_REGEX,
-  NAME_REGEX,
-  NO_LATIN_REGEX,
-  SECTION_NAME_REGEX,
-  STREET_REGEX,
-  MUST_CONTAIN_LETTERS
-} from 'shared/constants/regex-constants';
+import { ValidationErrorsEnum } from 'shared/enum/validation-errors';
+import { ValidationParams, PatternMapper } from 'shared/constants/validation-messages';
+import { ValidationMessageService } from 'shared/services/validation-message/validation-message.service';
 
 @Component({
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html'
 })
-export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
   @Input() public validationFormControl: FormControl | FormGroup; // required for validation
   // for Length Validation
@@ -54,37 +46,22 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
   @Input() public formLevelValidation: boolean;
 
   @Input() public displayToolTip: boolean;
-
-  public required: boolean;
-  public invalidSymbols: boolean;
-  public invalidCharacters: boolean;
-  public invalidFieldLength: boolean;
-  public invalidDateRange: boolean;
-  public invalidDateFormat: boolean;
-  public invalidEmail: boolean;
-  public invalidEdrpouIpn: boolean;
-  public invalidPhoneLength: boolean;
-  public invalidPhoneNumber: boolean;
-  public invalidStreet: boolean;
-  public invalidHouse: boolean;
-  public invalidSectionName: boolean;
-  public mustContainLetters: boolean;
-  public invalidSearch: boolean;
-  public invalidValue: boolean;
-  public invalidTimeFormat: boolean;
-  public invalidTimeRange: boolean;
-  public invalidTagsLength: boolean;
-  public invalidAgeRange: boolean;
-  public invalidEmailType: boolean;
-  public tooltipText: string = '';
-  private mutationObserver: MutationObserver | null = null;
+  public tooltipText: string[] = [];
+  public errors: string[] = [];
+  public validationParams: ValidationParams;
+  public patternMapper = PatternMapper;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly validationMessageService: ValidationMessageService
+  ) {}
 
   public ngOnInit(): void {
-    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+    this.validationFormControl.statusChanges.pipe(debounceTime(1), takeUntil(this.destroy$)).subscribe(() => {
+      this.setValidationParams();
+      this.errors = [];
       if (this.formLevelValidation) {
         this.checkFormLevelValidationErrors(this.validationFormControl.errors);
       } else if (this.validationFormControl instanceof FormGroup) {
@@ -92,30 +69,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
           this.updateValidationState(this.validationFormControl.get(key) as FormControl);
         });
       } else {
-        this.updateValidationState(this.validationFormControl as FormControl);
+        this.updateValidationState(this.validationFormControl);
       }
     });
-  }
-
-  public ngAfterViewInit(): void {
-    if (!this.validationHint?.nativeElement) {
-      return;
-    }
-
-    if (this.displayToolTip) {
-      const element = this.validationHint.nativeElement;
-      this.mutationObserver = new MutationObserver(() => {
-        const text = element.textContent;
-        this.tooltipText = text;
-        this.cdr.markForCheck();
-      });
-
-      this.mutationObserver.observe(element, {
-        childList: true,
-        subtree: true,
-        characterData: true
-      });
-    }
   }
 
   public updateValidationState(formControl: FormControl): void {
@@ -127,9 +83,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     // Check is the field required and empty
-    this.required = errors?.required || !formControl?.value;
+    if (errors?.required && !formControl?.value) {
+      this.errors.push(ValidationErrorsEnum.Required);
+    }
 
-    // Check Date Picker Format
     if (this.minMaxDate) {
       this.checkMatDatePicker();
     }
@@ -139,6 +96,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
 
     // Check errors for invalid text field
     this.checkInvalidText(errors);
+
+    if (this.displayToolTip) {
+      this.tooltipText = this.errors.map((errorKey) => this.validationMessageService.getMessage(errorKey, this.validationParams));
+    }
 
     this.cdr.detectChanges();
   }
@@ -152,52 +113,112 @@ export class ValidationHintComponent implements OnInit, OnDestroy, AfterViewInit
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = null;
-    }
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
-    if (this.isNumberValue) {
-      this.invalidValue = errors?.max || errors?.min;
+    if (!errors) {
+      return;
     }
+    const errorConditions = [
+      {
+        condition: () => this.isNumberValue && (errors.max || errors.min),
+        errorKey: ValidationErrorsEnum.InvalidValue
+      },
+      {
+        condition: () => errors.email,
+        errorKey: ValidationErrorsEnum.InvalidEmail
+      },
+      {
+        condition: () => this.minNumberValue,
+        errorKey: ValidationErrorsEnum.MinNumberValue
+      },
+      {
+        condition: () => errors.blacklistedDomain,
+        errorKey: ValidationErrorsEnum.InvalidEmailType
+      },
+      {
+        condition: () => errors.invalidSearch,
+        errorKey: ValidationErrorsEnum.InvalidSearch
+      },
+      {
+        condition: () => errors.invalidTimeFormat,
+        errorKey: ValidationErrorsEnum.InvalidTimeFormat
+      },
+      {
+        condition: () => this.isPhoneNumber && errors.minlength,
+        errorKey: ValidationErrorsEnum.InvalidPhoneLength
+      },
+      {
+        condition: () => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
+        errorKey: ValidationErrorsEnum.InvalidPhoneNumber
+      },
+      {
+        condition: () => this.isEdrpouIpn && errors.minlength && !errors.maxlength,
+        errorKey: ValidationErrorsEnum.InvalidEdrpouIpn
+      },
+      {
+        condition: () => !this.isPhoneNumber && !this.isEdrpouIpn && (errors.maxlength || errors.minlength),
+        errorKey: ValidationErrorsEnum.InvalidFieldLength
+      }
+    ];
 
-    this.invalidEmail = errors?.email;
-    this.invalidEmailType = errors?.blacklistedDomain;
-    this.invalidSearch = errors?.invalidSearch;
-    if (this.isPhoneNumber) {
-      this.invalidPhoneLength = errors?.minlength;
-      this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
-    } else if (this.isEdrpouIpn) {
-      this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
-    } else {
-      this.invalidFieldLength = errors?.maxlength || errors?.minlength;
-    }
-    this.invalidTimeFormat = errors?.invalidTimeFormat;
+    errorConditions.forEach(({ condition, errorKey }) => {
+      if (condition()) {
+        this.errors.push(errorKey);
+      }
+    });
+
     this.cdr.markForCheck();
   }
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
-    this.invalidTimeRange = errors?.invalidTimeRange;
-    this.invalidAgeRange = errors?.invalidAgeRange;
+    if (errors?.invalidAgeRange) {
+      this.errors.push(ValidationErrorsEnum.InvalidAgeRange);
+    }
+
+    if (errors?.invalidTimeRange) {
+      this.errors.push(ValidationErrorsEnum.InvalidTimeRange);
+    }
+
     this.cdr.markForCheck();
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern?.toString();
+    if (!requiredPattern) {
+      return;
+    }
 
-    this.invalidSymbols = NAME_REGEX.toString() === requiredPattern || FULL_NAME_REGEX.toString() === requiredPattern;
-    this.invalidCharacters = NO_LATIN_REGEX.toString() === requiredPattern;
-    this.invalidStreet = STREET_REGEX.toString() === requiredPattern;
-    this.invalidHouse = HOUSE_REGEX.toString() === requiredPattern;
-    this.invalidSectionName = SECTION_NAME_REGEX.toString() === requiredPattern;
-    this.mustContainLetters = MUST_CONTAIN_LETTERS.toString() === requiredPattern;
+    const matchedMapping = this.patternMapper.find((mapping) => mapping.pattern.toString() === requiredPattern);
+
+    if (matchedMapping) {
+      this.errors.push(matchedMapping.errorKey);
+    }
   }
 
   private checkMatDatePicker(): void {
-    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
-    this.invalidDateRange =
-      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax');
+    if (
+      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerParse) &&
+      this.errors.includes(ValidationErrorsEnum.Required)
+    ) {
+      this.errors = this.errors.filter((error) => error !== ValidationErrorsEnum.Required);
+      this.errors.push(ValidationErrorsEnum.IncorrectDateField);
+    }
+    if (
+      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMin) ||
+      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMax)
+    ) {
+      this.errors.push(ValidationErrorsEnum.InvalidDateRange);
+    }
+  }
+
+  private setValidationParams(): void {
+    this.validationParams = {
+      minCharacters: JSON.stringify(this.minCharacters) || '',
+      maxCharacters: JSON.stringify(this.maxCharacters) || '',
+      minValue: JSON.stringify(this.minValue) || '',
+      maxValue: JSON.stringify(this.maxValue) || '',
+      currentCharactersCount: JSON.stringify(this.validationFormControl.value?.length) || ''
+    };
   }
 }
