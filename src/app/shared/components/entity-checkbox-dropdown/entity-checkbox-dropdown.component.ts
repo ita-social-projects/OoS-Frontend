@@ -17,6 +17,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Input() public entities: TruncatedItem[];
   @Input() public declination: WorkshopDeclination | ChildDeclination;
   @Input() public labelByDefault: string;
+  @Input() public shouldRemoveApplicationDropdown = false;
   @Input() public entityControl: FormControl = new FormControl();
   @Output() public entityCheck = new EventEmitter<string[]>();
   @Output() public userInteraction = new EventEmitter<string[]>();
@@ -24,8 +25,11 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   private ids: string[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private isUserInteracted = false;
-
   constructor(private translateCases: TranslateCasesPipe) {}
+
+  public get panelClasses(): string[] {
+    return this.shouldRemoveApplicationDropdown ? ['dropdown-panel'] : ['dropdown-panel', 'application-dropdown'];
+  }
 
   public ngOnInit(): void {
     // TODO: Find better workaround for FormControl disable

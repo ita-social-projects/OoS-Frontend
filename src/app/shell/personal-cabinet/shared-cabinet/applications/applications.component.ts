@@ -66,6 +66,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public isActiveInfoButton = false;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public isMobileView: boolean;
+  public shouldRemoveApplicationDropdown: boolean;
   public searchFormControl: FormControl = new FormControl('');
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -75,13 +76,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     protected router: Router,
     protected route: ActivatedRoute,
     protected actions$: Actions
-  ) {
-    this.onResize(window);
-  }
+  ) {}
 
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
     this.isMobileView = event.outerWidth < 530;
+    this.shouldRemoveApplicationDropdown = event.outerWidth <= 1500;
   }
 
   public onEntitiesSelect(IDs: string[]): void {
@@ -108,6 +108,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.getApplications.emit());
+
+    this.onResize(window);
   }
 
   public ngAfterViewInit(): void {
