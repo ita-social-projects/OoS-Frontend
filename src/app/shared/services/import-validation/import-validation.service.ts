@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NO_LATIN_REGEX } from 'shared/constants/regex-constants';
 import { ImportEmployeesChosenRole } from 'shared/enum/enumUA/import-export';
-import { Employee, FieldValidationConfig, FieldsConfig, ValidationError } from 'shared/models/admin-import-export.model';
+import { FieldValidationConfig, FieldsConfig, ValidationError } from 'shared/models/admin-import-export.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImportValidationService<ChildInterface extends { errors: ValidationError }> {
+export class ImportValidationService<DataSource extends { errors: ValidationError }> {
   constructor() {}
-  public checkForInvalidData(items: ChildInterface[], config: FieldsConfig[]): void {
+  public checkForInvalidData(items: DataSource[], config: FieldsConfig[]): void {
     items.forEach((item) => {
       item.errors = {};
       config.forEach((field) => {
@@ -17,11 +17,11 @@ export class ImportValidationService<ChildInterface extends { errors: Validation
     });
   }
 
-  public findDuplicates<T extends ChildInterface & { employeeRNOKPP?: number }>(items: T[], item: number): boolean {
+  public findDuplicates<T extends DataSource & { employeeRNOKPP?: number }>(items: T[], item: number): boolean {
     return items.map((rnokpp) => rnokpp.employeeRNOKPP ?? null).filter((e) => e === item).length > 1;
   }
 
-  private validateField(fieldName: string, item: ChildInterface, items: ChildInterface[], config: FieldValidationConfig): void {
+  private validateField(fieldName: string, item: DataSource, items: DataSource[], config: FieldValidationConfig): void {
     const fieldValue = item[fieldName];
     if (config.checkEmpty && !fieldValue) {
       item.errors[`${fieldName}Empty`] = true;

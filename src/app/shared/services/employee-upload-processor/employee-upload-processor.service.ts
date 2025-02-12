@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeUploadProcessorService<ChildInterface> {
+export class EmployeeUploadProcessorService<DataSource> {
   public readonly baseApiURL = '/api/v1';
   constructor(private readonly http: HttpClient) {}
 
-  public uploadEmployeesList(items: ChildInterface[], id: string): Observable<HttpResponse<string>> {
+  public uploadEmployeesList(items: DataSource[], id: string): Observable<HttpResponse<string>> {
     return this.http.put(`${this.baseApiURL}/Provider/Upload/${id}/employees/upload`, items, {
       observe: 'response',
       responseType: 'text'

@@ -29,8 +29,7 @@ export interface ValidationError {
   [key: string]: boolean;
 }
 
-export interface EmployeeValidationErrors {
-  [key: string]: boolean;
+export interface EmployeeValidationErrors extends ValidationError {
   employeeSurnameEmpty?: boolean;
   employeeNameEmpty?: boolean;
   employeeFatherNameEmpty?: boolean;

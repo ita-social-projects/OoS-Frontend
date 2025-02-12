@@ -60,11 +60,11 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
    */
   public renamingKeys(items: Employee[]): RenamedEmployee[] {
     return items.map((item) => ({
-      assignedRole: item.employeeAssignedRole,
-      middleName: item.employeeFatherName,
-      firstName: item.employeeName,
-      rnokpp: item.employeeRNOKPP.toString(),
-      lastName: item.employeeSurname
+      assignedRole: item?.employeeAssignedRole,
+      middleName: item?.employeeFatherName,
+      firstName: item?.employeeName,
+      rnokpp: item?.employeeRNOKPP.toString() ?? '',
+      lastName: item?.employeeSurname
     }));
   }
 }
