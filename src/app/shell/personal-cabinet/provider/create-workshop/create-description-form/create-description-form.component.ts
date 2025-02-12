@@ -305,7 +305,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
