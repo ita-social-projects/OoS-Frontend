@@ -67,6 +67,10 @@ export class PhoneFormControlComponent implements OnInit, AfterViewInit, OnDestr
     this.destroy$.unsubscribe();
   }
 
+  public resetPhoneInput(): void {
+    this.inputComponent.reset();
+  }
+
   private isCountryBanned(countryCode: string): boolean {
     return ['ru', 'by', 'UN'].includes(countryCode);
   }

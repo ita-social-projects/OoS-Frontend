@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
+import { PhoneFormControlComponent } from 'shared/components/phone-form-control/phone-form-control.component';
 
 @Component({
   selector: 'app-create-about-form',
@@ -26,6 +27,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
   @Input() public isImagesFeature: boolean;
   @Output() public PassAboutFormGroup = new EventEmitter();
+  @ViewChild(PhoneFormControlComponent) public phoneFormControlComponent: PhoneFormControlComponent;
 
   public readonly validationConstants = ValidationConstants;
   public readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
@@ -275,7 +277,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private useProviderInfo(): void {
     const setValue = (value: string): void => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value: string): void => this.AboutFormGroup.get(value).reset();
+    const resetValue = (value: string): void => {
+      this.AboutFormGroup.get(value).reset();
+      this.phoneFormControlComponent.resetPhoneInput();
+    };
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
       // eslint-disable-next-line guard-for-in
