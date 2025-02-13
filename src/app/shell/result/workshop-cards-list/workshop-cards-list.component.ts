@@ -55,7 +55,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
-    this.scrollToTop();
+    Util.scrollToTop(this.window);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -71,12 +71,5 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
-  }
-
-  private scrollToTop(): void {
-    this.window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   }
 }

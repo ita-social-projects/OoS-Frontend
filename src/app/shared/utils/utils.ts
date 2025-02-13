@@ -41,6 +41,17 @@ export class Util {
   }
 
   /**
+   * This method scrolls page to top
+   * @param window
+   */
+  public static scrollToTop(window: Window): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  /**
    * This method returns child age
    * @param child Child
    * @returns string
