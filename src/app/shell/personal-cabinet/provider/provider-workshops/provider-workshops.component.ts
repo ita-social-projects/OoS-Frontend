@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store, ofAction } from '@ngxs/store';
 import { Observable, filter } from 'rxjs';
@@ -21,6 +21,7 @@ import {
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
+import { WINDOW } from 'ngx-window-token';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -45,7 +46,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
-    private actions$: Actions
+    private actions$: Actions,
+    @Inject(WINDOW) private window: Window
   ) {
     super(store, matDialog);
   }
@@ -103,6 +105,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviderWorkshops();
+    Util.scrollToTop(this.window);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
