@@ -70,7 +70,7 @@
         <mat-select-trigger>
           <mat-chip-set #chipSet>
             <mat-chip class="flex items-center" *ngFor="let tag of tagsControl.value" (removed)="onRemoveItem(tag)">
-              <img class="min-logo" src="src/assets/icons/hashtag.svg" alt="Link" />
+              <img class="min-logo" src="../../assets/icons/hashtag.svg" alt="Link" />
               <span>{{ tag.name }}</span>
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
