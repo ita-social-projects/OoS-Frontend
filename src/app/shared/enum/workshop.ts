@@ -62,3 +62,9 @@ export enum AgeComposition {
 export enum WorkshopType {
   None = 'None'
 }
+
+export enum SocialNetworks {
+  Facebook = 'Facebook',
+  Instagram = 'Instagram',
+  Website = 'Website'
+}

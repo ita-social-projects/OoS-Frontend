@@ -457,6 +457,8 @@
       "USER_TAGS": "Tags",
       "TERRITORIAL_COMMUNITY": "Territorial community",
       "SHORT_TITLE": "Short title",
+      "ADDRESS_TITLE": "Address title",
+      "CONTACTS_OWNER": "Contacts owner",
       "DEFAULT_TEACHER": "Default Teacher",
       "SHORT_STAY": "Short-term stay",
       "IS_SELF_FINANCED": "Works with funds from parents and benefactors",
@@ -482,7 +484,8 @@
       "TEACHING_POSITION": "Teaching position",
       "TYPE_BY_CLASSIFIER": "Type by classifier",
       "CREATED_AT": "Creation date",
-      "LANGUAGE": "Language"
+      "LANGUAGE": "Language",
+      "SOCIAL_NETWORKS": "Social networks"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -679,9 +682,14 @@
     "GO_BACK": "Go back",
     "REGISTER": "Register",
     "ADD_DIRECTION": "Add a direction",
+    "ADD_MORE_EMAIL": "Add more email",
+    "ADD_MORE_PHONE": "Add more phone",
+    "ADD_MORE_SOCIAL_NETWORK": "Add more social network",
+    "ADD_MORE_ADDRESS": "Add more address",
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
-    "ARCHIVE": "Archive"
+    "ARCHIVE": "Archive",
+    "USE_ADDRESS_AS_PRIMARY": "Use as primary"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",

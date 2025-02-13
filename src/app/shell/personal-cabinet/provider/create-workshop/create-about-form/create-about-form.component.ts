@@ -168,8 +168,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.pattern(MUST_CONTAIN_LETTERS),
           Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
         ]),
-        phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-        email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()]),
         minAge: new FormControl(null, [
           Validators.required,
           Validators.max(ValidationConstants.BIRTH_AGE_MAX),
@@ -181,9 +179,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         image: new FormControl(''),
-        website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-        facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-        instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
         price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
         workingHours: this.workingHoursFormArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),

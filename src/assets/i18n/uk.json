@@ -457,6 +457,8 @@
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
       "SHORT_TITLE": "Скорочена назва",
+      "ADDRESS_TITLE": "Заголовок адреси",
+      "CONTACTS_OWNER": "Власник контактів",
       "DEFAULT_TEACHER": "Викладач за замовчуванням",
       "SHORT_STAY": "Короткотривалого перебування",
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
@@ -482,7 +484,8 @@
       "TEACHING_POSITION": "Вчительська посада",
       "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
       "CREATED_AT": "Дата створення",
-      "LANGUAGE": "Мова"
+      "LANGUAGE": "Мова",
+      "SOCIAL_NETWORKS": "Соціальні мережі"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -681,9 +684,14 @@
     "GO_BACK": "Повернутись",
     "REGISTER": "Зареєструватися",
     "ADD_DIRECTION": "Додати напрямок",
+    "ADD_MORE_EMAIL": "Додати ще електронну пошту",
+    "ADD_MORE_PHONE": "Додати ще телефон",
+    "ADD_MORE_SOCIAL_NETWORK": "Додати ще соціальну мережу",
+    "ADD_MORE_ADDRESS": "Додати ще адресу",
     "ADD_POSITION": "Додати посаду",
     "PUBLISH": "Опублікувати",
-    "ARCHIVE": "Архівувати"
+    "ARCHIVE": "Архівувати",
+    "USE_ADDRESS_AS_PRIMARY": "Використовувати як основну"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
