@@ -46,7 +46,7 @@ describe('WorkshopCardsListComponentt', () => {
   });
 
   it('should scroll to top after paginator page change event', () => {
-    jest.spyOn(Util, 'scrollToTop').mockImplementation(() => {});
+    jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
     component.paginationParameters = { from: 1, size: 8 };
     component.onPageChange({ element: 1, isActive: true });
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
