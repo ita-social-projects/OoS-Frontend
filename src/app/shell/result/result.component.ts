@@ -160,7 +160,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     const paginationParam = this.route.snapshot.queryParamMap.get('pagination');
     const [page, size] = paginationParam ? paginationParam.split(',').map(Number) : [1, PaginationConstants.WORKSHOPS_PER_PAGE];
     this.currentPage = { element: page, isActive: true };
-    this.paginationParameters.size = [8, 12, 16, 20].includes(size) ? size : PaginationConstants.WORKSHOPS_PER_PAGE;
+    this.paginationParameters.size = PaginationConstants.ITEMS_PER_PAGE.includes(size) ? size : PaginationConstants.WORKSHOPS_PER_PAGE;
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
     const filterParam = this.route.snapshot.queryParamMap.get('filter') || null;

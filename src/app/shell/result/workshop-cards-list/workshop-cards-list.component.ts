@@ -49,7 +49,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
-        if (workshops.entities.length === 0) {
+        if (!workshops.entities.length) {
           this.onPageChange(PaginationConstants.firstPage);
         }
         this.workshops = workshops;
