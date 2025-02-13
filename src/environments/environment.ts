@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   stsServer: 'https://pozashkillia-test.iea.gov.ua/auth',
   serverUrl: 'https://pozashkillia-test.iea.gov.ua/web',
-  storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
+  storageUrl: 'https://pozashkillia.iea.gov.ua/outofschool/'
 };
 /*
  * For easier debugging in development mode, you can import the following file

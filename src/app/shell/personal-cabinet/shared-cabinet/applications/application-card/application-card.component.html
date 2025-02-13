@@ -87,7 +87,7 @@
           </mat-card-content>
         </ng-container>
         <mat-card-content class="card-block card-block__buttons flex flex-row justify-end items-center" *ngIf="userRole === Role.parent">
-          <div class="flex-col justify-start items-start">
+          <div>
             <button
               class="btn btn-gray"
               (click)="leave.emit(application)"

@@ -144,10 +144,13 @@
       "FAVORITE": "Улюблене",
       "POSITIONS": "Посади",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
+      "IMPORT": "Імпорт даних",
+      "EXPORT": "Експорт даних",
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
       "PROVIDER_REGISTRATION": "Реєстрація закладу",
-      "USER_REGISTRATION": "Реєстрація користувача"
+      "USER_REGISTRATION": "Реєстрація користувача",
+      "EMPLOYEES": "Співробітники"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",
@@ -1018,5 +1021,37 @@
     "ERROR_404": "Схоже, ми не можемо знайти сторінку, яку Ви шукаєте. Код помилки: 404"
   },
   "MORE": "...Більше",
-  "LESS": "...Менше"
+  "LESS": "...Менше",
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Вибрати файл",
+    "SELECT_ANOTHER_FILE": "Обрати інший файл",
+    "SUBMIT_FILE": "Надіслати файл",
+    "UPLOAD_SUCCESS":"Дані успішно завантажені", 
+    "UPLOAD_FAILURE":"Помилка завантаження,спробуйте пізніше",
+    "INCORRECT_ROWS":"Не валідних рядків: ",
+    "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
+    "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
+    "FILE_READER_ERROR": "Помилка при читанні файлу",
+    "FILE_HEADERS_WARNING": "Невідповідність в : ",
+    "FILE_HEADERS_ERROR": "Заголовки не відповідають очікуваним",
+    "FILE_EMPTY_HEADER_WARNING": "Відсутній один з заголовків!",
+    "FILE_HEADERS_EXAMPLE": "Зразок",
+    "EMPLOYEE_LIST": {
+      "EMPLOYEE_NAME": "Ім'я",
+      "EMPLOYEE_SURNAME": "Прізвище",
+      "EMPLOYEE_FATHER_NAME": "По батькові",
+      "EMPLOYEE_RNOKPP": "РНОКПП",
+      "EMPLOYEE_ASSIGNED_ROLE": "Призначені ролі"
+    },
+    "ERRORS": {
+      "ERRORS_TYPES":"Типи помилок",
+      "DATA_DUPLICATE":"Дублікат",
+      "MISSING_INFO_EMPTY_FIELD":"Відсутня інформація/пусте поле",
+      "WRONG_LENGTH":"Некоректна кількість знаків",
+      "WRONG_FORMAT":"Некоректний формат",
+      "WRONG_LANGUAGE":"Некоректно вибрана мова"
+    }
+  },
+  "EMPLOYEES":"Співробітники",
+  "EMPLOYEES_REGISTRATION":"Реєстрація співробітників"
 }
