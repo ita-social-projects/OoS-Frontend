@@ -58,6 +58,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidValue: boolean;
   public invalidTimeFormat: boolean;
   public invalidTimeRange: boolean;
+  public invalidTagsLength: boolean;
   public invalidAgeRange: boolean;
   public invalidEmailType: boolean;
 
@@ -135,6 +136,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
     this.invalidTimeFormat = errors?.invalidTimeFormat;
+    this.invalidTagsLength = errors?.minArrayLength || errors?.maxArrayLength;
   }
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {

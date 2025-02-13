@@ -553,6 +553,7 @@
       "INVALID_TIME_RANGE": "\"To\" cannot be earlier than \"From\"",
       "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than \"To\"",
       "INVALID_VALUE_START": " The number can be",
+      "INVALID_TAGS_LENGTH": "There should be no less than 3 tags and no more than 15 tags.",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",

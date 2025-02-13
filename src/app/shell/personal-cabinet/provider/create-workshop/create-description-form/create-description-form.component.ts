@@ -20,18 +20,12 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
-import { AgeComposition, Coverage, EducationalShift, FormOfLearning, SpecialNeedsType, WorkshopType } from 'shared/enum/workshop';
-import {
-  AgeCompositionEnum,
-  CoverageEnum,
-  EducationalShiftEnum,
-  FormOfLearningEnum,
-  SpecialNeedsTypeEnum,
-  WorkshopTypeEnum
-} from 'shared/enum/enumUA/workshop';
+import { Coverage, FormOfLearning } from 'shared/enum/workshop';
+import { CoverageEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
-import { Direction } from '../../../../../shared/models/category.model';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { Direction } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-create-description-form',
@@ -80,7 +74,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public separatorKeysCodes = [ENTER];
 
-  public tagsControl: FormControl = new FormControl([]);
+  public tagsControl: FormControl = new FormControl<Tag[]>(
+    [],
+    [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
+  );
+
+  protected readonly ValidationConstants = ValidationConstants;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -99,7 +98,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null,
-      tagIds: new FormControl('[]'),
+      tagIds: new FormControl<number[]>(null, [
+        Validators.required,
+        minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
+        maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
+      ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
@@ -134,6 +137,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       .pipe(take(1))
       .subscribe((tags) => {
         this.tags = tags;
+        if (this.workshop?.tagIds) {
+          this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
+        }
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
@@ -274,11 +280,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       );
     }
 
-    if (this.workshop?.tagIds?.length) {
-      const selectedTags = this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id));
-      this.tagsControl.setValue(selectedTags);
-    }
-
     this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
@@ -332,8 +333,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
-    const stringifiedTagIds = JSON.stringify(tagIds);
-    this.DescriptionFormGroup.get('tagIds')?.setValue(stringifiedTagIds);
+    this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
   }
 
   private updateKeywordsInputState(): void {

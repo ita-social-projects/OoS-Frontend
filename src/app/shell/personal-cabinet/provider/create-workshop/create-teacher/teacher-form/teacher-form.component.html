@@ -112,7 +112,7 @@
     [minCharacters]="validationConstants.INPUT_LENGTH_3"
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
   </app-validation-hint>
-  <div class="flex flex-row box-border items-stretch justify-center">
+  <div *ngIf="index !== 0" class="flex flex-row box-border items-stretch justify-center">
     <button class="btn-reset" mat-button (click)="onDeleteTeacher()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_TEACHER_DATA' | translate }}
     </button>

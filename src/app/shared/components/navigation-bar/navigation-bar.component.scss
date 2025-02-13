@@ -29,9 +29,8 @@
   }
 
   .pathLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    line-height: 1;
+    font-family: 'Innerspace', serif;
 
     .mat-icon {
       transform: translateY(10%);

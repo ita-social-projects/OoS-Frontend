@@ -20,7 +20,7 @@ $config: mat.define-typography-config(
   .mat-button-toggle,
   .mat-button-toggle-button {
     @include mat.typography-level($config, button);
-    font-family: 'Open Sans', sans-serif;
+    font-family: Innerspace, sans-serif;
   }
 }
 
@@ -279,6 +279,10 @@ a {
   }
 }
 
+mat-card.mat-mdc-card {
+  box-shadow: none;
+}
+
 .mat-mdc-card-image:first-child {
   margin-top: 0 !important;
 }
@@ -388,8 +392,15 @@ button.mdc-button {
   }
 
   .mdc-button__label {
-    line-height: 1;
+    display: flex;
+    align-items: center;
   }
+}
+
+.mat-mdc-chip .mdc-evolution-chip__text-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 @import 'tailwind.css';

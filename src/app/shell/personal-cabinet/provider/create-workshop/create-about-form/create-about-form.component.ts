@@ -182,7 +182,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
         workingHours: this.workingHoursFormArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-        payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
+        payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required, Validators.min(1)]),
         coverImage: new FormControl(''),
         coverImageId: new FormControl(''),
         availableSeats: new FormControl(
@@ -219,6 +219,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
         this.setPayRateControlValue(this.workshop?.payRate || PayRateType.None, 'enable');
+        this.payRateControl.markAsTouched();
       } else {
         this.setPriceControlValue();
         this.setPayRateControlValue();

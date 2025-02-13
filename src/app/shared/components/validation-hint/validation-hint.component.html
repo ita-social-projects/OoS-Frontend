@@ -17,6 +17,7 @@
     <ng-container *ngIf="invalidTimeRange; then invalidTimeRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidAgeRange; then invalidAgeRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidValue; then invalidValueTmpl"></ng-container>
+    <ng-container *ngIf="invalidTagsLength; then invalidTagsLengthTmpl"></ng-container>
     <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
     <ng-container
       *ngIf="
@@ -98,6 +99,8 @@
 <ng-template #invalidTimeRangeTmpl>{{ 'FORMS.VALIDATIONS.INVALID_TIME_RANGE' | translate }}</ng-template>
 
 <ng-template #invalidTimeFormatTmpl>{{ 'FORMS.VALIDATIONS.INVALID_TIME_FORMAT' | translate }}</ng-template>
+
+<ng-template #invalidTagsLengthTmpl>{{ 'FORMS.VALIDATIONS.INVALID_TAGS_LENGTH' | translate }}</ng-template>
 
 <ng-template #invalidAgeRangeTmpl>{{ 'FORMS.VALIDATIONS.INVALID_AGE_RANGE' | translate }}</ng-template>
 
