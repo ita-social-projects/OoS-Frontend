@@ -90,6 +90,22 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('price listener', () => {
+    it('should mark as touched if value entered', () => {
+      jest.spyOn(component.payRateControl, 'markAsTouched');
+      component.priceControl.setValue(100);
+
+      expect(component.payRateControl.markAsTouched).toHaveBeenCalled();
+    });
+
+    it('should mark as untouched if value is erased', () => {
+      jest.spyOn(component.payRateControl, 'markAsUntouched');
+      component.priceControl.setValue(null);
+
+      expect(component.payRateControl.markAsUntouched).toHaveBeenCalled();
+    });
+  });
+
   describe('getter minSeats', () => {
     it('should return minimumSeats when the taken seats in the workshop are equal to 0', () => {
       component.workshop.takenSeats = 0;
