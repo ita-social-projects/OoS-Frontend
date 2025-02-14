@@ -22,6 +22,7 @@ import { ImageFormControlComponent } from 'shared/components/image-form-control/
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Workshop } from 'shared/models/workshop.model';
+import { PayRateType } from 'shared/enum/workshop';
 import { CreateAboutFormComponent } from './create-about-form.component';
 
 describe('CreateAboutFormComponent', () => {
@@ -88,6 +89,39 @@ describe('CreateAboutFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('price radio', () => {
+    it('should should set price if has price', () => {
+      component.workshop.price = 100;
+      component.priceRadioBtn.setValue(true);
+
+      expect(component.priceControl.value).toBe(100);
+      expect(component.payRateControl.value).toBe(null);
+    });
+
+    it('should should reset price if is free', () => {
+      component.priceRadioBtn.setValue(false);
+
+      expect(component.priceControl.value).toBe(null);
+      expect(component.payRateControl.value).toBe(PayRateType.None);
+    });
+  });
+
+  describe('price listener', () => {
+    it('should mark as touched if value entered', () => {
+      jest.spyOn(component.payRateControl, 'markAsTouched');
+      component.priceControl.setValue(100);
+
+      expect(component.payRateControl.markAsTouched).toHaveBeenCalled();
+    });
+
+    it('should mark as untouched if value is erased', () => {
+      jest.spyOn(component.payRateControl, 'markAsUntouched');
+      component.priceControl.setValue(null);
+
+      expect(component.payRateControl.markAsUntouched).toHaveBeenCalled();
+    });
   });
 
   describe('getter minSeats', () => {
