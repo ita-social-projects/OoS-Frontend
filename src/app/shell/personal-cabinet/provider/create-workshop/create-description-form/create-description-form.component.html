@@ -156,26 +156,25 @@
   <div class="step-label-combined">
     <label class="step-label">{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</label>
     <label class="step-characters-count">
-      <ng-container *ngIf="DescriptionFormGroup.get('enrollmentProcedureDescription').value; else elseBlock">
-        {{ DescriptionFormGroup.get('enrollmentProcedureDescription').value?.length }}
-        /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+      <ng-container *ngIf="DescriptionFormGroup.get('enrollmentProcedureDescription').value; else emptyState">
+        {{ DescriptionFormGroup.get('enrollmentProcedureDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
       </ng-container>
-      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
+      <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}</ng-template>
     </label>
   </div>
   <textarea
     matInput
     class="step-textarea step-textarea-short"
-    placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+    placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
       'FORMS.PLACEHOLDERS.SYMBOLS' | translate
     }}"
     formControlName="enrollmentProcedureDescription"
-    [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
   </textarea>
   <app-validation-hint
     [validationFormControl]="DescriptionFormGroup.get('enrollmentProcedureDescription')"
     [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</label>
