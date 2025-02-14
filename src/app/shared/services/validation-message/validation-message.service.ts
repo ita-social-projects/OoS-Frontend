@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ValidationMessageConfig, ValidationMessages, ValidationParams } from 'shared/constants/validation-messages';
+import { ValidationErrorsEnum } from 'shared/enum/validation-errors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationMessageService {
-  private readonly messages = new ValidationMessages();
-
   constructor(private readonly translateService: TranslateService) {}
 
   public getMessage(errorKey: string, params?: Partial<ValidationParams>): string {
-    const config: ValidationMessageConfig = this.messages.messageConfigs[errorKey];
+    const config: ValidationMessageConfig = ValidationMessages.messageConfigs[errorKey];
 
-    if (errorKey === 'invalidFieldLength') {
+    if (errorKey === ValidationErrorsEnum.InvalidFieldLength) {
       return this.getInvalidFieldLengthMessage(params);
     }
 
@@ -43,19 +42,19 @@ export class ValidationMessageService {
       return '';
     }
 
-    let result = this.translateService.instant('FORMS.VALIDATIONS.INVALID_VALUE_START_WITHOUT_PARAM') + ' ';
+    let result = this.translateService.instant(ValidationMessages.INVALID_VALUE_START_WITHOUT_PARAM) + ' ';
 
     if (params.minCharacters) {
-      result += `${this.translateService.instant('FROM').toLowerCase()} ${params.minCharacters} `;
-      result += `${this.translateService.instant('TO').toLowerCase()} `;
+      result += `${this.translateService.instant(ValidationMessages.FROM).toLowerCase()} ${params.minCharacters} `;
+      result += `${this.translateService.instant(ValidationMessages.TO).toLowerCase()} `;
     } else {
-      result += this.translateService.instant('NO_MORE_THAN') + ' ';
+      result += this.translateService.instant(ValidationMessages.NO_MORE_THAN) + ' ';
     }
 
-    result += `${params.maxCharacters} ${this.translateService.instant('FORMS.VALIDATIONS.INVALID_LENGTH_END')} `;
+    result += `${params.maxCharacters} ${this.translateService.instant(ValidationMessages.INVALID_LENGTH_END)} `;
 
     if (params.currentCharactersCount) {
-      result += `${this.translateService.instant('FORMS.VALIDATIONS.CURRENT_COUNT')} ${params.currentCharactersCount}. `;
+      result += `${this.translateService.instant(ValidationMessages.CURRENT_COUNT)} ${params.currentCharactersCount}. `;
     }
 
     return result.trim();

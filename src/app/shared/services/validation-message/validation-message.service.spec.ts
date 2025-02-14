@@ -22,12 +22,11 @@ describe('ValidationMessageService', () => {
 
   it('should return translated message for known error key', () => {
     const errorKey = ValidationErrorsEnum.InvalidEmail;
-    const validationMessages = new ValidationMessages();
     translateService.instant.mockReturnValue('Translated message');
 
     const message = service.getMessage(errorKey);
 
-    expect(translateService.instant).toHaveBeenCalledWith(validationMessages.INVALID_EMAIL, undefined);
+    expect(translateService.instant).toHaveBeenCalledWith(ValidationMessages.INVALID_EMAIL, undefined);
     expect(message).toBe('Translated message');
   });
 
