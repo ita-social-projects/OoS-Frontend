@@ -22,8 +22,9 @@ export class ValidationMessageService {
       if (config.base) {
         result += this.translateService.instant(config.base, params) + ' ';
       }
-      if (config.detail) {
-        result += this.translateService.instant(config.detail, params);
+      if (config.details && Array.isArray(config.details)) {
+        const details = config.details.map((detail) => this.translateService.instant(detail, params));
+        result += details.join(' ');
       }
       if (config.parts && Array.isArray(config.parts)) {
         const parts = config.parts

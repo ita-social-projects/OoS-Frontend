@@ -11,7 +11,7 @@ import {
 
 export interface ValidationMessageConfig {
   base?: string;
-  detail?: string;
+  details?: string[];
   parts?: string[];
 }
 
@@ -62,6 +62,7 @@ export class ValidationMessages {
   // Validation's "From" and "To" must have parameters
   static readonly FROM_WITH_PARAM = 'FORMS.VALIDATIONS.FROM';
   static readonly TO_WITH_PARAM = 'FORMS.VALIDATIONS.TO';
+  static readonly NEW_LINE = 'FORMS.VALIDATIONS.NEW_LINE';
 
   static readonly messageConfigs: { [errorKey: string]: ValidationMessageConfig } = {
     required: {
@@ -69,44 +70,44 @@ export class ValidationMessages {
     },
     incorrectDateField: {
       base: this.INVALID_INPUT_BASE,
-      parts: [this.INVALID_DATA_START, this.SHORT_DATE_FORMAT, this.INVALID_DATA_END]
+      details: [this.NEW_LINE, this.INVALID_DATA_START, this.SHORT_DATE_FORMAT, this.INVALID_DATA_END]
     },
     invalidCharacters: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_CHARACTERS
+      details: [this.INVALID_CHARACTERS]
     },
     invalidSymbols: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_SYMBOLS
+      details: [this.INVALID_SYMBOLS]
     },
     invalidFieldLength: {
       base: this.INVALID_LENGTH_START
     },
     invalidPhoneLength: {
       base: this.INVALID_LENGTH_START_MIN,
-      detail: this.INVALID_LENGTH_END
+      details: [this.INVALID_LENGTH_END]
     },
     invalidPhoneNumber: {
       base: this.INVALID_PHONE_NUMBER
     },
     invalidDateRange: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_BIRTHDAY
+      details: [this.NEW_LINE, this.INVALID_BIRTHDAY]
     },
     invalidEmail: {
       base: this.INVALID_EMAIL
     },
     invalidEdrpouIpn: {
       base: this.INVALID_LENGTH_START,
-      detail: this.INVALID_EDRPO_IPN_END
+      details: [this.INVALID_EDRPO_IPN_END]
     },
     invalidStreet: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_STREET
+      details: [this.INVALID_STREET]
     },
     invalidHouse: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_HOUSE
+      details: [this.INVALID_HOUSE]
     },
     invalidSearch: {
       base: this.INVALID_SEARCH
@@ -126,7 +127,7 @@ export class ValidationMessages {
     },
     invalidSectionName: {
       base: this.INVALID_INPUT_BASE,
-      detail: this.INVALID_SECTION_NAME
+      details: [this.INVALID_SECTION_NAME]
     },
     mustContainLetters: {
       base: this.MUST_CONTAIN_LETTERS
