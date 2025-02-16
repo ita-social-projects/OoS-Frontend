@@ -225,8 +225,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
-      minAge: new FormControl(null),
-      maxAge: new FormControl(null),
       selectionOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
