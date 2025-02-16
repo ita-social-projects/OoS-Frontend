@@ -169,15 +169,12 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
         Validators.pattern(MUST_CONTAIN_LETTERS),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
       ]),
-      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email]),
-      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       competitionDateRangeGroup: this.formBuilder.group({
         start: new FormControl<Date | null>(null, Validators.required),
         end: new FormControl<Date | null>(null, Validators.required)
       }),
+      minimumAge: new FormControl(null, Validators.required),
+      maximumAge: new FormControl(null, Validators.required),
       registrationDateRangeGroup: this.formBuilder.group({
         start: new FormControl<Date | null>(null),
         end: new FormControl<Date | null>(null)
