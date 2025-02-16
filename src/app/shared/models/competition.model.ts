@@ -14,11 +14,6 @@ export abstract class CompetitionBase {
   preferentialTermsOfParticipation: string;
   title: string;
   shortTitle: string;
-  phone: string;
-  email: string;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
   scheduledStartTime: Date;
   scheduledEndTime: Date;
   registrationStartTime?: Date;
@@ -41,7 +36,6 @@ export abstract class CompetitionBase {
   price?: number;
   areThereBenefits: boolean;
   benefits?: string;
-  address: Address;
   judges: Judge[];
   directionIds: number[];
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
@@ -55,18 +49,23 @@ export abstract class CompetitionBase {
   venueName?: string;
   participantsOfTheEvent: string[];
 
-  constructor(required: CompetitionRequired, description: Description, address: Address, judges: Judge[], provider: Provider, id?: string) {
+  constructor(
+    required: CompetitionRequired,
+    description: Description,
+    Contacts: CompetitionContacts[],
+    judges: Judge[],
+    provider: Provider,
+    id?: string
+  ) {
     this.title = required.title;
     this.shortTitle = required.shortTitle;
-    this.phone = required.phone;
-    this.email = required.email;
     this.scheduledStartTime = required.competitionDateRangeGroup.start;
     this.scheduledEndTime = required.competitionDateRangeGroup.end;
     this.typeOfCompetition = required.typeOfCompetition;
     this.numberOfSeats = required.numberOfSeats;
-    this.address = address;
     this.judges = judges;
     this.organizerOfTheEventId = provider.id;
+    this.contacts = Contacts;
 
     this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
     this.competitiveSelection = Boolean(description.selectionOptionsDesc);
@@ -76,15 +75,6 @@ export abstract class CompetitionBase {
     if (id) {
       this.id = id;
     }
-    if (required.facebook) {
-      this.facebook = required.facebook;
-    }
-    if (required.website) {
-      this.website = required.website;
-    }
-    if (required.instagram) {
-      this.instagram = required.instagram;
-    }
     if (required.registrationDateRangeGroup.start) {
       this.registrationStartTime = required.registrationDateRangeGroup.start;
     }
@@ -93,6 +83,12 @@ export abstract class CompetitionBase {
     }
     if (required.parentCompetition) {
       this.parentCompetition = required.parentCompetition;
+    }
+    if (required.minimumAge) {
+      this.minimumAge = required.minimumAge;
+    }
+    if (required.maximumAge) {
+      this.maximumAge = required.maximumAge;
     }
     if (description.institutionHierarchyId) {
       this.institutionHierarchyId = description.institutionHierarchyId;
@@ -114,12 +110,6 @@ export abstract class CompetitionBase {
     }
     if (description.additionalDescription) {
       this.descriptionOfOptionsForPeopleWithDisabilities = description.additionalDescription;
-    }
-    if (description.minAge) {
-      this.minimumAge = description.minAge;
-    }
-    if (description.maxAge) {
-      this.maximumAge = description.maxAge;
     }
     if (description.selectionOptionsDesc) {
       this.selectionOptionsDesc = description.selectionOptionsDesc;
@@ -146,8 +136,15 @@ export class Competition extends CompetitionBase {
   imageIds?: string[];
   imageFiles?: File[];
 
-  constructor(required: CompetitionRequired, description: Description, address: Address, judges: Judge[], provider: Provider, id?: string) {
-    super(required, description, address, judges, provider, id);
+  constructor(
+    required: CompetitionRequired,
+    description: Description,
+    contacts: CompetitionContacts[],
+    judges: Judge[],
+    provider: Provider,
+    id?: string
+  ) {
+    super(required, description, contacts, judges, provider, id);
 
     if (required.coverImageId) {
       this.coverImageId = required.coverImageId[0];
@@ -173,6 +170,8 @@ export interface CompetitionRequired {
   numberOfSeats: number;
   coverImageId?: string;
   coverImage?: File;
+  minimumAge: number;
+  maximumAge: number;
 }
 
 export interface CompetitionBaseCard {
@@ -219,13 +218,25 @@ export class CompetitiveDescriptionItem extends SectionItem {
   }
 }
 
-interface CompetitionContacts {
+export class CompetitionContacts {
   title: string;
   isDefault: boolean;
   address: Address;
   phones: CompetitionPhone[];
   emails: CompetitionEmail[];
-  socialNetworks: CompetitionSocialNetwork[];
+  socialNetworks?: CompetitionSocialNetwork[];
+
+  constructor(info: CompetitionContacts) {
+    this.title = info.title;
+    this.isDefault = info.isDefault;
+    this.address = info.address;
+    this.phones = info.phones;
+    this.emails = info.emails;
+
+    if (info.socialNetworks) {
+      this.socialNetworks = info.socialNetworks;
+    }
+  }
 }
 
 interface Description {
@@ -236,8 +247,6 @@ interface Description {
   formOfLearning?: FormOfLearning;
   disabilityOptionsDesc?: string;
   additionalDescription?: string;
-  minAge?: number;
-  maxAge?: number;
   selectionOptionsDesc?: string;
   price?: number;
   benefitsOptionsDesc?: string;
@@ -256,6 +265,12 @@ interface CompetitionEmail {
 }
 
 interface CompetitionSocialNetwork {
-  type: string;
+  type: Socials;
   url: string;
+}
+
+enum Socials {
+  Facebook = 'Facebook',
+  Instagram = 'Instagram',
+  Website = 'Website'
 }
