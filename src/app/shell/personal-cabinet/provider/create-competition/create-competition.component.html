@@ -58,11 +58,14 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="AddressFormGroup" [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="ContactsFormArray" [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-competition-address [address]="competition?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
+          <app-create-competition-address
+            [address]="competition?.address"
+            [contacts]="competition?.contacts"
+            (passContactsFormArray)="onReceiveContactsFormArray($event)">
           </app-create-competition-address>
           <div class="flex flex-row items-center justify-center footer">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -71,7 +74,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">
+            <button class="btn" mat-raised-button matStepperNext [disabled]="ContactsFormArray?.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -79,7 +82,7 @@
 
         <mat-step
           [stepControl]="JudgeFormArray"
-          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid">
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !ContactsFormArray.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.JUDGES' | translate }}</p>
           </ng-template>
@@ -101,10 +104,10 @@
               mat-raised-button
               [disabled]="
                 (isLoading$ | async) ||
-                (!RequiredFormGroup.dirty && !DescriptionFormGroup.dirty && !AddressFormGroup.dirty && !JudgeFormArray?.dirty) ||
+                (!RequiredFormGroup.dirty && !DescriptionFormGroup.dirty && !ContactsFormArray.dirty && !JudgeFormArray?.dirty) ||
                 RequiredFormGroup.invalid ||
                 DescriptionFormGroup.invalid ||
-                AddressFormGroup.invalid ||
+                ContactsFormArray.invalid ||
                 JudgeFormArray?.invalid
               "
               type="submit"

@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Competition, CompetitionRequired } from 'shared/models/competition.model';
+import { Competition, CompetitionContacts, CompetitionRequired } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -16,7 +16,6 @@ import { GetCompetitionById, ResetProviderCompetitionDetails } from 'shared/stor
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
-import { Address } from 'shared/models/address.model';
 import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
@@ -37,7 +36,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public RequiredFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
-  public AddressFormGroup: FormGroup;
+  public ContactsFormArray: FormArray;
   public JudgeFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
@@ -115,17 +114,16 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const requiredInfo: CompetitionRequired = this.createRequired();
     const descInfo = this.DescriptionFormGroup.getRawValue();
-    const address: Address = new Address(this.AddressFormGroup.value, this.competition?.address);
+    const contacts: CompetitionContacts[] = this.createContacts();
     const judges: Judge[] = this.createJudges();
-    console.log(judges);
 
     let competition: Competition;
 
     if (this.editMode) {
-      competition = new Competition(requiredInfo, descInfo, address, judges, provider, this.competition.id);
+      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
       this.store.dispatch(new UpdateCompetition(competition));
     } else {
-      competition = new Competition(requiredInfo, descInfo, address, judges, provider);
+      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
       this.store.dispatch(new CreateCompetition(competition));
     }
   }
@@ -152,9 +150,9 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
    * This method receives a form from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
-  public onReceiveAddressFormGroup(form: FormGroup): void {
-    this.AddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
+  public onReceiveContactsFormArray(array: FormArray): void {
+    this.ContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
@@ -199,5 +197,9 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       });
     }
     return judges;
+  }
+
+  private createContacts(): CompetitionContacts[] {
+    return this.ContactsFormArray?.controls.map((form: FormGroup) => new CompetitionContacts(form.value)) || [];
   }
 }
