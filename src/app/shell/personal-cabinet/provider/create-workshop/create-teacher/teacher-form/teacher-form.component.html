@@ -79,6 +79,8 @@
       [min]="minDate"
       matInput
       [matDatepicker]="picker"
+      [appKeyFilter]="dateFilter"
+      appDateInput
       formControlName="dateOfBirth"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
       (focusout)="onFocusOut('dateOfBirth')"
