@@ -2,6 +2,7 @@
 .map {
   height: 500px;
 }
+
 .text {
   text-align: center;
   font-family: Open Sans;
@@ -52,6 +53,7 @@
 }
 
 .mat-icon-delete {
+  margin: 0;
   color: #3849f9;
   &:hover {
     opacity: 0.5;
@@ -76,4 +78,10 @@
 
 .spacer {
   width: 64px;
+}
+
+button.mdc-button {
+  .mat-icon {
+    margin: 0;
+  }
 }
