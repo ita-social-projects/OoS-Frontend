@@ -1,8 +1,7 @@
 import { ElementRef } from '@angular/core';
-import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 
-describe('MinMaxDirective', () => {
+describe('DateInputDirective', () => {
   let mockElementRef: ElementRef;
   let directive: DateInputDirective;
 
