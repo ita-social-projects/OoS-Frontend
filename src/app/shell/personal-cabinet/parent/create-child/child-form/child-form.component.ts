@@ -103,9 +103,4 @@ export class ChildFormComponent implements OnInit, OnDestroy {
   public onDelete(): void {
     this.deleteForm.emit(this.index);
   }
-
-  // private dateOfBirth(): FormControl {
-  //   return this.dateOfBirth()
-  // }
-  protected readonly FormControl = FormControl;
 }
