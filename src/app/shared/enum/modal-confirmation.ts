@@ -157,3 +157,9 @@ export enum ModalConfirmationDescription {
   unregisteredMessageWarning = 'SERVICE_MESSAGES.UNREGISTERED_MESSAGE',
   unregisteredApplicationWarning = 'SERVICE_MESSAGES.UNREGISTERED_APPLICATION'
 }
+
+export enum ModalConfirmationButtonText {
+  delete = 'BUTTONS.DELETE',
+  rate = 'BUTTONS.SEND',
+  default = 'BUTTONS.CONFIRM'
+}
