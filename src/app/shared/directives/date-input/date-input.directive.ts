@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   selector: '[appDateInput]'
 })
 export class DateInputDirective {
-  private lengthsToInsert = [2, 5];
+  private indexesToInsert = [2, 5];
 
   constructor(private ref: ElementRef) {}
 
@@ -13,7 +13,7 @@ export class DateInputDirective {
     const value = this.ref.nativeElement.value;
 
     if (event.inputType !== 'deleteContentBackward') {
-      this.ref.nativeElement.value = this.validateOnInput(value);
+      this.ref.nativeElement.value = this.formatDate(value);
     }
   }
 
@@ -23,26 +23,35 @@ export class DateInputDirective {
 
     const pastedText = event.clipboardData?.getData('text') || '';
 
-    this.ref.nativeElement.value = this.validateOnPaste(pastedText);
+    this.ref.nativeElement.value = this.formatDate(pastedText);
     this.ref.nativeElement.dispatchEvent(new Event('input'));
   }
 
-  private validateOnInput(value: string): string {
-    if (
-      this.lengthsToInsert.includes(value.length) &&
-      !this.lengthsToInsert.every((index) => value[index] === '/') &&
-      value.at(value.length - 1) !== '/'
-    ) {
-      return value + '/';
-    } else {
-      return value;
-    }
-  }
+  // private formatOnInput(value: string): string {
+  //   if (
+  //     this.indexesToInsert.includes(value.length) &&
+  //     !this.indexesToInsert.every((index) => value[index] === '/') &&
+  //     value.at(value.length - 1) !== '/'
+  //   ) {
+  //     return value + '/';
+  //   } else {
+  //     return value;
+  //   }
+  // }
+  //
+  // private formatOnPaste(value: string): string {
+  //   if (!value) {
+  //     return '';
+  //   }
+  //   return this.indexesToInsert.reduce((acc, index) => acc.slice(0, index) + '/' + acc.slice(index), value);
+  // }
 
-  private validateOnPaste(value: string): string {
-    if (!value) {
-      return '';
-    }
-    return this.lengthsToInsert.reduce((acc, index) => acc.slice(0, index) + '/' + acc.slice(index), value);
+  private formatDate(value: string): string {
+    return this.indexesToInsert.reduce((acc, index) => {
+      if (value.length >= index && acc.at(index) !== '/') {
+        return acc.slice(0, index) + '/' + acc.slice(index);
+      }
+      return acc;
+    }, value);
   }
 }

@@ -66,24 +66,24 @@ describe('DateInputDirective', () => {
 
   describe('validateOnInput()', () => {
     it('should add "/" at correct positions when needed', () => {
-      expect(directive.validateOnInput('12')).toBe('12/');
-      expect(directive.validateOnInput('12/12')).toBe('12/12/');
+      expect(directive.formatDate('12')).toBe('12/');
+      expect(directive.formatDate('12/12')).toBe('12/12/');
     });
 
     it('should not add "/" if it is already at the correct positions', () => {
-      expect(directive.validateOnInput('12/')).toBe('12/');
-      expect(directive.validateOnInput('12/12/')).toBe('12/12/');
+      expect(directive.formatDate('12/')).toBe('12/');
+      expect(directive.formatDate('12/12/')).toBe('12/12/');
     });
   });
 
   describe('validateOnPaste()', () => {
     it('should insert "/" at correct positions for pasted value', () => {
-      const result = directive.validateOnPaste('12122004');
+      const result = directive.formatDate('12122004');
       expect(result).toBe('12/12/2004');
     });
 
     it('should handle empty pasted value', () => {
-      const result = directive.validateOnPaste('');
+      const result = directive.formatDate('');
       expect(result).toBe('');
     });
   });
