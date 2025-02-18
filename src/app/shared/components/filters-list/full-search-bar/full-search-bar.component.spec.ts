@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ValidationHintComponent } from 'shared/components/validation-hint/validation-hint.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { timer } from 'rxjs';
 import { FullSearchBarComponent } from './full-search-bar.component';
 
 describe('FullSearchBarComponent', () => {

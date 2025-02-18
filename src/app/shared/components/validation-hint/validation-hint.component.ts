@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -14,12 +15,13 @@ import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ValidationErrorsEnum } from 'shared/enum/validation-errors';
-import { ValidationParams, PatternMapper } from 'shared/constants/validation-messages';
-import { ValidationMessageService } from 'shared/services/validation-message/validation-message.service';
+import { ValidationParams, PatternMapper, ValidationMessages } from 'shared/constants/validation-messages';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html'
+  templateUrl: './validation-hint.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
@@ -55,7 +57,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
-    private readonly validationMessageService: ValidationMessageService
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -84,21 +86,14 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     // Check is the field required and empty
     if (errors?.required && !formControl?.value) {
-      this.errors.push(ValidationErrorsEnum.Required);
-    }
-
-    if (this.minMaxDate) {
-      this.checkMatDatePicker();
+      this.errors.push(ValidationMessages.REQUIRED_INPUT);
     }
 
     // Check errors from validators
     this.checkValidationErrors(errors);
 
-    // Check errors for invalid text field
-    this.checkInvalidText(errors);
-
     if (this.displayToolTip) {
-      this.tooltipText = this.errors.map((errorKey) => this.validationMessageService.getMessage(errorKey, this.validationParams));
+      this.tooltipText = this.errors.map((message) => this.createMessage(message));
     }
 
     this.cdr.detectChanges();
@@ -110,6 +105,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  public createMessage(message: string): string {
+    return this.translateService.instant(message, this.validationParams);
+  }
+
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -119,97 +118,125 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     if (!errors) {
       return;
     }
+
+    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
+
+    const matchedMapping = this.patternMapper.find((mapping) => mapping.pattern.toString() === requiredPattern);
+
     const errorConditions = [
       {
         condition: () => this.isNumberValue && (errors.max || errors.min),
-        errorKey: ValidationErrorsEnum.InvalidValue
+        message: ValidationMessages.INVALID_VALUE
       },
       {
-        condition: () => errors.email && !this.errors.includes(ValidationErrorsEnum.Required),
-        errorKey: ValidationErrorsEnum.InvalidEmail
+        condition: () => errors.email && !this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        message: ValidationMessages.INVALID_EMAIL
       },
       {
         condition: () => this.minNumberValue,
-        errorKey: ValidationErrorsEnum.MinNumberValue
+        message: ValidationMessages.LESS_THAN_PARTICIPANTS
       },
       {
         condition: () => errors.blacklistedDomain,
-        errorKey: ValidationErrorsEnum.InvalidEmailType
+        message: ValidationMessages.INVALID_EMAIL_TYPE
       },
       {
         condition: () => errors.invalidSearch,
-        errorKey: ValidationErrorsEnum.InvalidSearch
+        message: ValidationMessages.INVALID_SEARCH
       },
       {
         condition: () => errors.invalidTimeFormat,
-        errorKey: ValidationErrorsEnum.InvalidTimeFormat
+        message: ValidationMessages.INVALID_TIME_FORMAT
       },
       {
         condition: () => this.isPhoneNumber && errors.minlength,
-        errorKey: ValidationErrorsEnum.InvalidPhoneLength
+        message: ValidationMessages.INVALID_PHONE_LENGTH
       },
       {
         condition: () => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
-        errorKey: ValidationErrorsEnum.InvalidPhoneNumber
+        message: ValidationMessages.INVALID_PHONE_NUMBER
       },
       {
         condition: () => this.isEdrpouIpn && errors.minlength && !errors.maxlength,
-        errorKey: ValidationErrorsEnum.InvalidEdrpouIpn
+        message: ValidationMessages.INVALID_EDRPO_IPN
       },
       {
-        condition: () => !this.isPhoneNumber && !this.isEdrpouIpn && (errors.maxlength || errors.minlength),
-        errorKey: ValidationErrorsEnum.InvalidFieldLength
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          this.validationParams?.minCharacters &&
+          !this.validationParams?.currentCharactersCount,
+        message: ValidationMessages.INVALID_LENGTH_FROM_TO
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          this.validationParams?.minCharacters &&
+          this.validationParams?.currentCharactersCount,
+        message: ValidationMessages.INVALID_LENGTH_FROM_TO_WITH_COUNT
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          !this.validationParams?.minCharacters &&
+          this.validationParams?.currentCharactersCount,
+        message: ValidationMessages.INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          !this.validationParams?.minCharacters &&
+          !this.validationParams?.currentCharactersCount,
+        message: ValidationMessages.INVALID_LENGTH_NO_MORE_THAN
+      },
+      {
+        condition: () =>
+          this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerParse) &&
+          this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        message: ValidationMessages.INVALID_DATE_FIELD
+      },
+      {
+        condition: () =>
+          this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMin) ||
+          this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMax),
+        message: ValidationMessages.INVALID_DATE_RANGE
+      },
+      {
+        condition: () => Boolean(matchedMapping),
+        message: matchedMapping?.message
       }
     ];
 
-    errorConditions.forEach(({ condition, errorKey }) => {
+    errorConditions.forEach(({ condition, message }) => {
       if (condition()) {
-        this.errors.push(errorKey);
+        this.errors.push(message);
       }
     });
+
+    if (this.errors.includes(ValidationMessages.INVALID_DATE_FIELD)) {
+      this.errors = this.errors.filter((error) => error !== ValidationMessages.REQUIRED_INPUT);
+    }
 
     this.cdr.markForCheck();
   }
 
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     if (errors?.invalidAgeRange) {
-      this.errors.push(ValidationErrorsEnum.InvalidAgeRange);
+      this.errors.push(ValidationMessages.INVALID_AGE_RANGE);
     }
 
     if (errors?.invalidTimeRange) {
-      this.errors.push(ValidationErrorsEnum.InvalidTimeRange);
+      this.errors.push(ValidationMessages.INVALID_TIME_RANGE);
     }
 
     this.cdr.markForCheck();
-  }
-
-  private checkInvalidText(errors: ValidationErrors): void {
-    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
-    if (!requiredPattern) {
-      return;
-    }
-
-    const matchedMapping = this.patternMapper.find((mapping) => mapping.pattern.toString() === requiredPattern);
-
-    if (matchedMapping) {
-      this.errors.push(matchedMapping.errorKey);
-    }
-  }
-
-  private checkMatDatePicker(): void {
-    if (
-      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerParse) &&
-      this.errors.includes(ValidationErrorsEnum.Required)
-    ) {
-      this.errors = this.errors.filter((error) => error !== ValidationErrorsEnum.Required);
-      this.errors.push(ValidationErrorsEnum.IncorrectDateField);
-    }
-    if (
-      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMin) ||
-      this.validationFormControl.hasError(ValidationErrorsEnum.MatDatepickerMax)
-    ) {
-      this.errors.push(ValidationErrorsEnum.InvalidDateRange);
-    }
   }
 
   private setValidationParams(): void {

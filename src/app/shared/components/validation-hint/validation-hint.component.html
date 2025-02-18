@@ -1,7 +1,7 @@
 
 <small #validationHint [matTooltip]="tooltipText" appValidationMessageStyling>
   <ng-container *ngIf="validationFormControl.touched && validationFormControl.invalid">
-    <div *ngFor="let error of errors" [innerHTML]="validationMessageService.getMessage(error, validationParams)">
+    <div *ngFor="let error of errors" [innerHTML]="createMessage(error)">
     </div>
   </ng-container>
 </small>
