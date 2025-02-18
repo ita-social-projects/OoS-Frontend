@@ -9,6 +9,7 @@ import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { CompetitionDetailsTabTitlesParams, CompetitionStatus } from 'shared/enum/competition';
 import { CompetitionDetailsTabTitlesEnum } from 'shared/enum/enumUA/competition';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
@@ -16,6 +17,9 @@ import { ImgPath } from 'shared/models/carousel.model';
 import { Competition } from 'shared/models/competition.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { GetProviderById } from 'shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-competition-details',
@@ -33,6 +37,8 @@ export class CompetitionDetailsComponent implements OnInit {
   public isMobileScreen: boolean;
   @Input()
   public currentProvider: Provider;
+  @Input()
+  public displayActionCard: boolean;
 
   public readonly categoryIcons = CategoryIcons;
   public readonly modalType = ModalConfirmationType;
@@ -43,6 +49,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
   public competitionStatusOpen: boolean;
   public images: ImgPath[] = [];
+  public coverImage: string;
   public selectedIndex: number;
   public providerParameters: ProviderParameters = {
     providerId: '',
@@ -55,13 +62,15 @@ export class CompetitionDetailsComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly imageService: ImagesService
+    private readonly imageService: ImagesService,
+    private readonly navigationBarService: NavigationBarService
   ) {}
 
   public ngOnInit(): void {
     this.competition.directionIds = [1];
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
+    this.getCompetitionData();
     this.images = this.imageService.getCarouselImages(this.competition);
   }
 
@@ -91,5 +100,23 @@ export class CompetitionDetailsComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { status: CompetitionDetailsTabTitlesParams[event.index] }
     });
+  }
+
+  private getCompetitionData(): void {
+    this.coverImage = this.imageService.getCoverImage(this.competition);
+    this.store.dispatch([
+      new GetProviderById(this.competition.organizerOfTheEventId),
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: NavBarName.WorkshopResult,
+            path: '/result',
+            isActive: false,
+            disable: false
+          },
+          { name: this.competition.title, isActive: false, disable: true }
+        )
+      )
+    ]);
   }
 }

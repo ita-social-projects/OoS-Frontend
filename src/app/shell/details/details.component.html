@@ -26,11 +26,13 @@
 <ng-template #CompetitionDetails>
   <ng-container *ngIf="isCompetition && competition; else ProviderDetails">
     <app-competition-details
+      class="workshop-page-wrap"
       [competition]="competition"
       [provider]="provider"
       [role]="role"
       [isMobileScreen]="isMobileScreen"
-      [currentProvider]="currentProvider$ | async"></app-competition-details>
+      [currentProvider]="currentProvider$ | async"
+      [displayActionCard]="displayActionCard"></app-competition-details>
   </ng-container>
 </ng-template>
 
