@@ -1,4 +1,31 @@
 <form [formGroup]="DescriptionFormGroup" class="step flex flex-col justify-center items-between">
+  <app-image-form-control
+    *ngIf="isImagesFeature"
+    [imgMaxAmount]="10"
+    [cropperConfig]="cropperConfig"
+    [label]="'Фото'"
+    formControlName="imageFiles"
+    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
+  </app-image-form-control>
+
+  <app-info-form
+    *ngFor="let form of SectionItemsFormArray.controls"
+    [infoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)"
+    [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
+    (deleteForm)="onDeleteForm($event)">
+  </app-info-form>
+
+  <button
+    *ngIf="SectionItemsFormArray.controls.length < 10"
+    [disabled]="SectionItemsFormArray.invalid"
+    class="btn-add"
+    mat-button
+    (click)="onAddForm()">
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
+  </button>
+
   <label class="step-label">{{ 'FORMS.LABELS.CATEGORY' | translate }}</label>
   <mat-form-field appearance="fill">
     <mat-select
@@ -127,9 +154,11 @@
     <mat-radio-button #selectionRadio1 name="selectionRadioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
     <mat-radio-button #selectionRadio2 name="selectionRadioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
     <div class="step-label-combined" [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }">
-      <label class="step-label" for="selectionOptionsDesc"> {{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</label>
+      <label class="step-label" for="descriptionOfTheEnrollmentProcedure"> {{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</label>
       <span class="step-characters-count">
-        {{ DescriptionFormGroup.get('selectionOptionsDesc').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+        {{ DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').value?.length }}/{{
+          validationConstants.MAX_DESCRIPTION_LENGTH_500
+        }}
       </span>
     </div>
     <mat-form-field appearance="fill">
@@ -140,14 +169,14 @@
         placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
           'FORMS.PLACEHOLDERS.SYMBOLS' | translate
         }}"
-        formControlName="selectionOptionsDesc"
+        formControlName="descriptionOfTheEnrollmentProcedure"
         maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
         appTrimValue
-        (focusout)="onFocusOut('selectionOptionsDesc')"
-        id="selectionOptionsDesc"></textarea>
+        (focusout)="onFocusOut('descriptionOfTheEnrollmentProcedure')"
+        id="descriptionOfTheEnrollmentProcedure"></textarea>
     </mat-form-field>
     <app-validation-hint
-      [validationFormControl]="DescriptionFormGroup.get('selectionOptionsDesc')"
+      [validationFormControl]="DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure')"
       [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
       [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
     </app-validation-hint>

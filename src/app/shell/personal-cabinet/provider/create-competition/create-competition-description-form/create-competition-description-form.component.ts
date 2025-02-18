@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, takeLast } from 'rxjs';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitiveDescriptionItem } from 'shared/models/competition.model';
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
@@ -56,6 +56,9 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public selectionOptionRadioBtn: FormControl = new FormControl(false);
   public benefitsOptionRadioBtn: FormControl = new FormControl(false);
   public priceRadioBtn: FormControl = new FormControl(false);
+
+  public EditFormGroup: FormGroup;
+  public SectionItemsFormArray: FormArray = new FormArray([]);
 
   protected readonly CompetitionCoverage = CompetitionCoverage;
 
@@ -122,13 +125,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
    * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   public onSelectionOptionsCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('selectionOptionsDesc')[action]();
+    const setAction = (action: string): void => this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure')[action]();
     this.selectionOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isSelectionOptions: boolean) => {
       if (isSelectionOptions) {
         setAction('enable');
       } else {
         setAction('disable');
-        this.DescriptionFormGroup.get('selectionOptionsDesc').reset();
+        this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').reset();
       }
       this.markFormAsDirtyOnUserInteraction();
     });
@@ -189,7 +192,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
-      this.DescriptionFormGroup.get('selectionOptionsDesc').enable({ emitEvent: false });
+      this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').enable({ emitEvent: false });
     }
 
     if (this.competition.price) {
@@ -197,10 +200,39 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
     }
 
+    if (this.competition.competitiveEventDescriptionItems?.length) {
+      this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
+        const itemFrom = this.newForm(item);
+        this.SectionItemsFormArray.controls.push(itemFrom);
+        // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
+        this.SectionItemsFormArray['_registerControl'](itemFrom);
+      });
+    } else {
+      this.onAddForm();
+    }
+
     if (this.competition.areThereBenefits) {
       this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
       this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
     }
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    if (this.DescriptionFormGroup.get('competitiveEventDescriptionItems')) {
+      (this.DescriptionFormGroup.get('competitiveEventDescriptionItems') as FormArray).push(this.newForm());
+    }
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.SectionItemsFormArray.removeAt(index);
+    this.markFormAsDirtyOnUserInteraction();
   }
 
   private initForm(): void {
@@ -225,10 +257,11 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
-      selectionOptionsDesc: new FormControl({ value: '', disabled: true }, [
+      descriptionOfTheEnrollmentProcedure: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
+      competitiveEventDescriptionItems: this.SectionItemsFormArray,
       price: new FormControl({ value: 0, disabled: true }),
       areThereBenefits: this.benefitsOptionRadioBtn,
       benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
@@ -245,5 +278,35 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     if (!this.DescriptionFormGroup.dirty) {
       this.DescriptionFormGroup.markAsDirty({ onlySelf: true });
     }
+  }
+
+  /**
+   * This method creates new FormGroup
+   */
+  private newForm(item?: CompetitiveDescriptionItem): FormGroup {
+    this.EditFormGroup = this.formBuilder.group({
+      sectionName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
+      ])
+    });
+
+    if (this.competition) {
+      this.EditFormGroup.addControl('competitiveEventId', this.formBuilder.control(this.competition.id));
+    }
+
+    if (item) {
+      this.EditFormGroup.patchValue(item, { emitEvent: false });
+    }
+
+    return this.EditFormGroup;
   }
 }

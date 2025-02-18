@@ -86,7 +86,7 @@ export class UserCompetitionService {
 
   private createFormData(competition: Competition): FormData {
     const formData = new FormData();
-    const formNames = ['contacts'];
+    const formNames = ['contacts', 'competitiveEventDescriptionItems'];
     const imageFiles = ['imageFiles', 'coverImage'];
     const judges = 'judges';
 
