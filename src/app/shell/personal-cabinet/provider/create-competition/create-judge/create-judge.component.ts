@@ -40,61 +40,61 @@ export class CreateJudgeComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    if (this.chiefJudge) {
-      this.onAddJudge(this.chiefJudge);
-      if (this.judges?.length) {
-        this.judges.forEach((judge: Judge) => this.onAddJudge(judge));
-      }
-      this.markFormAsDirtyOnUserInteraction();
-    } else {
-      this.onAddJudge();
-    }
+    // if (this.chiefJudge) {
+    //   this.onAddJudge(this.chiefJudge);
+    //   if (this.judges?.length) {
+    //     this.judges.forEach((judge: Judge) => this.onAddJudge(judge));
+    //   }
+    //   this.markFormAsDirtyOnUserInteraction();
+    // } else {
+    //   this.onAddJudge();
+    // }
   }
 
-  /**
-   * This method add new FormGroup to the FormArray
-   * When add feature for judges remove comments and add functionality that in comments
-   */
-  public onAddJudge(judge?: Judge): void {
-    // const formGroup = this.createNewForm(judge);
-    // this.JudgeFormArray.controls.push(formGroup);
-    // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-    // this.JudgeFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
-    this.passJudgeFormArray.emit(this.JudgeFormArray);
-    this.checkedCountOfJudges();
-  }
+  // /**
+  //  * This method add new FormGroup to the FormArray
+  //  * When add feature for judges remove comments and add functionality that in comments
+  //  */
+  // public onAddJudge(judge?: Judge): void {
+  //   // const formGroup = this.createNewForm(judge);
+  //   // this.JudgeFormArray.controls.push(formGroup);
+  //   // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
+  //   // this.JudgeFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
+  //   this.passJudgeFormArray.emit(this.JudgeFormArray);
+  //   this.checkedCountOfJudges();
+  // }
 
-  /**
-   * This method delete form from the FormArray by index
-   * @param index number
-   */
-  public onDeleteForm(index: number): void {
-    const judgeFormGroup: AbstractControl = this.JudgeFormArray.controls[index];
-    const isPristine = judgeFormGroup.pristine;
+  // /**
+  //  * This method delete form from the FormArray by index
+  //  * @param index number
+  //  */
+  // public onDeleteForm(index: number): void {
+  //   const judgeFormGroup: AbstractControl = this.JudgeFormArray.controls[index];
+  //   const isPristine = judgeFormGroup.pristine;
 
-    if (judgeFormGroup.status === 'VALID' || !isPristine) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.deleteJudge,
-          property: ''
-        }
-      });
+  //   if (judgeFormGroup.status === 'VALID' || !isPristine) {
+  //     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+  //       width: Constants.MODAL_SMALL,
+  //       data: {
+  //         type: ModalConfirmationType.deleteJudge,
+  //         property: ''
+  //       }
+  //     });
 
-      dialogRef
-        .afterClosed()
-        .pipe(filter(Boolean))
-        .subscribe(() => {
-          this.JudgeFormArray.removeAt(index);
-          this.checkedCountOfJudges();
-        });
-    } else {
-      this.JudgeFormArray.removeAt(index);
-    }
+  //     dialogRef
+  //       .afterClosed()
+  //       .pipe(filter(Boolean))
+  //       .subscribe(() => {
+  //         this.JudgeFormArray.removeAt(index);
+  //         this.checkedCountOfJudges();
+  //       });
+  //   } else {
+  //     this.JudgeFormArray.removeAt(index);
+  //   }
 
-    this.checkedCountOfJudges();
-    this.markFormAsDirtyOnUserInteraction();
-  }
+  //   this.checkedCountOfJudges();
+  //   this.markFormAsDirtyOnUserInteraction();
+  // }
 
   /**
    * This method create new FormGroup
@@ -136,21 +136,21 @@ export class CreateJudgeComponent implements OnInit {
   /**
    * This method makes JudgeFormArray dirty
    */
-  private markFormAsDirtyOnUserInteraction(): void {
-    if (!this.JudgeFormArray.dirty) {
-      this.JudgeFormArray.markAsDirty({ onlySelf: true });
-    }
-  }
+  // private markFormAsDirtyOnUserInteraction(): void {
+  //   if (!this.JudgeFormArray.dirty) {
+  //     this.JudgeFormArray.markAsDirty({ onlySelf: true });
+  //   }
+  // }
 
-  private checkedCountOfJudges(): void {
-    this.JudgeFormArray.controls.forEach((control) => {
-      const chiefJudgeControl = control.get('isChiefJudge');
-      if (this.JudgeFormArray.controls.length <= 1) {
-        chiefJudgeControl.setValue(true);
-        chiefJudgeControl.disable();
-      } else {
-        chiefJudgeControl.enable();
-      }
-    });
-  }
+  // private checkedCountOfJudges(): void {
+  //   this.JudgeFormArray.controls.forEach((control) => {
+  //     const chiefJudgeControl = control.get('isChiefJudge');
+  //     if (this.JudgeFormArray.controls.length <= 1) {
+  //       chiefJudgeControl.setValue(true);
+  //       chiefJudgeControl.disable();
+  //     } else {
+  //       chiefJudgeControl.enable();
+  //     }
+  //   });
+  // }
 }
