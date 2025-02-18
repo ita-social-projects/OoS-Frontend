@@ -19,6 +19,7 @@ import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app
 import { CreateParent } from 'shared/store/parent.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -42,6 +43,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
   protected AgreementFormControl = new FormControl(false);
   protected readonly validationConstants = ValidationConstants;
   protected readonly Role = Role;
+  protected readonly dateFilter: RegExp = DATE_REGEX;
 
   constructor(
     protected store: Store,

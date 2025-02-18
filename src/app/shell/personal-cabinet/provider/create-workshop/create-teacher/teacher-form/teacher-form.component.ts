@@ -5,6 +5,7 @@ import { debounceTime, filter } from 'rxjs';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Util } from 'shared/utils/utils';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-teacher-form',
@@ -33,6 +34,8 @@ export class TeacherFormComponent implements OnInit {
 
   public today: Date = new Date();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+
+  protected readonly dateFilter = DATE_REGEX;
 
   private readonly defaultDebounceTime: number = 300;
 

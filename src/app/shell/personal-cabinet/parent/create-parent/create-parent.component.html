@@ -22,6 +22,8 @@
               [min]="minDate"
               [max]="maxDate"
               [matDatepicker]="picker"
+              [appKeyFilter]="dateFilter"
+              appDateInput
               formControlName="dateOfBirth"
               placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

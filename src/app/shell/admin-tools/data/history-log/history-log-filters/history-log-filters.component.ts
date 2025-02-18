@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { DropdownOptionsConfig } from 'shared/constants/drop-down';
 import { CustomFormControlNames, FilterOptions, FormControlNames, HistoryLogTypes } from 'shared/enum/history.log';
 import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-history-log-filters',
@@ -23,6 +24,7 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
   public maxDate = new Date();
   public notAllowedToPickByTabButton = -1;
   public filtersList = [];
+  protected readonly dateFilter = DATE_REGEX;
 
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;

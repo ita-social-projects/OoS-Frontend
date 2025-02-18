@@ -10,6 +10,7 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
+import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -154,7 +155,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ImageCarouselComponent,
     CustomCarouselDirective,
     ThemeSwitcherComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    DateInputDirective
   ],
 
   imports: [
@@ -238,7 +240,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     InfoMenuComponent,
     ImageCarouselComponent,
     ThemeSwitcherComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    DateInputDirective
   ]
 })
 export class SharedModule {}
