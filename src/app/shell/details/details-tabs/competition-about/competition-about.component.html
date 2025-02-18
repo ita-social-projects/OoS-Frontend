@@ -12,23 +12,19 @@
     {{ competition.price }} {{ 'UAH' | translate }}/ {{ PayRateTypeEnum[competition.payRate] | translate }}
   </p>
   <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-  <p class="txt">{{ competition.optionsForPeopleWithDisabilities ? competition.disabilityOptionsDesc : ('NOT_AVAILABLE' | translate) }}</p>
+  <p class="txt">
+    {{
+      competition.optionsForPeopleWithDisabilities
+        ? competition.descriptionOfOptionsForPeopleWithDisabilities
+        : ('NOT_AVAILABLE' | translate)
+    }}
+  </p>
 
-  <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
-  <!-- <div *ngFor="let timeRange of competition.dateTimeRanges">
-    <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
-      <div class="flex flex-row justify-between">
-        <div
-          *ngFor="let day of days"
-          class="toggle flex flex-row justify-center items-center"
-          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
-          {{ day.value | translate }}
-        </div>
-      </div>
-      <div class="flex flex-row justify-center items-center">
-        <p class="text">{{ timeRange.startTime }}</p>
-        <p class="text">- {{ timeRange.endTime }}</p>
-      </div>
-    </div>
-  </div> -->
+  <h5 class="title">{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}</h5>
+  <span class="txt">{{ competition.scheduledStartTime | date }}</span>
+  <span class="txt">- {{ competition.scheduledEndTime | date }}</span>
+
+  <h5 class="title">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</h5>
+  <span class="txt">{{ competition.registrationStartTime | date }}</span>
+  <span class="txt">- {{ competition.registrationEndTime | date }}</span>
 </div>
