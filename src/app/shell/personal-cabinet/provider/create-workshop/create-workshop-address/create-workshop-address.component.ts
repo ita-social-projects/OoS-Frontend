@@ -82,11 +82,11 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
           latitude: result.lat,
           longitude: result.lon
         },
-        { emitEvent: false }
+        { emitEvent: true }
       );
       if (result.codeficator) {
-        addressGroup.get('searchGroup').get('settlement').setValue(result.codeficator, { emitEvent: false });
-        addressGroup.get('searchGroup').get('settlementSearch').setValue(result.codeficator.settlement, { emitEvent: false });
+        addressGroup.get('searchGroup').get('settlement').setValue(result.codeficator, { emitEvent: true });
+        addressGroup.get('searchGroup').get('settlementSearch').setValue(result.codeficator.settlement, { emitEvent: true });
         this.markFormAsDirtyOnUserInteraction();
       }
     } else {

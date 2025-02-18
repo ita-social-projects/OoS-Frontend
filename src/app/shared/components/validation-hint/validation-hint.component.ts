@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ValidationErrorsEnum } from 'shared/enum/validation-errors';
 import { ValidationParams, PatternMapper, ValidationMessages } from 'shared/constants/validation-messages';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-validation-hint',
@@ -73,6 +73,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       } else {
         this.updateValidationState(this.validationFormControl);
       }
+    });
+
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: LangChangeEvent) => {
+      this.cdr.markForCheck();
     });
   }
 
@@ -211,6 +215,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () => Boolean(matchedMapping),
         message: matchedMapping?.message
+      },
+      {
+        condition: () => errors?.minArrayLength || errors?.maxArrayLength,
+        message: ValidationMessages.INVALID_TAGS_LENGTH
       }
     ];
 
