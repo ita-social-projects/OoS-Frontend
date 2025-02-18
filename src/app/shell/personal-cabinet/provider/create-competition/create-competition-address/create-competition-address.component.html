@@ -33,6 +33,7 @@
             <div formArrayName="phones" class="flex flex-col">
               <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
               <div *ngFor="let phoneField of addressForm.get('phones').controls; let jindex = index">
+                <label class="step-label" for="phone-{{ jindex }}">{{ 'FORMS.LABELS.TYPE' | translate }}</label>
                 <div class="flex flex-col grow" [formGroupName]="jindex">
                   <mat-form-field class="grow">
                     <input
@@ -44,6 +45,7 @@
                       autocomplete="none"
                       appTrimValue />
                   </mat-form-field>
+                  <label class="step-label" for="{{ phoneField.get('number') }}">{{ 'FORMS.LABELS.PHONE' | translate }}</label>
                   <div class="flex flex-row">
                     <app-phone-form-control class="grow" [parentFormControl]="phoneField.get('number')"></app-phone-form-control>
                     <button
@@ -74,6 +76,7 @@
               </label>
               <div class="flex" *ngFor="let emailField of addressForm.get('emails').controls; let jindex = index">
                 <div class="flex flex-col grow" [formGroupName]="jindex">
+                  <label class="step-label" for="email-{{ jindex }}">{{ 'FORMS.LABELS.TYPE' | translate }}</label>
                   <mat-form-field class="grow">
                     <input
                       formControlName="type"
@@ -84,6 +87,7 @@
                       autocomplete="none"
                       appTrimValue />
                   </mat-form-field>
+                  <label class="step-label" for="email-{{ jindex }}">{{ 'FORMS.LABELS.EMAIL' | translate }}</label>
                   <div class="flex flex-row">
                     <mat-form-field class="grow">
                       <input
