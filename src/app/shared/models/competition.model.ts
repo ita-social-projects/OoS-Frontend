@@ -14,10 +14,10 @@ export abstract class CompetitionBase {
   preferentialTermsOfParticipation: string;
   title: string;
   shortTitle: string;
-  scheduledStartTime: Date;
-  scheduledEndTime: Date;
-  registrationStartTime?: Date;
-  registrationEndTime?: Date;
+  scheduledStartTime: string;
+  scheduledEndTime: string;
+  registrationStartTime?: string;
+  registrationEndTime?: string;
   typeOfCompetition: TypeOfCompetition;
   parentCompetition?: string;
   numberOfSeats: number;
@@ -27,12 +27,10 @@ export abstract class CompetitionBase {
   coverage?: CompetitionCoverage;
   plannedFormatOfClasses?: FormOfLearning;
   optionsForPeopleWithDisabilities?: boolean;
-  disabilityOptionsDesc?: string;
   descriptionOfOptionsForPeopleWithDisabilities?: string;
   minimumAge?: number;
   maximumAge?: number;
   competitiveSelection?: boolean;
-  selectionOptionsDesc?: string;
   price?: number;
   areThereBenefits: boolean;
   benefits?: string;
@@ -44,10 +42,11 @@ export abstract class CompetitionBase {
   buildingHoldingId: string;
   childParticipantId: string;
   competitiveEventAccountingTypeId: number;
-  descriptionOfTheEnrollmentProcedure: string;
+  descriptionOfTheEnrollmentProcedure?: string;
   venueId?: string;
   venueName?: string;
   participantsOfTheEvent: string[];
+  additionalDescription?: string;
 
   constructor(
     required: CompetitionRequired,
@@ -59,8 +58,8 @@ export abstract class CompetitionBase {
   ) {
     this.title = required.title;
     this.shortTitle = required.shortTitle;
-    this.scheduledStartTime = required.competitionDateRangeGroup.start;
-    this.scheduledEndTime = required.competitionDateRangeGroup.end;
+    this.scheduledStartTime = new Date(required.competitionDateRangeGroup.start).toISOString();
+    this.scheduledEndTime = new Date(required.competitionDateRangeGroup.end).toISOString();
     this.typeOfCompetition = required.typeOfCompetition;
     this.numberOfSeats = required.numberOfSeats;
     this.judges = judges;
@@ -68,7 +67,7 @@ export abstract class CompetitionBase {
     this.contacts = Contacts;
 
     this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
-    this.competitiveSelection = Boolean(description.selectionOptionsDesc);
+    this.competitiveSelection = Boolean(description.descriptionOfTheEnrollmentProcedure);
     this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
     this.optionsForPeopleWithDisabilities = description.optionsForPeopleWithDisabilities;
 
@@ -76,10 +75,10 @@ export abstract class CompetitionBase {
       this.id = id;
     }
     if (required.registrationDateRangeGroup.start) {
-      this.registrationStartTime = required.registrationDateRangeGroup.start;
+      this.registrationStartTime = new Date(required.registrationDateRangeGroup.start).toISOString();
     }
     if (required.registrationDateRangeGroup.end) {
-      this.registrationEndTime = required.registrationDateRangeGroup.end;
+      this.registrationEndTime = new Date(required.registrationDateRangeGroup.end).toISOString();
     }
     if (required.parentCompetition) {
       this.parentCompetition = required.parentCompetition;
@@ -106,13 +105,13 @@ export abstract class CompetitionBase {
       this.plannedFormatOfClasses = description.formOfLearning;
     }
     if (description.disabilityOptionsDesc) {
-      this.disabilityOptionsDesc = description.disabilityOptionsDesc;
+      this.descriptionOfOptionsForPeopleWithDisabilities = description.disabilityOptionsDesc;
     }
     if (description.additionalDescription) {
-      this.descriptionOfOptionsForPeopleWithDisabilities = description.additionalDescription;
+      this.additionalDescription = description.additionalDescription;
     }
-    if (description.selectionOptionsDesc) {
-      this.selectionOptionsDesc = description.selectionOptionsDesc;
+    if (description.descriptionOfTheEnrollmentProcedure) {
+      this.descriptionOfTheEnrollmentProcedure = description.descriptionOfTheEnrollmentProcedure;
     }
     if (description.price) {
       this.price = description.price;
@@ -207,13 +206,13 @@ export interface CompetitionCardParameters extends PaginationParameters {
 }
 
 export class CompetitiveDescriptionItem extends SectionItem {
-  competitionId?: string;
+  competitiveEventId?: string;
 
-  constructor(info: { id?: string; sectionName: string; description: string; competitionId?: string }) {
+  constructor(info: { id?: string; sectionName: string; description: string; competitiveEventId?: string }) {
     super(info);
 
-    if (info.competitionId) {
-      this.competitionId = info.competitionId;
+    if (info.competitiveEventId) {
+      this.competitiveEventId = info.competitiveEventId;
     }
   }
 }
@@ -247,7 +246,7 @@ interface Description {
   formOfLearning?: FormOfLearning;
   disabilityOptionsDesc?: string;
   additionalDescription?: string;
-  selectionOptionsDesc?: string;
+  descriptionOfTheEnrollmentProcedure?: string;
   price?: number;
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
