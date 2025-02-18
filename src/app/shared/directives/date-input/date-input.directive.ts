@@ -27,25 +27,6 @@ export class DateInputDirective {
     this.ref.nativeElement.dispatchEvent(new Event('input'));
   }
 
-  // private formatOnInput(value: string): string {
-  //   if (
-  //     this.indexesToInsert.includes(value.length) &&
-  //     !this.indexesToInsert.every((index) => value[index] === '/') &&
-  //     value.at(value.length - 1) !== '/'
-  //   ) {
-  //     return value + '/';
-  //   } else {
-  //     return value;
-  //   }
-  // }
-  //
-  // private formatOnPaste(value: string): string {
-  //   if (!value) {
-  //     return '';
-  //   }
-  //   return this.indexesToInsert.reduce((acc, index) => acc.slice(0, index) + '/' + acc.slice(index), value);
-  // }
-
   private formatDate(value: string): string {
     return this.indexesToInsert.reduce((acc, index) => {
       if (value.length >= index && acc.at(index) !== '/') {
