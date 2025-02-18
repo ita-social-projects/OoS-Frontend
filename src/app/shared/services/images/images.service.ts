@@ -17,7 +17,7 @@ export class ImagesService {
     return workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
   }
 
-  public getCoverImage(entity: Workshop | Provider): string {
+  public getCoverImage(entity: Workshop | Provider | Competition): string {
     return entity.coverImageId ? environment.storageUrl + entity.coverImageId : this.defaultCoverImage;
   }
 
