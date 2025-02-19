@@ -1,1 +1,59 @@
-<p>create-study-subject works!</p>
+<div class="create-form flex flex-col justify-center items-center" *ngIf="(editMode && studySubject) || !editMode">
+  <div class="wrapper">
+    <div class="create-form-header flex flex-col justify-center items-center">
+      <h3 class="wrapper-title">
+        {{ (editMode ? 'FORMS.HEADERS.EDIT_STUDY_SUBJECT' : 'FORMS.HEADERS.ADD_STUDY_SUBJECT') | translate | uppercase }}
+      </h3>
+    </div>
+    <form [formGroup]="studySubjectFormGroup" class="step form flex flex-col box-border items-stretch justify-between content-center">
+      <label class="step-label">{{ 'FORMS.LABELS.SUBJECT_NAME_UKRAINIAN' | translate }}<span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="nameInUkrainian" autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="studySubjectFormGroup.get('nameInUkrainian')"
+        [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+        [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+      </app-validation-hint>
+
+      <label class="step-label">{{ 'FORMS.LABELS.TEACHING_LANGUAGE_SUBJECT_NAME' | translate }}<span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="nameInInstructionLanguage" autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="studySubjectFormGroup.get('nameInInstructionLanguage')"
+        [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
+        [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+      </app-validation-hint>
+
+      <label class="step-label">{{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}<span class="step-required">*</span></label>
+      <mat-form-field appearance="fill">
+        <mat-select
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input"
+          formControlName="language"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_LANGUAGE_OF_INSTRUCTION' | translate }}">
+          <mat-option *ngFor="let lang of languageList$ | async" [value]="lang" class="dropdown-option">
+            {{ lang.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-validation-hint [validationFormControl]="studySubjectFormGroup.get('language')"></app-validation-hint>
+    </form>
+
+    <div class="footer flex flex-row justify-center items-center">
+      <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+        {{ 'BUTTONS.CANCEL' | translate }}
+      </button>
+      <button
+        [disabled]="!studySubjectFormGroup.dirty || studySubjectFormGroup.invalid"
+        class="btn"
+        mat-button
+        type="submit"
+        (click)="onSubmit()">
+        {{ 'BUTTONS.SAVE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
