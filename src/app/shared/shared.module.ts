@@ -243,7 +243,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    DateInputDirective
+    DateInputDirective,
+    ServerErrorPageComponent
   ]
 })
 export class SharedModule {}
