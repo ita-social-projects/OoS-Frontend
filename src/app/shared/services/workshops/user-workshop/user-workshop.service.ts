@@ -149,7 +149,7 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
+    const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(workshop).forEach((key: string) => {
@@ -161,11 +161,6 @@ export class UserWorkshopService {
         formData.append(key, workshop[key]);
       }
     });
-    // Remove
-    formData.append('phone', '+380987654321');
-    formData.append('email', 'mock@gmail.com');
-    formData.append('address', JSON.stringify(workshop.contacts[0].address));
-    // Remove
     return formData;
   }
 }

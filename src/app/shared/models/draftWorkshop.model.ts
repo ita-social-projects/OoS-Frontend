@@ -1,6 +1,6 @@
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from 'shared/models/address.model';
-import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
+import { Contacts, Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 
 export enum WorkshopType {
@@ -18,11 +18,6 @@ export class WorkshopMainRequiredProperties extends BaseWorkshop {
   $type?: WorkshopType = WorkshopType.WithMainProperties;
   title: string;
   shortTitle: string;
-  phone: string;
-  email: string;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
@@ -66,8 +61,7 @@ export class WorkshopDescription extends WorkshopOtherRequiredProperties {
 
 export class WorkshopContacts extends WorkshopDescription {
   $type?: WorkshopType = WorkshopType.WithContacts;
-  addressId: number;
-  address: Address;
+  contacts: Contacts[];
 }
 
 export interface WorkshopDraftState {

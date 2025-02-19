@@ -4,8 +4,8 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, V
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, Observable } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, forkJoin, Observable, of } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -65,6 +65,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
+
   private readonly unfinishedWorkshopTypeMap = {
     1: WorkshopType.WithMainProperties,
     2: WorkshopType.WithOtherRequiredProperties,
@@ -77,25 +78,33 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     3: (): void =>
       this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
     4: (): void => {
-      const address = new Address(this.AddressFormGroup.value, this.workshop?.address);
-      this.store.dispatch(new GetCodeficatorById(address.catottgId));
-      this.codeficator$
-        .pipe(
-          filter((codeficator) => Boolean(codeficator)),
-          take(1)
-        )
-        .subscribe((codeficatorData) => {
-          const updatedAddress = new Address({
-            ...address,
-            codeficatorAddressDto: codeficatorData
-          });
-          this.dispatchUnfinishedData(4, {
-            ...this.AdditionalAboutGroup.value,
-            ...this.DescriptionFormGroup.getRawValue(),
-            address: updatedAddress,
-            addressId: updatedAddress.id
-          });
+      const contacts = this.createContacts();
+      forkJoin(
+        contacts.map((contact) => {
+          if (contact.address?.catottgId) {
+            this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+
+            return this.codeficator$.pipe(
+              filter((codeficator) => Boolean(codeficator) && codeficator.id === contact.address.catottgId),
+              take(1),
+              map((codeficatorData) => ({
+                ...contact,
+                address: new Address({
+                  ...contact.address,
+                  codeficatorAddressDto: codeficatorData
+                })
+              }))
+            );
+          }
+          return of(contact);
+        })
+      ).subscribe((updatedContacts) => {
+        this.dispatchUnfinishedData(4, {
+          ...this.AdditionalAboutGroup.value,
+          ...this.DescriptionFormGroup.getRawValue(),
+          contacts: updatedContacts
         });
+      });
     }
   };
 
@@ -110,6 +119,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
+    const isUnfinished: boolean = this.getRouteParam() === BannerMode.Unfinished;
+    if (isUnfinished) {
+      return false;
+    }
     return (
       (!this.AboutFormGroup.dirty &&
         !this.DescriptionFormGroup.dirty &&
@@ -180,6 +193,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         .subscribe((workshop: Workshop) => (this.workshop = workshop));
     }
   }
+
   public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
     const param = this.getRouteParam();
     if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
@@ -190,7 +204,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       [this.AboutFormGroup, 1],
       [this.AdditionalAboutGroup, 2],
       [this.DescriptionFormGroup, 3],
-      [this.AddressFormGroup, 4]
+      [this.WorkshopContactsFormArray, 4]
     ]);
 
     const step = stepMappings.get(formGroup) ?? -1;
@@ -198,6 +212,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.stepActions[step]?.();
     }
   }
+
   public loadUnfinishedWorkshopData(): void {
     this.store.dispatch(new GetUnfinishedWorkshop());
     this.unfinishedWorkshop$.subscribe((draft: Workshop) => {
@@ -320,7 +335,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   private getFirstInvalidStep(): number {
-    const steps = [this.AboutFormGroup, this.AdditionalAboutGroup, this.DescriptionFormGroup, this.AddressFormGroup, this.TeacherFormArray];
+    const steps = [
+      this.AboutFormGroup,
+      this.AdditionalAboutGroup,
+      this.DescriptionFormGroup,
+      this.WorkshopContactsFormArray,
+      this.TeacherFormArray
+    ];
 
     return steps.findIndex((step) => !step?.valid);
   }
