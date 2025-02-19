@@ -10,6 +10,7 @@ import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
 import { of } from 'rxjs';
 import { WorkshopType } from 'shared/models/draftWorkshop.model';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { CreateWorkshopComponent } from './create-workshop.component';
 
 describe('CreateWorkshopComponent (Jest)', () => {
@@ -110,5 +111,34 @@ describe('CreateWorkshopComponent (Jest)', () => {
 
     component.loadUnfinishedWorkshopData();
     expect(component.stepper.selectedIndex).toBe(0);
+  });
+
+  it('should createDraftData correctly', () => {
+    const step = 1;
+    const extraData = { title: 'Test Workshop' };
+    const draftData = (component as any).createDraftData(step, extraData);
+
+    expect(draftData).toEqual({
+      $type: (component as any).unfinishedWorkshopTypeMap[step],
+      ...(component as any).createAbout(),
+      providerId: component.provider.id,
+      ...extraData
+    });
+  });
+
+  it('should dispatch unfinished data correctly', () => {
+    const step = 2;
+    const extraData = { description: 'Test Description' };
+    (component as any).dispatchUnfinishedData(step, extraData);
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(new OnSaveWorkshopStep({ data: expect.any(Object), step }));
+  });
+
+  it('should execute stepActions correctly', () => {
+    const step = 1;
+    jest.spyOn(component as any, 'dispatchUnfinishedData');
+    (component as any).stepActions[step]();
+
+    expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(1, expect.any(Object));
   });
 });
