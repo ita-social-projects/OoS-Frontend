@@ -7,13 +7,15 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
 import { NotEmployeeGuard } from './not-employee.guard';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
+import { ProviderStudySubjectsComponent } from './provider-study-subjects/provider-study-subjects.component';
 
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
   { path: 'workshops', component: ProviderWorkshopsComponent },
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'provider-employees', component: ProviderEmployeesComponent },
-  { path: 'positions', component: ProviderPositionsComponent }
+  { path: 'positions', component: ProviderPositionsComponent },
+  { path: 'study-subjects', component: ProviderStudySubjectsComponent }
 ];
 
 @NgModule({
