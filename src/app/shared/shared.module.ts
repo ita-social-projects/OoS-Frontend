@@ -81,6 +81,7 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 
 @NgModule({
@@ -156,7 +157,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     CustomCarouselDirective,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    DateInputDirective
+    DateInputDirective,
+    ServerErrorPageComponent
   ],
 
   imports: [
@@ -241,7 +243,8 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    DateInputDirective
+    DateInputDirective,
+    ServerErrorPageComponent
   ]
 })
 export class SharedModule {}

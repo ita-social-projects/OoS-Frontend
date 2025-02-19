@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ErrorPageComponent } from 'shared/components/error-page/error-page.component';
+import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
 import { LoginComponent } from 'shared/components/login/login.component';
 import { NotificationsListComponent } from 'shared/components/notifications/notifications-list/notifications-list.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
@@ -177,6 +178,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard],
     canLoad: [CreateParentGuard]
   },
+  { path: 'server-error', component: ServerErrorPageComponent },
   { path: '**', component: ErrorPageComponent }
 ];
 

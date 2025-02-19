@@ -1,4 +1,5 @@
 import { MessageBarData } from 'shared/models/message-bar.model';
+import { TimerData } from 'shared/models/server-error';
 
 export class ToggleLoading {
   static readonly type = '[app] toggle page loading';
@@ -33,4 +34,9 @@ export class ToggleMobileScreen {
 export class SetFocusOnCityField {
   static readonly type = '[app] SetFocusOnCityField';
   constructor() {}
+}
+
+export class SetErrorTimerData {
+  static readonly type = '[app] SetErrorTimerData';
+  constructor(public payload: TimerData) {}
 }
