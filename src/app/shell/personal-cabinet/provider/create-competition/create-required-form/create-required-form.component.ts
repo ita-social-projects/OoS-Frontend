@@ -66,10 +66,10 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   public get minSeats(): number {
-    if (this.competition?.takenSeats === 0 || !this.competition) {
+    if (this.competition?.numberOfOccupiedSeats === 0 || !this.competition) {
       return this.minimumSeats;
     }
-    return this.competition?.takenSeats;
+    return this.competition?.numberOfOccupiedSeats;
   }
 
   private get availableSeats(): number {
@@ -237,7 +237,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   private showHintAboutClosingCompetition(): void {
     this.RequiredFormGroup.controls.numberOfSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
       if (availableSeats) {
-        this.isShowHintAboutCompetitionAutoClosing = availableSeats === this.competition?.takenSeats;
+        this.isShowHintAboutCompetitionAutoClosing = availableSeats === this.competition?.numberOfOccupiedSeats;
       }
     });
   }
