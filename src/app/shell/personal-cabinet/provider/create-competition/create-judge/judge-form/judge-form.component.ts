@@ -11,49 +11,48 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./judge-form.component.scss']
 })
 export class JudgeFormComponent implements OnInit {
-  @Input() public index: number;
-  @Input() public JudgeFormGroup: AbstractControl;
-  @Input() public judgeAmount: number;
+  // @Input() public index: number;
+  // @Input() public JudgeFormGroup: AbstractControl;
+  // @Input() public judgeAmount: number;
 
-  @Output() public deleteForm = new EventEmitter();
+  // @Output() public deleteForm = new EventEmitter();
 
-  public readonly validationConstants = ValidationConstants;
+  // public readonly validationConstants = ValidationConstants;
 
-  public today: Date = new Date();
-  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  // public today: Date = new Date();
+  // public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  private readonly defaultDebounceTime: number = 300;
+  // private readonly defaultDebounceTime: number = 300;
 
-  constructor() {}
+  // constructor() {}
 
-  public get JudgeForm(): FormGroup {
-    return this.JudgeFormGroup as FormGroup;
-  }
+  // public get JudgeForm(): FormGroup {
+  //   return this.JudgeFormGroup as FormGroup;
+  // }
 
   public ngOnInit(): void {
-    this.JudgeForm.get('isChiefJudge')
-      ?.valueChanges.pipe(debounceTime(this.defaultDebounceTime), filter(Boolean))
-      .subscribe(() => {
-        // take form array from create-judge component
-        const parentArray = this.JudgeForm.parent as FormArray;
-
-        if (parentArray) {
-          parentArray.controls
-            .filter((control) => control !== this.JudgeForm)
-            .forEach((control) => {
-              control.get('isChiefJudge')?.setValue(false, { emitEvent: false });
-            });
-        }
-      });
+    // this.JudgeForm.get('isChiefJudge')
+    //   ?.valueChanges.pipe(debounceTime(this.defaultDebounceTime), filter(Boolean))
+    //   .subscribe(() => {
+    //     // take form array from create-judge component
+    //     const parentArray = this.JudgeForm.parent as FormArray;
+    //     if (parentArray) {
+    //       parentArray.controls
+    //         .filter((control) => control !== this.JudgeForm)
+    //         .forEach((control) => {
+    //           control.get('isChiefJudge')?.setValue(false, { emitEvent: false });
+    //         });
+    //     }
+    //   });
   }
 
-  public onDeleteJudge(): void {
-    this.deleteForm.emit(this.index);
-  }
+  // public onDeleteJudge(): void {
+  //   this.deleteForm.emit(this.index);
+  // }
 
-  public onFocusOut(formControlName: string): void {
-    if (this.JudgeFormGroup.get(formControlName).pristine && !this.JudgeFormGroup.get(formControlName).value) {
-      this.JudgeFormGroup.get(formControlName).setValue(null);
-    }
-  }
+  // public onFocusOut(formControlName: string): void {
+  //   if (this.JudgeFormGroup.get(formControlName).pristine && !this.JudgeFormGroup.get(formControlName).value) {
+  //     this.JudgeFormGroup.get(formControlName).setValue(null);
+  //   }
+  // }
 }
