@@ -1,6 +1,6 @@
 import { TimerData } from 'shared/models/server-error';
 import { of } from 'rxjs';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ServerErrorService } from 'shared/services/server-error/server-error.service';
 import { Router } from '@angular/router';
 import { Store, NgxsModule } from '@ngxs/store';
@@ -10,6 +10,7 @@ import { SetErrorTimerData } from 'shared/store/app.actions';
 import { ServerErrorPageComponent } from './server-error-page.component';
 
 describe('ServerErrorPageComponent', () => {
+  let fixture: ComponentFixture<ServerErrorPageComponent>;
   let component: ServerErrorPageComponent;
   let serverErrorMock: any;
   let routerMock: any;
@@ -36,7 +37,9 @@ describe('ServerErrorPageComponent', () => {
         { provide: Store, useValue: storeMock }
       ]
     });
-    component = TestBed.inject(ServerErrorPageComponent);
+    fixture = TestBed.createComponent(ServerErrorPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should initialize isDisabled and set timerData correctly', () => {
