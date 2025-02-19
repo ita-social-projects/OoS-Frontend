@@ -7,6 +7,7 @@ import { Store, NgxsModule } from '@ngxs/store';
 import { AppState } from 'shared/store/app.state';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SetErrorTimerData } from 'shared/store/app.actions';
+import { TranslateModule } from '@ngx-translate/core';
 import { ServerErrorPageComponent } from './server-error-page.component';
 
 describe('ServerErrorPageComponent', () => {
@@ -25,13 +26,14 @@ describe('ServerErrorPageComponent', () => {
       navigate: jest.fn()
     };
     storeMock = {
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
+      select: jest.fn().mockReturnValue(of({ time: 10 }))
     };
 
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([AppState]), MatSnackBarModule],
+      declarations: [ServerErrorPageComponent],
+      imports: [NgxsModule.forRoot([AppState]), MatSnackBarModule, TranslateModule.forRoot()],
       providers: [
-        ServerErrorPageComponent,
         { provide: ServerErrorService, useValue: serverErrorMock },
         { provide: Router, useValue: routerMock },
         { provide: Store, useValue: storeMock }
