@@ -126,7 +126,7 @@ export abstract class CompetitionBase {
 }
 
 export class Competition extends CompetitionBase {
-  takenSeats: number;
+  numberOfOccupiedSeats: number;
   rating: number;
   numberOfRatings: number;
   state: CompetitionStatus;
