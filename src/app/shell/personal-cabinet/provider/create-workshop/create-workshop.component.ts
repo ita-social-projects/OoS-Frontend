@@ -219,6 +219,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }
+    if (aboutInfo.price === null) {
+      aboutInfo.price = 0;
+    }
     return aboutInfo;
   }
 
