@@ -25,10 +25,14 @@ import { EmployeeService } from 'shared/services/employee/employee.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { PositionService } from 'shared/services/position/position.service';
+import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
+import { LanguageListService } from 'shared/services/language-list/language-list.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { SubjectModel } from 'shared/models/study-subject.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -56,6 +60,9 @@ export interface ProviderStateModel {
   selectedPosition: Position;
   unfinishedWorkshop: WorkshopDraftState;
   timeToLiveUnfinishedWorkshop: string | null;
+  languageList: LanguageListItem[];
+  studySubject: SearchResponse<SubjectModel[]>;
+  selectedSubject: SubjectModel;
 }
 
 @State<ProviderStateModel>({
@@ -75,7 +82,10 @@ export interface ProviderStateModel {
     positions: null,
     selectedPosition: null,
     unfinishedWorkshop: null,
-    timeToLiveUnfinishedWorkshop: null
+    timeToLiveUnfinishedWorkshop: null,
+    languageList: null,
+    studySubject: null,
+    selectedSubject: null
   }
 })
 @Injectable()
@@ -88,7 +98,9 @@ export class ProviderState {
     private readonly providerService: ProviderService,
     private readonly applicationService: ApplicationService,
     private readonly blockService: BlockService,
-    private readonly positionService: PositionService
+    private readonly positionService: PositionService,
+    private readonly studySubjectService: StudySubjectService,
+    private readonly languageListService: LanguageListService
   ) {}
 
   @Selector()
@@ -132,6 +144,11 @@ export class ProviderState {
   }
 
   @Selector()
+  static languageList(state: ProviderStateModel): LanguageListItem[] {
+    return state.languageList;
+  }
+
+  @Selector()
   static selectedEmployee(state: ProviderStateModel): Employee {
     return state.selectedEmployee;
   }
@@ -159,6 +176,16 @@ export class ProviderState {
   @Selector()
   static selectedPosition(state: ProviderStateModel): Position {
     return state.selectedPosition;
+  }
+
+  @Selector()
+  static studySubject(state: ProviderStateModel): SearchResponse<SubjectModel[]> {
+    return state.studySubject;
+  }
+
+  @Selector()
+  static selectedSubject(state: ProviderStateModel): SubjectModel {
+    return state.selectedSubject;
   }
 
   @Action(providerActions.GetAchievementById)
@@ -1090,5 +1117,128 @@ export class ProviderState {
   @Action(providerActions.SetDraftModalShown)
   setDraftModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetDraftModalShown): void {
     ctx.patchState({ isDraftModalShown: payload });
+  }
+
+  @Action(providerActions.GetLanguageList)
+  getLanguageList({ patchState }: StateContext<ProviderStateModel>, {}: providerActions.GetLanguageList): Observable<LanguageListItem[]> {
+    patchState({ isLoading: true });
+    return this.languageListService
+      .getLanguageList()
+      .pipe(tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })));
+  }
+
+  @Action(providerActions.CreateStudySubject)
+  createStudySubject(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.CreateStudySubject
+  ): Observable<SubjectModel | void> {
+    patchState({ isLoading: true });
+    return this.studySubjectService.createStudySubject(payload).pipe(
+      tap((res: SubjectModel) => dispatch(new providerActions.OnCreateStudySubjectSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateStudySubjectFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnCreateStudySubjectSuccess)
+  onCreateStudySubjectSuccess(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateStudySubjectSuccess
+  ): void {
+    patchState({ isLoading: false });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.createSubjectSuccess, type: 'success' })]);
+    this.router.navigate(['/personal-cabinet/provider/study-subjects']);
+  }
+
+  @Action(providerActions.OnCreateStudySubjectFail)
+  onCreateStudySubjectFail(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateStudySubjectFail
+  ): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.GetStudySubjects)
+  getStudySubjects(
+    { patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetStudySubjects
+  ): Observable<SearchResponse<SubjectModel[]>> {
+    patchState({ isLoading: true });
+    return this.studySubjectService
+      .getStudySubjects(payload)
+      .pipe(
+        tap((studySubject: SearchResponse<SubjectModel[]>) => patchState({ studySubject: studySubject ?? EMPTY_RESULT, isLoading: false }))
+      );
+  }
+
+  @Action(providerActions.GetStudySubjectById)
+  GetStudySubjectById(
+    { patchState }: StateContext<ProviderStateModel>,
+    payload: providerActions.GetStudySubjectById
+  ): Observable<SubjectModel> {
+    patchState({ isLoading: true });
+    return this.studySubjectService
+      .getStudySubjectById(payload.subjectId, payload.providerId)
+      .pipe(tap((selectedSubject: SubjectModel) => patchState({ selectedSubject, isLoading: false })));
+  }
+
+  @Action(providerActions.UpdateStudySubject)
+  UpdateStudySubject(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.UpdateStudySubject
+  ): Observable<SubjectModel | void> {
+    return this.studySubjectService.updateStudySubject(payload).pipe(
+      tap((res: SubjectModel) => dispatch(new providerActions.OnUpdateStudySubjectSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateStudySubjectFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnUpdateStudySubjectSuccess)
+  OnUpdateStudySubjectSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnUpdateStudySubjectSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.updateStudySubject,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
+    this.router.navigate(['/personal-cabinet/provider/study-subjects']);
+  }
+
+  @Action(providerActions.OnUpdateStudySubjectFail)
+  onUpdateStudySubjectFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateStudySubjectFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.DeleteStudySubjectById)
+  DeleteStudySubjectById(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { subjectParameters, subjectId }: providerActions.DeleteStudySubjectById
+  ): Observable<SubjectModel[] | void> {
+    return this.studySubjectService.deleteStudySubject(subjectParameters, subjectId).pipe(
+      tap(() => {
+        dispatch(new providerActions.OnDeleteStudySubjectSuccess(subjectParameters));
+      }),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteStudySubjectFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteStudySubjectSuccess)
+  onDeleteStudySubjectSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { parameters }: providerActions.OnDeleteStudySubjectSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({ message: SnackbarText.deleteStudySubject, type: 'success' }),
+      new providerActions.GetStudySubjects(parameters)
+    ]);
+  }
+
+  @Action(providerActions.OnDeleteStudySubjectFail)
+  onDeleteStudySubjectFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteStudySubjectFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }
