@@ -164,5 +164,6 @@ export enum ModalConfirmationDescription {
 export enum ModalConfirmationButtonText {
   delete = 'BUTTONS.DELETE',
   rate = 'BUTTONS.SEND',
-  default = 'BUTTONS.CONFIRM'
+  default = 'BUTTONS.CONFIRM',
+  continue = 'BUTTONS.CONTINUE'
 }

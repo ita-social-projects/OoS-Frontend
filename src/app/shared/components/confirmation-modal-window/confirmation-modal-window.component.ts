@@ -23,6 +23,7 @@ export class ConfirmationModalWindowComponent implements OnInit {
   public modalConfirmationText: string;
   public modalConfirmationProperty: string;
   public ratingSelectControl: FormControl;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -30,14 +31,6 @@ export class ConfirmationModalWindowComponent implements OnInit {
       property: string;
     }
   ) {}
-
-  public get buttonText(): string {
-    return this.data.type === ModalConfirmationType.incompleteWorkshop
-      ? 'BUTTONS.CONTINUE'
-      : this.data.type === ModalConfirmationType.delete
-        ? 'BUTTONS.REMOVE'
-        : 'BUTTONS.CONFIRM';
-  }
 
   public ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
@@ -51,6 +44,9 @@ export class ConfirmationModalWindowComponent implements OnInit {
   }
 
   public getConfirmationButtonMessage(): string {
+    if (this.data.type === ModalConfirmationType.incompleteWorkshop) {
+      return ModalConfirmationButtonText.continue;
+    }
     const buttonText = ModalConfirmationButtonText[this.data.type];
     return buttonText || ModalConfirmationButtonText.default;
   }
