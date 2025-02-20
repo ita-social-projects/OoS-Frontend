@@ -49,6 +49,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
         filter((provider: Provider) => Boolean(provider)),
         tap((provider: Provider) => {
           this.provider = provider;
+          this.cdr.markForCheck();
         }),
         takeUntil(this.destroy$)
       )
