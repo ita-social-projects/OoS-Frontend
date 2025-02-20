@@ -160,7 +160,7 @@ export class WorkshopDescriptionItem extends SectionItem {
 }
 
 export interface WorkshopBaseCard {
-  workshopId: string;
+  id: string;
   providerTitle: string;
   providerOwnership: OwnershipTypes;
   title: string;

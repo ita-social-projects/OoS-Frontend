@@ -395,7 +395,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, parameters }: providerActions.DeleteWorkshopById
   ): Observable<void> {
-    return this.userWorkshopService.deleteWorkshop(payload.workshopId).pipe(
+    return this.userWorkshopService.deleteWorkshop(payload.id).pipe(
       tap(() => dispatch(new providerActions.OnDeleteWorkshopSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteWorkshopFail(error)))
     );
