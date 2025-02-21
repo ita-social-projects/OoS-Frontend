@@ -4,7 +4,7 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, V
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, forkJoin, Observable, of } from 'rxjs';
+import { asyncScheduler, combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
@@ -79,26 +79,26 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
     4: (): void => {
       const contacts = this.createContacts();
-      forkJoin(
-        contacts.map((contact) => {
-          if (contact.address?.catottgId) {
-            this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+      const contactsToUpdate = contacts.map((contact) => {
+        if (contact.address?.catottgId) {
+          this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
 
-            return this.codeficator$.pipe(
-              filter((codeficator) => Boolean(codeficator) && codeficator.id === contact.address.catottgId),
-              take(1),
-              map((codeficatorData) => ({
-                ...contact,
-                address: new Address({
-                  ...contact.address,
-                  codeficatorAddressDto: codeficatorData
-                })
-              }))
-            );
-          }
-          return of(contact);
-        })
-      ).subscribe((updatedContacts) => {
+          return this.codeficator$.pipe(
+            filter((codeficator) => codeficator?.id === contact.address.catottgId),
+            take(1),
+            map((codeficatorData) => ({
+              ...contact,
+              address: new Address({
+                ...contact.address,
+                codeficatorAddressDto: codeficatorData
+              })
+            }))
+          );
+        }
+        return of(contact);
+      });
+
+      combineLatest(contactsToUpdate).subscribe((updatedContacts) => {
         this.dispatchUnfinishedData(4, {
           ...this.AdditionalAboutGroup.value,
           ...this.DescriptionFormGroup.getRawValue(),
