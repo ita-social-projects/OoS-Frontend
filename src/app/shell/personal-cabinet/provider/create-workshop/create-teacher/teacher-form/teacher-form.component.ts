@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { debounceTime, filter } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { DATE_REGEX } from 'shared/constants/regex-constants';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent implements OnInit {
+  @ViewChild('DateInput') public dateInput: ElementRef;
   @Input() public index: number;
   @Input() public TeacherFormGroup: AbstractControl;
   @Input() public teacherAmount: number;
@@ -70,5 +71,9 @@ export class TeacherFormComponent implements OnInit {
     if (this.TeacherFormGroup.get(formControlName).pristine && !this.TeacherFormGroup.get(formControlName).value) {
       this.TeacherFormGroup.get(formControlName).setValue(null);
     }
+  }
+
+  public focusDateInput(): void {
+    this.dateInput.nativeElement.focus();
   }
 }

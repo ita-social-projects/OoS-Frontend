@@ -2,22 +2,38 @@
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/dropdown.scss';
 
-:host ::ng-deep .mat-form-field-wrapper,
-:host ::ng-deep .mat-form-field-infix {
-  padding: 0;
+
+:host ::ng-deep .mat-mdc-form-field-wrapper {
+  padding: 0 !important;
   border: none;
   vertical-align: sub;
-  padding: 0.2rem;
+  height: 40px !important;
   width: auto;
+}
+
+:host ::ng-deep .mdc-text-field {
+  padding: 0.2rem !important;
+
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding: 0.2rem !important;
+  border: none;
+  vertical-align: sub;
+  width: auto;
+  .additional-text {
+    height: 14px !important;
+    line-height: 14px !important;
+  }
 }
 
 .input-filter {
   text-transform: capitalize;
   font-family: 'Innerspace';
   color: #000000;
-  font-size: 1.125rem;
-  line-height: 1.25rem;
-  font-weight: 500;
+  font-size: 1.125rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 500 !important;
 }
 
 .additional-text {
@@ -39,7 +55,7 @@ h4 {
 }
 
 .input-wrapper {
-  padding: 0.5rem 0;
+  padding: 3px 0;
 }
 
 .option-sub-text {

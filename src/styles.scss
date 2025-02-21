@@ -413,4 +413,8 @@ button.mdc-button {
   }
 }
 
+input:focus {
+  outline: none;
+}
+
 @import 'tailwind.css';

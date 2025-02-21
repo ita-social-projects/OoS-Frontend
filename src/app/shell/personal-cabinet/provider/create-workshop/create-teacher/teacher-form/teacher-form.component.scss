@@ -2,8 +2,4 @@
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/calendar.scss';
 
-:host ::ng-deep .custom-datepicker {
-  .mat-mdc-icon-button {
-    height: 1.7em !important;
-  }
-}
+
