@@ -1,51 +1,81 @@
-::ng-deep .dropdown-option {
-  .mat-option-text {
+::ng-deep .mat-mdc-option {
+  min-height: 39px;
+  width: calc(100% - 32px);
+  overflow: hidden;
+  .mdc-list-item__primary-text {
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
     color: #000000;
     background-color: transparent;
     padding-left: 10px;
-  }
-
-  &-trimmed {
+    font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
   }
+
+  .mat-pseudo-checkbox-full {
+    margin-right: 8px;
+  }
 }
-.mat-option.mat-option-disabled {
+
+.mat-mdc-option.mat-mdc-option--disabled {
   background-color: #f8f8f8 !important;
   color: rgba(0, 0, 0, 0.11);
   opacity: 0.5;
   cursor: default;
 }
-::ng-deep .dropdown-panel {
-  .mat-selected {
+
+::ng-deep .mat-mdc-select-panel {
+  .mat-mdc-option.mdc-list-item--selected {
     background-color: white !important;
+
     &:hover {
       background-color: #f8f8f8 !important;
     }
   }
-  .mat-option.mat-active {
+
+  .mat-mdc-option.mdc-list-item--activated {
     background-color: white;
   }
-  .mat-option {
+
+  .mat-mdc-option {
     &:hover {
-      .mat-option-text {
+      .mdc-list-item__primary-text {
         background-color: #f8f8f8 !important;
       }
       background-color: #f8f8f8 !important;
     }
   }
 
+  overflow-x: hidden !important;
   box-shadow: 0 7px 19px rgba(0, 0, 0, 0.11) !important;
-  border-radius: 10px;
-  position: relative;
+  border-radius: 10px !important;
+  position: relative !important;
   height: fit-content;
-  max-height: 250px;
+  top: -25px;
+  max-height: 172px !important;
 }
 
 ::ng-deep .custom-overlay-panel {
   transform: translate(-16px, 2.5rem) !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  overflow: visible;
+}
+
+::ng-deep .mat-mdc-select-placeholder {
+  margin-left: 5px;
+}
+
+::ng-deep .select-with-form-field {
+  position: absolute !important;
+  top: -37px !important;
+  left: 15px;
+}
+
+.select-with-tags {
+  height: auto;
 }

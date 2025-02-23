@@ -9,7 +9,7 @@ import { MatLegacyNativeDateModule as MatNativeDateModule } from '@angular/mater
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
@@ -224,4 +224,4 @@ class MockValidationHintForInputComponent {
   }
 })
 @Injectable()
-class MockMetaDataState {}
+class MockMetaDataState { }

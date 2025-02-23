@@ -1,7 +1,7 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
@@ -96,4 +96,4 @@ export class MockNoResultCardComponent {
   } as AdminStateModel
 })
 @Injectable()
-class MockAdminState {}
+class MockAdminState { }

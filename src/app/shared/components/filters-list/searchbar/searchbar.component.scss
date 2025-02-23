@@ -32,7 +32,9 @@
   text-overflow: ellipsis;
 
   &::placeholder {
-    opacity: 0.4;
+    color: rgba(170,170,170,0.4) !important;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 300 !important;
   }
 }
 
@@ -49,14 +51,19 @@
 
 .search-dropdown-option {
   .option-value {
-    display: inline-flex;
-    width: calc(100% - 2rem);
+    font-size: 16px !important;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  ::ng-deep .mdc-list-item__primary-text {
+    width: 100% !important;
+  }
+
   .close-icon {
+    position: static;
+    margin: 0px;
     font-size: 1rem;
     width: 1rem;
     height: 1rem;

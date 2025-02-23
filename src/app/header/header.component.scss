@@ -167,10 +167,18 @@
 }
 
 ::ng-deep .lang-option {
-  width: auto !important;
+  color: white !important;
+  font-weight: 700 !important;
+  .mat-mdc-select-min-line {
+    font-size: 0.7rem;
+  }
+
+  .mat-mdc-select-arrow {
+    display: none;
+  }
 }
 
-::ng-deep .lang-option .mat-select-value {
+::ng-deep .lang-option .mat-mdc-select-value {
   color: white !important;
   overflow: visible;
   padding-right: 0px !important;
@@ -179,11 +187,13 @@
   @media (max-width: 990px) {
     display: none;
     max-width: 36px;
+    color: black !important;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: 800px) {
     display: block;
     margin-left: 12px !important;
+    color: black !important;
   }
 }
 
@@ -191,13 +201,14 @@
   display: none;
 }
 
-::ng-deep .lang-option-text .mat-option-text {
-  width: 0;
-  padding: 0;
-  font-size: 0.7rem;
-  font-weight: bold;
+::ng-deep .lang-option-text .mdc-list-item__primary-text {
+  padding: 0 !important;
+  width: 100%;
+  font-size: 0.7rem !important;
+  font-weight: bold !important;
   font-family: 'Open Sans', sans-serif;
-  text-align: center;
+  text-align: center !important;
+  color: #000 !important;
   background-color: white !important;
 
   &:hover {
@@ -257,5 +268,24 @@
     .login {
       width: 11rem;
     }
+  }
+}
+
+::ng-deep .lang-panel {
+  padding: 0 !important;
+  width: 64px !important;
+  top: -30px !important;
+  left: -14px;
+  .mat-mdc-option {
+    width: 64px !important;
+    padding: 0 !important;
+    min-height: 33px !important;
+  }
+  @media (max-width: 990px) {
+    left: -25px;
+  }
+
+  @media (max-width: 800px) {
+    left: -10px;
   }
 }

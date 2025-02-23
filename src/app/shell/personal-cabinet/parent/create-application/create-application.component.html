@@ -19,7 +19,7 @@
                 name="child"
                 placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
                 disableOptionCentering
-                panelClass="dropdown-panel"
+                panelClass="dropdown-panel select-with-form-field"
                 [ngClass]="!isAllowChildToApply && ChildFormControl.value?.id ? 'redBorder step-input' : 'step-input'"
                 [formControl]="ChildFormControl"
                 (selectionChange)="onSelectChild($event)">

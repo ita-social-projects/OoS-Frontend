@@ -14,7 +14,7 @@
           <mat-select
             formControlName="achievementTypeId"
             disableOptionCentering
-            panelClass="dropdown-panel"
+            panelClass="dropdown-panel select-with-form-field" 
             class="step-input"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
             <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id">
@@ -39,8 +39,9 @@
               <mat-select
                 multiple
                 disableOptionCentering
+                [ngClass]="childrenFormControl.value?.length ? 'select-with-tags' : ''"
                 formControlName="children"
-                panelClass="dropdown-panel"
+                panelClass="dropdown-panel select-with-form-field" 
                 class="step-input"
                 placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
                 [compareWith]="compareEntities">
@@ -98,9 +99,10 @@
           <mat-form-field appearance="fill" id="teachers">
             <mat-select
               multiple
+              [ngClass]="teachersFormControl.value?.length ? 'select-with-tags' : ''"
               disableOptionCentering
               formControlName="teachers"
-              panelClass="dropdown-panel"
+              panelClass="dropdown-panel select-with-form-field" 
               class="step-input"
               placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
               [compareWith]="compareEntities">

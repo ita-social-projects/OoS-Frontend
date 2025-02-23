@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ChildDeclination, WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
@@ -28,7 +28,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   constructor(private translateCases: TranslateCasesPipe) {}
 
   public get panelClasses(): string[] {
-    return this.shouldRemoveApplicationDropdown ? ['dropdown-panel'] : ['dropdown-panel', 'application-dropdown'];
+    return this.shouldRemoveApplicationDropdown ? ['checkbox-dropdown-panel'] : ['checkbox-dropdown-panel', 'application-dropdown'];
   }
 
   public ngOnInit(): void {

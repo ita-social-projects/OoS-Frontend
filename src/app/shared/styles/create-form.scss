@@ -256,3 +256,23 @@ button:focus {
 .removeChild {
   margin: 1rem 0;
 }
+
+::ng-deep .mat-mdc-select {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  .mat-mdc-select-trigger {
+    font-size: 13px !important;
+  }
+}
+
+::ng-deep .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after, 
+::ng-deep .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
+  color: var(--mat-option-selected-state-label-text-color) !important; 
+}
+
+::ng-deep .select-with-form-field {
+  position: absolute !important;
+  top: -37px !important;
+  left: 15px;
+}
