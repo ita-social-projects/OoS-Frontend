@@ -10,8 +10,8 @@ export enum ImportEmployeesColumnsNames {
 export enum ImportEmployeesStandardHeaders {
   sequenceNumber = '№',
   employeeSurname = 'Прізвище',
-  employeeName = 'Імя',
-  employeeFatherName = 'По батькові',
+  employeeName = 'Ім\'я',
+  employeeFatherName = 'По-батькові',
   employeeRNOKPP = 'РНОКПП',
   employeeAssignedRole = 'Призначені ролі'
 }

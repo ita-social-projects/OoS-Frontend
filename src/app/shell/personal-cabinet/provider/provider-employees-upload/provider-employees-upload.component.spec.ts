@@ -55,8 +55,8 @@ describe('ProviderEmployeesUploadComponent', () => {
     const importEmployeesStandardHeaders = {
       sequenceNumber: '№',
       employeeSurname: 'Прізвище',
-      employeeName: 'Імя',
-      employeeFatherName: 'По батькові',
+      employeeName: 'Ім\'я',
+      employeeFatherName: 'По-батькові',
       employeeRNOKPP: 'РНОКПП',
       employeeAssignedRole: 'Призначені ролі'
     };
