@@ -40,6 +40,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
+    this.overrideTouchEvent(this.workdaysFormControl);
     this.endTimeFormControl.setValidators(TimeFormatValidator);
     this.startTimeFormControl.setValidators(TimeFormatValidator);
 
@@ -128,5 +129,13 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   public markWorkDaysAsTouched(): void {
     this.workdaysFormControl.markAsTouched();
     this.workdaysFormControl.setErrors({ required: true });
+  }
+
+  private overrideTouchEvent(control: FormControl): void {
+    const originalMethod = control.markAsTouched;
+    control.markAsTouched = function (): void {
+      originalMethod.apply(this, arguments);
+      (control.statusChanges as EventEmitter<any>).emit();
+    };
   }
 }
