@@ -110,4 +110,4 @@ class MockTeacherFormComponent {
   selector: 'app-image-form-control',
   template: ''
 })
-class MockImageFormControlComponent { }
+class MockImageFormControlComponent {}

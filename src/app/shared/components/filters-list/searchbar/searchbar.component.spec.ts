@@ -163,7 +163,7 @@ describe('SearchbarComponent', () => {
 
     jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(JSON.stringify(mockResults));
 
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { });
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
 
     (component as any).searchedText = duplicateSearch;
     (component as any).previousResults = mockResults;

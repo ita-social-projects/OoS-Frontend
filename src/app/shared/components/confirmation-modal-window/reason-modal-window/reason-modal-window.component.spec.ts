@@ -37,7 +37,7 @@ describe('ReasonModalWindowComponent', () => {
             property: 'test'
           }
         },
-        { provide: MatDialogRef, useValue: { close: () => { } } },
+        { provide: MatDialogRef, useValue: { close: () => {} } },
         FormBuilder
       ]
     }).compileComponents();

@@ -245,4 +245,4 @@ class MockListAdminChildrenPaginatorComponent {
   } as AdminStateModel
 })
 @Injectable()
-class MockAdminState { }
+class MockAdminState {}

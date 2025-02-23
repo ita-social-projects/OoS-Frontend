@@ -96,4 +96,4 @@ export class MockNoResultCardComponent {
   } as AdminStateModel
 })
 @Injectable()
-class MockAdminState { }
+class MockAdminState {}

@@ -122,4 +122,4 @@ class MockValidationHintForInputComponent {
   } as AdminStateModel
 })
 @Injectable()
-class MockAdminState { }
+class MockAdminState {}

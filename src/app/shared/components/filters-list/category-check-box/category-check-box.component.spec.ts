@@ -111,4 +111,4 @@ const mockDirections: Direction[] = [
   }
 })
 @Injectable()
-class MockMetaDataState { }
+class MockMetaDataState {}

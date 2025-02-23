@@ -170,3 +170,16 @@ h4 {
     left: 25%;
   }
 }
+
+::ng-deep .city-filter-option {
+  .mdc-list-item__primary-text {
+    font-size: 16px !important;
+  }
+  .option-sub-text {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+}

@@ -224,4 +224,4 @@ class MockValidationHintForInputComponent {
   }
 })
 @Injectable()
-class MockMetaDataState { }
+class MockMetaDataState {}
