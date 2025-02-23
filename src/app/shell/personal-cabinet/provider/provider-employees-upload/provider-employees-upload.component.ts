@@ -7,7 +7,6 @@ import { Employee, FieldsConfig, RenamedEmployee } from 'shared/models/admin-imp
 import { EmployeeUploadProcessorService } from 'shared/services/employee-upload-processor/employee-upload-processor.service';
 import { ExcelUploadProcessorService } from 'shared/services/excel-upload-processor/excel-upload-processor.service';
 import { ImportValidationService } from 'shared/services/import-validation/import-validation.service';
-import { ModeConstants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-provider-employees-upload',
@@ -68,6 +67,4 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
       lastName: item?.employeeSurname
     }));
   }
-
-  protected readonly ModeConstants = ModeConstants;
 }

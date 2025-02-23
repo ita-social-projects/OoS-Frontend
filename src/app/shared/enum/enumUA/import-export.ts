@@ -10,8 +10,8 @@ export enum ImportEmployeesColumnsNames {
 export enum ImportEmployeesStandardHeaders {
   sequenceNumber = '№',
   employeeSurname = 'Прізвище',
-  // eslint-disable-next-line @typescript-eslint/quotes
-  employeeName = "Ім'я",
+  // eslint-disable-next-line prettier/prettier
+  employeeName = 'Ім\'я',
   employeeFatherName = 'По батькові',
   employeeRNOKPP = 'РНОКПП',
   employeeAssignedRole = 'Призначені ролі'
