@@ -11,7 +11,7 @@ export enum ImportEmployeesStandardHeaders {
   sequenceNumber = '№',
   employeeSurname = 'Прізвище',
   employeeName = 'Ім\'я',
-  employeeFatherName = 'По-батькові',
+  employeeFatherName = 'По батькові',
   employeeRNOKPP = 'РНОКПП',
   employeeAssignedRole = 'Призначені ролі'
 }
