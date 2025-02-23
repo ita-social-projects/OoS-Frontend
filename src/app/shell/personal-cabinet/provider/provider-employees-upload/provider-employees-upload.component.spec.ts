@@ -55,6 +55,7 @@ describe('ProviderEmployeesUploadComponent', () => {
     const importEmployeesStandardHeaders = {
       sequenceNumber: '№',
       employeeSurname: 'Прізвище',
+      // eslint-disable-next-line prettier/prettier
       employeeName: 'Ім\'я',
       employeeFatherName: 'По батькові',
       employeeRNOKPP: 'РНОКПП',
