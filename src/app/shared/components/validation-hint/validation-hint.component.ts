@@ -133,7 +133,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     const requiredPattern = errors?.pattern?.requiredPattern.toString();
 
     const errorConditions = [
-      // Value validation
+      // Number validation
       {
         condition: () => this.isNumberValue && (errors.max || errors.min),
         message: ValidationMessages.INVALID_VALUE
