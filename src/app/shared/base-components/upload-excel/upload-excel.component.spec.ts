@@ -283,4 +283,18 @@ describe('UploadExcelComponent', () => {
       expect(component.isWarningVisible).toBe(isCorrectLength);
     });
   });
+
+  describe('triggerFileInput method test', () => {
+    it('should clear the file input value and trigger click', () => {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      const clickSpy = jest.spyOn(fileInput, 'click');
+
+      component.triggerFileInput(fileInput);
+
+      expect(fileInput.value).toBe('');
+
+      expect(clickSpy).toHaveBeenCalled();
+    });
+  });
 });
