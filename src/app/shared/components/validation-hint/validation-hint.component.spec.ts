@@ -152,7 +152,7 @@ describe('ValidationHintComponent', () => {
       expect(component.errors).toContain(ValidationMessages.INVALID_EDRPO_IPN);
     });
 
-    it('should add INVALID_LENGTH_FROM_TO (generic field length error) if minlength/maxlength errors are present', () => {
+    it('should add INVALID_LENGTH_NO_MORE_THAN (generic field length error) if minlength/maxlength errors are present', () => {
       errors = { minlength: true, maxlength: true };
 
       (component as any).checkValidationErrors(errors);
