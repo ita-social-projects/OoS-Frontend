@@ -18,7 +18,7 @@
           {{ 'FROM' | translate }}
         </p>
         <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off" />
-        <mat-icon class="clear-price" (keydown.enter)="clearMax()" (click)="clearMin()">clear</mat-icon>
+        <mat-icon class="clear-price" (keydown.enter)="clearMin()" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
     <mat-form-field class="price-filter">

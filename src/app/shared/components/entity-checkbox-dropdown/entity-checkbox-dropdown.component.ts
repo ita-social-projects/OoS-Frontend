@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ChildDeclination, WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
