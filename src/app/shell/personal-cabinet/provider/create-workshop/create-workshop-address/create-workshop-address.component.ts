@@ -8,6 +8,8 @@ import { Address } from 'shared/models/address.model';
 import { Geocoder } from 'shared/models/geolocation';
 import { SocialNetworks } from 'shared/enum/workshop';
 import { Contacts } from 'shared/models/workshop.model';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
+import { Codeficator } from 'shared/models/codeficator.model';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -112,7 +114,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
         ]
       ],
       isDefault: false,
-      searchGroup: this.createSearchFormGroup(),
+      searchGroup: this.createSearchFormGroup(address?.address?.codeficatorAddressDto),
       address: this.createAddressForm(),
       phones: this.formBuilder.array([this.createPhoneFormGroup()]),
       emails: this.formBuilder.array([this.createEmailFormGroup()]),
@@ -186,7 +188,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   private createEmailFormGroup(): FormGroup {
     return this.formBuilder.group({
       type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-      address: new FormControl('', [Validators.required, FormValidators.email])
+      address: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
     });
   }
 
@@ -207,10 +209,10 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createSearchFormGroup(): FormGroup {
+  private createSearchFormGroup(codeficator?: Codeficator): FormGroup {
     return this.formBuilder.group({
-      settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-      settlement: new FormControl('')
+      settlementSearch: [codeficator?.settlement || '', FormValidators.defaultSearchValidators],
+      settlement: [codeficator || '']
     });
   }
 

@@ -152,6 +152,7 @@ export class ModeConstants {
   static readonly APPLICATION = 'application';
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
+  static readonly UNFINISHED = 'unfinished';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

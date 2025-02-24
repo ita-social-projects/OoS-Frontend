@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -27,13 +27,22 @@ import { UserWorkshopService } from 'shared/services/workshops/user-workshop/use
 import { PositionService } from 'shared/services/position/position.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
+import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
+import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
+import {
+  GetUnfinishedWorkshopTimeToLiveSuccess,
+  OnSaveWorkshopStep,
+  OnSaveWorkshopStepFail,
+  OnSaveWorkshopStepSuccess
+} from './provider.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
+  isDraftModalShown: boolean;
   achievements: SearchResponse<Achievement[]>;
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
@@ -45,12 +54,15 @@ export interface ProviderStateModel {
   pendingApplications: SearchResponse<Application[]>;
   positions: SearchResponse<Position[]>;
   selectedPosition: Position;
+  unfinishedWorkshop: WorkshopDraftState;
+  timeToLiveUnfinishedWorkshop: string | null;
 }
 
 @State<ProviderStateModel>({
   name: 'provider',
   defaults: {
     isLoading: false,
+    isDraftModalShown: false,
     approvedChildren: null,
     achievements: null,
     selectedAchievement: null,
@@ -61,7 +73,9 @@ export interface ProviderStateModel {
     truncatedItems: null,
     pendingApplications: null,
     positions: null,
-    selectedPosition: null
+    selectedPosition: null,
+    unfinishedWorkshop: null,
+    timeToLiveUnfinishedWorkshop: null
   }
 })
 @Injectable()
@@ -126,7 +140,17 @@ export class ProviderState {
   static pendingApplications(state: ProviderStateModel): SearchResponse<Application[]> {
     return state.pendingApplications;
   }
-
+  @Selector()
+  static hasUnfinishedWorkshopData(state: ProviderStateModel): boolean {
+    return Boolean(state.unfinishedWorkshop?.workshopForLoading);
+  }
+  @Selector() static isModalShown(state: ProviderStateModel): boolean {
+    return state.isDraftModalShown;
+  }
+  @Selector()
+  static getTimeToLiveUnfinishedWorkshop(state: ProviderStateModel): string | null {
+    return state.timeToLiveUnfinishedWorkshop;
+  }
   @Selector()
   static positions(state: ProviderStateModel): SearchResponse<Position[]> {
     return state.positions;
@@ -944,5 +968,127 @@ export class ProviderState {
   @Action(providerActions.OnGetPositionByIdFail)
   onGetPositionByIdFail({ dispatch }: StateContext<ProviderStateModel>, payload: providerActions.OnDeletePositionFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.positionByIdNotFound, type: 'error' }));
+  }
+
+  @Action(OnSaveWorkshopStep)
+  onSaveWorkshopStep(ctx: StateContext<ProviderStateModel>, action: OnSaveWorkshopStep): Observable<string | void> {
+    ctx.patchState({ isLoading: true });
+    const currentState = ctx.getState().unfinishedWorkshop || {};
+    const { step, data } = action.payload;
+    const combinedPayload = {
+      ...currentState.step1,
+      ...currentState.step2,
+      ...currentState.step3,
+      ...currentState.step4,
+      ...data
+    };
+
+    return this.userWorkshopService.saveWorkshopStep(combinedPayload).pipe(
+      tap(() => ctx.dispatch(new OnSaveWorkshopStepSuccess({ step, data }))),
+      catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveWorkshopStepFail(error)))
+    );
+  }
+
+  @Action(OnSaveWorkshopStepSuccess)
+  onSaveWorkshopStepSuccess(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepSuccess): void {
+    const currentState = ctx.getState().unfinishedWorkshop || {};
+    ctx.patchState({
+      isLoading: false,
+      unfinishedWorkshop: {
+        ...currentState,
+        [`step${payload.step}`]: payload.data
+      }
+    });
+  }
+
+  @Action(OnSaveWorkshopStepFail)
+  onSaveWorkshopStepFail(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepFail): void {
+    ctx.patchState({ isLoading: false });
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedWorkshop)
+  deleteUnfinishedWorkshop(ctx: StateContext<ProviderStateModel>): Observable<void> {
+    ctx.patchState({ isLoading: true });
+    return this.userWorkshopService.deleteUnfinishedWorkshop().pipe(
+      tap(() => {
+        ctx.dispatch(new providerActions.OnDeleteUnfinishedWorkshopSuccess());
+      }),
+      catchError((error: HttpErrorResponse) => ctx.dispatch(new providerActions.OnDeleteUnfinishedWorkshopFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedWorkshopFail)
+  onDeleteUnfinishedWorkshopFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteUnfinishedWorkshopFail): void {
+    ctx.patchState({ isLoading: false });
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.deleteDraftFail, type: 'error' }));
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedWorkshopSuccess)
+  onDeleteUnfinishedWorkshopSuccess(ctx: StateContext<ProviderStateModel>): void {
+    ctx.patchState({ unfinishedWorkshop: null, isLoading: false });
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshop)
+  getUnfinishedWorkshop(ctx: StateContext<ProviderStateModel>): Observable<Workshop> {
+    ctx.patchState({ isLoading: true });
+
+    return this.userWorkshopService.getUnfinishedWorkshop().pipe(
+      tap((workshop: Workshop) => {
+        ctx.dispatch(new providerActions.GetUnfinishedWorkshopSuccess(workshop));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        ctx.dispatch(new providerActions.GetUnfinishedWorkshopFail(error));
+        return of({} as Workshop);
+      })
+    );
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshopSuccess)
+  getUnfinishedWorkshopSuccess(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopSuccess): void {
+    const draftState: WorkshopDraftState = workshopToDraftState(payload);
+    ctx.patchState({
+      unfinishedWorkshop: draftState,
+      isLoading: false
+    });
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshopFail)
+  onGetUnfinishedWorkshopFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopFail): void {
+    ctx.patchState({ isLoading: false, unfinishedWorkshop: null });
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getDraftFail, type: 'error' }));
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshopTimeToLive)
+  getUnfinishedWorkshopTimeToLive(ctx: StateContext<ProviderStateModel>): Observable<string> {
+    ctx.patchState({ isLoading: true });
+    return this.userWorkshopService.getTimeToLiveOfUnfinishedWorkshop().pipe(
+      tap((response: string) => {
+        ctx.dispatch(new providerActions.GetUnfinishedWorkshopTimeToLiveSuccess(response));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        ctx.dispatch(new providerActions.GetUnfinishedWorkshopTimeToLiveFail(error));
+        return of('');
+      })
+    );
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshopTimeToLiveSuccess)
+  onGetDraftTimeToLiveSuccess(
+    ctx: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetUnfinishedWorkshopTimeToLiveSuccess
+  ): void {
+    ctx.patchState({ timeToLiveUnfinishedWorkshop: payload, isLoading: false });
+  }
+
+  @Action(providerActions.GetUnfinishedWorkshopTimeToLiveFail)
+  onGetDraftTimeToLiveFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopTimeToLiveFail): void {
+    ctx.patchState({ isLoading: false });
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
+  }
+
+  @Action(providerActions.SetDraftModalShown)
+  setDraftModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetDraftModalShown): void {
+    ctx.patchState({ isDraftModalShown: payload });
   }
 }

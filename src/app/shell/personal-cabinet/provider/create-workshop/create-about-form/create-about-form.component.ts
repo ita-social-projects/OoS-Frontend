@@ -14,6 +14,7 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -49,7 +50,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly InfoMenuType = InfoMenuType;
 
   public AboutFormGroup: FormGroup;
-  public workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
+  public dateTimeRangesArray: FormArray = new FormArray([], [Validators.required]);
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
@@ -178,8 +179,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         image: new FormControl(''),
-        price: new FormControl({ value: null, disabled: true }, [Validators.required]),
-        workingHours: this.workingHoursFormArray,
+        price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+        dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
         payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
         coverImage: new FormControl(''),

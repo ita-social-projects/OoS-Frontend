@@ -700,6 +700,7 @@
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
     "ARCHIVE": "Archive",
+    "CONTINUE": "Continue",
     "USE_ADDRESS_AS_PRIMARY": "Use as primary",
     "TRY_AGAIN": "Try again"
   },
@@ -923,7 +924,11 @@
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Image size is too small.",
       "ERROR_FOR_BIG_IMG_SIZE": "Image size is too big.",
-      "ERROR_DEFAULT_TEACHER": "You must choose default teacher"
+      "ERROR_DEFAULT_TEACHER": "You must choose default teacher",
+      "GET_DRAFT_FAIL": "Failed to get draft",
+      "GET_TIME_TO_LIVE_FAIL": "Failed to get time to live draft",
+      "DELETE_DRAFT_FAIL": "Failed to delete draft",
+      "DELETE_DRAFT_SUCCESS": "Draft deleted successfully"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
@@ -973,6 +978,7 @@
       "LICENSE_APPROVED": "Are you sure you want to confirm the provider's license?",
       "PUBLISH_WORKSHOP": "Are you sure you want to publish workshop?",
       "ARCHIVE_WORKSHOP": "If you delete a direction, all Profiles, Departments, and Classes associated with it will also be deleted.",
+      "INCOMPLETE_WORKSHOP": "The workshop is incomplete. You can continue its creating or delete it.",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1019,7 +1025,8 @@
         "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
         "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
         "PUBLISH_WORKSHOP": "Publish workshop?",
-        "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?"
+        "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?",
+        "INCOMPLETE_WORKSHOP": "Incomplete workshop"
       }
     }
   },
@@ -1034,6 +1041,13 @@
   },
   "MORE": "...More",
   "LESS": "...Less",
+  "PROVIDER_DRAFT": {
+    "TITLE": "Unfinished Workshop Creation",
+    "DETAILS": "You have an unfinished workshop creation process. Please complete it or cancel the current process to start a new one.",
+    "EDIT_LINK": "Continue Creation",
+    "CANCEL_LINK": "Undo Creation",
+    "DRAFT_WARNING": "You have an unfinished workshop creation process. Click the Workshops tab to complete the process."
+  },
   "IMPORT/EXPORT": {
     "SELECT_FILE": "Select file",
     "SELECT_ANOTHER_FILE": "Select another file",
