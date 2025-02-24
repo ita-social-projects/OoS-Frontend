@@ -32,7 +32,6 @@ import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
-import { BannerMode } from 'shared/enum/bannerMode';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -117,7 +116,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineRelease();
     this.addNavPath();
     const param = this.getRouteParam();
-    if (param === BannerMode.Unfinished) {
+    if (param === ModeConstants.UNFINISHED) {
       this.loadUnfinishedWorkshopData();
     }
   }
@@ -150,7 +149,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public setEditMode(): void {
     const param = this.getRouteParam();
-    if (param === BannerMode.Unfinished) {
+    if (param === ModeConstants.UNFINISHED) {
       this.loadUnfinishedWorkshopData();
       this.editMode = false;
     } else {
