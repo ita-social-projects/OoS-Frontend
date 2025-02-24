@@ -1,69 +1,86 @@
-<div class="import-buttons">
+<div class="import-buttons flex flex-col">
   <div class="file-actions">
-    <div>
-      <button class="submit-btn" type="button" mat-raised-button (click)="fileInput.click()">
-        {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
-      </button>
-      <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
-      <span class="file-name">{{ selectedFile?.name }}</span>
-    </div>
-    <div class="loader-container">
-      <div class="loader" *ngIf="isLoading"></div>
-    </div>
-    <button
-      *ngIf="dataSource && !loadSuccess && !loadFailure && !isLoading"
-      class="btn"
-      mat-raised-button
-      [disabled]="!!dataSourceInvalid.length"
-      (click)="sendValidItems()">
-      {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
-    </button>
-    <div class="load-result load-result-success" *ngIf="loadSuccess">
-      <mat-icon class="material-icons"> check_circle </mat-icon>
-      <p>{{ 'IMPORT/EXPORT.UPLOAD_SUCCESS' | translate }}</p>
-    </div>
-    <div class="load-result load-result-error" *ngIf="loadFailure">
-      <mat-icon class="material-icons"> cancel </mat-icon>
-      <p>{{ 'IMPORT/EXPORT.UPLOAD_FAILURE' | translate }}</p>
+    <div class="add-wrapper">
+      <p class="text">{{ 'BANNERS.UPLOAD_EMPLOYEE' | translate }}</p>
+      <div class="flex items-center">
+        <button mat-raised-button class="btn" type="button" (click)="fileInput.click()">
+          {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
+        </button>
+        <app-info-menu [isBigIcon]="true">
+          <p>
+            <b> {{ 'IMPORT/EXPORT.FILE_EXTENSION' | translate }} <i>.xlsx</i></b>
+          </p>
+          <p>
+            № | {{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_SURNAME' | translate }} |
+            {{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_NAME' | translate }} |
+            {{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_FATHER_NAME' | translate }} |
+            {{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_RNOKPP' | translate }} |
+            {{ 'IMPORT/EXPORT.EMPLOYEE_LIST.EMPLOYEE_ASSIGNED_ROLE' | translate }}
+          </p>
+        </app-info-menu>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
+        <div class="loader" *ngIf="isLoading"></div>
+        <span class="file-name">{{ selectedFile?.name }}</span>
+      </div>
     </div>
   </div>
-  <div class="errors-menu">
-    <div class="length-warning" *ngIf="isWarningVisible">
-      <mat-card-subtitle>{{ 'IMPORT/EXPORT.HUNDRED_WARNING' | translate }}</mat-card-subtitle>
-    </div>
-    <ng-container *ngIf="dataSourceInvalid?.length">
-      <mat-slide-toggle [(ngModel)]="isToggle" class="custom-color-toggle" color="warn">
-        <span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }}</span>
-        <span class="incorrect-row-number">{{ dataSourceInvalid.length }}</span>
-      </mat-slide-toggle>
-    </ng-container>
-    <app-info-menu *ngIf="dataSourceInvalid?.length" class="errors-types-tooltip" [isBigIcon]="true">
-      <div class="errors-types">
-        <h3>{{ 'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate }}</h3>
-        <ul>
-          <li>
-            <div class="color-box error-field-duplicate"></div>
-            <p>{{ 'IMPORT/EXPORT.ERRORS.DATA_DUPLICATE' | translate }}</p>
-          </li>
-          <li>
-            <div class="color-box error-field-empty"></div>
-            <p>{{ 'IMPORT/EXPORT.ERRORS.MISSING_INFO_EMPTY_FIELD' | translate }}</p>
-          </li>
-          <li>
-            <div class="color-box error-field-wrong-length"></div>
-            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LENGTH' | translate }}</p>
-          </li>
-          <li>
-            <div class="color-box error-field-wrong-format"></div>
-            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_FORMAT' | translate }}</p>
-          </li>
-          <li>
-            <div class="color-box error-field-wrong-language"></div>
-            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LANGUAGE' | translate }}</p>
-          </li>
-        </ul>
+  <div class="errors-menu justify-between">
+    <div>
+      <div class="load-result load-result-success" *ngIf="loadSuccess">
+        <mat-icon class="material-icons">check_circle</mat-icon>
+        <p>{{ 'IMPORT/EXPORT.UPLOAD_SUCCESS' | translate }}</p>
       </div>
-    </app-info-menu>
+      <div class="load-result load-result-error" *ngIf="loadFailure">
+        <mat-icon class="material-icons">cancel</mat-icon>
+        <p>{{ 'IMPORT/EXPORT.UPLOAD_FAILURE' | translate }}</p>
+      </div>
+    </div>
+    <div>
+      <button
+        *ngIf="dataSource && !loadSuccess && !loadFailure && !isLoading"
+        class="btn"
+        mat-raised-button
+        [disabled]="!!dataSourceInvalid.length"
+        (click)="sendValidItems()">
+        {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
+      </button>
+      <div class="length-warning" *ngIf="isWarningVisible">
+        <mat-card-subtitle>{{ 'IMPORT/EXPORT.HUNDRED_WARNING' | translate }}</mat-card-subtitle>
+      </div>
+      <ng-container *ngIf="dataSourceInvalid?.length">
+        <mat-slide-toggle [(ngModel)]="isToggle" class="custom-color-toggle" color="warn">
+          <span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }}</span>
+          <span class="incorrect-row-number">{{ dataSourceInvalid.length }}</span>
+        </mat-slide-toggle>
+      </ng-container>
+      <app-info-menu *ngIf="dataSourceInvalid?.length" class="errors-types-tooltip" [isBigIcon]="true">
+        <div class="errors-types">
+          <h3>{{ 'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate }}</h3>
+          <ul>
+            <li>
+              <div class="color-box error-field-duplicate"></div>
+              <p>{{ 'IMPORT/EXPORT.ERRORS.DATA_DUPLICATE' | translate }}</p>
+            </li>
+            <li>
+              <div class="color-box error-field-empty"></div>
+              <p>{{ 'IMPORT/EXPORT.ERRORS.MISSING_INFO_EMPTY_FIELD' | translate }}</p>
+            </li>
+            <li>
+              <div class="color-box error-field-wrong-length"></div>
+              <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LENGTH' | translate }}</p>
+            </li>
+            <li>
+              <div class="color-box error-field-wrong-format"></div>
+              <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_FORMAT' | translate }}</p>
+            </li>
+            <li>
+              <div class="color-box error-field-wrong-language"></div>
+              <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LANGUAGE' | translate }}</p>
+            </li>
+          </ul>
+        </div>
+      </app-info-menu>
+    </div>
   </div>
 </div>
 
