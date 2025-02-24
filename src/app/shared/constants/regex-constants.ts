@@ -17,6 +17,9 @@ export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 // Regex for EDRPOU and IPN
 export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;
 
+// RegEx for RNOKPP/drfocode from Diya
+export const RNOKPP_drfocode: RegExp = /^\d{10}$|^\d{9}$|^[А-Яа-яЄєІіЇїҐґ]{2}\d{6}$/;
+
 // Regex for RNOKPP
 export const RNOKPP_REGEX: RegExp = /^(\d{10})$/;
 
