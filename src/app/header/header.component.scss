@@ -167,10 +167,11 @@
 }
 
 ::ng-deep .lang-option {
-  color: white !important;
-  font-weight: 700 !important;
+  color: white;
+  
   .mat-mdc-select-min-line {
     font-size: 0.7rem;
+    font-weight: 700;
   }
 
   .mat-mdc-select-arrow {
@@ -207,12 +208,12 @@
   font-size: 0.7rem !important;
   font-weight: bold !important;
   font-family: 'Open Sans', sans-serif;
-  text-align: center !important;
+  text-align: center ;
   color: #000 !important;
-  background-color: white !important;
+  background-color: white;
 
   &:hover {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 }
 
@@ -273,13 +274,13 @@
 
 ::ng-deep .lang-panel {
   padding: 0 !important;
-  width: 64px !important;
+  width: 64px;
   top: -30px !important;
   left: -14px;
   .mat-mdc-option {
-    width: 64px !important;
-    padding: 0 !important;
-    min-height: 33px !important;
+    width: 64px;
+    padding: 0;
+    min-height: 33px;
   }
   @media (max-width: 990px) {
     left: -25px;
