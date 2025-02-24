@@ -4,18 +4,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, tap } from 'rxjs';
 import { EventEmitter, SimpleChange } from '@angular/core';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
-import { ValidationMessages } from 'shared/constants/validation-messages';
+import { ValidationMessages } from 'shared/enum/validation-messages';
 import { ValidationHintComponent } from './validation-hint.component';
 
 describe('ValidationHintComponent', () => {
   let component: ValidationHintComponent;
   let fixture: ComponentFixture<ValidationHintComponent>;
-
-  class MockTranslateService {
-    get(key: string): string {
-      return key;
-    }
-  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -245,7 +239,6 @@ describe('ValidationHintComponent', () => {
 
     beforeEach(() => {
       control = component.validationFormControl as FormControl;
-      formControlHasErrorSpy = jest.spyOn(control, 'hasError');
     });
 
     it('should add INVALID_DATE_FIELD if matDatepickerParse error exists', () => {
@@ -262,7 +255,6 @@ describe('ValidationHintComponent', () => {
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerParse');
       expect(component.errors).not.toContain(ValidationMessages.INVALID_DATE_FIELD);
     });
 
@@ -271,7 +263,6 @@ describe('ValidationHintComponent', () => {
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerMin');
       expect(component.errors).toContain(ValidationMessages.INVALID_DATE_RANGE);
     });
 
@@ -280,7 +271,6 @@ describe('ValidationHintComponent', () => {
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(formControlHasErrorSpy).toHaveBeenCalledWith('matDatepickerMax');
       expect(component.errors).toContain(ValidationMessages.INVALID_DATE_RANGE);
     });
 
@@ -289,7 +279,6 @@ describe('ValidationHintComponent', () => {
 
       (component as any).checkValidationErrors(control.errors);
 
-      expect(formControlHasErrorSpy).toHaveBeenCalled();
       expect(component.errors).not.toContain(ValidationMessages.INVALID_DATE_RANGE);
     });
   });
