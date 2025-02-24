@@ -56,8 +56,16 @@ export class UploadExcelComponent<DataSource extends { errors: ValidationError; 
     this.isWarningVisible = isArrayTruncated;
   }
 
+  public triggerFileInput(fileInput: HTMLInputElement): void {
+    fileInput.value = '';
+    fileInput.click();
+  }
+
   public onFileSelected(event: Event): void {
     const target = event.target as HTMLInputElement;
+    if (!target.files || target.files.length === 0) {
+      return;
+    }
     this.selectedFile = target.files[0];
     this.isLoading = true;
     this.resetValues();
