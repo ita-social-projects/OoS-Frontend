@@ -4,7 +4,7 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, V
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { asyncScheduler, Observable, of, zip } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
@@ -78,33 +78,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     3: (): void =>
       this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
     4: (): void => {
-      const contacts = this.createContacts();
-      const contactsToUpdate = contacts.map((contact) => {
-        if (contact.address?.catottgId) {
-          this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
-
-          return this.codeficator$.pipe(
-            filter((codeficator) => codeficator?.id === contact.address.catottgId),
-            take(1),
-            map((codeficatorData) => ({
-              ...contact,
-              address: new Address({
-                ...contact.address,
-                codeficatorAddressDto: codeficatorData
-              })
-            }))
-          );
-        }
-        return of(contact);
-      });
-
-      combineLatest(contactsToUpdate).subscribe((updatedContacts) => {
-        this.dispatchUnfinishedData(4, {
-          ...this.AdditionalAboutGroup.value,
-          ...this.DescriptionFormGroup.getRawValue(),
-          contacts: updatedContacts
-        });
-      });
+      this.handleContactsStep();
     }
   };
 
@@ -119,10 +93,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
-    const isUnfinished: boolean = this.getRouteParam() === BannerMode.Unfinished;
-    if (isUnfinished) {
-      return false;
-    }
     return (
       (!this.AboutFormGroup.dirty &&
         !this.DescriptionFormGroup.dirty &&
@@ -332,6 +302,36 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private dispatchUnfinishedData(step: number, extraData = {}): void {
     const data = this.createDraftData(step, extraData);
     this.store.dispatch(new OnSaveWorkshopStep({ data, step }));
+  }
+
+  private handleContactsStep(): void {
+    const contacts = this.createContacts();
+    const contactsToUpdate = contacts.map((contact) => {
+      if (contact.address?.catottgId) {
+        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+
+        return this.codeficator$.pipe(
+          filter((codeficator) => codeficator?.id === contact.address.catottgId),
+          take(1),
+          map((codeficatorData) => ({
+            ...contact,
+            address: new Address({
+              ...contact.address,
+              codeficatorAddressDto: codeficatorData
+            })
+          }))
+        );
+      }
+      return of(contact);
+    });
+
+    zip(...contactsToUpdate).subscribe((updatedContacts) => {
+      this.dispatchUnfinishedData(4, {
+        ...this.AdditionalAboutGroup.value,
+        ...this.DescriptionFormGroup.getRawValue(),
+        contacts: updatedContacts
+      });
+    });
   }
 
   private getFirstInvalidStep(): number {
