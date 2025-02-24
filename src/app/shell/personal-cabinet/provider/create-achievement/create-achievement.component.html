@@ -148,6 +148,8 @@
             [matDatepicker]="picker"
             [min]="minDate"
             [max]="maxDate"
+            appDateInput
+            [appKeyFilter]="dateFilter"
             formControlName="achievementDate"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

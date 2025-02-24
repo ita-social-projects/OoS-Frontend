@@ -132,26 +132,23 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
+    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
-    const teachers = 'teachers';
 
     Object.keys(workshop).forEach((key: string) => {
       if (imageFiles.includes(key)) {
         workshop[key].forEach((file: File) => formData.append(key, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
-      } else if (key === teachers) {
-        for (let i = 0; i < workshop.teachers.length; i++) {
-          Object.keys(workshop.teachers[i]).forEach((teacherKey: string) => {
-            formData.append(`${teachers}[${i}].${teacherKey}`, workshop.teachers[i][teacherKey]);
-          });
-        }
       } else {
         formData.append(key, workshop[key]);
       }
     });
-
+    // Remove
+    formData.append('phone', '+380987654321');
+    formData.append('email', 'mock@gmail.com');
+    formData.append('address', JSON.stringify(workshop.contacts[0].address));
+    // Remove
     return formData;
   }
 }

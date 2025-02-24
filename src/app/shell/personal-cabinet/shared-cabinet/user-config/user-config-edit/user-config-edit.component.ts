@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
-import { NAME_REGEX } from 'shared/constants/regex-constants';
+import { DATE_REGEX, NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -46,6 +46,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   public role: Role;
   public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  protected readonly dateFilter = DATE_REGEX;
 
   constructor(
     protected route: ActivatedRoute,

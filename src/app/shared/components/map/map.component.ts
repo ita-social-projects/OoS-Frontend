@@ -30,6 +30,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public addressFormGroup: FormGroup;
   @Input() public settelmentFormGroup: FormGroup;
+  @Input() public mapId: string = 'default';
 
   @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
@@ -176,7 +177,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * method init start position on map
    */
   private initMap(): void {
-    this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
+    const mapElementId = `map-${this.mapId ?? 'default'}`;
+    const mapElement = document.getElementById(mapElementId);
+    if (!mapElement) {
+      console.error(`Map element with id ${mapElementId} not found`);
+      return;
+    }
+    this.map = Layer.map(mapElementId).setView(this.defaultCoords, this.zoom);
 
     Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
       updateWhenZooming: true,
@@ -237,14 +244,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setAddress(): void {
-    const address: Geocoder & { latitude: number; longitude: number } = this.addressFormGroup.getRawValue();
+    const address: Geocoder & { latitude: number; longitude: number } = this.addressFormGroup.get('address').getRawValue();
 
     if (address.catottgId) {
       this.setNewSingleMarker([address.latitude, address.longitude]);
     }
 
-    this.addressFormGroup.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
+    this.addressFormGroup
+      .get('address')
+      .valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$))
       .subscribe((value: Geocoder & { latitude: number; longitude: number }) => {
         if (this.addressFormGroup.valid) {
           this.addressDecode(value);

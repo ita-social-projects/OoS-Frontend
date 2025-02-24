@@ -44,7 +44,7 @@ describe('CreateTeacherComponent', () => {
     let markAsDirtySpy: jest.SpyInstance;
 
     beforeEach(() => {
-      mockIndex = 0;
+      mockIndex = 1;
       dialogOpenSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);

@@ -102,7 +102,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   public onLike(): void {
-    const param = new Favorite(this.workshopData.workshopId, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
+    const param = new Favorite(this.workshopData.id, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({
@@ -135,16 +135,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
       dialogRef.afterClosed().subscribe((res: boolean) => {
         if (res) {
-          this.store.dispatch(
-            new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
-          );
+          this.store.dispatch(new UpdateWorkshopStatus({ workshopId: this.workshopData.id, status: status }, this.workshopData.providerId));
         }
       });
     } else {
       this.dialog.open(WorkshopSeatsLackModalComponent, {
         width: Constants.MODAL_SMALL,
         data: {
-          workshopId: this.workshopData.workshopId,
+          workshopId: this.workshopData.id,
           workshopTitle: this.workshopData.title
         }
       });
@@ -173,7 +171,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         filter((favorites: Favorite[]) => !!favorites)
       )
       .subscribe((favorites: Favorite[]) => {
-        const favorite = favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+        const favorite = favorites.find((item: Favorite) => item.workshopId === this.workshopData.id);
         if (!!favorite) {
           this.favoriteWorkshopId = favorite.id;
           this.isFavorite = true;

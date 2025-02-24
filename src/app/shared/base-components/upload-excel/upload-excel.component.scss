@@ -9,70 +9,84 @@
 .sequence-number-cell-width {
   min-width: 30px;
 }
+
 .import-buttons {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   .submit-btn {
     margin-left: 1px;
   }
+
   .file-name {
     margin-left: 1rem;
   }
+
   .btn {
     text-transform: uppercase;
-    height: 40px;
-    margin-bottom: 10px;
   }
+
   .mat-raised-button {
     border-radius: 20px;
-    height: 40px;
-    margin-bottom: 10px;
+
     &:hover {
       color: white;
       background-color: #3849f9;
     }
   }
 }
+
 .file-actions {
-  display: flex;
+  width: 100%;
 }
+
 .errors-menu {
   display: flex;
   width: fit-content;
+
   .length-warning {
     max-width: 200px;
     line-height: 15px;
+
     mat-card-subtitle {
       color: $length-warning-message !important;
       animation: pulse 3s infinite;
     }
   }
+
   mat-slide-toggle {
     padding-top: 5px;
   }
+
   .incorrect-row {
     color: red;
   }
+
   .incorrect-row-number {
     color: red;
   }
 }
+
 .errors-types-tooltip {
   font-size: 20px;
   margin-bottom: 10px;
   display: flex;
 }
+
 .errors-types {
   margin: 20px 20px;
+
   ul {
     padding: 0;
     list-style-type: none;
+
     li {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
+
       .color-box {
         width: 30px;
         height: 15px;
@@ -83,18 +97,21 @@
     }
   }
 }
+
 .wrapper-provider-list {
   position: relative;
   margin-top: 2rem;
   display: flex;
   justify-content: center;
 }
+
 .wrapper-provider-list-container {
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;
   width: 95%;
 }
+
 .table-container {
   width: 100%;
   height: fit-content;
@@ -102,10 +119,12 @@
 
 .custom-table-style {
   width: inherit;
+
   th,
   td {
     padding-left: 5px;
   }
+
   td {
     max-width: 150px;
     text-overflow: ellipsis;
@@ -116,16 +135,19 @@
 
 .load-result {
   display: flex;
+
   p {
     line-height: 13px;
     margin-left: 5px;
   }
+
   &.load-result-success > mat-icon {
     width: fit-content;
     height: fit-content;
     color: #3849f9;
     font-size: 40px;
   }
+
   &.load-result-error > mat-icon {
     width: fit-content;
     height: fit-content;
@@ -138,27 +160,32 @@
   &-empty {
     background-color: $empty-field;
   }
+
   &-duplicate {
     background-color: $duplicated-value;
   }
+
   &-wrong-length {
     background-color: $wrong-length;
   }
+
   &-wrong-format {
     background-color: $wrong-format;
   }
+
   &-wrong-language {
     background-color: $wrong-language;
   }
 }
+
 .loader-container {
   height: 50px;
   margin-left: 15px;
   display: flex;
   align-items: center;
 }
+
 .loader {
-  align-self: baseline;
   margin: 15px;
   width: 8px;
   aspect-ratio: 1;
@@ -190,6 +217,7 @@
   }
   mat-slide-toggle {
     position: relative;
+
     .incorrect-row {
       display: none !important;
     }

@@ -8,7 +8,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
-import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { DATE_REGEX, MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -46,6 +46,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   private achievementsTypes$: Observable<AchievementType[]>;
 
   public workshop: Workshop;
+  protected readonly dateFilter = DATE_REGEX;
   private readonly validationConstants = ValidationConstants;
   private AchievementFormGroup: FormGroup;
   private achievement: Achievement;

@@ -7,6 +7,7 @@ import { catchError, retry, switchMap } from 'rxjs/operators';
 
 import { OnAuthFail } from 'shared/store/registration.actions';
 import { environment } from 'src/environments/environment';
+import { ERROR_HANDLED } from './error-handle.interceptor';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
@@ -22,6 +23,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
       return next.handle(request).pipe(
         retry(1),
         catchError((error: HttpErrorResponse) => {
+          if (request.context.get(ERROR_HANDLED)) {
+            return;
+          }
           this.store.dispatch(new OnAuthFail());
           return throwError(() => error);
         })

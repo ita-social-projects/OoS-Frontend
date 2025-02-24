@@ -82,6 +82,7 @@ export class PaginationConstants {
   static readonly CHATROOMS_PER_PAGE = 8;
   static readonly RATINGS_PER_PAGE = 12;
   static readonly TABLE_ITEMS_PER_PAGE = 12;
+  static readonly ITEMS_PER_PAGE = [8, 12, 16, 20];
 }
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {

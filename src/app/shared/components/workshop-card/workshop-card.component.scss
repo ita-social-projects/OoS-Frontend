@@ -5,17 +5,21 @@
 .card-img-mobile {
   width: 100%;
 }
+
 .horizontal {
   margin: 0;
 }
+
 .provider-content {
   min-height: 2rem;
 }
+
 .workshop-title-container {
   display: flex;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
+
   > span {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -30,20 +34,25 @@
   font-weight: 500;
   margin: 0.3rem 0 0.3rem;
 }
+
 .action-icon {
   color: #fff;
 }
+
 .favorite-icon {
   color: #ffbd00;
 }
+
 .provider-link {
   color: #3849f9;
   margin: 0.3rem 0;
 }
+
 .provider-link:hover {
   opacity: 0.5;
   color: #3849f9;
 }
+
 .horizontal-card {
   display: flex;
   flex-direction: row;
@@ -77,12 +86,16 @@
 .mat-mdc-card-content {
   flex: 1;
 }
+
 .more-details {
   width: fit-content;
+  line-height: 1;
+
   &:hover {
     cursor: pointer;
   }
 }
+
 .icon_launch {
   color: #3849f9;
   font-size: 18px !important;
@@ -91,6 +104,7 @@
   overflow: visible !important;
   margin-right: 5px;
   margin-top: 5px;
+
   &:hover {
     opacity: 0.5;
   }
@@ -107,13 +121,16 @@
   .horizontal-card {
     max-width: 100%;
     width: 90vw;
+
     .card-img {
       flex: 1;
     }
+
     .wrap-for-details {
       flex: 2;
       width: 50%;
     }
+
     .wrap-for-details-map {
       padding: 0.75rem;
 
@@ -121,23 +138,29 @@
         margin-bottom: 0.5rem;
       }
     }
+
     .card_text {
       margin: 0;
     }
+
     .mat-mdc-card-image {
       height: 150px;
       width: 150px;
     }
+
     .mat-mdc-card-header img {
       width: 21px;
       height: 21px;
     }
+
     .hide {
       display: none;
     }
+
     ::ng-deep .mat-mdc-card-header-text {
       margin: 0;
     }
+
     .card-title,
     .mat-mdc-card-header {
       font-size: 15px;

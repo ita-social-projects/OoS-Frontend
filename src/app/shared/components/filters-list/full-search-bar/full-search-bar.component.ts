@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { ValidationConstants } from 'shared/constants/validation';
 
 @Component({
   selector: 'app-full-search-bar',
@@ -8,13 +9,11 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class FullSearchBarComponent {
   @Input() public styleClass: string;
-  public displayErrorFormControl: FormControl = new FormControl(true, Validators.requiredTrue);
+  public displayErrorFormControl: FormControl = new FormControl();
 
-  public showErrorMessage(): void {
-    this.displayErrorFormControl.setValue(false);
-  }
+  public readonly validationConstants = ValidationConstants;
 
-  public hideErrorMessage(): void {
-    this.displayErrorFormControl.setValue(true);
+  public setErrorFormControl(searchBarFormControl: FormControl): void {
+    this.displayErrorFormControl = searchBarFormControl;
   }
 }

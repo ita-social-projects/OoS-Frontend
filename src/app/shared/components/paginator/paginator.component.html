@@ -25,7 +25,7 @@
     (selectionChange)="OnSelectOption($event)"
     placeholder="{{ itemsPerPage }}">
     <mat-option
-      *ngFor="let value of listOfValues"
+      *ngFor="let value of constants.ITEMS_PER_PAGE"
       [style.background]="value === itemsPerPage ? 'rgba(0,0,0,.04)' : 'auto'"
       [value]="value"
       class="dropdown-option">

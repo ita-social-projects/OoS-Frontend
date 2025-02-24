@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
+
 @font-face {
   font-family: 'Innerspace';
   src:
@@ -16,10 +17,11 @@ $config: mat.define-typography-config(
 );
 
 @mixin mat-button-toggle-typography($config) {
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle,
   .mat-button-toggle-button {
     @include mat.typography-level($config, button);
-    font-family: 'Open Sans', sans-serif;
+    font-family: Innerspace, sans-serif;
   }
 }
 
@@ -278,6 +280,10 @@ a {
   }
 }
 
+mat-card.mat-mdc-card {
+  box-shadow: none;
+}
+
 .mat-mdc-card-image:first-child {
   margin-top: 0 !important;
 }
@@ -387,7 +393,23 @@ button.mdc-button {
   }
 
   .mdc-button__label {
-    line-height: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mat-mdc-chip .mdc-evolution-chip__text-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mat-datepicker-toggle button.mdc-icon-button.mat-mdc-icon-button.mat-mdc-button-base {
+  height: 24px;
+  width: 24px;
+
+  .mat-datepicker-toggle-default-icon {
+    font-size: 20px;
   }
 }
 

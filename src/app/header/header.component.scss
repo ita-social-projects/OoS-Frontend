@@ -54,8 +54,6 @@
     padding: 6px;
 
     ::ng-deep .mdc-button__label {
-      display: flex;
-      align-items: center;
       gap: 4px;
     }
   }
@@ -128,6 +126,10 @@
   }
 }
 
+.header-disabled {
+  pointer-events: none;
+}
+
 .nav-mobile {
   display: flex;
   align-items: center;
@@ -139,6 +141,13 @@
   background: none !important;
   color: white !important;
   font-size: 0.7rem !important;
+
+  .mat-icon {
+    margin: 0;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
 }
 
 .menu .mat-icon {
@@ -195,6 +204,7 @@
     background-color: transparent !important;
   }
 }
+
 ::ng-deep .menu .mdc-button__label {
   line-height: 1.2;
 }

@@ -12,7 +12,7 @@ import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { Workshop, WorkshopAbout, Contacts } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
@@ -48,6 +48,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AdditionalAboutGroup: FormGroup;
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
+  public WorkshopContactsFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
 
@@ -59,6 +60,19 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     private router: Router
   ) {
     super(store, route, navigationBarService);
+  }
+
+  public get IsAllFormsNotDirtyAndInvalid(): boolean {
+    return (
+      (!this.AboutFormGroup.dirty &&
+        !this.DescriptionFormGroup.dirty &&
+        !this.WorkshopContactsFormArray.dirty &&
+        !this.TeacherFormArray?.dirty) ||
+      this.AboutFormGroup.invalid ||
+      this.DescriptionFormGroup.invalid ||
+      this.WorkshopContactsFormArray.invalid ||
+      this.TeacherFormArray?.invalid
+    );
   }
 
   public ngOnInit(): void {
@@ -117,7 +131,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   public onSubmit(): void | Observable<any> {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
+    const contacts = this.createContacts();
     const aboutInfo = this.createAbout();
     const additionalAboutInfo = this.AdditionalAboutGroup.getRawValue();
     const descInfo = this.DescriptionFormGroup.getRawValue();
@@ -130,10 +144,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, additionalAboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      workshop = new Workshop(aboutInfo, additionalAboutInfo, descInfo, address, teachers, provider);
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }
@@ -163,6 +177,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
     this.subscribeOnDirtyForm(form);
+  }
+
+  public onReceiveWorkshopContactsFormArray(array: FormArray): void {
+    this.WorkshopContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
@@ -200,6 +219,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }
+    if (aboutInfo.price === null) {
+      aboutInfo.price = 0;
+    }
     return aboutInfo;
   }
 
@@ -216,5 +238,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       });
     }
     return teachers;
+  }
+
+  private createContacts(): Contacts[] {
+    return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 }

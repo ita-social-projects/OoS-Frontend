@@ -2,6 +2,7 @@
 .map {
   height: 500px;
 }
+
 .text {
   text-align: center;
   font-family: Open Sans;
@@ -20,4 +21,67 @@
   display: block;
   color: red;
   font-size: 10px;
+}
+
+.accordion-title {
+  margin-left: 5px;
+}
+
+.contacts-wrapper {
+  border: 0;
+  border-top: 2px solid #e3e3e3;
+  border-bottom: 2px solid #e3e3e3;
+}
+
+.contacts-title {
+  text-align: center;
+}
+
+.accordion-item {
+  padding-left: 1px;
+  padding-right: 1px;
+  ::ng-deep .mat-expansion-panel-body,
+  .mat-expansion-panel-header {
+    padding: 0;
+  }
+  ::ng-deep .mat-expansion-panel {
+    border-radius: 0;
+  }
+  ::ng-deep .mat-expansion-indicator {
+    margin-right: 5px;
+  }
+}
+
+.mat-icon-delete {
+  margin: 0;
+  color: #3849f9;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.btn-add {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0;
+}
+
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
+}
+
+.step-input {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.spacer {
+  width: 64px;
+}
+
+button.mdc-button {
+  .mat-icon {
+    margin: 0;
+  }
 }
