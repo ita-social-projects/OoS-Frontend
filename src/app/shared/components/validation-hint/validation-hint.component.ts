@@ -1,30 +1,45 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-
+import { ValidationParams, ValidationMessages } from 'shared/enum/validation-messages';
 import {
-  FULL_NAME_REGEX,
-  HOUSE_REGEX,
   NAME_REGEX,
+  FULL_NAME_REGEX,
   NO_LATIN_REGEX,
-  SECTION_NAME_REGEX,
   STREET_REGEX,
+  HOUSE_REGEX,
+  SECTION_NAME_REGEX,
   MUST_CONTAIN_LETTERS
 } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html'
+  templateUrl: './validation-hint.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
+  @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
   @Input() public validationFormControl: FormControl | FormGroup; // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
+  @Input() public displayCharacterCounter: boolean;
   @Input() public isPhoneNumber: boolean; // required to display validation for phone number
   @Input() public isEdrpouIpn: boolean;
-  @Input() public isSearchBar: boolean = false;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
@@ -40,34 +55,22 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For form level validation
   @Input() public formLevelValidation: boolean;
 
-  public required: boolean;
-  public invalidSymbols: boolean;
-  public invalidCharacters: boolean;
-  public invalidFieldLength: boolean;
-  public invalidDateRange: boolean;
-  public invalidDateFormat: boolean;
-  public invalidEmail: boolean;
-  public invalidEdrpouIpn: boolean;
-  public invalidPhoneLength: boolean;
-  public invalidPhoneNumber: boolean;
-  public invalidStreet: boolean;
-  public invalidHouse: boolean;
-  public invalidSectionName: boolean;
-  public mustContainLetters: boolean;
-  public invalidSearch: boolean;
-  public invalidValue: boolean;
-  public invalidTimeFormat: boolean;
-  public invalidTimeRange: boolean;
-  public invalidTagsLength: boolean;
-  public invalidAgeRange: boolean;
-  public invalidEmailType: boolean;
+  @Input() public displayToolTip: boolean;
+  public tooltipText: string[] = [];
+  public errors: string[] = [];
+  public validationParams: ValidationParams;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translateService: TranslateService
+  ) {}
 
   public ngOnInit(): void {
-    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
+    this.validationFormControl.statusChanges.pipe(debounceTime(1), takeUntil(this.destroy$)).subscribe(() => {
+      this.setValidationParams();
+      this.errors = [];
       if (this.formLevelValidation) {
         this.checkFormLevelValidationErrors(this.validationFormControl.errors);
       } else if (this.validationFormControl instanceof FormGroup) {
@@ -75,8 +78,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
           this.updateValidationState(this.validationFormControl.get(key) as FormControl);
         });
       } else {
-        this.updateValidationState(this.validationFormControl as FormControl);
+        this.updateValidationState(this.validationFormControl);
       }
+    });
+
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: LangChangeEvent) => {
+      this.cdr.markForCheck();
     });
   }
 
@@ -89,20 +96,16 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // Check is the field required and empty
-    if (!this.isSearchBar) {
-      this.required = errors?.required && !formControl.value;
-    }
-
-    // Check Date Picker Format
-    if (this.minMaxDate) {
-      this.checkMatDatePicker();
+    if (errors?.required && !formControl?.value) {
+      this.errors.push(ValidationMessages.REQUIRED_INPUT);
     }
 
     // Check errors from validators
     this.checkValidationErrors(errors);
 
-    // Check errors for invalid text field
-    this.checkInvalidText(errors);
+    if (this.displayToolTip) {
+      this.tooltipText = this.errors.map((message) => this.createMessage(message));
+    }
 
     this.cdr.detectChanges();
   }
@@ -113,52 +116,185 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  public createMessage(message: string): string {
+    return this.translateService.instant(message, this.validationParams);
+  }
+
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
-    if (this.isNumberValue) {
-      this.invalidValue = errors?.max || errors?.min;
+    if (!errors) {
+      return;
     }
 
-    this.invalidEmail = errors?.email;
-    this.invalidEmailType = errors?.blacklistedDomain;
-    if (this.isPhoneNumber) {
-      this.invalidPhoneLength = errors?.minlength;
-      this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
-    } else if (this.isEdrpouIpn) {
-      this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
-    } else if (this.isSearchBar) {
-      this.invalidSearch = errors?.length !== 0;
-    } else {
-      this.invalidFieldLength = errors?.maxlength || errors?.minlength;
-    }
-    this.invalidTimeFormat = errors?.invalidTimeFormat;
-    this.invalidTagsLength = errors?.minArrayLength || errors?.maxArrayLength;
-  }
+    const requiredPattern = errors?.pattern?.requiredPattern.toString();
 
-  private checkFormLevelValidationErrors(errors: ValidationErrors): void {
-    this.invalidTimeRange = errors?.invalidTimeRange;
-    this.invalidAgeRange = errors?.invalidAgeRange;
+    const errorConditions = [
+      // Number validation
+      {
+        condition: () => this.isNumberValue && (errors.max || errors.min),
+        message: ValidationMessages.INVALID_VALUE
+      },
+      {
+        condition: () => this.minNumberValue,
+        message: ValidationMessages.LESS_THAN_PARTICIPANTS
+      },
+      // Email validation
+      {
+        condition: () => errors.email && !this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        message: ValidationMessages.INVALID_EMAIL
+      },
+      {
+        condition: () => errors.blacklistedDomain,
+        message: ValidationMessages.INVALID_EMAIL_TYPE
+      },
+      // Phone number validation
+      {
+        condition: () => this.isPhoneNumber && errors.minlength,
+        message: ValidationMessages.INVALID_PHONE_LENGTH
+      },
+      {
+        condition: () => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
+        message: ValidationMessages.INVALID_PHONE_NUMBER
+      },
+      // Value length validation
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          this.validationParams?.minCharacters &&
+          !this.displayCharacterCounter,
+        message: ValidationMessages.INVALID_LENGTH_FROM_TO
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          this.validationParams?.minCharacters &&
+          this.displayCharacterCounter,
+        message: ValidationMessages.INVALID_LENGTH_FROM_TO_WITH_COUNT
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          !this.validationParams?.minCharacters &&
+          this.displayCharacterCounter,
+        message: ValidationMessages.INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT
+      },
+      {
+        condition: () =>
+          !this.isPhoneNumber &&
+          !this.isEdrpouIpn &&
+          (errors.maxlength || errors.minlength) &&
+          !this.validationParams?.minCharacters &&
+          !this.displayCharacterCounter,
+        message: ValidationMessages.INVALID_LENGTH_NO_MORE_THAN
+      },
+      // DateTimePicker validation
+      {
+        condition: () => this.validationFormControl.errors?.matDatepickerParse && this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        message: ValidationMessages.INVALID_DATE_FIELD
+      },
+      {
+        condition: () => this.validationFormControl.errors?.matDatepickerMin || this.validationFormControl.errors?.matDatepickerMax,
+        message: ValidationMessages.INVALID_DATE_RANGE
+      },
+      // Validation by RegExp
+      {
+        condition: () => requiredPattern === NAME_REGEX.toString(),
+        message: ValidationMessages.INVALID_SYMBOLS
+      },
+      {
+        condition: () => requiredPattern === FULL_NAME_REGEX.toString(),
+        message: ValidationMessages.INVALID_SYMBOLS
+      },
+      {
+        condition: () => requiredPattern === NO_LATIN_REGEX.toString(),
+        message: ValidationMessages.INVALID_CHARACTERS
+      },
+      {
+        condition: () => requiredPattern === STREET_REGEX.toString(),
+        message: ValidationMessages.INVALID_STREET
+      },
+      {
+        condition: () => requiredPattern === HOUSE_REGEX.toString(),
+        message: ValidationMessages.INVALID_HOUSE
+      },
+      {
+        condition: () => requiredPattern === SECTION_NAME_REGEX.toString(),
+        message: ValidationMessages.INVALID_SECTION_NAME
+      },
+      {
+        condition: () => requiredPattern === MUST_CONTAIN_LETTERS.toString(),
+        message: ValidationMessages.MUST_CONTAIN_LETTERS
+      },
+      // Other validation
+      {
+        condition: () => errors.invalidSearch,
+        message: ValidationMessages.INVALID_SEARCH
+      },
+      {
+        condition: () => errors.invalidTimeFormat,
+        message: ValidationMessages.INVALID_TIME_FORMAT
+      },
+      {
+        condition: () => errors?.minArrayLength || errors?.maxArrayLength,
+        message: ValidationMessages.INVALID_TAGS_LENGTH
+      },
+      {
+        condition: () => this.isEdrpouIpn && errors.minlength && !errors.maxlength,
+        message: ValidationMessages.INVALID_EDRPO_IPN
+      }
+    ];
+
+    errorConditions.forEach(({ condition, message }) => {
+      if (condition()) {
+        this.errors.push(message);
+      }
+    });
+
+    if (this.errors.includes(ValidationMessages.INVALID_DATE_FIELD)) {
+      this.errors = this.errors.filter((error) => error !== ValidationMessages.REQUIRED_INPUT);
+    }
+
     this.cdr.markForCheck();
   }
 
-  private checkInvalidText(errors: ValidationErrors): void {
-    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
+  private checkFormLevelValidationErrors(errors: ValidationErrors): void {
+    const errorConditions = [
+      {
+        condition: () => errors?.invalidAgeRange,
+        message: ValidationMessages.INVALID_AGE_RANGE
+      },
+      {
+        condition: () => errors?.invalidTimeRange,
+        message: ValidationMessages.INVALID_TIME_RANGE
+      }
+    ];
 
-    this.invalidSymbols = NAME_REGEX.toString() === requiredPattern || FULL_NAME_REGEX.toString() === requiredPattern;
-    this.invalidCharacters = NO_LATIN_REGEX.toString() === requiredPattern;
-    this.invalidStreet = STREET_REGEX.toString() === requiredPattern;
-    this.invalidHouse = HOUSE_REGEX.toString() === requiredPattern;
-    this.invalidSectionName = SECTION_NAME_REGEX.toString() === requiredPattern;
-    this.mustContainLetters = MUST_CONTAIN_LETTERS.toString() === requiredPattern;
+    errorConditions.forEach(({ condition, message }) => {
+      if (condition()) {
+        this.errors.push(message);
+      }
+    });
+
+    this.cdr.markForCheck();
   }
 
-  private checkMatDatePicker(): void {
-    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
-    this.invalidDateRange =
-      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax');
+  private setValidationParams(): void {
+    this.validationParams = {
+      minCharacters: String(this.minCharacters ?? ''),
+      maxCharacters: String(this.maxCharacters ?? ''),
+      minValue: String(this.minValue ?? ''),
+      maxValue: String(this.maxValue ?? ''),
+      currentCharactersCount: String(this.validationFormControl.value?.length ?? '')
+    };
   }
 }

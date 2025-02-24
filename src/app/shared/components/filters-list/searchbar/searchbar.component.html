@@ -10,7 +10,7 @@
       appTrimValue
       [formControl]="searchValueFormControl"
       [matAutocomplete]="autoSearch"
-      (keyup.enter)="onValueEnter()" />
+      (keyup.Enter)="onValueEnter()" />
     <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option search-dropdown-option" *ngFor="let result of filteredResults" [value]="result">
         <span class="option-value">{{ result }}</span>

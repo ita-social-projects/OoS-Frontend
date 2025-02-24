@@ -48,6 +48,7 @@ export class ValidationConstants {
   static readonly MAX_TIME = '23:59';
 
   // Search
+  static readonly MIN_SEARCH_LENGTH_0 = 0;
   static readonly MAX_SEARCH_LENGTH_200 = 200;
 
   // Traffic and Rate
