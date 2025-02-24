@@ -8,6 +8,12 @@ import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  WorkshopContacts,
+  WorkshopDescription,
+  WorkshopMainRequiredProperties,
+  WorkshopOtherRequiredProperties
+} from 'shared/models/draftWorkshop.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -400,6 +406,72 @@ export class ReinviteEmployee {
 export class GetPendingApplicationsByProviderId {
   static readonly type = '[provider] Get Pending Applications By Provider Id';
   constructor(public id: string) {}
+}
+
+export class OnSaveWorkshopStep {
+  static readonly type = '[Workshop] save Workshop step';
+  constructor(
+    public payload: {
+      data: Partial<WorkshopMainRequiredProperties | WorkshopOtherRequiredProperties | WorkshopDescription | WorkshopContacts>;
+      step: number;
+    }
+  ) {}
+}
+
+export class OnSaveWorkshopStepFail {
+  static readonly type = '[Provider] On Save Workshop Step Fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnSaveWorkshopStepSuccess {
+  static readonly type = '[Provider] On Save Workshop Step Success';
+  constructor(public payload: { step: number; data: any }) {}
+}
+
+export class OnDeleteUnfinishedWorkshop {
+  static readonly type: string = '[provider] clear unfinished workshop';
+}
+
+export class OnDeleteUnfinishedWorkshopFail {
+  static readonly type: string = '[provider] clear unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnDeleteUnfinishedWorkshopSuccess {
+  static readonly type: string = '[provider] clear unfinished workshop success';
+}
+
+export class GetUnfinishedWorkshop {
+  static readonly type: string = '[provider] get unfinished workshop';
+}
+
+export class GetUnfinishedWorkshopSuccess {
+  static readonly type: string = '[provider] get unfinished workshop success';
+  constructor(public payload: Workshop) {}
+}
+
+export class GetUnfinishedWorkshopFail {
+  static readonly type: string = '[provider] get unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetUnfinishedWorkshopTimeToLive {
+  static readonly type = '[provider] get time to live of unfinished workshop';
+}
+
+export class GetUnfinishedWorkshopTimeToLiveSuccess {
+  static readonly type = '[provider] get time to live of unfinished workshop success';
+  constructor(public payload: string) {}
+}
+
+export class GetUnfinishedWorkshopTimeToLiveFail {
+  static readonly type = '[provider] get time to live of unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class SetDraftModalShown {
+  static readonly type = '[provider] set modal shown';
+  constructor(public payload: boolean) {}
 }
 
 export class GetPositions {

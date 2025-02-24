@@ -18,50 +18,46 @@
 
       <div class="time-input-wrapper">
         <div
-          class="disabled"
           *ngIf="!startTimeFormControl.enabled"
+          class="disabled"
           (click)="markWorkDaysAsTouched()"
           (keydown.Enter)="markWorkDaysAsTouched()"></div>
         <div class="flex flex-col justify-start items-start">
           <ng-container class="flex flex-col">
-            <div class="time-input flex flex-row justify-start items-center">
-              <p class="text">{{ 'FROM' | translate }}</p>
-              <input
-                class="input step-input start-time-input"
-                matInput
-                [formControl]="startTimeFormControl"
-                required
-                maxlength="5"
-                autocomplete="off" />
-              <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()">
-                <mat-icon>access_time</mat-icon>
-              </button>
-            </div>
-            <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
-            <app-validation-hint [validationFormControl]="workingHoursForm" [formLevelValidation]="true"></app-validation-hint>
-          </ng-container>
+          <div class="time-input flex flex-row justify-start items-center" >
+            <p class="text">{{ 'FROM' | translate }}</p>
+            <input
+              class="input step-input start-time-input"
+              matInput
+              [formControl]="startTimeFormControl"
+              required
+              maxlength="5"
+              autocomplete="off" />
+            <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()"> <mat-icon>access_time</mat-icon></button>
+          </div>
+          <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
+          <app-validation-hint [validationFormControl]="workingHoursForm" [formLevelValidation]="true"></app-validation-hint>
+        </ng-container>
         </div>
 
         <div class="flex flex-col justify-start items-start">
           <ng-container class="flex flex-col">
-            <div class="time-input flex flex-row justify-start items-center">
-              <p class="text">{{ 'TO' | translate }}</p>
-              <input
-                class="input step-input start-time-input"
-                matInput
-                [formControl]="endTimeFormControl"
-                required
-                maxlength="5"
-                autocomplete="off" />
-              <button mat-icon-button [disabled]="!endTimeFormControl.enabled" (click)="timepickerEnd.open()">
-                <mat-icon>access_time</mat-icon>
-              </button>
-              <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
-                <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
-              </div>
+          <div class="time-input flex flex-row justify-start items-center">
+            <p class="text">{{ 'TO' | translate }}</p>
+            <input
+              class="input step-input start-time-input"
+              matInput
+              [formControl]="endTimeFormControl"
+              required
+              maxlength="5"
+              autocomplete="off" />
+            <button mat-icon-button [disabled]="!endTimeFormControl.enabled" (click)="timepickerEnd.open()"> <mat-icon>access_time</mat-icon></button>
+            <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
+              <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
             </div>
-            <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
-          </ng-container>
+          </div>
+          <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
+        </ng-container>
         </div>
       </div>
     </div>

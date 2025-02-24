@@ -44,6 +44,9 @@ export class ConfirmationModalWindowComponent implements OnInit {
   }
 
   public getConfirmationButtonMessage(): string {
+    if (this.data.type === ModalConfirmationType.incompleteWorkshop) {
+      return ModalConfirmationButtonText.continue;
+    }
     const buttonText = ModalConfirmationButtonText[this.data.type];
     return buttonText || ModalConfirmationButtonText.default;
   }
