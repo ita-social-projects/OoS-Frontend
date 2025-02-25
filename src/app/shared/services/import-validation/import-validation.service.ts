@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NAME_REGEX, NO_LATIN_REGEX, RNOKPP_drfocode } from 'shared/constants/regex-constants';
+import { NAME_REGEX, NO_LATIN_REGEX, RNOKPP_DRFOCODE } from 'shared/constants/regex-constants';
 import { ImportEmployeesChosenRole } from 'shared/enum/enumUA/import-export';
 import { FieldValidationConfig, FieldsConfig, ValidationError } from 'shared/models/admin-import-export.model';
 
@@ -45,7 +45,7 @@ export class ImportValidationService<DataSource extends { errors: ValidationErro
         errorKey: `${fieldName}Format`
       },
       {
-        condition: config.checkRNOKPP && !RNOKPP_drfocode.test(fieldValue),
+        condition: config.checkRNOKPP && !RNOKPP_DRFOCODE.test(fieldValue),
         errorKey: `${fieldName}Format`
       }
     ];
