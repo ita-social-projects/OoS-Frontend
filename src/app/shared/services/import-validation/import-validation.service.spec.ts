@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ImportValidationService } from './import-validation.service';
 
 describe('ImportValidationService', () => {
-  let service: ImportValidationService;
+  let service: ImportValidationService<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -76,7 +76,7 @@ describe('ImportValidationService', () => {
   });
 
   it('should not mark an error for RNOKPP format when config.checkRNOKPP is true but not handled', () => {
-    const items = [{ name: '1233454', errors: {} }];
+    const items = [{ name: '123456789', errors: {} }];
     const config = [
       {
         fieldName: 'name',
@@ -107,5 +107,50 @@ describe('ImportValidationService', () => {
     service.checkForInvalidData(items, config);
 
     expect(items[0].errors).toEqual({ roleFormat: true });
+  });
+  it('should not mark an error for initials format when config.checkInitials is true and input is valid', () => {
+    const validInitials = 'Олег'; // Example of valid initials
+    const items = [{ name: validInitials, errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: {
+          checkRNOKPP: false,
+          checkLength: false,
+          checkEmpty: false,
+          checkLanguage: false,
+          checkAssignedRole: false,
+          checkDuplicate: false,
+          checkInitials: true
+        }
+      }
+    ];
+
+    service.checkForInvalidData(items, config);
+
+    expect(items[0].errors).toEqual({}); // Ensure no errors are added
+  });
+
+  it('should mark an error for initials format when config.checkInitials is true and input is invalid', () => {
+    const invalidInitials = 'Олег%'; // Example of invalid initials
+    const items = [{ name: invalidInitials, errors: {} }];
+    const config = [
+      {
+        fieldName: 'name',
+        validationParam: {
+          checkRNOKPP: false,
+          checkLength: false,
+          checkEmpty: false,
+          checkLanguage: false,
+          checkAssignedRole: false,
+          checkDuplicate: false,
+          checkInitials: true
+        }
+      }
+    ];
+
+    service.checkForInvalidData(items, config);
+
+    expect(items[0].errors).toEqual({ nameFormat: true }); // Ensure the correct error is added
   });
 });
