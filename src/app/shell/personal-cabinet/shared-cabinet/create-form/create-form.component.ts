@@ -30,6 +30,7 @@ export abstract class CreateFormComponent implements OnDestroy {
   public isImagesFeature: boolean;
   public isPristine = true;
   public editMode: boolean;
+  public loadUnfinishedWorkshopData?(): void;
 
   constructor(
     protected store: Store,
@@ -53,9 +54,15 @@ export abstract class CreateFormComponent implements OnDestroy {
   }
 
   protected determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param') !== ModeConstants.NEW);
-    if (this.editMode) {
+    const paramValue = this.route.snapshot.paramMap.get('param');
+
+    if (paramValue === ModeConstants.UNFINISHED) {
       this.setEditMode();
+    } else {
+      this.editMode = Boolean(paramValue !== ModeConstants.NEW);
+      if (this.editMode) {
+        this.setEditMode();
+      }
     }
   }
 

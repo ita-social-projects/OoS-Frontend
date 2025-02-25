@@ -58,44 +58,44 @@ export abstract class WorkshopBase {
     provider: Provider,
     id?: string
   ) {
-    this.title = about.title;
-    this.shortTitle = about.shortTitle;
-    this.minAge = about.minAge;
-    this.maxAge = about.maxAge;
-    this.dateTimeRanges = about.workingHours;
-    this.price = about.price;
-    this.payRate = about.payRate;
-    this.formOfLearning = about.formOfLearning;
-    this.availableSeats = about.availableSeats;
-    this.competitiveSelection = about.competitiveSelection;
-    this.competitiveSelectionDescription = about.competitiveSelectionDescription;
-    this.workshopDescriptionItems = description.workshopDescriptionItems;
-    this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = description.institutionId;
-    this.institutionHierarchyId = description.institutionHierarchyId;
-    this.keywords = description.keyWords;
+    this.title = about?.title;
+    this.shortTitle = about?.shortTitle;
+    this.minAge = about?.minAge;
+    this.maxAge = about?.maxAge;
+    this.dateTimeRanges = about?.dateTimeRanges;
+    this.price = about?.price;
+    this.payRate = about?.payRate;
+    this.formOfLearning = about?.formOfLearning;
+    this.availableSeats = about?.availableSeats;
+    this.competitiveSelection = about?.competitiveSelection;
+    this.competitiveSelectionDescription = about?.competitiveSelectionDescription;
+    this.workshopDescriptionItems = description?.workshopDescriptionItems;
+    this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
+    this.institutionId = description?.institutionId;
+    this.institutionHierarchyId = description?.institutionHierarchyId;
+    this.keywords = description?.keyWords;
     this.teachers = teachers;
-    this.providerId = provider.id;
-    this.providerTitle = provider.fullTitle;
-    this.tagIds = description.tagIds;
-    this.shortStay = additionalAbout.shortStay;
-    this.isSelfFinanced = additionalAbout.isSelfFinanced;
-    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
-    this.isSpecial = additionalAbout.isSpecial;
-    this.isInclusive = additionalAbout.isInclusive;
-    this.specialNeedsType = additionalAbout.specialNeedsType;
-    this.areThereBenefits = description.areThereBenefits;
-    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
-    this.educationalShift = additionalAbout.educationalShift;
-    this.ageComposition = additionalAbout.ageComposition;
-    this.coverage = description.coverage;
+    this.providerId = provider?.id;
+    this.providerTitle = provider?.fullTitle;
+    this.tagIds = description?.tagIds;
+    this.shortStay = additionalAbout?.shortStay;
+    this.isSelfFinanced = additionalAbout?.isSelfFinanced;
+    this.enrollmentProcedureDescription = description?.enrollmentProcedureDescription;
+    this.isSpecial = additionalAbout?.isSpecial;
+    this.isInclusive = additionalAbout?.isInclusive;
+    this.specialNeedsType = additionalAbout?.specialNeedsType;
+    this.areThereBenefits = description?.areThereBenefits;
+    this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
+    this.educationalShift = additionalAbout?.educationalShift;
+    this.ageComposition = additionalAbout?.ageComposition;
+    this.coverage = description?.coverage;
     this.contacts = workshopContacts;
-    this.workshopType = additionalAbout.workshopType;
+    this.workshopType = additionalAbout?.workshopType;
 
     if (id) {
       this.id = id;
     }
-    if (description.disabilityOptionsDesc) {
+    if (description?.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
   }
@@ -115,26 +115,26 @@ export class Workshop extends WorkshopBase {
   imageFiles?: File[];
 
   constructor(
-    about: WorkshopAbout,
-    description: Description,
-    workshopContacts: Contacts[],
-    additionalAbout: AdditionalAbout,
-    teachers: Teacher[],
-    provider: Provider,
+    about?: WorkshopAbout,
+    description?: Description,
+    workshopContacts?: Contacts[],
+    additionalAbout?: AdditionalAbout,
+    teachers?: Teacher[],
+    provider?: Provider,
     id?: string
   ) {
     super(about, description, workshopContacts, additionalAbout, teachers, provider, id);
 
-    if (about.coverImageId) {
+    if (about?.coverImageId) {
       this.coverImageId = about.coverImageId[0];
     }
-    if (about.coverImage) {
-      this.coverImage = about.coverImage;
+    if (about?.coverImage) {
+      this.coverImage = about?.coverImage;
     }
-    if (description.imageIds?.length) {
+    if (description?.imageIds?.length) {
       this.imageIds = description.imageIds;
     }
-    if (description.imageFiles?.length) {
+    if (description?.imageFiles?.length) {
       this.imageFiles = description.imageFiles;
     }
   }
@@ -222,7 +222,7 @@ export interface WorkshopAbout {
   shortTitle: string;
   minAge: number;
   maxAge: number;
-  workingHours: DateTimeRanges[];
+  dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
@@ -231,9 +231,10 @@ export interface WorkshopAbout {
   competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
+  isPaid?: boolean;
 }
 
-interface AdditionalAbout {
+export interface AdditionalAbout {
   shortStay: boolean;
   isSelfFinanced: boolean;
   isSpecial: boolean;
@@ -243,7 +244,7 @@ interface AdditionalAbout {
   ageComposition: string;
   workshopType: string;
 }
-interface Description {
+export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
   keyWords: string[];
