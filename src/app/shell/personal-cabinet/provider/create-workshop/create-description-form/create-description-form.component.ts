@@ -252,7 +252,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
-    this.workshop.keywords.forEach((keyWord: string) => {
+    this.workshop.keywords?.forEach((keyWord: string) => {
       this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });

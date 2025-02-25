@@ -1,5 +1,6 @@
 <div *ngIf="provider" class="flex flex-col justify-between gap-4">
-  <app-provider-status-banner *ngIf="provider.ownership !== ownershipTypes.Private" [provider]="provider"> </app-provider-status-banner>
+  <app-provider-status-banner *ngIf="provider.ownership !== ownershipTypes.Private" [provider]="provider" mode="status">
+  </app-provider-status-banner>
   <div class="container">
     <app-provider-info
       [provider]="provider"

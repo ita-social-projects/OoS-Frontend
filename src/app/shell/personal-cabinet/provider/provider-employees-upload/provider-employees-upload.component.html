@@ -3,7 +3,7 @@
     <div class="add-wrapper">
       <p class="text">{{ 'BANNERS.UPLOAD_EMPLOYEE' | translate }}</p>
       <div class="flex items-center">
-        <button mat-raised-button class="btn" type="button" (click)="fileInput.click()">
+        <button mat-raised-button class="btn" type="button" (click)="triggerFileInput(fileInput)">
           {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
         </button>
         <app-info-menu [isBigIcon]="true">
