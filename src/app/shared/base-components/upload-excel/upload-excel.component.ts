@@ -97,7 +97,6 @@ export class UploadExcelComponent<DataSource extends { errors: ValidationError; 
     }
     const deletedTemporaryKeys = this.dataSource.map(({ errors, sequenceNumber, ...rest }) => rest);
     const changedItems = this.renamingKeys(deletedTemporaryKeys);
-    console.log(changedItems);
     this.employeeUploadProcessor
       .uploadEmployeesList(changedItems, currentId)
       .pipe(
