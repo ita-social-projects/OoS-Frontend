@@ -4,7 +4,7 @@
     <mat-select
       [formControl]="instituitionIdControl"
       disableOptionCentering
-      panelClass="dropdown-panel"
+      panelClass="dropdown-panel select-with-form-field" 
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
       class="step-input">
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
@@ -21,7 +21,7 @@
         <mat-select
           [formControl]="hierarchy.formControl"
           disableOptionCentering
-          panelClass="dropdown-panel"
+          panelClass="dropdown-panel select-with-form-field" 
           class="step-input"
           (selectionChange)="onHierarchyLevelSelect(hierarchy)">
           <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option" title="{{ option.title }}">

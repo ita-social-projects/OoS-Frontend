@@ -73,8 +73,9 @@
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('gender')"> </app-validation-hint>
 
   <label class="step-label" for="date-of-birth">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
-  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+  <mat-form-field appPlaceholderStyling class="step-input date-picker-wrapper step-input-date" floatLabel="never">
     <input
+      #DateInput
       [max]="today"
       [min]="minDate"
       matInput
@@ -85,7 +86,7 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
       (focusout)="onFocusOut('dateOfBirth')"
       id="date-of-birth" />
-    <mat-datepicker-toggle matSuffix [for]="picker" class="custom-datepicker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle [for]="picker" matIconSuffix class="custom-datepicker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>

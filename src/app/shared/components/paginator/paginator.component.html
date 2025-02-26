@@ -20,7 +20,8 @@
   <mat-select
     [(value)]="itemsPerPage"
     disableOptionCentering
-    panelClass="dropdown-panel"
+    panelClass="paginator-panel"
+    hideSingleSelectionIndicator="true"
     class="step-input"
     (selectionChange)="OnSelectOption($event)"
     placeholder="{{ itemsPerPage }}">

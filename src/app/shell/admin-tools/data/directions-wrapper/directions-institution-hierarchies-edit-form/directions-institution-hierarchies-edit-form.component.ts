@@ -1,7 +1,7 @@
 import { Component, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
+import { MatOption } from '@angular/material/core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';

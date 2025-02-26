@@ -413,4 +413,27 @@ button.mdc-button {
   }
 }
 
+input:focus {
+  outline: none;
+}
+
+input:disabled {
+  background-color: white;
+}
+
+input {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.cdk-overlay-pane:has(.mat-mdc-select-panel) {
+  pointer-events: none !important;
+}
+
+.mat-mdc-select-panel {
+  pointer-events: auto !important;
+}
+
 @import 'tailwind.css';

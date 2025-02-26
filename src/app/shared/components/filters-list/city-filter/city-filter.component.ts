@@ -1,9 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  MatLegacyAutocomplete as MatAutocomplete,
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
-} from '@angular/material/legacy-autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -27,12 +24,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(FilterState.isConfirmCity)
   public isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
-  private settlement$: Observable<Codeficator>;
+  private readonly settlement$: Observable<Codeficator>;
   @Select(MetaDataState.codeficatorSearch)
-  private codeficatorSearch$: Observable<Codeficator[]>;
+  private readonly codeficatorSearch$: Observable<Codeficator[]>;
 
-  @ViewChild(MatAutocomplete) private codeficatorAutocomplete: MatAutocomplete;
-  @ViewChild('searchInput') private searchInput: ElementRef;
+  @ViewChild(MatAutocomplete) private readonly codeficatorAutocomplete: MatAutocomplete;
+  @ViewChild('searchInput') private readonly searchInput: ElementRef;
 
   public readonly Constants = Constants;
   public readonly sliceLength = 25;
@@ -43,12 +40,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   public isDisplayed = true;
 
   private isTopCities = false;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private store: Store,
-    private actions$: Actions,
-    private geolocationService: GeolocationService
+    private readonly store: Store,
+    private readonly actions$: Actions,
+    private readonly geolocationService: GeolocationService
   ) {}
 
   public ngOnInit(): void {
