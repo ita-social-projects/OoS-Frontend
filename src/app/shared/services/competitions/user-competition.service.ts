@@ -50,7 +50,9 @@ export class UserCompetitionService {
    */
   public createCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    return this.isImagesFeature ? this.createCompetitionV2(competition) : this.createCompetitionV1(competition);
+    // this code return when v2 for competition will be
+    // return this.isImagesFeature ? this.createCompetitionV2(competition) : this.createCompetitionV1(competition);
+    return this.createCompetitionV1(competition);
   }
 
   public createCompetitionV1(competition: Competition): Observable<Competition> {
@@ -68,7 +70,9 @@ export class UserCompetitionService {
    */
   public updateCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
+    // this code return when v2 for competition will be
+    // return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
+    return this.updateCompetitionV1(competition);
   }
 
   public updateCompetitionV1(competition: Competition): Observable<Competition> {
