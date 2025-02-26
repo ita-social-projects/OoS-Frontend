@@ -1,6 +1,9 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Inject, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { WINDOW } from 'ngx-window-token';
+import { Store } from '@ngxs/store';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Directive({
   selector: '[appStepperNext]'
@@ -9,31 +12,44 @@ export class StepperDirective {
   @Input() public form: FormGroup;
   @Input() public stepper: MatStepper;
 
+  private stepElement!: HTMLElement;
+
+  constructor(
+    @Inject(WINDOW) private window: Window,
+    private store: Store
+  ) {}
+
   @HostListener('click', ['$event'])
   public onClick(event: Event): void {
     if (!this.form || !this.stepper) {
       return;
     }
 
-    this.form.markAllAsTouched();
-    this.form.updateValueAndValidity();
-
     if (this.form.valid) {
       this.stepper.next();
+    } else {
+      const stepIndex = this.stepper.selectedIndex;
+      this.stepElement = document.getElementById(`cdk-step-content-0-${stepIndex}`);
+      this.scrollToFirstInvalidControl();
+    }
+  }
+
+  private scrollToFirstInvalidControl(): void {
+    if (!this.stepElement) {
       return;
     }
 
-    const firstInvalidControl = Object.keys(this.form.controls).find((controlName) => this.form.get(controlName)?.invalid);
+    this.form.markAllAsTouched();
+    this.form.updateValueAndValidity();
 
-    if (firstInvalidControl) {
-      const element = document.querySelector(`[formControlName="${firstInvalidControl}"]`);
-
-      if (element) {
-        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => {
-          (element as HTMLElement).focus();
-        }, 300);
-      }
+    const invalidFields = this.stepElement.querySelectorAll(
+      'input.ng-invalid, select.ng-invalid, textarea.ng-invalid, .days-toggle-invalid, mat-select.ng-invalid'
+    ); // add selector for a specific non-input type element
+    if (invalidFields.length) {
+      invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // eslint-disable-next-line prettier/prettier
+      this.store.dispatch(new ShowMessageBar({ message: 'Заповність обов\'язкові поля', type: 'error' }));
+      setTimeout(() => (invalidFields[0] as HTMLElement).focus(), 1000);
     }
   }
 }

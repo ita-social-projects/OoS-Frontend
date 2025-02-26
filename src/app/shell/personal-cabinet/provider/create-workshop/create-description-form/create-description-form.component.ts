@@ -64,7 +64,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public DescriptionFormGroup: FormGroup;
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
-  public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
+  public keyWordsCtrl: FormControl = new FormControl('');
 
   public keyWords: string[] = [];
   public tags: Tag[] = [];
@@ -121,7 +121,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
-
     this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
       this.updateTagIds(selectedTags || []);
     });
@@ -131,6 +130,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     } else {
       this.onAddForm();
     }
+
+    this.overrideTouchForForm(this.DescriptionFormGroup.get('tagIds') as FormControl);
 
     this.tagService
       .getTags()
@@ -343,5 +344,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     } else {
       this.keyWordsCtrl.enable({ emitEvent: false });
     }
+  }
+
+  private overrideTouchForForm(formControl: FormControl): void {
+    const originalMethod = formControl.markAsTouched;
+    formControl.markAsTouched = (): void => {
+      originalMethod.apply(formControl);
+      this.tagsControl.markAsTouched();
+      (formControl.statusChanges as EventEmitter<any>).emit();
+    };
   }
 }

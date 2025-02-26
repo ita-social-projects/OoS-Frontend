@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
-import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
@@ -57,6 +57,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllInstitutions(false));
     this.isEditMode = !!this.instituitionIdFormControl.value;
 
+    this.subscribeForTouch();
     this.setInitialInstitution();
 
     if (this.isEditMode) {
@@ -76,7 +77,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray = this.hierarchyArray.slice(0, nextEl);
       this.setFinalHierarchyLevel(null);
     }
-    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
   }
 
   public ngOnDestroy(): void {
@@ -110,7 +111,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         if (instituitionsHierarchy.length) {
           const newHierarchyElementIndex = this.hierarchyArray.length;
-          const newHierarchyElement = this.createHierachyElement(newHierarchyElementIndex);
+          const newHierarchyElement = this.createHierarchyElement(newHierarchyElementIndex);
 
           this.hierarchyArray.push(newHierarchyElement);
           this.hierarchyArray[newHierarchyElementIndex].options = instituitionsHierarchy;
@@ -134,7 +135,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       });
   }
 
-  private createHierachyElement(descriptionIndex: number): HierarchyElement {
+  private createHierarchyElement(descriptionIndex: number): HierarchyElement {
     return {
       formControl: new FormControl('', Validators.required),
       title: this.institutionFieldDesc[descriptionIndex].title,
@@ -146,7 +147,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setFinalHierarchyLevel(optionId: string): void {
-    this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: false });
+    this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: true });
     this.store.dispatch(new ResetInstitutionHierarchy());
     this.changeDetectorRef.markForCheck();
   }
@@ -194,5 +195,16 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.setFinalHierarchyLevel(null);
         this.changeDetectorRef.markForCheck();
       });
+  }
+
+  private subscribeForTouch(): void {
+    this.instituitionIdFormControl.statusChanges.subscribe(() => {
+      if (this.instituitionIdFormControl.touched) {
+        this.hierarchyArray.forEach((elem: HierarchyElement) => {
+          elem.formControl.markAsTouched();
+          elem.formControl.updateValueAndValidity();
+        });
+      }
+    });
   }
 }
