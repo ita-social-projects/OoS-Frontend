@@ -10,7 +10,8 @@ export class EmployeeUploadProcessorService<DataSource> {
   constructor(private readonly http: HttpClient) {}
 
   public uploadEmployeesList(items: DataSource[], id: string): Observable<HttpResponse<string>> {
-    return this.http.put(`${this.baseApiURL}/Provider/Upload/${id}/employees/upload`, items, {
+    const payload = { employees: items };
+    return this.http.put(`${this.baseApiURL}/Provider/Upload/${id}/employees/upload`, payload, {
       observe: 'response',
       responseType: 'text'
     });

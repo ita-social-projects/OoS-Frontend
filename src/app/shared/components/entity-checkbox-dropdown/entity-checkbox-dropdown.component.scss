@@ -11,9 +11,15 @@
   color: #333333;
 }
 
+:host ::ng-deep .mat-mdc-form-field-infix {
+  max-width: 125px;
+}
+
 .dropdown-wrapper {
   z-index: 3;
-  max-width: 125px;
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0;
+  }
 }
 
 .label {
@@ -31,9 +37,6 @@ mat-form-field mat-label {
 ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   display: none;
 }
-::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
-  background: #3849f9;
-}
 
 :host ::ng-deep .mat-form-field-underline {
   height: 0;
@@ -47,9 +50,13 @@ mat-form-field mat-label {
 
 ::ng-deep {
   .cdk-overlay-container {
-    .dropdown-panel.application-dropdown {
-      min-width: 350px !important;
-      left: calc(100% - 565px) !important;
+    .checkbox-dropdown-panel.application-dropdown {
+      left: calc(100% - 330px);
     }
   }
+}
+
+::ng-deep .checkbox-dropdown-panel {
+  min-width: 350px;
+  top: -35px !important;
 }

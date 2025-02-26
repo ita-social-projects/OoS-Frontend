@@ -44,6 +44,10 @@ export interface EmployeeValidationErrors extends ValidationError {
   employeeNameLanguage?: boolean;
   employeeFatherNameLanguage?: boolean;
 
+  employeeSurnameFormat?: boolean;
+  employeeNameFormat?: boolean;
+  employeeFatherNameFormat?: boolean;
+
   employeeRNOKPPFormat?: boolean;
   employeeRNOKPPDuplicate?: boolean;
   employeeAssignedRoleFormat?: boolean;
@@ -56,6 +60,8 @@ export interface FieldValidationConfig {
   checkAssignedRole?: boolean;
   checkRNOKPP?: boolean;
   checkDuplicate?: boolean;
+  checkInitials?: boolean;
+  checkRNOKPPFormat?: boolean;
 }
 
 export interface FieldsConfig {

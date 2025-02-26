@@ -20,7 +20,7 @@ export class PlaceholderFormDirective implements AfterViewInit {
       this.r.setStyle(datePickerPlaceholder[0], 'color', 'grey');
     }
 
-    const selectOptionPlaceholder = this.el.nativeElement.getElementsByClassName('mat-select-placeholder');
+    const selectOptionPlaceholder = this.el.nativeElement.getElementsByClassName('mat-mdc-select-placeholder');
 
     if (selectOptionPlaceholder.length > 0) {
       this.r.setStyle(selectOptionPlaceholder[0], 'color', 'grey');

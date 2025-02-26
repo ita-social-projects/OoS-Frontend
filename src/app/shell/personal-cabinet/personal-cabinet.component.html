@@ -32,11 +32,6 @@
       </span>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider || userRole === Role.providerDeputy">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">
-        {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}
-      </a>
-    </ng-container>
-    <ng-container *ngIf="userRole === Role.provider || userRole === Role.providerDeputy">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/provider-employees'">
         {{ 'ENUM.NAV_BAR_NAME.EMPLOYEES' | translate | uppercase }}
       </a>
