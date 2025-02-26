@@ -181,7 +181,11 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       }),
       typeOfCompetition: new FormControl<TypeOfCompetition | null>(null, Validators.required),
       parentCompetitionControl: new FormControl(null),
-      numberOfSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)])
+      numberOfSeats: new FormControl({ value: null, disabled: true }, [
+        Validators.required,
+        Validators.min(this.minSeats),
+        Validators.max(ValidationConstants.MAX_SEATS)
+      ])
     });
   }
 

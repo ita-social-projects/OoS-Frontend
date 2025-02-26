@@ -67,7 +67,6 @@ export class CompetitionDetailsComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.competition.directionIds = [1];
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
