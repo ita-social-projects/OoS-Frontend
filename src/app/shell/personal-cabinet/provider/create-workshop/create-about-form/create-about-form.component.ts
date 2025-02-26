@@ -14,7 +14,6 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 
 @Component({
   selector: 'app-create-about-form',
