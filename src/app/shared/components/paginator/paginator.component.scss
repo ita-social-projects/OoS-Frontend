@@ -1,3 +1,4 @@
+
 .paginator {
   margin-bottom: 2rem;
 }
@@ -40,13 +41,11 @@
   overflow: visible;
   text-align: center;
 }
-:host::ng-deep .mat-select-placeholder,
+:host::ng-deep .mat-mdc-select-placeholder,
 .dropdown-option {
-  font-weight: 500;
   text-align: center;
   max-width: 100px;
   height: 2.1rem;
-  color: rgba(0, 0, 0, 0.87);
 }
 :host::ng-deep .mat-select-arrow:hover {
   opacity: 0, 5;
@@ -58,6 +57,17 @@
     flex-direction: column;
   }
 }
-::ng-deep .custom-overlay-panel {
-  transform: translate(-1rem, 1.5rem) !important;
+
+::ng-deep .paginator-panel {
+  left: 15px;
+  min-width: 65px !important;
+  text-align: center;
+  .mdc-list-item__primary-text {
+    margin: 0;
+    padding: 0 !important;
+    width: 100%;
+    font-weight: 400;
+    color: #000;
+  }
 }
+

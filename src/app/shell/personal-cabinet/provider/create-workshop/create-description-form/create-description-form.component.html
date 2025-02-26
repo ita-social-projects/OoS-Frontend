@@ -58,13 +58,14 @@
         }}
       </label>
     </div>
-    <mat-form-field appearance="none">
+    <mat-form-field>
       <mat-select
         #select
         multiple
         disableOptionCentering
-        panelClass="dropdown-panel"
-        class="step-input list-of-tags"
+        panelClass="dropdown-panel select-with-form-field" 
+        class="step-input"
+        [ngClass]="tagsControl.value?.length ? 'select-with-tags' : '' "
         [compareWith]="compareItems"
         [formControl]="tagsControl">
         <mat-select-trigger>
@@ -215,7 +216,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="coverage"
-      panelClass="dropdown-panel"
+      panelClass="dropdown-panel select-with-form-field" 
       class="step-input"
       [placeholder]="'FORMS.LABELS.COVERAGE' | translate">
       <ng-container *ngFor="let type of Coverage | keyvalue">

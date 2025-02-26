@@ -42,7 +42,7 @@
                       class="step-input"
                       type="text"
                       [id]="'phone-' + jindex"
-                      autocomplete="none"
+                      autocomplete="off"
                       appTrimValue />
                   </mat-form-field>
                   <label class="step-label" for="{{ phoneField.get('number') }}">{{ 'FORMS.LABELS.PHONE' | translate }}</label>
@@ -125,7 +125,7 @@
                 <div class="flex flex-col grow" [formGroupName]="jindex">
                   <label class="step-label" for="type">{{ 'FORMS.LABELS.TYPE' | translate }}</label>
                   <mat-form-field class="grow">
-                    <mat-select formControlName="type" class="step-input" disableOptionCentering panelClass="dropdown-panel">
+                    <mat-select formControlName="type" class="step-input" disableOptionCentering panelClass="dropdown-panel select-with-form-field" >
                       <mat-option *ngFor="let socialType of socialTypesKeys" [value]="socialType">
                         {{ socialTypes[socialType] }}
                       </mat-option>
@@ -140,7 +140,6 @@
                         class="step-input"
                         type="text"
                         [id]="'socials-' + jindex"
-                        autocomplete="none"
                         appTrimValue />
                     </mat-form-field>
                     <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('socialNetworks'), jindex)">
