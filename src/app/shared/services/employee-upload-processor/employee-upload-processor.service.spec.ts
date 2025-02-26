@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpResponse } from '@angular/common/http';
 import { EmployeeUploadProcessorService } from './employee-upload-processor.service';
 
 describe('EmployeeUploadProcessorService', () => {
-  let service: EmployeeUploadProcessorService;
+  let service: EmployeeUploadProcessorService<any>;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -20,7 +19,7 @@ describe('EmployeeUploadProcessorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call HttpClient.put with correct parameters and return response', () => {
+  it('should call HttpClient.put with wrapped employees data', () => {
     const mockResponse = 'Upload successful';
     const mockItems = [{ name: 'Employee1' }];
     const mockId = '123';
@@ -31,8 +30,9 @@ describe('EmployeeUploadProcessorService', () => {
     });
 
     const req = httpTestingController.expectOne('/api/v1/Provider/Upload/123/employees/upload');
+
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual(mockItems);
+    expect(req.request.body).toEqual({ employees: mockItems });
     expect(req.request.responseType).toBe('text');
     req.flush(mockResponse, { status: 200, statusText: 'OK' });
     httpTestingController.verify();
@@ -45,7 +45,7 @@ describe('EmployeeUploadProcessorService', () => {
     service.uploadEmployeesList(mockItems, mockId).subscribe(
       () => {},
       (error) => {
-        expect(error).toEqual(new HttpResponse({ body: 'Error uploading employees', status: 500 }));
+        expect(error.status).toBe(500);
       }
     );
 

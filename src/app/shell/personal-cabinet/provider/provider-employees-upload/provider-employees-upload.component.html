@@ -101,7 +101,8 @@
               [ngClass]="{
                 'error-field-empty': element.errors.employeeSurnameEmpty,
                 'error-field-wrong-length': element.errors.employeeSurnameLength,
-                'error-field-wrong-language': element.errors.employeeSurnameLanguage
+                'error-field-wrong-language': element.errors.employeeSurnameLanguage,
+                'error-field-wrong-format': element.errors.employeeSurnameFormat
               }"
               [matTooltip]="element.employeeSurname"
               showTooltipIfTruncated
@@ -118,7 +119,8 @@
               [ngClass]="{
                 'error-field-empty': element.errors.employeeNameEmpty,
                 'error-field-wrong-length': element.errors.employeeNameLength,
-                'error-field-wrong-language': element.errors.employeeNameLanguage
+                'error-field-wrong-language': element.errors.employeeNameLanguage,
+                'error-field-wrong-format': element.errors.employeeNameFormat
               }"
               [matTooltip]="element.employeeName"
               showTooltipIfTruncated
@@ -135,7 +137,8 @@
               [ngClass]="{
                 'error-field-empty': element.errors.employeeFatherNameEmpty,
                 'error-field-wrong-length': element.errors.employeeFatherNameLength,
-                'error-field-wrong-language': element.errors.employeeFatherNameLanguage
+                'error-field-wrong-language': element.errors.employeeFatherNameLanguage,
+                'error-field-wrong-format': element.errors.employeeFatherNameFormat
               }"
               [matTooltip]="element.employeeFatherName"
               showTooltipIfTruncated
@@ -151,7 +154,8 @@
               *matCellDef="let element"
               [ngClass]="{
                 'error-field-empty': element.errors.employeeRNOKPPEmpty,
-                'error-field-duplicate': element.errors.employeeRNOKPPDuplicate
+                'error-field-duplicate': element.errors.employeeRNOKPPDuplicate,
+                'error-field-wrong-format': element.errors.employeeRNOKPPFormat
               }">
               {{ element.employeeRNOKPP }}
             </td>

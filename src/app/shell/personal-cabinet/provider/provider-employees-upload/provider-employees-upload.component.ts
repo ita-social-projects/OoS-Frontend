@@ -17,19 +17,19 @@ export class ProviderEmployeesUploadComponent extends UploadExcelComponent<Emplo
   public componentFieldsConfig: FieldsConfig[] = [
     {
       fieldName: 'employeeName',
-      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true }
+      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true, checkInitials: true }
     },
     {
       fieldName: 'employeeSurname',
-      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true }
+      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true, checkInitials: true }
     },
     {
       fieldName: 'employeeFatherName',
-      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true }
+      validationParam: { checkEmpty: true, checkLength: true, checkLanguage: true, checkInitials: true }
     },
     {
       fieldName: 'employeeRNOKPP',
-      validationParam: { checkEmpty: true, checkDuplicate: true }
+      validationParam: { checkEmpty: true, checkDuplicate: true, checkRNOKPP: true }
     },
     {
       fieldName: 'employeeAssignedRole',
