@@ -65,7 +65,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     this.addressesFormArray = this.formBuilder.array([]);
     if (this.contacts) {
       this.contacts.forEach((contact) => {
-        this.addAddressGroup(contact);
+        this.addressesFormArray.push(this.createAddressFormGroup(contact));
       });
     } else {
       this.addressesFormArray = this.formBuilder.array([this.createAddressFormGroup()]);

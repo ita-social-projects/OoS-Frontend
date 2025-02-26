@@ -334,6 +334,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
     this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
+    this.DescriptionFormGroup.get('tagIds').markAsDirty();
   }
 
   private updateKeywordsInputState(): void {

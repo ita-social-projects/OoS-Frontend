@@ -93,14 +93,12 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
     return (
-      (!this.AboutFormGroup.dirty &&
-        !this.DescriptionFormGroup.dirty &&
-        !this.WorkshopContactsFormArray.dirty &&
-        !this.TeacherFormArray?.dirty) ||
+      (!this.AboutFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.WorkshopContactsFormArray.dirty) ||
+      // && !this.TeacherFormArray?.dirty
       this.AboutFormGroup.invalid ||
       this.DescriptionFormGroup.invalid ||
-      this.WorkshopContactsFormArray.invalid ||
-      this.TeacherFormArray?.invalid
+      this.WorkshopContactsFormArray.invalid
+      // || this.TeacherFormArray?.invalid
     );
   }
 
@@ -206,7 +204,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const aboutInfo = this.createAbout();
     const additionalAboutInfo = this.AdditionalAboutGroup.getRawValue();
     const descInfo = this.DescriptionFormGroup.getRawValue();
-    const teachers = this.createTeachers();
+    // const teachers = this.createTeachers();
+    const teachers = [];
 
     if (teachers.length > 1 && !teachers.some((teacher) => teacher.defaultTeacher)) {
       return this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
