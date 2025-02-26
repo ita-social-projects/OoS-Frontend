@@ -1080,5 +1080,8 @@
     }
   },
   "EMPLOYEES":"Employees",
-  "EMPLOYEES_REGISTRATION":"Employees registration"
+  "EMPLOYEES_REGISTRATION":"Employees registration",
+  "TEMP": {
+    "FUNCTIONALITY_LATER_MESSAGE": "This functionality will be added later"
+  }
 }
