@@ -178,8 +178,8 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
    */
   private createRequired(): CompetitionRequired {
     const requiredInfo = this.RequiredFormGroup.getRawValue();
-    if (requiredInfo.availableSeats === null) {
-      requiredInfo.availableSeats = this.UNLIMITED_SEATS;
+    if (requiredInfo.numberOfSeats === null) {
+      requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
     }
     return requiredInfo;
   }

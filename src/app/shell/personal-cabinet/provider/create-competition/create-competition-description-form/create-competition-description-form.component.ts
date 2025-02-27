@@ -59,6 +59,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray: FormArray = new FormArray([]);
+  public filteredCompetitionCoverage: { key: string; value: string }[] = [];
 
   protected readonly CompetitionCoverage = CompetitionCoverage;
 
@@ -74,7 +75,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   public get coverageControl(): FormControl {
-    return this.DescriptionFormGroup.get('coverage') as FormControl;
+    return this.DescriptionFormGroup.get('coverageId') as FormControl;
   }
 
   public ngOnInit(): void {
@@ -87,6 +88,9 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     });
 
     this.initForm();
+    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+
+    this.getFilterCompetitionCoverage();
 
     if (this.competition) {
       this.activateEditMode();
@@ -96,8 +100,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.onSelectionOptionsCtrlInit();
     this.onBenefitsOptionsCtrlInit();
     this.onPriceControlInit();
-
-    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
   }
 
   public ngOnDestroy(): void {
@@ -200,6 +202,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
     }
 
+    if (this.competition.coverageId) {
+      this.coverageControl.setValue(String(this.competition.coverageId), { emitEvent: false });
+    }
+
     if (this.competition.competitiveEventDescriptionItems?.length) {
       this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
         const itemFrom = this.newForm(item);
@@ -246,7 +252,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      coverage: new FormControl(null),
+      coverageId: new FormControl(null, Validators.required),
       formOfLearning: new FormControl(FormOfLearning.Offline),
       optionsForPeopleWithDisabilities: this.disabilityOptionRadioBtn,
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
@@ -308,5 +314,11 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     }
 
     return this.EditFormGroup;
+  }
+
+  private getFilterCompetitionCoverage(): void {
+    this.filteredCompetitionCoverage = Object.entries(CompetitionCoverage)
+      .filter(([key]) => !isNaN(Number(key)))
+      .map(([key, value]) => ({ key, value: value as string }));
   }
 }

@@ -61,8 +61,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     return this.RequiredFormGroup.get('numberOfSeats') as FormControl;
   }
 
-  public get typeOfCompetitionControl(): FormControl {
-    return this.RequiredFormGroup.get('typeOfCompetition') as FormControl;
+  public get competitiveEventAccountingTypeIdControl(): FormControl {
+    return this.RequiredFormGroup.get('competitiveEventAccountingTypeId') as FormControl;
   }
 
   public get minSeats(): number {
@@ -88,8 +88,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       this.activateEditMode();
     }
     if (this.parentCompetition) {
-      this.typeOfCompetitionControl.setValue(TypeOfCompetition.CompetitionStage);
-      this.typeOfCompetitionControl.disable();
+      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage);
+      this.competitiveEventAccountingTypeIdControl.disable();
     }
 
     this.initListeners();
@@ -144,6 +144,12 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       this.RequiredFormGroup.get('registrationDateRangeGroup')?.get('end')?.markAsTouched();
     }
 
+    if (this.competition.competitiveEventAccountingTypeId) {
+      this.competitiveEventAccountingTypeIdControl.setValue(String(this.competition.competitiveEventAccountingTypeId), {
+        emitEvent: false
+      });
+    }
+
     if (this.competition.numberOfSeats === this.UNLIMITED_SEATS) {
       this.setAvailableSeatsControlValue(null, 'disable', false);
     } else {
@@ -179,7 +185,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
         start: new FormControl<Date | null>(null),
         end: new FormControl<Date | null>(null)
       }),
-      typeOfCompetition: new FormControl<TypeOfCompetition | null>(null, Validators.required),
+      competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
       parentCompetitionControl: new FormControl(null),
       numberOfSeats: new FormControl({ value: null, disabled: true }, [
         Validators.required,
@@ -248,7 +254,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
 
   private filterTypeOfCompetition(stage?: boolean): void {
     this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
-      .filter(([key]) => stage || key !== 'CompetitionStage')
-      .map(([key, value]) => ({ key, value }));
+      .filter(([key, value]) => !isNaN(Number(key)) && (stage || value !== 'CompetitionStage'))
+      .map(([key, value]) => ({ key, value: value as string }));
   }
 }
