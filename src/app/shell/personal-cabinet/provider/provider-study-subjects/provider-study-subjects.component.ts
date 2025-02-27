@@ -4,10 +4,13 @@ import { Store } from '@ngxs/store';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from 'shared/store/navigation.actions';
+import { CommonModule } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
 // eslint-disable-next-line max-len
 import { ProviderState } from 'shared/store/provider.state';
@@ -48,8 +51,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     providerId: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
-  public filterFormControl: FormControl = new FormControl('');
   public studySubjects$: Observable<SubjectModel>;
+  public filterForm: FormGroup;
 
   constructor(
     protected store: Store,
@@ -61,8 +64,15 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.filterFormControl.valueChanges
-      .pipe(
+    this.filterForm = new FormGroup({
+      filterFormControl: new FormControl(''),
+      dateFrom: new FormControl(''),
+      dateTo: new FormControl('')
+    });
+
+    this.filterForm
+      .get('filterFormControl')
+      ?.valueChanges.pipe(
         distinctUntilChanged(),
         startWith(''),
         skip(1),

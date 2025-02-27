@@ -2,19 +2,21 @@
   <div class="search-area justify-start">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
-      <input
-        #input
-        [formControl]="filterFormControl"
-        matInput
-        type="text"
-        maxlength="200"
-        class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_STUDY_SUBJECT' | translate }}" />
+      <form [formGroup]="filterForm">
+        <input
+          #input
+          formControlName="filterFormControl"
+          matInput
+          type="text"
+          maxlength="200"
+          class="search"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_STUDY_SUBJECT' | translate }}" />
+      </form>
     </div>
   </div>
 
   <div class="header-column">
-    <div class="filters-wrapper justify-end items-start">
+    <!-- <div class="filters-wrapper justify-end items-start">
       <div class="filters-period">
         <span>{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
         <mat-form-field appPlaceholderStyling class="date" appearance="fill">
@@ -34,7 +36,7 @@
           </mat-date-range-picker>
         </mat-form-field>
       </div>
-    </div>
+    </div> -->
 
     <div class="reset">
       <mat-icon class="reset__icon">refresh</mat-icon>
