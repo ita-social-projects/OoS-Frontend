@@ -18,13 +18,12 @@ export abstract class CompetitionBase {
   scheduledEndTime: string;
   registrationStartTime?: string;
   registrationEndTime?: string;
-  typeOfCompetition: TypeOfCompetition;
   parentCompetition?: string;
   numberOfSeats: number;
   institutionHierarchyId?: string;
   subcategory?: string;
   description?: string;
-  coverage?: CompetitionCoverage;
+  coverageId: number;
   plannedFormatOfClasses?: FormOfLearning;
   optionsForPeopleWithDisabilities?: boolean;
   descriptionOfOptionsForPeopleWithDisabilities?: string;
@@ -60,11 +59,12 @@ export abstract class CompetitionBase {
     this.shortTitle = required.shortTitle;
     this.scheduledStartTime = new Date(required.competitionDateRangeGroup.start).toISOString();
     this.scheduledEndTime = new Date(required.competitionDateRangeGroup.end).toISOString();
-    this.typeOfCompetition = required.typeOfCompetition;
+    this.competitiveEventAccountingTypeId = required.competitiveEventAccountingTypeId;
     this.numberOfSeats = required.numberOfSeats;
     this.judges = judges;
     this.organizerOfTheEventId = provider.id;
     this.contacts = Contacts;
+    this.coverageId = description.coverageId;
 
     this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
     this.competitiveSelection = Boolean(description.descriptionOfTheEnrollmentProcedure);
@@ -97,9 +97,6 @@ export abstract class CompetitionBase {
     }
     if (description.description) {
       this.description = description.description;
-    }
-    if (description.coverage) {
-      this.coverage = description.coverage;
     }
     if (description.formOfLearning) {
       this.plannedFormatOfClasses = description.formOfLearning;
@@ -164,7 +161,7 @@ export interface CompetitionRequired {
   instagram?: string;
   competitionDateRangeGroup: { start: Date; end: Date };
   registrationDateRangeGroup?: { start: Date; end: Date };
-  typeOfCompetition: TypeOfCompetition;
+  competitiveEventAccountingTypeId: number;
   parentCompetition?: string;
   numberOfSeats: number;
   coverImageId?: string;
@@ -242,7 +239,7 @@ interface Description {
   institutionHierarchyId?: string;
   subcategory?: string;
   description?: string;
-  coverage?: CompetitionCoverage;
+  coverageId: CompetitionCoverage;
   formOfLearning?: FormOfLearning;
   disabilityOptionsDesc?: string;
   additionalDescription?: string;
