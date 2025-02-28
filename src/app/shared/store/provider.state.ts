@@ -1097,7 +1097,11 @@ export class ProviderState {
     { competition }: providerActions.DeleteCompetitionByIdSuccess
   ): void {
     const messageData = Util.getCompetitionMessage(competition, SnackbarText.deleteCompetition);
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: messageData.message, type: messageData.type }),
+      new providerActions.GetProviderViewCompetitions(competition)
+    ]);
   }
 
   @Action(providerActions.DeleteCompetitionByIdFail)
