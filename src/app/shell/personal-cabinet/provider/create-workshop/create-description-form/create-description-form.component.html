@@ -63,9 +63,9 @@
         #select
         multiple
         disableOptionCentering
-        panelClass="dropdown-panel select-with-form-field" 
+        panelClass="dropdown-panel select-with-form-field"
         class="step-input"
-        [ngClass]="tagsControl.value?.length ? 'select-with-tags' : '' "
+        [ngClass]="tagsControl.value?.length ? 'select-with-tags' : ''"
         [compareWith]="compareItems"
         [formControl]="tagsControl">
         <mat-select-trigger>
@@ -94,7 +94,7 @@
     (click)="setFocus()"
     tabindex="0"
     (keydown)="setFocus()"
-    [ngClass]="{ 'expanded-field': keyWords.length > 0 }">
+    [ngClass]="{ 'expanded-field': keyWords.length }">
     <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
@@ -222,7 +222,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="coverage"
-      panelClass="dropdown-panel select-with-form-field" 
+      panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       [placeholder]="'FORMS.LABELS.COVERAGE' | translate">
       <ng-container *ngFor="let type of Coverage | keyvalue">
