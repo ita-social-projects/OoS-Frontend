@@ -94,7 +94,6 @@
     class="step-input keywords step-textarea-short"
     (click)="setFocus()"
     tabindex="0"
-    (keydown)="setFocus()"
     [ngClass]="{ 'expanded-field': keyWords.length }">
     <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}

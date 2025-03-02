@@ -117,6 +117,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
           this.hierarchyArray[newHierarchyElementIndex].options = instituitionsHierarchy;
           this.hierarchyArray[newHierarchyElementIndex].shouldDisplay = true;
 
+          this.instituitionHierarchyIdFormControl.setValue(null);
+
           if (this.editInstituitionsHierarchy && this.editInstituitionsHierarchy[newHierarchyElementIndex]) {
             const nextEditInstitution = this.editInstituitionsHierarchy[newHierarchyElementIndex];
 
@@ -147,7 +149,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setFinalHierarchyLevel(optionId: string): void {
-    this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: true });
+    this.instituitionHierarchyIdFormControl.setValue(optionId);
     this.store.dispatch(new ResetInstitutionHierarchy());
     this.changeDetectorRef.markForCheck();
   }
