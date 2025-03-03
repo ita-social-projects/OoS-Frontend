@@ -4,13 +4,11 @@ import { Store } from '@ngxs/store';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import { CommonModule } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatDateRangePicker } from '@angular/material/datepicker';
 import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
 // eslint-disable-next-line max-len
 import { ProviderState } from 'shared/store/provider.state';
@@ -21,6 +19,8 @@ import { SearchResponse } from 'shared/models/search.model';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { FilterOptions } from 'shared/enum/history.log';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -30,10 +30,13 @@ import { ProviderComponent } from '../provider.component';
 })
 export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) public sort: MatSort;
+  @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
   public readonly noStudySubjects = NoResultsTitle.noStudySubjects;
+  public readonly debounceInputTime = 1000;
+  public readonly dateFilter = DATE_REGEX;
   public displayedColumns: string[] = [
     'nameInUkrainian',
     'activeFrom',
@@ -45,6 +48,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   ];
   public isLoaded: boolean = false;
   public totalElements = 0;
+  public maxDate = new Date();
+  public notAllowedToPickByTabButton = -1;
   public dataSource: MatTableDataSource<SubjectModel> = new MatTableDataSource<SubjectModel>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public subjectParameters: SubjectParameters = {
@@ -76,7 +81,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(1000),
+        debounceTime(this.debounceInputTime),
         takeUntil(this.destroy$),
         map((searchedText: string) => searchedText.trim())
       )
@@ -86,6 +91,16 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         this.currentPage = PaginationConstants.firstPage;
         this.getStudySubjects();
       });
+
+    this.filterForm
+      .get('dateFrom')
+      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
+      .subscribe(() => this.setDateForFilters());
+
+    this.filterForm
+      .get('dateTo')
+      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
+      .subscribe(() => this.setDateForFilters());
   }
 
   public addNavPath(): void {
@@ -139,6 +154,69 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  public closeDatePicker(): void {
+    if (this.picker) {
+      this.picker.close();
+    }
+  }
+
+  public onResetFilters(): void {
+    this.filterForm.patchValue({
+      dateFrom: '',
+      dateTo: ''
+    });
+    this.subjectParameters.dateFrom = '';
+    this.subjectParameters.dateTo = '';
+    this.closeDatePicker();
+
+    this.getStudySubjects();
+  }
+
+  public setDateForFilters(): void {
+    const { dateFrom, dateTo } = this.filterForm.value;
+    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
+    this.subjectParameters.dateFrom = dateFilters.dateFrom;
+    this.subjectParameters.dateTo = dateFilters.dateTo;
+
+    this.getStudySubjects();
+  }
+
+  private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds);
+  }
+
+  private setTimeDependsOnTimezone(dateFrom?: Date, dateTo?: Date): SubjectParameters {
+    const result: SubjectParameters = {};
+
+    if (dateFrom) {
+      const timezoneGap = dateFrom.getTimezoneOffset() * 60 * 1000;
+      const dateFromWithTimezoneGap = dateFrom.getTime() - timezoneGap;
+      result[FilterOptions.DateFrom] = new Date(dateFromWithTimezoneGap).toISOString().split('T')[0];
+    }
+
+    if (dateTo) {
+      const timezoneGap = dateTo.getTimezoneOffset() * 60 * 1000;
+      const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
+      result[FilterOptions.DateTo] = new Date(dateToWithTimezoneGap).toISOString().split('T')[0];
+    }
+
+    return result;
+  }
+
+  private setTimePeriodEqualToWholeDay(dateFrom?: Date, dateTo?: Date): SubjectParameters {
+    if (dateFrom) {
+      this.setCustomTimeInDate(dateFrom, 0, 0, 0);
+    }
+
+    if (dateTo) {
+      this.setCustomTimeInDate(dateTo, 23, 59, 59);
+    }
+
+    return this.setTimeDependsOnTimezone(dateFrom, dateTo);
   }
 
   private getStudySubjects(): void {

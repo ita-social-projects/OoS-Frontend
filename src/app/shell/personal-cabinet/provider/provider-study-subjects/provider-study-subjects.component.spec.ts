@@ -1,5 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,10 +8,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { PaginatorComponent } from 'shared/components/paginator/paginator.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
+import { GetStudySubjects } from 'shared/store/provider.actions';
 import { SubjectModel } from 'shared/models/study-subject.model';
 import { ProviderStudySubjectsComponent } from './provider-study-subjects.component';
 
@@ -51,8 +50,7 @@ describe('ProviderStudySubjectsComponent', () => {
         ReactiveFormsModule,
         MatTooltipModule,
         MatIconModule,
-        BrowserAnimationsModule,
-        MatDialog
+        BrowserAnimationsModule
       ],
       declarations: [ProviderStudySubjectsComponent, PaginatorComponent]
     }).compileComponents();

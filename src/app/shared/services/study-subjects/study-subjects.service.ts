@@ -22,6 +22,8 @@ export class StudySubjectService {
 
   public getStudySubjects(subjectParameters: SubjectParameters): Observable<SearchResponse<SubjectModel[]>> {
     const params = new HttpParams()
+      .set('StartDate', subjectParameters.dateFrom || '')
+      .set('EndDate', subjectParameters.dateTo || '')
       .set('SearchString', subjectParameters.searchString || '')
       .set('From', subjectParameters.from || '0')
       .set('Size', subjectParameters.size || '10');
