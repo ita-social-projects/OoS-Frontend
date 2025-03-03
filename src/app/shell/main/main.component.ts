@@ -138,11 +138,12 @@ export class MainComponent implements OnInit, OnDestroy {
           take(1),
           filter((favorite: Favorite[]) => !!favorite?.length || favorite === null)
         )
-        .subscribe((favorite: Favorite[]) => this.getMainPageData());
+        .subscribe(() => this.getMainPageData());
     } else if (role !== Role.unauthorized) {
       this.store.dispatch(new GetUnfinishedWorkshop());
-      this.getMainPageData();
     }
+
+    this.getMainPageData();
   }
 
   private getMainPageData(): void {
