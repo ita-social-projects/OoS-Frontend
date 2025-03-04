@@ -9,12 +9,15 @@
 
 .keyWordChip.keyWordChip.keyWordChip {
   width: fit-content;
+  white-space: normal !important;
+  height: auto !important;
   max-width: 100%;
 }
 
 .chip-text {
   width: calc(100%);
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -26,6 +29,10 @@
 .keywords-input {
   position: absolute;
   top: 5px;
+}
+
+.expanded-field {
+  height: auto !important;
 }
 
 .step-label-title {

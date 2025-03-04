@@ -124,17 +124,20 @@
           </div>
         </mat-step>
 
-        <mat-step
-          [stepControl]="TeacherFormArray"
-          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !WorkshopContactsFormArray.invalid">
+        <mat-step>
+          <!--          [stepControl]="TeacherFormArray"-->
+          <!--          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !WorkshopContactsFormArray.invalid">-->
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.TEACHERS' | translate }}</p>
           </ng-template>
-          <app-create-teacher
-            [teachers]="workshop?.teachers"
-            [isImagesFeature]="isImagesFeature"
-            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
-          </app-create-teacher>
+          <!--          <app-create-teacher-->
+          <!--            [teachers]="workshop?.teachers"-->
+          <!--            [isImagesFeature]="isImagesFeature"-->
+          <!--            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">-->
+          <!--          </app-create-teacher>-->
+          <div style="justify-content: center" class="add-wrapper flex flex-row">
+            <p>{{ 'TEMP.FUNCTIONALITY_LATER_MESSAGE' | translate }}</p>
+          </div>
 
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
