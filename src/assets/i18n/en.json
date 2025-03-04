@@ -545,7 +545,7 @@
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "INVALID_TIME_FORMAT": "Please use the time format \"09:59\"",
-      "INVALID_TIME_RANGE": "\"To\" cannot be earlier or equal than \"From\"",
+      "INVALID_TIME_RANGE": "\"To\" cannot be earlier than or equal \"From\"",
       "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than \"To\"",
       "INVALID_VALUE": "The number can be from {{minValue}} to {{maxValue}}",
       "INVALID_SECTION_NAME": "Check your data, please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
