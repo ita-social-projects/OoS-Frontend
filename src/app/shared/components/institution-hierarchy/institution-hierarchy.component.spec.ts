@@ -84,6 +84,7 @@ describe('InstitutionHierarchyComponent', () => {
         { hierarchyLevel: 1, formControl: new FormControl('1') } as HierarchyElement,
         { hierarchyLevel: 2, formControl: new FormControl('2') } as HierarchyElement
       ];
+      component.instituitionHierarchyIdFormControl = new FormControl();
     });
 
     it('should dispatch GetInstitutionHierarchyChildrenById with correct ID', () => {
