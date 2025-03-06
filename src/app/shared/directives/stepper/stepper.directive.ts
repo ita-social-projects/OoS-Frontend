@@ -1,5 +1,5 @@
 import { Directive, HostListener, Inject, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { WINDOW } from 'ngx-window-token';
 import { Store } from '@ngxs/store';
@@ -9,7 +9,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
   selector: '[appStepperNext]'
 })
 export class StepperDirective {
-  @Input() public form: FormGroup;
+  @Input() public form: FormGroup | FormArray;
   @Input() public stepper: MatStepper;
 
   private stepElement!: HTMLElement;

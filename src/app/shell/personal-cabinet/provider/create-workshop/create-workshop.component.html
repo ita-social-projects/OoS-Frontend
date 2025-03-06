@@ -107,8 +107,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="WorkshopContactsFormArray?.invalid"
+              appStepperNext
+              [form]="WorkshopContactsFormArray"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>

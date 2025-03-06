@@ -75,7 +75,6 @@
 
 .step-input {
   margin-top: 0;
-  margin-bottom: 0;
 }
 
 .spacer {
@@ -85,5 +84,11 @@
 button.mdc-button {
   .mat-icon {
     margin: 0;
+  }
+}
+
+:host ::ng-deep {
+  .mat-expansion-panel-content {
+    font-size: 13px;
   }
 }
