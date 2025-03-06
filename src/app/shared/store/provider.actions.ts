@@ -14,7 +14,7 @@ import {
   WorkshopMainRequiredProperties,
   WorkshopOtherRequiredProperties
 } from 'shared/models/draftWorkshop.model';
-import { SubjectModel, SubjectParameters } from 'shared/models/study-subject.model';
+import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -553,12 +553,12 @@ export class GetLanguageList {
 
 export class CreateStudySubject {
   static readonly type = '[provider] create study subject';
-  constructor(public payload: SubjectModel) {}
+  constructor(public payload: StudySubject) {}
 }
 
 export class OnCreateStudySubjectSuccess {
   static readonly type = '[provider] create study subject success';
-  constructor(public payload: SubjectModel) {}
+  constructor(public payload: StudySubject) {}
 }
 
 export class OnCreateStudySubjectFail {
@@ -568,7 +568,7 @@ export class OnCreateStudySubjectFail {
 
 export class GetStudySubjects {
   static readonly type = '[provider] get study subjects';
-  constructor(public payload: SubjectParameters) {}
+  constructor(public payload: StudySubjectParameters) {}
 }
 
 export class GetStudySubjectById {
@@ -581,12 +581,12 @@ export class GetStudySubjectById {
 
 export class UpdateStudySubject {
   static readonly type = '[provider] update study subject';
-  constructor(public payload: SubjectModel) {}
+  constructor(public payload: StudySubject) {}
 }
 
 export class OnUpdateStudySubjectSuccess {
   static readonly type = '[provider] update study subject success';
-  constructor(public payload: SubjectModel) {}
+  constructor(public payload: StudySubject) {}
 }
 
 export class OnUpdateStudySubjectFail {
@@ -597,14 +597,14 @@ export class OnUpdateStudySubjectFail {
 export class DeleteStudySubjectById {
   static readonly type = '[provider] delete study subject by id';
   constructor(
-    public subjectParameters: SubjectParameters,
+    public subjectParameters: StudySubjectParameters,
     public subjectId: string
   ) {}
 }
 
 export class OnDeleteStudySubjectSuccess {
   static readonly type = '[provider] delete study subject success';
-  constructor(public parameters: SubjectParameters) {}
+  constructor(public parameters: StudySubjectParameters) {}
 }
 
 export class OnDeleteStudySubjectFail {

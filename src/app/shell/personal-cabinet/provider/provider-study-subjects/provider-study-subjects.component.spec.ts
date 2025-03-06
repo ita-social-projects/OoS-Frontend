@@ -12,7 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { GetStudySubjects } from 'shared/store/provider.actions';
-import { SubjectModel } from 'shared/models/study-subject.model';
+import { StudySubject } from 'shared/models/study-subject.model';
 import { ProviderStudySubjectsComponent } from './provider-study-subjects.component';
 
 describe('ProviderStudySubjectsComponent', () => {
@@ -20,7 +20,7 @@ describe('ProviderStudySubjectsComponent', () => {
   let fixture: ComponentFixture<ProviderStudySubjectsComponent>;
   let store: Store;
 
-  const mockSubject = (overrides?: Partial<SubjectModel>): SubjectModel => ({
+  const mockSubject = (overrides?: Partial<StudySubject>): StudySubject => ({
     id: '123',
     nameInUkrainian: 'Math',
     nameInInstructionLanguage: 'Mathematics',
@@ -84,7 +84,7 @@ describe('ProviderStudySubjectsComponent', () => {
 
   describe('getStudySubjects', () => {
     it('should dispatch GetStudySubjects action', () => {
-      (component as any).provider = { id: '1', providerId: '123' } as SubjectModel;
+      (component as any).provider = { id: '1', providerId: '123' } as StudySubject;
       jest.spyOn(store, 'dispatch');
 
       (component as any).getStudySubjects();
@@ -95,7 +95,7 @@ describe('ProviderStudySubjectsComponent', () => {
 
   describe('initProviderData', () => {
     it('should initialize provider data and subscribe to study subjects', () => {
-      const subject = { id: '123', providerId: '1', nameInUkrainian: 'Test Subject' } as SubjectModel;
+      const subject = { id: '123', providerId: '1', nameInUkrainian: 'Test Subject' } as StudySubject;
       const mockSubjects = {
         entities: [mockSubject()],
         totalAmount: 1

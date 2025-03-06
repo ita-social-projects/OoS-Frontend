@@ -1,26 +1,25 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { PushNavPath } from 'shared/store/navigation.actions';
-import { MatSort } from '@angular/material/sort';
-import { PaginationElement } from 'shared/models/pagination-element.model';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatDateRangePicker } from '@angular/material/datepicker';
-import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
-// eslint-disable-next-line max-len
+import { Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
-import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { Util } from 'shared/utils/utils';
-import { SubjectModel, SubjectParameters } from 'shared/models/study-subject.model';
-import { SearchResponse } from 'shared/models/search.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { FilterOptions } from 'shared/enum/history.log';
-import { DATE_REGEX } from 'shared/constants/regex-constants';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -50,13 +49,13 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public totalElements = 0;
   public maxDate = new Date();
   public notAllowedToPickByTabButton = -1;
-  public dataSource: MatTableDataSource<SubjectModel> = new MatTableDataSource<SubjectModel>();
+  public dataSource: MatTableDataSource<StudySubject> = new MatTableDataSource<StudySubject>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public subjectParameters: SubjectParameters = {
+  public subjectParameters: StudySubjectParameters = {
     providerId: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
-  public studySubjects$: Observable<SubjectModel>;
+  public studySubjects$: Observable<StudySubject>;
   public filterForm: FormGroup;
 
   constructor(
@@ -118,11 +117,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.getStudySubjects();
     this.store
       .select(ProviderState.studySubject)
-      .pipe(
-        filter((subject: SearchResponse<SubjectModel[]>) => Boolean(subject)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((subjects: SearchResponse<SubjectModel[]>) => {
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((subjects: SearchResponse<StudySubject[]>) => {
         this.dataSource.data = subjects.entities;
         this.totalElements = subjects.totalAmount;
         this.isLoaded = true;
@@ -130,12 +126,12 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.dataSource.sort = this.sort;
   }
 
-  public onDelete(subject: SubjectModel): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: { type: ModalConfirmationType.deleteSubject, property: subject.nameInUkrainian }
-    });
-    dialogRef
+  public onDelete(subject: StudySubject): void {
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: { type: ModalConfirmationType.deleteSubject, property: subject.nameInUkrainian }
+      })
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => this.store.dispatch(new DeleteStudySubjectById(this.subjectParameters, subject.id)));
@@ -189,8 +185,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     date.setSeconds(seconds);
   }
 
-  private setTimeDependsOnTimezone(dateFrom?: Date, dateTo?: Date): SubjectParameters {
-    const result: SubjectParameters = {};
+  private setTimeDependsOnTimezone(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
+    const result: StudySubjectParameters = {};
 
     if (dateFrom) {
       const timezoneGap = dateFrom.getTimezoneOffset() * 60 * 1000;
@@ -207,7 +203,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     return result;
   }
 
-  private setTimePeriodEqualToWholeDay(dateFrom?: Date, dateTo?: Date): SubjectParameters {
+  private setTimePeriodEqualToWholeDay(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
     if (dateFrom) {
       this.setCustomTimeInDate(dateFrom, 0, 0, 0);
     }

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -7,13 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
-import { ProviderState } from 'shared/store/provider.state';
-import { GetLanguageList, CreateStudySubject, UpdateStudySubject, GetStudySubjectById } from 'shared/store/provider.actions';
-import { Constants } from 'shared-constants/constants';
-import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
+import { GetLanguageList, GetStudySubjectById } from 'shared/store/provider.actions';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateStudySubjectComponent } from './create-study-subject.component';
 
@@ -73,18 +68,23 @@ describe('CreateStudySubjectComponent', () => {
   });
 
   it('should create the component', () => {
+    fixture.detectChanges();
+
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
     it('should dispatch GetLanguageList action', () => {
       component.ngOnInit();
+
       expect(mockStore.dispatch).toHaveBeenCalledWith(new GetLanguageList());
     });
 
     it('should call addNavPath', () => {
       const addNavPathSpy = jest.spyOn(component, 'addNavPath');
+
       component.ngOnInit();
+
       expect(addNavPathSpy).toHaveBeenCalled();
     });
   });
@@ -98,9 +98,11 @@ describe('CreateStudySubjectComponent', () => {
         language: 'English'
       });
     });
+
     it('should not dispatch action if form is invalid or unchanged', () => {
       component.studySubjectFormGroup.markAsPristine();
       component.studySubjectFormGroup.markAsUntouched();
+
       component.onSubmit();
 
       expect(mockStore.dispatch).not.toHaveBeenCalled();
@@ -110,6 +112,7 @@ describe('CreateStudySubjectComponent', () => {
   describe('onCancel', () => {
     it('should navigate to the study subjects page', () => {
       component.onCancel();
+
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/personal-cabinet/provider/study-subjects']);
     });
   });
@@ -117,6 +120,7 @@ describe('CreateStudySubjectComponent', () => {
   describe('addNavPath', () => {
     it('should dispatch AddNavPath with correct arguments', () => {
       component.addNavPath();
+
       expect(mockStore.dispatch).toHaveBeenCalled();
     });
   });

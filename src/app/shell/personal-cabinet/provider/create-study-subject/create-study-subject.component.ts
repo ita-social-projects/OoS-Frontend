@@ -1,28 +1,26 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
+import { AddNavPath } from 'shared-store/navigation.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared-store/registration.state';
+import { CreateStudySubject, GetLanguageList, GetStudySubjectById, UpdateStudySubject } from 'shared/store/provider.actions';
 import { Observable, tap, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
-import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared-constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared-constants/regex-constants';
 import { ValidationConstants } from 'shared-constants/validation';
-
 import { NavBarName, PersonalCabinetTitle } from 'shared-enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { Role } from 'shared-enum/role';
-import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
-import { ProviderState } from 'shared/store/provider.state';
 import { Provider } from 'shared/models/provider.model';
-import { AddNavPath } from 'shared-store/navigation.actions';
-import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
-import { RegistrationState } from 'shared-store/registration.state';
-import { CreateStudySubject, GetLanguageList, GetStudySubjectById, UpdateStudySubject } from 'shared/store/provider.actions';
-import { SubjectModel } from 'shared/models/study-subject.model';
+import { StudySubject } from 'shared/models/study-subject.model';
 import { LanguageListItem } from 'shared/models/language-list.model';
+import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
+import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
+import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -43,15 +41,14 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
   public languageList$!: Observable<LanguageListItem[]>;
 
   @Select(ProviderState.selectedSubject)
-  public selectedSubject$: Observable<SubjectModel>;
+  public selectedSubject$: Observable<StudySubject>;
 
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
 
-  public readonly Constants = Constants;
   public readonly ValidationConstants = ValidationConstants;
 
-  public studySubject: SubjectModel;
+  public studySubject: StudySubject;
   public provider: Provider;
   public studySubjectFormGroup: FormGroup;
   public formTitle: string;
@@ -61,14 +58,16 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
-    private formBuilder: FormBuilder,
-    private matDialog: MatDialog,
-    private router: Router,
-    private subjectService: StudySubjectService,
+    private readonly formBuilder: FormBuilder,
+    private readonly matDialog: MatDialog,
+    private readonly router: Router,
+    private readonly subjectSubjectService: StudySubjectService,
     private readonly cdr: ChangeDetectorRef
   ) {
     super(store, route, navigationBarService);
+  }
 
+  public ngOnInit(): void {
     this.studySubjectFormGroup = this.formBuilder.group({
       nameInUkrainian: new FormControl('', defaultValidators),
       nameInInstructionLanguage: new FormControl('', defaultValidators),
@@ -76,12 +75,9 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
     });
 
     this.subscribeOnDirtyForm(this.studySubjectFormGroup);
-  }
-
-  public ngOnInit(): void {
     this.provider$
       .pipe(
-        filter((provider: Provider) => Boolean(provider)),
+        filter(Boolean),
         tap((provider: Provider) => {
           this.provider = provider;
         }),
@@ -97,24 +93,17 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
   public setEditMode(): void {
     const subjectId = this.route.snapshot.paramMap.get('param');
 
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => Boolean(provider)),
-        tap((provider: Provider) => {
-          this.provider = provider;
-          this.store.dispatch(new GetStudySubjectById(subjectId, this.provider.id));
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+    if (this.provider) {
+      this.store.dispatch(new GetStudySubjectById(subjectId, this.provider.id));
+    }
 
     combineLatest([
-      this.selectedSubject$.pipe(filter((subject: SubjectModel) => !!subject && subject.id === subjectId)),
-      this.languageList$.pipe(filter((languages: LanguageListItem[]) => !!languages && languages.length > 0))
+      this.selectedSubject$.pipe(filter((subject: StudySubject) => !!subject && subject?.id === subjectId)),
+      this.languageList$.pipe(filter((languages: LanguageListItem[]) => !!languages && languages?.length > 0))
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([subject, languages]) => {
-        this.studySubject = new SubjectModel(subject, this.provider, subjectId);
+        this.studySubject = new StudySubject(subject, this.provider, subjectId);
         const selectedLanguage = languages.find((lang) => lang.id === subject.language.id);
         this.studySubjectFormGroup.patchValue(
           {
@@ -166,12 +155,12 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
           this.isDispatching = true;
 
           const subjectInfo = this.studySubjectFormGroup.value;
-          let subject: SubjectModel;
+          let subject: StudySubject;
           if (this.editMode) {
-            subject = new SubjectModel(subjectInfo, this.provider, this.studySubject.id);
+            subject = new StudySubject(subjectInfo, this.provider, this.studySubject.id);
             this.store.dispatch(new UpdateStudySubject(subject));
           } else {
-            subject = new SubjectModel(subjectInfo, this.provider);
+            subject = new StudySubject(subjectInfo, this.provider);
             this.store.dispatch(new CreateStudySubject(subject));
           }
         });

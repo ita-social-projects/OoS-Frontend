@@ -32,7 +32,7 @@ import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
-import { SubjectModel } from 'shared/models/study-subject.model';
+import { StudySubject } from 'shared/models/study-subject.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -61,8 +61,8 @@ export interface ProviderStateModel {
   unfinishedWorkshop: WorkshopDraftState;
   timeToLiveUnfinishedWorkshop: string | null;
   languageList: LanguageListItem[];
-  studySubject: SearchResponse<SubjectModel[]>;
-  selectedSubject: SubjectModel;
+  studySubject: SearchResponse<StudySubject[]>;
+  selectedSubject: StudySubject;
 }
 
 @State<ProviderStateModel>({
@@ -179,12 +179,12 @@ export class ProviderState {
   }
 
   @Selector()
-  static studySubject(state: ProviderStateModel): SearchResponse<SubjectModel[]> {
+  static studySubject(state: ProviderStateModel): SearchResponse<StudySubject[]> {
     return state.studySubject;
   }
 
   @Selector()
-  static selectedSubject(state: ProviderStateModel): SubjectModel {
+  static selectedSubject(state: ProviderStateModel): StudySubject {
     return state.selectedSubject;
   }
 
@@ -1131,10 +1131,10 @@ export class ProviderState {
   createStudySubject(
     { dispatch, patchState }: StateContext<ProviderStateModel>,
     { payload }: providerActions.CreateStudySubject
-  ): Observable<SubjectModel | void> {
+  ): Observable<StudySubject | void> {
     patchState({ isLoading: true });
     return this.studySubjectService.createStudySubject(payload).pipe(
-      tap((res: SubjectModel) => dispatch(new providerActions.OnCreateStudySubjectSuccess(res))),
+      tap((res: StudySubject) => dispatch(new providerActions.OnCreateStudySubjectSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateStudySubjectFail(error)))
     );
   }
@@ -1162,12 +1162,12 @@ export class ProviderState {
   getStudySubjects(
     { patchState }: StateContext<ProviderStateModel>,
     { payload }: providerActions.GetStudySubjects
-  ): Observable<SearchResponse<SubjectModel[]>> {
+  ): Observable<SearchResponse<StudySubject[]>> {
     patchState({ isLoading: true });
     return this.studySubjectService
       .getStudySubjects(payload)
       .pipe(
-        tap((studySubject: SearchResponse<SubjectModel[]>) => patchState({ studySubject: studySubject ?? EMPTY_RESULT, isLoading: false }))
+        tap((studySubject: SearchResponse<StudySubject[]>) => patchState({ studySubject: studySubject ?? EMPTY_RESULT, isLoading: false }))
       );
   }
 
@@ -1175,20 +1175,20 @@ export class ProviderState {
   GetStudySubjectById(
     { patchState }: StateContext<ProviderStateModel>,
     payload: providerActions.GetStudySubjectById
-  ): Observable<SubjectModel> {
+  ): Observable<StudySubject> {
     patchState({ isLoading: true });
     return this.studySubjectService
       .getStudySubjectById(payload.subjectId, payload.providerId)
-      .pipe(tap((selectedSubject: SubjectModel) => patchState({ selectedSubject, isLoading: false })));
+      .pipe(tap((selectedSubject: StudySubject) => patchState({ selectedSubject, isLoading: false })));
   }
 
   @Action(providerActions.UpdateStudySubject)
   UpdateStudySubject(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.UpdateStudySubject
-  ): Observable<SubjectModel | void> {
+  ): Observable<StudySubject | void> {
     return this.studySubjectService.updateStudySubject(payload).pipe(
-      tap((res: SubjectModel) => dispatch(new providerActions.OnUpdateStudySubjectSuccess(res))),
+      tap((res: StudySubject) => dispatch(new providerActions.OnUpdateStudySubjectSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateStudySubjectFail(error)))
     );
   }
@@ -1217,7 +1217,7 @@ export class ProviderState {
   DeleteStudySubjectById(
     { dispatch }: StateContext<ProviderStateModel>,
     { subjectParameters, subjectId }: providerActions.DeleteStudySubjectById
-  ): Observable<SubjectModel[] | void> {
+  ): Observable<StudySubject[] | void> {
     return this.studySubjectService.deleteStudySubject(subjectParameters, subjectId).pipe(
       tap(() => {
         dispatch(new providerActions.OnDeleteStudySubjectSuccess(subjectParameters));

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
 import { SearchResponse } from 'shared/models/search.model';
-import { SubjectModel, SubjectParameters } from 'shared/models/study-subject.model';
+import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { StudySubjectService } from './study-subjects.service';
 
 describe('StudySubjectService', () => {
@@ -12,7 +12,7 @@ describe('StudySubjectService', () => {
   const mockBaseUrl = '/api/v1/providers';
   const mockProviderId = '123';
 
-  const mockSubject: SubjectModel = {
+  const mockSubject: StudySubject = {
     id: '1',
     nameInUkrainian: 'Математика',
     nameInInstructionLanguage: 'Mathematics',
@@ -25,7 +25,7 @@ describe('StudySubjectService', () => {
     providerId: mockProviderId
   };
 
-  const mockSubjectList: SearchResponse<SubjectModel[]> = {
+  const mockSubjectList: SearchResponse<StudySubject[]> = {
     entities: [mockSubject],
     totalAmount: 1
   };
@@ -61,7 +61,7 @@ describe('StudySubjectService', () => {
   });
 
   it('should send a GET request to retrieve study subjects', () => {
-    const mockParameters: SubjectParameters = {
+    const mockParameters: StudySubjectParameters = {
       providerId: mockProviderId,
       searchString: 'Math',
       from: 0,
@@ -101,7 +101,7 @@ describe('StudySubjectService', () => {
   });
 
   it('should send a DELETE request to remove a study subject', () => {
-    const mockParameters: SubjectParameters = {
+    const mockParameters: StudySubjectParameters = {
       providerId: mockProviderId,
       from: 0,
       size: 10
@@ -119,7 +119,7 @@ describe('StudySubjectService', () => {
   });
 
   it('should send a PUT request to update a study subject', () => {
-    const updatedSubject: SubjectModel = { ...mockSubject, nameInUkrainian: 'Алгебра' };
+    const updatedSubject: StudySubject = { ...mockSubject, nameInUkrainian: 'Алгебра' };
 
     service.updateStudySubject(updatedSubject).subscribe((response) => {
       expect(response).toEqual(updatedSubject);
