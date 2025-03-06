@@ -4,6 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { WINDOW } from 'ngx-window-token';
 import { Store } from '@ngxs/store';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
   selector: '[appStepperNext]'
@@ -16,7 +17,8 @@ export class StepperDirective {
 
   constructor(
     @Inject(WINDOW) private window: Window,
-    private store: Store
+    private store: Store,
+    private translateService: TranslateService
   ) {}
 
   @HostListener('click', ['$event'])
@@ -47,8 +49,9 @@ export class StepperDirective {
     ); // add selector for a specific non-input type element
     if (invalidFields.length) {
       invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // eslint-disable-next-line prettier/prettier
-      this.store.dispatch(new ShowMessageBar({ message: 'Заповність обов\'язкові поля', type: 'error' }));
+      this.translateService.get('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY').subscribe((text) => {
+        this.store.dispatch(new ShowMessageBar({ message: text, type: 'error' }));
+      });
       setTimeout(() => (invalidFields[0] as HTMLElement).focus(), 1000);
     }
   }

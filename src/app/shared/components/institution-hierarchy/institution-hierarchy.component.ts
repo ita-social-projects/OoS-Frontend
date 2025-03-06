@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
@@ -77,7 +77,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray = this.hierarchyArray.slice(0, nextEl);
       this.setFinalHierarchyLevel(null);
     }
-    this.changeDetectorRef.detectChanges();
+    this.instituitionHierarchyIdFormControl.updateValueAndValidity();
+    this.changeDetectorRef.markForCheck();
   }
 
   public ngOnDestroy(): void {
@@ -138,7 +139,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private createHierarchyElement(descriptionIndex: number): HierarchyElement {
-    return {
+    const hierarchyElement = {
       formControl: new FormControl('', Validators.required),
       title: this.institutionFieldDesc[descriptionIndex].title,
       hierarchyLevel: this.institutionFieldDesc[descriptionIndex].hierarchyLevel,
@@ -146,6 +147,14 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       shouldDisplay: false,
       options: []
     };
+
+    const originalMethod = hierarchyElement.formControl.markAsTouched;
+    hierarchyElement.formControl.markAsTouched = function (): void {
+      originalMethod.apply(this, arguments);
+      (hierarchyElement.formControl.statusChanges as EventEmitter<any>).emit();
+    };
+
+    return hierarchyElement;
   }
 
   private setFinalHierarchyLevel(optionId: string): void {
