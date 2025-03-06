@@ -27,15 +27,19 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button appStepperNext [form]="AboutFormGroup" [stepper]="stepper"
-                    (click)="saveUnfinishedData(AboutFormGroup)">
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="AboutFormGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="AdditionalAboutGroup"
-                  [completed]="!AboutFormGroup.invalid && !AdditionalAboutGroup.invalid">
+        <mat-step [stepControl]="AdditionalAboutGroup" [completed]="!AboutFormGroup.invalid && !AdditionalAboutGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}</p>
           </ng-template>
@@ -52,15 +56,19 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button appStepperNext [form]="AdditionalAboutGroup" [stepper]="stepper"
-                    (click)="saveUnfinishedData(AdditionalAboutGroup)">
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="AdditionalAboutGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(AdditionalAboutGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="DescriptionFormGroup"
-                  [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
@@ -82,7 +90,8 @@
               class="btn"
               mat-raised-button
               appStepperNext
-              [form]="DescriptionFormGroup" [stepper]="stepper"
+              [form]="DescriptionFormGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>

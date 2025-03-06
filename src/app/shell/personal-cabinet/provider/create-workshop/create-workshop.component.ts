@@ -31,6 +31,7 @@ import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { Address } from 'shared/models/address.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -161,6 +162,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
+    if (formGroup.invalid) {
+      return;
+    }
     const param = this.getRouteParam();
     if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
       return;
