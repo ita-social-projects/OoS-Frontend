@@ -22,6 +22,7 @@
           <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
             <input
               matStartDate
+              matInput
               placeholder="{{ 'FROM' | translate }}"
               formControlName="dateFrom"
               [appKeyFilter]="dateFilter"
@@ -29,6 +30,7 @@
               [tabIndex]="notAllowedToPickByTabButton" />
             <input
               matEndDate
+              matInput
               placeholder="{{ 'TO' | translate }}"
               formControlName="dateTo"
               [appKeyFilter]="dateFilter"

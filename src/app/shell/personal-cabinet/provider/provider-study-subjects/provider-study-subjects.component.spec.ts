@@ -5,6 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { PaginatorComponent } from 'shared/components/paginator/paginator.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { GetStudySubjects } from 'shared/store/provider.actions';
 import { StudySubject } from 'shared/models/study-subject.model';
+import { LanguageId } from 'shared/enum/language-id';
 import { ProviderStudySubjectsComponent } from './provider-study-subjects.component';
 
 describe('ProviderStudySubjectsComponent', () => {
@@ -25,7 +28,7 @@ describe('ProviderStudySubjectsComponent', () => {
     nameInUkrainian: 'Math',
     nameInInstructionLanguage: 'Mathematics',
     isLanguageUkrainian: true,
-    languageId: 2,
+    languageId: LanguageId.Ukrainian,
     language: {
       id: 2,
       code: 'UA',
@@ -46,7 +49,9 @@ describe('ProviderStudySubjectsComponent', () => {
         MatTableModule,
         TranslateModule.forRoot(),
         MatSelectModule,
+        MatFormFieldModule,
         RouterTestingModule,
+        MatInputModule,
         ReactiveFormsModule,
         MatTooltipModule,
         MatIconModule,
@@ -61,8 +66,7 @@ describe('ProviderStudySubjectsComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
 
-    // Mock provider object here
-    component.provider = { id: '1' } as any; // Ensure provider has id property
+    component.provider = { id: '1' } as any;
     fixture.detectChanges();
   });
 

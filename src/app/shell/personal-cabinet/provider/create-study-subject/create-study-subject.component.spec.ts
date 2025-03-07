@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
-import { GetLanguageList, GetStudySubjectById } from 'shared/store/provider.actions';
+import { GetLanguageList } from 'shared/store/provider.actions';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateStudySubjectComponent } from './create-study-subject.component';
 

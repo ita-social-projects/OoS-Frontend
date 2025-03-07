@@ -31,7 +31,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   @ViewChild(MatSort) public sort: MatSort;
   @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
 
-  public readonly constants: typeof Constants = Constants;
+  public readonly Constants = Constants;
   public readonly ModeConstants = ModeConstants;
   public readonly noStudySubjects = NoResultsTitle.noStudySubjects;
   public readonly debounceInputTime = 1000;

@@ -1172,7 +1172,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.GetStudySubjectById)
-  GetStudySubjectById(
+  getStudySubjectById(
     { patchState }: StateContext<ProviderStateModel>,
     payload: providerActions.GetStudySubjectById
   ): Observable<StudySubject> {
@@ -1183,7 +1183,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.UpdateStudySubject)
-  UpdateStudySubject(
+  updateStudySubject(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.UpdateStudySubject
   ): Observable<StudySubject | void> {
@@ -1194,7 +1194,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.OnUpdateStudySubjectSuccess)
-  OnUpdateStudySubjectSuccess(
+  onUpdateStudySubjectSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.OnUpdateStudySubjectSuccess
   ): void {
@@ -1214,7 +1214,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.DeleteStudySubjectById)
-  DeleteStudySubjectById(
+  deleteStudySubjectById(
     { dispatch }: StateContext<ProviderStateModel>,
     { subjectParameters, subjectId }: providerActions.DeleteStudySubjectById
   ): Observable<StudySubject[] | void> {

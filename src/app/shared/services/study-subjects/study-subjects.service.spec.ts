@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
 import { SearchResponse } from 'shared/models/search.model';
+import { LanguageId } from 'shared/enum/language-id';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { StudySubjectService } from './study-subjects.service';
 
@@ -17,7 +18,7 @@ describe('StudySubjectService', () => {
     nameInUkrainian: 'Математика',
     nameInInstructionLanguage: 'Mathematics',
     isLanguageUkrainian: true,
-    languageId: 2,
+    languageId: LanguageId.Ukrainian,
     language: { id: 2, code: 'uk', name: 'Ukrainian' },
     activeFrom: '2024-01-01',
     activeTo: '2024-12-31',
@@ -63,7 +64,9 @@ describe('StudySubjectService', () => {
   it('should send a GET request to retrieve study subjects', () => {
     const mockParameters: StudySubjectParameters = {
       providerId: mockProviderId,
-      searchString: 'Math',
+      dateFrom: '',
+      dateTo: '',
+      searchString: '',
       from: 0,
       size: 10
     };
@@ -72,7 +75,9 @@ describe('StudySubjectService', () => {
       expect(response).toEqual(mockSubjectList);
     });
 
-    const req = httpTestingController.expectOne(`${mockBaseUrl}/${mockProviderId}/studysubjects/Get?SearchString=Math&From=0&Size=10`);
+    const req = httpTestingController.expectOne(
+      `${mockBaseUrl}/${mockProviderId}/studysubjects/Get?StartDate=&EndDate=&SearchString=&From=0&Size=10`
+    );
 
     expect(req.request.method).toBe('GET');
     req.flush(mockSubjectList);
@@ -140,7 +145,9 @@ describe('StudySubjectService', () => {
       }
     });
 
-    const req = httpTestingController.expectOne(`${mockBaseUrl}/${mockProviderId}/studysubjects/Get?SearchString=&From=0&Size=10`);
+    const req = httpTestingController.expectOne(
+      `${mockBaseUrl}/${mockProviderId}/studysubjects/Get?StartDate=&EndDate=&SearchString=&From=0&Size=10`
+    );
 
     req.flush('Server error', { status: 500, statusText: 'Internal Server Error' });
   });

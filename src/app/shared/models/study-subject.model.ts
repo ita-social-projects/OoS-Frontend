@@ -1,4 +1,4 @@
-import { LanguageId } from 'shared/enum/language-list';
+import { LanguageId } from 'shared/enum/language-id';
 import { Provider } from './provider.model';
 import { PaginationParameters } from './query-parameters.model';
 import { LanguageListItem } from './language-list.model';
@@ -8,7 +8,7 @@ export class StudySubject {
   nameInUkrainian: string;
   nameInInstructionLanguage: string;
   isLanguageUkrainian: boolean;
-  languageId: number;
+  languageId: LanguageId;
   language: LanguageListItem;
   activeFrom: string;
   activeTo: string;
