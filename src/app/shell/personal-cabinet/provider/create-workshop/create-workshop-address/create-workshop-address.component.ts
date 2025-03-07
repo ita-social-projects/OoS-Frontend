@@ -134,6 +134,20 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public activateEditMode(contactsFormGroup: FormGroup, contact: Contacts): void {
+    while ((contactsFormGroup.get('phones') as FormArray).length < contact.phones.length) {
+      (contactsFormGroup.get('phones') as FormArray).push(this.createPhoneFormGroup());
+    }
+    while ((contactsFormGroup.get('emails') as FormArray).length < contact.emails.length) {
+      (contactsFormGroup.get('emails') as FormArray).push(this.createEmailFormGroup());
+    }
+    while ((contactsFormGroup.get('socialNetworks') as FormArray).length < contact.socialNetworks.length) {
+      (contactsFormGroup.get('socialNetworks') as FormArray).push(this.createSocialNetworksFormGroup());
+    }
+    contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddressDto, { emitEvent: false });
+    contactsFormGroup
+      .get('searchGroup')
+      .get('settlementSearch')
+      .setValue(contact.address.codeficatorAddressDto.settlement, { emitEvent: false });
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
 
