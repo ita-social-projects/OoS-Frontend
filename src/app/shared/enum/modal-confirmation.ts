@@ -44,7 +44,10 @@ export enum ModalConfirmationType {
   licenseApproved = 'licenseApproved',
   publishWorkshop = 'publishWorkshop',
   archiveWorkshop = 'archiveWorkshop',
-  incompleteWorkshop = 'incompleteWorkshop'
+  incompleteWorkshop = 'incompleteWorkshop',
+  deleteSubject = 'deleteSubject',
+  editSubject = 'editSubject',
+  createSubject = 'createSubject'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
@@ -97,7 +100,10 @@ export enum ModalConfirmationTitle {
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_WORKSHOP',
   archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP',
-  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP'
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP',
+  deleteSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_SUBJECT',
+  editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDIT_SUBJECT',
+  createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CREATE_SUBJECT'
 }
 
 export enum ModalConfirmationText {
@@ -144,7 +150,10 @@ export enum ModalConfirmationText {
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_WORKSHOP',
   archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP',
-  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP'
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP',
+  deleteSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_SUBJECT',
+  editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDIT_SUBJECT',
+  createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CREATE_SUBJECT'
 }
 
 export enum ModalConfirmationDescription {
