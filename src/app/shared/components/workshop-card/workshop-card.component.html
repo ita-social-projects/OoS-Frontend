@@ -17,7 +17,10 @@
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             [matTooltipPosition]="tooltipPositionAbove"
-            [routerLink]="['/details/workshop', workshopData.id]">
+            [routerLink]="[
+              workshopData.id ? '/details/workshop' : '/details/draft',
+              workshopData.id ? workshopData.id : workshopData.workshopDraftId
+            ]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           <div class="workshop-title-container">
@@ -34,14 +37,19 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/workshop', workshopData.id]">
+        <a
+          class="more-details"
+          [routerLink]="[
+            workshopData.id ? '/details/workshop' : '/details/draft',
+            workshopData.id ? workshopData.id : workshopData.workshopDraftId
+          ]">
           <span class="card_link">
             {{ 'MORE_DETAILS' | translate }}
           </span>
           <mat-icon>arrow_forward</mat-icon>
         </a>
         <ng-container *ngIf="isCabinetView && (featuresList$ | async)?.achievementManagement">
-          <a class="more-details" [routerLink]="['/create-achievement', workshopData.id]">
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
             <mat-icon>add</mat-icon>
             <span class="card_link">
               {{ 'ADD_ACHIEVEMENT' | translate }}
@@ -69,7 +77,9 @@
 
 <ng-template #ProviderActions>
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
-    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.id]">
+    <div
+      class="actions_btn action-icon"
+      [routerLink]="['/create-workshop', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
       <mat-icon>edit</mat-icon>
     </div>
     <div class="actions_btn action-icon" (click)="onDelete()">
@@ -142,7 +152,7 @@
       <a
         *ngIf="workshopData.draftStatus === workshopDraftStatus.Draft"
         class="more-details"
-        (click)="onSendForModeration(workshopData.id, ModalConfirmationType.draftSet)">
+        (click)="onSendForModeration(workshopData.workshopDraftId, ModalConfirmationType.draftSet)">
         <span class="card_link">{{ 'BUTTONS.PUBLISH' | translate }}</span>
       </a>
     </div>

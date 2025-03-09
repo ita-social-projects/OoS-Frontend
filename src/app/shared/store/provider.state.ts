@@ -17,7 +17,7 @@ import { Employee } from 'shared/models/employee.model';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraftCard, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
@@ -55,7 +55,7 @@ export interface ProviderStateModel {
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
-  providerDrafts: SearchResponse<WorkshopProviderViewCard[]>;
+  providerDrafts: SearchResponse<WorkshopDraftCard[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -136,7 +136,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
+  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
     return state.providerDrafts;
   }
 
@@ -252,17 +252,6 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopListByProviderId(payload)
-      .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
-  }
-
-  @Action(providerActions.GetWorkshopDraftListByProviderId)
-  getWorkshopDraftListByProviderId(
-    { patchState }: StateContext<ProviderStateModel>,
-    { payload }: providerActions.GetWorkshopDraftListByProviderId
-  ): Observable<TruncatedItem[]> {
-    patchState({ isLoading: true });
-    return this.userWorkshopService
-      .getWorkshopDraftListByProviderId(payload)
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
@@ -426,16 +415,16 @@ export class ProviderState {
   }
 
   @Action(providerActions.GetProviderViewWorkshopDrafts)
-  getProviderWorkshopDrafts(
+  getProviderViewWorkshopDrafts(
     { patchState }: StateContext<ProviderStateModel>,
     { workshopCardParameters }: providerActions.GetProviderViewWorkshopDrafts
-  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
+  ): Observable<SearchResponse<WorkshopDraftCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getProviderViewWorkshopDrafts(workshopCardParameters)
       .pipe(
-        tap((providerWorkshopDrafts: SearchResponse<WorkshopProviderViewCard[]>) =>
-          patchState({ providerDrafts: providerWorkshopDrafts ?? EMPTY_RESULT, isLoading: false })
+        tap((providerDrafts: SearchResponse<WorkshopDraftCard[]>) =>
+          patchState({ providerDrafts: providerDrafts ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }

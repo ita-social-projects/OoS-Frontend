@@ -13,6 +13,7 @@ import {
   WorkshopCard,
   WorkshopCardParameters,
   WorkshopDraft,
+  WorkshopDraftCard,
   WorkshopProviderViewCard,
   WorkshopStatus
 } from 'shared/models/workshop.model';
@@ -60,17 +61,19 @@ export class UserWorkshopService {
   /**
    * This method get related workshop drafts for provider personal cabinet
    */
-  public getProviderViewWorkshopDrafts(
-    workshopCardParameters: WorkshopCardParameters
-  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
+  public getProviderViewWorkshopDrafts(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopDraftCard[]>> {
     const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
 
-    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>(
-      `/api/v2/WorkshopDraft/GetByProviderId/${workshopCardParameters.providerId}`,
+    return this.http.get<SearchResponse<WorkshopDraftCard[]>>(
+      `/api/v2/WorkshopDraft/GetByProviderId/provider/${workshopCardParameters.providerId}/drafts`,
       {
         params
       }
     );
+  }
+
+  public getWorkshopDraftById(id: string): Observable<WorkshopDraft> {
+    return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/Get/drafts/${id}`);
   }
 
   /**
@@ -94,16 +97,8 @@ export class UserWorkshopService {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
   }
 
-  public getWorkshopDraftById(id: string): Observable<Workshop> {
-    return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/GetByProviderId/${id}`);
-  }
-
   public getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
-  }
-
-  public getWorkshopDraftListByProviderId(id: string): Observable<TruncatedItem[]> {
-    return this.http.get<TruncatedItem[]>(`/api/v2/WorkshopDraft/GetByProviderId/${id}`);
   }
 
   public sendDraftForModeration(id: number): Observable<any> {

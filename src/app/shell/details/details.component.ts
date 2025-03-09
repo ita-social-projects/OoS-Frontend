@@ -48,6 +48,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public role: Role;
 
   public isWorkshop = false;
+  public isDraft = false;
   public isCompetition = false;
   public displayActionCard: boolean;
 
@@ -63,6 +64,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
       this.isWorkshop = params.entity === 'workshop';
+      this.isDraft = params.entity === 'draft';
       this.isCompetition = params.entity === 'competition';
 
       this.getEntity(params.id);
@@ -104,7 +106,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     if (this.isWorkshop) {
       if (this.isWorkshop) {
         this.store.dispatch(new GetWorkshopById(id));
-      } else {
+      } else if (this.isDraft) {
         this.store.dispatch(new GetWorkshopDraftById(id));
       }
     } else if (this.isCompetition) {

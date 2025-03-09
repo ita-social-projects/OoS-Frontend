@@ -11,7 +11,7 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { WorkshopCardParameters, WorkshopDraftCard, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   DeleteWorkshopById,
@@ -31,12 +31,12 @@ import { ProviderComponent } from '../provider.component';
 })
 export class ProviderDraftsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerDrafts)
-  public workshopDrafts$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
+  public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
 
-  public workshopDrafts: SearchResponse<WorkshopProviderViewCard[]>;
+  public workshopDrafts: SearchResponse<WorkshopDraftCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public workshopCardParameters: WorkshopCardParameters = {
     providerId: '',
@@ -71,7 +71,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderWorkshops();
 
-    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopProviderViewCard[]>) => {
+    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopDraftCard[]>) => {
       this.workshopDrafts = workshopDrafts;
     });
     this.actions$

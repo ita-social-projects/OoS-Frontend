@@ -12,7 +12,7 @@ import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 
 import { Role } from 'shared/enum/role';
 import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -35,7 +35,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Input()
   public role: Role;
   @Input()
-  public workshop: Workshop;
+  public workshop: Workshop | WorkshopDraft;
   @Input()
   public provider: Provider;
   @Input()

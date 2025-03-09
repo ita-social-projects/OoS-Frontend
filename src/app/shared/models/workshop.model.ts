@@ -137,8 +137,13 @@ export class Workshop extends WorkshopBase {
 }
 
 export class WorkshopDraft extends Workshop {
+  workshopDraftId: string;
+  rejectionMessage?: string;
   draftStatus: string;
   includedStudyGroupsId: string[];
+  workshopDetails: {
+    providerId: string;
+  };
 }
 
 export interface WorkshopTruncated {
@@ -196,7 +201,8 @@ export interface WorkshopCard extends WorkshopBaseCard {
 }
 
 export interface WorkshopDraftCard extends WorkshopBaseCard {
-  id: number;
+  workshopDraftId: string;
+  rejectionMessage?: string;
   draftStatus: string;
 }
 

@@ -105,7 +105,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   public onDelete(): void {
-    this.deleteWorkshop.emit(this.workshopData);
+    this.deleteWorkshop.emit(this.workshopData as WorkshopBaseCard);
   }
 
   public onLike(): void {

@@ -16,8 +16,7 @@ import { AdditionalAbout, Contacts, Workshop, WorkshopAbout } from 'shared/model
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
-  CreateWorkshop,
-  CreateWorkshopDraft
+  CreateWorkshopDraft,
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,

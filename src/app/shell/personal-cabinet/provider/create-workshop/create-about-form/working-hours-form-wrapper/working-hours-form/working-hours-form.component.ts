@@ -6,8 +6,8 @@ import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
-import { TimeRangeValidator } from 'shared/validators/time-range-validator';
-import { TimeFormatValidator } from 'shared/validators/time-format-validator';
+import { TimeRangeValidator } from 'shared/validators/time-range/time-range-validator';
+import { TimeFormatValidator } from 'shared/validators/time-format/time-format-validator';
 import { Util } from 'shared/utils/utils';
 
 @Component({
