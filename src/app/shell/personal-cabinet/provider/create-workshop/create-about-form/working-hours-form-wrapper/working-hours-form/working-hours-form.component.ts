@@ -131,6 +131,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.workdaysFormControl.setErrors({ required: true });
   }
 
+  // the code below allows subscribing to a touch event for control
+  // TODO: delete this after migration to Angular 18, so that can be done without overriding the method
   private overrideTouchEvent(control: FormControl): void {
     const originalMethod = control.markAsTouched;
     control.markAsTouched = function (): void {

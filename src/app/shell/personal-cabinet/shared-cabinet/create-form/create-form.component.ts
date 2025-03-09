@@ -78,6 +78,7 @@ export abstract class CreateFormComponent implements OnDestroy {
    * Validation hint captures touch event and displays validation error.
    * @param form FormGroup | FormArray
    */
+  // TODO: rewrite/delete after migration to Angular 18, so this becomes useless
   protected subscribeOnTouchEvent(form: AbstractControl | FormControl | FormGroup | FormArray): void {
     if (form instanceof FormControl) {
       const originalMethod = form.markAsTouched;

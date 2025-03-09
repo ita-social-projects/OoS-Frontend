@@ -148,6 +148,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       options: []
     };
 
+    // the code below allows subscribing to a touch event for control
+    // TODO: rewrite after migration to Angular 18, so that can be done without overriding the method
     const originalMethod = hierarchyElement.formControl.markAsTouched;
     hierarchyElement.formControl.markAsTouched = function (): void {
       originalMethod.apply(this, arguments);

@@ -1,10 +1,12 @@
 import { Directive, HostListener, Inject, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { WINDOW } from 'ngx-window-token';
 import { Store } from '@ngxs/store';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { WINDOW } from 'ngx-window-token';
+import { asyncScheduler } from 'rxjs';
+
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Directive({
   selector: '[appStepperNext]'
@@ -51,8 +53,8 @@ export class StepperDirective {
       invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
       this.translateService.get('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY').subscribe((text) => {
         this.store.dispatch(new ShowMessageBar({ message: text, type: 'error' }));
+        asyncScheduler.schedule(() => (invalidFields[0] as HTMLElement).focus(), 1000);
       });
-      setTimeout(() => (invalidFields[0] as HTMLElement).focus(), 1000);
     }
   }
 }

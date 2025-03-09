@@ -346,11 +346,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
+  // the code below allows subscribing to a touch event for control
+  // TODO: rewrite after migration to Angular 18, so that can be done without overriding the method
   private overrideTouchForForm(formControl: FormControl): void {
     const originalMethod = formControl.markAsTouched;
     formControl.markAsTouched = (): void => {
       originalMethod.apply(formControl);
-      this.tagsControl.markAsTouched();
+      this.tagsControl.markAsTouched(); // to mark as touched another control which represents this in template
       (formControl.statusChanges as EventEmitter<any>).emit();
     };
   }
