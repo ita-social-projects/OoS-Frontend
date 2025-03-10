@@ -18,9 +18,9 @@ export class StepperDirective {
   private stepElement!: HTMLElement;
 
   constructor(
-    @Inject(WINDOW) private window: Window,
-    private store: Store,
-    private translateService: TranslateService
+    @Inject(WINDOW) private readonly window: Window,
+    private readonly store: Store,
+    private readonly translateService: TranslateService
   ) {}
 
   @HostListener('click', ['$event'])

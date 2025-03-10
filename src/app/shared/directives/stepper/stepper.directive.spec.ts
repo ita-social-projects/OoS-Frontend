@@ -82,4 +82,29 @@ describe('StepperDirective', () => {
     tick(1000);
     expect(invalidInput.focus).toHaveBeenCalled();
   }));
+
+  describe('form or stepper not provided', () => {
+    let directive: StepperDirective;
+
+    beforeEach(() => {
+      directive = debugElement.injector.get(StepperDirective);
+    });
+
+    it('should return if form is not provided', () => {
+      fixture.componentInstance.form = undefined;
+      fixture.detectChanges();
+    });
+
+    it('should return if stepper is not provided', () => {
+      directive.stepper = undefined;
+      fixture.detectChanges();
+    });
+
+    afterEach(() => {
+      const spyScrollToFirstInvalidControl = jest.spyOn(directive, 'scrollToFirstInvalidControl');
+      debugElement.triggerEventHandler('click', new MouseEvent('click'));
+      expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
+      expect(spyScrollToFirstInvalidControl).not.toHaveBeenCalled();
+    });
+  });
 });
