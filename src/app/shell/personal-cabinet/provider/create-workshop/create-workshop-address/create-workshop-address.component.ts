@@ -134,6 +134,16 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   public activateEditMode(contactsFormGroup: FormGroup, contact: Contacts): void {
+    this.updateFormArray('phones', contact.phones, () => this.createPhoneFormGroup(), contactsFormGroup);
+    this.updateFormArray('emails', contact.emails, () => this.createEmailFormGroup(), contactsFormGroup);
+    this.updateFormArray('socialNetworks', contact.socialNetworks, () => this.createSocialNetworksFormGroup(), contactsFormGroup);
+    if (contactsFormGroup.get('searchGroup') && contact.address) {
+      contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddressDto, { emitEvent: false });
+      contactsFormGroup
+        .get('searchGroup')
+        .get('settlementSearch')
+        .setValue(contact.address.codeficatorAddressDto.settlement, { emitEvent: false });
+    }
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
 
@@ -165,6 +175,15 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
         formGroup.get('isDefault').patchValue(false, { emitEvent: false });
       });
       addressGroup.get('isDefault').patchValue(true, { emitEvent: false });
+    }
+  }
+
+  private updateFormArray(formArrayKey: string, items: any[], createMethod: () => FormGroup, contactsFormGroup: FormGroup): void {
+    const formArray = contactsFormGroup.get(formArrayKey) as FormArray;
+    if (formArray && items) {
+      while (formArray.length < items.length) {
+        formArray.push(createMethod());
+      }
     }
   }
 
