@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Store } from '@ngxs/store';
@@ -68,7 +68,11 @@ describe('StepperDirective', () => {
     expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
   });
 
-  it('should touch form, scroll to input and dispatch ShowMessageBar if form is invalid', fakeAsync(() => {
+  it('should touch form, scroll to input and dispatch ShowMessageBar if form is invalid', () => {
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0);
+      return 0;
+    });
     fixture.componentInstance.form.setErrors({ invalid: true });
     const spyUpdateValueAndValidity = jest.spyOn(fixture.componentInstance.form, 'updateValueAndValidity');
     const invalidInput = document.getElementById('invalidField');
@@ -79,9 +83,8 @@ describe('StepperDirective', () => {
     expect(spyUpdateValueAndValidity).toHaveBeenCalled();
     expect(invalidInput.scrollIntoView).toHaveBeenCalled();
     expect(mockStore.dispatch).toHaveBeenCalled();
-    tick(1000);
     expect(invalidInput.focus).toHaveBeenCalled();
-  }));
+  });
 
   it('should return if step element is null or undefined', () => {
     const directive = debugElement.injector.get(StepperDirective);
