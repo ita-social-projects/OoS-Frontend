@@ -17,7 +17,6 @@ import { Codeficator } from 'shared/models/codeficator.model';
   styleUrls: ['./create-contacts.component.scss']
 })
 export class CreateContactsComponent implements OnInit, OnDestroy {
-  @Input() public address: Address[];
   @Input() public contacts: Contacts[];
 
   @Output() public passContactsFormArray = new EventEmitter();
