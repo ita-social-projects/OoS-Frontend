@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { WINDOW } from 'ngx-window-token';
 
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { take } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[appStepperNext]'
@@ -18,6 +20,7 @@ export class StepperDirective {
 
   constructor(
     @Inject(WINDOW) private readonly window: Window,
+    @Inject(DOCUMENT) private readonly document: Document,
     private readonly store: Store,
     private readonly translateService: TranslateService
   ) {}
@@ -32,7 +35,8 @@ export class StepperDirective {
       this.stepper.next();
     } else {
       const stepIndex = this.stepper.selectedIndex;
-      this.stepElement = document.getElementById(`cdk-step-content-0-${stepIndex}`);
+      this.stepElement = this.document.getElementById(`cdk-step-content-0-${stepIndex}`);
+
       this.scrollToFirstInvalidControl();
     }
   }
@@ -51,12 +55,15 @@ export class StepperDirective {
       ); // add selector for a specific non-input type element
 
       if (invalidFields.length) {
-        this.translateService.get('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY').subscribe((text) => {
-          this.store.dispatch(new ShowMessageBar({ message: text, type: 'error' }));
+        this.translateService
+          .get('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY')
+          .pipe(take(1))
+          .subscribe((text) => {
+            this.store.dispatch(new ShowMessageBar({ message: text, type: 'error' }));
 
-          invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          (invalidFields[0] as HTMLElement).focus({ preventScroll: true });
-        });
+            invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            (invalidFields[0] as HTMLElement).focus({ preventScroll: true });
+          });
       }
     });
   }
