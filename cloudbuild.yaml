@@ -1,3 +1,5 @@
+# Trigger extracts the commit timestamp as _COMMIT_DATE_RAW from $(commit.commit.committer.date) event payload
+# and uses bash variable expansion to convert it to _COMMIT_DATE as ${_COMMIT_DATE_RAW//:/-}
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'sh'
@@ -18,6 +20,7 @@ steps:
     args:
       - build
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA
+      - --tag=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA-${_COMMIT_DATE}
       - --cache-image=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-cache:front
       - --builder=paketobuildpacks/builder-jammy-base:latest
       - --buildpack=paketo-buildpacks/web-servers
@@ -98,3 +101,4 @@ availableSecrets:
     env: 'SSH'
 options:
   logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
