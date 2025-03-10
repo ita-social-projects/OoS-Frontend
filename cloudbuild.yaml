@@ -1,3 +1,5 @@
+# Trigger extracts the commit timestamp as _COMMIT_DATE_RAW from $(commit.commit.committer.date) event payload
+# and uses bash variable expansion to convert it to _COMMIT_DATE as ${_COMMIT_DATE_RAW//:/-}
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'sh'
