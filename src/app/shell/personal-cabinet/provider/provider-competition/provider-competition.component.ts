@@ -1,5 +1,5 @@
 import { SearchResponse } from 'shared/models/search.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -18,7 +18,8 @@ import { ProviderComponent } from '../provider.component';
 @Component({
   selector: 'app-provider-competition',
   templateUrl: './provider-competition.component.html',
-  styleUrls: ['./provider-competition.component.scss']
+  styleUrls: ['./provider-competition.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderCompetitionComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerCompetition)

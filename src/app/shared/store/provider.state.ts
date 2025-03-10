@@ -1048,7 +1048,7 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.OnCreateCompetitionSuccess
   ): void {
-    const messageData = Util.getCompetitionMessage(payload, SnackbarText.createCompetition);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createCompetition);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['./personal-cabinet/provider/competitions']);
@@ -1070,7 +1070,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.OnUpdateCompetitionSuccess
   ): void {
-    const messageData = Util.getCompetitionMessage(payload, SnackbarText.updateCompetition);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.updateCompetition);
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['/personal-cabinet/provider/competitions']);
   }
@@ -1096,7 +1096,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { competition }: providerActions.DeleteCompetitionByIdSuccess
   ): void {
-    const messageData = Util.getCompetitionMessage(competition, SnackbarText.deleteCompetition);
+    const messageData = Util.getWorkshopMessage(competition, SnackbarText.deleteCompetition);
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({ message: messageData.message, type: messageData.type }),

@@ -104,8 +104,11 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-workshop-address [contacts]="workshop?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
-          </app-create-workshop-address>
+          <app-create-contacts
+            [address]="workshop?.address"
+            [contacts]="workshop?.contacts"
+            (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
+          </app-create-contacts>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}

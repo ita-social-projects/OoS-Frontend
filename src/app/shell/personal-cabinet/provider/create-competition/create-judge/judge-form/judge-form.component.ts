@@ -11,6 +11,10 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./judge-form.component.scss']
 })
 export class JudgeFormComponent implements OnInit {
+  /**
+   * @TODO return this code when you need create judge functionality
+   * and when you know what you should do with judges in competitions
+   */
   // @Input() public index: number;
   // @Input() public JudgeFormGroup: AbstractControl;
   // @Input() public judgeAmount: number;

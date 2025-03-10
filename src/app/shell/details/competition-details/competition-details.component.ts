@@ -11,6 +11,7 @@ import { CompetitionDetailsTabTitlesParams, CompetitionStatus } from 'shared/enu
 import { CompetitionDetailsTabTitlesEnum } from 'shared/enum/enumUA/competition';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { ImgPath } from 'shared/models/carousel.model';
@@ -27,25 +28,20 @@ import { GetProviderById } from 'shared/store/shared-user.actions';
   styleUrls: ['./competition-details.component.scss']
 })
 export class CompetitionDetailsComponent implements OnInit {
-  @Input()
-  public competition: Competition;
-  @Input()
-  public provider: Provider;
-  @Input()
-  public role: Role;
-  @Input()
-  public isMobileScreen: boolean;
-  @Input()
-  public currentProvider: Provider;
-  @Input()
-  public displayActionCard: boolean;
+  @Input() public competition: Competition;
+  @Input() public provider: Provider;
+  @Input() public role: Role;
+  @Input() public isMobileScreen: boolean;
+  @Input() public currentProvider: Provider;
+  @Input() public displayActionCard: boolean;
 
-  public readonly categoryIcons = CategoryIcons;
-  public readonly modalType = ModalConfirmationType;
-  public readonly competitionStatus = CompetitionStatus;
-  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly CategoryIcons = CategoryIcons;
+  public readonly ModalType = ModalConfirmationType;
+  public readonly CompetitionStatus = CompetitionStatus;
+  public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly competitionTitles = CompetitionDetailsTabTitlesEnum;
+  public readonly CompetitionDetailsTabTitlesEnum = CompetitionDetailsTabTitlesEnum;
+  public readonly InfoMenuType = InfoMenuType;
 
   public competitionStatusOpen: boolean;
   public images: ImgPath[] = [];
@@ -73,20 +69,24 @@ export class CompetitionDetailsComponent implements OnInit {
     this.images = this.imageService.getCarouselImages(this.competition);
   }
 
-  public onActionButtonClick(modalType: ModalConfirmationType): void {
+  public onActionButtonClick(ModalType: ModalConfirmationType): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: modalType
+        type: ModalType
       }
     });
     dialogRef
       .afterClosed()
       .pipe(
         filter(Boolean)
+        /*
+         * todo: this code should be return when
+         * backend add functions that archive/publish user Competition
+         */
         // return this code when added feature for published competition
         // switchMap(() => {
-        //   if (modalType === this.modalType.publishCompetition) {
+        //   if (ModalType === this.ModalType.publishCompetition) {
         //     return this.store.dispatch(new PublishWorkshop(this.competition.organizerOfTheEventId));
         //   }
         // })

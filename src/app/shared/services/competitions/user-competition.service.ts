@@ -48,6 +48,10 @@ export class UserCompetitionService {
    * This method create competition
    * @param competition Competition
    */
+  /**
+  / * This method creates a competition.
+   * todo: Update logic to use `createCompetitionV2` when the new version is available.
+   */
   public createCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
     // this code return when v2 for competition will be
@@ -67,6 +71,10 @@ export class UserCompetitionService {
   /**
    * This method update competition
    * @param competition Competition
+   */
+  /**
+  / * This method creates a competition.
+   * todo: Update logic to use `createCompetitionV2` when the new version is available.
    */
   public updateCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
@@ -90,21 +98,14 @@ export class UserCompetitionService {
 
   private createFormData(competition: Competition): FormData {
     const formData = new FormData();
-    const formNames = ['contacts', 'competitiveEventDescriptionItems'];
+    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges'];
     const imageFiles = ['imageFiles', 'coverImage'];
-    const judges = 'judges';
 
     Object.keys(competition).forEach((key: string) => {
       if (imageFiles.includes(key)) {
         competition[key].forEach((file: File) => formData.append(key, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(competition[key]));
-      } else if (key === judges) {
-        for (let i = 0; i < competition.judges.length; i++) {
-          Object.keys(competition.judges[i]).forEach((teacherKey: string) => {
-            formData.append(`${judges}[${i}].${teacherKey}`, competition.judges[i][teacherKey]);
-          });
-        }
       } else {
         formData.append(key, competition[key]);
       }

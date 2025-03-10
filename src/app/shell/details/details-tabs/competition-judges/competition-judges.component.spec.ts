@@ -34,7 +34,9 @@ describe('CompetitionJudgesComponent', () => {
         coverImageId: ''
       }
     ];
+
     component.judges = mockJudge;
+
     expect(component.judges).toEqual(mockJudge);
   });
 });

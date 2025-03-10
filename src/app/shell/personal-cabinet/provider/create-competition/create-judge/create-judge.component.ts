@@ -24,6 +24,9 @@ const defaultValidators = [
   styleUrls: ['./create-judge.component.scss']
 })
 export class CreateJudgeComponent implements OnInit {
+  /**
+   * @TODO return and refactor this code. If logic of judge changed completely, you can remove it
+   */
   @Input() public chiefJudge: Judge;
   @Input() public judges: Judge[];
 

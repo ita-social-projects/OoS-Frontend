@@ -12,12 +12,12 @@ import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-valid
 import { Codeficator } from 'shared/models/codeficator.model';
 
 @Component({
-  selector: 'app-create-workshop-address',
-  templateUrl: './create-workshop-address.component.html',
-  styleUrls: ['./create-workshop-address.component.scss']
+  selector: 'app-create-contacts',
+  templateUrl: './create-contacts.component.html',
+  styleUrls: ['./create-contacts.component.scss']
 })
-export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
-  @Input() public address: Address;
+export class CreateContactsComponent implements OnInit, OnDestroy {
+  @Input() public address: Address[];
   @Input() public contacts: Contacts[];
 
   @Output() public passContactsFormArray = new EventEmitter();

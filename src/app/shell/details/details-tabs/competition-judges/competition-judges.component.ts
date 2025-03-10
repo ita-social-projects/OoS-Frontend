@@ -8,8 +8,7 @@ import { Judge } from 'shared/models/judge.model';
   styleUrls: ['./competition-judges.component.scss']
 })
 export class CompetitionJudgesComponent {
-  @Input()
-  public judges: Judge[];
+  @Input() public judges: Judge[];
 
   public readonly noResultJudges = NoResultsTitle.noJudges;
 }

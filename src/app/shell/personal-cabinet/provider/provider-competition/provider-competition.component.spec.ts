@@ -43,18 +43,23 @@ describe('ProviderCompetitionComponent', () => {
 
   it('should set navigation path', () => {
     component.addNavPath();
+
     expect(storeMock.dispatch).toHaveBeenCalledWith(new PushNavPath({ name: expect.any(String), isActive: false, disable: true }));
   });
 
   it('should change page and fetch competitions', () => {
     const page = { element: 2, isActive: false };
+
     component.onPageChange(page);
+
     expect(component.currentPage).toBe(page);
   });
 
   it('should change items per page and reset to first page', () => {
     component.onItemsPerPageChange(20);
+
     expect(component.competitionCardParameters.size).toBe(20);
+
     expect(component.currentPage).toBe(PaginationConstants.firstPage);
   });
 });

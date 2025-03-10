@@ -5,6 +5,7 @@ import { Judge } from 'shared/models/judge.model';
 import { Provider } from 'shared/models/provider.model';
 import { PaginationParameters } from './query-parameters.model';
 import { SectionItem } from './section-item.model';
+import { Contacts } from './workshop.model';
 
 export abstract class CompetitionBase {
   id?: string;
@@ -36,7 +37,7 @@ export abstract class CompetitionBase {
   judges: Judge[];
   directionIds: number[];
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
-  contacts: CompetitionContacts[];
+  contacts: Contacts[];
   parentId: string;
   buildingHoldingId: string;
   childParticipantId: string;
@@ -50,7 +51,7 @@ export abstract class CompetitionBase {
   constructor(
     required: CompetitionRequired,
     description: Description,
-    Contacts: CompetitionContacts[],
+    contacts: Contacts[],
     judges: Judge[],
     provider: Provider,
     id?: string
@@ -63,7 +64,7 @@ export abstract class CompetitionBase {
     this.numberOfSeats = required.numberOfSeats;
     this.judges = judges;
     this.organizerOfTheEventId = provider.id;
-    this.contacts = Contacts;
+    this.contacts = contacts;
     this.coverageId = description.coverageId;
 
     this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
@@ -135,7 +136,7 @@ export class Competition extends CompetitionBase {
   constructor(
     required: CompetitionRequired,
     description: Description,
-    contacts: CompetitionContacts[],
+    contacts: Contacts[],
     judges: Judge[],
     provider: Provider,
     id?: string
@@ -213,28 +214,6 @@ export class CompetitiveDescriptionItem extends SectionItem {
     }
   }
 }
-
-export class CompetitionContacts {
-  title: string;
-  isDefault: boolean;
-  address: Address;
-  phones: CompetitionPhone[];
-  emails: CompetitionEmail[];
-  socialNetworks?: CompetitionSocialNetwork[];
-
-  constructor(info: CompetitionContacts) {
-    this.title = info.title;
-    this.isDefault = info.isDefault;
-    this.address = info.address;
-    this.phones = info.phones;
-    this.emails = info.emails;
-
-    if (info.socialNetworks) {
-      this.socialNetworks = info.socialNetworks;
-    }
-  }
-}
-
 interface Description {
   institutionHierarchyId?: string;
   subcategory?: string;
@@ -248,25 +227,4 @@ interface Description {
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
   optionsForPeopleWithDisabilities: boolean;
-}
-
-interface CompetitionPhone {
-  type: string;
-  number: string;
-}
-
-interface CompetitionEmail {
-  type: string;
-  address: string;
-}
-
-interface CompetitionSocialNetwork {
-  type: Socials;
-  url: string;
-}
-
-enum Socials {
-  Facebook = 'Facebook',
-  Instagram = 'Instagram',
-  Website = 'Website'
 }

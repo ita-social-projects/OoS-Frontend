@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Competition, CompetitionContacts, CompetitionRequired } from 'shared/models/competition.model';
+import { Competition, CompetitionRequired } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -17,6 +17,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
+import { Contacts } from 'shared/models/workshop.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -51,13 +52,19 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     super(store, route, navigationBarService);
   }
 
+  public get isButtonDisabled(): boolean | Observable<boolean> {
+    return (
+      this.isLoading$ ||
+      (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty && !this.JudgeFormArray?.dirty) ||
+      this.RequiredFormGroup.invalid ||
+      this.DescriptionFormGroup.invalid ||
+      this.ContactsFormArray.invalid ||
+      this.JudgeFormArray?.invalid
+    );
+  }
+
   public ngOnInit(): void {
-    this.provider$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((provider: Provider) => !!provider)
-      )
-      .subscribe((provider: Provider) => (this.provider = provider));
+    this.provider$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((provider: Provider) => (this.provider = provider));
 
     this.determineEditMode();
     this.determineRelease();
@@ -114,7 +121,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const requiredInfo: CompetitionRequired = this.createRequired();
     const descInfo = this.DescriptionFormGroup.getRawValue();
-    const contacts: CompetitionContacts[] = this.createContacts();
+    const contacts: Contacts[] = this.createContacts();
     const judges: Judge[] = this.createJudges();
 
     let competition: Competition;
@@ -199,7 +206,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     return judges;
   }
 
-  private createContacts(): CompetitionContacts[] {
-    return this.ContactsFormArray?.controls.map((form: FormGroup) => new CompetitionContacts(form.value)) || [];
+  private createContacts(): Contacts[] {
+    return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 }

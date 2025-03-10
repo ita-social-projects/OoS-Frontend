@@ -28,7 +28,7 @@ export enum FormOfLearning {
 }
 
 export enum CompetitionDetailsTabTitlesParams {
-  'AboutCompetition',
-  'Judges',
-  'Contacts'
+  AboutCompetition = 'AboutCompetition',
+  Judges = 'Judges',
+  Contacts = 'Contacts'
 }

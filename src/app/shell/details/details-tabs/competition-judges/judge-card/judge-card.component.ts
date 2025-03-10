@@ -10,8 +10,7 @@ import { environment } from '../../../../../../environments/environment';
   styleUrls: ['./judge-card.component.scss']
 })
 export class JudgeCardComponent implements OnInit {
-  @Input()
-  public judge: Judge;
+  @Input() public judge: Judge;
 
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 

@@ -12,11 +12,14 @@
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow" class="card-title !flex !flex-row">
+        <mat-card-title
+          matTooltipClass="tooltip"
+          [matTooltipPosition]="Constants.MAT_TOOL_TIP_POSITION_BELOW"
+          class="card-title !flex !flex-row">
           <a
-            *ngIf="isCabinetView"
+            *ngIf="isCabinet"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
-            [matTooltipPosition]="tooltipPositionAbove"
+            [matTooltipPosition]="Constants.MAT_TOOL_TIP_POSITION_ABOVE"
             [routerLink]="['/details/competition', competitionData.id]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
@@ -25,15 +28,15 @@
           </div>
         </mat-card-title>
         <ng-container *ngFor="let id of competitionData.directionIds">
-          <img class="img" mat-card-image [src]="categoryIcons[id]" />
+          <img class="img" mat-card-image [src]="CategoryIcons[id]" />
         </ng-container>
       </mat-card-header>
 
       <mat-card-content class="flex flex-col justify-between">
-        <ng-container *ngIf="isCabinetView; then ProviderCompetitionView"></ng-container>
+        <ng-container *ngIf="isCabinet; then ProviderCompetitionView"></ng-container>
       </mat-card-content>
 
-      <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
+      <mat-card-footer *ngIf="!isCreateForm" class="card-footer">
         <a class="more-details" [routerLink]="['/details/competition', competitionData.id]">
           <span class="card_link">
             {{ 'MORE_DETAILS' | translate }}
@@ -46,7 +49,7 @@
 </mat-card>
 
 <ng-template #ProviderActions>
-  <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
+  <div *ngIf="isCabinet" class="flex flex-row justify-end items-start actions">
     <div class="actions_btn action-icon" [routerLink]="['/create-competition', competitionData.id]">
       <mat-icon>edit</mat-icon>
     </div>
@@ -58,16 +61,19 @@
 
 <ng-template #ProviderCompetitionView>
   <ng-container
-    *ngIf="competitionData.state === workshopStatus.Open || competitionData.availableSeats === UNLIMITED_SEATS; else WorkshopStatusClosed">
+    *ngIf="
+      competitionData.state === CompetitionStatus.Open || competitionData.availableSeats === Constants.UNLIMITED_SEATS;
+      else WorkshopStatusClosed
+    ">
     <div class="flex justify-between">
       <div class="chip-color-open">
-        {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+        {{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}
       </div>
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
-        <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
+        (click)="onChangeWorkshopStatus(CompetitionStatus.Closed, ModalConfirmationType.closeSet)">
+        <span class="card_link">{{ RecruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
   </ng-container>
@@ -78,7 +84,9 @@
     <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
     <span class="card_text card_text_blue">
       {{ competitionData.numberOfOccupiedSeats }}
-      <ng-container *ngIf="competitionData.numberOfSeats !== UNLIMITED_SEATS"> / {{ competitionData.numberOfSeats }} </ng-container>
+      <ng-container *ngIf="competitionData.numberOfSeats !== Constants.UNLIMITED_SEATS">
+        / {{ competitionData.numberOfSeats }}
+      </ng-container>
     </span>
   </div>
   <div class="provider-content flex justify-between items-center">
@@ -98,6 +106,7 @@
     <span class="rating-number">({{ competitionData.numberOfRatings }})</span>
   </p>
 
+  <!-- TODO: return this code when backend start send providerTitle -->
   <!-- AFTER ADDING MORE INFO IN COMPETITION (providerTitle) -->
   <!-- <a [routerLink]="['/details/provider', competitionData.organizerOfTheEventId]" class="provider-link flex items-center">
     <mat-icon class="card_icon">home</mat-icon>

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, takeLast } from 'rxjs';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -17,11 +17,13 @@ import { InstituitionHierarchy, Institution } from 'shared/models/institution.mo
 import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetAllInstitutionsHierarchy } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
+import { CopperConfig } from 'shared/configs/copper.config';
 
 @Component({
   selector: 'app-create-competition-description-form',
   templateUrl: './create-competition-description-form.component.html',
-  styleUrls: ['./create-competition-description-form.component.scss']
+  styleUrls: ['./create-competition-description-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
@@ -40,16 +42,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Util = Util;
-  public readonly cropperConfig = {
-    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
-    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
-    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
-    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
-    croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality
-  };
+  public readonly cropperConfig = CopperConfig;
 
   public DescriptionFormGroup: FormGroup;
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
@@ -80,7 +73,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
-    this.institutions$.forEach((institutions: Institution[]) => {
+    this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
       if (institutions) {
         const nonGovernmentInstitution: Institution = institutions.filter((institution) => !institution.isGovernment)[0];
         this.store.dispatch(new GetAllByInstitutionAndLevel(nonGovernmentInstitution.id, nonGovernmentInstitution.numberOfHierarchyLevels));
@@ -96,10 +89,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.activateEditMode();
     }
 
-    this.onDisabilityOptionCtrlInit();
-    this.onSelectionOptionsCtrlInit();
-    this.onBenefitsOptionsCtrlInit();
-    this.onPriceControlInit();
+    this.initializeFormControls();
   }
 
   public ngOnDestroy(): void {
@@ -110,69 +100,34 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   /**
    * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
-  public onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-    this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      if (isDisabilityOptionsDesc) {
-        setAction('enable');
+  public onControlInit(controlName: string, radioBtn: AbstractControl): void {
+    const control = this.DescriptionFormGroup.get(controlName);
+    radioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isEnabled: boolean) => {
+      if (isEnabled) {
+        control.enable();
       } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
+        control.disable();
+        control.reset();
       }
       this.markFormAsDirtyOnUserInteraction();
     });
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
+   * Initialize all form controls with corresponding radio buttons
    */
-  public onSelectionOptionsCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure')[action]();
-    this.selectionOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isSelectionOptions: boolean) => {
-      if (isSelectionOptions) {
-        setAction('enable');
-      } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').reset();
-      }
-      this.markFormAsDirtyOnUserInteraction();
-    });
-  }
+  public initializeFormControls(): void {
+    const controls = [
+      { name: 'disabilityOptionsDesc', radioBtn: this.disabilityOptionRadioBtn },
+      { name: 'descriptionOfTheEnrollmentProcedure', radioBtn: this.selectionOptionRadioBtn },
+      { name: 'benefitsOptionsDesc', radioBtn: this.benefitsOptionRadioBtn },
+      { name: 'price', radioBtn: this.priceRadioBtn }
+    ];
 
-  /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
-   */
-  public onBenefitsOptionsCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('benefitsOptionsDesc')[action]();
-    this.benefitsOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isBenefitsOptions: boolean) => {
-      if (isBenefitsOptions) {
-        setAction('enable');
-      } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('benefitsOptionsDesc').reset();
-      }
-      this.markFormAsDirtyOnUserInteraction();
+    controls.forEach((controlProperties) => {
+      const { name, radioBtn } = controlProperties;
+      this.onControlInit(name, radioBtn);
     });
-  }
-
-  /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
-   */
-  public onPriceControlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('price')[action]();
-    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
-      if (isPrice) {
-        setAction('enable');
-      } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('price').reset();
-      }
-      this.markFormAsDirtyOnUserInteraction();
-    });
-  }
-
-  public sortTime(): number {
-    return 0;
   }
 
   public onFocusOut(formControlName: string): void {

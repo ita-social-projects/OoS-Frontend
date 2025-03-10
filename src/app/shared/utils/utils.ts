@@ -173,7 +173,7 @@ export class Util {
    * @returns string
    */
   // TODO: Update type for payload
-  public static getWorkshopMessage(payload: Workshop & any, message: string): MessageBarData {
+  public static getWorkshopMessage(payload: (Workshop | Competition) & any, message: string): MessageBarData {
     const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
@@ -228,51 +228,6 @@ export class Util {
    * @param message
    * @returns string
    */
-  // TODO: Update type for payload
-  public static getCompetitionMessage(payload: Competition & any, message: string): MessageBarData {
-    const finalMessage: MessageBarData = { message: '', type: 'success' };
-    const messageArr = [];
-    let isInvalidCoverImage = false;
-    let isInvalidGalleryImages = false;
-    let statuses;
-    let invalidImages;
-
-    if (payload.uploadingCoverImageResult) {
-      isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded;
-    }
-
-    if (payload.uploadingImagesResults?.results) {
-      statuses = Object.entries(payload.uploadingImagesResults.results);
-      invalidImages = statuses.filter((result) => !result[1].succeeded);
-      isInvalidGalleryImages = !!invalidImages.length;
-    }
-
-    messageArr.push(message);
-
-    if (isInvalidCoverImage) {
-      const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
-        .map((error) => `"${CodeMessageErrors[error.code]}"`)
-        .join(', ');
-
-      messageArr.push(`Помилка завантаження фонового зображення: ${coverImageErrorMsg}`);
-      finalMessage.type = 'warningYellow';
-    }
-
-    if (isInvalidGalleryImages) {
-      const errorCodes = new Set();
-      invalidImages.map((img) => img[1]).forEach((img) => img.errors.forEach((error) => errorCodes.add(error.code)));
-      const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
-      const indexes = invalidImages.map((img) => img[0]);
-      const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
-
-      messageArr.push(`Помилка завантаження ${quantityMsg} для галереї: ${errorMsg}`);
-      finalMessage.type = 'warningYellow';
-    }
-
-    finalMessage.message = messageArr.join(';\n');
-
-    return finalMessage;
-  }
 
   /**
    * Create filter state query string depending on current and default filter values

@@ -22,15 +22,14 @@ export class ImagesService {
   }
 
   public getCarouselImages(entity: Workshop | Provider | Competition): ImgPath[] {
-    let images: ImgPath[];
     if (entity.imageIds?.length) {
-      images = entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
-    } else if (entity instanceof Workshop) {
-      images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
-    } else {
-      images = [{ path: 'assets/images/groupimages/competition-img.png' }];
+      return entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
     }
 
-    return images;
+    return [
+      {
+        path: entity instanceof Workshop ? 'assets/images/groupimages/workshop-img.png' : 'assets/images/groupimages/competition-img.png'
+      }
+    ];
   }
 }

@@ -11,7 +11,7 @@
       class="card"
       *ngFor="let competition of competitions.entities"
       [competition]="competition"
-      [isCabinetView]="true"
+      [isCabinet]="true"
       (deleteCompetition)="onDelete($event)">
     </app-competition-card>
   </div>

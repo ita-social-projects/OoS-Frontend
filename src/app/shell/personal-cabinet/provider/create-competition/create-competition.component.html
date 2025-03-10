@@ -62,11 +62,11 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-competition-address
+          <app-create-contacts
             [address]="competition?.address"
             [contacts]="competition?.contacts"
             (passContactsFormArray)="onReceiveContactsFormArray($event)">
-          </app-create-competition-address>
+          </app-create-contacts>
           <div class="flex flex-row items-center justify-center footer">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
@@ -99,19 +99,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button
-              class="btn"
-              mat-raised-button
-              [disabled]="
-                (isLoading$ | async) ||
-                (!RequiredFormGroup.dirty && !DescriptionFormGroup.dirty && !ContactsFormArray.dirty && !JudgeFormArray?.dirty) ||
-                RequiredFormGroup.invalid ||
-                DescriptionFormGroup.invalid ||
-                ContactsFormArray.invalid ||
-                JudgeFormArray?.invalid
-              "
-              type="submit"
-              (click)="onSubmit()">
+            <button class="btn" mat-raised-button [disabled]="isButtonDisabled | async" type="submit" (click)="onSubmit()">
               {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>

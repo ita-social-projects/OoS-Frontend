@@ -10,13 +10,13 @@ import { Address } from 'shared/models/address.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SocialNetworks } from 'shared/enum/workshop';
+import { Contacts } from 'shared/models/workshop.model';
 import { Geocoder } from 'shared/models/geolocation';
-import { CompetitionContacts } from 'shared/models/competition.model';
-import { CreateCompetitionAddressComponent } from './create-competition-address.component';
+import { CreateContactsComponent } from './create-contacts.component';
 
-describe('CreateCompetitionAddressComponent', () => {
-  let component: CreateCompetitionAddressComponent;
-  let fixture: ComponentFixture<CreateCompetitionAddressComponent>;
+describe('CreateContactsComponent', () => {
+  let component: CreateContactsComponent;
+  let fixture: ComponentFixture<CreateContactsComponent>;
   let formBuilder: FormBuilder;
 
   beforeEach(async () => {
@@ -32,12 +32,12 @@ describe('CreateCompetitionAddressComponent', () => {
         BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
-      declarations: [CreateCompetitionAddressComponent, MockMapComponent, MockAddressFormComponent]
+      declarations: [CreateContactsComponent, MockMapComponent, MockAddressFormComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateCompetitionAddressComponent);
+    fixture = TestBed.createComponent(CreateContactsComponent);
     component = fixture.componentInstance;
     formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();
@@ -79,6 +79,40 @@ describe('CreateCompetitionAddressComponent', () => {
     component.setStep(3);
 
     expect(component.stepIndex).toBe(3);
+  });
+
+  it('should increment the step value', () => {
+    component.setStep(2);
+    component.nextStep();
+
+    expect(component.stepIndex).toBe(3);
+  });
+
+  it('should decrement the step value', () => {
+    component.setStep(2);
+    component.prevStep();
+
+    expect(component.stepIndex).toBe(1);
+  });
+
+  it('should delete a form field', () => {
+    const formArray = new FormArray([new FormControl('test1'), new FormControl('test2')]);
+    const deleteFormFieldSpy = jest.spyOn(component, 'deleteFormField');
+
+    (component as any).deleteFormField(formArray, 0);
+
+    expect(deleteFormFieldSpy).toHaveBeenCalledWith(formArray, 0);
+    expect(formArray.length).toBe(1);
+  });
+
+  it('should delete an address form and update the step', () => {
+    component.addressesFormArray = new FormArray([new FormGroup({}), new FormGroup({})]);
+    const event = new MouseEvent('click');
+
+    (component as any).deleteAddressForm(0, event);
+
+    expect(component.addressesFormArray.length).toBe(1);
+    expect(component.stepIndex).toBe(0);
   });
 
   it('should update isDefault values correctly', () => {
@@ -132,7 +166,7 @@ describe('CreateCompetitionAddressComponent', () => {
   });
 
   it('should activate edit mode', () => {
-    const contact = { title: 'Test' } as CompetitionContacts;
+    const contact = { title: 'Test' } as Contacts;
     const contactFormGroup = formBuilder.group({ title: '' });
 
     component.activateEditMode(contactFormGroup, contact);

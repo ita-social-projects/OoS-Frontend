@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants } from 'shared/constants/constants';
@@ -14,36 +14,34 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Component({
   selector: 'app-competition-card',
   templateUrl: './competition-card.component.html',
-  styleUrls: ['./competition-card.component.scss']
+  styleUrls: ['./competition-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompetitionCardComponent implements OnInit, OnDestroy {
-  @Input() public isCabinetView = false;
+  @Input() public isCabinet = false;
   @Input() public isHorizontalView = false;
-  @Input() public isCreateFormView = false;
+  @Input() public isCreateForm = false;
 
   @Output() public deleteCompetition = new EventEmitter<CompetitionBaseCard>();
 
   @Select(RegistrationState.role)
-  public role$: Observable<Role>;
+  public Role$: Observable<Role>;
 
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
-  public readonly tooltipPositionAbove = Constants.MAT_TOOL_TIP_POSITION_ABOVE;
-  public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  public readonly categoryIcons = CategoryIcons;
+  public readonly Constants = Constants;
+  public readonly CategoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
-  public readonly workshopStatus = CompetitionStatus;
-  public readonly modalConfirmationType = ModalConfirmationType;
+  public readonly CompetitionStatus = CompetitionStatus;
+  public readonly ModalConfirmationType = ModalConfirmationType;
   public competitionData: CompetitionProviderViewCard;
 
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input()
-  public set competition(competition: CompetitionProviderViewCard) {
+  @Input() public set competition(competition: CompetitionProviderViewCard) {
     this.competitionData = competition;
   }
 
@@ -52,8 +50,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     this.competitionData.amountOfPendingApplications = 0;
     this.competitionData.unreadMessages = 0;
 
-    this.role$
-      .pipe(takeUntil(this.destroy$))
+    this.Role$.pipe(takeUntil(this.destroy$))
       .pipe(filter((role: Role) => role === Role.parent))
       .subscribe((role: Role) => {
         this.role = role;

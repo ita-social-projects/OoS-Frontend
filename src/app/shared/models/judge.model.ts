@@ -2,7 +2,7 @@ import { Person } from './user.model';
 
 export class Judge implements Person {
   id?: string;
-  competetiveEventId?: string;
+  competitiveEventId?: string;
   firstName: string;
   lastName: string;
   middleName?: string;

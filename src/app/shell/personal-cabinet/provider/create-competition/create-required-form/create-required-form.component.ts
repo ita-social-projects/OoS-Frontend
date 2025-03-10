@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -11,11 +11,13 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CopperConfig } from 'shared/configs/copper.config';
 
 @Component({
   selector: 'app-create-required-form',
   templateUrl: './create-required-form.component.html',
-  styleUrls: ['./create-required-form.component.scss']
+  styleUrls: ['./create-required-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
@@ -24,22 +26,12 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public isImagesFeature: boolean;
   @Output() public PassRequiredFormGroup = new EventEmitter();
 
-  public readonly validationConstants = ValidationConstants;
-  public readonly MIN_SEATS = Constants.MIN_SEATS;
+  public readonly ValidationConstants = ValidationConstants;
+  public readonly Constants = Constants;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
-  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
-  public readonly cropperConfig = {
-    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
-    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
-    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
-    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
-    croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality
-  };
+  public readonly cropperConfig = CopperConfig;
   public RequiredFormGroup: FormGroup;
   public isShowHintAboutCompetitionAutoClosing: boolean = false;
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
@@ -73,8 +65,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   private get availableSeats(): number {
-    return this.competition?.numberOfSeats === undefined || this.competition?.numberOfSeats === this.UNLIMITED_SEATS
-      ? this.MIN_SEATS
+    return this.competition?.numberOfSeats === undefined || this.competition?.numberOfSeats === Constants.UNLIMITED_SEATS
+      ? this.Constants.MIN_SEATS
       : this.competition?.numberOfSeats;
   }
 
@@ -150,7 +142,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       });
     }
 
-    if (this.competition.numberOfSeats === this.UNLIMITED_SEATS) {
+    if (this.competition.numberOfSeats === this.Constants.UNLIMITED_SEATS) {
       this.setAvailableSeatsControlValue(null, 'disable', false);
     } else {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
@@ -196,28 +188,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   private initListeners(): void {
-    this.useProviderInfo();
     this.availableSeatsControlListener();
     this.showHintAboutClosingCompetition();
-  }
-
-  /**
-   * This method fills in the info from provider to the workshop if check box is checked
-   */
-  private useProviderInfo(): void {
-    const setValue = (value: string): void => this.RequiredFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value: string): void => this.RequiredFormGroup.get(value).reset();
-
-    this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
-      // eslint-disable-next-line guard-for-in
-      for (const value in ProviderWorkshopSameValues) {
-        if (useProviderInfo) {
-          setValue(value);
-        } else {
-          resetValue(value);
-        }
-      }
-    });
   }
 
   /**

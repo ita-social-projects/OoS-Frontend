@@ -58,14 +58,18 @@ describe('CompetitionCardComponent', () => {
 
   it('should set competition data', () => {
     const competition: CompetitionProviderViewCard = { amountOfPendingApplications: 0, unreadMessages: 0 } as any;
+
     component.competition = competition;
+
     expect(component.competitionData).toEqual(competition);
   });
 
   it('should emit delete event', () => {
     jest.spyOn(component.deleteCompetition, 'emit');
     component.competitionData = { amountOfPendingApplications: 0, unreadMessages: 0 } as any;
+
     component.onDelete();
+
     expect(component.deleteCompetition.emit).toHaveBeenCalledWith(component.competitionData);
   });
 });

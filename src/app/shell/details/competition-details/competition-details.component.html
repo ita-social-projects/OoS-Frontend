@@ -5,7 +5,7 @@
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
-    <button (click)="onActionButtonClick(modalType.archiveCompetition)" class="btn btn-cancel" mat-button>
+    <button (click)="onActionButtonClick(ModalType.archiveCompetition)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
@@ -14,8 +14,8 @@
       </a>
       <button
         class="btn"
-        [disabled]="competition.state !== competitionStatus.Draft"
-        (click)="onActionButtonClick(modalType.publishCompetition)"
+        [disabled]="competition.state !== CompetitionStatus.Draft"
+        (click)="onActionButtonClick(ModalType.publishCompetition)"
         mat-button>
         {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
       </button>
@@ -29,13 +29,13 @@
           <div class="flex flex-row items-center">
             <h1 class="title">{{ competition.title }}</h1>
             <ng-container *ngIf="competitionStatusOpen; else ClosedWorkshopStatus">
-              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+              <div class="chip chip-color-open">{{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
             </ng-container>
           </div>
           <h3 class="short-title" *ngIf="competition.shortTitle">{{ competition.shortTitle }}</h3>
         </div>
         <div *ngFor="let directionId of competition.directionIds">
-          <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ competition.title }}" />
+          <img class="details-icon" [src]="CategoryIcons[directionId]" alt="{{ competition.title }}" />
         </div>
       </div>
 
@@ -86,27 +86,12 @@
     </div>
 
     <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ competitionTitles.AboutCompetition | translate | uppercase }}">
+      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.AboutCompetition | translate | uppercase }}">
         <app-competition-about [competition]="competition"></app-competition-about>
       </mat-tab>
-      <mat-tab class="label" label="{{ competitionTitles.Judges | translate | uppercase }}">
+      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Judges | translate | uppercase }}">
         <app-competition-judges [teachers]="competition.judges"></app-competition-judges>
       </mat-tab>
-      <!-- <mat-tab class="label" label="{{ competitionTitles.Contacts| translate | uppercase }}">
-        <app-provider-about [provider]="provider"></app-provider-about>
-      </mat-tab> -->
-      <!-- <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
-        <app-workshop-teachers [teachers]="competition.teachers"></app-workshop-teachers>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
-      </mat-tab>
-      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
-        <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
-        <app-achievements [workshop]="workshop"></app-achievements>
-      </mat-tab> -->
     </mat-tab-group>
   </div>
 </div>
@@ -114,11 +99,11 @@
   <div
     class="chip"
     [ngClass]="{
-      'chip-color-close': competition.state === competitionStatus.Completed,
-      'chip-color-draft': competition.state === competitionStatus.Draft
+      'chip-color-close': competition.state === CompetitionStatus.Completed,
+      'chip-color-draft': competition.state === CompetitionStatus.Draft
     }">
     {{
-      (competition.state === competitionStatus.Completed ? recruitmentStatusEnum.RecruitmentStoped : recruitmentStatusEnum.Draft)
+      (competition.state === CompetitionStatus.Completed ? RecruitmentStatusEnum.RecruitmentStoped : RecruitmentStatusEnum.Draft)
         | translate
     }}
   </div>

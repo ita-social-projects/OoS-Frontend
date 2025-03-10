@@ -7,6 +7,5 @@ import { Competition } from 'shared/models/competition.model';
   styleUrls: ['./competition-about.component.scss']
 })
 export class CompetitionAboutComponent {
-  @Input()
-  public competition: Competition;
+  @Input() public competition: Competition;
 }
