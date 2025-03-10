@@ -90,11 +90,7 @@
     <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
-  <div
-    class="step-input keywords step-textarea-short"
-    (click)="setFocus()"
-    tabindex="0"
-    [ngClass]="{ 'expanded-field': keyWords.length }">
+  <div class="step-input keywords step-textarea-short" (click)="setFocus()" [ngClass]="{ 'expanded-field': keyWords.length }">
     <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"
       >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
       {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span

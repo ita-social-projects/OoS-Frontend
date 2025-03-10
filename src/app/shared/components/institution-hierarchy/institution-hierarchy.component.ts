@@ -211,7 +211,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private subscribeForTouch(): void {
-    this.instituitionIdFormControl.statusChanges.subscribe(() => {
+    this.instituitionIdFormControl.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       if (this.instituitionIdFormControl.touched) {
         this.hierarchyArray.forEach((elem: HierarchyElement) => {
           elem.formControl.markAsTouched();

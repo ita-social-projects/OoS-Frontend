@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
@@ -6,9 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
-import { ChangeDetectorRef } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
+import { take } from 'rxjs/operators';
 
 import { GetInstitutionHierarchyChildrenById } from '../../store/meta-data.actions';
 import { HierarchyElement } from '../../models/institution.model';
@@ -76,6 +75,29 @@ describe('InstitutionHierarchyComponent', () => {
     component.ngOnInit();
 
     expect(setEditModeSpy).not.toHaveBeenCalled();
+  });
+
+  it('should emit status changed event if touched', () => {
+    component.institutionFieldDesc = [];
+    component.institutionFieldDesc.push({
+      id: '111',
+      institutionId: '111',
+      title: 'mock',
+      hierarchyLevel: 1
+    });
+    const newHierarchyElement = component.createHierarchyElement(0);
+    expect(newHierarchyElement).toBeTruthy();
+    const spyStatusChanges = jest.fn();
+    newHierarchyElement.formControl.statusChanges.pipe(take(1)).subscribe(spyStatusChanges);
+    newHierarchyElement.formControl.markAsTouched();
+    expect(spyStatusChanges).toHaveBeenCalled();
+  });
+
+  it('should touch each hierarchyArray control if outer control is touched', () => {
+    component.instituitionIdFormControl.markAsTouched();
+    component.hierarchyArray.forEach((hierarchyArray: HierarchyElement) => {
+      expect(hierarchyArray.formControl.touched).toBe(true);
+    });
   });
 
   describe('onHierarchyLevelSelect', () => {
