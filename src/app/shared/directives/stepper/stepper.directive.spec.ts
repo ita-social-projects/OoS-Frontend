@@ -83,6 +83,15 @@ describe('StepperDirective', () => {
     expect(invalidInput.focus).toHaveBeenCalled();
   }));
 
+  it('should return if step element is null or undefined', () => {
+    const directive = debugElement.injector.get(StepperDirective);
+    const spyMarkAllAsTouched = jest.spyOn(fixture.componentInstance.form, 'markAllAsTouched');
+    const spyUpdateValueAndValidity = jest.spyOn(fixture.componentInstance.form, 'updateValueAndValidity');
+    directive.scrollToFirstInvalidControl();
+    expect(spyMarkAllAsTouched).not.toHaveBeenCalled();
+    expect(spyUpdateValueAndValidity).not.toHaveBeenCalled();
+  });
+
   describe('form or stepper not provided', () => {
     let directive: StepperDirective;
 
