@@ -10,6 +10,7 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { BaseWorkshop } from 'shared/models/draftWorkshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -130,28 +131,36 @@ export class UserWorkshopService {
     return this.http.put<void>('/api/v1/Workshop/Publish', id);
   }
 
+  public saveWorkshopStep<T extends BaseWorkshop>(data: T): Observable<string> {
+    return this.http.post<string>('/api/v1/WorkshopTempSave/Store', data, { responseType: 'text' as 'json' });
+  }
+
+  public deleteUnfinishedWorkshop(): Observable<void> {
+    return this.http.delete<void>('/api/v1/WorkshopTempSave/Remove');
+  }
+
+  public getUnfinishedWorkshop(): Observable<Workshop> {
+    return this.http.get<Workshop>('/api/v1/WorkshopTempSave/Restore');
+  }
+
+  public getTimeToLiveOfUnfinishedWorkshop(): Observable<string> {
+    return this.http.get<string>('/api/v1/WorkshopTempSave/GetTimeToLive');
+  }
+
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
+    const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
-    const teachers = 'teachers';
 
     Object.keys(workshop).forEach((key: string) => {
       if (imageFiles.includes(key)) {
         workshop[key].forEach((file: File) => formData.append(key, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
-      } else if (key === teachers) {
-        for (let i = 0; i < workshop.teachers.length; i++) {
-          Object.keys(workshop.teachers[i]).forEach((teacherKey: string) => {
-            formData.append(`${teachers}[${i}].${teacherKey}`, workshop.teachers[i][teacherKey]);
-          });
-        }
       } else {
         formData.append(key, workshop[key]);
       }
     });
-
     return formData;
   }
 }

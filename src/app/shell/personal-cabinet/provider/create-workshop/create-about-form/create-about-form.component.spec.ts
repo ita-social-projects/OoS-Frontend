@@ -6,10 +6,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyOptionModule as MatOptionModule } from '@angular/material/legacy-core';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,7 @@ import { ImageFormControlComponent } from 'shared/components/image-form-control/
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Workshop } from 'shared/models/workshop.model';
+import { PayRateType } from 'shared/enum/workshop';
 import { CreateAboutFormComponent } from './create-about-form.component';
 
 describe('CreateAboutFormComponent', () => {
@@ -88,6 +89,39 @@ describe('CreateAboutFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('price radio', () => {
+    it('should should set price if has price', () => {
+      component.workshop.price = 100;
+      component.priceRadioBtn.setValue(true);
+
+      expect(component.priceControl.value).toBe(100);
+      expect(component.payRateControl.value).toBe(null);
+    });
+
+    it('should should reset price if is free', () => {
+      component.priceRadioBtn.setValue(false);
+
+      expect(component.priceControl.value).toBe(null);
+      expect(component.payRateControl.value).toBe(PayRateType.None);
+    });
+  });
+
+  describe('price listener', () => {
+    it('should mark as touched if value entered', () => {
+      jest.spyOn(component.payRateControl, 'markAsTouched');
+      component.priceControl.setValue(100);
+
+      expect(component.payRateControl.markAsTouched).toHaveBeenCalled();
+    });
+
+    it('should mark as untouched if value is erased', () => {
+      jest.spyOn(component.payRateControl, 'markAsUntouched');
+      component.priceControl.setValue(null);
+
+      expect(component.payRateControl.markAsUntouched).toHaveBeenCalled();
+    });
   });
 
   describe('getter minSeats', () => {

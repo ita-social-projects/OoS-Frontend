@@ -43,7 +43,11 @@ export enum ModalConfirmationType {
   updateAdmin = 'updateAdmin',
   licenseApproved = 'licenseApproved',
   publishWorkshop = 'publishWorkshop',
-  archiveWorkshop = 'archiveWorkshop'
+  archiveWorkshop = 'archiveWorkshop',
+  incompleteWorkshop = 'incompleteWorkshop',
+  deleteSubject = 'deleteSubject',
+  editSubject = 'editSubject',
+  createSubject = 'createSubject'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
@@ -95,7 +99,11 @@ export enum ModalConfirmationTitle {
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_ADMIN',
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_WORKSHOP',
-  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP'
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_WORKSHOP',
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP',
+  deleteSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_SUBJECT',
+  editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDIT_SUBJECT',
+  createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CREATE_SUBJECT'
 }
 
 export enum ModalConfirmationText {
@@ -141,7 +149,11 @@ export enum ModalConfirmationText {
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_ADMIN',
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED',
   publishWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_WORKSHOP',
-  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP'
+  archiveWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_WORKSHOP',
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP',
+  deleteSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_SUBJECT',
+  editSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDIT_SUBJECT',
+  createSubject = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CREATE_SUBJECT'
 }
 
 export enum ModalConfirmationDescription {
@@ -156,4 +168,11 @@ export enum ModalConfirmationDescription {
   unregisteredFavoriteWarning = 'SERVICE_MESSAGES.UNREGISTERED_FAVORITE',
   unregisteredMessageWarning = 'SERVICE_MESSAGES.UNREGISTERED_MESSAGE',
   unregisteredApplicationWarning = 'SERVICE_MESSAGES.UNREGISTERED_APPLICATION'
+}
+
+export enum ModalConfirmationButtonText {
+  delete = 'BUTTONS.DELETE',
+  rate = 'BUTTONS.SEND',
+  default = 'BUTTONS.CONFIRM',
+  continue = 'BUTTONS.CONTINUE'
 }

@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import {
+  ModalConfirmationButtonText,
   ModalConfirmationText,
   ModalConfirmationTitle,
   ModalConfirmationType,
@@ -40,5 +41,13 @@ export class ConfirmationModalWindowComponent implements OnInit {
         this.modalConfirmationProperty = `"${this.modalConfirmationProperty}"`;
       }
     }
+  }
+
+  public getConfirmationButtonMessage(): string {
+    if (this.data.type === ModalConfirmationType.incompleteWorkshop) {
+      return ModalConfirmationButtonText.continue;
+    }
+    const buttonText = ModalConfirmationButtonText[this.data.type];
+    return buttonText || ModalConfirmationButtonText.default;
   }
 }

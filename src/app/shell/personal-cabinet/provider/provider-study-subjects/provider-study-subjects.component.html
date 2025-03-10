@@ -1,0 +1,147 @@
+<div class="actions-wrapper flex flex-row flex-wrap justify-between items-center" [formGroup]="filterForm">
+  <div class="search-area justify-start">
+    <div class="search-bar flex flex-row justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        #input
+        formControlName="filterFormControl"
+        matInput
+        type="text"
+        maxlength="200"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_STUDY_SUBJECT' | translate }}" />
+    </div>
+  </div>
+
+  <div class="header-column">
+    <div class="filters-wrapper justify-end items-start">
+      <div class="filters-period">
+        <span>{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
+        <mat-form-field appPlaceholderStyling class="date" appearance="fill">
+          <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+            <input
+              matStartDate
+              matInput
+              placeholder="{{ 'FROM' | translate }}"
+              formControlName="dateFrom"
+              [appKeyFilter]="dateFilter"
+              appDateInput
+              [tabIndex]="notAllowedToPickByTabButton" />
+            <input
+              matEndDate
+              matInput
+              placeholder="{{ 'TO' | translate }}"
+              formControlName="dateTo"
+              [appKeyFilter]="dateFilter"
+              appDateInput
+              [tabIndex]="notAllowedToPickByTabButton" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="date-buttons">
+                <button class="btn" mat-raised-button matDatepickerApply (click)="setDateForFilters()">
+                  {{ 'HISTORY_LOG.SHOW' | translate }}
+                </button>
+                <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
+                  {{ 'BUTTONS.CANCEL' | translate }}
+                </button>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="reset" (click)="onResetFilters()">
+      <mat-icon class="reset__icon">refresh</mat-icon>
+    </div>
+
+    <a [routerLink]="['/create-study-subject', ModeConstants.NEW]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_SUBJECT' | translate }}</button>
+    </a>
+  </div>
+</div>
+
+<div class="table-wrapper">
+  <ng-container *ngIf="dataSource.data.length; else isEmptyList">
+    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort aria-describedby="subjects-table" appStretchTable>
+        <ng-container matColumnDef="nameInUkrainian" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.SUBJECT_NAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nameInUkrainian }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nameInInstructionLanguage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.TEACHING_LANGUAGE_SUBJECT_NAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nameInInstructionLanguage }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="language">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.language.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="activeFrom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.CREATED_AT' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.activeFrom | date: 'shortDate' }}</td>
+        </ng-container>
+
+        <!-- TODO: Should show date of last connection with workshop -->
+        <ng-container matColumnDef="activeTo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.LAST_REFERRED' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.activeTo === '9999-12-31' ? '-' : (element.activeTo | date: 'shortDate') }}</td>
+        </ng-container>
+
+        <!-- TODO: Study subject connection with workshop(number of connections) -->
+        <ng-container matColumnDef="workshopId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.USED_IN' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ '0' }}</td>
+        </ng-container>
+
+        <ng-container class="actions-column" matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef style="width: 5%"></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button [routerLink]="['/create-study-subject', element.id]">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <ng-container *ngIf="totalElements">
+      <app-paginator
+        [totalEntities]="totalElements"
+        [currentPage]="currentPage"
+        [itemsPerPage]="subjectParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #isEmptyList>
+    <div *ngIf="isLoaded" class="table-wrapper">
+      <app-no-result-card [title]="noStudySubjects"></app-no-result-card>
+    </div>
+  </ng-template>
+</div>

@@ -1,4 +1,4 @@
-<div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
+<div class="header" [ngClass]="{ 'header-secondary': !isRouter('/'), 'header-disabled': isRouter('/server-error') }">
   <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div class="flex flex-row justify-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
@@ -28,7 +28,9 @@
               [(value)]="selectedLanguage"
               class="lang-option"
               disableOptionCentering
-              panelClass="dropdown-panel">
+              hideSingleSelectionIndicator="true"
+              panelWidth="64"
+              panelClass="dropdown-panel lang-panel">
               <mat-option class="lang-option-text" value="uk">
                 <span>{{ Languages.uk }}</span>
               </mat-option>
@@ -140,9 +142,21 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
+    <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/study-subjects'">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.SUBJECTS' | translate }}
+      </button>
+    </a>
     <a *ngIf="user.role === Role.provider || user.role === Role.providerDeputy" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+      </button>
+    </a>
+    <a
+      *ngIf="user.role === Role.provider || user.role === Role.providerDeputy"
+      [routerLink]="'./personal-cabinet/provider/provider-employees'">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.EMPLOYEES' | translate }}
       </button>
     </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/positions'">

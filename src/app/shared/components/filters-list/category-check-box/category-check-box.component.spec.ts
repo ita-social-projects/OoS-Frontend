@@ -2,8 +2,8 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
@@ -72,6 +72,15 @@ describe('CategoryCheckBoxComponent', () => {
 
     expect(component.selectedDirectionIds.length).toBeFalsy();
     expect(store.dispatch).toHaveBeenCalledWith(new SetDirections(component.selectedDirectionIds));
+  });
+
+  it('should find directions by second word', () => {
+    (component as any).allDirections = [{ title: 'North East Direction' } as Direction, { title: 'South West Direction' } as Direction];
+    const searchValue = 'east';
+
+    (component as any).filterDirections(searchValue);
+
+    expect((component as any).filteredDirections).toStrictEqual([{ title: 'North East Direction' }]);
   });
 });
 

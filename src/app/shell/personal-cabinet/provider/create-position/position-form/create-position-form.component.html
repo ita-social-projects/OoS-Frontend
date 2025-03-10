@@ -19,9 +19,9 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label for="genetiveName" class="step-label"
-    >{{ 'FORMS.LABELS.NAME_IN_GENITIVE_CASE' | translate }}<span class="step-required">*</span></label
-  >
+  <label for="genetiveName" class="step-label">
+    {{ 'FORMS.LABELS.NAME_IN_GENITIVE_CASE' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field appearance="fill">
     <input
       matInput
@@ -47,9 +47,9 @@
 
   <div class="step-label-combined">
     <label for="description" class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
-    <label for="description" class="step-characters-count"
-      >{{ PositionFormGroup.get('description').value.length }}/{{ validationConstants.INPUT_LENGTH_500 }}</label
-    >
+    <label for="description" class="step-characters-count">
+      {{ PositionFormGroup.get('description').value.length }}/{{ validationConstants.INPUT_LENGTH_500 }}
+    </label>
   </div>
   <textarea
     matInput
@@ -66,9 +66,9 @@
     {{ 'FORMS.LABELS.FOR_RURAL_AREAS' | translate }}
   </mat-checkbox>
 
-  <label for="department" class="step-label"
-    >{{ 'FORMS.LABELS.OPENED_IN_DEPARTMENT' | translate }}<span class="step-required">*</span></label
-  >
+  <label for="department" class="step-label">
+    {{ 'FORMS.LABELS.OPENED_IN_DEPARTMENT' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field appearance="fill">
     <input
       matInput
@@ -84,9 +84,9 @@
 
   <div class="flex flex-col justify-between items-stretch">
     <div class="flex flex-row justify-between items-start">
-      <label for="seatsAmount" class="step-label"
-        >{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label
-      >
+      <label for="seatsAmount" class="step-label">
+        {{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span>
+      </label>
     </div>
     <mat-radio-group formControlName="seatsAmountRadioBtnControl" color="primary">
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
@@ -148,9 +148,9 @@
     [minValue]="validationConstants.MIN_RATE">
   </app-validation-hint>
 
-  <label for="classifierType" class="step-label"
-    >{{ 'FORMS.LABELS.TYPE_BY_CLASSIFIER' | translate }}<span class="step-required">*</span></label
-  >
+  <label for="classifierType" class="step-label">
+    {{ 'FORMS.LABELS.TYPE_BY_CLASSIFIER' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field appearance="fill">
     <input
       matInput

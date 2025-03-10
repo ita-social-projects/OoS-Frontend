@@ -12,11 +12,6 @@ export abstract class WorkshopBase {
   id?: string;
   title: string;
   shortTitle: string;
-  phone: string;
-  email: string;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
@@ -35,8 +30,7 @@ export abstract class WorkshopBase {
   institutionHierarchy: string;
   directionIds: number[];
   keywords: string[];
-  addressId: number;
-  address: Address;
+  contacts: Contacts[];
   teachers: Teacher[];
   providerId: string;
   providerTitle: string;
@@ -57,63 +51,51 @@ export abstract class WorkshopBase {
 
   constructor(
     about: WorkshopAbout,
-    additionalAbout: AdditionalAbout,
     description: Description,
-    address: Address,
+    workshopContacts: Contacts[],
+    additionalAbout: AdditionalAbout,
     teachers: Teacher[],
     provider: Provider,
     id?: string
   ) {
-    this.title = about.title;
-    this.shortTitle = about.shortTitle;
-    this.phone = about.phone;
-    this.email = about.email;
-    this.minAge = about.minAge;
-    this.maxAge = about.maxAge;
-    this.dateTimeRanges = about.workingHours;
-    this.price = about.price;
-    this.payRate = about.payRate;
-    this.formOfLearning = about.formOfLearning;
-    this.availableSeats = about.availableSeats;
-    this.competitiveSelection = about.competitiveSelection;
-    this.competitiveSelectionDescription = about.competitiveSelectionDescription;
-    this.workshopDescriptionItems = description.workshopDescriptionItems;
-    this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.institutionId = description.institutionId;
-    this.institutionHierarchyId = description.institutionHierarchyId;
-    this.keywords = description.keyWords;
-    this.addressId = address.id;
-    this.address = address;
+    this.title = about?.title;
+    this.shortTitle = about?.shortTitle;
+    this.minAge = about?.minAge;
+    this.maxAge = about?.maxAge;
+    this.dateTimeRanges = about?.dateTimeRanges;
+    this.price = about?.price;
+    this.payRate = about?.payRate;
+    this.formOfLearning = about?.formOfLearning;
+    this.availableSeats = about?.availableSeats;
+    this.competitiveSelection = about?.competitiveSelection;
+    this.competitiveSelectionDescription = about?.competitiveSelectionDescription;
+    this.workshopDescriptionItems = description?.workshopDescriptionItems;
+    this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
+    this.institutionId = description?.institutionId;
+    this.institutionHierarchyId = description?.institutionHierarchyId;
+    this.keywords = description?.keyWords;
     this.teachers = teachers;
-    this.providerId = provider.id;
-    this.providerTitle = provider.fullTitle;
-    this.tagIds = description.tagIds;
-    this.shortStay = additionalAbout.shortStay;
-    this.isSelfFinanced = additionalAbout.isSelfFinanced;
-    this.enrollmentProcedureDescription = description.enrollmentProcedureDescription;
-    this.isSpecial = additionalAbout.isSpecial;
-    this.isInclusive = additionalAbout.isInclusive;
-    this.specialNeedsType = additionalAbout.specialNeedsType;
-    this.areThereBenefits = description.areThereBenefits;
-    this.preferentialTermsOfParticipation = description.preferentialTermsOfParticipation;
-    this.educationalShift = additionalAbout.educationalShift;
-    this.ageComposition = additionalAbout.ageComposition;
-    this.coverage = description.coverage;
-    this.workshopType = additionalAbout.workshopType;
+    this.providerId = provider?.id;
+    this.providerTitle = provider?.fullTitle;
+    this.tagIds = description?.tagIds;
+    this.shortStay = additionalAbout?.shortStay;
+    this.isSelfFinanced = additionalAbout?.isSelfFinanced;
+    this.enrollmentProcedureDescription = description?.enrollmentProcedureDescription;
+    this.isSpecial = additionalAbout?.isSpecial;
+    this.isInclusive = additionalAbout?.isInclusive;
+    this.specialNeedsType = additionalAbout?.specialNeedsType;
+    this.areThereBenefits = description?.areThereBenefits;
+    this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
+    this.educationalShift = additionalAbout?.educationalShift;
+    this.ageComposition = additionalAbout?.ageComposition;
+    this.coverage = description?.coverage;
+    this.contacts = workshopContacts;
+    this.workshopType = additionalAbout?.workshopType;
 
     if (id) {
       this.id = id;
     }
-    if (about.facebook) {
-      this.facebook = about.facebook;
-    }
-    if (about.website) {
-      this.website = about.website;
-    }
-    if (about.instagram) {
-      this.instagram = about.instagram;
-    }
-    if (description.disabilityOptionsDesc) {
+    if (description?.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
   }
@@ -133,26 +115,26 @@ export class Workshop extends WorkshopBase {
   imageFiles?: File[];
 
   constructor(
-    about: WorkshopAbout,
-    additionalAbout: AdditionalAbout,
-    description: Description,
-    address: Address,
-    teachers: Teacher[],
-    provider: Provider,
+    about?: WorkshopAbout,
+    description?: Description,
+    workshopContacts?: Contacts[],
+    additionalAbout?: AdditionalAbout,
+    teachers?: Teacher[],
+    provider?: Provider,
     id?: string
   ) {
-    super(about, additionalAbout, description, address, teachers, provider, id);
+    super(about, description, workshopContacts, additionalAbout, teachers, provider, id);
 
-    if (about.coverImageId) {
+    if (about?.coverImageId) {
       this.coverImageId = about.coverImageId[0];
     }
-    if (about.coverImage) {
-      this.coverImage = about.coverImage;
+    if (about?.coverImage) {
+      this.coverImage = about?.coverImage;
     }
-    if (description.imageIds?.length) {
+    if (description?.imageIds?.length) {
       this.imageIds = description.imageIds;
     }
-    if (description.imageFiles?.length) {
+    if (description?.imageFiles?.length) {
       this.imageFiles = description.imageFiles;
     }
   }
@@ -178,7 +160,7 @@ export class WorkshopDescriptionItem extends SectionItem {
 }
 
 export interface WorkshopBaseCard {
-  workshopId: string;
+  id: string;
   providerTitle: string;
   providerOwnership: OwnershipTypes;
   title: string;
@@ -238,15 +220,10 @@ export interface WorkshopCardParameters extends PaginationParameters {
 export interface WorkshopAbout {
   title: string;
   shortTitle: string;
-  phone: string;
-  email: string;
   minAge: number;
   maxAge: number;
-  workingHours: DateTimeRanges[];
+  dateTimeRanges: DateTimeRanges[];
   price: number;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
   availableSeats: number;
@@ -254,9 +231,10 @@ export interface WorkshopAbout {
   competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
+  isPaid?: boolean;
 }
 
-interface AdditionalAbout {
+export interface AdditionalAbout {
   shortStay: boolean;
   isSelfFinanced: boolean;
   isSpecial: boolean;
@@ -265,9 +243,8 @@ interface AdditionalAbout {
   educationalShift: string;
   ageComposition: string;
   workshopType: string;
-  // languageOfEducationId: string;
 }
-interface Description {
+export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
   keyWords: string[];
@@ -280,5 +257,45 @@ interface Description {
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
-  // directionIds: number[];
+}
+
+export class Contacts {
+  title: string;
+  address: Address;
+  phones: PhoneType[];
+  emails: EmailType[];
+  socialNetworks?: SocialNetworks[];
+  isDefault: boolean;
+
+  constructor(info: Contacts) {
+    this.title = info.title;
+    this.address = info.address;
+    this.phones = info.phones;
+    this.emails = info.emails;
+    this.isDefault = info.isDefault;
+    if (info.socialNetworks) {
+      this.socialNetworks = info.socialNetworks;
+    }
+  }
+}
+
+interface PhoneType {
+  type: string;
+  number: string;
+}
+
+interface EmailType {
+  type: string;
+  address: string;
+}
+
+interface SocialNetworks {
+  type: Socials;
+  url: string;
+}
+
+enum Socials {
+  Facebook = 'Facebook',
+  Instagram = 'Instagram',
+  Website = 'Website'
 }

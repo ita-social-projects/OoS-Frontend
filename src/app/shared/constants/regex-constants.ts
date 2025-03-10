@@ -17,6 +17,12 @@ export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 // Regex for EDRPOU and IPN
 export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;
 
+// RegEx for RNOKPP/drfocode from Diya
+export const RNOKPP_DRFOCODE: RegExp = /^\d{10}$|^\d{9}$|^[А-Яа-яЄєІіЇїҐґ]{2}\d{6}$/;
+
+// Regex for RNOKPP
+export const RNOKPP_REGEX: RegExp = /^(\d{10})$/;
+
 // Regex for non-latin characters
 export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_\s\-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
 
@@ -48,3 +54,5 @@ export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 // Regex for time input replace invalid characters
 export const TIME_REGEX_REPLACE: RegExp = /[^0-9:]/g;
+
+export const WORD_SPLIT_REGEX: RegExp = /[ ,/]+/;

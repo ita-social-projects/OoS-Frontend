@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { ValidationHintComponent } from 'shared/components/validation-hint/validation-hint.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FullSearchBarComponent } from './full-search-bar.component';
 
 describe('FullSearchBarComponent', () => {
@@ -11,8 +13,8 @@ describe('FullSearchBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, TranslateModule.forRoot()],
-      declarations: [FullSearchBarComponent, MockCityFilterComponent, MockSearchBarComponent]
+      imports: [MatIconModule, TranslateModule.forRoot(), MatTooltipModule],
+      declarations: [FullSearchBarComponent, MockCityFilterComponent, MockSearchBarComponent, ValidationHintComponent]
     }).compileComponents();
   });
 
@@ -24,16 +26,6 @@ describe('FullSearchBarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set `displayErrorFormControl` to false', () => {
-    component.showErrorMessage();
-    expect(component.displayErrorFormControl.value).toBe(false);
-  });
-
-  it('should set `displayErrorFormControl` to true', () => {
-    component.hideErrorMessage();
-    expect(component.displayErrorFormControl.value).toBe(true);
   });
 });
 @Component({

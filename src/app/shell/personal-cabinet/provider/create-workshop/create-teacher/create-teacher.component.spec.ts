@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
@@ -44,7 +44,7 @@ describe('CreateTeacherComponent', () => {
     let markAsDirtySpy: jest.SpyInstance;
 
     beforeEach(() => {
-      mockIndex = 0;
+      mockIndex = 1;
       dialogOpenSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);

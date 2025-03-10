@@ -17,7 +17,7 @@
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             [matTooltipPosition]="tooltipPositionAbove"
-            [routerLink]="['/details/workshop', workshopData.workshopId]">
+            [routerLink]="['/details/workshop', workshopData.id]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           <div class="workshop-title-container">
@@ -34,14 +34,14 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
+        <a class="more-details" [routerLink]="['/details/workshop', workshopData.id]">
           <span class="card_link">
             {{ 'MORE_DETAILS' | translate }}
           </span>
           <mat-icon>arrow_forward</mat-icon>
         </a>
         <ng-container *ngIf="isCabinetView">
-          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.id]">
             <mat-icon>add</mat-icon>
             <span class="card_link">
               {{ 'ADD_ACHIEVEMENT' | translate }}
@@ -69,7 +69,7 @@
 
 <ng-template #ProviderActions>
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
-    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.workshopId]">
+    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.id]">
       <mat-icon>edit</mat-icon>
     </div>
     <div class="actions_btn action-icon" (click)="onDelete()">

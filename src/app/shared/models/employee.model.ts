@@ -4,6 +4,7 @@ import { Person } from './user.model';
 
 export interface EmployeeParameters extends PaginationParameters {
   searchString?: string;
+  providerId?: string;
 }
 
 export class Employee implements Person {

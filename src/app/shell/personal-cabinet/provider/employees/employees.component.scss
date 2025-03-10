@@ -27,12 +27,10 @@
   margin: 0;
 }
 
-.search-area {
+.search-container {
   display: flex;
   justify-content: flex-end;
-  z-index: 1000;
-  position: absolute;
-  right: 12px;
+  padding-right: 12px;
 }
 
 @media (max-width: 1070px) {

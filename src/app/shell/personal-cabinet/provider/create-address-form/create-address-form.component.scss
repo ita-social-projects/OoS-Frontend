@@ -21,6 +21,8 @@
 .additional-text {
   opacity: 0.5;
   margin-left: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 h4 {
@@ -32,6 +34,13 @@ h4 {
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
+  height: 36px;
+  margin-bottom: 10px;
+}
+
+.step-input {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .redBorder {

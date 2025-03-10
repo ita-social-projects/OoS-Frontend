@@ -1,9 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  MatLegacyAutocomplete as MatAutocomplete,
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
-} from '@angular/material/legacy-autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, delayWhen, distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
@@ -117,7 +114,7 @@ export class CreateAddressFormComponent implements OnInit {
   private activateEditMode(): void {
     if (this.address) {
       this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false, onlySelf: true });
-      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, { emitEvent: false, onlySelf: true });
+      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto?.settlement, { emitEvent: false, onlySelf: true });
       this.settlementFormControl.patchValue(this.address.codeficatorAddressDto, { emitEvent: false, onlySelf: true });
       this.store.dispatch(new ClearCodeficatorSearch());
     }

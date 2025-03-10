@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -74,29 +74,29 @@ describe('SearchbarComponent', () => {
 
   it('should replace invalid characters and update the FormControl value', () => {
     jest.spyOn((component as any).searchValueFormControl, 'setValue');
-    jest.spyOn(component.invalidCharacterDetected, 'emit');
+    jest.spyOn(component.outputSearchFormControl, 'emit');
 
     const inputValue = 'Test@Value-#123';
     const expectedValue = 'TestValue-123';
 
     component.handleInvalidCharacter(inputValue);
 
-    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue, { emitEvent: false });
-    expect(component.invalidCharacterDetected.emit).toHaveBeenCalled();
+    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue, { emitEvent: true });
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
   });
 
   it('should emit invalidCharacterDetected if input contains invalid characters', () => {
-    const invalidCharacterDetectedSpy = jest.spyOn(component.invalidCharacterDetected, 'emit');
+    const invalidCharacterDetectedSpy = jest.spyOn(component.outputSearchFormControl, 'emit');
     const setValueSpy = jest.spyOn(component.searchValueFormControl, 'setValue');
 
     component.handleInvalidCharacter('Invalid@Value');
 
-    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue', { emitEvent: false });
+    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue', { emitEvent: true });
     expect(invalidCharacterDetectedSpy).toHaveBeenCalled();
   });
 
   it('should emit validCharacterDetected when input has no invalid characters', () => {
-    const validCharacterDetectedSpy = jest.spyOn(component.validCharacterDetected, 'emit');
+    const validCharacterDetectedSpy = jest.spyOn(component.outputSearchFormControl, 'emit');
 
     component.handleInvalidCharacter('ValidInput');
 

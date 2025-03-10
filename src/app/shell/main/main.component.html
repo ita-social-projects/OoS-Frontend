@@ -7,13 +7,13 @@
       </a>
     </div>
 
-    <ng-container *ngIf="(topDirections$ | async)?.length; then topDirections; else emptyData"></ng-container>
+    <ng-container *ngIf="(topDirectionsLimited$ | async)?.length; then topDirections; else emptyData"></ng-container>
 
     <ng-template #topDirections>
-      <div class="card-wrapper">
+      <div class="card-wrapper directions-container">
         <app-category-card
-          class="card"
-          *ngFor="let direction of topDirections$ | async"
+          class="card direction-card"
+          *ngFor="let direction of topDirectionsLimited$ | async"
           [direction]="direction"
           [workshopsCount]="direction.workshopsCount">
         </app-category-card>
@@ -31,8 +31,9 @@
   </ng-container>
 
   <ng-template #topWorkshops>
-    <div class="card-wrapper">
-      <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"></app-workshop-card>
+    <div class="card-wrapper workshops-container">
+      <app-workshop-card class="card workshop-card" *ngFor="let workshop of topWorkshopsLimited$ | async" [workshop]="workshop">
+      </app-workshop-card>
     </div>
   </ng-template>
 

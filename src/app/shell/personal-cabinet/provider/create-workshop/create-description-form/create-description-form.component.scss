@@ -1,5 +1,6 @@
 @import 'src/app/shared/styles/create-form.scss';
 @import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
 
 .keywords {
   min-height: 100px;
@@ -8,12 +9,15 @@
 
 .keyWordChip.keyWordChip.keyWordChip {
   width: fit-content;
+  white-space: normal !important;
+  height: auto !important;
   max-width: 100%;
 }
 
 .chip-text {
   width: calc(100%);
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -27,6 +31,10 @@
   top: 5px;
 }
 
+.expanded-field {
+  height: auto !important;
+}
+
 .step-label-title {
   padding-top: 5px;
 }
@@ -36,6 +44,8 @@
   height: 20px;
 }
 
-.list-of-tags {
-  margin: 10px 0 0 0;
+:host ::ng-deep {
+  .mat-form-field-infix {
+    padding: 0;
+  }
 }

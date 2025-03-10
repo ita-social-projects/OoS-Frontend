@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear class="main-stepper">
+      <mat-horizontal-stepper #stepper linear>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
@@ -27,7 +27,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AboutFormGroup.invalid"
+              (click)="saveUnfinishedData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -50,7 +55,12 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AdditionalAboutGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="AdditionalAboutGroup?.invalid"
+              (click)="saveUnfinishedData(AdditionalAboutGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -74,19 +84,24 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="DescriptionFormGroup?.invalid"
+              (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
         </mat-step>
 
         <mat-step
-          [stepControl]="AddressFormGroup"
-          [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !AddressFormGroup.invalid">
+          [stepControl]="WorkshopContactsFormArray"
+          [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !WorkshopContactsFormArray.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
+          <app-create-workshop-address [contacts]="workshop?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
           </app-create-workshop-address>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -95,23 +110,31 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">
+            <button
+              class="btn"
+              mat-raised-button
+              matStepperNext
+              [disabled]="WorkshopContactsFormArray?.invalid"
+              (click)="saveUnfinishedData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
         </mat-step>
 
-        <mat-step
-          [stepControl]="TeacherFormArray"
-          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid">
+        <mat-step>
+          <!--          [stepControl]="TeacherFormArray"-->
+          <!--          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !WorkshopContactsFormArray.invalid">-->
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.TEACHERS' | translate }}</p>
           </ng-template>
-          <app-create-teacher
-            [teachers]="workshop?.teachers"
-            [isImagesFeature]="isImagesFeature"
-            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
-          </app-create-teacher>
+          <!--          <app-create-teacher-->
+          <!--            [teachers]="workshop?.teachers"-->
+          <!--            [isImagesFeature]="isImagesFeature"-->
+          <!--            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">-->
+          <!--          </app-create-teacher>-->
+          <div style="justify-content: center" class="add-wrapper flex flex-row">
+            <p>{{ 'TEMP.FUNCTIONALITY_LATER_MESSAGE' | translate }}</p>
+          </div>
 
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -122,14 +145,7 @@
             </button>
             <button
               class="btn"
-              [disabled]="
-                (isLoading$ | async) ||
-                (!AboutFormGroup.dirty && !DescriptionFormGroup.dirty && !AddressFormGroup.dirty && !TeacherFormArray?.dirty) ||
-                AboutFormGroup.invalid ||
-                DescriptionFormGroup.invalid ||
-                AddressFormGroup.invalid ||
-                TeacherFormArray?.invalid
-              "
+              [disabled]="(isLoading$ | async) || IsAllFormsNotDirtyAndInvalid"
               mat-button
               type="submit"
               (click)="onSubmit()">

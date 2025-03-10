@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
   @Input() public currentPage: PaginationElement;
+  @Output() public currentPageChange: EventEmitter<PaginationElement> = new EventEmitter<PaginationElement>(); // Створюємо подію
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
@@ -48,6 +49,9 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
+        if (!workshops.entities.length) {
+          this.onPageChange(PaginationConstants.firstPage);
+        }
         this.workshops = workshops;
       });
   }
@@ -55,7 +59,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
-    this.scrollToTop();
+    Util.scrollToTop(this.window);
+    this.currentPageChange.emit(this.currentPage);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -71,12 +76,5 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
-  }
-
-  private scrollToTop(): void {
-    this.window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   }
 }

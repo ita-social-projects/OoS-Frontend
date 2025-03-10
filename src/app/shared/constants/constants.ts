@@ -82,6 +82,7 @@ export class PaginationConstants {
   static readonly CHATROOMS_PER_PAGE = 8;
   static readonly RATINGS_PER_PAGE = 12;
   static readonly TABLE_ITEMS_PER_PAGE = 12;
+  static readonly ITEMS_PER_PAGE = [8, 12, 16, 20];
 }
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
@@ -151,6 +152,7 @@ export class ModeConstants {
   static readonly APPLICATION = 'application';
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
+  static readonly UNFINISHED = 'unfinished';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

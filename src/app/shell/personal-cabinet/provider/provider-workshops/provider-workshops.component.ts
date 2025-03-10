@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store, ofAction } from '@ngxs/store';
 import { Observable, filter } from 'rxjs';
@@ -17,10 +17,12 @@ import {
   DeleteWorkshopById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshops,
-  OnUpdateWorkshopStatusSuccess
+  OnUpdateWorkshopStatusSuccess,
+  GetUnfinishedWorkshop
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
+import { WINDOW } from 'ngx-window-token';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -31,9 +33,14 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerWorkshops)
   public workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
+  public draftLiveTime$: Observable<string>;
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
+  public isLoaded: boolean = false;
 
   public workshops: SearchResponse<WorkshopProviderViewCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -45,9 +52,18 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
-    private actions$: Actions
+    private actions$: Actions,
+    @Inject(WINDOW) private window: Window
   ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.store.dispatch(new GetUnfinishedWorkshop());
+    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isLoaded = true;
+    });
   }
 
   /**
@@ -103,6 +119,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviderWorkshops();
+    Util.scrollToTop(this.window);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {

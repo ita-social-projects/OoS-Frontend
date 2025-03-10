@@ -24,7 +24,7 @@ import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateEmployee, GetEmployeeById, GetWorkshopListByProviderId, UpdateEmployee } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { Util } from 'shared/utils/utils';
+import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -76,7 +76,7 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
       firstName: new FormControl('', [Validators.required, ...defaultValidators]),
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email])
+      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
     });
 
     this.providerRole = EmployeeRole[this.route.snapshot.paramMap.get('param')];

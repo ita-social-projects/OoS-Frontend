@@ -16,18 +16,18 @@
     [displayWith]="displaySettlementNameFn"
     (optionSelected)="onSelectedCity($event)">
     <mat-option
-      class="dropdown-option"
+      class="dropdown-option city-filter-option"
       *ngFor="let codeficator of codeficatorSearch"
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
       <div
-        class="dropdown-option-trimmed"
+        class="option-sub-text"
         [matTooltip]="codeficator.fullName"
         matTooltipClass="tooltip"
         showTooltipIfTruncated
         matTooltipPosition="below">
-        <span class="option-sub-text">{{ codeficator.fullName }}</span>
+        {{ codeficator.fullName }}
       </div>
     </mat-option>
   </mat-autocomplete>

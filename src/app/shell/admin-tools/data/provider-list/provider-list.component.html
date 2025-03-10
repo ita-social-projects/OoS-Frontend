@@ -20,7 +20,7 @@
         <mat-select
           disableOptionCentering
           formControlName="institution"
-          panelClass="dropdown-panel"
+          panelClass="dropdown-panel select-with-form-field"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
           class="select">
           <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
@@ -35,7 +35,7 @@
           <mat-select
             disableOptionCentering
             formControlName="region"
-            panelClass="dropdown-panel"
+            panelClass="dropdown-panel select-with-form-field"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
             class="select">
             <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
@@ -50,7 +50,7 @@
             [compareWith]="compareCodeficators"
             disableOptionCentering
             formControlName="area"
-            panelClass="dropdown-panel"
+            panelClass="dropdown-panel select-with-form-field"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
             class="select">
             <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">

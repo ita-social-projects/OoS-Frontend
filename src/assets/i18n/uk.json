@@ -25,6 +25,7 @@
   "CONTACTS": "КОНТАКТИ",
   "AGREEMENT": "Так",
   "DISAGREEMENT": "Ні",
+  "NO_MORE_THAN": "не більше ніж",
   "ALT": {
     "CAROUSEL_IMG": "Фото",
     "IMG_COVER": "Обкладинка"
@@ -140,14 +141,20 @@
       "SUPPORT": "Підтримка",
       "USERS": "Користувачі",
       "MY_WORKSHOPS": "Мої гуртки",
+      "SUBJECTS":"Навчальні предмети",
+      "ADD_SUBJECTS":"Додати навчальний предмет",
+      "EDIT_SUBJECTS":"Редагування навчального предмету",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
       "POSITIONS": "Посади",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
+      "IMPORT": "Імпорт даних",
+      "EXPORT": "Експорт даних",
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
       "PROVIDER_REGISTRATION": "Реєстрація закладу",
-      "USER_REGISTRATION": "Реєстрація користувача"
+      "USER_REGISTRATION": "Реєстрація користувача",
+      "EMPLOYEES": "Співробітники"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",
@@ -384,7 +391,9 @@
       "NEW_POSITION": "НОВА ПОСАДА",
       "EDIT_POSITION": "Редагування посади",
       "EDIT_POSITION_DESCRIPTION": "Редагуйте інформацію про посаду або контактну інформацію",
-      "NEW_POSITION_DESCRIPTION": "Створіть нову посаду"
+      "NEW_POSITION_DESCRIPTION": "Створіть нову посаду",
+      "ADD_STUDY_SUBJECT": "ДОДАТИ НАВЧАЛЬНИЙ ПРЕДМЕТ",
+      "EDIT_STUDY_SUBJECT": "РЕДАГУВАТИ НАВЧАЛЬНИЙ ПРЕДМЕТ"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -431,6 +440,7 @@
       "EDRPO": "ЄДРПОУ",
       "EDRPO_IPN": "ЄДРПОУ / ІПН",
       "IPN": "ІПН",
+      "RNOKPP": "РНОКПП",
       "FOUNDER": "Засновник",
       "DIRECTOR_NAME": "ПІБ керівника",
       "DIRECTOR_BIRTHDAY": "Дата народження керівника",
@@ -453,6 +463,8 @@
       "USER_TAGS": "Теги",
       "TERRITORIAL_COMMUNITY": "Територіальна громада",
       "SHORT_TITLE": "Скорочена назва",
+      "ADDRESS_TITLE": "Заголовок адреси",
+      "CONTACTS_OWNER": "Власник контактів",
       "DEFAULT_TEACHER": "Викладач за замовчуванням",
       "SHORT_STAY": "Короткотривалого перебування",
       "IS_SELF_FINANCED": "Працює за кошти батьків, благодійників",
@@ -478,7 +490,14 @@
       "TEACHING_POSITION": "Вчительська посада",
       "TYPE_BY_CLASSIFIER": "Тип за класифікатором",
       "CREATED_AT": "Дата створення",
-      "LANGUAGE": "Мова"
+      "LANGUAGE": "Мова",
+      "SOCIAL_NETWORKS": "Соціальні мережі",
+      "SUBJECT_NAME_UKRAINIAN": "Назва предмету українською мовою",
+      "TEACHING_LANGUAGE_SUBJECT_NAME":"Назва предмету мовою викладання",
+      "TEACHING_LANGUAGE":"Мова викладання",
+      "LAST_REFERRED":"Дата останнього посилання на навчальний предмет",
+      "USED_IN":"Кількість гуртків у яких використовується",
+      "SUBJECT_NAME":"Назва навчального предмету"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -493,9 +512,12 @@
       "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, імейлом, телефоном, містом чи статусом",
+      "SEARCH_NAME_RNOKPP_POSITION": "Пошук за ПІБ, РНОКПП чи посадою",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПОУ, імейлом, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
+      "SEARCH_STUDY_SUBJECT": "Пошук навчального предмету за назвою",
+      "SELECT_LANGUAGE_OF_INSTRUCTION":"Оберіть мову викладання",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
@@ -524,31 +546,41 @@
     "UAH": "грн",
     "FOR": "за",
     "VALIDATIONS": {
-      "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",
-      "INVALID_CHARACTERS": ", використовуйте, будь ласка, тільки кирилицю",
-      "INVALID_DATA_END": "\" формат. Наприклад \"20/10/2010\".",
-      "INVALID_DATA_START": "Використовуйте \"",
+      "INVALID_DATE_FIELD": "Перевірте введені дані </br> Використовуйте формат \"DD/MM/YYYY\". Наприклад: \"20/10/2010\".",
+      "INVALID_CHARACTERS": "Перевірте введені дані, будь ласка, використовуйте лише кирилицю",
+      "INVALID_SYMBOLS": "Перевірте введені дані, будь ласка, використовуйте лише кирилицю та символи ( ' - )",
+      "INVALID_PHONE_LENGTH": "Це поле має містити мінімум {{minCharacters}} символів.",
+      "INVALID_PHONE_NUMBER": "Введіть коректний номер телефону.",
+      "INVALID_DATE_RANGE": "Перевірте введені дані </br> Дата народження виходить за межі допустимих.",
       "INVALID_EMAIL": "Введіть коректний імейл.",
-      "INVALID_EDRPO_IPN_END": "-значне число.",
-      "INVALID_HOUSE": ", використовуйте, будь ласка, тільки числа, кирилицю та символи ( / - . )",
+      "INVALID_EDRPO_IPN": "Це поле має містити {{minCharacters}}-значне число.",
+      "INVALID_STREET": "Перевірте введені дані, будь ласка, використовуйте лише числа, кирилицю та символи ( ' . - ( ) )",
+      "INVALID_HOUSE": "Перевірте введені дані, будь ласка, використовуйте лише числа, кирилицю та символи ( / - . )",
+      "INVALID_SEARCH": "Будь ласка, використовуйте лише кирилицю, латиницю, числа та символи (` ' / . , № \")",
+      "INVALID_TIME_FORMAT": "Будь ласка, використовуйте часовий формат \"09:59\"",
+      "INVALID_TIME_RANGE": "\"До\" не може бути раніше або дорівнювати \"Від\"",
+      "INVALID_AGE_RANGE": "Вік \"Від\" не може бути більший за \"До\"",
+      "INVALID_VALUE": "Число може бути від {{minValue}} до {{maxValue}}",
+      "INVALID_SECTION_NAME": "Перевірте введені дані, будь ласка. Назва розділу має починатися з літери кирилиці або латиниці",
+      "MUST_CONTAIN_LETTERS": "Це поле має містити щонайменше одну літеру.",
+      "LESS_THAN_PARTICIPANTS": "Неможливо вказати кількість доступних місць меншою за поточну кількість учасників.",
+      "INVALID_EMAIL_TYPE": "Електронна пошта не може закінчуватися на .ru, .by, .su, .rf",
+      "INVALID_LENGTH_FROM_TO": "Це поле має містити від {{minCharacters}} до {{maxCharacters}} символів.",
+      "INVALID_LENGTH_FROM_TO_WITH_COUNT": "Це поле має містити від {{minCharacters}} до {{maxCharacters}} символів. Зараз: {{currentCharactersCount}}.",
+      "INVALID_LENGTH_NO_MORE_THAN": "Це поле має містити не більше ніж {{maxCharacters}} символів.",
+      "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "Це поле має містити не більше ніж {{maxCharacters}} символів. Зараз: {{currentCharactersCount}}.",
       "INVALID_INPUT": "Перевірте введені дані",
       "INVALID_LENGTH_END": "символів.",
-      "INVALID_LENGTH_START": "Це поле має містити",
-      "INVALID_LENGTH_START_MIN": "Це поле має містити мінімум",
-      "INVALID_PHONE_NUMBER": "Введіть коректний номер телефону.",
+      "INVALID_LENGTH_START": "Це поле має містити {{minCharacters}}",
+      "INVALID_VALUE_START_WITHOUT_PARAM": "Це поле має містити",
+      "FROM": "Від {{minCharacters}} {{minValue}}",
+      "TO": "До {{maxCharacters}} {{maxValue}}",
       "INVALID_MAP": "Такої адреси не було знайдено на карті",
-      "INVALID_STREET": ", використовуйте, будь ласка, тільки числа, кирилицю та символи ( ' . - ( ) )",
-      "INVALID_SYMBOLS": ", використовуйте, будь ласка, тільки кирилицю та символи ( ' - )",
-      "INVALID_SECTION_NAME": ", будь ласка, назва розділу має починатися з літери кирилиці або латинського алфавіту",
-      "INVALID_SEARCH": "Використовуйте, будь ласка, тільки кирилицю, латиницю, числа та символи (` ' / . , № \")",
-      "INVALID_VALUE_START": "Це число може бути тільки",
-      "INVALID_TIME_FORMAT": "Використовуйте, будь ласка, часовий формат \"09:59\"",
-      "INVALID_TIME_RANGE": "\"Від\" не може бути пізніше ніж \"До\"",
       "REQUIRED_INPUT": "Це поле є обов'язковим.",
       "NO_MORE_CHILDREN": "Можливо додати не більш, ніж",
+      "INVALID_TAGS_LENGTH": "Тегів повинно бути не менше ніж 3, та не більше ніж 15.",
       "APPLICATION_ALREADY_APPLIED": "Заявка вже подана",
-      "MUST_CONTAIN_LETTERS": "Це поле має містити мінімум одну літеру.",
-      "LESS_THAN_PARTICIPANTS": "Неможливо вказати кількість доступних місць меншою за поточну кількість учасників."
+      "CURRENT_COUNT": "Зараз:"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Зверніть увагу, що після зміни назви напрямку для всіх \n інших залежних профілів також поміняється назва. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Зверніть увагу, що зараз кількість доступних місць збігається з кількістю учнів у гуртку. \n Тому набір у гурток буде автоматично закрито!"
@@ -628,15 +660,18 @@
     "MAX_CHILDREN_AMOUNT": "Можливо додати не більш, ніж 20 дітей",
     "ADD_WORKSHOP": "Тут ви можете створити гурток, секцію або групу для навчання",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Додавання досягнень можливе лише за наявності учасників у гуртку.",
+    "ADD_SUBJECTS": "Тут ви можете створити навчальний предмет",
     "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані тренера/викладачі:",
     "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.",
     "ADD_ACHIEVEMENT_SUBHEADER": "Тут ви можете додати досягнення.",
     "ADD_POSITION": "Тут ви можете додати посади для робітників",
-    "ADD_IMG_SUBHEADER": "Додайте фото натистувши на “+”. Максимальна кількість фото -"
+    "ADD_IMG_SUBHEADER": "Додайте фото натистувши на “+”. Максимальна кількість фото -",
+    "UPLOAD_EMPLOYEE": "Тут ви можете завантажити файл зі співробітником вашого закладу"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Додати дитину",
     "ADD_WORKSHOP": "Додати гурток",
+    "ADD_SUBJECT": "Додати навчальний предмет",
     "APPROVE_APPLICATION": "Прийняти",
     "ACCEPT_TO_COMPETITIVE_SELECTION": "Прийняти до відбору",
     "ENROLL_TO_WORKSHOP": "Зарахувати",
@@ -674,9 +709,16 @@
     "GO_BACK": "Повернутись",
     "REGISTER": "Зареєструватися",
     "ADD_DIRECTION": "Додати напрямок",
+    "ADD_MORE_EMAIL": "Додати ще електронну пошту",
+    "ADD_MORE_PHONE": "Додати ще телефон",
+    "ADD_MORE_SOCIAL_NETWORK": "Додати ще соціальну мережу",
+    "ADD_MORE_ADDRESS": "Додати ще адресу",
     "ADD_POSITION": "Додати посаду",
     "PUBLISH": "Опублікувати",
-    "ARCHIVE": "Архівувати"
+    "ARCHIVE": "Архівувати",
+    "CONTINUE": "Продовжити",
+    "USE_ADDRESS_AS_PRIMARY": "Використовувати як основну",
+    "TRY_AGAIN": "Спробувати ще"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -711,7 +753,8 @@
     "NO_SETTLEMENT": "Такого населеного пункту немає",
     "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
     "NO_CHILD_WORKSHOPS": "Гуртків поки немає!",
-    "NO_CHAT_HISTORY": "У чаті ще немає повідомлень"
+    "NO_CHAT_HISTORY": "У чаті ще немає повідомлень",
+    "NO_STUDY_SUBJECTS":"Навчальних предметів поки немає"
   },
   "NOTIFICATIONS": "Сповіщення",
   "APPLICATION_STATUSES": "Статуси заявок",
@@ -721,6 +764,7 @@
     "SHOW": "Показати",
     "RESET_FILTERS": "Скинути фільтри",
     "PERIOD": "Період",
+    "CREATION_PERIOD": "Період створення",
     "EMPLOYEE_FILTERS": {
       "ALL": "Усі",
       "DEPUTIES": "Заступники",
@@ -856,6 +900,9 @@
       "UPDATE_PROVIDER_DEPUTY": "Заступника директора успішно відредаговано!",
       "COMPLETE_PROVIDER_REGISTRATION": "Будь ласка, завершіть реєстрацію закладу.",
       "COMPLETE_USER_REGISTRATION": "Будь ласка, завершіть реєстрацію користувача.",
+      "CREATE_SUBJECT":"Навчальний предмет успішно створено!",
+      "UPDATE_SUBJECT":"Навчальний предмет успішно відредаговано!",
+      "DELETE_SUBJECT":"Навчальний предмет успішно видалено!",
       "CREATE_RATING": "Оцінка успішно поставлена!",
       "UPDATE_PORTAL": "Інформація про портал успішно відредагована",
       "UPDATE_USER": "Особиста інформація успішно відредагована!",
@@ -898,7 +945,11 @@
       },
       "ERROR_FOR_SMALL_IMG_SIZE": "Розмір зображення занадто малий.",
       "ERROR_FOR_BIG_IMG_SIZE": "Розмір зображення занадто великий.",
-      "ERROR_DEFAULT_TEACHER": "Ви повинні обрати вчителя за замовчуванням"
+      "ERROR_DEFAULT_TEACHER": "Ви повинні обрати вчителя за замовчуванням",
+      "GET_DRAFT_FAIL": "Не вдалось отримати незавершений гурток",
+      "GET_TIME_TO_LIVE_FAIL": "Не вдалось отримати час автовидалення незавершеного гуртка",
+      "DELETE_DRAFT_FAIL": "Не вдалось видалити незавершений гурток",
+      "DELETE_DRAFT_SUCCESS": "Незавершений гурток успішно видалений"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Вкажіть причину блокування",
@@ -948,6 +999,10 @@
       "LICENSE_APPROVED": "Ви впевнені, що хочете підтвердити ліцензію закладу?",
       "PUBLISH_WORKSHOP": "Ви впевнені, що хочете опублікувати гурток?",
       "ARCHIVE_WORKSHOP": "Якщо видалити напрямок всі пов’язані з ним Профілі, Відділення та Класи також будуть видалені.",
+      "INCOMPLETE_WORKSHOP": "Ви маєте незавершене створення гуртка. Продовжіть або видаліть його, щоб створити новий.",
+      "DELETE_SUBJECT": "Ви впевнені, що хочете видалити навчальний предмет?",
+      "EDIT_SUBJECT": "Ви впевнені, що хочете редагувати навчальний предмет?",
+      "CREATE_SUBJECT": "Ви впевнені, що хочете створити навчальний предмет?",
       "TITLES": {
         "DELETE_WORKSHOP": "ВИДАЛИТИ ГУРТОК?",
         "DELETE_DIRECTION": "ВИДАЛИТИ НАПРЯМОК?",
@@ -994,7 +1049,11 @@
         "WORKSHOP_SEATS_LACK": "НЕСТАЧА МІСЦЬ ДЛЯ ВІДКРИТТЯ НАБОРУ",
         "WORKSHOP_EDIT_SEATS": "Вам необхідно змінити кількість місць у гуртку, щоб відкрити набір.",
         "PUBLISH_WORKSHOP": "Опублікувати гурток?",
-        "ARCHIVE_WORKSHOP": "АРХІВУВАТИ ГУРТОК?"
+        "ARCHIVE_WORKSHOP": "АРХІВУВАТИ ГУРТОК?",
+        "INCOMPLETE_WORKSHOP": "Незавершене створення гуртка",
+        "DELETE_SUBJECT": "ВИДАЛИТИ НАВЧАЛЬНИЙ ПРЕДМЕТ?",
+        "EDIT_SUBJECT": "РЕДАГУВАТИ НАВЧАЛЬНИЙ ПРЕДМЕТ?",
+        "CREATE_SUBJECT": "СТВОРИТИ НАВЧАЛЬНИЙ ПРЕДМЕТ?"
       }
     }
   },
@@ -1003,8 +1062,53 @@
   "CHAT_PAY_ATTENTION_BLOCK": "Зверніть увагу, що ви не можете надсилати і отримувати повідомлення, якщо користувач заблокований",
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Ой! Сторінку не знайдено.",
-    "ERROR_404": "Схоже, ми не можемо знайти сторінку, яку Ви шукаєте. Код помилки: 404"
+    "ERROR_SERVER_HAPPENED": "Ой! Сталась помилка.",
+    "ERROR_404": "Схоже, ми не можемо знайти сторінку, яку Ви шукаєте. Код помилки: 404",
+    "ERROR_TRY_MESSAGE": "Ви зможете спробувати ще через {{time}} секунд"
   },
   "MORE": "...Більше",
-  "LESS": "...Менше"
+  "LESS": "...Менше",
+  "PROVIDER_DRAFT": {
+    "TITLE": "Незавершене створення гуртка",
+    "DETAILS": "У вас є незавершений процес створення гуртка. Будь ласка, завершіть його або скасуйте, щоб розпочати новий.",
+    "EDIT_LINK": "Продовжити створення",
+    "CANCEL_LINK": "Відмінити створення",
+    "DRAFT_WARNING": "У вас є незавершене створення гуртка. Перейдіть у вкладку Мої гуртки, щоб завершити процес."
+  },
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Вибрати файл",
+    "SELECT_ANOTHER_FILE": "Обрати інший файл",
+    "SUBMIT_FILE": "Надіслати файл",
+    "UPLOAD_SUCCESS":"Дані успішно завантажені",
+    "UPLOAD_FAILURE":"Помилка завантаження,спробуйте пізніше",
+    "INCORRECT_ROWS":"Не валідних рядків: ",
+    "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
+    "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
+    "FILE_READER_ERROR": "Помилка при читанні файлу",
+    "FILE_HEADERS_WARNING": "Невідповідність в : ",
+    "FILE_HEADERS_ERROR": "Заголовки не відповідають очікуваним",
+    "FILE_EMPTY_HEADER_WARNING": "Відсутній один з заголовків!",
+    "FILE_HEADERS_EXAMPLE": "Зразок",
+    "FILE_EXTENSION": "Файл розширення",
+    "EMPLOYEE_LIST": {
+      "EMPLOYEE_NAME": "Ім'я",
+      "EMPLOYEE_SURNAME": "Прізвище",
+      "EMPLOYEE_FATHER_NAME": "По батькові",
+      "EMPLOYEE_RNOKPP": "РНОКПП",
+      "EMPLOYEE_ASSIGNED_ROLE": "Призначені ролі"
+    },
+    "ERRORS": {
+      "ERRORS_TYPES":"Типи помилок",
+      "DATA_DUPLICATE":"Дублікат",
+      "MISSING_INFO_EMPTY_FIELD":"Відсутня інформація/пусте поле",
+      "WRONG_LENGTH":"Некоректна кількість знаків",
+      "WRONG_FORMAT":"Некоректний формат",
+      "WRONG_LANGUAGE":"Некоректно вибрана мова"
+    }
+  },
+  "EMPLOYEES":"Співробітники",
+  "EMPLOYEES_REGISTRATION":"Реєстрація співробітників",
+  "TEMP": {
+    "FUNCTIONALITY_LATER_MESSAGE": "Цей функціонал буде додано пізніше"
+  }
 }

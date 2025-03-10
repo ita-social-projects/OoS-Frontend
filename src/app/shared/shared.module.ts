@@ -10,6 +10,7 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
+import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -80,7 +81,9 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
+import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 
 @NgModule({
   declarations: [
@@ -154,7 +157,10 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     ImageCarouselComponent,
     CustomCarouselDirective,
     ThemeSwitcherComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    DateInputDirective,
+    ServerErrorPageComponent,
+    TimeRemainingPipe
   ],
 
   imports: [
@@ -238,7 +244,10 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     InfoMenuComponent,
     ImageCarouselComponent,
     ThemeSwitcherComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    DateInputDirective,
+    ServerErrorPageComponent,
+    TimeRemainingPipe
   ]
 })
 export class SharedModule {}

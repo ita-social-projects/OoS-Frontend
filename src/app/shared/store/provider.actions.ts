@@ -8,6 +8,13 @@ import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  WorkshopContacts,
+  WorkshopDescription,
+  WorkshopMainRequiredProperties,
+  WorkshopOtherRequiredProperties
+} from 'shared/models/draftWorkshop.model';
+import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -79,8 +86,8 @@ export class GetProviderViewWorkshops {
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
-export class GetFilteredEmployees {
-  static readonly type = '[provider] get filtered Employee users';
+export class GetFilteredOfficialEmployees {
+  static readonly type = '[provider] get filtered Official Employee users';
   constructor(public payload: EmployeeParameters) {}
 }
 
@@ -402,6 +409,72 @@ export class GetPendingApplicationsByProviderId {
   constructor(public id: string) {}
 }
 
+export class OnSaveWorkshopStep {
+  static readonly type = '[Workshop] save Workshop step';
+  constructor(
+    public payload: {
+      data: Partial<WorkshopMainRequiredProperties | WorkshopOtherRequiredProperties | WorkshopDescription | WorkshopContacts>;
+      step: number;
+    }
+  ) {}
+}
+
+export class OnSaveWorkshopStepFail {
+  static readonly type = '[Provider] On Save Workshop Step Fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnSaveWorkshopStepSuccess {
+  static readonly type = '[Provider] On Save Workshop Step Success';
+  constructor(public payload: { step: number; data: any }) {}
+}
+
+export class OnDeleteUnfinishedWorkshop {
+  static readonly type: string = '[provider] clear unfinished workshop';
+}
+
+export class OnDeleteUnfinishedWorkshopFail {
+  static readonly type: string = '[provider] clear unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnDeleteUnfinishedWorkshopSuccess {
+  static readonly type: string = '[provider] clear unfinished workshop success';
+}
+
+export class GetUnfinishedWorkshop {
+  static readonly type: string = '[provider] get unfinished workshop';
+}
+
+export class GetUnfinishedWorkshopSuccess {
+  static readonly type: string = '[provider] get unfinished workshop success';
+  constructor(public payload: Workshop) {}
+}
+
+export class GetUnfinishedWorkshopFail {
+  static readonly type: string = '[provider] get unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetUnfinishedWorkshopTimeToLive {
+  static readonly type = '[provider] get time to live of unfinished workshop';
+}
+
+export class GetUnfinishedWorkshopTimeToLiveSuccess {
+  static readonly type = '[provider] get time to live of unfinished workshop success';
+  constructor(public payload: string) {}
+}
+
+export class GetUnfinishedWorkshopTimeToLiveFail {
+  static readonly type = '[provider] get time to live of unfinished workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class SetDraftModalShown {
+  static readonly type = '[provider] set modal shown';
+  constructor(public payload: boolean) {}
+}
+
 export class GetPositions {
   static readonly type = '[provider] Get positions by provider Id';
   constructor(public positionParameters: PositionParameters) {}
@@ -471,4 +544,70 @@ export class GetPositionById {
 export class OnGetPositionByIdFail {
   static readonly type = '[provider] Get position by id fail';
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class GetLanguageList {
+  static readonly type = '[provider] get language list';
+  constructor() {}
+}
+
+export class CreateStudySubject {
+  static readonly type = '[provider] create study subject';
+  constructor(public payload: StudySubject) {}
+}
+
+export class OnCreateStudySubjectSuccess {
+  static readonly type = '[provider] create study subject success';
+  constructor(public payload: StudySubject) {}
+}
+
+export class OnCreateStudySubjectFail {
+  static readonly type = '[provider] create study subject fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetStudySubjects {
+  static readonly type = '[provider] get study subjects';
+  constructor(public payload: StudySubjectParameters) {}
+}
+
+export class GetStudySubjectById {
+  static readonly type = '[provider] get study subjects by id';
+  constructor(
+    public subjectId: string,
+    public providerId: string
+  ) {}
+}
+
+export class UpdateStudySubject {
+  static readonly type = '[provider] update study subject';
+  constructor(public payload: StudySubject) {}
+}
+
+export class OnUpdateStudySubjectSuccess {
+  static readonly type = '[provider] update study subject success';
+  constructor(public payload: StudySubject) {}
+}
+
+export class OnUpdateStudySubjectFail {
+  static readonly type = '[provider] update study subject fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class DeleteStudySubjectById {
+  static readonly type = '[provider] delete study subject by id';
+  constructor(
+    public subjectParameters: StudySubjectParameters,
+    public subjectId: string
+  ) {}
+}
+
+export class OnDeleteStudySubjectSuccess {
+  static readonly type = '[provider] delete study subject success';
+  constructor(public parameters: StudySubjectParameters) {}
+}
+
+export class OnDeleteStudySubjectFail {
+  static readonly type = '[provider] delete study subject fail';
+  constructor(public payload: HttpErrorResponse) {}
 }

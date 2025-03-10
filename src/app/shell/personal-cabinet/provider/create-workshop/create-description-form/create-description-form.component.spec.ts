@@ -1,14 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { forwardRef } from '@angular/core';
+import { of } from 'rxjs';
+import { Workshop } from 'shared/models/workshop.model';
+import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
 
 @Component({
@@ -157,6 +158,31 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component.disabilityOptionRadioBtn.value).toBe(true);
   });
 
+  it('should set tags for workshop and form field', fakeAsync(() => {
+    const mockTags = [
+      { id: 1, name: 'Tag 1' },
+      { id: 2, name: 'Tag 2' },
+      { id: 3, name: 'Tag 3' }
+    ];
+
+    const mockWorkshop: Partial<Workshop> = {
+      tagIds: [1],
+      keywords: [],
+      competitiveSelection: true
+    };
+
+    const tagService = TestBed.inject(TagService);
+    jest.spyOn(tagService, 'getTags').mockReturnValue(of(mockTags));
+
+    component.workshop = mockWorkshop as Workshop;
+
+    component.ngOnInit();
+    tick();
+
+    expect(component.tags).toEqual(mockTags);
+    expect(component.tagsControl.value).toEqual([mockTags[0]]);
+  }));
+
   it('should update tagIds in form group', () => {
     const mockTags = [
       { id: 1, name: 'tag1' },
@@ -165,7 +191,7 @@ describe('CreateDescriptionFormComponent', () => {
 
     (component as any).updateTagIds(mockTags);
 
-    expect(component.DescriptionFormGroup.get('tagIds').value).toBe(JSON.stringify([1, 2]));
+    expect(component.DescriptionFormGroup.get('tagIds').value).toEqual([1, 2]);
   });
 
   it('should mark form as dirty after deletion', () => {

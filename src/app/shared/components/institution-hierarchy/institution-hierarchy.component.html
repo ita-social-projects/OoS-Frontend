@@ -4,7 +4,7 @@
     <mat-select
       [formControl]="instituitionIdControl"
       disableOptionCentering
-      panelClass="dropdown-panel"
+      panelClass="dropdown-panel select-with-form-field"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
       class="step-input">
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
@@ -12,16 +12,16 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="instituitionIdFormControl"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="instituitionIdFormControl"></app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
-    <ng-container *ngIf="hierarchy.shouldDisplay">
+    <ng-container>
       <label class="step-label">{{ hierarchy.title }} <span class="step-required">*</span></label>
       <mat-form-field appearance="fill">
         <mat-select
           [formControl]="hierarchy.formControl"
           disableOptionCentering
-          panelClass="dropdown-panel"
+          panelClass="dropdown-panel select-with-form-field"
           class="step-input"
           (selectionChange)="onHierarchyLevelSelect(hierarchy)">
           <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option" title="{{ option.title }}">

@@ -55,7 +55,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
-
     this.isEditMode = !!this.instituitionIdFormControl.value;
 
     this.setInitialInstitution();

@@ -30,7 +30,8 @@
         [role]="role"
         [paginationParameters]="paginationParameters"
         [currentPage]="currentPage"
-        [workshops$]="filteredWorkshops$">
+        [workshops$]="filteredWorkshops$"
+        (currentPageChange)="onCurrentPageChange($event)">
       </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>

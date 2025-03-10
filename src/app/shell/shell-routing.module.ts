@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ErrorPageComponent } from 'shared/components/error-page/error-page.component';
+import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
 import { LoginComponent } from 'shared/components/login/login.component';
 import { NotificationsListComponent } from 'shared/components/notifications/notifications-list/notifications-list.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
@@ -35,6 +36,7 @@ import { ResultComponent } from './result/result.component';
 import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
+import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -89,6 +91,13 @@ const routes: Routes = [
   {
     path: 'create-workshop/:param',
     component: CreateWorkshopComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-study-subject/:param',
+    component: CreateStudySubjectComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
@@ -177,6 +186,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard],
     canLoad: [CreateParentGuard]
   },
+  { path: 'server-error', component: ServerErrorPageComponent },
   { path: '**', component: ErrorPageComponent }
 ];
 

@@ -6,7 +6,7 @@ export class ValidationConstants {
   // Age
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
-  static readonly MAX_AGE_LENGTH = 2;
+  static readonly MAX_AGE_LENGTH = 3;
   static readonly BIRTH_AGE_MAX = 120;
 
   // Price
@@ -31,7 +31,10 @@ export class ValidationConstants {
   static readonly INPUT_LENGTH_100 = 100;
   static readonly INPUT_LENGTH_256 = 256;
   static readonly INPUT_LENGTH_500 = 500;
+  static readonly INPUT_LENGTH_2000 = 2000;
 
+  static readonly MIN_TAGS_LENGTH = 3;
+  static readonly MAX_TAGS_LENGTH = 15;
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly PHONE_LENGTH = 9;
   static readonly EDRPOU_LENGTH = 8;
@@ -45,6 +48,7 @@ export class ValidationConstants {
   static readonly MAX_TIME = '23:59';
 
   // Search
+  static readonly MIN_SEARCH_LENGTH_0 = 0;
   static readonly MAX_SEARCH_LENGTH_200 = 200;
 
   // Traffic and Rate
@@ -52,7 +56,7 @@ export class ValidationConstants {
   static readonly MIN_RATE = 1;
 
   // Max available seats
-  static readonly MAX_SEATS = 10000;
+  static readonly MAX_SEATS = 100000;
   static readonly UNLIMITED_SEATS = 2147483647;
   static readonly MIN_SEATS = 1;
 }

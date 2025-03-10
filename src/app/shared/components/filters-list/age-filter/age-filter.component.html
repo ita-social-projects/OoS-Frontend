@@ -7,44 +7,37 @@
   </mat-checkbox>
 </div>
 <div class="wrapper flex flex-row justify-between gap-4">
-  <mat-form-field>
+  <div class="flex flex-col gap-1">
     <div class="from-filter-text flex flex-row items-center">
       <p class="filter-text">
         {{ 'FROM' | translate }}
       </p>
-      <input
-        matInput
-        class="age-input"
-        type="number"
-        [formControl]="minAgeFormControl"
-        appDigitOnly
-        maxlength="2"
-        appMinMax
-        [directiveFormControl]="minAgeFormControl"
-        [min]="validationConstants.AGE_MIN"
-        [max]="(maxAgeFormControl.value ? maxAgeFormControl.value : validationConstants.BIRTH_AGE_MAX) - 1"
-        autocomplete="off" />
-      <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
+      <div class="relative">
+        <input matInput class="age-input" type="number" [formControl]="minAgeFormControl" appDigitOnly autocomplete="off" />
+        <mat-icon class="clear-age" (click)="clearMin()" (keydown.enter)="clearMin()">clear</mat-icon>
+      </div>
     </div>
-  </mat-form-field>
-  <mat-form-field>
+    <app-validation-hint
+      [validationFormControl]="minAgeFormControl"
+      isNumberValue="true"
+      [minValue]="validationConstants.AGE_MIN"
+      [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+  </div>
+  <div class="flex flex-col gap-1">
     <div class="flex flex-row items-center">
       <p class="filter-text">
         {{ 'TO' | translate }}
       </p>
-      <input
-        matInput
-        class="age-input"
-        type="number"
-        [formControl]="maxAgeFormControl"
-        appDigitOnly
-        maxlength="2"
-        appMinMax
-        [directiveFormControl]="maxAgeFormControl"
-        [min]="minAgeFormControl.value !== undefined ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
-        [max]="validationConstants.BIRTH_AGE_MAX"
-        autocomplete="off" />
-      <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
+      <div class="relative">
+        <input matInput class="age-input" type="number" [formControl]="maxAgeFormControl" appDigitOnly autocomplete="off" />
+        <mat-icon class="clear-age" (click)="clearMax()" (keydown.enter)="clearMax()">clear</mat-icon>
+      </div>
     </div>
-  </mat-form-field>
+    <app-validation-hint
+      isNumberValue="true"
+      [validationFormControl]="maxAgeFormControl"
+      [minValue]="validationConstants.AGE_MIN"
+      [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+  </div>
 </div>
+<app-validation-hint formLevelValidation="true" [validationFormControl]="ageFormGroup"></app-validation-hint>

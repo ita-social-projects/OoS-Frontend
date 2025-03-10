@@ -12,22 +12,22 @@
   </div>
 
   <div class="wrapper flex flex-row justify-between gap-4" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }">
-    <mat-form-field>
-      <div class="flex flex-row items-center">
+    <mat-form-field class="price-filter">
+      <div class="flex p-0 w-[150px] flex-row items-center">
         <p class="filter-text">
           {{ 'FROM' | translate }}
         </p>
         <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off" />
-        <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
+        <mat-icon class="clear-price" (keydown.enter)="clearMin()" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
-    <mat-form-field>
-      <div class="flex flex-row items-center">
+    <mat-form-field class="price-filter">
+      <div class="flex w-[150px] flex-row items-center">
         <p class="filter-text">
           {{ 'TO' | translate }}
         </p>
         <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="maxPriceControl" autocomplete="off" />
-        <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
+        <mat-icon class="clear-price" (keydown.enter)="clearMax()" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
   </div>

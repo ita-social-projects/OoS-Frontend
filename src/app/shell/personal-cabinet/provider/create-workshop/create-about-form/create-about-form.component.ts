@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
-import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { ValidationConstants } from 'shared/constants/validation';
 import { FormOfLearningEnum, PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
@@ -13,6 +13,7 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -48,7 +49,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly InfoMenuType = InfoMenuType;
 
   public AboutFormGroup: FormGroup;
-  public workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
+  public dateTimeRangesArray: FormArray = new FormArray([], [Validators.required]);
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
@@ -61,7 +62,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ]);
   private minimumSeats: number = 1;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   public get priceControl(): FormControl {
     return this.AboutFormGroup.get('price') as FormControl;
@@ -89,7 +90,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private get workshopPrice(): number {
-    return this.workshop?.price ? this.workshop.price : ValidationConstants.MIN_PRICE;
+    return this.workshop?.price ? this.workshop.price : null;
   }
 
   public ngOnInit(): void {
@@ -130,7 +131,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
       this.priceRadioBtn.setValue(true);
     } else {
-      this.setPriceControlValue(0, 'disable', false);
+      this.setPriceControlValue(null, 'disable', false);
       this.setPayRateControlValue(PayRateType.None, 'disable', false);
     }
 
@@ -152,49 +153,59 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    this.AboutFormGroup = this.formBuilder.group({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
-      ]),
-      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email]),
-      minAge: new FormControl(null, [Validators.required]),
-      maxAge: new FormControl(null, [Validators.required]),
-      image: new FormControl(''),
-      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
-      workingHours: this.workingHoursFormArray,
-      formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
-      availableSeats: new FormControl(
-        {
-          value: null,
-          disabled: true
-        },
-        [Validators.required, Validators.min(this.minSeats)]
-      ),
-      competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null
-    });
+    this.AboutFormGroup = this.formBuilder.group(
+      {
+        title: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
+        shortTitle: new FormControl('', [
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.required,
+          Validators.pattern(MUST_CONTAIN_LETTERS),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+        ]),
+        minAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        maxAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        image: new FormControl(''),
+        price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+        dateTimeRanges: this.dateTimeRangesArray,
+        formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
+        payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
+        coverImage: new FormControl(''),
+        coverImageId: new FormControl(''),
+        availableSeats: new FormControl(
+          {
+            value: null,
+            disabled: true
+          },
+          [Validators.required, Validators.min(this.minSeats), Validators.max(ValidationConstants.MAX_SEATS)]
+        ),
+        competitiveSelection: new FormControl(false),
+        competitiveSelectionDescription: null
+      },
+      {
+        validators: [AgeRangeValidator('minAge', 'maxAge')]
+      }
+    );
   }
 
   private initListeners(): void {
     this.useProviderInfo();
     this.availableSeatsControlListener();
+    this.validateAgeControls();
     this.priceControlListener();
+    this.priceValueListener();
     this.competitiveSelectionListener();
     this.showHintAboutClosingWorkshop();
   }
@@ -207,10 +218,21 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.markFormAsDirtyOnUserInteraction();
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
-        this.setPayRateControlValue(this.workshop?.payRate || PayRateType.None, 'enable');
+        this.setPayRateControlValue(this.workshop?.payRate || null, 'enable');
       } else {
         this.setPriceControlValue();
         this.setPayRateControlValue();
+      }
+      this.priceControl.markAsUntouched();
+      this.payRateControl.markAsUntouched();
+    });
+  }
+
+  private priceValueListener(): void {
+    this.priceControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe((value) => {
+      if (value) {
+        this.payRateControl.markAsTouched();
+      } else {
         this.payRateControl.markAsUntouched();
       }
     });
@@ -240,7 +262,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
   }
 
-  private setPriceControlValue(price: number = 0, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = false): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
   }
@@ -249,7 +271,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method sets 0 as value for payRate when the price is 0,
    * otherwise it sets either workshop value, or PayRateType.None for selecting new value
    */
-  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = false): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   }
@@ -287,6 +309,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       } else {
         this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       }
+    });
+  }
+
+  private validateAgeControls(): void {
+    const controls = ['maxAge', 'minAge'];
+    controls.forEach((controlName) => {
+      const control = this.AboutFormGroup.get(controlName);
+      control.valueChanges
+        .pipe(
+          map((value: number) => Util.formatAgeString(value)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((value: number) => control.setValue(value, { emitEvent: false }));
     });
   }
 

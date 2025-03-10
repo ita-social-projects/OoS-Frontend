@@ -21,7 +21,6 @@ export class PaginatorComponent implements OnChanges {
 
   public carouselPageList: PaginationElement[] = [];
   public totalPageAmount: number;
-  public listOfValues: number[] = [8, 12, 16, 20];
 
   constructor() {}
 

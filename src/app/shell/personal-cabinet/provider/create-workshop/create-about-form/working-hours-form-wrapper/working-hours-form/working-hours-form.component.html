@@ -18,8 +18,8 @@
 
       <div class="time-input-wrapper">
         <div
-          class="disabled"
           *ngIf="!startTimeFormControl.enabled"
+          class="disabled"
           (click)="markWorkDaysAsTouched()"
           (keydown.Enter)="markWorkDaysAsTouched()"></div>
         <div class="flex flex-col justify-start items-start">
