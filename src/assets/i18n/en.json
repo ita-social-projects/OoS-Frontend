@@ -142,6 +142,9 @@
       "SEARCH_RESULT": "Search result",
       "SUPPORT": "Support",
       "USERS": "Users",
+      "SUBJECTS":"Study Subjects",
+      "ADD_SUBJECTS":"Add new study subject",
+      "EDIT_SUBJECTS":"Edit study subject",
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
@@ -388,7 +391,9 @@
       "NEW_POSITION": "NEW POSITION",
       "EDIT_POSITION": "EDIT POSITION",
       "EDIT_POSITION_DESCRIPTION": "Edit information about position or contact information",
-      "NEW_POSITION_DESCRIPTION": "Create new position"
+      "NEW_POSITION_DESCRIPTION": "Create new position",
+      "ADD_STUDY_SUBJECT": "ADD STUDY SUBJECT",
+      "EDIT_STUDY_SUBJECT": "EDIT STUDY SUBJECT"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -486,7 +491,13 @@
       "TYPE_BY_CLASSIFIER": "Type by classifier",
       "CREATED_AT": "Creation date",
       "LANGUAGE": "Language",
-      "SOCIAL_NETWORKS": "Social networks"
+      "SOCIAL_NETWORKS": "Social networks",
+      "SUBJECT_NAME_UKRAINIAN": "Subject name in Ukrainian language",
+      "TEACHING_LANGUAGE_SUBJECT_NAME":"Subject name in the language of instruction",
+      "TEACHING_LANGUAGE":"Language of instruction",
+      "LAST_REFERRED":"Date of the last reference",
+      "USED_IN":"Times used in workshops",
+      "SUBJECT_NAME":"Study subject name"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -506,6 +517,8 @@
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
+      "SEARCH_STUDY_SUBJECT": "Search study subject by name",
+      "SELECT_LANGUAGE_OF_INSTRUCTION":"Select language of instruction",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
       "SELECT_REGION": "Select region",
@@ -545,7 +558,7 @@
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "INVALID_TIME_FORMAT": "Please use the time format \"09:59\"",
-      "INVALID_TIME_RANGE": "\"To\" cannot be earlier than \"From\"",
+      "INVALID_TIME_RANGE": "\"To\" cannot be earlier than or equal \"From\"",
       "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than \"To\"",
       "INVALID_VALUE": "The number can be from {{minValue}} to {{maxValue}}",
       "INVALID_SECTION_NAME": "Check your data, please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
@@ -646,6 +659,7 @@
     "MAX_CHILDREN_AMOUNT": "It is possible to add no more than 20 children",
     "ADD_WORKSHOP": "You can add information about the new workshop",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
+    "ADD_SUBJECTS": "You can add information about the new study subject",
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
@@ -656,6 +670,7 @@
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP": "Add workshop",
+    "ADD_SUBJECT": "Add subject",
     "APPROVE_APPLICATION": "Approve",
     "ACCEPT_TO_COMPETITIVE_SELECTION": "Accept to selection",
     "ENROLL_TO_WORKSHOP": "Enroll",
@@ -737,7 +752,8 @@
     "NO_SETTLEMENT": "There is no such settlement",
     "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
     "NO_CHILD_WORKSHOPS": "There are no workshops yet",
-    "NO_CHAT_HISTORY": "There are no messages in the chat yet"
+    "NO_CHAT_HISTORY": "There are no messages in the chat yet",
+    "NO_STUDY_SUBJECTS":"There are no study subjects yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -747,6 +763,7 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
+    "CREATION_PERIOD": "Creation period",
     "EMPLOYEE_FILTERS": {
       "ALL": "All",
       "DEPUTIES": "Deputies",
@@ -884,6 +901,9 @@
       "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
+      "CREATE_SUBJECT":"Study subject successfully created!",
+      "UPDATE_SUBJECT":"Study subject successfully edited!",
+      "DELETE_SUBJECT":"Study subject successfully deleted!",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
@@ -979,6 +999,9 @@
       "PUBLISH_WORKSHOP": "Are you sure you want to publish workshop?",
       "ARCHIVE_WORKSHOP": "If you delete a direction, all Profiles, Departments, and Classes associated with it will also be deleted.",
       "INCOMPLETE_WORKSHOP": "The workshop is incomplete. You can continue its creating or delete it.",
+      "DELETE_SUBJECT": "Are you sure you want to delete the study subject?",
+      "EDIT_SUBJECT": "Are you sure you want to edit the study subject?",
+      "CREATE_SUBJECT": "Are you sure you want to add the study subject?",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1026,7 +1049,10 @@
         "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
         "PUBLISH_WORKSHOP": "Publish workshop?",
         "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?",
-        "INCOMPLETE_WORKSHOP": "Incomplete workshop"
+        "INCOMPLETE_WORKSHOP": "Incomplete workshop",
+        "DELETE_SUBJECT": "DELETE STUDY SUBJECT?",
+        "EDIT_SUBJECT": "EDIT STUDY SUBJECT?",
+        "CREATE_SUBJECT": "ADD STUDY SUBJECT?"
       }
     }
   },

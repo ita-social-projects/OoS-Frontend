@@ -36,6 +36,7 @@ import { ResultComponent } from './result/result.component';
 import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
 import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
+import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -90,6 +91,13 @@ const routes: Routes = [
   {
     path: 'create-workshop/:param',
     component: CreateWorkshopComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-study-subject/:param',
+    component: CreateStudySubjectComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]

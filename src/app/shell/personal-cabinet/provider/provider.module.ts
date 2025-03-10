@@ -29,6 +29,8 @@ import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.
 import { ProviderRoutingModule } from './provider-routing.module';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { ProviderEmployeesUploadComponent } from './provider-employees-upload/provider-employees-upload.component';
+import { ProviderStudySubjectsComponent } from './provider-study-subjects/provider-study-subjects.component';
+import { CreateStudySubjectComponent } from './create-study-subject/create-study-subject.component';
 import { CreateAdditionalAboutFormComponent } from './create-workshop/create-additional-about-form/create-additional-about-form.component';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { CreatePositionComponent } from './create-position/create-position.component';
@@ -56,6 +58,8 @@ import { ProviderEmployeesComponent } from './provider-employees/provider-employ
     WorkingHoursFormWrapperComponent,
     CreateAddressFormComponent,
     ProviderEmployeesUploadComponent,
+    ProviderStudySubjectsComponent,
+    CreateStudySubjectComponent,
     CreateAdditionalAboutFormComponent,
     ProviderPositionsComponent,
     CreatePositionComponent,
