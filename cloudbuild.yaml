@@ -18,7 +18,7 @@ steps:
     args:
       - build
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA
-      - --tag=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:latest
+      - --tag=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA-${_COMMIT_DATE}
       - --cache-image=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-cache:front
       - --builder=paketobuildpacks/builder-jammy-base:latest
       - --buildpack=paketo-buildpacks/web-servers
@@ -99,3 +99,4 @@ availableSecrets:
     env: 'SSH'
 options:
   logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
