@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper #stepper linear>
+      <mat-horizontal-stepper linear class="main-stepper" #stepper>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
@@ -30,8 +30,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="AboutFormGroup.invalid"
+              appStepperNext
+              [form]="AboutFormGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -58,8 +59,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="AdditionalAboutGroup?.invalid"
+              appStepperNext
+              [form]="AdditionalAboutGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(AdditionalAboutGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -87,8 +89,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="DescriptionFormGroup?.invalid"
+              appStepperNext
+              [form]="DescriptionFormGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -113,8 +116,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="WorkshopContactsFormArray?.invalid"
+              appStepperNext
+              [form]="WorkshopContactsFormArray"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>

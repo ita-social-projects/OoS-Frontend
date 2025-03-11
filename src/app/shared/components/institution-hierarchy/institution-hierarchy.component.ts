@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
-import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
@@ -57,6 +57,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllInstitutions(false));
     this.isEditMode = !!this.instituitionIdFormControl.value;
 
+    this.subscribeForTouch();
     this.setInitialInstitution();
 
     if (this.isEditMode) {
@@ -76,6 +77,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray = this.hierarchyArray.slice(0, nextEl);
       this.setFinalHierarchyLevel(null);
     }
+    this.instituitionHierarchyIdFormControl.updateValueAndValidity();
     this.changeDetectorRef.markForCheck();
   }
 
@@ -110,11 +112,13 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         if (instituitionsHierarchy.length) {
           const newHierarchyElementIndex = this.hierarchyArray.length;
-          const newHierarchyElement = this.createHierachyElement(newHierarchyElementIndex);
+          const newHierarchyElement = this.createHierarchyElement(newHierarchyElementIndex);
 
           this.hierarchyArray.push(newHierarchyElement);
           this.hierarchyArray[newHierarchyElementIndex].options = instituitionsHierarchy;
           this.hierarchyArray[newHierarchyElementIndex].shouldDisplay = true;
+
+          this.instituitionHierarchyIdFormControl.setValue(null);
 
           if (this.editInstituitionsHierarchy && this.editInstituitionsHierarchy[newHierarchyElementIndex]) {
             const nextEditInstitution = this.editInstituitionsHierarchy[newHierarchyElementIndex];
@@ -134,8 +138,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       });
   }
 
-  private createHierachyElement(descriptionIndex: number): HierarchyElement {
-    return {
+  private createHierarchyElement(descriptionIndex: number): HierarchyElement {
+    const hierarchyElement = {
       formControl: new FormControl('', Validators.required),
       title: this.institutionFieldDesc[descriptionIndex].title,
       hierarchyLevel: this.institutionFieldDesc[descriptionIndex].hierarchyLevel,
@@ -143,10 +147,20 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       shouldDisplay: false,
       options: []
     };
+
+    // the code below allows subscribing to a touch event for control
+    // TODO: rewrite after migration to Angular 18, so that can be done without overriding the method
+    const originalMethod = hierarchyElement.formControl.markAsTouched;
+    hierarchyElement.formControl.markAsTouched = function (): void {
+      originalMethod.apply(this, arguments);
+      (hierarchyElement.formControl.statusChanges as EventEmitter<any>).emit();
+    };
+
+    return hierarchyElement;
   }
 
   private setFinalHierarchyLevel(optionId: string): void {
-    this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: false });
+    this.instituitionHierarchyIdFormControl.setValue(optionId);
     this.store.dispatch(new ResetInstitutionHierarchy());
     this.changeDetectorRef.markForCheck();
   }
@@ -194,5 +208,16 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.setFinalHierarchyLevel(null);
         this.changeDetectorRef.markForCheck();
       });
+  }
+
+  private subscribeForTouch(): void {
+    this.instituitionIdFormControl.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.instituitionIdFormControl.touched) {
+        this.hierarchyArray.forEach((elem: HierarchyElement) => {
+          elem.formControl.markAsTouched();
+          elem.formControl.updateValueAndValidity();
+        });
+      }
+    });
   }
 }

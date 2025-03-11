@@ -10,10 +10,9 @@ import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop, WorkshopAbout, Contacts } from 'shared/models/workshop.model';
+import { Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -32,6 +31,7 @@ import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { Address } from 'shared/models/address.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -162,6 +162,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
+    if (formGroup.invalid) {
+      return;
+    }
     const param = this.getRouteParam();
     if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
       return;

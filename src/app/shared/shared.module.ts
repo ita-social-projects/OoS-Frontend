@@ -11,6 +11,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
+import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -160,7 +161,8 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     ScrollToTopComponent,
     DateInputDirective,
     ServerErrorPageComponent,
-    TimeRemainingPipe
+    TimeRemainingPipe,
+    StepperDirective
   ],
 
   imports: [
@@ -247,7 +249,8 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     ScrollToTopComponent,
     DateInputDirective,
     ServerErrorPageComponent,
-    TimeRemainingPipe
+    TimeRemainingPipe,
+    StepperDirective
   ]
 })
 export class SharedModule {}

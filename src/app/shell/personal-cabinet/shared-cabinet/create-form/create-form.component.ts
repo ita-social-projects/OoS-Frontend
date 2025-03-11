@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -78,20 +78,31 @@ export abstract class CreateFormComponent implements OnDestroy {
    * Validation hint captures touch event and displays validation error.
    * @param form FormGroup | FormArray
    */
-  protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
-    const originalMethod = form.markAsTouched;
-
-    Object.keys(form.controls).forEach((key: string) => {
-      const control = form.get(key);
-      control.markAsTouched = function (): void {
+  // TODO: rewrite/delete after migration to Angular 18, so this becomes useless
+  protected subscribeOnTouchEvent(form: AbstractControl | FormControl | FormGroup | FormArray): void {
+    if (form instanceof FormControl) {
+      const originalMethod = form.markAsTouched;
+      form.markAsTouched = function (): void {
         originalMethod.apply(this, arguments);
-        (control.statusChanges as EventEmitter<any>).emit();
+        (form.statusChanges as EventEmitter<any>).emit();
       };
-    });
+    } else if (form instanceof FormGroup) {
+      Object.keys(form.controls).forEach((key: string) => {
+        const control = form.get(key);
+        this.subscribeOnTouchEvent(control);
+      });
+    } else if (form instanceof FormArray) {
+      form.controls.forEach((control: FormGroup) => {
+        this.subscribeOnTouchEvent(control);
+      });
+    }
   }
 
   public abstract setEditMode(): void;
+
   public abstract addNavPath(): void;
+
   public abstract onSubmit(): void;
+
   public abstract onCancel(): void;
 }

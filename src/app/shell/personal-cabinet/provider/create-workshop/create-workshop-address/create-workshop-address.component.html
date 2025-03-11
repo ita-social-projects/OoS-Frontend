@@ -45,6 +45,7 @@
                       autocomplete="off"
                       appTrimValue />
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="phoneField.get('type')"></app-validation-hint>
                   <label class="step-label" for="{{ phoneField.get('number') }}">{{ 'FORMS.LABELS.PHONE' | translate }}</label>
                   <div class="flex flex-row">
                     <app-phone-form-control class="grow" [parentFormControl]="phoneField.get('number')"></app-phone-form-control>
@@ -87,6 +88,7 @@
                       autocomplete="none"
                       appTrimValue />
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="emailField.get('type')"></app-validation-hint>
                   <label class="step-label" for="email-{{ jindex }}">{{ 'FORMS.LABELS.EMAIL' | translate }}</label>
                   <div class="flex flex-row">
                     <mat-form-field class="grow">

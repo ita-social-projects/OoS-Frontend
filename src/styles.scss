@@ -108,6 +108,7 @@ $dark-theme: mat.define-dark-theme(
 
 @include mat.button-toggle-typography($config);
 @include mat.button-typography($config);
+@include mat.expansion-typography($config);
 @include mat.fab-typography($config);
 @include mat.icon-button-typography($config);
 @include mat-form-typography($config);
