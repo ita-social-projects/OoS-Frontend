@@ -15,15 +15,16 @@ import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ValidationParams, ValidationMessages } from 'shared/enum/validation-messages';
+import { ValidationMessages, ValidationParams } from 'shared/enum/validation-messages';
 import {
-  NAME_REGEX,
   FULL_NAME_REGEX,
-  NO_LATIN_REGEX,
-  STREET_REGEX,
   HOUSE_REGEX,
+  MUST_CONTAIN_LETTERS,
+  NAME_REGEX,
+  NO_LATIN_REGEX,
   SECTION_NAME_REGEX,
-  MUST_CONTAIN_LETTERS
+  SOCIAL_NETWORK_LINK_REGEX,
+  STREET_REGEX
 } from 'shared/constants/regex-constants';
 
 @Component({
@@ -230,6 +231,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () => requiredPattern === SECTION_NAME_REGEX.toString(),
         message: ValidationMessages.INVALID_SECTION_NAME
+      },
+      {
+        condition: () => requiredPattern === SOCIAL_NETWORK_LINK_REGEX.toString(),
+        message: ValidationMessages.INVALID_LINK
       },
       {
         condition: () => requiredPattern === MUST_CONTAIN_LETTERS.toString(),

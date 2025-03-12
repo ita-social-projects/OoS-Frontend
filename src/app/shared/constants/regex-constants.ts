@@ -56,3 +56,5 @@ export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;
 export const TIME_REGEX_REPLACE: RegExp = /[^0-9:]/g;
 
 export const WORD_SPLIT_REGEX: RegExp = /[ ,/]+/;
+
+export const SOCIAL_NETWORK_LINK_REGEX: RegExp = /^https?:\/\/[\w\d\.-]+\.[a-z]{2,}(?:\/.*)?$/;

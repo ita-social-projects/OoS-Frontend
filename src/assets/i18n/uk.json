@@ -570,6 +570,7 @@
       "INVALID_LENGTH_NO_MORE_THAN": "Це поле має містити не більше ніж {{maxCharacters}} символів.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "Це поле має містити не більше ніж {{maxCharacters}} символів. Зараз: {{currentCharactersCount}}.",
       "INVALID_INPUT": "Перевірте введені дані",
+      "INVALID_LINK": "Введіть вірне посилання на сторінку",
       "INVALID_LENGTH_END": "символів.",
       "INVALID_LENGTH_START": "Це поле має містити {{minCharacters}}",
       "INVALID_VALUE_START_WITHOUT_PARAM": "Це поле має містити",

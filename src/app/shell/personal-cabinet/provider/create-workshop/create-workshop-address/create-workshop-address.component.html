@@ -127,27 +127,27 @@
                 <div class="flex flex-col grow" [formGroupName]="jindex">
                   <label class="step-label" for="type">{{ 'FORMS.LABELS.TYPE' | translate }}</label>
                   <mat-form-field class="grow">
-                    <mat-select formControlName="type" class="step-input" disableOptionCentering panelClass="dropdown-panel select-with-form-field" >
+                    <mat-select
+                      formControlName="type"
+                      class="step-input"
+                      disableOptionCentering
+                      panelClass="dropdown-panel select-with-form-field">
                       <mat-option *ngFor="let socialType of socialTypesKeys" [value]="socialType">
                         {{ socialTypes[socialType] }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="socialNetwork.get('type')"></app-validation-hint>
                   <label class="step-label" for="socials-{{ jindex }}">URL</label>
-                  <div class="flex flex-row">
+                  <div class="flex flex-row items-center">
                     <mat-form-field class="grow">
-                      <input
-                        formControlName="url"
-                        matInput
-                        class="step-input"
-                        type="text"
-                        [id]="'socials-' + jindex"
-                        appTrimValue />
+                      <input formControlName="url" matInput class="step-input" type="text" [id]="'socials-' + jindex" appTrimValue />
                     </mat-form-field>
                     <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('socialNetworks'), jindex)">
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
+                  <app-validation-hint [validationFormControl]="socialNetwork.get('url')"></app-validation-hint>
                 </div>
               </div>
             </div>
