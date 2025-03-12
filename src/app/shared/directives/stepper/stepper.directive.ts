@@ -35,7 +35,7 @@ export class StepperDirective {
       this.stepper.next();
     } else {
       const stepIndex = this.stepper.selectedIndex;
-      this.stepElement = this.document.getElementById(`cdk-step-content-0-${stepIndex}`);
+      this.stepElement = this.document.querySelector(`[id^="cdk-step-content-"][id$="-${stepIndex}"]`);
 
       this.scrollToFirstInvalidControl();
     }
