@@ -561,6 +561,7 @@
       "INVALID_TIME_RANGE": "\"To\" cannot be earlier than or equal \"From\"",
       "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than \"To\"",
       "INVALID_VALUE": "The number can be from {{minValue}} to {{maxValue}}",
+      "INVALID_PRICE": "The price can range from {{minValue}} to {{maxValue}}",
       "INVALID_SECTION_NAME": "Check your data, please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "MUST_CONTAIN_LETTERS": "This field must contain at least one letter.",
       "LESS_THAN_PARTICIPANTS": "You cannot specify the number of available seats less than the current number of participants.",

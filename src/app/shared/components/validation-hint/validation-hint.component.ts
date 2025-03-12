@@ -53,6 +53,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public minValue: number;
   @Input() public maxValue: number;
 
+  // For price validation
+  @Input() public isPrice: boolean;
+
   // For form level validation
   @Input() public formLevelValidation: boolean;
 
@@ -160,6 +163,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
         message: ValidationMessages.INVALID_PHONE_NUMBER
+      },
+      {
+        condition: () => this.isPrice && (errors.max || errors.min),
+        message: ValidationMessages.INVALID_PRICE
       },
       // Value length validation
       {
