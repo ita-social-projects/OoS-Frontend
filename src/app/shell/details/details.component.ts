@@ -19,6 +19,7 @@ import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetProviderById, GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { WorkshopType, WorkshopType1 } from 'shared/enum/workshop';
 
 @Component({
   selector: 'app-details',
@@ -31,9 +32,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen)
   private isMobileScreen$: Observable<boolean>;
   @Select(SharedUserState.selectedWorkshop)
-  private workshop$: Observable<Workshop>;
-  @Select(SharedUserState.selectedDraft)
-  private workshopDraft$: Observable<Workshop>;
+  private workshop$: Observable<Workshop | WorkshopDraft>;
   @Select(SharedUserState.selectedProvider)
   private provider$: Observable<Provider>;
   @Select(SharedUserState.selectedCompetition)
@@ -52,6 +51,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public isCompetition = false;
   public displayActionCard: boolean;
 
+  protected workshopType: WorkshopType1;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -63,10 +64,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
-      this.isWorkshop = params.entity === 'workshop';
-      this.isDraft = params.entity === 'draft';
-      this.isCompetition = params.entity === 'competition';
-
+      this.workshopType = params.entity; //TODO: add type for competition
       this.getEntity(params.id);
 
       window.scrollTo({
@@ -85,9 +83,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   private setDataSubscription(): void {
-    const workshopSource = this.isWorkshop ? this.workshop$ : this.workshopDraft$;
-
-    combineLatest([this.isMobileScreen$, this.role$, workshopSource, this.provider$, this.competition$])
+    combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$, this.competition$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([isMobileScreen, role, workshop, provider, competition]) => {
         this.isMobileScreen = isMobileScreen;
@@ -103,14 +99,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    if (this.isWorkshop) {
-      if (this.isWorkshop) {
-        this.store.dispatch(new GetWorkshopById(id));
-      } else if (this.isDraft) {
-        this.store.dispatch(new GetWorkshopDraftById(id));
-      }
-    } else if (this.isCompetition) {
-      this.store.dispatch(new GetCompetitionById(id));
+    if (this.workshopType) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions,no-unused-expressions
+      this.workshopType === WorkshopType1.Workshop // TODO: update for competition
+        ? this.store.dispatch(new GetWorkshopById(id))
+        : this.store.dispatch(new GetWorkshopDraftById(id));
     } else {
       this.store.dispatch(new GetProviderById(id));
     }

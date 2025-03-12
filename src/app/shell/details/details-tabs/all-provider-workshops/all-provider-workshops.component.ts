@@ -9,7 +9,7 @@ import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ProviderParameters } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { WorkshopCard } from 'shared/models/workshop.model';
+import { WorkshopCard, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { GetWorkshopsByProviderId } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
@@ -23,12 +23,12 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   @Input() public providerParameters: ProviderParameters;
 
   @Select(SharedUserState.workshops)
-  public workshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  public workshops$: Observable<SearchResponse<WorkshopCard[] | WorkshopDraftCard[]>>;
 
   public readonly noResultWorkshops = NoResultsTitle.noResult;
   public readonly Role = Role;
 
-  public workshops: SearchResponse<WorkshopCard[]>;
+  public workshops: SearchResponse<WorkshopCard[] | WorkshopDraftCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -39,7 +39,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
 
     this.workshops$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
+      .subscribe((workshops: SearchResponse<WorkshopCard[] | WorkshopDraftCard[]>) => (this.workshops = workshops));
   }
 
   public ngOnDestroy(): void {

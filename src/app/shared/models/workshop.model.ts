@@ -140,10 +140,7 @@ export class WorkshopDraft extends Workshop {
   workshopDraftId: string;
   rejectionMessage?: string;
   draftStatus: string;
-  includedStudyGroupsId: string[];
-  workshopDetails: {
-    providerId: string;
-  };
+  workshopDetails: Workshop;
 }
 
 export interface WorkshopTruncated {

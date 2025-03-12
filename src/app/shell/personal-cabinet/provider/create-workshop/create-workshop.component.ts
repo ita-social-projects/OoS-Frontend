@@ -12,7 +12,7 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { AdditionalAbout, Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { Contacts, Workshop, WorkshopAbout, AdditionalAbout, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -159,9 +159,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.selectedWorkshop$
         .pipe(
           takeUntil(this.destroy$),
-          filter((workshop: Workshop) => workshop?.id === param)
+          filter((workshop: Workshop | WorkshopDraft) =>
+            'workshopDetails' in workshop ? workshop?.workshopDetails.id === param : workshop?.id === param
+          )
         )
-        .subscribe((workshop: Workshop) => (this.workshop = workshop));
+        .subscribe((workshop: Workshop | WorkshopDraft) => (this.workshop = workshop));
     }
   }
 

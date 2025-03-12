@@ -11,7 +11,7 @@ import { Application } from 'shared/models/application.model';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopCard, WorkshopDraft } from 'shared/models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopDraft, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
@@ -39,9 +39,8 @@ import {
 
 export interface SharedUserStateModel {
   isLoading: boolean;
-  workshops: SearchResponse<WorkshopCard[]>;
-  selectedWorkshop: Workshop;
-  selectedDraft: WorkshopDraft;
+  workshops: SearchResponse<WorkshopCard[] | WorkshopDraftCard[]>;
+  selectedWorkshop: Workshop | WorkshopDraft;
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
   selectedCompetition: Competition;
@@ -53,7 +52,6 @@ export interface SharedUserStateModel {
     isLoading: false,
     workshops: null,
     selectedWorkshop: null,
-    selectedDraft: null,
     selectedProvider: null,
     applicationCards: null,
     selectedCompetition: null
@@ -76,7 +74,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static workshops(state: SharedUserStateModel): SearchResponse<WorkshopCard[]> {
+  static workshops(state: SharedUserStateModel): SearchResponse<WorkshopCard[] | WorkshopDraftCard[]> {
     return state.workshops;
   }
 
@@ -88,11 +86,6 @@ export class SharedUserState {
   @Selector()
   static selectedWorkshop(state: SharedUserStateModel): Workshop {
     return state.selectedWorkshop;
-  }
-
-  @Selector()
-  static selectedDraft(state: SharedUserStateModel): WorkshopDraft {
-    return state.selectedDraft;
   }
 
   @Selector()
@@ -121,7 +114,7 @@ export class SharedUserState {
   ): Observable<WorkshopDraft | void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftById(payload).pipe(
-      tap((workshop: WorkshopDraft) => patchState({ selectedDraft: workshop, isLoading: false })),
+      tap((workshop: WorkshopDraft) => patchState({ selectedWorkshop: workshop, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
     );
   }
@@ -191,9 +184,14 @@ export class SharedUserState {
     { providerParameters }: GetWorkshopsByProviderId
   ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService
-      .getWorkshopsByProviderId(providerParameters)
-      .pipe(tap((workshops: SearchResponse<WorkshopCard[]>) => patchState({ workshops: workshops ?? EMPTY_RESULT, isLoading: false })));
+    return this.userWorkshopService.getWorkshopsByProviderId(providerParameters).pipe(
+      tap((workshops: SearchResponse<WorkshopCard[]>) =>
+        patchState({
+          workshops: workshops ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetApplicationsByPropertyId)

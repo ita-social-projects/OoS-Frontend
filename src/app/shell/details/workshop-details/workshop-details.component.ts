@@ -77,8 +77,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.providerParameters.excludedWorkshopId = this.workshop.id;
-    this.providerParameters.providerId = this.workshop.providerId;
+    this.providerParameters.excludedWorkshopId =
+      this.workshop instanceof WorkshopDraft ? this.workshop.workshopDetails.id : this.workshop.id;
+    this.providerParameters.providerId =
+      this.workshop instanceof WorkshopDraft ? this.workshop.workshopDetails.providerId : this.workshop.providerId;
+    console.log(this.workshop);
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -125,7 +128,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   private getWorkshopData(): void {
     this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
-      new GetProviderById(this.workshop.providerId),
+      new GetProviderById('workshopDetails' in this.workshop ? this.workshop.workshopDetails.providerId : this.workshop.providerId),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {

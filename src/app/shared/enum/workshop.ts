@@ -1,3 +1,8 @@
+export enum WorkshopType1 {
+  Workshop = 'workshop',
+  Draft = 'draft'
+}
+
 export enum PayRateType {
   None = 0,
   Classes,
