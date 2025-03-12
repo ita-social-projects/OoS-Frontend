@@ -570,6 +570,7 @@
       "INVALID_LENGTH_NO_MORE_THAN": "This field must contain no more than {{maxCharacters}} symbols.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "This field must contain no more than {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
       "INVALID_INPUT": "Check your data",
+      "INVALID_LINK": "Enter a valid link to the page",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain {{minCharacters}}",
       "INVALID_VALUE_START_WITHOUT_PARAM": "This field must contain",

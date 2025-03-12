@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { MUST_CONTAIN_LETTERS, SOCIAL_NETWORK_LINK_REGEX } from 'shared/constants/regex-constants';
 
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { Address } from 'shared/models/address.model';
@@ -219,7 +219,7 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     return this.overrideTouch(
       this.formBuilder.group({
         type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-        url: new FormControl('', [Validators.required, Validators.pattern('^https?://[\\w\\d.-]+\\.[a-z]{2,}(?:/.*)?$')])
+        url: new FormControl('', [Validators.required, Validators.pattern(SOCIAL_NETWORK_LINK_REGEX)])
       })
     );
   }
