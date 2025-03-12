@@ -112,7 +112,11 @@
       </div>
     </div>
     <div class="pay-type__error">
-      <app-validation-hint [validationFormControl]="priceControl"></app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="priceControl"
+        [isPrice]="true"
+        [minValue]="validationConstants.MIN_PRICE"
+        [maxValue]="validationConstants.MAX_PRICE"></app-validation-hint>
       <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
     </div>
   </mat-radio-group>

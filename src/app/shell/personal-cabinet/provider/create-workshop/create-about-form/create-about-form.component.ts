@@ -178,7 +178,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         image: new FormControl(''),
-        price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+        price: new FormControl({ value: 0, disabled: true }, [
+          Validators.required,
+          Validators.min(ValidationConstants.MIN_PRICE),
+          Validators.max(ValidationConstants.MAX_PRICE)
+        ]),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
         payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
