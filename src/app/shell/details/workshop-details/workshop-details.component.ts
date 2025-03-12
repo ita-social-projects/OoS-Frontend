@@ -10,7 +10,7 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -77,11 +77,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.providerParameters.excludedWorkshopId =
-      this.workshop instanceof WorkshopDraft ? this.workshop.workshopDetails.id : this.workshop.id;
+    this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
     this.providerParameters.providerId =
-      this.workshop instanceof WorkshopDraft ? this.workshop.workshopDetails.providerId : this.workshop.providerId;
-    console.log(this.workshop);
+      'workshopDetails' in this.workshop ? this.workshop.workshopDetails.providerId : this.workshop.providerId;
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
