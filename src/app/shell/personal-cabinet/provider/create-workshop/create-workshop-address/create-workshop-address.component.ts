@@ -198,41 +198,51 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
   }
 
   private createPhoneFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-      number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
-    });
+    return this.overrideTouch(
+      this.formBuilder.group({
+        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+        number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
+      })
+    );
   }
 
   private createEmailFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-      address: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
-    });
+    return this.overrideTouch(
+      this.formBuilder.group({
+        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+        address: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
+      })
+    );
   }
 
   private createSocialNetworksFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      type: new FormControl('', [Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-      url: new FormControl('', [Validators.pattern('^https?://[\\w\\d.-]+\\.[a-z]{2,}(?:/.*)?$')])
-    });
+    return this.overrideTouch(
+      this.formBuilder.group({
+        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+        url: new FormControl('', [Validators.required, Validators.pattern('^https?://[\\w\\d.-]+\\.[a-z]{2,}(?:/.*)?$')])
+      })
+    );
   }
 
   private createAddressForm(): FormGroup {
-    return this.formBuilder.group({
-      street: new FormControl('', FormValidators.defaultStreetValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
-      catottgId: new FormControl('', Validators.required),
-      latitude: new FormControl(''),
-      longitude: new FormControl('')
-    });
+    return this.overrideTouch(
+      this.formBuilder.group({
+        street: new FormControl('', FormValidators.defaultStreetValidators),
+        buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
+        catottgId: new FormControl('', Validators.required),
+        latitude: new FormControl(''),
+        longitude: new FormControl('')
+      })
+    );
   }
 
   private createSearchFormGroup(codeficator?: Codeficator): FormGroup {
-    return this.formBuilder.group({
-      settlementSearch: [codeficator?.settlement || '', FormValidators.defaultSearchValidators],
-      settlement: [codeficator || '']
-    });
+    return this.overrideTouch(
+      this.formBuilder.group({
+        settlementSearch: [codeficator?.settlement || '', FormValidators.defaultSearchValidators],
+        settlement: [codeficator || '']
+      })
+    );
   }
 
   private deleteFormField(fields: FormArray, index: number): void {
@@ -243,5 +253,20 @@ export class CreateWorkshopAddressComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.addressesFormArray.removeAt(index);
     this.stepIndex = this.addressesFormArray.length - 1;
+  }
+
+  // this method is made to get touch event for controls that were just added to array
+  // TODO: rewrite/delete after migration to Angular 18+ due to changes for touch handling
+  private overrideTouch(fb: FormGroup): FormGroup {
+    Object.keys(fb.controls).forEach((key: string) => {
+      const control = fb.get(key);
+      const originalMethod = control.markAsTouched;
+      control.markAsTouched = function (): void {
+        originalMethod.apply(this, arguments);
+        (control.statusChanges as EventEmitter<any>).emit();
+      };
+    });
+
+    return fb;
   }
 }
