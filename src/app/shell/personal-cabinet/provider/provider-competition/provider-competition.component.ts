@@ -92,14 +92,14 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
       .pipe(takeUntil(this.destroy$))
       .subscribe((competitions: SearchResponse<CompetitionCardParameters[]>) => (this.competitions = competitions));
   }
-
+  /**
+   * @private
+   * @memberof ProviderCompetitionComponent
+   */
   private getProviderCompetitions(): void {
     Util.setFromPaginationParam(this.competitionCardParameters, this.currentPage, this.competitions?.totalAmount);
     if (this.role === this.Role.provider || this.role === this.Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewCompetitions(this.competitionCardParameters));
     }
-    //  else {
-    //   this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
-    // }
   }
 }
