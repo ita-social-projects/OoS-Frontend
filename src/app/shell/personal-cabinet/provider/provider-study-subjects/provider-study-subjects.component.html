@@ -26,16 +26,14 @@
               placeholder="{{ 'FROM' | translate }}"
               formControlName="dateFrom"
               [appKeyFilter]="dateFilter"
-              appDateInput
-              [tabIndex]="notAllowedToPickByTabButton" />
+              appDateInput />
             <input
               matEndDate
               matInput
               placeholder="{{ 'TO' | translate }}"
               formControlName="dateTo"
               [appKeyFilter]="dateFilter"
-              appDateInput
-              [tabIndex]="notAllowedToPickByTabButton" />
+              appDateInput />
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker>

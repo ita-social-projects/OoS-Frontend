@@ -30,11 +30,6 @@
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
 
-  mat-form-field {
-    pointer-events: none;
-    max-width: 90%;
-  }
-
   mat-datepicker-toggle {
     pointer-events: all;
   }
@@ -67,9 +62,13 @@
     .mat-date-range-input-container {
       margin-top: 10px;
     }
-
+    
     .mdc-floating-label {
-      height: 25px;
+      top: 18px;
+      width: 100%;
+      &--float-above {
+        transform: translateY(-90%) scale(0.75);
+      }
     }
 
     .mat-datepicker-toggle-default-icon {
