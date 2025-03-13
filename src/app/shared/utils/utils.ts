@@ -167,7 +167,7 @@ export class Util {
   }
 
   /**
-   * This method returns union message for the workshop updating
+   * This method returns union message for the workshop.competition updating
    * @param payload Object
    * @param message
    * @returns string
@@ -221,13 +221,6 @@ export class Util {
   public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
-
-  /**
-   * This method returns union message for the competition updating
-   * @param payload Object
-   * @param message
-   * @returns string
-   */
 
   /**
    * Create filter state query string depending on current and default filter values
