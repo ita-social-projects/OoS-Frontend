@@ -93,9 +93,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
     return (
-      (!this.AboutFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.WorkshopContactsFormArray.dirty) ||
+      (!this.AboutFormGroup.dirty &&
+        !this.AdditionalAboutGroup.dirty &&
+        !this.DescriptionFormGroup.dirty &&
+        !this.WorkshopContactsFormArray.dirty) ||
       // && !this.TeacherFormArray?.dirty
       this.AboutFormGroup.invalid ||
+      this.AdditionalAboutGroup.invalid ||
       this.DescriptionFormGroup.invalid ||
       this.WorkshopContactsFormArray.invalid
       // || this.TeacherFormArray?.invalid
