@@ -198,7 +198,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         if (stepToGo !== -1 && this.stepper) {
           this.stepper.selectedIndex = stepToGo;
         }
-      });
+      }, 1000);
     });
   }
 
