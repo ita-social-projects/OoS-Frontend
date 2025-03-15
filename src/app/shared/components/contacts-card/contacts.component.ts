@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Address } from 'shared/models/address.model';
+import { Store } from '@ngxs/store';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Provider } from '../../../shared/models/provider.model';
 
@@ -11,133 +12,179 @@ import { Provider } from '../../../shared/models/provider.model';
 export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
-
+  constructor(private store: Store) {}
+  public contacts: any = [];
+  public panelOpenState = false;
+  private addressLink = 'https://www.google.com/maps/place/';
   public mockData = [
     {
-      addressTitle: 'Home',
-      addressType: 'Фактична',
-      address: 'м.Київ вул.Юного Професора Астрофізики та Соціальної політики по вивченню пінгвінів 2',
-      contacts: [
+      title: 'string',
+      isDefault: true,
+      address: {
+        street: 'string',
+        buildingNumber: 'string',
+        latitude: 0,
+        longitude: 0,
+        catottgId: 0,
+        codeficatorAddressDto: {
+          id: 0,
+          category: 'string',
+          region: 'string',
+          district: 'string',
+          territorialCommunity: 'string',
+          settlement: 'string',
+          cityDistrict: 'string',
+          latitude: 0,
+          longitude: 0,
+          order: 0,
+          fullName: 'string',
+          fullAddress: 'string'
+        }
+      },
+      phones: [
         {
-          type: 'Директор',
-          phoneList: ['6666666666'],
-          emailList: [],
-          facebook: [],
-          instagram: [],
-          websiteList: []
+          type: 'string',
+          number: '123345'
         },
         {
-          type: 'Вчитель Петро',
-          phoneList: ['6666666666'],
-          emailList: ['manager@gff.com', 'some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['www.cookies.com', 'www.pancake.com']
+          type: 'string',
+          number: '4564567578'
         },
         {
-          type: 'Вчителька Оля',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring']
+          type: 'string',
+          number: '3453453453'
+        }
+      ],
+      emails: [
+        {
+          type: 'Director',
+          address: 'user@example.com'
         },
         {
-          type: 'Вчителька Оля',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['string']
+          type: 'manager',
+          address: 'user@example.com'
         },
         {
-          type: 'Вчителька Оля',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['string']
+          type: 'educator',
+          address: 'user@example.com'
+        }
+      ],
+      socialNetworks: [
+        {
+          type: 'Instagram',
+          url: 'string'
+        },
+        {
+          type: 'Telegram',
+          url: 'string'
+        },
+        {
+          type: 'X',
+          url: 'string'
+        },
+        {
+          type: 'Facebook',
+          url: 'string'
         }
       ]
     },
     {
-      addressTitle: 'Робота',
-      addressType: 'Юридична',
-      address: 'м.Київ вул.Шевченка 2',
-      contacts: [
+      title: 'string',
+      isDefault: true,
+      address: {
+        street: 'string',
+        buildingNumber: 'string',
+        latitude: 0,
+        longitude: 0,
+        catottgId: 0,
+        codeficatorAddressDto: {
+          id: 0,
+          category: 'string',
+          region: 'string',
+          district: 'string',
+          territorialCommunity: 'string',
+          settlement: 'string',
+          cityDistrict: 'string',
+          latitude: 0,
+          longitude: 0,
+          order: 0,
+          fullName: 'string',
+          fullAddress: 'string'
+        }
+      },
+      phones: [
         {
-          type: 'Директор',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com', 'any@gmail.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['string']
+          type: 'string',
+          number: '123345'
         },
         {
-          type: 'Вчитель Петро',
-          phoneList: ['6666666666'],
-          emailList: ['manager', 'some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['string']
+          type: 'string',
+          number: '4564567578'
         },
         {
-          type: 'Вчителька Оля',
-          phoneList: ['6666666666', '3333333333'],
-          emailList: ['some@gmial.com'],
-          facebook: ['string'],
-          instagram: ['string'],
-          websiteList: ['string']
+          type: 'string',
+          number: '00000000000000000000000'
+        }
+      ],
+      emails: [
+        {
+          type: 'Director',
+          address: 'user@example.com'
+        },
+        {
+          type: 'manager',
+          address: 'user@example.com'
+        },
+        {
+          type: 'educator',
+          address: 'user@example.com'
+        }
+      ],
+      socialNetworks: [
+        {
+          type: 'Instagram',
+          url: 'string'
+        },
+        {
+          type: 'Telegram',
+          url: 'string'
+        },
+        {
+          type: 'X',
+          url: 'string'
+        },
+        {
+          type: 'Facebook',
+          url: 'string'
         }
       ]
     }
   ];
 
-  panelOpenState = false;
-  public address: Address;
-  public contactsData: {
-    phone: string;
-    email: string;
-    facebook: string;
-    instagram: string;
-    website: string;
-  };
-
-  private addressLink = 'https://www.google.com/maps/place/';
-
-  public get getFullAddress(): string {
-    return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
+  public getFullAddress(address: Address): string {
+    const { street, buildingNumber, codeficatorAddressDto } = address;
+    const settlement = codeficatorAddressDto?.settlement ?? '';
+    return `${settlement}, ${street ?? ''}, ${buildingNumber ?? ''}`.trim();
   }
 
   public ngOnInit(): void {
     this.getContactsData();
   }
   private getContactsData(): void {
-    this.contactsData = {
-      phone: this.workshop?.phone || this.provider.phoneNumber,
-      email: this.workshop?.email || this.provider.email,
-      facebook: this.workshop?.facebook || this.provider.facebook,
-      instagram: this.workshop?.instagram || this.provider.instagram,
-      website: this.workshop?.website || this.provider.website
-    };
-    this.address = { ...(this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress) };
+    this.contacts = this.store.selectSnapshot((store) => store.user.selectedWorkshop?.contacts);
   }
-  /* Detects device and opens map*/
-  public mapLink(): void {
+
+  public mapLink(address: Address): void {
+    const { street, buildingNumber, codeficatorAddressDto } = address;
+    const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
+    const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
+    let addressLink = 'https://www.google.com/maps/search/?api=1&query=';
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      this.addressLink = 'https://maps.apple.com:';
-      window.open(
-        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`
-      );
+      addressLink = 'https://maps.apple.com/?q=';
     } else if (/Android/i.test(navigator.userAgent)) {
-      window.open(
-        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`
-      );
-    } else {
-      window.open(
-        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`,
-        '_blank'
-      );
+      addressLink = 'geo:0,0?q=';
     }
+
+    window.open(`${addressLink}${encodeURIComponent(formattedAddress)}`, '_blank');
   }
 }

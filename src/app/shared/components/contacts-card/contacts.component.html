@@ -1,72 +1,54 @@
 <div class="expansion">
   <mat-accordion>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false"
-                         *ngFor="let address of mockData;let i = index;"
-                         [expanded]="i === 0"
-                         >
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+      *ngFor="let contact of contacts; let i = index"
+      [expanded]="i === 0">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon class="card_icon">location_on</mat-icon>
           <mat-icon class="card_icon">call</mat-icon>
           <mat-icon class="card_icon">mail</mat-icon>
           <mat-icon class="card_icon">language</mat-icon>
-          <mat-icon class="card_icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M 18 2 C 16.35499 2 15 3.3549904 15 5 C 15 5.1909529 15.021791 5.3771224 15.056641 5.5585938 L 7.921875 9.7207031 C 7.3985399 9.2778539 6.7320771 9 6 9 C 4.3549904 9 3 10.35499 3 12 C 3 13.64501 4.3549904 15 6 15 C 6.7320771 15 7.3985399 14.722146 7.921875 14.279297 L 15.056641 18.439453 C 15.021555 18.621514 15 18.808386 15 19 C 15 20.64501 16.35499 22 18 22 C 19.64501 22 21 20.64501 21 19 C 21 17.35499 19.64501 16 18 16 C 17.26748 16 16.601593 16.279328 16.078125 16.722656 L 8.9433594 12.558594 C 8.9782095 12.377122 9 12.190953 9 12 C 9 11.809047 8.9782095 11.622878 8.9433594 11.441406 L 16.078125 7.2792969 C 16.60146 7.7221461 17.267923 8 18 8 C 19.64501 8 21 6.6450096 21 5 C 21 3.3549904 19.64501 2 18 2 z M 18 4 C 18.564129 4 19 4.4358706 19 5 C 19 5.5641294 18.564129 6 18 6 C 17.435871 6 17 5.5641294 17 5 C 17 4.4358706 17.435871 4 18 4 z M 6 11 C 6.5641294 11 7 11.435871 7 12 C 7 12.564129 6.5641294 13 6 13 C 5.4358706 13 5 12.564129 5 12 C 5 11.435871 5.4358706 11 6 11 z M 18 18 C 18.564129 18 19 18.435871 19 19 C 19 19.564129 18.564129 20 18 20 C 17.435871 20 17 19.564129 17 19 C 17 18.435871 17.435871 18 18 18 z"></path>
-            </svg></mat-icon>
-
         </mat-panel-title>
         <mat-panel-title class="address-type-title">
-            <h4 class="card-title">{{ address.addressTitle }}</h4>
-            <h5 class="card-type">тип адреси : {{ address.addressType }}</h5>
+          <h4 class="card-title">{{ contact.title }}</h4>
         </mat-panel-title>
         <mat-panel-description class="description-width">
           <div class="address-block">
             <p class="contact-info">
-              <span 
-                class="address-full-name"
-                [matTooltip]="address.address"
-                matTooltipPosition="right"
-                showTooltipIfTruncated
-              >
-                {{address.address}}
+              <span class="address-full-name" [matTooltip]="fullAddress" matTooltipPosition="right" showTooltipIfTruncated>
+                {{ getFullAddress(contact.address) }}
               </span>
             </p>
           </div>
-          <a (click)="mapLink()" target="_blank" class="map">{{ 'SHOW_ON_THE_MAP' | translate }}</a>
+          <a (click)="mapLink(contact.address)" target="_blank" class="map">
+            {{ 'SHOW_ON_THE_MAP' | translate }}
+          </a>
         </mat-panel-description>
       </mat-expansion-panel-header>
-    <mat-panel-description>
-      <div class="container-left">
-        <div class="contact-type-card" *ngFor="let contact of address.contacts">
-          <h4 class="card-title">{{ contact.type }}</h4>
-          <div class="contact-info-extended" *ngFor="let phone of contact.phoneList">
-            <mat-icon class="card_icon">call</mat-icon>
-            <a href="tel:{{ phone }}" rel="noopener">{{ phone }}</a>
-          </div>
-          <div class="contact-info-extended" *ngFor="let email of contact.emailList">
-            <mat-icon class="card_icon">mail</mat-icon>
-            <a href="mailto:{{ email }}" target="_blank">{{ email }}</a>
-          </div>
-          <div class="contact-info-extended" *ngFor="let website of contact.websiteList">
-            <mat-icon class="card_icon">language</mat-icon>
-            <a [href]="website" target="_blank" rel="noopener">{{ website }}</a>
-          </div>
-          <div class="contact-info-extended" *ngFor="let facebook of contact.facebook">
-            <mat-icon class="card_icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M 5 3 C 3.897 3 3 3.897 3 5 L 3 19 C 3 20.103 3.897 21 5 21 L 11.621094 21 L 14.414062 21 L 19 21 C 20.103 21 21 20.103 21 19 L 21 5 C 21 3.897 20.103 3 19 3 L 5 3 z M 5 5 L 19 5 L 19.001953 19 L 14.414062 19 L 14.414062 15.035156 L 16.779297 15.035156 L 17.130859 12.310547 L 14.429688 12.310547 L 14.429688 10.574219 C 14.429687 9.7862188 14.649297 9.2539062 15.779297 9.2539062 L 17.207031 9.2539062 L 17.207031 6.8222656 C 16.512031 6.7512656 15.814234 6.71675 15.115234 6.71875 C 13.041234 6.71875 11.621094 7.9845938 11.621094 10.308594 L 11.621094 12.314453 L 9.2773438 12.314453 L 9.2773438 15.039062 L 11.621094 15.039062 L 11.621094 19 L 5 19 L 5 5 z"></path>
-          </svg></mat-icon>
-            <a [href]="facebook" target="_blank" rel="noopener">{{ facebook }}</a>
-          </div>
-          <div class="contact-info-extended" *ngFor="let instagram of contact.instagram">
-            <mat-icon class="card_icon"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24">
-              <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z"></path>
-          </svg></mat-icon>
-            <a [href]="instagram" target="_blank" rel="noopener">{{ instagram }}</a>
+      <mat-panel-description>
+        <div class="container-left">
+          <div class="contact-type-card">
+            <div class="contact-info-extended" *ngFor="let phone of contact.phones">
+              <mat-icon class="card_icon">call</mat-icon>
+              <span class="contact-title">{{ phone.type }}</span>
+              <a href="tel:{{ phone }}" rel="noopener">{{ phone.number }}</a>
+            </div>
+            <div class="contact-info-extended" *ngFor="let email of contact.emails">
+              <mat-icon class="card_icon">mail</mat-icon>
+              <span class="contact-title">{{ email.type }}</span>
+              <a href="mailto:{{ email.address }}" target="_blank">{{ email.address }}</a>
+            </div>
+            <div class="contact-info-extended" *ngFor="let social of contact.socialNetworks">
+              <mat-icon class="card_icon">language</mat-icon>
+              <span class="contact-title">{{ social.type }}</span>
+              <a [href]="social" target="_blank" rel="noopener">{{ social.url }}</a>
+            </div>
           </div>
         </div>
-      </div>
-    </mat-panel-description>
+      </mat-panel-description>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
