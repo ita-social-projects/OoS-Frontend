@@ -50,7 +50,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
   @Select(SharedUserState.selectedWorkshop)
-  public selectedWorkshop$: Observable<Workshop>;
+  public selectedWorkshop$: Observable<Workshop | WorkshopDraft>;
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
@@ -158,12 +158,16 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.store.dispatch(new GetWorkshopById(param));
       this.selectedWorkshop$
         .pipe(
-          takeUntil(this.destroy$),
-          filter((workshop: Workshop | WorkshopDraft) =>
-            'workshopDetails' in workshop ? workshop?.workshopDetails.id === param : workshop?.id === param
-          )
+          takeUntil(this.destroy$)
+          // ,
+          // filter((workshop: Workshop | WorkshopDraft) =>
+          //   'workshopDetails' in workshop ? workshop.workshopDetails?.id === param : workshop.id === param
+          // )
         )
-        .subscribe((workshop: Workshop | WorkshopDraft) => (this.workshop = workshop));
+        .subscribe((workshop: Workshop | WorkshopDraft) => {
+          this.workshop = 'workshopDetails' in workshop ? workshop.workshopDetails : workshop;
+          console.log(this.workshop);
+        });
     }
   }
 

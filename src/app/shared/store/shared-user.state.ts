@@ -84,7 +84,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static selectedWorkshop(state: SharedUserStateModel): Workshop {
+  static selectedWorkshop(state: SharedUserStateModel): Workshop | WorkshopDraft {
     return state.selectedWorkshop;
   }
 
