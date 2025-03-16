@@ -25,6 +25,7 @@ import { DraftSendForModeration, UpdateWorkshopStatus } from 'shared/store/provi
 import { RegistrationState } from 'shared/store/registration.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
+import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
@@ -204,4 +205,5 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   protected readonly WorkshopDraft = WorkshopDraft;
   protected readonly WorkshopDraftStatus = WorkshopDraftStatus;
   protected readonly ModalConfirmationType = ModalConfirmationType;
+  protected readonly Util = Util;
 }

@@ -23,7 +23,7 @@ import {
   UpdateWorkshop
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -32,6 +32,7 @@ import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
+import { WorkshopType1 } from 'shared/enum/workshop';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -56,7 +57,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
-  public workshop: Workshop;
+  public workshop: Workshop | WorkshopDraft;
 
   public AboutFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
@@ -155,18 +156,22 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.loadUnfinishedWorkshopData();
       this.editMode = false;
     } else {
-      this.store.dispatch(new GetWorkshopById(param));
+      switch (this.route.snapshot.paramMap.get('entity')) {
+        case WorkshopType1.Workshop:
+          this.store.dispatch(new GetWorkshopById(param));
+          break;
+        case WorkshopType1.Draft:
+          this.store.dispatch(new GetWorkshopDraftById(param));
+          break;
+      }
+
       this.selectedWorkshop$
         .pipe(
-          takeUntil(this.destroy$)
-          // ,
-          // filter((workshop: Workshop | WorkshopDraft) =>
-          //   'workshopDetails' in workshop ? workshop.workshopDetails?.id === param : workshop.id === param
-          // )
+          takeUntil(this.destroy$),
+          filter((workshop) => workshop !== null)
         )
         .subscribe((workshop: Workshop | WorkshopDraft) => {
           this.workshop = 'workshopDetails' in workshop ? workshop.workshopDetails : workshop;
-          console.log(this.workshop);
         });
     }
   }

@@ -90,7 +90,14 @@ const routes: Routes = [
     loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
   {
-    path: 'create-workshop/:param',
+    path: 'create/:param',
+    component: CreateWorkshopComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create/:entity/:param',
     component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],

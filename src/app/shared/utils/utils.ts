@@ -17,7 +17,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
@@ -50,6 +50,10 @@ export class Util {
       top: 0,
       behavior: 'smooth'
     });
+  }
+
+  public static isWorkshop(workshop: Workshop | WorkshopDraft): boolean {
+    return workshop instanceof Workshop;
   }
 
   /**
