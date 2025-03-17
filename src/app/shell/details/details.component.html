@@ -1,9 +1,10 @@
 <div class="flex flex-col lg:flex-row gap-0 lg:gap-8 justify-between items-stretch box-border">
-  <ng-container *ngIf="isWorkshop; then WorkshopDetails; else ProviderDetails"></ng-container>
+  <ng-container *ngIf="isWorkshop; then WorkshopDetails; else CompetitionDetails"></ng-container>
   <app-side-menu
     *ngIf="provider"
     [workshop]="workshop"
     [provider]="provider"
+    [competition]="competition"
     [role]="role"
     [isMobileScreen]="isMobileScreen"
     [displayActionCard]="displayActionCard">
@@ -20,6 +21,19 @@
     [isMobileScreen]="isMobileScreen"
     [currentProvider]="currentProvider$ | async"
     [displayActionCard]="displayActionCard"></app-workshop-details>
+</ng-template>
+
+<ng-template #CompetitionDetails>
+  <ng-container *ngIf="isCompetition && competition; else ProviderDetails">
+    <app-competition-details
+      class="workshop-page-wrap"
+      [competition]="competition"
+      [provider]="provider"
+      [role]="role"
+      [isMobileScreen]="isMobileScreen"
+      [currentProvider]="currentProvider$ | async"
+      [displayActionCard]="displayActionCard"></app-competition-details>
+  </ng-container>
 </ng-template>
 
 <ng-template #ProviderDetails>

@@ -51,7 +51,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly modalConfirmationType = ModalConfirmationType;
 
