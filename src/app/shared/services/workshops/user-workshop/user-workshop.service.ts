@@ -152,8 +152,7 @@ export class UserWorkshopService {
   }
 
   public rejectWorkshopDraft(draftId: string, rejectReason: string): Observable<void> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<void>(`/api/v2/WorkshopDraft/Reject/${draftId}`, JSON.stringify(rejectReason), { headers });
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Reject/${draftId}`, { rejectionMessage: rejectReason });
   }
 
   public approveWorkshopDraft(draftId: string): Observable<void> {

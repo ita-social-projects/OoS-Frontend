@@ -81,16 +81,16 @@
 
     <mat-tab label="{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}">
       <h5>{{ 'FORMS.LABELS.SHORT_STAY' | translate }}</h5>
-      <p>{{ workshop.shortStay ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+      <p>{{ workshop.shortStay ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_SELF_FINANCED' | translate }}</h5>
-      <p>{{ workshop.isSelfFinanced ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+      <p>{{ workshop.isSelfFinanced ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_SPECIAL' | translate }}</h5>
-      <p>{{ workshop.isSpecial ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+      <p>{{ workshop.isSpecial ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_INCLUSIVE' | translate }}</h5>
-      <p>{{ workshop.isInclusive ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+      <p>{{ workshop.isInclusive ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.SPECIAL_NEEDS_TYPE' | translate }}</h5>
       <p>{{ specialNeedsType[workshop.specialNeedsType] | translate }}</p>
@@ -107,24 +107,24 @@
 
       <h5>{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
       <ng-container *ngIf="workshop.withDisabilityOptions; else disabilityNotAvailable">
-        <p>{{ 'AVAILABLE' | translate}}</p>
+        <p>{{ 'AVAILABLE' | translate }}</p>
         <p>{{ workshop.withDisabilityOptionsDesc }}</p>
       </ng-container>
       <ng-template #disabilityNotAvailable>
-        <p>{{ 'NOT_AVAILABLE' | translate}}</p>
+        <p>{{ 'NOT_AVAILABLE' | translate }}</p>
       </ng-template>
 
       <ng-container *ngIf="workshop.tags?.length">
         <h5>{{ 'FORMS.LABELS.USER_TAGS' | translate }}</h5>
         <div *ngFor="let item of workshop.tags">
-          <p>item</p>
+          <p>{{ item }}</p>
         </div>
       </ng-container>
-
+      
       <ng-container *ngIf="workshop.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
         <div *ngFor="let item of workshop.keywords">
-          <p>item</p>
+          <p>{{ item }}</p>
         </div>
       </ng-container>
 
@@ -144,7 +144,7 @@
       </ng-container>
 
       <h5>{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</h5>
-      <p>{{ workshop.areThereBenefits ? ("AGREEMENT" | translate) : ("DISAGREEMENT" | translate) }}</p>
+      <p>{{ workshop.areThereBenefits ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <ng-container *ngIf="workshop.preferentialTermsOfParticipation">
         <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
@@ -153,7 +153,7 @@
 
       <ng-container *ngIf="workshop.coverage">
         <h5>{{ 'FORMS.LABELS.COVERAGE' | translate }}</h5>
-        <p>{{ coverageEnum[workshop.coverage] | translate}}</p>
+        <p>{{ coverageEnum[workshop.coverage] | translate }}</p>
       </ng-container>
 
       <ng-container *ngIf="workshop.institution">
@@ -186,9 +186,6 @@
       </ng-container>
     </mat-tab>
 
-    <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">
-
-    </mat-tab>
+    <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}"> </mat-tab>
   </mat-tab-group>
 </div>
-

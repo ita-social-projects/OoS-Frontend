@@ -8,7 +8,7 @@ import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/area-admin.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 

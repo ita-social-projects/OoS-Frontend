@@ -9,7 +9,7 @@
         class="search"
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
     </div>
-    <div class="reset" (click)="onResetFilters()" *ngIf="!isAreaAdmin || !isModerator">
+    <div class="reset" (keydown.enter)="onResetFilters()" (click)="onResetFilters()" *ngIf="!isAreaAdmin || !isModerator">
       <mat-icon class="reset__icon">refresh</mat-icon>
       <span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
     </div>
@@ -107,12 +107,12 @@
               </th>
               <td mat-cell *matCellDef="let element">
                 <div
-                  [matTooltip]="element.providerOwnership"
+                  [matTooltip]="element.workshopDetails.providerOwnership"
                   showTooltipIfTruncated
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ OwnershipTypeEnum[element.providerOwnership] | emptyValueTransform | translate }}
+                  {{ OwnershipTypeEnum[element.workshopDetails.providerOwnership] | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>
@@ -139,36 +139,23 @@
               </th>
               <td mat-cell *matCellDef="let element">
                 <div class="tab-text">
-                  {{ element.takenSeats }}
-                  <ng-container *ngIf="element.availableSeats !== UNLIMITED_SEATS"> / {{ element.availableSeats }} </ng-container>
+                  {{ element.availableSeats !== UNLIMITED_SEATS ? element.availableSeats : ('UNLIMITED' | translate) }}
                 </div>
               </td>
             </ng-container>
 
-            <!-- <ng-container matColumnDef="edrpouIpn">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
-                {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform | translate }}</td>
-            </ng-container> -->
-
-            <!-- <ng-container matColumnDef="license">
-              <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
-              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform | translate }}</td>
-            </ng-container> -->
-
-            <ng-container matColumnDef="city">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
-                {{ 'FORMS.LABELS.SETTLEMENT' | translate }}
+            <ng-container matColumnDef="isPaid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by isPaid">
+                {{ 'FORMS.LABELS.COST' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <div
-                  [matTooltip]="element.address?.codeficatorAddressDto?.settlement"
+                  [matTooltip]="(element.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
                   showTooltipIfTruncated
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ element.address?.codeficatorAddressDto?.settlement | emptyValueTransform | translate }}
+                  {{ (element.isPaid ? 'IS_PAID' : 'IS_FREE') | translate }}
                 </div>
               </td>
             </ng-container>
@@ -179,29 +166,15 @@
               </th>
               <td mat-cell *matCellDef="let element">
                 <div
-                  [matTooltip]="element.address | getAddress: ModeConstants.SHORT | emptyValueTransform"
+                  [matTooltip]="element.workshopDetails.address | getAddress: ModeConstants.SHORT | emptyValueTransform | translate"
                   showTooltipIfTruncated
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ element.address | getAddress: ModeConstants.SHORT | emptyValueTransform }}
+                  {{ element.workshopDetails.address | getAddress: ModeConstants.SHORT | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>
-
-            <!-- <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
-                {{ 'FORMS.LABELS.EMAIL' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-            </ng-container> -->
-
-            <!-- <ng-container matColumnDef="phoneNumber">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
-                {{ 'FORMS.LABELS.PHONE' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phone }}</td>
-            </ng-container> -->
 
             <ng-container matColumnDef="status" stickyEnd>
               <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
@@ -221,7 +194,7 @@
                   <button mat-icon-button [matMenuTriggerFor]="actions">
                     <mat-icon class="action-icon">more_vert</mat-icon>
                   </button>
-                  <button mat-icon-button (click)="onViewWorkshopInfo(element)">
+                  <button mat-icon-button (click)="onViewWorkshopInfo(element.workshopDetails)">
                     <mat-icon class="action-icon">remove_red_eye</mat-icon>
                   </button>
                   <a mat-icon-button [routerLink]="['/details/workshop/', element.id]">
@@ -231,17 +204,12 @@
 
                 <mat-menu #actions="matMenu" class="header_menu">
                   <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
-                    <button
-                      *ngIf="element.draftStatus !== workshopDraftStatus.Rejected"
-                      mat-menu-item
-                      (click)="onRejectDraft(element)">
-                      {{ 'BUTTONS.REJECT' | translate }}
+                    <button *ngIf="element.draftStatus !== workshopDraftStatus.Rejected" mat-menu-item (click)="onRejectDraft(element)">
+                      {{ 'BUTTONS.REQUEST_CHANGES' | translate }}
                     </button>
-                    <button
-                    mat-menu-item
-                    (click)="onApproveDraft(element)">
-                    {{ 'BUTTONS.CONFIRM' | translate }}
-                  </button>
+                    <button mat-menu-item (click)="onApproveDraft(element)">
+                      {{ 'BUTTONS.CONFIRM' | translate }}
+                    </button>
                   </ng-container>
                 </mat-menu>
               </td>
@@ -276,9 +244,8 @@
 </ng-template>
 
 <ng-template #WorkshopStatusTmpl let-status let-titles="titles">
-  <div class="workshop-list-status {{status}}">
-    <span>
-      <i class="status-icon {{ statusIcons[status] }}">{{ titles[status] | translate }}</i>
-    </span>
+  <div class="workshop-list-status {{ status }}">
+    <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
+    <span>{{ titles[status] | translate }}</span>
   </div>
 </ng-template>

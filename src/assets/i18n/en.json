@@ -435,6 +435,7 @@
       "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
+      "WORKSHOP_PENDING_MODERATION": "Workshop pending moderation",
       "FORM_OF_LEARNING": "Form of learning",
       "PARENT_COMPETITION": "Parent competition",
       "SECTION_TITLE": "Section title",
@@ -539,7 +540,8 @@
       "INFORMATION_ABOUT_WORKSHOP": "Information About the workshop",
       "INSTITUTION_HIERARCHY": "Profile/scientific department",
       "INSTITUTION": "Institution",
-      "DIRECTION": "Direction name"
+      "DIRECTION": "Direction name",
+      "COST": "Cost"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -643,6 +645,7 @@
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "IS_FREE": "For free",
+  "IS_PAID": "Paid",
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
@@ -773,6 +776,7 @@
     "DELETE": "Delete",
     "GO_BACK": "Go back",
     "REGISTER": "Register",
+    "REQUEST_CHANGES": "Request changes",
     "ADD_DIRECTION": "Add a direction",
     "ADD_MORE_EMAIL": "Add more email",
     "ADD_MORE_PHONE": "Add more phone",

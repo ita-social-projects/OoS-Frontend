@@ -307,5 +307,7 @@ enum Socials {
 
 export interface WorkshopDraft extends Workshop {
   draftStatus: WorkshopDraftStatus;
+  workshopDraftId: string;
+  workshopDetails: Workshop;
   tags: string;
 }
