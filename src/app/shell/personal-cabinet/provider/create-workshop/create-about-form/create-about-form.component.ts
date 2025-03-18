@@ -269,6 +269,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = false): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
+
+    if (action === 'disable') {
+      this.priceControl.markAsUntouched();
+      this.priceControl.setErrors(null);
+    }
   }
 
   /**
@@ -278,6 +283,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = false): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
+
+    if (action === 'disable') {
+      this.payRateControl.markAsUntouched();
+      this.payRateControl.setErrors(null);
+    }
   }
 
   /**
