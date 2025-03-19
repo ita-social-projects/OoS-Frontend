@@ -71,6 +71,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     return this.DescriptionFormGroup.get('coverageId') as FormControl;
   }
 
+  public get priceControl(): FormControl {
+    return this.DescriptionFormGroup.get('price') as FormControl;
+  }
+
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
     this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
