@@ -181,15 +181,14 @@
 
   <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}</label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
-    <mat-radio-button #priceRadio1 name="priceRadioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
     <div class="container flex flex-row justify-between items-center">
       <div class="price flex flex-row justify-center items-center">
-        <mat-radio-button #priceRadio2 name="priceRadioBtn2" [value]="true"
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"
           ><input
             matInput
             class="step-input price-input"
             appDigitOnly
-            appMinMax
             formControlName="price"
             type="number"
             [min]="validationConstants.MIN_PRICE"
@@ -199,6 +198,13 @@
       </div>
     </div>
   </mat-radio-group>
+  <div class="pay-type__error">
+    <app-validation-hint
+      [validationFormControl]="priceControl"
+      [isPrice]="true"
+      [minValue]="validationConstants.MIN_PRICE"
+      [maxValue]="validationConstants.MAX_PRICE"></app-validation-hint>
+  </div>
 
   <label class="step-label"> {{ 'FORMS.LABELS.COMPETITIVE_BENEFITS' | translate }}</label>
   <mat-radio-group [formControl]="benefitsOptionRadioBtn" color="primary" class="flex flex-col justify-center items-between">
