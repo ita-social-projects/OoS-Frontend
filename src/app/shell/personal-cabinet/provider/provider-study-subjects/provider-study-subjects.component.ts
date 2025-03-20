@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -27,7 +27,7 @@ import { ProviderComponent } from '../provider.component';
   templateUrl: './provider-study-subjects.component.html',
   styleUrls: ['./provider-study-subjects.component.scss']
 })
-export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit, OnDestroy {
+export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit {
   @ViewChild(MatSort) public sort: MatSort;
   @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
 
@@ -145,11 +145,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getStudySubjects();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   public closeDatePicker(): void {

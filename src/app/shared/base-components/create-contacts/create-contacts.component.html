@@ -45,6 +45,7 @@
                       autocomplete="off"
                       appTrimValue />
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="phoneField.get('type')"></app-validation-hint>
                   <label class="step-label" for="{{ phoneField.get('number') }}">{{ 'FORMS.LABELS.PHONE' | translate }}</label>
                   <div class="flex flex-row">
                     <app-phone-form-control class="grow" [parentFormControl]="phoneField.get('number')"></app-phone-form-control>
@@ -87,6 +88,7 @@
                       autocomplete="none"
                       appTrimValue />
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="emailField.get('type')"></app-validation-hint>
                   <label class="step-label" for="email-{{ jindex }}">{{ 'FORMS.LABELS.EMAIL' | translate }}</label>
                   <div class="flex flex-row">
                     <mat-form-field class="grow">
@@ -135,8 +137,9 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                  <app-validation-hint [validationFormControl]="socialNetwork.get('type')"></app-validation-hint>
                   <label class="step-label" for="socials-{{ jindex }}">URL</label>
-                  <div class="flex flex-row">
+                  <div class="flex flex-row items-center">
                     <mat-form-field class="grow">
                       <input formControlName="url" matInput class="step-input" type="text" [id]="'socials-' + jindex" appTrimValue />
                     </mat-form-field>
@@ -144,6 +147,7 @@
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
+                  <app-validation-hint [validationFormControl]="socialNetwork.get('url')"></app-validation-hint>
                 </div>
               </div>
             </div>

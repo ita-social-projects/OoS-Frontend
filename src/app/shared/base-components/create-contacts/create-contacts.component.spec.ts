@@ -12,11 +12,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SocialNetworks } from 'shared/enum/workshop';
 import { Contacts } from 'shared/models/workshop.model';
 import { Geocoder } from 'shared/models/geolocation';
-import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
+import { CreateContactsComponent } from './create-contacts.component';
 
-describe('CreateWorkshopAddressComponent', () => {
-  let component: CreateWorkshopAddressComponent;
-  let fixture: ComponentFixture<CreateWorkshopAddressComponent>;
+describe('CreateContactsComponent', () => {
+  let component: CreateContactsComponent;
+  let fixture: ComponentFixture<CreateContactsComponent>;
   let formBuilder: FormBuilder;
 
   beforeEach(async () => {
@@ -32,12 +32,12 @@ describe('CreateWorkshopAddressComponent', () => {
         BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
-      declarations: [CreateWorkshopAddressComponent, MockMapComponent, MockAddressFormComponent]
+      declarations: [CreateContactsComponent, MockMapComponent, MockAddressFormComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateWorkshopAddressComponent);
+    fixture = TestBed.createComponent(CreateContactsComponent);
     component = fixture.componentInstance;
     formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();

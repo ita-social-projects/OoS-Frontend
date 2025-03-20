@@ -6,15 +6,15 @@
           {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
           {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
         </p>
       </div>
 
-      <mat-horizontal-stepper #stepper linear>
+      <mat-horizontal-stepper linear class="main-stepper" #stepper>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</p>
           </ng-template>
           <app-create-about-form
             class="flex flex-row justify-center items-center"
@@ -30,8 +30,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="AboutFormGroup.invalid"
+              appStepperNext
+              [form]="AboutFormGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(AboutFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -58,8 +59,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="AdditionalAboutGroup?.invalid"
+              appStepperNext
+              [form]="AdditionalAboutGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(AdditionalAboutGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -87,8 +89,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="DescriptionFormGroup?.invalid"
+              appStepperNext
+              [form]="DescriptionFormGroup"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -101,8 +104,8 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-workshop-address [contacts]="workshop?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
-          </app-create-workshop-address>
+          <app-create-contacts [contacts]="workshop?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
+          </app-create-contacts>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
               {{ 'BUTTONS.BACK' | translate }}
@@ -113,8 +116,9 @@
             <button
               class="btn"
               mat-raised-button
-              matStepperNext
-              [disabled]="WorkshopContactsFormArray?.invalid"
+              appStepperNext
+              [form]="WorkshopContactsFormArray"
+              [stepper]="stepper"
               (click)="saveUnfinishedData(WorkshopContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>

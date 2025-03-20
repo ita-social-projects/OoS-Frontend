@@ -9,8 +9,6 @@ import { GetUnfinishedWorkshop, OnSaveWorkshopStep } from 'shared/store/provider
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
 import { of } from 'rxjs';
-import { WorkshopType } from 'shared/models/draftWorkshop.model';
-import { BannerMode } from 'shared/enum/bannerMode';
 import { CreateWorkshopComponent } from './create-workshop.component';
 
 describe('CreateWorkshopComponent (Jest)', () => {
@@ -124,6 +122,16 @@ describe('CreateWorkshopComponent (Jest)', () => {
       providerId: component.provider.id,
       ...extraData
     });
+  });
+
+  it('should return if form is invalid', () => {
+    const form = new FormGroup({
+      mock: new FormControl(null)
+    });
+    form.setErrors({ invalid: true });
+    component.getRouteParam = jest.fn();
+    component.saveUnfinishedData(form);
+    expect(component.getRouteParam).not.toHaveBeenCalled();
   });
 
   it('should dispatch unfinished data correctly', () => {

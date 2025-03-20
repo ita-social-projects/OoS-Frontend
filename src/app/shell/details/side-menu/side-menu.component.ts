@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Competition } from 'shared/models/competition.model';
 import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { Provider } from '../../../shared/models/provider.model';
@@ -12,6 +13,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 export class SideMenuComponent implements OnInit {
   @Input() public provider: Provider;
   @Input() public workshop: Workshop;
+  @Input() public competition: Competition;
   @Input() public role: string;
   @Input() public isMobileScreen: boolean;
   @Input() public displayActionCard: boolean;
@@ -30,17 +32,17 @@ export class SideMenuComponent implements OnInit {
   constructor() {}
 
   public ngOnInit(): void {
-    this.getContactsData();
+    this.getContactsData(this.workshop ?? this.competition);
   }
 
-  private getContactsData(): void {
+  private getContactsData(contactsParent: Competition | Workshop): void {
     this.contactsData = {
-      phone: this.workshop?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
-      email: this.workshop?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,
-      facebook: this.workshop?.contacts?.[0]?.socialNetworks?.[0]?.url ?? this.provider.facebook,
-      instagram: this.workshop?.contacts?.[0]?.socialNetworks?.[1]?.url ?? this.provider.instagram,
-      website: this.workshop?.contacts?.[0]?.socialNetworks?.[2]?.url ?? this.provider.website
+      phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
+      email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,
+      facebook: contactsParent?.contacts?.[0]?.socialNetworks?.[0]?.url ?? this.provider.facebook,
+      instagram: contactsParent?.contacts?.[0]?.socialNetworks?.[1]?.url ?? this.provider.instagram,
+      website: contactsParent?.contacts?.[0]?.socialNetworks?.[2]?.url ?? this.provider.website
     };
-    this.address = { ...(this.workshop?.contacts?.[0]?.address ?? this.provider?.actualAddress ?? this.provider.legalAddress) };
+    this.address = { ...(contactsParent?.contacts?.[0]?.address ?? this.provider?.actualAddress ?? this.provider.legalAddress) };
   }
 }

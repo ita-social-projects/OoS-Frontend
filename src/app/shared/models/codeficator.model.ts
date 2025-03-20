@@ -11,6 +11,8 @@ export interface Codeficator {
   longitude: number;
   fullName: string;
   fullAddress?: string;
+  district?: string;
+  order?: number;
 }
 
 export interface CodeficatorCityDistrict {

@@ -21,6 +21,7 @@ import { Workshop } from 'shared/models/workshop.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
+import { Competition } from 'shared/models/competition.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -166,13 +167,13 @@ export class Util {
   }
 
   /**
-   * This method returns union message for the workshop updating
+   * This method returns union message for the workshop.competition updating
    * @param payload Object
    * @param message
    * @returns string
    */
   // TODO: Update type for payload
-  public static getWorkshopMessage(payload: Workshop & any, message: string): MessageBarData {
+  public static getWorkshopMessage(payload: (Workshop | Competition) & any, message: string): MessageBarData {
     const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;

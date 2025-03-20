@@ -51,11 +51,11 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   public activateEditMode(): void {
     this.AdditionalAboutGroup.patchValue(
       {
-        shortStay: this.workshop.shortStay,
-        isSelfFinanced: this.workshop.isSelfFinanced,
-        isSpecial: this.workshop.isSpecial,
-        isInclusive: this.workshop.isInclusive,
-        specialNeedsType: this.workshop.specialNeedsType,
+        shortStay: this.workshop.shortStay || false,
+        isSelfFinanced: this.workshop.isSelfFinanced || false,
+        isSpecial: this.workshop.isSpecial || false,
+        isInclusive: this.workshop.isInclusive || false,
+        specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift,
         ageComposition: this.workshop.ageComposition,
         workshopType: this.workshop.workshopType

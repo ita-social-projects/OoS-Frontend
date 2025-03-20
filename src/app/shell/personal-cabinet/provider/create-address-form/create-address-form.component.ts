@@ -21,12 +21,9 @@ export class CreateAddressFormComponent implements OnInit {
   @ViewChild(MatAutocomplete)
   public autocomplete: MatAutocomplete;
 
-  @Input()
-  public addressFormGroup: FormGroup;
-  @Input()
-  public searchFormGroup: FormGroup;
-  @Input()
-  public address: Address;
+  @Input() public addressFormGroup: FormGroup;
+  @Input() public searchFormGroup: FormGroup;
+  @Input() public address: Address;
 
   @Select(MetaDataState.codeficatorSearch)
   public codeficatorSearch$: Observable<Codeficator[]>;

@@ -17,6 +17,10 @@ import { WorkshopDetailsComponent } from './workshop-details/workshop-details.co
 import { ProviderDetailsComponent } from './provider-details/provider-details.component';
 import { AchievementsComponent } from './details-tabs/achievements/achievements.component';
 import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
+import { CompetitionDetailsComponent } from './competition-details/competition-details.component';
+import { CompetitionAboutComponent } from './details-tabs/competition-about/competition-about.component';
+import { CompetitionJudgesComponent } from './details-tabs/competition-judges/competition-judges.component';
+import { JudgeCardComponent } from './details-tabs/competition-judges/judge-card/judge-card.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,11 @@ import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-c
     WorkshopDetailsComponent,
     ProviderDetailsComponent,
     AchievementsComponent,
-    TeacherCardComponent
+    TeacherCardComponent,
+    CompetitionDetailsComponent,
+    CompetitionAboutComponent,
+    CompetitionJudgesComponent,
+    JudgeCardComponent
   ],
   imports: [CommonModule, SharedModule, MaterialModule, TranslateModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

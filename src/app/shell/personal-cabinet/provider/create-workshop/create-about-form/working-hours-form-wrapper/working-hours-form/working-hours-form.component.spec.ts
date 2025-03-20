@@ -9,7 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { MaterialModule } from '../../../../../../../shared/modules/material.module';
+import { take } from 'rxjs/operators';
+import { MaterialModule } from 'shared/modules/material.module';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
@@ -78,7 +79,15 @@ describe('WorkingHoursFormComponent', () => {
 
     expect(component.startTimeFormControl.value).toBe('12:30');
   });
+
+  it('should emit event if touched', () => {
+    const mockFunction = jest.fn();
+    component.workdaysFormControl.statusChanges.pipe(take(1)).subscribe(mockFunction);
+    component.workdaysFormControl.markAsTouched();
+    expect(mockFunction).toHaveBeenCalled();
+  });
 });
+
 @Component({
   selector: 'app-validation-hint',
   template: ''

@@ -27,8 +27,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Output() public PassAboutFormGroup = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
-  public readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly MIN_SEATS = Constants.MIN_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
@@ -178,7 +178,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         image: new FormControl(''),
-        price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+        price: new FormControl({ value: 0, disabled: true }, [
+          Validators.required,
+          Validators.min(ValidationConstants.MIN_PRICE),
+          Validators.max(ValidationConstants.MAX_PRICE)
+        ]),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
         payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
@@ -265,6 +269,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = false): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
+
+    if (action === 'disable') {
+      this.priceControl.markAsUntouched();
+      this.priceControl.setErrors(null);
+    }
   }
 
   /**
@@ -274,6 +283,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = false): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
+
+    if (action === 'disable') {
+      this.payRateControl.markAsUntouched();
+      this.payRateControl.setErrors(null);
+    }
   }
 
   /**

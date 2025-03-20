@@ -1,4 +1,4 @@
-<div class="relative phone-input-wrapper">
+<div class="relative phone-input-wrapper" [class.invalid]="parentControl.invalid && parentControl.touched">
   <ngx-mat-intl-tel-input
     cssClass="phone-number-input"
     [preferredCountries]="['ua']"
