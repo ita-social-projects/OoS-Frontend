@@ -148,16 +148,16 @@ export class DraftSendForModeration {
   constructor(public id: string) {}
 }
 
-export class OnDraftSendForModerationFail {
-  static readonly type = '[provider] send for Moderation fail';
-
-  constructor(public payload: HttpErrorResponse) {}
-}
-
 export class OnDraftSendForModerationSuccess {
   static readonly type = '[provider] send for Moderation success';
 
   constructor(public payload: void) {}
+}
+
+export class OnDraftSendForModerationFail {
+  static readonly type = '[provider] send for Moderation fail';
+
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetWorkshopListByEmployeeId {

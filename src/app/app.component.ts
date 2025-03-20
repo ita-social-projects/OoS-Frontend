@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
-  private readonly ignoreScrollToTopRoutes = ['/result'];
+  private readonly ignoreScrollToTopRoutes = ['/result', '/details'];
 
   constructor(
     private store: Store,

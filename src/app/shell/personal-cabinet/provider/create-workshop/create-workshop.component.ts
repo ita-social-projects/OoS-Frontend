@@ -158,10 +158,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.editMode = false;
     } else {
       switch (this.route.snapshot.paramMap.get('entity')) {
-        case WorkshopType1.Workshop:
+        case WorkshopType1.Workshop.toLowerCase():
           this.store.dispatch(new GetWorkshopById(param));
           break;
-        case WorkshopType1.Draft:
+        case WorkshopType1.Draft.toLowerCase():
           this.store.dispatch(new GetWorkshopDraftById(param));
           break;
       }

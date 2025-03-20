@@ -11,18 +11,16 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { WorkshopCardParameters, WorkshopDraftCard, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
-  DeleteWorkshopById,
   DeleteWorkshopDraftById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshopDrafts,
-  OnUpdateWorkshopStatusSuccess
+  OnDraftSendForModerationSuccess
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
-import { HttpClient } from '@angular/common/http';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -70,15 +68,15 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
    */
   public initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
-    this.getProviderWorkshops();
+    this.getProviderDrafts();
 
     this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopDraftCard[]>) => {
       this.workshopDrafts = workshopDrafts;
     });
     this.actions$
-      .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
+      .pipe(ofAction(OnDraftSendForModerationSuccess))
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.getProviderWorkshops());
+      .subscribe(() => this.getProviderDrafts());
   }
 
   /**
@@ -104,7 +102,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getProviderWorkshops();
+    this.getProviderDrafts();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -116,11 +114,12 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     return item.workshopDraftId;
   }
 
-  private getProviderWorkshops(): void {
+  private getProviderDrafts(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshopDrafts?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshopDrafts(this.workshopCardParameters));
     } else {
+      // TODO: delete?
       this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
   }

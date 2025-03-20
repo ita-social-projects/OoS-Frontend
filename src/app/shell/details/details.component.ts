@@ -1,7 +1,7 @@
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
@@ -19,7 +19,9 @@ import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetProviderById, GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { WorkshopType, WorkshopType1 } from 'shared/enum/workshop';
+import { WorkshopType1 } from 'shared/enum/workshop';
+import { Util } from 'shared/utils/utils';
+import { WINDOW } from 'ngx-window-token';
 
 @Component({
   selector: 'app-details',
@@ -56,6 +58,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    @Inject(WINDOW) private window: Window,
     private store: Store,
     private route: ActivatedRoute,
     public navigationBarService: NavigationBarService
@@ -67,10 +70,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       this.workshopType = params.entity; //TODO: add type for competition
       this.getEntity(params.id);
 
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      Util.scrollToTop(this.window);
     });
 
     this.setDataSubscription();

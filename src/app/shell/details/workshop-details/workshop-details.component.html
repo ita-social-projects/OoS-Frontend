@@ -10,7 +10,10 @@
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
-      <a [routerLink]="['/create-workshop', workshop.id]" class="btn btn-cancel" mat-button>
+      <a
+        [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
+        class="btn btn-cancel"
+        mat-button>
         {{ 'BUTTONS.EDIT' | translate | uppercase }}
       </a>
       <button

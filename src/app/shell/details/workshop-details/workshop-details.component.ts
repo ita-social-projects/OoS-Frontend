@@ -73,7 +73,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private readonly route: ActivatedRoute,
+    protected readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly imagesService: ImagesService,
     private readonly store: Store,

@@ -79,11 +79,7 @@
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
     <div
       class="actions_btn action-icon"
-      [routerLink]="[
-        '/create',
-        Util.isWorkshop(workshopData) ? 'workshop' : 'draft',
-        Util.isWorkshop(workshopData) ? workshopData.id : workshopData.workshopDraftId
-      ]">
+      [routerLink]="['/create', workshopData.id ? 'workshop' : 'draft', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
       <mat-icon>edit</mat-icon>
     </div>
     <div class="actions_btn action-icon" (click)="onDelete()">
