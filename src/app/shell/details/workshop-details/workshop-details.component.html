@@ -14,9 +14,10 @@
         {{ 'BUTTONS.EDIT' | translate | uppercase }}
       </a>
       <button
+        *ngIf="!Util.isWorkshop(workshop)"
         class="btn"
-        [disabled]="workshop.status !== workshopStatus.Draft"
-        (click)="onActionButtonClick(modalType.publishWorkshop)"
+        [disabled]="workshop.draftStatus !== WorkshopType1.Draft"
+        (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
         mat-button>
         {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
       </button>

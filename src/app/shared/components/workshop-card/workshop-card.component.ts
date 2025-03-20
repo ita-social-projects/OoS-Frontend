@@ -157,7 +157,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onSendForModeration(id: number, type: ModalConfirmationType): void {
+  public onSendForModeration(id: string, type: ModalConfirmationType): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {

@@ -101,7 +101,7 @@ export class UserWorkshopService {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
-  public sendDraftForModeration(id: number): Observable<any> {
+  public sendDraftForModeration(id: string): Observable<void> {
     return this.http.put<void>(`/api/v2/WorkshopDraft/SendForModeration/${id}`, {});
   }
 
@@ -173,6 +173,7 @@ export class UserWorkshopService {
     return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
   }
 
+  // TODO: deprecated?
   public publishWorkshop(id: string): Observable<void> {
     return this.http.put<void>('/api/v1/Workshop/Publish', id);
   }

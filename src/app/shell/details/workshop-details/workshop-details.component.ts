@@ -10,18 +10,19 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopOpenStatus, WorkshopType1 } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { PublishWorkshop, ResetAchievements } from 'shared/store/provider.actions';
+import { DraftSendForModeration, ResetAchievements } from 'shared/store/provider.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-details',
@@ -64,6 +65,10 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public selectedIndex: number;
   public tabIndex: number;
   public coverImage: string;
+
+  protected readonly Util = Util;
+  protected readonly WorkshopType1 = WorkshopType1;
+  protected readonly ModalConfirmationType = ModalConfirmationType;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -115,8 +120,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       .pipe(
         filter(Boolean),
         switchMap(() => {
-          if (modalType === this.modalType.publishWorkshop) {
-            return this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
+          if (modalType === ModalConfirmationType.draftSet) {
+            return this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
           }
         })
       )
