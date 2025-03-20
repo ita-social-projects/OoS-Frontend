@@ -28,8 +28,6 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <div class="border-bottom"></div>
-
   <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <div class="flex flex-row justify-start">
     <div class="flex flex-col justify-start items-start">
@@ -112,7 +110,11 @@
       </div>
     </div>
     <div class="pay-type__error">
-      <app-validation-hint [validationFormControl]="priceControl"></app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="priceControl"
+        [isPrice]="true"
+        [minValue]="validationConstants.MIN_PRICE"
+        [maxValue]="validationConstants.MAX_PRICE"></app-validation-hint>
       <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
     </div>
   </mat-radio-group>
@@ -129,7 +131,14 @@
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
           <mat-radio-button [value]="false">
-            <input matInput class="step-input price-input" appDigitOnly formControlName="availableSeats" type="number" />
+            <input
+              matInput
+              class="step-input price-input"
+              appDigitOnly
+              formControlName="availableSeats"
+              type="number"
+              [min]="minSeats"
+              [max]="validationConstants.MAX_SEATS" />
           </mat-radio-button>
           <app-info-menu
             *ngIf="isShowHintAboutWorkshopAutoClosing"

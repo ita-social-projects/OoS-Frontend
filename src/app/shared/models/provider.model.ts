@@ -183,6 +183,7 @@ export interface ProviderParameters extends PaginationParameters {
   searchString?: string;
   providerId?: string;
   excludedWorkshopId?: string;
+  excludedCompetitionId?: string;
   institutionId?: string;
   catottgId?: string;
 }

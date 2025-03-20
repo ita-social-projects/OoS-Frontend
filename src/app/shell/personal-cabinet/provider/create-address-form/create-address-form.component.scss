@@ -2,6 +2,10 @@
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/dropdown.scss';
 
+:host {
+  margin: 5px 0;
+}
+
 :host ::ng-deep .mat-form-field-wrapper,
 :host ::ng-deep .mat-form-field-infix {
   padding: 0;
@@ -31,6 +35,7 @@ h4 {
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
   border: 1px solid #e3e3e3;
+  margin-top: 5px;
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
@@ -38,18 +43,13 @@ h4 {
   margin-bottom: 10px;
 }
 
-.step-input {
-  margin-top: 5px;
-  margin-bottom: 10px;
+.input-wrapper {
+  padding: 0.5rem 0;
 }
 
 .redBorder {
   outline: none;
   border: 1px solid #c72a21;
-}
-
-.input-wrapper {
-  padding: 0.5rem 0;
 }
 
 .option-sub-text {

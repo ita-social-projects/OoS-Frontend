@@ -5,6 +5,7 @@ import { ProviderApplicationsComponent } from './provider-applications/provider-
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { NotEmployeeGuard } from './not-employee.guard';
+import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 import { ProviderPositionsComponent } from './provider-positions/provider-positions.component';
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
 import { ProviderStudySubjectsComponent } from './provider-study-subjects/provider-study-subjects.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'applications', component: ProviderApplicationsComponent },
   { path: 'provider-employees', component: ProviderEmployeesComponent },
   { path: 'positions', component: ProviderPositionsComponent },
+  { path: 'competitions', component: ProviderCompetitionComponent },
   { path: 'study-subjects', component: ProviderStudySubjectsComponent }
 ];
 

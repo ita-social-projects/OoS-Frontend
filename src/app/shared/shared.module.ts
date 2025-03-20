@@ -11,11 +11,13 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
+import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 // eslint-disable-next-line max-len
 import { WorkingHoursFormComponent } from '../shell/personal-cabinet/provider/create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
+import { CreateAddressFormComponent } from '../shell/personal-cabinet/provider/create-address-form/create-address-form.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
@@ -84,6 +86,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
+import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 
 @NgModule({
   declarations: [
@@ -160,7 +164,11 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     ScrollToTopComponent,
     DateInputDirective,
     ServerErrorPageComponent,
-    TimeRemainingPipe
+    TimeRemainingPipe,
+    StepperDirective,
+    CompetitionCardComponent,
+    CreateContactsComponent,
+    CreateAddressFormComponent
   ],
 
   imports: [
@@ -247,7 +255,11 @@ import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
     ScrollToTopComponent,
     DateInputDirective,
     ServerErrorPageComponent,
-    TimeRemainingPipe
+    TimeRemainingPipe,
+    StepperDirective,
+    CompetitionCardComponent,
+    CreateContactsComponent,
+    CreateAddressFormComponent
   ]
 })
 export class SharedModule {}

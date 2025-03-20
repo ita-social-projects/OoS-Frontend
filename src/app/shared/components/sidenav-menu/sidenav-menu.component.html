@@ -50,6 +50,9 @@
             <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate
             }}</a>
+            <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/competitions'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.MY_COMPETITIONS' | translate
+            }}</a>
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>

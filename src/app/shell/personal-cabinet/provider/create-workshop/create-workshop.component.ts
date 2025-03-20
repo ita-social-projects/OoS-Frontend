@@ -10,10 +10,9 @@ import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop, WorkshopAbout, Contacts } from 'shared/models/workshop.model';
+import { Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -32,6 +31,7 @@ import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { Address } from 'shared/models/address.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -54,7 +54,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
   public workshop: Workshop;
 
@@ -93,9 +93,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
     return (
-      (!this.AboutFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.WorkshopContactsFormArray.dirty) ||
+      (!this.AboutFormGroup.dirty &&
+        !this.AdditionalAboutGroup.dirty &&
+        !this.DescriptionFormGroup.dirty &&
+        !this.WorkshopContactsFormArray.dirty) ||
       // && !this.TeacherFormArray?.dirty
       this.AboutFormGroup.invalid ||
+      this.AdditionalAboutGroup.invalid ||
       this.DescriptionFormGroup.invalid ||
       this.WorkshopContactsFormArray.invalid
       // || this.TeacherFormArray?.invalid
@@ -162,6 +166,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
+    if (formGroup.invalid) {
+      return;
+    }
     const param = this.getRouteParam();
     if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
       return;
@@ -191,7 +198,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         if (stepToGo !== -1 && this.stepper) {
           this.stepper.selectedIndex = stepToGo;
         }
-      });
+      }, 1000);
     });
   }
 

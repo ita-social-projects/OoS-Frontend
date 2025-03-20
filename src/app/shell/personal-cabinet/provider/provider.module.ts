@@ -9,7 +9,6 @@ import { GeolocationService } from 'shared/services/geolocation/geolocation.serv
 import { SharedModule } from 'shared/shared.module';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
-import { CreateAddressFormComponent } from './create-address-form/create-address-form.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { CreateContactsFormComponent } from './create-provider/create-contacts-form/create-contacts-form.component';
 import { CreateInfoFormComponent } from './create-provider/create-info-form/create-info-form.component';
@@ -21,7 +20,6 @@ import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about
 import { CreateDescriptionFormComponent } from './create-workshop/create-description-form/create-description-form.component';
 import { CreateTeacherComponent } from './create-workshop/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
-import { CreateWorkshopAddressComponent } from './create-workshop/create-workshop-address/create-workshop-address.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
@@ -36,11 +34,16 @@ import { ProviderPositionsComponent } from './provider-positions/provider-positi
 import { CreatePositionComponent } from './create-position/create-position.component';
 import { CreatePositionFormComponent } from './create-position/position-form/create-position-form.component';
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
+import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateRequiredFormComponent } from './create-competition/create-required-form/create-required-form.component';
+import { CreateCompetitionDescriptionFormComponent } from './create-competition/create-competition-description-form/create-competition-description-form.component';
+import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
+import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
+import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
-    CreateWorkshopAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
     CreateWorkshopComponent,
@@ -56,15 +59,20 @@ import { ProviderEmployeesComponent } from './provider-employees/provider-employ
     ProviderApplicationsComponent,
     ProviderWorkshopsComponent,
     WorkingHoursFormWrapperComponent,
-    CreateAddressFormComponent,
     ProviderEmployeesUploadComponent,
     ProviderStudySubjectsComponent,
     CreateStudySubjectComponent,
+    CreateCompetitionComponent,
+    CreateRequiredFormComponent,
     CreateAdditionalAboutFormComponent,
     ProviderPositionsComponent,
     CreatePositionComponent,
     CreatePositionFormComponent,
-    ProviderEmployeesComponent
+    ProviderEmployeesComponent,
+    CreateCompetitionDescriptionFormComponent,
+    CreateJudgeComponent,
+    JudgeFormComponent,
+    ProviderCompetitionComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +84,6 @@ import { ProviderEmployeesComponent } from './provider-employees/provider-employ
     FormsModule,
     TranslateModule
   ],
-
   providers: [DatePipe, GeolocationService]
 })
 export class ProviderModule {}

@@ -14,8 +14,8 @@ export class Constants {
   static readonly CHILDREN_AMOUNT_MAX = 20;
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
-  static readonly WORKSHOP_MIN_SEATS = 1;
-  static readonly WORKSHOP_UNLIMITED_SEATS = 4294967295;
+  static readonly MIN_SEATS = 1;
+  static readonly UNLIMITED_SEATS = 4294967295;
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
@@ -76,6 +76,7 @@ export class PaginationConstants {
   };
   static readonly ACHIEVEMENTS_PER_PAGE = 12;
   static readonly WORKSHOPS_PER_PAGE = 12;
+  static readonly COMPETITIONS_PER_PAGE = 12;
   static readonly DIRECTIONS_PER_PAGE = 12;
   static readonly APPLICATIONS_PER_PAGE = 8;
   static readonly CHILDREN_PER_PAGE = 8;
@@ -153,6 +154,7 @@ export class ModeConstants {
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
   static readonly UNFINISHED = 'unfinished';
+  static readonly COMPETITION = 'competition';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

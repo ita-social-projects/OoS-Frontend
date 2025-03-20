@@ -27,12 +27,14 @@ import { UserWorkshopService } from 'shared/services/workshops/user-workshop/use
 import { PositionService } from 'shared/services/position/position.service';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
 import { LanguageListService } from 'shared/services/language-list/language-list.service';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
+import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -51,6 +53,7 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
+  providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
@@ -74,6 +77,7 @@ export interface ProviderStateModel {
     achievements: null,
     selectedAchievement: null,
     providerWorkshops: null,
+    providerCompetition: null,
     officialEmployees: null,
     selectedEmployee: null,
     blockedParent: null,
@@ -94,6 +98,7 @@ export class ProviderState {
     private readonly achievementsService: AchievementsService,
     private readonly router: Router,
     private readonly userWorkshopService: UserWorkshopService,
+    private readonly userCompetitionService: UserCompetitionService,
     private readonly employeeService: EmployeeService,
     private readonly providerService: ProviderService,
     private readonly applicationService: ApplicationService,
@@ -126,6 +131,11 @@ export class ProviderState {
   @Selector()
   static providerWorkshops(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
     return state.providerWorkshops;
+  }
+
+  @Selector()
+  static providerCompetition(state: ProviderStateModel): SearchResponse<CompetitionProviderViewCard[]> {
+    return state.providerCompetition;
   }
 
   @Selector()
@@ -370,6 +380,21 @@ export class ProviderState {
       .pipe(
         tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
+  @Action(providerActions.GetProviderViewCompetitions)
+  getProviderViewCompetitions(
+    { patchState }: StateContext<ProviderStateModel>,
+    { competitionCardParameters }: providerActions.GetProviderViewCompetitions
+  ): Observable<SearchResponse<CompetitionProviderViewCard[]>> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService
+      .getProviderViewCompetitions(competitionCardParameters)
+      .pipe(
+        tap((providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>) =>
+          patchState({ providerCompetition: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -995,6 +1020,93 @@ export class ProviderState {
   @Action(providerActions.OnGetPositionByIdFail)
   onGetPositionByIdFail({ dispatch }: StateContext<ProviderStateModel>, payload: providerActions.OnDeletePositionFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.positionByIdNotFound, type: 'error' }));
+  }
+
+  @Action(providerActions.CreateCompetition)
+  createCompetition(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.CreateCompetition
+  ): Observable<Competition | void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.createCompetition(payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnCreateCompetitionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateCompetitionFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnCreateCompetitionFail)
+  onCreateCompetitionFail(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateCompetitionFail
+  ): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.OnCreateCompetitionSuccess)
+  onCreateCompetitionSuccess(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnCreateCompetitionSuccess
+  ): void {
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createCompetition);
+    patchState({ isLoading: false });
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['./personal-cabinet/provider/competitions']);
+  }
+
+  @Action(providerActions.UpdateCompetition)
+  updateCompetition(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.UpdateCompetition
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.updateCompetition(payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnUpdateCompetitionSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateCompetitionFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnUpdateCompetitionSuccess)
+  onUpdateCompetitionSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnUpdateCompetitionSuccess
+  ): void {
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.updateCompetition);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['/personal-cabinet/provider/competitions']);
+  }
+
+  @Action(providerActions.OnUpdateCompetitionFail)
+  onUpdateCompetitionFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateCompetitionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.DeleteCompetitionById)
+  deleteCompetitionById(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { competition, parameters }: providerActions.DeleteCompetitionById
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.deleteCompetitionById(competition.id).pipe(
+      tap(() => dispatch(new providerActions.DeleteCompetitionByIdSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.DeleteCompetitionByIdFail(error)))
+    );
+  }
+
+  @Action(providerActions.DeleteCompetitionByIdSuccess)
+  deleteCompetitionByIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { competition }: providerActions.DeleteCompetitionByIdSuccess
+  ): void {
+    const messageData = Util.getWorkshopMessage(competition, SnackbarText.deleteCompetition);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: messageData.message, type: messageData.type }),
+      new providerActions.GetProviderViewCompetitions(competition)
+    ]);
+  }
+
+  @Action(providerActions.DeleteCompetitionByIdFail)
+  deleteCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>, { error }: providerActions.DeleteCompetitionByIdFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnSaveWorkshopStep)

@@ -201,4 +201,9 @@ describe('CreateDescriptionFormComponent', () => {
 
     expect(component.DescriptionFormGroup.dirty).toBe(true);
   });
+
+  it('should mark tagsControl as touched on tagIds touch', () => {
+    component.DescriptionFormGroup.get('tagIds').markAsTouched();
+    expect(component.tagsControl.touched).toEqual(true);
+  });
 });

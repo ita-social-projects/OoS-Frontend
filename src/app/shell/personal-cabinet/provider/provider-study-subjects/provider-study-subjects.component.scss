@@ -93,11 +93,6 @@ table {
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
 
-  mat-form-field {
-    pointer-events: none;
-    max-width: 90%;
-  }
-
   mat-datepicker-toggle {
     pointer-events: all;
   }
@@ -126,30 +121,52 @@ table {
   display: flex;
 }
 
-.date {
-  min-width: 115px;
-  background: #ffffff;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  box-sizing: border-box;
-}
-
 :host ::ng-deep .date {
   width: 100%;
   max-width: 250px;
-  padding: 0 1rem 0.35rem;
+  padding: 0 16px 0 3px;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 18px;
+  height: 40px;
+  min-width: 100px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-sizing: border-box; 
+  align-items: center;
 
   .mat-form-field-flex {
     background-color: transparent;
     padding: 0;
   }
-}
 
-.date {
-  font-style: normal;
-  font-size: 13px;
-  line-height: 18px;
-  height: 40px;
+  .mat-mdc-button-touch-target {
+    width: 40px;
+    height: 40px;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    padding-left: 16px;
+  }
+
+  .mat-date-range-input-container {
+    margin-top: 10px;
+  }
+
+  .mdc-floating-label {
+    top: 18px; 
+    width: 100%;
+    &--float-above {
+      transform: translateY(-90%) scale(0.75);
+    }
+  }
+
+  .mat-datepicker-toggle-default-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 ::ng-deep .mat-form-field.mat-focused.mat-primary,
