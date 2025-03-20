@@ -17,7 +17,7 @@ import { Employee } from 'shared/models/employee.model';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraftCard, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft, WorkshopDraftCard, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
@@ -511,14 +511,6 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  // @Action(providerActions.SaveWorkshopDraft)
-  // saveWorkshopDraft(
-  //   { dispatch }: StateContext<ProviderStateModel>,
-  //   { payload }: providerActions.SaveWorkshopDraft
-  // ): Observable<Workshop | void> {
-  //
-  // }
-
   @Action(providerActions.DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { id, parameters }: providerActions.DeleteWorkshopById): Observable<void> {
     return this.userWorkshopService.deleteWorkshop(id).pipe(
@@ -527,8 +519,38 @@ export class ProviderState {
     );
   }
 
-  @Action(providerActions.OnDeleteWorkshopFail)
-  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+  @Action(providerActions.UpdateDraft)
+  updateDraft({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.UpdateDraft): Observable<WorkshopDraft | void> {
+    return this.userWorkshopService.updateDraft(payload).pipe(
+      tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateWorkshopSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
+    );
+  }
+
+  @Action(providerActions.DeleteWorkshopDraftById)
+  deleteDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload, parameters }: providerActions.DeleteWorkshopDraftById
+  ): Observable<void> {
+    return this.userWorkshopService.deleteWorkshopDraft(payload.workshopDraftId).pipe(
+      tap(() => dispatch(new providerActions.OnDeleteDraftSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteDraftSuccess)
+  onDeleteDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteDraftSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteDraft,
+        type: 'success'
+      }),
+      new providerActions.GetProviderViewWorkshopDrafts(parameters)
+    ]);
+  }
+
+  @Action(providerActions.OnDeleteDraftFail)
+  onDeleteDraftFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteDraftFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -541,6 +563,11 @@ export class ProviderState {
       }),
       new providerActions.GetProviderViewWorkshops(parameters)
     ]);
+  }
+
+  @Action(providerActions.OnDeleteWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(providerActions.PublishWorkshop)

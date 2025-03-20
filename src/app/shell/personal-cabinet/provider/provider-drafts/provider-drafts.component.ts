@@ -15,6 +15,7 @@ import { WorkshopCardParameters, WorkshopDraftCard, WorkshopProviderViewCard } f
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   DeleteWorkshopById,
+  DeleteWorkshopDraftById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshopDrafts,
   OnUpdateWorkshopStatusSuccess
@@ -84,7 +85,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
    * This method delete workshop By Workshop Id
    * @param workshop
    */
-  public onDelete(workshop: WorkshopProviderViewCard): void {
+  public onDelete(workshop: WorkshopDraftCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -96,8 +97,8 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((result: boolean) => {
-        this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
+      .subscribe(() => {
+        this.store.dispatch(new DeleteWorkshopDraftById(workshop, this.workshopCardParameters));
       });
   }
 
@@ -111,12 +112,15 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     this.onPageChange(PaginationConstants.firstPage);
   }
 
+  public trackByDraft(index: number, item: WorkshopDraftCard): string {
+    return item.workshopDraftId;
+  }
+
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshopDrafts?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshopDrafts(this.workshopCardParameters));
     } else {
-      // TODO: do for employees
       this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
   }

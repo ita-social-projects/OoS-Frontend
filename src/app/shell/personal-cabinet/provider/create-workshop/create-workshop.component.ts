@@ -20,6 +20,7 @@ import {
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,
+  UpdateDraft,
   UpdateWorkshop
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -231,10 +232,17 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     let workshop: Workshop;
 
-    // TODO: change for drafts
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
-      this.store.dispatch(new UpdateWorkshop(workshop));
+      const param = this.getRouteParam();
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, param);
+      switch (this.route.snapshot.paramMap.get('entity')) {
+        case WorkshopType1.Workshop:
+          this.store.dispatch(new UpdateWorkshop(workshop));
+          break;
+        case WorkshopType1.Draft:
+          this.store.dispatch(new UpdateDraft(workshop));
+          break;
+      }
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));

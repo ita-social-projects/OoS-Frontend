@@ -84,6 +84,7 @@
 
 .wrap-for-details,
 .mat-mdc-card-content {
+  display: flex;
   flex: 1;
 }
 
@@ -107,6 +108,29 @@
 
   &:hover {
     opacity: 0.5;
+  }
+}
+
+.admin-response {
+  min-height: 2rem;
+}
+
+.rejection-message {
+  background: #ff000077;
+
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 4px;
+
+  &-wrapper {
+    font-family: Innerspace, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 }
 

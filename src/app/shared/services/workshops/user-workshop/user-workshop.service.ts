@@ -124,13 +124,23 @@ export class UserWorkshopService {
     }
   }
 
-  // TODO: deprecated?
-  // public createWorkshopDraftV1(workshop: Workshop): Observable<Workshop> {
-  //   return this.http.post<Workshop>('/api/v1/WorkshopDraft/Create', workshop);
-  // }
-
   public createWorkshopDraftV2(workshop: Workshop): Observable<Workshop> {
     return this.http.post<Workshop>('/api/v2/WorkshopDraft/Create', this.createFormData(workshop));
+  }
+
+  public updateDraft(draft: Workshop): Observable<WorkshopDraft> {
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    if (this.isImagesFeature) {
+      return this.updateDraftV2(draft);
+    }
+  }
+
+  public updateDraftV2(draft: Workshop): Observable<WorkshopDraft> {
+    return this.http.put<WorkshopDraft>('/api/v2/WorkshopDraft/Update', this.createFormData(draft));
+  }
+
+  public deleteWorkshopDraft(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/WorkshopDraft/Delete/${id}`);
   }
 
   /**

@@ -7,7 +7,14 @@ import { Position, PositionParameters } from 'shared/models/position.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
-import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  Workshop,
+  WorkshopCardParameters,
+  WorkshopDraft,
+  WorkshopDraftCard,
+  WorkshopProviderViewCard,
+  WorkshopStatus
+} from 'shared/models/workshop.model';
 import {
   WorkshopContacts,
   WorkshopDescription,
@@ -137,11 +144,6 @@ export class GetWorkshopListByEmployeeId {
   constructor(public id: string) {}
 }
 
-export class CreateWorkshopDraft {
-  static readonly type = '[provider] create Workshop Draft';
-  constructor(public payload: Workshop) {}
-}
-
 export class OnCreateWorkshopFail {
   static readonly type = '[provider] create Workshop fail';
   constructor(public payload: HttpErrorResponse) {}
@@ -167,11 +169,6 @@ export class OnUpdateWorkshopSuccess {
   constructor(public payload: Workshop) {}
 }
 
-export class SaveWorkshopDraft {
-  static readonly type = '[provider] save draft Workshop';
-  constructor(public payload: Workshop) {}
-}
-
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
   constructor(
@@ -187,6 +184,34 @@ export class OnDeleteWorkshopSuccess {
 
 export class OnDeleteWorkshopFail {
   static readonly type = '[provider] delete Workshop fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class CreateWorkshopDraft {
+  static readonly type = '[provider] create Draft';
+  constructor(public payload: Workshop) {}
+}
+
+export class UpdateDraft {
+  static readonly type = '[provider] update Draft';
+  constructor(public payload: Workshop) {}
+}
+
+export class DeleteWorkshopDraftById {
+  static readonly type = '[provider] delete Draft';
+  constructor(
+    public payload: WorkshopDraftCard,
+    public parameters: WorkshopCardParameters
+  ) {}
+}
+
+export class OnDeleteDraftSuccess {
+  static readonly type = '[provider] delete Draft success';
+  constructor(public parameters: WorkshopCardParameters) {}
+}
+
+export class OnDeleteDraftFail {
+  static readonly type = '[provider] delete Draft fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 

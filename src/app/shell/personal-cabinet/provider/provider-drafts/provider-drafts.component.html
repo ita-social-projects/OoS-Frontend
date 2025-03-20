@@ -9,7 +9,7 @@
   <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount">
     <app-workshop-card
       class="card"
-      *ngFor="let workshopDraft of workshopDrafts.entities"
+      *ngFor="let workshopDraft of workshopDrafts.entities; trackBy: trackByDraft"
       [workshop]="workshopDraft"
       [isCabinetView]="true"
       (deleteWorkshop)="onDelete($event)">
