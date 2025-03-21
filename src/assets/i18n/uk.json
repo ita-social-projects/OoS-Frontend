@@ -995,6 +995,8 @@
       "POSITION_DELETED_SUCCESS": "Посаду успішно видалено!",
       "POSITION_BY_TITLE_NOT_FOUND": "Не знайдено жодної посади",
       "POSITION_NOT_FOUND": "Посаду не знайдено",
+      "DRAFT_REJECTED_SUCCESS": "Зміни запрошено!",
+      "DRAFT_APPROVED_SUCCESS": "Гурток підтверджено!",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",

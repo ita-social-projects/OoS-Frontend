@@ -9,7 +9,7 @@ import { OwnershipTypes, InstitutionTypes, CreateProviderSteps } from 'shared/en
 import { Role } from 'shared/enum/role';
 import { LicenseStatuses } from 'shared/enum/statuses';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
-import { WorkshopDraft } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -25,7 +25,7 @@ import { Codeficator } from 'shared/models/codeficator.model';
   styleUrls: ['./workshop-info.component.scss']
 })
 export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
-  @Input() public workshop: WorkshopDraft;
+  @Input() public workshop: Workshop;
   @Input() public isWorkshopView: boolean;
 
   @Output() public tabChanged = new EventEmitter();
@@ -54,7 +54,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   public readonly coverageEnum = CoverageEnum;
 
   public workshopDirection: Direction;
-  public workshopCodeficator: Codeficator;
   public role: Role;
   public editLink: string = CreateProviderSteps[0];
   public destroy$: Subject<boolean> = new Subject<boolean>();
@@ -75,7 +74,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.workshopCodeficator$.pipe(takeUntil(this.destroy$)).subscribe((codeficator) => (this.workshopCodeficator = codeficator));
     this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
   }
 

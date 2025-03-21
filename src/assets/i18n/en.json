@@ -1003,6 +1003,8 @@
       "POSITION_DELETED_SUCCESS": "Position successfully deleted!",
       "POSITION_BY_TITLE_NOT_FOUND": "No position found",
       "POSITION_NOT_FOUND": "Position not found",
+      "DRAFT_REJECTED_SUCCESS": "Changes requested successfully!",
+      "DRAFT_APPROVED_SUCCESS": "Workshop approved!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",

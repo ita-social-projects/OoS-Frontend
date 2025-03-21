@@ -114,13 +114,13 @@
         <p>{{ 'NOT_AVAILABLE' | translate }}</p>
       </ng-template>
 
-      <ng-container *ngIf="workshop.tags?.length">
+      <ng-container *ngIf="workshop.tags">
         <h5>{{ 'FORMS.LABELS.USER_TAGS' | translate }}</h5>
         <div *ngFor="let item of workshop.tags">
           <p>{{ item }}</p>
         </div>
       </ng-container>
-      
+
       <ng-container *ngIf="workshop.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
         <div *ngFor="let item of workshop.keywords">
@@ -173,17 +173,54 @@
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
-      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
-      <ng-container *ngIf="workshopCodeficator">
-        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-        <p>{{ workshopCodeficator.fullName }}</p>
-        <h5 *ngIf="workshopCodeficator.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
-        <p>{{ workshopCodeficator.cityDistrict }}</p>
-        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-        <p>{{ workshop.address?.street }}</p>
+      <div *ngFor="let contact of workshop.contacts">
+        <h3 *ngIf="contact.isDefault">{{ 'FORMS.LABELS.DEFAULT_ADDRESS' | translate }}</h3>
+        <h3>{{ 'FORMS.LABELS.ADDRESS_TITLE' | translate }}</h3>
         <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-        <p>{{ workshop.address?.buildingNumber }}</p>
-      </ng-container>
+
+        <h3>{{ 'FORMS.LABELS.ADDRESS' | translate }}</h3>
+        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
+        <p>{{ contact.address.street }}</p>
+        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+        <p>{{ contact.address.buildingNumber }}</p>
+
+        <ng-container *ngIf="contact.address.codeficatorAddressDto">
+          <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
+          <p>{{ contact.address.codeficatorAddressDto.settelment }}</p>
+          <ng-container *ngIf="contact.address.codeficatorAddressDto.cityDistrict">
+            <h5>{{ 'CITY_DISTRICT' | translate }}</h5>
+            <p>{{ contact.address.codeficatorAddressDto.cityDistrict }}"</p>
+          </ng-container>
+        </ng-container>
+
+        <div *ngFor="let phone of contact.phones">
+          <h5>{{ 'FORMS.LABELS.PHONE_TYPE' | translate }}</h5>
+          <p>{{ phone.type }}</p>
+          <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
+          <p>{{ phone.number }}</p>
+        </div>
+        
+        <div *ngFor="let email of contact.emails">
+          <h5>{{ 'FORMS.LABELS.EMAIL_TYPE' | translate }}</h5>
+          <p>{{ email.type }}</p>
+          <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
+          <p>{{ email.number }}</p>
+        </div>
+
+        <div *ngFor="let email of contact.emails">
+          <h5>{{ 'FORMS.LABELS.EMAIL_TYPE' | translate }}</h5>
+          <p>{{ email.type }}</p>
+          <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
+          <p>{{ email.number }}</p>
+        </div>
+
+        <div *ngFor="let socialNetwork of contact.socialNetworks">
+          <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+          <p>{{ socialNetwork.type }}</p>
+          <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
+          <a>{{ socialNetwork.url }}</a>
+        </div>
+      </div>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}"> </mat-tab>
