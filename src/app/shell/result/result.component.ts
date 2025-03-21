@@ -157,14 +157,20 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setPageParam(): void {
-    const paginationParam = this.route.snapshot.queryParamMap.get('pagination');
-    const [page, size] = paginationParam ? paginationParam.split(',').map(Number) : [1, PaginationConstants.WORKSHOPS_PER_PAGE];
-    this.currentPage = { element: page, isActive: true };
-    this.paginationParameters.size = PaginationConstants.ITEMS_PER_PAGE.includes(size) ? size : PaginationConstants.WORKSHOPS_PER_PAGE;
-    Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
-    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
-    const filterParam = this.route.snapshot.queryParamMap.get('filter') || null;
-    this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParam)));
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.destroy$),
+        map((param) => param.pagination)
+      )
+      .subscribe((paginationParam) => {
+        const [page, size] = paginationParam ? paginationParam.split(',').map(Number) : [1, PaginationConstants.WORKSHOPS_PER_PAGE];
+        this.currentPage = { element: page, isActive: true };
+        this.paginationParameters.size = PaginationConstants.ITEMS_PER_PAGE.includes(size) ? size : PaginationConstants.WORKSHOPS_PER_PAGE;
+        Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
+        this.store.dispatch(new SetFilterPagination(this.paginationParameters));
+        const filterParam = this.route.snapshot.queryParamMap.get('filter') || null;
+        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParam)));
+      });
   }
 
   private setFiltersFromQueryParams(): void {
