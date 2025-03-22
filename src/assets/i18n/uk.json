@@ -541,7 +541,10 @@
       "INSTITUTION_HIERARCHY": "Профіль/наукове відділення",
       "INSTITUTION": "Підпорядкування",
       "DIRECTION": "Назва напрямку",
-      "COST": "Вартість"
+      "COST": "Вартість",
+      "EMAILS": "Електронні адреси",
+      "PHONE_NUMBERS": "Номери телефонів",
+      "LINK": "Посилання"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",

@@ -1,10 +1,5 @@
 <div class="wrapper">
-  <div *ngIf="(isWorkshopView && role === Role.provider) || role === Role.providerDeputy" class="flex flex-row justify-end">
-    <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
-      <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
-    </a>
-  </div>
-  <div *ngIf="isWorkshopView" class="justify-end">
+  <div *ngIf="isWorkshopView" class="justify-end flex">
     <a (click)="onCloseInfo()" class="close-icon">
       <mat-icon>close</mat-icon>
     </a>
@@ -18,33 +13,12 @@
       <h5>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</h5>
       <p>{{ workshop.shortTitle }}</p>
 
-      <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
-      <p>{{ workshop.phone | phone }}</p>
-
-      <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
-      <p>{{ workshop.email }}</p>
-
-      <ng-container *ngIf="workshop.website">
-        <h5>{{ 'FORMS.LABELS.WEBSITE' | translate }}</h5>
-        <p>{{ workshop.website }}</p>
-      </ng-container>
-
-      <ng-container *ngIf="workshop.facebook">
-        <h5>{{ 'FORMS.LABELS.FACEBOOK' | translate }}</h5>
-        <p>{{ workshop.facebook }}</p>
-      </ng-container>
-
-      <ng-container *ngIf="workshop.instagram">
-        <h5>{{ 'FORMS.LABELS.INSTAGRAM' | translate }}</h5>
-        <p>{{ workshop.instagram }}</p>
-      </ng-container>
-
       <h5>{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</h5>
       <p>{{ ('FROM' | translate) + ' ' + workshop.minAge + ' ' + ('TO' | translate) + ' ' + workshop.maxAge }}</p>
 
       <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
       <div *ngFor="let timeRange of workshop.dateTimeRanges">
-        <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
+        <div class="flex flex-row justify-start items-center gap-4 my-[13px] xs:flex-col xs:justify-center xs:items-start">
           <div class="flex flex-row justify-between">
             <div
               *ngFor="let day of days"
@@ -54,8 +28,8 @@
             </div>
           </div>
           <div class="flex flex-row justify-center items-center">
-            <p class="text">{{ timeRange.startTime }}</p>
-            <p class="text">- {{ timeRange.endTime }}</p>
+            <p class="text !m-0">{{ timeRange.startTime }}</p>
+            <p class="text !m-0">- {{ timeRange.endTime }}</p>
           </div>
         </div>
       </div>
@@ -114,13 +88,6 @@
         <p>{{ 'NOT_AVAILABLE' | translate }}</p>
       </ng-template>
 
-      <ng-container *ngIf="workshop.tags">
-        <h5>{{ 'FORMS.LABELS.USER_TAGS' | translate }}</h5>
-        <div *ngFor="let item of workshop.tags">
-          <p>{{ item }}</p>
-        </div>
-      </ng-container>
-
       <ng-container *ngIf="workshop.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
         <div *ngFor="let item of workshop.keywords">
@@ -173,56 +140,73 @@
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
-      <div *ngFor="let contact of workshop.contacts">
-        <h3 *ngIf="contact.isDefault">{{ 'FORMS.LABELS.DEFAULT_ADDRESS' | translate }}</h3>
-        <h3>{{ 'FORMS.LABELS.ADDRESS_TITLE' | translate }}</h3>
-        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+      <div *ngIf="!workshop.contacts.length" style="justify-content: center" class="add-wrapper flex flex-row">
+        <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
+      </div>
+      <div *ngFor="let contact of workshop.contacts" class="gap-4 flex flex-col">
+        <mat-expansion-panel class="max-w-[600px]">
+          <mat-expansion-panel-header>
+            <h3 class="!p-0">{{ contact.title }}</h3>
+          </mat-expansion-panel-header>
+          <div>
+            <ng-container *ngIf="contact.address.codeficatorAddressDto">
+              <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
+              <p>{{ contact.address.codeficatorAddressDto.settelment }}</p>
+              <ng-container *ngIf="contact.address.codeficatorAddressDto.cityDistrict">
+                <h5>{{ 'CITY_DISTRICT' | translate }}</h5>
+                <p>{{ contact.address.codeficatorAddressDto.cityDistrict }}"</p>
+              </ng-container>
+            </ng-container>
 
-        <h3>{{ 'FORMS.LABELS.ADDRESS' | translate }}</h3>
-        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-        <p>{{ contact.address.street }}</p>
-        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-        <p>{{ contact.address.buildingNumber }}</p>
+            <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
+            <p>{{ contact.address.street }}</p>
+            <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
+            <p>{{ contact.address.buildingNumber }}</p>
 
-        <ng-container *ngIf="contact.address.codeficatorAddressDto">
-          <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-          <p>{{ contact.address.codeficatorAddressDto.settelment }}</p>
-          <ng-container *ngIf="contact.address.codeficatorAddressDto.cityDistrict">
-            <h5>{{ 'CITY_DISTRICT' | translate }}</h5>
-            <p>{{ contact.address.codeficatorAddressDto.cityDistrict }}"</p>
-          </ng-container>
-        </ng-container>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <h4 class="!p-0">{{ 'FORMS.LABELS.PHONE_NUMBERS' | translate }}</h4>
+              </mat-expansion-panel-header>
+              <div *ngFor="let phone of contact.phones">
+                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+                <p>{{ phone.type }}</p>
+                <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
+                <p>{{ phone.number }}</p>
+              </div>
+            </mat-expansion-panel>
 
-        <div *ngFor="let phone of contact.phones">
-          <h5>{{ 'FORMS.LABELS.PHONE_TYPE' | translate }}</h5>
-          <p>{{ phone.type }}</p>
-          <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
-          <p>{{ phone.number }}</p>
-        </div>
-        
-        <div *ngFor="let email of contact.emails">
-          <h5>{{ 'FORMS.LABELS.EMAIL_TYPE' | translate }}</h5>
-          <p>{{ email.type }}</p>
-          <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
-          <p>{{ email.number }}</p>
-        </div>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <h4 class="!p-0">{{ 'FORMS.LABELS.EMAILS' | translate }}</h4>
+              </mat-expansion-panel-header>
+              <div *ngFor="let email of contact.emails">
+                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+                <p>{{ email.type }}</p>
+                <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
+                <p>{{ email.address }}</p>
+              </div>
+            </mat-expansion-panel>
 
-        <div *ngFor="let email of contact.emails">
-          <h5>{{ 'FORMS.LABELS.EMAIL_TYPE' | translate }}</h5>
-          <p>{{ email.type }}</p>
-          <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
-          <p>{{ email.number }}</p>
-        </div>
-
-        <div *ngFor="let socialNetwork of contact.socialNetworks">
-          <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
-          <p>{{ socialNetwork.type }}</p>
-          <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-          <a>{{ socialNetwork.url }}</a>
-        </div>
+            <mat-expansion-panel *ngIf="contact.socialNetworks.length">
+              <mat-expansion-panel-header>
+                <h4 class="!p-0">{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}</h4>
+              </mat-expansion-panel-header>
+              <div *ngFor="let socialNetwork of contact.socialNetworks">
+                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+                <p>{{ socialNetwork.type }}</p>
+                <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
+                <a [href]="socialNetwork.url" target="_blank">{{ socialNetwork.url }}</a>
+              </div>
+            </mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
       </div>
     </mat-tab>
 
-    <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}"> </mat-tab>
+    <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">
+      <div style="justify-content: center" class="add-wrapper flex flex-row">
+        <p>{{ 'TEMP.FUNCTIONALITY_LATER_MESSAGE' | translate }}</p>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>

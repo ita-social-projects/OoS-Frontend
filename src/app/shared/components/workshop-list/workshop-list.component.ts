@@ -80,7 +80,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipTypes = OwnershipTypes;
   public readonly statusIcons = UserStatusIcons;
-  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly workshopDraftStatusTitles = {
     Draft: 'FORMS.LABELS.DRAFT',
@@ -99,7 +99,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'formOfLearning',
     'seats',
     'isPaid',
-    'street',
     'status',
     'rating'
   ];

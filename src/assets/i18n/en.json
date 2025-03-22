@@ -537,11 +537,14 @@
       "LAST_REFERRED": "Date of the last reference",
       "USED_IN": "Times used in workshops",
       "SUBJECT_NAME": "Study subject name",
-      "INFORMATION_ABOUT_WORKSHOP": "Information About the workshop",
+      "INFORMATION_ABOUT_WORKSHOP": "About",
       "INSTITUTION_HIERARCHY": "Profile/scientific department",
       "INSTITUTION": "Institution",
       "DIRECTION": "Direction name",
-      "COST": "Cost"
+      "COST": "Cost",
+      "EMAILS": "Emails",
+      "PHONE_NUMBERS": "Phone numbers",
+      "LINK": "Link"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",

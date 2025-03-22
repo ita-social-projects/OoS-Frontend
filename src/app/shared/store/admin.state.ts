@@ -584,15 +584,24 @@ export class AdminState {
   approveWorkshopDraft({ patchState, dispatch }: StateContext<AdminStateModel>, { draftId }: ApproveWorkshopDraft): Observable<void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.approveWorkshopDraft(draftId).pipe(
-      tap(() => dispatch(new OnApproveDraftSuccess())),
+      tap(() => dispatch(new OnApproveDraftSuccess(draftId))),
       catchError((error: HttpErrorResponse) => dispatch(new OnApproveDraftFail(error)))
     );
   }
 
   @Action(OnApproveDraftSuccess)
-  onApproveDraftSuccess({ dispatch, patchState }: StateContext<AdminStateModel>): void {
-    patchState({ isLoading: false });
-    dispatch([
+  onApproveDraftSuccess(ctx: StateContext<AdminStateModel>, { draftId }: OnApproveDraftSuccess): void {
+    const currentWorkshopDrafts = ctx.getState().workshopDrafts;
+
+    ctx.patchState({
+      isLoading: false,
+      workshopDrafts: {
+        totalAmount: currentWorkshopDrafts.totalAmount - 1,
+        entities: currentWorkshopDrafts.entities.filter((workshop) => workshop.workshopDraftId !== draftId)
+      }
+    });
+
+    ctx.dispatch([
       new ShowMessageBar({
         message: SnackbarText.approveDraftSuccess,
         type: 'success'
@@ -613,15 +622,24 @@ export class AdminState {
   ): Observable<void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.rejectWorkshopDraft(draftId, rejectReason).pipe(
-      tap(() => dispatch(new OnRejectDraftSuccess())),
+      tap(() => dispatch(new OnRejectDraftSuccess(draftId))),
       catchError((error: HttpErrorResponse) => dispatch(new OnRejectDraftFail(error)))
     );
   }
 
   @Action(OnRejectDraftSuccess)
-  onRejectDraftSuccess({ dispatch, patchState }: StateContext<AdminStateModel>): void {
-    patchState({ isLoading: false });
-    dispatch([
+  onRejectDraftSuccess(ctx: StateContext<AdminStateModel>, { draftId }: OnRejectDraftSuccess): void {
+    const currentWorkshopDrafts = ctx.getState().workshopDrafts;
+
+    ctx.patchState({
+      isLoading: false,
+      workshopDrafts: {
+        totalAmount: currentWorkshopDrafts.totalAmount - 1,
+        entities: currentWorkshopDrafts.entities.filter((workshop) => workshop.workshopDraftId !== draftId)
+      }
+    });
+
+    ctx.dispatch([
       new ShowMessageBar({
         message: SnackbarText.rejectDraftSuccess,
         type: 'success'

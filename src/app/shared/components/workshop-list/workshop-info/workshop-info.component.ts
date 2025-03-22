@@ -49,7 +49,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   public readonly workingDays = WorkingDays;
   public readonly workingDaysReverse = WorkingDaysReverse;
   public readonly formOfLearningEnum = FormOfLearningEnum;
-  public readonly unlimitedSeats = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly unlimitedSeats = Constants.UNLIMITED_SEATS;
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
   public readonly coverageEnum = CoverageEnum;
 
@@ -63,10 +63,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const newDirectionId = changes.workshop?.currentValue?.directionIds?.[0];
-    const catottgId = changes.workshop.currentValue?.address?.catottgId;
-    if (catottgId) {
-      this.store.dispatch(new GetCodeficatorById(catottgId));
-    }
     if (newDirectionId) {
       this.store.dispatch(new GetDirectionById(newDirectionId));
     }

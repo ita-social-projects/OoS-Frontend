@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/navigation-tabs.scss';
 @import 'src/app/shared/styles/info-hint.scss';
 @import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
 
 $basen-blue-color: #3849f9;
 .wrapper {
@@ -106,4 +107,8 @@ h3 {
   &:last-child {
     padding: 5px 5px 5px 0px;
   }
+}
+
+.mat-expansion-panel {
+  box-shadow: none !important;
 }

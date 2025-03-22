@@ -598,6 +598,7 @@ export class OnApproveDraftFail {
 
 export class OnApproveDraftSuccess {
   static readonly type = '[admin] Approve Workshop Draft Success';
+  constructor(public draftId: string) {}
 }
 
 export class RejectWorkshopDraft {
@@ -609,10 +610,11 @@ export class RejectWorkshopDraft {
 }
 
 export class OnRejectDraftFail {
-  static readonly type = '[admin] Approve Workshop Draft Failed';
+  static readonly type = '[admin] Reject Workshop Draft Failed';
   constructor(public error: HttpErrorResponse) {}
 }
 
 export class OnRejectDraftSuccess {
-  static readonly type = '[admin] Approve Workshop Draft Success';
+  static readonly type = '[admin] Reject Workshop Draft Success';
+  constructor(public draftId: string) {}
 }
