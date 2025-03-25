@@ -1,4 +1,17 @@
 <div class="main">
+  <div
+    *ngIf="(role$ | async) === Role.unauthorized"
+    class="main-registration flex flex-row box-border justify-between content-center items-center">
+    <div class="main-description">
+      <h2 class="main-question">{{ 'DO_YOU_PROVIDE_EDUCATIONAL_SERVICES' | translate }}</h2>
+      <h4 class="main-hint">{{ 'SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS' | translate }}</h4>
+    </div>
+    <div class="main-button-wrapper">
+      <button mat-stroked-button class="main-button" (click)="onRegister()" data-testid="register-button">
+        {{ 'SIGN_UP' | translate }}
+      </button>
+    </div>
+  </div>
   <ng-container *ngIf="!(isLoadingData$ | async) && !!settlement">
     <div class="main-header">
       <h3>{{ 'TOP_DIRECTIONS' | translate }}</h3>
@@ -42,17 +55,4 @@
       <p class="text">{{ 'NO_RESULTS_FOUND' | translate }}</p>
     </div>
   </ng-template>
-</div>
-<div
-  *ngIf="(role$ | async) === Role.unauthorized"
-  class="main-registration flex flex-row box-border justify-between content-center items-center">
-  <div class="main-description">
-    <h2 class="main-question">{{ 'DO_YOU_PROVIDE_EDUCATIONAL_SERVICES' | translate }}</h2>
-    <h4 class="main-hint">{{ 'SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS' | translate }}</h4>
-  </div>
-  <div class="main-button-wrapper">
-    <button mat-stroked-button class="main-button" (click)="onRegister()" data-testid="register-button">
-      {{ 'SIGN_UP' | translate }}
-    </button>
-  </div>
 </div>
