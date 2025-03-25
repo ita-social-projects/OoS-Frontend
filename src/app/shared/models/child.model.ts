@@ -17,7 +17,7 @@ export class Child implements Person {
   placeOfStudy: string;
   parent?: ParentWithContactInfo;
 
-  constructor(childFormValue: Partial<Child>, parentId: string, id?: string) {
+  constructor(childFormValue: Partial<Child>, id?: string) {
     this.id = id;
     this.firstName = childFormValue.firstName;
     this.lastName = childFormValue.lastName;
@@ -25,7 +25,7 @@ export class Child implements Person {
     this.dateOfBirth = childFormValue.dateOfBirth;
     this.gender = childFormValue.gender;
     this.socialGroupIds = childFormValue.socialGroups.map((item: DataItem) => item.id);
-    this.parentId = parentId;
+    // this.parentId = parentId;
     this.placeOfStudy = childFormValue.placeOfStudy;
     this.isParent = childFormValue.isParent || false;
   }

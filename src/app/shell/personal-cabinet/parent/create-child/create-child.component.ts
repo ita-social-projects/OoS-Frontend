@@ -250,10 +250,10 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   private updateInfoAboutChild(): void {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
-      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
-      const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
+      const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value));
       this.store.dispatch(new CreateChildren(controlsData));
     }
   }
