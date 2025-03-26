@@ -81,10 +81,13 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         ageComposition: this.workshop.ageComposition,
         workshopType: this.workshop.workshopType,
         payRate: this.workshop.payRate,
-        price: this.workshop.price
+        price: this.workshop.price,
+        areThereBenefits: this.workshop.areThereBenefits || false,
+        preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation
       },
       { emitEvent: false }
     );
+
     if (this.workshop.price) {
       this.setPriceControlValue(this.workshop.price, 'enable', false);
       this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
@@ -110,7 +113,9 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         Validators.min(ValidationConstants.MIN_PRICE),
         Validators.max(ValidationConstants.MAX_PRICE)
       ]),
-      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required])
+      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
+      areThereBenefits: new FormControl(false),
+      preferentialTermsOfParticipation: new FormControl('')
     });
   }
 
@@ -196,4 +201,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   private get workshopPrice(): number {
     return this.workshop?.price ? this.workshop.price : null;
   }
+
+  protected readonly FormControl = FormControl;
 }

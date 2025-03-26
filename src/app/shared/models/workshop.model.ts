@@ -82,8 +82,8 @@ export abstract class WorkshopBase {
     this.isSpecial = additionalAbout?.isSpecial;
     this.isInclusive = additionalAbout?.isInclusive;
     this.specialNeedsType = additionalAbout?.specialNeedsType;
-    this.areThereBenefits = description?.areThereBenefits;
-    this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
+    this.areThereBenefits = additionalAbout?.areThereBenefits;
+    this.preferentialTermsOfParticipation = additionalAbout?.preferentialTermsOfParticipation;
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
     this.workshopType = additionalAbout?.workshopType;
@@ -243,7 +243,10 @@ export interface AdditionalAbout {
   workshopType: string;
   price: number;
   payRate: PayRateType;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
 }
+
 export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
@@ -252,8 +255,6 @@ export interface Description {
   imageFiles?: File[];
   tagIds: number[];
   enrollmentProcedureDescription: string;
-  areThereBenefits: boolean;
-  preferentialTermsOfParticipation: string;
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;

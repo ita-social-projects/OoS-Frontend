@@ -107,8 +107,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
       ]),
-      areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl(''),
       coverage: new FormControl(this.Coverage.School),
       institutionHierarchyId: new FormControl('', Validators.required),
       institutionId: new FormControl('', Validators.required)
