@@ -47,7 +47,7 @@ export abstract class WorkshopBase {
   educationalShift: string;
   ageComposition: string;
   coverage: string;
-  workshopType: string;
+  groupType: string;
 
   constructor(
     about: WorkshopAbout,
@@ -86,7 +86,7 @@ export abstract class WorkshopBase {
     this.preferentialTermsOfParticipation = additionalAbout?.preferentialTermsOfParticipation;
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
-    this.workshopType = additionalAbout?.workshopType;
+    this.groupType = additionalAbout?.groupType;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
     this.coverage = description?.coverage;
@@ -240,7 +240,7 @@ export interface AdditionalAbout {
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
-  workshopType: string;
+  groupType: string;
   price: number;
   payRate: PayRateType;
   areThereBenefits: boolean;

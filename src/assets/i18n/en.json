@@ -347,7 +347,7 @@
         "ALL_UKRAINE": "All Ukraine",
         "INTERNATIONAL": "International"
       },
-      "WORKSHOP_TYPE": {
+      "GROUP_TYPE": {
         "NONE": "None"
       }
     },
@@ -513,7 +513,7 @@
       "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
-      "WORKSHOP_TYPE": "Workshop type",
+      "GROUP_TYPE": "Workshop type",
       "WORKSHOP_IMAGES": "Photos of the workshop",
       "COVER_IMAGE": "Cover image",
       "PROVIDER_IMAGES": "Photos of the provider",
@@ -600,7 +600,6 @@
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_DATE_RANGE": "Check your data </br> Date of birth is out of range.",
-      "INVALID_EMAIL": "Enter a valid email.",
       "INVALID_EDRPO_IPN": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
@@ -618,7 +617,6 @@
       "INVALID_LENGTH_FROM_TO_WITH_COUNT": "This field must contain from {{minCharacters}} to {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
       "INVALID_LENGTH_NO_MORE_THAN": "This field must contain no more than {{maxCharacters}} symbols.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "This field must contain no more than {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
-      "INVALID_INPUT": "Check your data",
       "INVALID_LINK": "Enter a valid link to the page",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain {{minCharacters}}",

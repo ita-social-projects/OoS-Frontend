@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { AgeComposition, EducationalShift, PayRateType, SpecialNeedsType, WorkshopType } from 'shared/enum/workshop';
+import { AgeComposition, EducationalShift, PayRateType, SpecialNeedsType, GroupType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
   EducationalShiftEnum,
   PayRateTypeEnum,
   SpecialNeedsTypeEnum,
-  WorkshopTypeEnum
+  GroupTypeEnum
 } from 'shared/enum/enumUA/workshop';
 import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
@@ -33,8 +33,8 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   protected readonly EducationalShift = EducationalShift;
   protected readonly AgeCompositionEnum = AgeCompositionEnum;
   protected readonly AgeComposition = AgeComposition;
-  protected readonly WorkshopType = WorkshopType;
-  protected readonly WorkshopTypeEnum = WorkshopTypeEnum;
+  protected readonly GroupType = GroupType;
+  protected readonly GroupTypeEnum = GroupTypeEnum;
   protected readonly validationConstants = ValidationConstants;
   protected readonly PayRateType = PayRateType;
   protected readonly PayRateTypeEnum = PayRateTypeEnum;
@@ -51,6 +51,10 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
   public get payRateControl(): FormControl {
     return this.AdditionalAboutGroup.get('payRate') as FormControl;
+  }
+
+  private get workshopPrice(): number {
+    return this.workshop?.price ? this.workshop.price : null;
   }
 
   public ngOnInit(): void {
@@ -77,9 +81,9 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         isSpecial: this.workshop.isSpecial || false,
         isInclusive: this.workshop.isInclusive || false,
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
-        educationalShift: this.workshop.educationalShift,
-        ageComposition: this.workshop.ageComposition,
-        workshopType: this.workshop.workshopType,
+        educationalShift: this.workshop.educationalShift || EducationalShift.First,
+        ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
+        GroupType: this.workshop || GroupType.None,
         payRate: this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
@@ -107,7 +111,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
       ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
-      workshopType: new FormControl(this.WorkshopType.None, Validators.required),
+      groupType: new FormControl(this.GroupType.None, Validators.required),
       price: new FormControl({ value: null, disabled: true }, [
         Validators.required,
         Validators.min(ValidationConstants.MIN_PRICE),
@@ -197,10 +201,4 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  private get workshopPrice(): number {
-    return this.workshop?.price ? this.workshop.price : null;
-  }
-
-  protected readonly FormControl = FormControl;
 }
