@@ -38,7 +38,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="specialNeedsType"
-      panelClass="dropdown-panel select-with-form-field" 
+      panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       [placeholder]="'FORMS.LABELS.SPECIAL_NEEDS_TYPE' | translate">
       <ng-container *ngFor="let type of SpecialNeedsType | keyvalue">
@@ -53,7 +53,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="educationalShift"
-      panelClass="dropdown-panel select-with-form-field" 
+      panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       [placeholder]="'FORMS.LABELS.EDUCATIONAL_SHIFT' | translate">
       <ng-container *ngFor="let type of EducationalShift | keyvalue">
@@ -67,7 +67,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="ageComposition"
-      panelClass="dropdown-panel select-with-form-field" 
+      panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       [placeholder]="'FORMS.LABELS.AGE_COMPOSITION' | translate">
       <ng-container *ngFor="let type of AgeComposition | keyvalue">
@@ -81,7 +81,7 @@
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="workshopType"
-      panelClass="dropdown-panel select-with-form-field" 
+      panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       [placeholder]="'FORMS.LABELS.WORKSHOP_TYPE' | translate">
       <ng-container *ngFor="let type of WorkshopType | keyvalue">
@@ -91,4 +91,50 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+  <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
+  <mat-radio-group [formControl]="priceRadioBtn" color="primary">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
+    <div class="container flex flex-row justify-between items-stretch">
+      <div class="price flex flex-row justify-center items-center">
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"
+          ><input
+            matInput
+            class="step-input price-input"
+            appDigitOnly
+            formControlName="price"
+            type="number"
+            [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE" />
+        </mat-radio-button>
+        <p class="step-text price-only-uah">{{ 'FORMS.UAH' | translate }}</p>
+      </div>
+      <div class="pay-type flex flex-row items-center justify-center box-border">
+        <div class="prices-texts flex flex-row">
+          <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
+          <p class="step-text for-only-text">{{ 'FORMS.FOR' | translate }}</p>
+        </div>
+        <mat-select
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input payment-type-input"
+          formControlName="payRate"
+          name="payRate"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
+          <ng-container *ngFor="let type of PayRateType | keyvalue">
+            <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+              {{ PayRateTypeEnum[type.key] | translate }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </div>
+    </div>
+    <div class="pay-type__error">
+      <app-validation-hint
+        [validationFormControl]="priceControl"
+        [isPrice]="true"
+        [minValue]="validationConstants.MIN_PRICE"
+        [maxValue]="validationConstants.MAX_PRICE"></app-validation-hint>
+      <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
+    </div>
+  </mat-radio-group>
 </form>

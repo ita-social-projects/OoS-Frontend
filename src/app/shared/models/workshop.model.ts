@@ -63,8 +63,6 @@ export abstract class WorkshopBase {
     this.minAge = about?.minAge;
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
-    this.price = about?.price;
-    this.payRate = about?.payRate;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.competitiveSelection = about?.competitiveSelection;
@@ -88,9 +86,11 @@ export abstract class WorkshopBase {
     this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
+    this.workshopType = additionalAbout?.workshopType;
+    this.price = additionalAbout?.price;
+    this.payRate = additionalAbout?.payRate;
     this.coverage = description?.coverage;
     this.contacts = workshopContacts;
-    this.workshopType = additionalAbout?.workshopType;
 
     if (id) {
       this.id = id;
@@ -223,8 +223,6 @@ export interface WorkshopAbout {
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
-  price: number;
-  payRate: PayRateType;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;
@@ -243,6 +241,8 @@ export interface AdditionalAbout {
   educationalShift: string;
   ageComposition: string;
   workshopType: string;
+  price: number;
+  payRate: PayRateType;
 }
 export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
