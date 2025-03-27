@@ -28,7 +28,7 @@
     <p [ngClass]="{ important: !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
 
     <ng-container *ngIf="user.emailConfirmed; else confirmEmailTmpl">
-      <p class="link" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
+      <p class="link" [ngClass]="{ disabled: !featuresList?.EmailManagement }" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
     </ng-container>
 
     <ng-template #confirmEmailTmpl>
@@ -36,12 +36,12 @@
         <mat-icon>report</mat-icon>
         <span>{{ 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED' | translate }}</span>
       </p>
-      <p class="link important" (click)="onRedirect('/Account/ReSendEmailConfirmation')">
-        {{ 'CONFIRM_EMAIL' | translate }}
+      <p class="link important" [ngClass]="{ disabled: !featuresList?.EmailConfirmation }" (click)="onRedirect('/Account/ReSendEmailConfirmation')">
+        {{ 'CONFIRM_EMAIL' | translate }} 
       </p>
     </ng-template>
 
     <h4>{{ 'PASSWORD' | translate }}</h4>
-    <p class="link" (click)="onRedirect('/Account/ChangePassword')">{{ 'CHANGE_PASSWORD' | translate }}</p>
+    <p class="link" [ngClass]="{ disabled: !featuresList?.PasswordManagement }" (click)="onRedirect('/Account/ChangePassword')">{{ 'CHANGE_PASSWORD' | translate }}</p>
   </div>
 </div>

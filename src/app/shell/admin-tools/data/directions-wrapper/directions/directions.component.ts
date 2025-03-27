@@ -15,6 +15,8 @@ import { SearchResponse } from 'shared/models/search.model';
 import { DeleteDirectionById, GetFilteredDirections } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { Util } from 'shared/utils/utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-directions',
@@ -24,6 +26,8 @@ import { Util } from 'shared/utils/utils';
 export class DirectionsComponent implements OnInit, OnDestroy {
   @Select(AdminState.filteredDirections)
   public filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly noDirections = NoResultsTitle.noResult;
   public readonly ModeConstants = ModeConstants;

@@ -30,7 +30,7 @@
           <app-theme-switcher></app-theme-switcher>
         </div>
 
-        <div class="mobile-sidenav-menu-notification full-width" *ngIf="(featuresList$ | async)?.release2">
+        <div class="mobile-sidenav-menu-notification full-width" *ngIf="featuresList?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
             <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>
           </a>
@@ -56,7 +56,9 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>
-            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}</a>
+            <a *ngIf="featuresList?.MessagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 
+              'ENUM.NAV_BAR_NAME.MESSAGES' | translate
+            }}</a>
             <a
               *ngIf="user.role === Role.provider && user.role === Role.providerDeputy"
               [routerLink]="'./personal-cabinet/provider/administration'"
@@ -112,7 +114,7 @@
 </mat-drawer>
 
 <ng-template #Language>
-  <div class="mobile-sidenav-language">
+  <div *ngIf="!featuresList?.OnlyUkrainianLanguage" class="mobile-sidenav-language">
     <button mat-flat-button (click)="lngSelect.open()">
       <mat-icon>language</mat-icon>
       <mat-select

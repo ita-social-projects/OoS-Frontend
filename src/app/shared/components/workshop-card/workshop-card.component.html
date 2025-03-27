@@ -40,7 +40,7 @@
           </span>
           <mat-icon>arrow_forward</mat-icon>
         </a>
-        <ng-container *ngIf="isCabinetView">
+        <ng-container *ngIf="isCabinetView && (featuresList$ | async)?.AchievementManagement">
           <a class="more-details" [routerLink]="['/create-achievement', workshopData.id]">
             <mat-icon>add</mat-icon>
             <span class="card_link">

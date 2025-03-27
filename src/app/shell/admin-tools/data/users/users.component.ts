@@ -25,6 +25,8 @@ import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { OnBlockParent, OnUnblockParent } from 'shared/store/parent.actions';
 import { Util } from 'shared/utils/utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-users',
@@ -36,6 +38,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   private children$: Observable<SearchResponse<Child[]>>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly UserTabsTitles = UserTabsTitles;
   public readonly noUsers = NoResultsTitle.noUsers;

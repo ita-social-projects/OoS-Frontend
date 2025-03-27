@@ -28,8 +28,8 @@
           {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
         </a>
       </span>
-    </ng-container>
-    <ng-container *ngIf="!isRoleAdmin(userRole)">
+    </ng-container>  
+    <ng-container *ngIf="!isRoleAdmin(userRole) && (featuresList$ | async)?.MessagingFeature">
       <span [matBadge]="(unreadMessagesCount$ | async) || null" matBadgePosition="after">
         <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">
           {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}

@@ -19,6 +19,7 @@ import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'shared/store
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-achievements',
@@ -34,6 +35,8 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   public achievementsTypes$: Observable<AchievementType[]>;
   @Select(ProviderState.isLoading)
   public isLoading$: Observable<boolean>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly noResultAchievements = NoResultsTitle.noAchievements;
 

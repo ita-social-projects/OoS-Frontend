@@ -1,4 +1,4 @@
-<div *ngIf="isAllowedEdit" class="add-wrapper">
+<div *ngIf="isAllowedEdit && (featuresList$ | async)?.AchievementManagement" class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_ACHIEVEMENT_SUBHEADER' | translate }}</p>
   <a [routerLink]="['/create-achievement', workshop.id]">
     <button class="btn" mat-raised-button>{{ 'ADD_ACHIEVEMENT' | translate }}</button>

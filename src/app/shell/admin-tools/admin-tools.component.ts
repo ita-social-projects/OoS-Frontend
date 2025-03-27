@@ -5,6 +5,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
 import { canManageImports, canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-admin-tools',
@@ -14,6 +16,8 @@ import { canManageImports, canManageInstitution, canManageRegion } from 'shared/
 export class AdminToolsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly Role = Role;
   public readonly canManageInstitution = canManageInstitution;
