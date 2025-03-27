@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
   private readonly ignoreScrollToTopRoutes = ['/result'];
-  private OnlyUkrainianLanguage: boolean = false;
 
   constructor(
     private store: Store,
@@ -92,17 +91,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private getLanguage(): void {
-    this.getOnlyUkrainianLanguage();
     this.selectedLanguage = localStorage.getItem('ui-culture');
-    if (!this.selectedLanguage || this.OnlyUkrainianLanguage) {
+    if (!this.selectedLanguage) {
       this.setDefaultLanguage();
     }
+    this.getOnlyUkrainianLanguage();
   }
 
   private getOnlyUkrainianLanguage(): void {
     this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
-      this.OnlyUkrainianLanguage = featuresList.OnlyUkrainianLanguage;
-      if (this.OnlyUkrainianLanguage) {
+      if (featuresList?.OnlyUkrainianLanguage) {
         this.setDefaultLanguage();
         this.setLanguageInServices();
       }
