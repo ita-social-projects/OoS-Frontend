@@ -15,7 +15,6 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Child } from 'shared/models/child.model';
 import { DataItem } from 'shared/models/item.model';
 import { Navigation } from 'shared/models/navigation.model';
-import { Parent } from 'shared/models/parent.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { GetSocialGroup } from 'shared/store/meta-data.actions';
@@ -23,7 +22,6 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
-import { RegistrationState } from 'shared/store/registration.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -248,12 +246,11 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   private updateInfoAboutChild(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
-      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
-      const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
+      const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value));
       this.store.dispatch(new CreateChildren(controlsData));
     }
   }
