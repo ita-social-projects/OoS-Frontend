@@ -528,8 +528,11 @@ export class ProviderState {
   }
 
   @Action(providerActions.UpdateDraft)
-  updateDraft({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.UpdateDraft): Observable<WorkshopDraft | void> {
-    return this.userWorkshopService.updateDraft(payload).pipe(
+  updateDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, payload }: providerActions.UpdateDraft
+  ): Observable<WorkshopDraft | void> {
+    return this.userWorkshopService.updateDraft(draftId, payload).pipe(
       tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateWorkshopSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
     );

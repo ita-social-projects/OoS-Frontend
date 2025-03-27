@@ -226,7 +226,10 @@ export class CreateWorkshopDraft {
 export class UpdateDraft {
   static readonly type = '[provider] update Draft';
 
-  constructor(public payload: Workshop) {}
+  constructor(
+    public draftId: string,
+    public payload: Workshop
+  ) {}
 }
 
 export class DeleteWorkshopDraftById {

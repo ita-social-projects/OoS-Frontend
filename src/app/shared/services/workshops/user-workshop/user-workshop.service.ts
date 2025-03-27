@@ -128,15 +128,16 @@ export class UserWorkshopService {
     return this.http.post<Workshop>('/api/v2/WorkshopDraft/Create', this.createFormData(workshop));
   }
 
-  public updateDraft(draft: Workshop): Observable<WorkshopDraft> {
+  public updateDraft(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
     if (this.isImagesFeature) {
-      return this.updateDraftV2(draft);
+      return this.updateDraftV2(draftId, draft);
     }
   }
 
-  public updateDraftV2(draft: Workshop): Observable<WorkshopDraft> {
-    return this.http.put<WorkshopDraft>('/api/v2/WorkshopDraft/Update', this.createFormData(draft));
+  public updateDraftV2(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
+    const formData = this.createDraftUpdateFormData(draftId, draft);
+    return this.http.put<WorkshopDraft>('/api/v2/WorkshopDraft/Update', formData);
   }
 
   public deleteWorkshopDraft(id: string): Observable<void> {
@@ -216,6 +217,26 @@ export class UserWorkshopService {
         formData.append(key, workshop[key]);
       }
     });
+    return formData;
+  }
+
+  private createDraftUpdateFormData(draftId: string, workshop: Workshop): FormData {
+    const formData = new FormData();
+    const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
+    const imageFiles = ['imageFiles', 'coverImage'];
+
+    Object.keys(workshop).forEach((key: string) => {
+      if (imageFiles.includes(key)) {
+        workshop[key].forEach((file: File) => formData.append(`WorkshopV2Dto.${key}`, file));
+      } else if (formNames.includes(key)) {
+        formData.append(`WorkshopV2Dto.${key}`, JSON.stringify(workshop[key]));
+      } else {
+        formData.append(`WorkshopV2Dto.${key}`, workshop[key]);
+      }
+    });
+
+    formData.append('id', draftId);
+
     return formData;
   }
 }

@@ -233,15 +233,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      const param = this.getRouteParam();
-      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, param);
-      switch (this.route.snapshot.paramMap.get('entity')) {
-        case WorkshopType1.Workshop:
-          this.store.dispatch(new UpdateWorkshop(workshop));
-          break;
-        case WorkshopType1.Draft:
-          this.store.dispatch(new UpdateDraft(workshop));
-          break;
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
+      if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && this.shouldBeDraft(workshop)) {
+        this.store.dispatch(new UpdateWorkshop(workshop));
+      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && !this.shouldBeDraft(workshop)) {
+        this.store.dispatch(new CreateWorkshopDraft(workshop));
+      } else {
+        const draftId = this.getRouteParam();
+        this.store.dispatch(new UpdateDraft(draftId, workshop));
       }
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
@@ -416,5 +415,28 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private shouldBeDraft(newWorkshop: Workshop): boolean {
+    const fieldsToCheck = [
+      'title',
+      'shortTitle',
+      'imageFiles',
+      'coverImage',
+      'competitiveSelectionDescription',
+      'workshopDescriptionItems',
+      'disabilityOptionsDesc',
+      'keywords',
+      'enrollmentProcedureDescription',
+      'preferentialTermsOfParticipation'
+    ];
+
+    for (const fieldName in fieldsToCheck) {
+      if (newWorkshop[fieldName] !== this.workshop[fieldName]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
