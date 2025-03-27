@@ -99,19 +99,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getOnlyUkrainianLanguage(): void{
-    this.featuresList$
-        .pipe(filter(Boolean), takeUntil(this.destroy$))
-        .subscribe((featuresList: FeaturesList) => {
-          this.OnlyUkrainianLanguage = featuresList.OnlyUkrainianLanguage;
-          if(this.OnlyUkrainianLanguage){
-            this.setDefaultLanguage();
-            this.setLanguageInServices();
-          }
-        });
+  private getOnlyUkrainianLanguage(): void {
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+      this.OnlyUkrainianLanguage = featuresList.OnlyUkrainianLanguage;
+      if (this.OnlyUkrainianLanguage) {
+        this.setDefaultLanguage();
+        this.setLanguageInServices();
+      }
+    });
   }
 
-  private setDefaultLanguage(): void{
+  private setDefaultLanguage(): void {
     this.selectedLanguage = 'uk';
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
