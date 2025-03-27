@@ -1,11 +1,11 @@
-<div class="wrapper">
-  <div *ngIf="isWorkshopView" class="justify-end flex">
+<div class="wrapper" *ngIf="workshop">
+  <div class="justify-end flex">
     <a (click)="onCloseInfo()" class="close-icon">
       <mat-icon>close</mat-icon>
     </a>
   </div>
 
-  <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
+  <mat-tab-group [mat-stretch-tabs]="false">
     <mat-tab label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
       <h5>{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</h5>
       <p>{{ workshop.title }}</p>
@@ -139,68 +139,23 @@
       </ng-container>
     </mat-tab>
 
-    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
-      <div *ngIf="!workshop.contacts.length" style="justify-content: center" class="add-wrapper flex flex-row">
+    <mat-tab label="{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}">
+      <div class="max-w-[579px] overflow-hidden">
+        <div *ngFor="let contact of workshop.contacts" class="gap-4 flex flex-col">
+          <div *ngFor="let socialNetwork of contact.socialNetworks">
+            <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+            <p>{{ socialNetwork.type }}</p>
+            <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank">{{ socialNetwork.url }}</a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!hasSocialNetworks()" style="justify-content: center" class="add-wrapper flex flex-row">
         <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
       </div>
-      <div *ngFor="let contact of workshop.contacts" class="gap-4 flex flex-col">
-        <mat-expansion-panel class="max-w-[600px]">
-          <mat-expansion-panel-header>
-            <h3 class="!p-0">{{ contact.title }}</h3>
-          </mat-expansion-panel-header>
-          <div>
-            <ng-container *ngIf="contact.address.codeficatorAddressDto">
-              <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-              <p>{{ contact.address.codeficatorAddressDto.settelment }}</p>
-              <ng-container *ngIf="contact.address.codeficatorAddressDto.cityDistrict">
-                <h5>{{ 'CITY_DISTRICT' | translate }}</h5>
-                <p>{{ contact.address.codeficatorAddressDto.cityDistrict }}"</p>
-              </ng-container>
-            </ng-container>
-
-            <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-            <p>{{ contact.address.street }}</p>
-            <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-            <p>{{ contact.address.buildingNumber }}</p>
-
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <h4 class="!p-0">{{ 'FORMS.LABELS.PHONE_NUMBERS' | translate }}</h4>
-              </mat-expansion-panel-header>
-              <div *ngFor="let phone of contact.phones">
-                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
-                <p>{{ phone.type }}</p>
-                <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
-                <p>{{ phone.number }}</p>
-              </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <h4 class="!p-0">{{ 'FORMS.LABELS.EMAILS' | translate }}</h4>
-              </mat-expansion-panel-header>
-              <div *ngFor="let email of contact.emails">
-                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
-                <p>{{ email.type }}</p>
-                <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
-                <p>{{ email.address }}</p>
-              </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel *ngIf="contact.socialNetworks.length">
-              <mat-expansion-panel-header>
-                <h4 class="!p-0">{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}</h4>
-              </mat-expansion-panel-header>
-              <div *ngFor="let socialNetwork of contact.socialNetworks">
-                <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
-                <p>{{ socialNetwork.type }}</p>
-                <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-                <a [href]="socialNetwork.url" target="_blank">{{ socialNetwork.url }}</a>
-              </div>
-            </mat-expansion-panel>
-          </div>
-        </mat-expansion-panel>
-      </div>
+      <a [routerLink]="['/details/draft/', workshopDraftId]" style="justify-content: center" class="add-wrapper flex flex-row">
+        <p>{{ 'SERVICE_MESSAGES.FULL_CONTACTS_INFO' | translate }}</p>
+      </a>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">

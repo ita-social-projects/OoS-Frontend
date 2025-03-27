@@ -159,7 +159,8 @@
       "EXPORT": "Export",
       "EMPLOYEES": "Employees",
       "NEW_COMPETITION": "Add new competition event",
-      "EDIT_COMPETITION": "Edit competition event"
+      "EDIT_COMPETITION": "Edit competition event",
+      "WORKSHOP_DRAFTS": "Workshop drafts"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -927,6 +928,7 @@
     "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you!",
     "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you!",
     "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you!",
+    "FULL_CONTACTS_INFO": "To view full contact information, go to the workshop details page.",
     "MESSAGE_STATUS": {
       "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",

@@ -91,6 +91,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public selectedAdmin: BaseAdmin;
   public role: Role;
   public workshop: Workshop;
+  public selectedWorkshopId: string;
   public isInfoDisplayed: boolean;
   public displayedColumns: string[] = [
     'title',
@@ -199,7 +200,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(
       new PushNavPath({
-        name: NavBarName.Workshops,
+        name: NavBarName.WorkshopDrafts,
         isActive: false,
         disable: true
       })
@@ -218,17 +219,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     this.subscribeFormControls();
   }
 
-  public onViewWorkshopInfo(workshop: Workshop): void {
-    this.workshop = workshop;
+  public onViewWorkshopInfo(workshop: WorkshopDraft): void {
+    this.selectedWorkshopId = workshop.workshopDraftId;
+    this.workshop = workshop.workshopDetails;
     this.isInfoDisplayed = true;
-  }
-
-  public announceSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this.liveAnnouncer.announce('Sorting cleared');
-    }
   }
 
   public onRejectDraft(workshop: WorkshopDraft): void {
@@ -271,6 +265,11 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       this.setInitialWorkshopFilterByDefault();
       this.getWorkshops();
     }
+  }
+
+  public closeInfo(): void {
+    this.isInfoDisplayed = false;
+    this.selectedWorkshopId = null;
   }
 
   public ngOnDestroy(): void {

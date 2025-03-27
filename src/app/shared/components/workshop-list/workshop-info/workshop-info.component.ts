@@ -1,16 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
-import { OwnershipTypesEnum, InstitutionTypesEnum, LicenseStatusEnum } from 'shared/enum/enumUA/provider';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
-import { OwnershipTypes, InstitutionTypes, CreateProviderSteps } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
-import { LicenseStatuses } from 'shared/enum/statuses';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
-import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
-import { GetCodeficatorById } from 'shared/store/meta-data.actions';
+import { Workshop } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CoverageEnum, FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
@@ -26,6 +21,7 @@ import { Codeficator } from 'shared/models/codeficator.model';
 })
 export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   @Input() public workshop: Workshop;
+  @Input() public workshopDraftId: string;
   @Input() public isWorkshopView: boolean;
 
   @Output() public tabChanged = new EventEmitter();
@@ -38,13 +34,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   @Select(AdminState.direction)
   public workshopDirection$: Observable<Direction>;
 
-  public readonly constants = Constants;
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly ownershipTypesEnum = OwnershipTypesEnum;
-  public readonly institutionTypes = InstitutionTypes;
-  public readonly institutionTypesEnum = InstitutionTypesEnum;
-  public readonly licenseStatusEnum = LicenseStatusEnum;
-  public readonly licenseStatuses = LicenseStatuses;
   public readonly Role = Role;
   public readonly workingDays = WorkingDays;
   public readonly workingDaysReverse = WorkingDaysReverse;
@@ -55,7 +44,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
 
   public workshopDirection: Direction;
   public role: Role;
-  public editLink: string = CreateProviderSteps[0];
+
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 
@@ -78,12 +67,13 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
     this.destroy$.unsubscribe();
   }
 
-  public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.editLink = CreateProviderSteps[tabChangeEvent.index];
-    this.tabChanged.emit(tabChangeEvent);
-  }
-
   public onCloseInfo(): void {
     this.closeInfo.emit();
+  }
+
+  public hasSocialNetworks(): boolean {
+    return (
+      (Boolean(this.workshop.contacts?.length) && this.workshop.contacts?.some((contact) => contact.socialNetworks?.length > 0)) ?? false
+    );
   }
 }
