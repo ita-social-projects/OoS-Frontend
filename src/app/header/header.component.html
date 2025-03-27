@@ -20,7 +20,7 @@
             </span>
           </button>
 
-          <button *ngIf="!featuresList?.OnlyUkrainianLanguage" mat-flat-button class="lang" (click)="lngSelect.open()">
+          <button *ngIf="!featuresList?.onlyUkrainianLanguage" mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
             <mat-select
               #lngSelect
@@ -142,7 +142,7 @@
         {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate }}
       </button>
     </a>
-    <a *ngIf="featuresList?.MessagingFeature" [routerLink]="'./personal-cabinet/messages'">
+    <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
