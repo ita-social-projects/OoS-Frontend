@@ -83,7 +83,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
         ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
-        GroupType: this.workshop || GroupType.None,
+        groupType: this.workshop.groupType || GroupType.None,
         payRate: this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
