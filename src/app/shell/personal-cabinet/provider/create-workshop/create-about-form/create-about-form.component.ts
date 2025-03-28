@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { merge, Subject, throttleTime } from 'rxjs';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -14,6 +14,9 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { Store } from '@ngxs/store';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-about-form',
@@ -56,7 +59,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly store: Store,
+    private readonly translateService: TranslateService
+  ) {}
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
@@ -81,6 +88,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.workshop) {
       this.activateEditMode();
+      this.listenToChanges();
     }
 
     this.initListeners();
@@ -153,9 +161,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
             disabled: true
           },
           [Validators.required, Validators.min(this.minSeats), Validators.max(ValidationConstants.MAX_SEATS)]
-        ),
-        competitiveSelection: new FormControl(false),
-        competitiveSelectionDescription: null
+        )
       },
       {
         validators: [AgeRangeValidator('minAge', 'maxAge')]
@@ -232,5 +238,31 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
       }
     });
+  }
+
+  private listenToChanges(): void {
+    merge(
+      this.AboutFormGroup.get('title').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ),
+      this.AboutFormGroup.get('shortTitle').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      )
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

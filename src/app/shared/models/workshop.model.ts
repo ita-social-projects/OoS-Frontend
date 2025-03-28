@@ -268,6 +268,8 @@ export interface Description {
   imageFiles?: File[];
   tagIds: number[];
   enrollmentProcedureDescription: string;
+  competitiveSelection: boolean;
+  competitiveSelectionDescription: string;
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;

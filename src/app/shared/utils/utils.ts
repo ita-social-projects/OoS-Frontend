@@ -347,6 +347,36 @@ export class Util {
     return value;
   }
 
+  public static deepEqual(obj1: object, obj2: object): boolean {
+    if (obj1 === obj2) {
+      return true;
+    }
+
+    if (obj1 === null || obj2 === null) {
+      return false;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      if (!this.deepEqual(obj1[key], obj2[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static isEmpty(field: any): boolean {
+    return field === undefined || field === null || field === '' || (Array.isArray(field) && field.length === 0);
+  }
+
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
     return (+currentPage.element - 1) * size;
   }

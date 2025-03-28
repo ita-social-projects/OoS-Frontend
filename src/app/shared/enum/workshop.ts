@@ -1,6 +1,6 @@
 export enum WorkshopType1 {
-  Workshop = 'Workshop',
-  Draft = 'Draft'
+  Workshop = 'workshop',
+  Draft = 'draft'
 }
 
 export enum SendForModerationInitiator {

@@ -34,6 +34,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
 import { WorkshopType1 } from 'shared/enum/workshop';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -158,10 +159,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.editMode = false;
     } else {
       switch (this.route.snapshot.paramMap.get('entity')) {
-        case WorkshopType1.Workshop.toLowerCase():
+        case WorkshopType1.Workshop:
           this.store.dispatch(new GetWorkshopById(param));
           break;
-        case WorkshopType1.Draft.toLowerCase():
+        case WorkshopType1.Draft:
           this.store.dispatch(new GetWorkshopDraftById(param));
           break;
       }
@@ -234,9 +235,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
-      if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && this.shouldBeDraft(workshop)) {
+      if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && !this.shouldBeDraft(workshop)) {
         this.store.dispatch(new UpdateWorkshop(workshop));
-      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && !this.shouldBeDraft(workshop)) {
+      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && this.shouldBeDraft(workshop)) {
         this.store.dispatch(new CreateWorkshopDraft(workshop));
       } else {
         const draftId = this.getRouteParam();
@@ -246,6 +247,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
+
     this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
@@ -431,8 +433,24 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'preferentialTermsOfParticipation'
     ];
 
-    for (const fieldName in fieldsToCheck) {
-      if (newWorkshop[fieldName] !== this.workshop[fieldName]) {
+    const workshop = this.workshop;
+    workshop.workshopDescriptionItems.forEach((item) => delete item.id);
+
+    for (const fieldName of fieldsToCheck) {
+      if (
+        typeof newWorkshop[fieldName] === 'object' &&
+        typeof workshop[fieldName] === 'object' &&
+        newWorkshop[fieldName] &&
+        workshop[fieldName]
+      ) {
+        if (!Util.deepEqual(newWorkshop[fieldName], workshop[fieldName])) {
+          return true;
+        }
+      } else if (
+        newWorkshop[fieldName] !== workshop[fieldName] &&
+        !Util.isEmpty(newWorkshop[fieldName]) &&
+        !Util.isEmpty(workshop[fieldName])
+      ) {
         return true;
       }
     }
