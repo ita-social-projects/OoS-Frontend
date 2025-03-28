@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -19,8 +19,8 @@ export class UserWorkshopService {
   private isImagesFeature: boolean;
 
   constructor(
-    private http: HttpClient,
-    private store: Store
+    private readonly http: HttpClient,
+    private readonly store: Store
   ) {}
 
   /**

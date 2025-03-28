@@ -9,7 +9,7 @@ import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-a
 import { Provider, ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 @Injectable({
   providedIn: 'root'

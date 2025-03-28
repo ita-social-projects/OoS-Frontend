@@ -21,7 +21,7 @@ import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticReport } from 'shared/models/statistic.model';
-import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { WorkshopDraft } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ChildrenService } from 'shared/services/children/children.service';
@@ -262,7 +262,7 @@ export class AdminState {
   }
 
   @Selector()
-  static workshopDrafts(state: AdminStateModel): SearchResponse<Workshop[]> {
+  static workshopDrafts(state: AdminStateModel): SearchResponse<WorkshopDraft[]> {
     return state.workshopDrafts;
   }
 

@@ -37,13 +37,6 @@ export class AdminWorkshopListComponent {
         workshopParameters.institutionId = selectedAdmin.institutionId;
         workshopParameters.catottgId = (selectedAdmin as RegionAdmin | AreaAdmin).catottgId;
         break;
-      default:
-        workshopParameters = {
-          searchString: '',
-          size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
-          institutionId: '',
-          catottgId: 0
-        };
     }
   }
 

@@ -1,8 +1,7 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -58,7 +57,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     selectedAdmin: BaseAdmin
   ) => void;
 
-  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration> = new EventEmitter(); // TODO: Add filter for Provider
+  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration> = new EventEmitter();
 
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
@@ -74,10 +73,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public selectedAdmin$: Observable<BaseAdmin>;
 
   public readonly noWorkshops = NoResultsTitle.noResult;
-  public readonly ModeConstants = ModeConstants;
+  public readonly modeConstants = ModeConstants;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly ownershipTypeEnum = OwnershipTypesEnum;
+  public readonly formOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipTypes = OwnershipTypes;
   public readonly statusIcons = UserStatusIcons;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
@@ -114,7 +113,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    private readonly liveAnnouncer: LiveAnnouncer,
     protected readonly route: ActivatedRoute,
     private readonly store: Store,
     private readonly matDialog: MatDialog,
@@ -188,7 +186,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
             case Role.moderator:
               return this.store.dispatch(new GetModeratorProfile());
             case Role.provider:
-              // TO DO: Add moderator profile fetch
+              // TODO: Add moderator profile fetch
               return this.store.dispatch(new GetProfile());
           }
         })

@@ -305,7 +305,7 @@ enum Socials {
   Website = 'Website'
 }
 
-export interface WorkshopDraft extends Workshop {
+export interface WorkshopDraft {
   draftStatus: WorkshopDraftStatus;
   workshopDraftId: string;
   workshopDetails: Workshop;

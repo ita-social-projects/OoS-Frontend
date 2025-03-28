@@ -112,7 +112,7 @@
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ OwnershipTypeEnum[element.workshopDetails.providerOwnership] | emptyValueTransform | translate }}
+                  {{ ownershipTypeEnum[element.workshopDetails.providerOwnership] | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>
@@ -128,7 +128,7 @@
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ FormOfLearningEnum[element.formOfLearning] | emptyValueTransform | translate }}
+                  {{ formOfLearningEnum[element.formOfLearning] | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>
