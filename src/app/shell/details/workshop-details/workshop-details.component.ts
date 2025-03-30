@@ -8,9 +8,9 @@ import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DetailsTabTitlesEnum, DraftStatusEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -148,4 +148,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )
     ]);
   }
+
+  protected readonly WorkshopDraftStatus = WorkshopDraftStatus;
+  protected readonly DraftStatusEnum = DraftStatusEnum;
 }

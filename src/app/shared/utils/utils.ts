@@ -57,7 +57,7 @@ export class Util {
   }
 
   public static containsWorkshopDetails(workshop: object): workshop is { workshopDetails: Workshop } {
-    return 'workshopDetails' in workshop;
+    return !!workshop && 'workshopDetails' in workshop;
   }
 
   /**

@@ -159,7 +159,7 @@
   </ng-container>
   <div *ngIf="workshopData.draftStatus === workshopDraftStatus.Rejected" class="flex flex-col flex-grow">
     <div class="flex flex-row justify-start">
-      <span class="admin-response card_link flex items-center">Повідомлення адміністратора</span>
+      <span class="admin-response card_link flex items-center"> {{ 'MODERATOR_MESSAGE' | translate }}</span>
     </div>
     <div class="rejection-message">
       <div class="rejection-message-wrapper" [matTooltip]="workshopData.rejectionMessage">

@@ -382,6 +382,7 @@
   "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
   "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
   "INFO_ABOUT_SELECTION": "Information about selection",
+  "MODERATOR_MESSAGE": "Moderator's response",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "ADD_JUDGE_LATER": "Judges can be added to the competition later",

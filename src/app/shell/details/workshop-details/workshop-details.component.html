@@ -10,9 +10,16 @@
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
+      <div
+        *ngIf="workshop.draftStatus && workshop.draftStatus === WorkshopDraftStatus.Rejected"
+        class="reject-block flex flex-row items-center"
+        [matTooltip]="workshop.rejectionMessage">
+        <span class="reject-block-moderator-message">{{ 'MODERATOR_MESSAGE' | translate | uppercase }}</span>
+      </div>
       <a
         [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
         class="btn btn-cancel"
+        [ngClass]="{ 'btn-rejected': workshop.draftStatus === WorkshopDraftStatus.Rejected }"
         mat-button>
         {{ 'BUTTONS.EDIT' | translate | uppercase }}
       </a>
@@ -34,7 +41,7 @@
           <div class="flex flex-row items-center">
             <h1 class="title">{{ workshop.title }}</h1>
             <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+              <div class="chip chip-draft chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
             </ng-container>
           </div>
           <h3 class="short-title" *ngIf="workshop.shortTitle">{{ workshop.shortTitle }}</h3>
@@ -107,6 +114,7 @@
     </mat-tab-group>
   </div>
 </div>
+
 <ng-template #ClosedWorkshopStatus>
   <div
     class="chip"
