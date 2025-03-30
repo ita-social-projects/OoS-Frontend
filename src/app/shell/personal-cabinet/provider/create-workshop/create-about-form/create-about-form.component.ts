@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -50,7 +50,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   public AboutFormGroup: FormGroup;
   public dateTimeRangesArray: FormArray = new FormArray([], [Validators.required]);
-  public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
@@ -63,14 +62,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private minimumSeats: number = 1;
 
   constructor(private readonly formBuilder: FormBuilder) {}
-
-  public get priceControl(): FormControl {
-    return this.AboutFormGroup.get('price') as FormControl;
-  }
-
-  public get payRateControl(): FormControl {
-    return this.AboutFormGroup.get('payRate') as FormControl;
-  }
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
@@ -87,10 +78,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     return this.workshop?.availableSeats === undefined || this.workshop?.availableSeats === this.UNLIMITED_SEATS
       ? this.MIN_SEATS
       : this.workshop?.availableSeats;
-  }
-
-  private get workshopPrice(): number {
-    return this.workshop?.price ? this.workshop.price : null;
   }
 
   public ngOnInit(): void {
@@ -125,14 +112,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
-    }
-    if (this.workshop.price) {
-      this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
-      this.priceRadioBtn.setValue(true);
-    } else {
-      this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(PayRateType.None, 'disable', false);
     }
 
     if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
@@ -178,14 +157,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         image: new FormControl(''),
-        price: new FormControl({ value: 0, disabled: true }, [
-          Validators.required,
-          Validators.min(ValidationConstants.MIN_PRICE),
-          Validators.max(ValidationConstants.MAX_PRICE)
-        ]),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-        payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
         coverImage: new FormControl(''),
         coverImageId: new FormControl(''),
         availableSeats: new FormControl(
@@ -208,38 +181,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.useProviderInfo();
     this.availableSeatsControlListener();
     this.validateAgeControls();
-    this.priceControlListener();
-    this.priceValueListener();
     this.competitiveSelectionListener();
     this.showHintAboutClosingWorkshop();
-  }
-
-  /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
-   */
-  private priceControlListener(): void {
-    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
-      this.markFormAsDirtyOnUserInteraction();
-      if (isPrice) {
-        this.setPriceControlValue(this.workshopPrice, 'enable');
-        this.setPayRateControlValue(this.workshop?.payRate || null, 'enable');
-      } else {
-        this.setPriceControlValue();
-        this.setPayRateControlValue();
-      }
-      this.priceControl.markAsUntouched();
-      this.payRateControl.markAsUntouched();
-    });
-  }
-
-  private priceValueListener(): void {
-    this.priceControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe((value) => {
-      if (value) {
-        this.payRateControl.markAsTouched();
-      } else {
-        this.payRateControl.markAsUntouched();
-      }
-    });
   }
 
   /**
@@ -264,30 +207,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setAvailableSeatsControlValue(availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true): void {
     this.availableSeatsControl[action]({ emitEvent });
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
-  }
-
-  private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = false): void {
-    this.priceControl[action]({ emitEvent });
-    this.priceControl.setValue(price, { emitEvent });
-
-    if (action === 'disable') {
-      this.priceControl.markAsUntouched();
-      this.priceControl.setErrors(null);
-    }
-  }
-
-  /**
-   * This method sets 0 as value for payRate when the price is 0,
-   * otherwise it sets either workshop value, or PayRateType.None for selecting new value
-   */
-  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = false): void {
-    this.payRateControl[action]({ emitEvent });
-    this.payRateControl.setValue(payRate, { emitEvent });
-
-    if (action === 'disable') {
-      this.payRateControl.markAsUntouched();
-      this.payRateControl.setErrors(null);
-    }
   }
 
   /**

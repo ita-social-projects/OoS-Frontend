@@ -232,7 +232,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-address child component and assigns to the Address FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
@@ -241,7 +241,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
-   * @param FormArray array
+   * @param array
    */
   public onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
@@ -250,7 +250,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-about child component and assigns to the About FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
@@ -264,7 +264,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
@@ -273,7 +273,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-additional-about child component and assigns to the AdditionalAbout FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAdditionalAboutGroup(form: FormGroup): void {
     this.AdditionalAboutGroup = form;
@@ -348,7 +348,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.TeacherFormArray
     ];
 
-    return steps.findIndex((step) => !step?.valid);
+    return steps.findIndex((step) => !step?.valid && !step?.touched);
   }
 
   private getRouteParam(): string {
@@ -372,7 +372,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method create array of teachers
-   * @param FormArray formArray
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];

@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
-import { WorkshopMainRequiredProperties, WorkshopType } from 'shared/models/draftWorkshop.model';
-import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
+import { WorkshopType } from 'shared/models/draftWorkshop.model';
+import { FormOfLearning } from 'shared/enum/workshop';
 import { UserWorkshopService } from './user-workshop.service';
 
 describe('UserWorkshopService', () => {
   let service: UserWorkshopService;
   let http: HttpTestingController;
 
-  const mockWorkshop: WorkshopMainRequiredProperties = {
+  const mockWorkshop = {
     $type: WorkshopType.WithMainProperties,
     availableSeats: 4294967295,
     competitiveSelection: false,
@@ -21,10 +21,7 @@ describe('UserWorkshopService', () => {
     instagram: null,
     maxAge: 5,
     minAge: 2,
-    payRate: PayRateType.Classes,
-    isPaid: true,
     phone: '+380686042323',
-    price: 20,
     providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
     shortTitle: 'fghjhgf',
     title: 'fkfkkff',

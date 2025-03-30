@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Workshop } from 'shared/models/workshop.model';
-import { AgeComposition, EducationalShift, SpecialNeedsType, WorkshopType } from 'shared/enum/workshop';
+import { AgeComposition, EducationalShift, SpecialNeedsType, GroupType, PayRateType } from 'shared/enum/workshop';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'shared/modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +31,27 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('price radio', () => {
+    beforeEach(async () => {
+      component.workshop = {} as any;
+    });
+
+    it('should should set price if has price', () => {
+      component.workshop.price = 100;
+      component.priceRadioBtn.setValue(true);
+
+      expect(component.priceControl.value).toBe(100);
+      expect(component.payRateControl.value).toBe(null);
+    });
+
+    it('should should reset price if is free', () => {
+      component.priceRadioBtn.setValue(false);
+
+      expect(component.priceControl.value).toBe(null);
+      expect(component.payRateControl.value).toBe(PayRateType.None);
+    });
+  });
+
   it('should initialize form with default values', () => {
     expect(component.AdditionalAboutGroup.get('shortStay').value).toBeFalsy();
     expect(component.AdditionalAboutGroup.get('isSelfFinanced').value).toBeFalsy();
@@ -39,7 +60,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(SpecialNeedsType.None);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(EducationalShift.First);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(AgeComposition.SameAge);
-    expect(component.AdditionalAboutGroup.get('workshopType').value).toBe(WorkshopType.None);
+    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(GroupType.None);
   });
 
   it('should update specialNeedsType validation when isSpecial changes', () => {
@@ -62,8 +83,8 @@ describe('CreateAdditionalAboutFormComponent', () => {
       specialNeedsType: SpecialNeedsType.Hearing,
       educationalShift: EducationalShift.Second,
       ageComposition: AgeComposition.SameAge,
-      workshopType: WorkshopType.None
-    } as Workshop;
+      groupType: GroupType.None
+    } as unknown as Workshop;
 
     component.workshop = mockWorkshop;
     component.activateEditMode();
@@ -75,11 +96,27 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(mockWorkshop.specialNeedsType);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(mockWorkshop.educationalShift);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(mockWorkshop.ageComposition);
-    expect(component.AdditionalAboutGroup.get('workshopType').value).toBe(mockWorkshop.workshopType);
+    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(mockWorkshop.groupType);
   });
 
   it('should mark form as dirty on value changes', () => {
     component.AdditionalAboutGroup.patchValue({ shortStay: true });
     expect(component.AdditionalAboutGroup.dirty).toBeTruthy();
+  });
+
+  describe('price listener', () => {
+    it('should mark as touched if value entered', () => {
+      jest.spyOn(component.payRateControl, 'markAsTouched');
+      component.priceControl.setValue(100);
+
+      expect(component.payRateControl.markAsTouched).toHaveBeenCalled();
+    });
+
+    it('should mark as untouched if value is erased', () => {
+      jest.spyOn(component.payRateControl, 'markAsUntouched');
+      component.priceControl.setValue(null);
+
+      expect(component.payRateControl.markAsUntouched).toHaveBeenCalled();
+    });
   });
 });
