@@ -347,7 +347,7 @@
         "ALL_UKRAINE": "Всеукраїнський",
         "INTERNATIONAL": "Міжнародний"
       },
-      "WORKSHOP_TYPE": {
+      "GROUP_TYPE": {
         "NONE": "Немає"
       }
     },
@@ -513,7 +513,7 @@
       "EDUCATIONAL_SHIFT": "Зміна навчання",
       "AGE_COMPOSITION": "Тип групи за віковим складом",
       "COVERAGE": "Покриття",
-      "WORKSHOP_TYPE": "Тип групи",
+      "GROUP_TYPE": "Тип групи",
       "WORKSHOP_IMAGES": "Фото гуртка",
       "COVER_IMAGE": "Обкладинка",
       "PROVIDER_IMAGES": "Фото закладу",
