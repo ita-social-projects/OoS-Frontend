@@ -3,11 +3,6 @@ export enum WorkshopType1 {
   Draft = 'draft'
 }
 
-export enum SendForModerationInitiator {
-  Details = 'details',
-  ProviderDrafts = 'providerDrafts'
-}
-
 export enum PayRateType {
   None = 0,
   Classes,
