@@ -7,19 +7,21 @@ import { Select, Store } from '@ngxs/store';
 
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
-import { Role } from '../../shared/enum/role';
-import { Workshop, WorkshopDraft } from '../../shared/models/workshop.model';
-import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
-import { GetCompetitionById } from '../../shared/store/shared-user.actions';
 import { Role } from 'shared/enum/role';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from 'shared/store/app.state';
 import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetProviderById, GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import {
+  GetCompetitionById,
+  GetProviderById,
+  GetWorkshopById,
+  GetWorkshopDraftById,
+  ResetProviderWorkshopDetails
+} from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { WorkshopType1 } from 'shared/enum/workshop';
+import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
 import { WINDOW } from 'ngx-window-token';
 
@@ -48,12 +50,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public competition: Competition;
   public role: Role;
 
-  public isWorkshop = false;
-  public isDraft = false;
   public isCompetition = false;
   public displayActionCard: boolean;
 
-  protected workshopType: WorkshopType1;
+  protected workshopType: WorkshopType;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -67,7 +67,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
-      this.workshopType = params.entity; //TODO: add type for competition
+      this.workshopType = params.entity;
       this.getEntity(params.id);
 
       Util.scrollToTop(this.window);
@@ -88,7 +88,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       .subscribe(([isMobileScreen, role, workshop, provider, competition]) => {
         this.isMobileScreen = isMobileScreen;
         this.role = role;
-        this.workshop = workshop;
+        this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
         this.provider = provider;
         this.competition = competition;
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
@@ -96,14 +96,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method get Workshop or Provider by Id;
+   * This method get Workshop or Provider by id;
    */
   private getEntity(id: string): void {
     if (this.workshopType) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions,no-unused-expressions
-      this.workshopType === WorkshopType1.Workshop // TODO: update for competition
-        ? this.store.dispatch(new GetWorkshopById(id))
-        : this.store.dispatch(new GetWorkshopDraftById(id));
+      switch (this.workshopType) {
+        case WorkshopType.Workshop:
+          this.store.dispatch(new GetWorkshopById(id));
+          break;
+        case WorkshopType.Draft:
+          this.store.dispatch(new GetWorkshopDraftById(id));
+          break;
+        case WorkshopType.Competition:
+          this.store.dispatch(new GetCompetitionById(id));
+          break;
+      }
     } else {
       this.store.dispatch(new GetProviderById(id));
     }

@@ -77,7 +77,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.rateParameters.entityId = 'workshopDetails' in this.workshop ? this.workshop.workshopDetails.id : this.workshop.id;
+    this.rateParameters.entityId = Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.id : this.workshop.id;
     this.getRates();
 
     this.getParentData();

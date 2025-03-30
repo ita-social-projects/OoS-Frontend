@@ -1,6 +1,7 @@
-export enum WorkshopType1 {
+export enum WorkshopType {
   Workshop = 'workshop',
-  Draft = 'draft'
+  Draft = 'draft',
+  Competition = 'competition'
 }
 
 export enum PayRateType {

@@ -10,7 +10,7 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus, WorkshopType1 } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -67,7 +67,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public coverImage: string;
 
   protected readonly Util = Util;
-  protected readonly WorkshopType1 = WorkshopType1;
+  protected readonly WorkshopType = WorkshopType;
   protected readonly ModalConfirmationType = ModalConfirmationType;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
@@ -83,8 +83,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
-    this.providerParameters.providerId =
-      'workshopDetails' in this.workshop ? this.workshop.workshopDetails.providerId : this.workshop.providerId;
+    this.providerParameters.providerId = Util.containsWorkshopDetails(this.workshop)
+      ? this.workshop.workshopDetails.providerId
+      : this.workshop.providerId;
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -131,7 +132,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   private getWorkshopData(): void {
     this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
-      new GetProviderById('workshopDetails' in this.workshop ? this.workshop.workshopDetails.providerId : this.workshop.providerId),
+      new GetProviderById(
+        Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {

@@ -60,7 +60,9 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
-    this.achievementParameters.workshopId = 'workshopDetails' in this.workshop ? this.workshop.workshopDetails.id : this.workshop.id;
+    this.achievementParameters.workshopId = Util.containsWorkshopDetails(this.workshop)
+      ? this.workshop.workshopDetails.id
+      : this.workshop.id;
     this.store.dispatch(new GetAchievementsType());
     this.getAchievements();
 

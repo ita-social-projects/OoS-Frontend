@@ -56,6 +56,10 @@ export class Util {
     return workshop instanceof Workshop;
   }
 
+  public static containsWorkshopDetails(workshop: object): workshop is { workshopDetails: Workshop } {
+    return 'workshopDetails' in workshop;
+  }
+
   /**
    * This method returns child age
    * @param child Child

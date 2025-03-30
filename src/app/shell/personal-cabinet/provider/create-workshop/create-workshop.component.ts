@@ -28,12 +28,12 @@ import { GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } f
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { WorkshopType } from 'shared/models/draftWorkshop.model';
+import { WorkshopType as WorkshopTypeUnfinished } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
-import { WorkshopType1 } from 'shared/enum/workshop';
+import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
@@ -69,10 +69,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public WorkshopContactsFormArray: FormArray;
 
   private readonly unfinishedWorkshopTypeMap = {
-    1: WorkshopType.WithMainProperties,
-    2: WorkshopType.WithOtherRequiredProperties,
-    3: WorkshopType.WithDescription,
-    4: WorkshopType.WithContacts
+    1: WorkshopTypeUnfinished.WithMainProperties,
+    2: WorkshopTypeUnfinished.WithOtherRequiredProperties,
+    3: WorkshopTypeUnfinished.WithDescription,
+    4: WorkshopTypeUnfinished.WithContacts
   };
   private readonly stepActions = {
     1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
@@ -159,10 +159,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.editMode = false;
     } else {
       switch (this.route.snapshot.paramMap.get('entity')) {
-        case WorkshopType1.Workshop:
+        case WorkshopType.Workshop:
           this.store.dispatch(new GetWorkshopById(param));
           break;
-        case WorkshopType1.Draft:
+        case WorkshopType.Draft:
           this.store.dispatch(new GetWorkshopDraftById(param));
           break;
       }
@@ -173,7 +173,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
           filter((workshop) => workshop !== null)
         )
         .subscribe((workshop: Workshop | WorkshopDraft) => {
-          this.workshop = 'workshopDetails' in workshop ? workshop.workshopDetails : workshop;
+          this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
         });
     }
   }
@@ -235,9 +235,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
-      if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && !this.shouldBeDraft(workshop)) {
+      if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && !this.shouldBeDraft(workshop)) {
         this.store.dispatch(new UpdateWorkshop(workshop));
-      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType1.Workshop && this.shouldBeDraft(workshop)) {
+      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && this.shouldBeDraft(workshop)) {
         this.store.dispatch(new CreateWorkshopDraft(workshop));
       } else {
         const draftId = this.getRouteParam();
