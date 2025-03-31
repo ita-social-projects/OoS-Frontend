@@ -8,6 +8,9 @@
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>
+<div class="searchbar">
+  <app-workshop-searchbar (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
+</div>
 <app-provider-status-banner [provider]="provider" mode="unfinished" *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded" class="mb-8">
 </app-provider-status-banner>
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">

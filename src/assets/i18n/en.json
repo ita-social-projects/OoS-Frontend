@@ -39,6 +39,7 @@
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
+  "SEARCH_WORKSHOP": "Search the workshop",
   "ALT": {
     "CAROUSEL_IMG": "photo",
     "IMG_COVER": "Cover"
@@ -142,9 +143,9 @@
       "SEARCH_RESULT": "Search result",
       "SUPPORT": "Support",
       "USERS": "Users",
-      "SUBJECTS":"Study Subjects",
-      "ADD_SUBJECTS":"Add new study subject",
-      "EDIT_SUBJECTS":"Edit study subject",
+      "SUBJECTS": "Study Subjects",
+      "ADD_SUBJECTS": "Add new study subject",
+      "EDIT_SUBJECTS": "Edit study subject",
       "MY_WORKSHOPS": "My workshops",
       "MY_COMPETITIONS": "My competition",
       "INFORMATION_ABOUT": "Information about",
@@ -528,11 +529,11 @@
       "LANGUAGE": "Language",
       "SOCIAL_NETWORKS": "Social networks",
       "SUBJECT_NAME_UKRAINIAN": "Subject name in Ukrainian language",
-      "TEACHING_LANGUAGE_SUBJECT_NAME":"Subject name in the language of instruction",
-      "TEACHING_LANGUAGE":"Language of instruction",
-      "LAST_REFERRED":"Date of the last reference",
-      "USED_IN":"Times used in workshops",
-      "SUBJECT_NAME":"Study subject name"
+      "TEACHING_LANGUAGE_SUBJECT_NAME": "Subject name in the language of instruction",
+      "TEACHING_LANGUAGE": "Language of instruction",
+      "LAST_REFERRED": "Date of the last reference",
+      "USED_IN": "Times used in workshops",
+      "SUBJECT_NAME": "Study subject name"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -553,7 +554,7 @@
       "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
       "SEARCH_STUDY_SUBJECT": "Search study subject by name",
-      "SELECT_LANGUAGE_OF_INSTRUCTION":"Select language of instruction",
+      "SELECT_LANGUAGE_OF_INSTRUCTION": "Select language of instruction",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
       "SELECT_REGION": "Select region",
@@ -630,7 +631,7 @@
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
-      "CURRENT_COUNT" : "Current count:"
+      "CURRENT_COUNT": "Current count:"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
@@ -811,7 +812,7 @@
     "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
     "NO_CHILD_WORKSHOPS": "There are no workshops yet",
     "NO_CHAT_HISTORY": "There are no messages in the chat yet",
-    "NO_STUDY_SUBJECTS":"There are no study subjects yet",
+    "NO_STUDY_SUBJECTS": "There are no study subjects yet",
     "NO_JUDGES": "There are no judges yet",
     "NO_FEATURE": "This functionality is not available yet"
   },
@@ -964,9 +965,9 @@
       "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
-      "CREATE_SUBJECT":"Study subject successfully created!",
-      "UPDATE_SUBJECT":"Study subject successfully edited!",
-      "DELETE_SUBJECT":"Study subject successfully deleted!",
+      "CREATE_SUBJECT": "Study subject successfully created!",
+      "UPDATE_SUBJECT": "Study subject successfully edited!",
+      "DELETE_SUBJECT": "Study subject successfully deleted!",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
@@ -1148,8 +1149,8 @@
     "SELECT_FILE": "Select file",
     "SELECT_ANOTHER_FILE": "Select another file",
     "SUBMIT_FILE": "Submit file",
-    "UPLOAD_SUCCESS":"Data uploaded successfully",
-    "UPLOAD_FAILURE":"Error loading, try again later",
+    "UPLOAD_SUCCESS": "Data uploaded successfully",
+    "UPLOAD_FAILURE": "Error loading, try again later",
     "INCORRECT_ROWS": "Incorrect rows: ",
     "HUNDRED_WARNING": "WARNING! Processed first hundred lines",
     "FILE_READER_WARNING": "An error occurred while reading the file. Please try again.",
@@ -1167,16 +1168,16 @@
       "EMPLOYEE_ASSIGNED_ROLE": "Assigned roles"
     },
     "ERRORS": {
-      "ERRORS_TYPES":"Errors types",
-      "DATA_DUPLICATE":"Duplicated information",
-      "MISSING_INFO_EMPTY_FIELD":"No information/empty field",
-      "WRONG_LENGTH":"Incorrect number of characters",
-      "WRONG_FORMAT":"Incorrect format",
-      "WRONG_LANGUAGE":"Incorrectly selected language"
+      "ERRORS_TYPES": "Errors types",
+      "DATA_DUPLICATE": "Duplicated information",
+      "MISSING_INFO_EMPTY_FIELD": "No information/empty field",
+      "WRONG_LENGTH": "Incorrect number of characters",
+      "WRONG_FORMAT": "Incorrect format",
+      "WRONG_LANGUAGE": "Incorrectly selected language"
     }
   },
-  "EMPLOYEES":"Employees",
-  "EMPLOYEES_REGISTRATION":"Employees registration",
+  "EMPLOYEES": "Employees",
+  "EMPLOYEES_REGISTRATION": "Employees registration",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "This functionality will be added later"
   }

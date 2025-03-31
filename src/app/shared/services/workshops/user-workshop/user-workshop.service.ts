@@ -36,7 +36,11 @@ export class UserWorkshopService {
    * This method get related workshops for provider personal cabinet
    */
   public getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
-    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+    let params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+
+    if (workshopCardParameters.searchText) {
+      params = params.set('SearchText', workshopCardParameters.searchText);
+    }
 
     return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>(
       `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${workshopCardParameters.providerId}`,

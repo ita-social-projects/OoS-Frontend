@@ -215,6 +215,7 @@ export interface WorkshopStatusWithTitle extends WorkshopStatus {
 
 export interface WorkshopCardParameters extends PaginationParameters {
   providerId: string;
+  searchText?: string;
 }
 
 export interface WorkshopAbout {
