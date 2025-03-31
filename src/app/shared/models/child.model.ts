@@ -16,6 +16,7 @@ export class Child implements Person {
   socialGroupIds?: number[] = [];
   placeOfStudy: string;
   parent?: ParentWithContactInfo;
+  pib?: string;
 
   constructor(childFormValue: Partial<Child>, id?: string, parentId?: string) {
     this.id = id;

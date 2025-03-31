@@ -21,6 +21,8 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { UsersBlockData } from 'shared/models/users-table';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminStateModel } from 'shared/store/admin.state';
+import { Child } from 'shared/models/child.model';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { UsersComponent } from './users.component';
 
 describe('UsersComponent', () => {
@@ -214,6 +216,62 @@ describe('UsersComponent', () => {
 
       expect(component.childrenParams.size).toEqual(expectedItemsPerPage);
       expect(store.dispatch).toHaveBeenCalledWith(new GetChildrenForAdmin(component.childrenParams));
+    });
+  });
+  describe('onDeleteChild method', () => {
+    let mockChild: Child;
+    beforeEach(() => {
+      mockChild = {
+        id: 'childId',
+        firstName: 'John',
+        lastName: 'Doe',
+        parentId: '',
+        dateOfBirth: '',
+        gender: 0,
+        isParent: null,
+        placeOfStudy: '',
+        pib: 'qwerty'
+      };
+    });
+
+    it('should open dialog with correct parameters', () => {
+      const matDialogSpy: jest.SpyInstance = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<any>);
+      const expectedMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteChild,
+          property: mockChild.pib
+        }
+      };
+
+      component.onDeleteChild(mockChild);
+
+      expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectedMatDialogData);
+    });
+
+    it('should call deleteChild with correct parameters when confirmed', () => {
+      jest.spyOn(matDialog, 'open').mockReturnValueOnce({
+        afterClosed: () => of(true)
+      } as MatDialogRef<any>);
+
+      const deleteChildSpy = jest.spyOn<any, any>(component, 'deleteChild');
+
+      component.onDeleteChild(mockChild);
+
+      expect(deleteChildSpy).toHaveBeenCalledWith(mockChild.id, component.childrenParams);
+    });
+
+    it('should not call deleteChild when not confirmed', () => {
+      jest.spyOn(matDialog, 'open').mockReturnValueOnce({
+        afterClosed: () => of(false)
+      } as MatDialogRef<any>);
+      const deleteChildSpy = jest.spyOn<any, any>(component, 'deleteChild');
+
+      component.onDeleteChild(mockChild);
+
+      expect(deleteChildSpy).not.toHaveBeenCalled();
     });
   });
 });
