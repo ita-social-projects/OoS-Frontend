@@ -186,40 +186,6 @@
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</label>
-  <mat-radio-group
-    formControlName="areThereBenefits"
-    color="primary"
-    class="flex flex-col box-border justify-between content-center items-stretch">
-    <mat-radio-button [value]="true">{{ 'AGREEMENT' | translate }}</mat-radio-button>
-    <mat-radio-button [value]="false">{{ 'DISAGREEMENT' | translate }}</mat-radio-button>
-  </mat-radio-group>
-  <div class="flex flex-row justify-between">
-    <label class="step-label">{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
-    <label class="step-characters-count">
-      <ng-container *ngIf="DescriptionFormGroup.get('preferentialTermsOfParticipation').value; else elseBlock">
-        {{ DescriptionFormGroup.get('preferentialTermsOfParticipation').value?.length }}/{{
-          validationConstants.MAX_DESCRIPTION_LENGTH_500
-        }}
-      </ng-container>
-      <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
-    </label>
-  </div>
-  <textarea
-    matInput
-    class="step-textarea step-textarea-short"
-    placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-      'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-    }}"
-    formControlName="preferentialTermsOfParticipation"
-    [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-  </textarea>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('preferentialTermsOfParticipation')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-  </app-validation-hint>
-
   <label class="step-label">{{ 'FORMS.LABELS.COVERAGE' | translate }}</label>
   <mat-form-field appearance="fill">
     <mat-select

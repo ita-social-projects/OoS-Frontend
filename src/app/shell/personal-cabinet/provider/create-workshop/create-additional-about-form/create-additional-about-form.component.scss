@@ -1,2 +1,56 @@
 @import 'src/app/shared/styles/create-form.scss';
 @import 'src/app/shared/styles/validation-form.scss';
+
+.pay-type {
+  flex-grow: 1;
+
+  &__error {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.price-text {
+  width: 65px;
+  display: block;
+}
+
+.price-only-uah,
+.for-only-text {
+  display: none;
+}
+
+.price-input {
+  max-width: 100px;
+  text-align: center;
+}
+
+@media (max-width: 750px) {
+  .price::after {
+    font-weight: 700;
+    color: #aaaaaa;
+    padding: 5px;
+    line-height: initial;
+    width: 65px;
+  }
+
+  .price-text {
+    display: none;
+  }
+
+  .price-only-uah,
+  .for-only-text {
+    display: block;
+  }
+
+  .price,
+  .radio-button-wrap {
+    place-content: flex-start !important;
+  }
+}
+
+@media (max-width: 410px) {
+  .payment-type-input {
+    width: 90%;
+  }
+}

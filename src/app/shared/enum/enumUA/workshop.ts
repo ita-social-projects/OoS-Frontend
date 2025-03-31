@@ -61,6 +61,6 @@ export enum CoverageEnum {
   International = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.COVERAGE.INTERNATIONAL'
 }
 
-export enum WorkshopTypeEnum {
-  None = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.WORKSHOP_TYPE.NONE'
+export enum GroupTypeEnum {
+  None = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.NONE'
 }

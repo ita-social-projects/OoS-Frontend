@@ -59,7 +59,7 @@ export enum AgeComposition {
   DifferentAge = 'DifferentAge'
 }
 
-export enum WorkshopType {
+export enum GroupType {
   None = 'None'
 }
 

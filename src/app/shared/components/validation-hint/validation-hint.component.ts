@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -34,7 +34,7 @@ import {
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
-  @Input() public validationFormControl: FormControl | FormGroup; // required for validation
+  @Input() public validationFormControl: AbstractControl; // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
@@ -91,16 +91,16 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public updateValidationState(formControl: FormControl): void {
-    const errors = formControl.errors;
+  public updateValidationState(control: AbstractControl): void {
+    const errors = control.errors;
 
     // Makes the control touched, so that the user can see the result of the check without needing to unfocus
-    if (!formControl.touched) {
-      formControl.markAsTouched();
+    if (!control.touched) {
+      control.markAsTouched();
     }
 
     // Check is the field required and empty
-    if (errors?.required && !formControl?.value) {
+    if (errors?.required && !control?.value) {
       this.errors.push(ValidationMessages.REQUIRED_INPUT);
     }
 

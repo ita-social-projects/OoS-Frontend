@@ -61,6 +61,10 @@
   }
 }
 
+:host ::ng-deep .mat-mdc-input-element.phone-number-input {
+  margin-left: 0 !important;
+}
+
 .invalid {
   outline: none;
   border: 1px solid #c72a21;
