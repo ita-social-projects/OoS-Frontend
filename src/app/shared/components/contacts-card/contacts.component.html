@@ -37,7 +37,7 @@
               <div class="contact-info-extended" *ngFor="let phone of contact.phones">
                 <mat-icon class="card_icon">call</mat-icon>
                 <span class="contact-title">{{ phone.type }}</span>
-                <a href="tel:{{ phone }}" rel="noopener">{{ phone.number }}</a>
+                <a href="tel:{{ phone.number }}" rel="noopener">{{ phone.number }}</a>
               </div>
             </div>
             <div class="email-info">
@@ -51,7 +51,7 @@
               <div class="contact-info-extended" *ngFor="let social of contact.socialNetworks">
                 <mat-icon class="card_icon">language</mat-icon>
                 <span class="contact-title">{{ social.type }}</span>
-                <a [href]="social" target="_blank" rel="noopener">{{ social.url }}</a>
+                <a [href]="social.url" target="_blank" rel="noopener">{{ social.url }}</a>
               </div>
             </div>
           </div>

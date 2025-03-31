@@ -36,7 +36,6 @@ export class ContactsCardComponent implements OnInit {
 
   public mapLink(address: Address): void {
     const { street, buildingNumber, codeficatorAddressDto } = address;
-    console.log(codeficatorAddressDto);
     const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
     const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
     let addressLink = 'https://www.google.com/maps/search/?api=1&query=';
