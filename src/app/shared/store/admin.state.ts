@@ -125,7 +125,8 @@ import {
   OnApproveDraftSuccess,
   OnRejectDraftFail,
   OnRejectDraftSuccess,
-  RejectWorkshopDraft
+  RejectWorkshopDraft,
+  OnGetFilteredWorkshopDraftsSuccess
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -569,9 +570,14 @@ export class AdminState {
   ): Observable<SearchResponse<WorkshopDraft[]> | void> {
     patchState({ isLoading: true });
     return this.adminService.getWorkshopDrafts(workshopParameters).pipe(
-      tap((workshops) => patchState({ isLoading: false, workshopDrafts: workshops })),
+      tap((workshops) => dispatch(new OnGetFilteredWorkshopDraftsSuccess(workshops))),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetFilteredWorkshopDraftsFail(error)))
     );
+  }
+
+  @Action(OnGetFilteredWorkshopDraftsSuccess)
+  getFilteredWorkshopDraftsSuccess({ patchState }: StateContext<AdminStateModel>, { workshops }: OnGetFilteredWorkshopDraftsSuccess): void {
+    patchState({ isLoading: false, workshopDrafts: workshops });
   }
 
   @Action(OnGetFilteredWorkshopDraftsFail)

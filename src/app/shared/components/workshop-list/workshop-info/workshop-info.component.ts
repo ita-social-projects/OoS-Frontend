@@ -72,8 +72,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public hasSocialNetworks(): boolean {
-    return (
-      (Boolean(this.workshop.contacts?.length) && this.workshop.contacts?.some((contact) => contact.socialNetworks?.length > 0)) ?? false
-    );
+    return this.workshop?.contacts?.some((contact) => contact.socialNetworks?.length);
   }
 }

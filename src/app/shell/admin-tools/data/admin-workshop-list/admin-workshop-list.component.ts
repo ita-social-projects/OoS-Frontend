@@ -28,6 +28,10 @@ export class AdminWorkshopListComponent {
     workshopParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
 
     switch (role) {
+      case Role.techAdmin:
+        workshopParameters.institutionId = '';
+        workshopParameters.catottgId = 0;
+        break;
       case Role.ministryAdmin:
         workshopParameters.institutionId = selectedAdmin.institutionId;
         workshopParameters.catottgId = 0;

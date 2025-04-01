@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { GetAllInstitutions, GetCodeficatorSearch, GetCodeficatorById } from 'shared/store/meta-data.actions';
-import { MatDialogModule } from '@angular/material/dialog';
 import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/region-admin.model';
+import { SharedModule } from 'shared/shared.module';
 import { WorkshopListComponent } from './workshop-list.component';
 
 describe('WorkshopInfoComponent', () => {
@@ -29,7 +29,7 @@ describe('WorkshopInfoComponent', () => {
     } as unknown as jest.Mocked<Store>;
 
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
+      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(), SharedModule],
       declarations: [WorkshopListComponent],
       providers: [{ provide: Store, useValue: storeMock }]
     });

@@ -170,10 +170,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
     this.role$
       .pipe(
-        takeUntil(this.destroy$),
         switchMap((role: Role) => {
           this.role = role;
-
           switch (role) {
             case Role.techAdmin:
               return of(null);
@@ -189,7 +187,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
               // TODO: Add moderator profile fetch
               return this.store.dispatch(new GetProfile());
           }
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.setInitialWorkshopFilterByDefault();
@@ -282,8 +281,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     }
     if (this.isTechAdmin || this.isMinistryAdmin) {
       this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
-        takeUntil(this.destroy$),
-        map((state) => [...state.metaDataState.codeficatorSearch])
+        map((state) => [...state.metaDataState.codeficatorSearch]),
+        takeUntil(this.destroy$)
       );
       this.areaFormControl.disable();
     }
@@ -291,7 +290,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       this.selectedAdmin$
         .pipe(
           filter((admin: RegionAdmin) => Boolean(admin)),
-          takeUntil(this.destroy$),
           switchMap((admin: RegionAdmin) =>
             this.store
               .dispatch(new GetCodeficatorById(admin.catottgId))
@@ -300,7 +298,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
                   this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
                 )
               )
-          )
+          ),
+          takeUntil(this.destroy$)
         )
         .subscribe((state) => {
           const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
@@ -326,8 +325,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         startWith(''),
         skip(1),
         debounceTime(1000),
-        takeUntil(this.destroy$),
-        map((value: string) => value.trim())
+        map((value: string) => value.trim()),
+        takeUntil(this.destroy$)
       )
       .subscribe((searchValue: string) => {
         this.workshopParameters.searchString = searchValue;
@@ -336,7 +335,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       });
 
     this.institutionFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
         this.workshopParameters.institutionId = this.institutionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
@@ -344,7 +343,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       });
 
     this.regionFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((value: Codeficator) => {
         this.workshopParameters.catottgId = this.regionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
@@ -359,7 +358,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       });
 
     this.areaFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
         this.workshopParameters.catottgId = this.areaFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;

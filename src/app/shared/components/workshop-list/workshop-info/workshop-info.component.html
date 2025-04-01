@@ -23,7 +23,7 @@
             <div
               *ngFor="let day of days"
               class="toggle flex flex-row justify-center items-center"
-              [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
+              [class.toggle-selected]="timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase)">
               {{ day.value | translate }}
             </div>
           </div>

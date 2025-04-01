@@ -10,8 +10,9 @@ import { FilterData } from 'shared/models/history-log.model';
 import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
 import { ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from 'shared/models/region-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { StatisticParameters } from 'shared/models/statistic.model';
-import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get About Portal';
@@ -182,6 +183,11 @@ export class GetFilteredWorkshopDrafts {
   static readonly type = '[admin] Get Filtered Workshop Drafts';
 
   constructor(public workshopParameters: WorkshopFilterAdministration) {}
+}
+
+export class OnGetFilteredWorkshopDraftsSuccess {
+  static readonly type = '[admin] Get Filtered Workshop Drafts Success';
+  constructor(public workshops: SearchResponse<WorkshopDraft[]>) {}
 }
 
 export class OnGetFilteredWorkshopDraftsFail {

@@ -62,7 +62,7 @@ td.mat-footer-cell {
 
 td.mat-cell,
 td.mat-footer-cell {
-  padding-right: 0px;
+  padding-right: 0;
 }
 
 ::-webkit-scrollbar {
@@ -72,7 +72,7 @@ td.mat-footer-cell {
 .container {
   margin-left: 1rem;
   @media(max-width: 676px) {
-    margin-left: 0px
+    margin-left: 0;
   }
 }
 
