@@ -67,11 +67,12 @@
     border: 1px solid #e3e3e3;
     border-radius: 25px;
     padding: 20px;
-    height: 200px !important;
+    min-height: 200px;
 
     &-short {
-      height: 100px !important;
+      min-height: 100px;
       margin-top: 1rem;
+      resize: vertical;
     }
 
     textarea::-webkit-scrollbar {
