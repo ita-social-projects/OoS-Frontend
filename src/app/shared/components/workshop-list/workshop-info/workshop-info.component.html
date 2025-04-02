@@ -150,16 +150,16 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!hasSocialNetworks()" style="justify-content: center" class="add-wrapper flex flex-row">
+      <div *ngIf="!hasSocialNetworks()" class="add-wrapper flex flex-row">
         <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
       </div>
-      <a [routerLink]="['/details/draft/', workshopDraftId]" style="justify-content: center" class="add-wrapper flex flex-row">
+      <a [routerLink]="['/details/draft/', workshopDraftId]"class="add-wrapper flex flex-row">
         <p>{{ 'SERVICE_MESSAGES.FULL_CONTACTS_INFO' | translate }}</p>
       </a>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">
-      <div style="justify-content: center" class="add-wrapper flex flex-row">
+      <div class="add-wrapper flex flex-row">
         <p>{{ 'TEMP.FUNCTIONALITY_LATER_MESSAGE' | translate }}</p>
       </div>
     </mat-tab>

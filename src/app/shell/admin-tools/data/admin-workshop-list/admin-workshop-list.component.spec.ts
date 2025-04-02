@@ -76,7 +76,7 @@ describe('AdminWorkshopListComponent', () => {
     expect(workshopParameters.catottgId).toBe(789);
   });
 
-  it('should set default filters for  TechAdmin', () => {
+  it('should set default filters for TechAdmin', () => {
     const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
     const selectedAdmin: BaseAdmin = {} as BaseAdmin;
 
