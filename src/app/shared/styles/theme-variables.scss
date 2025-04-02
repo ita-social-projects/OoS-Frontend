@@ -1,0 +1,14 @@
+$primary-color: #3849f9;
+$button-color-cancel: #444444;
+$secondary-light-color: #aaaaaa;
+$disabled-color: #666666;
+$light-primary-text: #ffffff;
+$dark-primary-text: #000000;
+
+:root {
+  --primary-light-color: #{$light-primary-text};
+  --secondary-light-color: #{$secondary-light-color};
+  --primary-accent-color: #{$primary-color};
+  --primary-cancel-color: #{$button-color-cancel};
+  --primary-dark-color: #{$dark-primary-text};
+}

@@ -1,10 +1,9 @@
-$button-color: #3849f9;
-$button-color-cancel: #444444;
+@import './theme-variables.scss';
 
 .btn {
-  color: white;
-  background-color: $button-color;
-  border: 1px solid $button-color;
+  color: var(--primary-light-color);
+  background-color: var(--primary-accent-color);
+  border: 1px solid var(--primary-accent-color);
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
@@ -17,40 +16,40 @@ $button-color-cancel: #444444;
 
   &-reset,
   &-add {
-    color: $button-color;
+    color: var(--primary-accent-color);
     padding: 2px 30px;
     border-radius: 20px;
   }
 
   .btn-add {
-    color: $button-color;
+    color: var(--primary-accent-color);
     .mat-icon-add {
       vertical-align: middle;
       height: 26px;
-      color: $button-color;
+      color: var(--primary-accent-color);
     }
   }
 
   &-cancel {
-    color: $button-color-cancel;
-    background-color: transparent;
-    border-color: $button-color-cancel;
+    color: var(--primary-cancel-color) !important;
+    background-color: transparent !important;
+    border-color: var(--primary-cancel-color) !important;
   }
 
   &-rejected {
-    background-color: #ff0000 !important;
-    border-color: #fff !important;
-    color: #fff !important;
+    background-color: var(--error-color) !important;
+    border-color: var(--primary-light-color) !important;
+    color: var(--primary-light-color); !important;
   }
 
   &-transparent {
     padding: 0.75rem 1rem;
-    color: black;
+    color: var(--primary-dark-color);
     font-weight: 700;
     gap: 0.5rem;
 
     background-color: transparent;
-    border-color: #aaaaaa;
+    border-color: var(--secondary-light-color);
 
     .download-icon {
       font-size: 1rem;
@@ -70,9 +69,9 @@ $button-color-cancel: #444444;
   border-radius: 20px;
 
   &-application {
-    background: $button-color;
-    border: 1px solid $button-color;
-    color: #ffffff;
+    background: var(--primary-accent-color);
+    border: 1px solid var(--primary-accent-color);
+    color: var(--primary-light-color);
   }
 
   &:hover {
@@ -83,11 +82,12 @@ $button-color-cancel: #444444;
 
 button:disabled,
 button[disabled] {
-  border: 1px solid #dddcdc;
-  background-color: #dddcdc;
-  color: #666666;
+  border: 1px solid var(--secondary-light-color);
+  background-color: var(--secondary-light-color);
+  color: var(--primary-cancel-color);
   pointer-events: none;
 }
+
 .status-info-icon {
   cursor: pointer;
   margin: auto 0.5rem;
