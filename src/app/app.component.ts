@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private getOnlyUkrainianLanguage(): void {
     this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
-      if (featuresList?.onlyUkrainianLanguage) {
+      if (featuresList.onlyUkrainianLanguage) {
         this.setDefaultLanguage();
         this.setLanguageInServices();
       }

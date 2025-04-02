@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <a *ngIf="(featuresList$ | async)?.directionManagement" [routerLink]="['./create', ModeConstants.NEW]"
+  <a *ngIf="featuresList?.directionManagement" [routerLink]="['./create', ModeConstants.NEW]"
     ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_DIRECTION' | translate }}</button></a
   >
 </div>
@@ -23,7 +23,7 @@
       *ngFor="let direction of (filteredDirections$ | async)?.entities"
       [direction]="direction"
       (deleteDirection)="onDelete($event)"
-      [isEditMode]="(featuresList$ | async)?.directionManagement">
+      [isEditMode]="featuresList?.directionManagement">
     </app-category-card>
   </div>
   <app-paginator

@@ -8,7 +8,7 @@ export interface FeaturesList {
   directionManagement: boolean;
   achievementManagement: boolean;
   messagingFeature: boolean;
-  adminsChildernParentsManagement: boolean;
+  adminsChildrenParentsManagement: boolean;
   emailConfirmation: boolean;
   emailManagement: boolean;
   passwordManagement: boolean;

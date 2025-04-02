@@ -40,6 +40,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
+  public featuresList: FeaturesList;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -70,6 +71,10 @@ export class DirectionsComponent implements OnInit, OnDestroy {
     this.filteredDirections$
       .pipe(takeUntil(this.destroy$))
       .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
+
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+        this.featuresList = featuresList;
+      });
   }
 
   public onPageChange(page: PaginationElement): void {

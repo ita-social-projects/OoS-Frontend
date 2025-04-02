@@ -35,7 +35,8 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   public culture: string = localStorage.getItem('ui-culture');
   public link: string;
   public featuresList: FeaturesList;
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   
   constructor(private store: Store) {}
 
