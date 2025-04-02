@@ -30,6 +30,7 @@ import { FiltersListComponent } from './components/filters-list/filters-list.com
 import { FullSearchBarComponent } from './components/filters-list/full-search-bar/full-search-bar.component';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
+import { WorkshopSearchbarComponent } from './components/filters-list/workshops-searchbar/workshop-searchbar.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
@@ -94,6 +95,7 @@ import { CreateContactsComponent } from './base-components/create-contacts/creat
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
+    WorkshopSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,
@@ -191,6 +193,7 @@ import { CreateContactsComponent } from './base-components/create-contacts/creat
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
+    WorkshopSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,

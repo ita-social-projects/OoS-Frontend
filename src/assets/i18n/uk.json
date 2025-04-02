@@ -44,6 +44,7 @@
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
+  "SEARCH_WORKSHOP": "Пошук гуртка",
   "ENUM": {
     "CHAT_CHANGES": {
       "CHANGE_IN_MESSAGES": "зміна в повідомленнях",
@@ -141,9 +142,9 @@
       "SUPPORT": "Підтримка",
       "USERS": "Користувачі",
       "MY_WORKSHOPS": "Мої гуртки",
-      "SUBJECTS":"Навчальні предмети",
-      "ADD_SUBJECTS":"Додати навчальний предмет",
-      "EDIT_SUBJECTS":"Редагування навчального предмету",
+      "SUBJECTS": "Навчальні предмети",
+      "ADD_SUBJECTS": "Додати навчальний предмет",
+      "EDIT_SUBJECTS": "Редагування навчального предмету",
       "MY_COMPETITIONS": "Мої конкурси",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
@@ -529,11 +530,11 @@
       "LANGUAGE": "Мова",
       "SOCIAL_NETWORKS": "Соціальні мережі",
       "SUBJECT_NAME_UKRAINIAN": "Назва предмету українською мовою",
-      "TEACHING_LANGUAGE_SUBJECT_NAME":"Назва предмету мовою викладання",
-      "TEACHING_LANGUAGE":"Мова викладання",
-      "LAST_REFERRED":"Дата останнього посилання на навчальний предмет",
-      "USED_IN":"Кількість гуртків у яких використовується",
-      "SUBJECT_NAME":"Назва навчального предмету"
+      "TEACHING_LANGUAGE_SUBJECT_NAME": "Назва предмету мовою викладання",
+      "TEACHING_LANGUAGE": "Мова викладання",
+      "LAST_REFERRED": "Дата останнього посилання на навчальний предмет",
+      "USED_IN": "Кількість гуртків у яких використовується",
+      "SUBJECT_NAME": "Назва навчального предмету"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -553,7 +554,7 @@
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
       "SEARCH_STUDY_SUBJECT": "Пошук навчального предмету за назвою",
-      "SELECT_LANGUAGE_OF_INSTRUCTION":"Оберіть мову викладання",
+      "SELECT_LANGUAGE_OF_INSTRUCTION": "Оберіть мову викладання",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
@@ -804,7 +805,7 @@
     "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
     "NO_CHILD_WORKSHOPS": "Гуртків поки немає!",
     "NO_CHAT_HISTORY": "У чаті ще немає повідомлень",
-    "NO_STUDY_SUBJECTS":"Навчальних предметів поки немає",
+    "NO_STUDY_SUBJECTS": "Навчальних предметів поки немає",
     "NO_JUDGES": "Суддів поки немає",
     "NO_FEATURE": "Цей функціонал поки недоступний"
   },
@@ -955,9 +956,9 @@
       "UPDATE_PROVIDER_DEPUTY": "Заступника директора успішно відредаговано!",
       "COMPLETE_PROVIDER_REGISTRATION": "Будь ласка, завершіть реєстрацію закладу.",
       "COMPLETE_USER_REGISTRATION": "Будь ласка, завершіть реєстрацію користувача.",
-      "CREATE_SUBJECT":"Навчальний предмет успішно створено!",
-      "UPDATE_SUBJECT":"Навчальний предмет успішно відредаговано!",
-      "DELETE_SUBJECT":"Навчальний предмет успішно видалено!",
+      "CREATE_SUBJECT": "Навчальний предмет успішно створено!",
+      "UPDATE_SUBJECT": "Навчальний предмет успішно відредаговано!",
+      "DELETE_SUBJECT": "Навчальний предмет успішно видалено!",
       "CREATE_RATING": "Оцінка успішно поставлена!",
       "UPDATE_PORTAL": "Інформація про портал успішно відредагована",
       "UPDATE_USER": "Особиста інформація успішно відредагована!",
@@ -1137,9 +1138,9 @@
     "SELECT_FILE": "Вибрати файл",
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
     "SUBMIT_FILE": "Надіслати файл",
-    "UPLOAD_SUCCESS":"Дані успішно завантажені",
-    "UPLOAD_FAILURE":"Помилка завантаження,спробуйте пізніше",
-    "INCORRECT_ROWS":"Не валідних рядків: ",
+    "UPLOAD_SUCCESS": "Дані успішно завантажені",
+    "UPLOAD_FAILURE": "Помилка завантаження,спробуйте пізніше",
+    "INCORRECT_ROWS": "Не валідних рядків: ",
     "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
     "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
     "FILE_READER_ERROR": "Помилка при читанні файлу",
@@ -1156,16 +1157,16 @@
       "EMPLOYEE_ASSIGNED_ROLE": "Призначені ролі"
     },
     "ERRORS": {
-      "ERRORS_TYPES":"Типи помилок",
-      "DATA_DUPLICATE":"Дублікат",
-      "MISSING_INFO_EMPTY_FIELD":"Відсутня інформація/пусте поле",
-      "WRONG_LENGTH":"Некоректна кількість знаків",
-      "WRONG_FORMAT":"Некоректний формат",
-      "WRONG_LANGUAGE":"Некоректно вибрана мова"
+      "ERRORS_TYPES": "Типи помилок",
+      "DATA_DUPLICATE": "Дублікат",
+      "MISSING_INFO_EMPTY_FIELD": "Відсутня інформація/пусте поле",
+      "WRONG_LENGTH": "Некоректна кількість знаків",
+      "WRONG_FORMAT": "Некоректний формат",
+      "WRONG_LANGUAGE": "Некоректно вибрана мова"
     }
   },
-  "EMPLOYEES":"Співробітники",
-  "EMPLOYEES_REGISTRATION":"Реєстрація співробітників",
+  "EMPLOYEES": "Співробітники",
+  "EMPLOYEES_REGISTRATION": "Реєстрація співробітників",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "Цей функціонал буде додано пізніше"
   }
