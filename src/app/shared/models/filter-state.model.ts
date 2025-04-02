@@ -33,4 +33,6 @@ export interface FilterStateModel {
   from: number;
   size: number;
   previousResults: string[];
+  workshopSearchQuery: string;
+  workshopPreviousResults: string[];
 }

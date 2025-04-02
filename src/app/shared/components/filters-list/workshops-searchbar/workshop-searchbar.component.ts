@@ -7,7 +7,7 @@ import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, t
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { Navigation } from 'shared/models/navigation.model';
-import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { AddWorkshopPreviousResult, RemoveWorkshopPreviousResult, SetWorkshopSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
 import { SEARCHBAR_REGEX_VALID, SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
@@ -23,9 +23,9 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
 
   @Select(NavigationState.navigationPaths)
   private readonly navigationPaths$: Observable<Navigation[]>;
-  @Select(FilterState.searchQuery)
+  @Select(FilterState.workshopSearchQuery)
   private readonly searchQuery$: Observable<string>;
-  @Select(FilterState.previousResults)
+  @Select(FilterState.workshopPreviousResults)
   private readonly previousResults$: Observable<string[]>;
 
   public filteredResults: string[];
@@ -56,13 +56,13 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
       .pipe(
         distinctUntilChanged(),
         startWith(''),
-        takeUntil(this.destroy$),
         map((value: string) => value.trim()),
         withLatestFrom(this.previousResults$),
         tap(([value, results]: [string, string[]]) => {
           this.tempSearchValue = value;
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
 
@@ -107,7 +107,7 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
   public onDeletePreviousSearchValue(previousValue: string, event: Event): void {
     event.stopPropagation();
     this.filteredResults = this.filteredResults.filter((result: string) => result !== previousValue);
-    this.store.dispatch(new RemovePreviousResult(previousValue));
+    this.store.dispatch(new RemoveWorkshopPreviousResult(previousValue));
   }
 
   private performSearch(): void {
@@ -117,7 +117,7 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
       this.searchedText = searchValue;
       this.saveSearchResults();
       const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: searchValue };
-      this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
+      this.store.dispatch(new SetWorkshopSearchQueryValue(this.searchedText || ''));
 
       this.searchValueFormControl.setValue(searchValue, { emitEvent: false });
     } else {
@@ -131,6 +131,6 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
    * than 10, then the oldest value is removed and the new one is added.
    */
   private saveSearchResults(): void {
-    this.store.dispatch(new AddPreviousResult(this.searchedText));
+    this.store.dispatch(new AddWorkshopPreviousResult(this.searchedText));
   }
 }

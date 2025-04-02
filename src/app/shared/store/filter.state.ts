@@ -13,6 +13,7 @@ import { WorkshopCard } from 'shared/models/workshop.model';
 import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
 import {
   AddPreviousResult,
+  AddWorkshopPreviousResult,
   CleanCity,
   ClearCoordsByMap,
   ClearRadiusSize,
@@ -21,6 +22,7 @@ import {
   FilterClear,
   GetFilteredWorkshops,
   RemovePreviousResult,
+  RemoveWorkshopPreviousResult,
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
@@ -46,7 +48,8 @@ import {
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
-  SetWorkingDays
+  SetWorkingDays,
+  SetWorkshopSearchQueryValue
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -62,7 +65,9 @@ import {
     isMapView: false,
     from: null,
     size: null,
-    previousResults: []
+    previousResults: [],
+    workshopSearchQuery: '',
+    workshopPreviousResults: []
   }
 })
 @Injectable()
@@ -105,8 +110,18 @@ export class FilterState {
   }
 
   @Selector()
+  static workshopSearchQuery(state: FilterStateModel): string {
+    return state.workshopSearchQuery;
+  }
+
+  @Selector()
   static previousResults(state: FilterStateModel): string[] {
     return state.previousResults;
+  }
+
+  @Selector()
+  static workshopPreviousResults(state: FilterStateModel): string[] {
+    return state.workshopPreviousResults;
   }
 
   @Selector()
@@ -252,6 +267,11 @@ export class FilterState {
     patchState({ searchQuery: payload, from: 0 });
   }
 
+  @Action(SetWorkshopSearchQueryValue)
+  setWorkshopSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkshopSearchQueryValue): void {
+    patchState({ workshopSearchQuery: payload, from: 0 });
+  }
+
   @Action(AddPreviousResult)
   addPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddPreviousResult): void {
     const trimmedResult = result.trim();
@@ -267,10 +287,31 @@ export class FilterState {
     ctx.patchState({ previousResults: updatedResults });
   }
 
+  @Action(AddWorkshopPreviousResult)
+  addWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddWorkshopPreviousResult): void {
+    const trimmedResult = result.trim();
+    if (!trimmedResult) {
+      return;
+    }
+    const state = ctx.getState();
+    const updatedResults = [
+      trimmedResult,
+      ...state.workshopPreviousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
+    ].slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS);
+
+    ctx.patchState({ workshopPreviousResults: updatedResults });
+  }
+
   @Action(RemovePreviousResult)
   removePreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemovePreviousResult): void {
     const updatedResults = ctx.getState().previousResults.filter((result) => result !== previousResult);
     ctx.patchState({ previousResults: updatedResults });
+  }
+
+  @Action(RemoveWorkshopPreviousResult)
+  removeWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemoveWorkshopPreviousResult): void {
+    const updatedResults = ctx.getState().workshopPreviousResults.filter((result) => result !== previousResult);
+    ctx.patchState({ workshopPreviousResults: updatedResults });
   }
 
   @Action(SetOpenRecruitment)
