@@ -377,7 +377,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
           trailing: false
         })
       ),
-      this.DescriptionFormGroup.get('competitiveSelectionDesc').valueChanges.pipe(
+      this.DescriptionFormGroup.get('competitiveSelectionDescription').valueChanges.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false

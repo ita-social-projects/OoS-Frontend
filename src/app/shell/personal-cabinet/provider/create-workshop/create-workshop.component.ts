@@ -35,6 +35,9 @@ import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -89,7 +92,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     super(store, route, navigationBarService);
   }
@@ -237,8 +241,24 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
       if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && !this.shouldBeDraft(workshop)) {
         this.store.dispatch(new UpdateWorkshop(workshop));
+        this.store.dispatch(new OnDeleteUnfinishedWorkshop());
       } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && this.shouldBeDraft(workshop)) {
-        this.store.dispatch(new CreateWorkshopDraft(workshop));
+        const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.draftEditSet
+          }
+        });
+
+        dialogRef
+          .afterClosed()
+          .pipe(take(1))
+          .subscribe((res: boolean) => {
+            if (res) {
+              this.store.dispatch(this.store.dispatch(new CreateWorkshopDraft(workshop)));
+              this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+            }
+          });
       } else {
         const draftId = this.getRouteParam();
         this.store.dispatch(new UpdateDraft(draftId, workshop));
@@ -246,9 +266,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
     }
-
-    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
   /**
@@ -423,8 +442,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const fieldsToCheck = [
       'title',
       'shortTitle',
-      'imageFiles',
       'coverImage',
+      'imageIds',
       'competitiveSelectionDescription',
       'workshopDescriptionItems',
       'disabilityOptionsDesc',
@@ -448,8 +467,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         }
       } else if (
         newWorkshop[fieldName] !== workshop[fieldName] &&
-        !Util.isEmpty(newWorkshop[fieldName]) &&
-        !Util.isEmpty(workshop[fieldName])
+        (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(workshop[fieldName]))
       ) {
         return true;
       }
