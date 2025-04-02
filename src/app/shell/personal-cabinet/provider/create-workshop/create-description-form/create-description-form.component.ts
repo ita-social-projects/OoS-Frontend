@@ -275,7 +275,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     if (this.workshop.competitiveSelection) {
-      this.DescriptionFormGroup.get('competitiveSelectionDescription').enable();
+      this.DescriptionFormGroup.get('competitiveSelectionDescription')?.enable();
     }
   }
 
