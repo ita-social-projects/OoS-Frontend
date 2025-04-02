@@ -1,5 +1,4 @@
 import { DateTimeRanges } from 'shared/models/working-hours.model';
-import { Address } from 'shared/models/address.model';
 import { Contacts, Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 
@@ -22,9 +21,6 @@ export class WorkshopMainRequiredProperties extends BaseWorkshop {
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
-  isPaid?: boolean;
-  price: number;
-  payRate: PayRateType;
   availableSeats: number;
   competitiveSelection: boolean;
   competitiveSelectionDescription?: string;
@@ -40,7 +36,12 @@ export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredPropert
   isInclusive: boolean;
   educationalShift: string;
   ageComposition: string;
-  workshopType: string;
+  groupType: string;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
+  isPaid?: boolean;
+  price: number;
+  payRate: PayRateType;
 }
 
 export class WorkshopDescription extends WorkshopOtherRequiredProperties {
@@ -53,8 +54,6 @@ export class WorkshopDescription extends WorkshopOtherRequiredProperties {
   directionIds: number[];
   keywords: string[];
   additionalDescription: string;
-  areThereBenefits: boolean;
-  preferentialTermsOfParticipation: string;
   coverageId: number;
   tagIds: number[];
 }

@@ -348,7 +348,7 @@
         "ALL_UKRAINE": "All Ukraine",
         "INTERNATIONAL": "International"
       },
-      "WORKSHOP_TYPE": {
+      "GROUP_TYPE": {
         "NONE": "None"
       }
     },
@@ -420,6 +420,7 @@
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
       "AVAILABLE_PLACES": "Number of available places",
+      "AVAILABLE_PLACES_DESCRIPTION": "Specify maximum number of seats or group size",
       "BIRTHDAY": "Birthday",
       "BUILDING": "Building",
       "LESSONS_SCHEDULE": "Lessons schedule",
@@ -448,9 +449,9 @@
       "DESCRIPTION_SELECTION": "Description of enrolment procedure",
       "COMPETITIVE_BENEFITS": "Competitive benefits",
       "DESCRIPTION_BENEFITS": "Description of benefits",
-      "TITLE": "Title",
+      "TITLE": "Full title",
       "WEBSITE": "Website",
-      "WORKING_HOURS": "Working hours",
+      "WORKING_HOURS": "Time of classes",
       "APPLY_CHILDREN": "Apply children data",
       "APPLY_USER": "Apply your data",
       "SELECT_CHILD": "Select child from the list",
@@ -513,7 +514,7 @@
       "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
-      "WORKSHOP_TYPE": "Workshop type",
+      "GROUP_TYPE": "Workshop type",
       "WORKSHOP_IMAGES": "Photos of the workshop",
       "COVER_IMAGE": "Cover image",
       "PROVIDER_IMAGES": "Photos of the provider",
@@ -600,7 +601,6 @@
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_DATE_RANGE": "Check your data </br> Date of birth is out of range.",
-      "INVALID_EMAIL": "Enter a valid email.",
       "INVALID_EDRPO_IPN": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
@@ -618,7 +618,6 @@
       "INVALID_LENGTH_FROM_TO_WITH_COUNT": "This field must contain from {{minCharacters}} to {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
       "INVALID_LENGTH_NO_MORE_THAN": "This field must contain no more than {{maxCharacters}} symbols.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "This field must contain no more than {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
-      "INVALID_INPUT": "Check your data",
       "INVALID_LINK": "Enter a valid link to the page",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain {{minCharacters}}",
@@ -643,7 +642,9 @@
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
     "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
     "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account.",
-    "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed)."
+    "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed).",
+    "SHORT_TITLE_DESCRIPTION": "This name will be displayed for parents and children. Example: Folk Art",
+    "WORKING_HOURS": "The workshop may have different hours on different days of the week."
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
@@ -712,7 +713,7 @@
   "BANNERS": {
     "ADD_CHILDREN": "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT": "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP": "You can add information about the new workshop",
+    "ADD_WORKSHOP": "Add information about the new workshop, section or study group",
     "ADD_COMPETITION": "You can add information about the new competition",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
     "ADD_SUBJECTS": "You can add information about the new study subject",

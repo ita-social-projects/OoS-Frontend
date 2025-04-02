@@ -47,7 +47,7 @@ export abstract class WorkshopBase {
   educationalShift: string;
   ageComposition: string;
   coverage: string;
-  workshopType: string;
+  groupType: string;
 
   constructor(
     about: WorkshopAbout,
@@ -63,8 +63,6 @@ export abstract class WorkshopBase {
     this.minAge = about?.minAge;
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
-    this.price = about?.price;
-    this.payRate = about?.payRate;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.competitiveSelection = about?.competitiveSelection;
@@ -84,13 +82,15 @@ export abstract class WorkshopBase {
     this.isSpecial = additionalAbout?.isSpecial;
     this.isInclusive = additionalAbout?.isInclusive;
     this.specialNeedsType = additionalAbout?.specialNeedsType;
-    this.areThereBenefits = description?.areThereBenefits;
-    this.preferentialTermsOfParticipation = description?.preferentialTermsOfParticipation;
+    this.areThereBenefits = additionalAbout?.areThereBenefits;
+    this.preferentialTermsOfParticipation = additionalAbout?.preferentialTermsOfParticipation;
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
+    this.groupType = additionalAbout?.groupType;
+    this.price = additionalAbout?.price;
+    this.payRate = additionalAbout?.payRate;
     this.coverage = description?.coverage;
     this.contacts = workshopContacts;
-    this.workshopType = additionalAbout?.workshopType;
 
     if (id) {
       this.id = id;
@@ -224,8 +224,6 @@ export interface WorkshopAbout {
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
-  price: number;
-  payRate: PayRateType;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;
@@ -243,8 +241,13 @@ export interface AdditionalAbout {
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
-  workshopType: string;
+  groupType: string;
+  price: number;
+  payRate: PayRateType;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
 }
+
 export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   disabilityOptionsDesc?: string;
@@ -253,8 +256,6 @@ export interface Description {
   imageFiles?: File[];
   tagIds: number[];
   enrollmentProcedureDescription: string;
-  areThereBenefits: boolean;
-  preferentialTermsOfParticipation: string;
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;

@@ -158,7 +158,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor {
 
   private updateImageIdsFormControl(imageId: string): void {
     const imgIds = [...this.imageIdsFormControl.value];
-    const imgIndex: number = imgIds.indexOf(imageId);
+    const imgIndex: number = imgIds.findIndex((image) => image.includes(imageId));
 
     if (imgIndex !== -1) {
       imgIds.splice(imgIndex, 1);

@@ -12,7 +12,7 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { AdditionalAbout, Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -73,7 +73,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   };
   private readonly stepActions = {
     1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
-    2: (): void => this.dispatchUnfinishedData(2, this.AdditionalAboutGroup.getRawValue()),
+    2: (): void => this.dispatchUnfinishedData(2, this.createAdditionalAbout()),
     3: (): void =>
       this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
     4: (): void => {
@@ -209,7 +209,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const contacts = this.createContacts();
     const aboutInfo = this.createAbout();
-    const additionalAboutInfo = this.AdditionalAboutGroup.getRawValue();
+    const additionalAboutInfo = this.createAdditionalAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     // const teachers = this.createTeachers();
     const teachers = [];
@@ -232,7 +232,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-address child component and assigns to the Address FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
@@ -241,7 +241,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
-   * @param FormArray array
+   * @param array
    */
   public onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
@@ -250,7 +250,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-about child component and assigns to the About FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
@@ -264,7 +264,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
@@ -273,7 +273,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-additional-about child component and assigns to the AdditionalAbout FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveAdditionalAboutGroup(form: FormGroup): void {
     this.AdditionalAboutGroup = form;
@@ -348,7 +348,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.TeacherFormArray
     ];
 
-    return steps.findIndex((step) => !step?.valid);
+    return steps.findIndex((step) => !step?.valid && !step?.touched);
   }
 
   private getRouteParam(): string {
@@ -363,16 +363,25 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }
-    if (aboutInfo.price === null) {
-      aboutInfo.price = 0;
-      aboutInfo.isPaid = false;
-    }
+
     return aboutInfo;
   }
 
   /**
+   * Prepares 'AdditionalAbout' section data from the form, setting 'price' to 0 if null.
+   */
+  private createAdditionalAbout(): AdditionalAbout {
+    const additionalInfo = this.AdditionalAboutGroup.getRawValue();
+    if (additionalInfo.price === null) {
+      additionalInfo.price = 0;
+      additionalInfo.isPaid = false;
+    }
+
+    return additionalInfo;
+  }
+
+  /**
    * This method create array of teachers
-   * @param FormArray formArray
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
