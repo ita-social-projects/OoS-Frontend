@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { merge, Subject, throttleTime } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, PayRateType, SpecialNeedsType, GroupType } from 'shared/enum/workshop';
 import {
@@ -13,6 +13,9 @@ import {
 import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -41,7 +44,11 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly formBuilder: FormBuilder) {
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly store: Store,
+    private readonly translateService: TranslateService
+  ) {
     this.initializeForm();
   }
 
@@ -64,6 +71,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
     this.priceControlListener();
     this.priceValueListener();
+    this.listenToChanges();
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
   }
 
@@ -174,5 +182,24 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         this.payRateControl.markAsUntouched();
       }
     });
+  }
+
+  private listenToChanges(): void {
+    this.AdditionalAboutGroup.get('preferentialTermsOfParticipation')
+      .valueChanges.pipe(
+        takeUntil(this.destroy$),
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      )
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

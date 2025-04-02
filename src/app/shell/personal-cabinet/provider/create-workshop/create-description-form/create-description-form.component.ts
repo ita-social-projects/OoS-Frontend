@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { merge, Subject, throttleTime } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -26,6 +26,9 @@ import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction } from 'shared/models/category.model';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-description-form',
@@ -84,7 +87,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly tagService: TagService
+    private readonly tagService: TagService,
+    private readonly store: Store,
+    private readonly translateService: TranslateService
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -127,6 +132,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
     if (this.workshop) {
       this.activateEditMode();
+      this.listenToChanges();
     } else {
       this.onAddForm();
     }
@@ -354,5 +360,50 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.tagsControl.markAsTouched(); // to mark as touched another control which represents this in template
       (formControl.statusChanges as EventEmitter<any>).emit();
     };
+  }
+
+  private listenToChanges(): void {
+    merge(
+      this.DescriptionFormGroup.get('imageFiles').valueChanges,
+      this.DescriptionFormGroup.get('workshopDescriptionItems').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ),
+      this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ),
+      this.DescriptionFormGroup.get('competitiveSelectionDesc').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ),
+      this.DescriptionFormGroup.get('keyWords').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ),
+      this.DescriptionFormGroup.get('enrollmentProcedureDescription').valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      )
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

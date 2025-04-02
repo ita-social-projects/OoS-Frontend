@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { merge, Subject, throttleTime } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -242,6 +242,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private listenToChanges(): void {
     merge(
+      this.AboutFormGroup.get('coverImage').valueChanges,
       this.AboutFormGroup.get('title').valueChanges.pipe(
         throttleTime(5000, undefined, {
           leading: true,
