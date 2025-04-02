@@ -71,7 +71,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
-  public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public separatorKeysCodes = [ENTER];
 
   public tagsControl: FormControl = new FormControl<Tag[]>(
@@ -97,7 +96,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null,
+      competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+        Validators.pattern(MUST_CONTAIN_LETTERS)
+      ]),
       tagIds: new FormControl<number[]>(null, [
         Validators.required,
         minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
@@ -273,22 +275,21 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     if (this.workshop.competitiveSelection) {
-      this.DescriptionFormGroup.addControl(
-        'competitiveSelectionDescription',
-        new FormControl(this.workshop.competitiveSelectionDescription || '', Validators.required)
-      );
+      this.DescriptionFormGroup.get('competitiveSelectionDescription').enable();
     }
-
-    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
   private onCompetitiveSelectionInit(): void {
-    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
-      this.DescriptionFormGroup.get('competitiveSelection').setValue(value);
-      if (!value) {
-        this.DescriptionFormGroup.get('competitiveSelectionDescription').reset();
-      }
-    });
+    this.DescriptionFormGroup.get('competitiveSelection')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((value: boolean) => {
+        if (value) {
+          this.DescriptionFormGroup.get('competitiveSelectionDescription').enable();
+        } else {
+          this.DescriptionFormGroup.get('competitiveSelectionDescription').markAsUntouched();
+          this.DescriptionFormGroup.get('competitiveSelectionDescription').disable();
+        }
+      });
   }
 
   /**

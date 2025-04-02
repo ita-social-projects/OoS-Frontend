@@ -123,7 +123,7 @@
 
   <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
   <mat-radio-group
-    [formControl]="competitiveSelectionRadioBtn"
+    formControlName="competitiveSelection"
     color="primary"
     class="flex flex-col box-border justify-between content-center items-stretch">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
