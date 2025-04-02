@@ -87,6 +87,21 @@ export class RemovePreviousResult {
   constructor(public previousResult: string) {}
 }
 
+export class SetWorkshopSearchQueryValue {
+  static readonly type = '[Filter] Set Workshop Search Query Value';
+  constructor(public payload: string) {}
+}
+
+export class AddWorkshopPreviousResult {
+  static readonly type = '[Filter] Add Workshop Previous Result';
+  constructor(public result: string) {}
+}
+
+export class RemoveWorkshopPreviousResult {
+  static readonly type = '[Filter] Remove Workshop Previous Result';
+  constructor(public previousResult: string) {}
+}
+
 export class SetOpenRecruitment {
   static readonly type = '[filter] Set Open Recruitment';
   constructor(public payload: WorkshopOpenStatus[]) {}

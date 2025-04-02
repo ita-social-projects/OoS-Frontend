@@ -23,6 +23,7 @@ import {
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { WINDOW } from 'ngx-window-token';
+import { FormControl } from '@angular/forms';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -114,6 +115,16 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       .subscribe((result: boolean) => {
         this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
       });
+  }
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.workshopCardParameters = {
+      ...this.workshopCardParameters,
+      searchText
+    };
+
+    this.getProviderWorkshops();
   }
 
   public onPageChange(page: PaginationElement): void {
