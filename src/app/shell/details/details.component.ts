@@ -89,7 +89,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.isMobileScreen = isMobileScreen;
         this.role = role;
         this.workshop = Util.containsWorkshopDetails(workshop)
-          ? { draftStatus: workshop.draftStatus, rejectionMessage: workshop.rejectionMessage, ...workshop.workshopDetails }
+          ? {
+              draftStatus: workshop.draftStatus,
+              rejectionMessage: workshop.rejectionMessage,
+              workshopDraftId: workshop.workshopDraftId,
+              ...workshop.workshopDetails
+            }
           : workshop;
         this.provider = provider;
         this.competition = competition;

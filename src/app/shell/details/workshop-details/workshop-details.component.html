@@ -5,17 +5,18 @@
   </div>
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
+    [ngStyle]="{ 'padding-bottom': workshop.rejectionMessage ? '0' : '' }"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button (click)="onActionButtonClick(modalType.archiveWorkshop)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
-      <div
-        *ngIf="workshop.draftStatus && workshop.draftStatus === WorkshopDraftStatus.Rejected"
-        class="reject-block flex flex-row items-center"
-        [matTooltip]="workshop.rejectionMessage">
-        <span class="reject-block-moderator-message">{{ 'MODERATOR_MESSAGE' | translate | uppercase }}</span>
-      </div>
+      <!--      <div-->
+      <!--        *ngIf="workshop.draftStatus && workshop.draftStatus === WorkshopDraftStatus.Rejected"-->
+      <!--        class="reject-block flex flex-row items-center"-->
+      <!--        [matTooltip]="workshop.rejectionMessage">-->
+      <!--        <span class="reject-block-moderator-message">{{ 'MODERATOR_MESSAGE' | translate | uppercase }}</span>-->
+      <!--      </div>-->
       <a
         [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
         class="btn btn-cancel"
@@ -26,12 +27,25 @@
       <button
         *ngIf="!Util.isWorkshop(workshop)"
         class="btn"
-        [disabled]="workshop.draftStatus !== WorkshopType.Draft"
+        [disabled]="workshop.draftStatus !== WorkshopDraftStatus.Draft"
         (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
         mat-button>
         {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
       </button>
     </div>
+  </div>
+
+  <div class="expansion-wrapper" *ngIf="workshop.rejectionMessage">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="reject-block-moderator-message">
+          {{ 'MODERATOR_MESSAGE' | translate | uppercase }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        {{ workshop.rejectionMessage }}
+      </p>
+    </mat-expansion-panel>
   </div>
 
   <div class="details-wrapper">
@@ -103,7 +117,7 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
+        <!--        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>-->
       </mat-tab>
       <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"></app-reviews>

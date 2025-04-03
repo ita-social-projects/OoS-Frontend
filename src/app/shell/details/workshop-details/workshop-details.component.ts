@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { MatDialog } from '@angular/material/dialog';
+import { Actions, ofAction, Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -16,10 +17,9 @@ import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { DraftSendForModeration, ResetAchievements } from 'shared/store/provider.actions';
-import { GetProviderById } from 'shared/store/shared-user.actions';
+import { DraftSendForModeration, OnDraftSendForModerationSuccess, ResetAchievements } from 'shared/store/provider.actions';
+import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
@@ -50,6 +50,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly workshopTitles = DetailsTabTitlesEnum;
+  public readonly WorkshopDraftStatus = WorkshopDraftStatus;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Role = Role;
   public readonly InfoMenuType = InfoMenuType;
@@ -78,7 +79,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private readonly imagesService: ImagesService,
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly actions$: Actions
   ) {}
 
   public ngOnInit(): void {
@@ -119,11 +121,19 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(
+        take(1),
         filter(Boolean),
         switchMap(() => {
           if (modalType === ModalConfirmationType.draftSet) {
-            return this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
+            this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
+
+            return this.actions$.pipe(
+              ofAction(OnDraftSendForModerationSuccess),
+              take(1),
+              tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
+            );
           }
+          return [];
         })
       )
       .subscribe();
@@ -148,7 +158,4 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )
     ]);
   }
-
-  protected readonly WorkshopDraftStatus = WorkshopDraftStatus;
-  protected readonly DraftStatusEnum = DraftStatusEnum;
 }

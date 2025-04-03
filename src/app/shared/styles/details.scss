@@ -14,7 +14,7 @@
 
 .container {
   background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   padding: 0;
   margin-bottom: 2rem;
@@ -63,6 +63,20 @@
       }
     }
   }
+
+  .expansion-wrapper {
+    padding: 20px 0;
+
+    ::ng-deep {
+      .mat-expansion-panel:not([class*='mat-elevation-z']) {
+        border: 1px red solid;
+      }
+
+      .mat-expansion-indicator:after {
+        color: red;
+      }
+    }
+  }
 }
 
 :host ::ng-deep .mat-tab-label-content,
@@ -94,7 +108,7 @@
 }
 
 :host ::ng-deep .mat-tab-link {
-  min-width: 0px !important;
+  min-width: 0 !important;
   padding: inherit !important;
   margin: 10px;
 }
