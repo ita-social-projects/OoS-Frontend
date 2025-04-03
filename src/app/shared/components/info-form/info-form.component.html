@@ -1,6 +1,9 @@
 <form
   [formGroup]="infoEditForm"
   class="step flex flex-col justify-between items-stretch"
+  matTooltip="{{ 'FORMS.TOOLTIP.DESCRIPTION' | translate }}"
+  matTooltipPosition="right"
+  matTooltipClass="multiline-tooltip description-tooltip"
   [class.step-border]="formAmount > 1 && index !== formAmount - 1">
   <label class="step-label" for="section-name">{{ 'FORMS.LABELS.SECTION_TITLE' | translate }} <span class="step-required">*</span></label>
   <mat-form-field>
