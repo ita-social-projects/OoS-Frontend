@@ -18,11 +18,12 @@
 
     li {
       list-style: none;
+      color: var(--disabled-text-color);
     }
   }
 
   .is_active {
-    color: var(--disabled-text-color);
+    color: var(--cancel-text-color);
     pointer-events: none;
   }
 

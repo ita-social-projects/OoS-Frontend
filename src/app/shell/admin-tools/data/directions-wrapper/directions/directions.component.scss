@@ -3,6 +3,7 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/pagination.scss';
 @import 'src/app/shared/styles/search.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .wrapper {
   p {
@@ -15,7 +16,7 @@
 }
 
 .link {
-  color: blue;
+  color: var(--primary-accent-color);
   font-weight: 300 !important;
 }
 
@@ -44,4 +45,9 @@
   .header-wrapper {
     gap: 10px;
   }
+}
+
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }

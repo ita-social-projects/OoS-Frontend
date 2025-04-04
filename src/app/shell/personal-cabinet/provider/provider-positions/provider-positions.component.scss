@@ -20,6 +20,11 @@
   right: 12px;
   gap: 16px;
 }
+
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
 .select-create-container {
   display: flex;
   gap: 16px;
@@ -27,7 +32,7 @@
 .select,
 .date {
   min-width: 100px;
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;

@@ -9,7 +9,7 @@
   width: auto;
   max-width: max-content;
   font-size: 13px;
-  font: Open Sans;
+  font-family: Open Sans;
   font-weight: normal;
 }
 .application-popup-status {
@@ -18,7 +18,7 @@
   font-size: 13px;
 }
 .application-info-description-card {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .application-info-menu {
   width: 90vw;
@@ -58,7 +58,7 @@
 .material-icons {
   font-size: 16px;
   line-height: 14.6px;
-  color: #888;
+  color: var(--disabled-text-color);
   cursor: pointer;
 }
 
@@ -128,10 +128,10 @@
   font-size: 16px;
 }
 .activeInfoBtn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 .inactiveInfoBtn {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 
 @media (max-width: 530px) {

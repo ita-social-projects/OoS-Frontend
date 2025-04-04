@@ -293,3 +293,13 @@
     left: -10px;
   }
 }
+
+.support-icon {
+  width: 24px;
+  height: 24px;
+  background-color: var(--primary-light-text-color);
+  mask: url('./../../assets/icons/Support.svg') no-repeat center;
+  -webkit-mask: url('./../../assets/icons/Support.svg') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}

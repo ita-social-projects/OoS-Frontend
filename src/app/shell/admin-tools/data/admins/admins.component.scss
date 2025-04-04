@@ -2,6 +2,7 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/list-wrappers.scss';
 @import 'src/app/shared/styles/search.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .table-wrapper {
   padding: 1rem;
@@ -35,11 +36,16 @@
     justify-content: space-between;
 
     .mat-menu-panel.header_menu {
-      background-color: #fff;
+      background-color: var(--primary-light-text-color);
     }
 
     .mat-menu-item {
       color: rgba(0, 0, 0, 0.87);
     }
   }
+}
+
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }

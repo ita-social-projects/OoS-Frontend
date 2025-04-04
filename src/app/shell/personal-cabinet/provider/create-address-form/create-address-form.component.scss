@@ -19,7 +19,7 @@
 }
 
 .address-wrapper-border {
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
 }
 
 .additional-text {
@@ -34,7 +34,7 @@ h4 {
 }
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   margin-top: 5px;
   border-radius: 21px;
   line-height: initial;
@@ -49,11 +49,11 @@ h4 {
 
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .option-sub-text {
-  color: #161414;
+  color: var(--primary-dark-text-color);
   opacity: 0.6;
   font-size: 14px;
   &:hover {

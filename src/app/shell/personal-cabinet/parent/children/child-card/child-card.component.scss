@@ -7,11 +7,11 @@
   }
 }
 .mat-icon {
-  color: #fff;
+  color: var(--primary-light-text-color);
 }
 
 .card_icon {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 
 .mat-mdc-card-header {
@@ -21,7 +21,7 @@
   }
 }
 .workshop-list {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   text-overflow: ellipsis;
   max-height: 64px;
   overflow: scroll;

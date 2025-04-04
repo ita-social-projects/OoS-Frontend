@@ -124,10 +124,12 @@ $dark-theme: mat.define-dark-theme(
   @include mat.all-component-colors($dark-theme);
   @include angular-material-color($dark-theme);
 
-  --primary-light-bg-color: #393636;
-  --cancel-text-color: #ffffffff;
+  --primary-light-bg-color: #404040;
+  --cancel-text-color: #e8e3e3;
+  --secondary-cancel-text-color: #ece5e5;
   --primary-dark-text-color: #ffffff;
-  --primary-light-text-color: #222020;
+  --primary-light-text-color: #2c2b2b;
+  --list-text-color: #494545;
 
   h1,
   h2,
@@ -136,6 +138,10 @@ $dark-theme: mat.define-dark-theme(
   h5,
   h6 {
     color: var(--specific-light-text-color);
+  }
+
+  .unfinished-banner {
+    background-color: var(--list-text-color);
   }
 }
 

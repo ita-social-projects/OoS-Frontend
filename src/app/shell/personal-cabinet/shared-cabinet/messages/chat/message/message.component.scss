@@ -9,7 +9,7 @@
   font-size: 13px;
   line-height: 18px;
 
-  color: #333333;
+  color: var(--cancel-text-color);
 
   margin: 16px 0 4px 0;
 }
@@ -53,7 +53,7 @@
 
     font-size: 16px;
     line-height: 16px;
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 
   &__send-time {
@@ -61,7 +61,7 @@
     font-size: 13px;
     line-height: 18px;
 
-    color: #333333;
+    color: var(--cancel-text-color);
   }
 }
 

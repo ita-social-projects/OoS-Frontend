@@ -2,6 +2,7 @@
 @import 'src/app/shared/styles/search.scss';
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .provider-list-status {
   font-family: 'Open Sans', sans-serif;
@@ -38,6 +39,8 @@
 
 .search {
   padding-left: 10px;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 .search-area,
@@ -84,7 +87,7 @@
 
 .select {
   min-width: 100px;
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   border-radius: 20px;
   box-sizing: border-box;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -120,7 +123,7 @@
   }
 
   &__icon {
-    color: black;
+    color: var(--primary-dark-text-color);
     font-size: 24px;
     transform: rotateY(180deg) rotate(45deg);
     overflow: visible;
@@ -129,7 +132,7 @@
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-    color: #444444;
+    color: var(--cancel-text-color);
   }
 }
 

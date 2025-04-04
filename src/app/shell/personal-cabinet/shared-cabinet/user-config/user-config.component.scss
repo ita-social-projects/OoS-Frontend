@@ -2,7 +2,7 @@
 
 .config {
   .edit-button {
-    color: #3849f9;
+    color: var(--primary-accent-color);
     padding: 0 16px;
     line-height: normal;
 
@@ -16,7 +16,7 @@
 
   p {
     &.important {
-      color: red;
+      color: var(--error-color);
 
       mat-icon {
         overflow: visible;

@@ -1,5 +1,6 @@
 @import 'src/app/shared/styles/list-wrappers.scss';
 @import 'src/app/shared/styles/card-wrapper.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 $breakpoint-xl: 1535px;
 $breakpoint-lg: 1310px;
@@ -14,7 +15,7 @@ $breakpoint-mobile: 500px;
 
   &-registration {
     padding: 32px 40px;
-    background: #3849f9;
+    background: var(--primary-accent-color);
     border-radius: 5px;
     position: relative;
     height: 125px;
@@ -37,24 +38,24 @@ $breakpoint-mobile: 500px;
     padding: 10px 30px;
     font-size: 13px;
     line-height: 13px;
-    border-color: white;
-    color: white;
+    border-color: var(--primary-light-text-color);
+    color: var(--primary-light-text-color);
     height: 35px !important;
   }
 
   &-question {
-    color: #ffffff;
+    color: var(--primary-light-text-color);
   }
 
   &-hint {
     margin-top: 16px;
-    color: #ffffff;
+    color: var(--primary-light-text-color);
   }
 
   &-link {
     display: flex;
     font-weight: bold;
-    color: #3849f9;
+    color: var(--primary-accent-color);
     align-items: center;
 
     .arrow {

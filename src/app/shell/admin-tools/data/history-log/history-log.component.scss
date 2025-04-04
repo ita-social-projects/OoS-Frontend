@@ -2,6 +2,7 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/list-wrappers.scss';
 @import 'src/app/shared/styles/search.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .users-wrapper {
   position: relative;
@@ -17,6 +18,8 @@
 
 .search {
   padding-left: 10px;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 .search-area {

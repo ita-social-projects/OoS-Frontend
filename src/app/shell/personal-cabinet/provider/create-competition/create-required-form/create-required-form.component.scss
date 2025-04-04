@@ -7,6 +7,8 @@
 .seat-input {
   max-width: 100px;
   text-align: center;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 ::ng-deep .dropdown-panel {
@@ -26,7 +28,7 @@
 
   .seat::after {
     font-weight: 700;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
     padding: 5px;
     line-height: initial;
     width: 65px;

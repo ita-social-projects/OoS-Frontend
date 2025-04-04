@@ -15,7 +15,7 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  color: #272425;
+  color: var(--list-text-color);
 
   &-icon {
     margin: 5px;
@@ -25,14 +25,14 @@
   color: #ffbd00;
 }
 .star-icon-gray {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .rate-amount {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
   margin-left: 10px;
 }
 .rate {
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid var(--input-light-color);
   margin: 0;
   padding-bottom: 1rem;
   &-author {
@@ -42,7 +42,7 @@
     font-size: 18px;
     line-height: 20px;
 
-    color: #000000;
+    color: var(--primary-dark-text-color);
   }
   &-date {
     font-family: Open Sans;
@@ -51,6 +51,6 @@
     font-size: 13px;
     line-height: 18px;
 
-    color: #333333;
+    color: var(--cancel-text-color);
   }
 }

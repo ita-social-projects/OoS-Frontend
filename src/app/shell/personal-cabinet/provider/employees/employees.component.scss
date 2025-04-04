@@ -51,7 +51,7 @@
     justify-content: space-between;
 
     .mat-menu-panel.header_menu {
-      background-color: #fff;
+      background-color: var(--primary-light-bg-color);
     }
 
     .mat-menu-item {
@@ -64,4 +64,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }

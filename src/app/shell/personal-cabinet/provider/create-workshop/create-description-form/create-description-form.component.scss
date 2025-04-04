@@ -44,10 +44,15 @@
   height: 20px;
 }
 
+.step-textarea {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
+
 .fieldset {
   &-additional-desc {
     border-radius: 21px;
-    border: 2px solid #e3e3e3;
+    border: 2px solid var(--input-light-color);
     margin: 10px 0;
 
     legend {

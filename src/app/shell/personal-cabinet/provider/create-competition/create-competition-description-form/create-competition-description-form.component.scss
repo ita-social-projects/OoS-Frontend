@@ -31,7 +31,7 @@
 
   .price::after {
     font-weight: 700;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
     padding: 5px;
     line-height: initial;
     width: 65px;

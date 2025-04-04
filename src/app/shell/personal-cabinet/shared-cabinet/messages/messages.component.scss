@@ -1,1 +1,6 @@
 @import 'src/app/shared/styles/search.scss';
+
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}

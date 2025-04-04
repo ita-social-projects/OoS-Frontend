@@ -36,7 +36,7 @@
 }
 
 .line {
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
 }
 .warning {
   margin-bottom: 1rem;
@@ -48,19 +48,19 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 18px;
-  color: #333333;
+  color: var(--cancel-text-color);
   text-align: center;
   margin-bottom: 1rem !important;
 }
 
 small.warning {
   display: block;
-  color: red;
+  color: var(--error-color);
   font-size: 10px;
 }
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .checkbox-label {

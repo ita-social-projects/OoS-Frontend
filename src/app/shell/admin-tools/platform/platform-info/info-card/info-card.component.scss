@@ -1,8 +1,9 @@
 @import 'src/app/shared/styles/config.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .config {
   .edit-button {
-    color: #3849f9;
+    color: var(--primary-accent-color);
     padding: 0 16px;
     line-height: normal;
 

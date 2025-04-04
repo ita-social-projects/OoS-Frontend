@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/dropdown.scss';
 @import 'src/app/shared/styles/calendar.scss';
 @import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .form-wrapper {
   display: flex;
@@ -25,7 +26,7 @@
     font-size: 14px;
     align-self: center;
     line-height: 14.6px;
-    color: #444444;
+    color: var(--cancel-text-color);
     font-weight: 700;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
@@ -43,7 +44,7 @@
 .select,
 .date {
   min-width: 100px;
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
@@ -156,7 +157,7 @@
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-    color: #444444;
+    color: var(--cancel-text-color);
   }
 }
 

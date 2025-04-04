@@ -10,7 +10,7 @@ $dark-primary-text: #000000;
 $secondary-dark-text: #000000;
 $secondary-cancel-color: #494545b9;
 $light-form-input-color: #e3e3e3;
-$error-color: #c72a21;
+$error-color: #ff2d1c;
 $list-text-color: #272425;
 
 :root {
@@ -31,15 +31,11 @@ $list-text-color: #272425;
   --primary-dark-text-color: #{$dark-primary-text};
   // color for not changing the text color
   --secondary-dark-text-color: #{$secondary-dark-text};
-
+  --primary-dark-bg-color: #{$dark-primary-text};
   --primary-light-bg-color: #{$light-primary-text};
   --secondary-light-bg-color: #{$secondary-light-color};
+
   --bg-disabled: #{$secondary-disabled-color};
   --bg-cancel-color: #{$button-color-cancel};
   --bg-light-additional: #{$additional-light-color};
-
-  --button-primary: #{$primary-color};
-  --button-cancel: #{$button-color-cancel};
-  --button-disabled: #{$disabled-color};
-  --button-secondary: #{$secondary-cancel-color};
 }

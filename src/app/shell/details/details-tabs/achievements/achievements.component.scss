@@ -6,7 +6,7 @@
 .text {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  color: #272425;
+  color: var(--list-text-color);
 }
 .add-wrapper {
   margin-top: 2rem;
