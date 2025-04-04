@@ -219,7 +219,11 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
     return this.overrideTouch(
       this.formBuilder.group({
         type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-        url: new FormControl('', [Validators.required, Validators.pattern(SOCIAL_NETWORK_LINK_REGEX)])
+        url: new FormControl('', [
+          Validators.required,
+          Validators.pattern(SOCIAL_NETWORK_LINK_REGEX),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+        ])
       })
     );
   }
