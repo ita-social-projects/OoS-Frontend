@@ -10,9 +10,9 @@ import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { environment } from '../../../../../environments/environment';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-user-config',
@@ -35,9 +35,9 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   public culture: string = localStorage.getItem('ui-culture');
   public link: string;
   public featuresList: FeaturesList;
-  
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(private store: Store) {}
 
   public ngOnInit(): void {

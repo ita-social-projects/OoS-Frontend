@@ -14,10 +14,10 @@ import { FeaturesList } from 'shared/models/features-list.model';
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.role)
-  private role$: Observable<string>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
 
   public readonly Role = Role;
   public readonly canManageInstitution = canManageInstitution;

@@ -36,10 +36,10 @@ import { FeaturesList } from 'shared/models/features-list.model';
 export class UsersComponent implements OnInit, OnDestroy {
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
-  @Select(AdminState.children)
-  private children$: Observable<SearchResponse<Child[]>>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+  @Select(AdminState.children)
+  private children$: Observable<SearchResponse<Child[]>>;
 
   public readonly UserTabsTitles = UserTabsTitles;
   public readonly noUsers = NoResultsTitle.noUsers;

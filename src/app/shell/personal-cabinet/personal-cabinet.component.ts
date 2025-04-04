@@ -30,10 +30,10 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   public pendingApplications$: Observable<SearchResponse<Application[]>>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
-  @Select(RegistrationState.provider)
-  private provider$: Observable<Provider>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
 
   public readonly ApplicationStatuses = ApplicationStatuses;
   public readonly RoleLinks = RoleLinks;

@@ -42,7 +42,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   public readonly RoleLinks = RoleLinks;
   public readonly title = 'out-of-school';
   public readonly isRoleProvider = isRoleProvider;
-  
+
   public showModalReg = false;
   public visibleSidenav: boolean;
   public user: User;

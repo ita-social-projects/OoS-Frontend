@@ -73,8 +73,8 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
 
     this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
-        this.featuresList = featuresList;
-      });
+      this.featuresList = featuresList;
+    });
   }
 
   public onPageChange(page: PaginationElement): void {
