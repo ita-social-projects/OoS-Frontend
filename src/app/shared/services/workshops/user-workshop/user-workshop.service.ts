@@ -19,8 +19,8 @@ export class UserWorkshopService {
   private isImagesFeature: boolean;
 
   constructor(
-    private http: HttpClient,
-    private store: Store
+    private readonly http: HttpClient,
+    private readonly store: Store
   ) {}
 
   /**
@@ -149,6 +149,14 @@ export class UserWorkshopService {
 
   public getTimeToLiveOfUnfinishedWorkshop(): Observable<string> {
     return this.http.get<string>('/api/v1/WorkshopTempSave/GetTimeToLive');
+  }
+
+  public rejectWorkshopDraft(draftId: string, rejectReason: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Reject/${draftId}`, { rejectionMessage: rejectReason });
+  }
+
+  public approveWorkshopDraft(draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Approve/${draftId}`, null);
   }
 
   private createFormData(workshop: Workshop): FormData {

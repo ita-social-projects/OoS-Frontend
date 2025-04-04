@@ -59,11 +59,14 @@ th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
   padding-left: 10px;
+  &:first-of-type {
+    padding-left: 24px;
+  }
 }
 
 td.mat-cell,
 td.mat-footer-cell {
-  padding-right: 10px;
+  padding-right: 0;
 }
 
 ::-webkit-scrollbar {
@@ -72,6 +75,9 @@ td.mat-footer-cell {
 
 .container {
   margin-left: 1rem;
+  @media(max-width: 676px) {
+    margin-left: 0;
+  }
 }
 
 .star-column {

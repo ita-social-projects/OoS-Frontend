@@ -113,7 +113,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe((result: boolean) => {
-        this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
+        this.store.dispatch(new DeleteWorkshopById(workshop.id, this.workshopCardParameters));
       });
   }
   public onSearch(searchFormControl: FormControl): void {

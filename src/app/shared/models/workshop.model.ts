@@ -1,6 +1,6 @@
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { FormOfLearning, PayRateType, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, PayRateType, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
@@ -206,6 +206,7 @@ export interface WorkshopProviderViewCard extends WorkshopBaseCard {
 
 export interface WorkshopStatus {
   workshopId: string;
+  statusReason?: string;
   status: string;
 }
 
@@ -244,6 +245,12 @@ export interface AdditionalAbout {
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
+}
+
+export interface WorkshopFilterAdministration extends PaginationParameters {
+  searchString?: string;
+  institutionId?: string;
+  catottgId?: number;
 }
 
 export interface Description {
@@ -300,4 +307,11 @@ enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
+}
+
+export interface WorkshopDraft {
+  draftStatus: WorkshopDraftStatus;
+  workshopDraftId: string;
+  workshopDetails: Workshop;
+  tags: string;
 }

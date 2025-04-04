@@ -15,6 +15,13 @@ export enum WorkshopOpenStatus {
   Draft = 'Draft'
 }
 
+export enum WorkshopDraftStatus {
+  Draft = 'Draft',
+  PendingModeration = 'PendingModeration',
+  Rejected = 'Rejected',
+  Approved = 'Approved'
+}
+
 export enum DetailsTabTitlesParams {
   'AboutWorkshop',
   'AboutProvider',

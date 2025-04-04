@@ -13,6 +13,9 @@
     <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/provider-list'">
       {{ 'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase }}
     </a>
+    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/workshop-list'">
+      {{ 'ENUM.NAV_BAR_NAME.WORKSHOPS' | translate | uppercase }}
+    </a>
     <a *ngIf="canManageInstitution(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/users'">
       {{ 'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase }}
     </a>
