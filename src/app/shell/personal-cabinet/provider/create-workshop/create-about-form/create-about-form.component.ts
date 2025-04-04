@@ -52,13 +52,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public dateTimeRangesArray: FormArray = new FormArray([], [Validators.required]);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-  public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.pattern(MUST_CONTAIN_LETTERS)
-  ]);
   private minimumSeats: number = 1;
 
   constructor(private readonly formBuilder: FormBuilder) {}
@@ -120,15 +115,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
     }
-
-    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
-    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, [
-      Validators.pattern(MUST_CONTAIN_LETTERS),
-      Validators.required
-    ]);
-    if (this.workshop.competitiveSelection) {
-      this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
-    }
   }
 
   private initForm(): void {
@@ -181,7 +167,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.useProviderInfo();
     this.availableSeatsControlListener();
     this.validateAgeControls();
-    this.competitiveSelectionListener();
     this.showHintAboutClosingWorkshop();
   }
 
@@ -224,23 +209,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         } else {
           resetValue(value);
         }
-      }
-    });
-  }
-
-  /**
-   * This method makes input enable if radiobutton value
-   * is true and sets the value to the FormGroup
-   */
-  private competitiveSelectionListener(): void {
-    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isCompetitiveSelectionDesc: boolean) => {
-      this.markFormAsDirtyOnUserInteraction();
-      this.AboutFormGroup.get('competitiveSelection').setValue(isCompetitiveSelectionDesc);
-
-      if (isCompetitiveSelectionDesc) {
-        this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
-      } else {
-        this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       }
     });
   }

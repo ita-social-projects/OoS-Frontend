@@ -65,13 +65,13 @@ export abstract class WorkshopBase {
     this.dateTimeRanges = about?.dateTimeRanges;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
-    this.competitiveSelection = about?.competitiveSelection;
-    this.competitiveSelectionDescription = about?.competitiveSelectionDescription;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
     this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
     this.institutionId = description?.institutionId;
     this.institutionHierarchyId = description?.institutionHierarchyId;
     this.keywords = description?.keyWords;
+    this.competitiveSelection = description?.competitiveSelection;
+    this.competitiveSelectionDescription = description?.competitiveSelectionDescription;
     this.teachers = teachers;
     this.providerId = provider?.id;
     this.providerTitle = provider?.fullTitle;
@@ -226,8 +226,6 @@ export interface WorkshopAbout {
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
   availableSeats: number;
-  competitiveSelection: boolean;
-  competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
   isPaid?: boolean;
@@ -259,6 +257,8 @@ export interface Description {
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
+  competitiveSelection: boolean;
+  competitiveSelectionDescription: string;
 }
 
 export class Contacts {
