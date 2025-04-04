@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 [class^='chip-'] {
   font-family: Innerspace, sans-serif;
   font-size: 11px;
@@ -10,9 +12,9 @@
     &-open,
     &-close,
     &-draft,
-    &-pending,
-    &-rejected {
-      color: #fff;
+  &-pending,
+  &-rejected{
+      color: var(--primary-light-text-color);
       font-weight: bold;
       padding: 7px;
       border-radius: 16px;
@@ -23,12 +25,12 @@
     }
 
     &-close,
-    &-rejected {
-      background-color: red;
+    &-rejected{
+      background-color: var(--error-color);
     }
 
     &-draft {
-      background-color: #333333;
+      background-color: var(--bg-cancel-color);
     }
 
     &-pending {

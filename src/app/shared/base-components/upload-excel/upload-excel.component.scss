@@ -1,9 +1,10 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/animations.scss';
 @import 'src/app/shared/styles/variables.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
-  background-color: #e5e9f2 !important;
+  background-color: var(--input-light-color) !important;
 }
 
 .sequence-number-cell-width {
@@ -31,8 +32,8 @@
     border-radius: 20px;
 
     &:hover {
-      color: white;
-      background-color: #3849f9;
+      color: var(--primary-light-text-color);
+      background-color: var(--primary-accent-color);
     }
   }
 }
@@ -60,11 +61,11 @@
   }
 
   .incorrect-row {
-    color: red;
+    color: var(--error-color);
   }
 
   .incorrect-row-number {
-    color: red;
+    color: var(--error-color);
   }
 }
 
@@ -144,14 +145,14 @@
   &.load-result-success > mat-icon {
     width: fit-content;
     height: fit-content;
-    color: #3849f9;
+    color: var(--primary-accent-color);
     font-size: 40px;
   }
 
   &.load-result-error > mat-icon {
     width: fit-content;
     height: fit-content;
-    color: red;
+    color: var(--error-color);
     font-size: 40px;
   }
 }
@@ -194,8 +195,8 @@
 }
 
 ::ng-deep .import-providers-table-tooltip {
-  color: #f6f6f6;
-  background-color: #505050;
+  color: var(--primary-light-text-color);
+  background-color: var(--secondary-cancel-text-color);
   border-radius: 4px;
   font-size: 12px;
   margin: 14px 14px 14px 5px;

@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .filters-wrapper {
   width: 302px;
 }
@@ -13,9 +15,9 @@
 }
 
 .search-bar {
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   padding: 0 1rem;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--primary-light-text-color);
   box-sizing: border-box;
   border-radius: 60px;
 }
@@ -31,7 +33,7 @@
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 .check-boxes {
@@ -51,7 +53,7 @@
   border: none;
   box-shadow: none;
   background-color: inherit;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-weight: 700;
   font-size: 13px;
   line-height: 14.6px;

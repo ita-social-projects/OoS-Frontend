@@ -1,5 +1,6 @@
 @import 'src/app/shared/styles/create-form.scss';
 @import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .map {
   height: 500px;
@@ -9,19 +10,19 @@
   text-align: center;
   font-family: Open Sans;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--primary-dark-text-color);
 }
 
 .address-wrapper-border {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
 }
 .warning {
   margin: 1rem;
   text-align: center;
   display: block;
-  color: red;
+  color: var(--input-light-color);
   font-size: 10px;
 }
 
@@ -31,8 +32,8 @@
 
 .contacts-wrapper {
   border: 0;
-  border-top: 2px solid #e3e3e3;
-  border-bottom: 2px solid #e3e3e3;
+  border-top: 2px solid var(--input-light-color);
+  border-bottom: 2px solid var(--input-light-color);
 }
 
 .contacts-title {
@@ -56,7 +57,7 @@
 
 .mat-icon-delete {
   margin: 0;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   &:hover {
     opacity: 0.5;
     cursor: pointer;

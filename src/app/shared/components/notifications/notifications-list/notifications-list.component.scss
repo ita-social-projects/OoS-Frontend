@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .notifications-list {
   padding: 0.5rem 0;
 
@@ -13,7 +15,7 @@
     align-items: center;
     justify-content: space-between;
 
-    border-bottom: 1px solid #e3e3e3;
+    border-bottom: 1px solid var(--input-light-color);
   }
 
   &__title {
@@ -36,7 +38,7 @@
 
   overflow: visible;
 
-  color: #888888;
+  color: var(--disabled-text-color);
 }
 
 .accordions-wrapper {
@@ -45,9 +47,9 @@
 
   cdk-accordion {
     .notification__wrapper {
-      border-bottom: 1px solid #e3e3e3;
+      border-bottom: 1px solid var(--input-light-color);
       &:hover {
-        background-color: darken($color: #ffffff, $amount: 3.8);
+        background-color: darken($color: #f8f8f8, $amount: 3.8);
       }
     }
 
@@ -60,8 +62,8 @@
 }
 
 .new {
-  border-left: 5px solid #3849f9;
-  background-color: #f8f8f8;
+  border-left: 5px solid var(--primary-accent-color);
+  background-color: var(--body-color);
 }
 
 .header-notification {
@@ -100,14 +102,14 @@
     font-size: inherit;
     font-weight: 400;
     line-height: 1.125rem;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
   }
 
   &__link {
     transition: color 0.1s ease;
 
     &:active {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
   }
 }
@@ -137,7 +139,7 @@
 
       > .info__link,
       > .icon__link {
-        color: #3849f9;
+        color: var(--primary-accent-color);
       }
     }
   }

@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .navigation {
   padding: 10px 0;
 
@@ -20,7 +22,7 @@
   }
 
   .is_active {
-    color: #888888;
+    color: var(--disabled-text-color);
     pointer-events: none;
   }
 

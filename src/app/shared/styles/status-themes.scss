@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 :host {
   display: block;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -42,7 +44,7 @@
     .status {
       &-icon,
       &-title {
-        color: #c72a21;
+        color: var(--error-color);
       }
     }
   }

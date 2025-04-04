@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .app-wrapper {
   min-height: 100%;
   position: relative;
@@ -5,7 +7,7 @@
 }
 
 ::ng-deep .lang-option .mat-select-value {
-  color: white !important;
+  color: var(--primary-light-text-color) !important;
   overflow: visible;
   padding-right: 0px !important;
   font-family: 'Innerspace';
@@ -18,7 +20,7 @@
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
-  background-color: white !important;
+  background-color: var(--primary-light-text-color) !important;
 
   &:hover {
     background-color: transparent !important;
@@ -27,8 +29,8 @@
 
 @media (max-width: 800px) {
   .mat-mdc-outlined-button.header-login {
-    color: white;
-    border-color: white;
+    color: var(--primary-light-text-color);
+    border-color: var(--primary-light-text-color);
     border-radius: 20px;
   }
 
@@ -36,7 +38,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--primary-light-text-color);
   }
 
   mat-icon.mat-icon {
@@ -65,8 +67,8 @@
       height: 92px;
       box-sizing: border-box;
       padding: 40px 0 7px 8px;
-      background-color: #3849f9;
-      color: white;
+      background-color: var(--primary-accent-color);
+      color: var(--primary-light-text-color);
 
       &-not-auth {
         padding-left: 15px;
@@ -79,11 +81,11 @@
       font-family: Innerspace;
       font-size: 13px;
       font-weight: bold;
-      color: black;
+      color: var(--primary-dark-text-color);
     }
 
     &-icon {
-      color: gray;
+      color: var(--disabled-text-color);
       font-size: 22px;
       vertical-align: middle;
     }
@@ -99,7 +101,7 @@
 
     &-language {
       ::ng-deep .mat-select-value-text {
-        color: black !important;
+        color: var(--primary-dark-text-color) !important;
       }
     }
 
@@ -107,7 +109,7 @@
       padding: 7px 16px;
 
       ::ng-deep .mdc-switch__track {
-        box-shadow: 0 0 0 1px lightgray;
+        box-shadow: 0 0 0 1px var(--secondary-light-text-color);
       }
     }
 
@@ -131,7 +133,7 @@
   }
 
   .hr-grey {
-    color: grey;
+    color: var(--disabled-text-color);
     height: 1px;
     background-color: rgba(133, 133, 133, 0.521);
     border-top: 2px;
@@ -142,4 +144,7 @@
 }
 .full-width {
   width: 100%;
+}
+.lang-option .mat-mdc-select-min-line {
+  color: var(--primary-dark-text-color);
 }

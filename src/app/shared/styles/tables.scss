@@ -16,7 +16,6 @@ table {
     }
   }
 }
-
 .table-container {
   align-items: baseline;
   overflow: auto;
@@ -31,16 +30,16 @@ table {
   }
 }
 
-::ng-deepth .mat-sort-header-content {
+::ng-deep .mat-sort-header-content {
   text-align: left;
 }
 
 .mat-mdc-table-sticky-border-elem-right {
-  border-left: 1px solid #e0e0e0;
+  border-left: 1px solid  var(--input-light-color);
 }
 
 .mat-mdc-table-sticky-border-elem-left {
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid  var(--input-light-color);
 }
 
 .icons {
@@ -51,7 +50,7 @@ table {
 
     &:hover {
       opacity: 0.5;
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
   }
 }

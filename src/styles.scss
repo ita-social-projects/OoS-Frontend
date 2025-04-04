@@ -65,8 +65,8 @@ $custom-dark-palette: mat.define-palette(
     400: #b8b5b5,
     500: #eaeaff,
     600: #575757,
-    700: #1a1b22,
-    800: #131419,
+    700: #0c0c10,
+    800: #0e0b0b,
     900: #0c0c10,
     A100: #333fed,
     A200: #2832e0,
@@ -124,7 +124,19 @@ $dark-theme: mat.define-dark-theme(
   @include mat.all-component-colors($dark-theme);
   @include angular-material-color($dark-theme);
 
-  $primary-color: red;
+  --primary-light-bg-color: #393636;
+  --cancel-text-color: #ffffffff;
+  --primary-dark-text-color: #ffffff;
+  --primary-light-text-color: #222020;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--specific-light-text-color);
+  }
 }
 
 @include mat.core();
@@ -146,8 +158,8 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 0.8125rem;
   line-height: 1.125rem;
-  background-color: #f8f8f8;
-  color: #333333;
+  background-color: var(--body-color);
+  color: var(--cancel-text-color);
 }
 
 h1,
@@ -157,7 +169,7 @@ h4,
 h5,
 h6 {
   font-family: 'Innerspace', sans-serif;
-  color: #000000;
+  color: var(--primary-dark-text-color);
   margin: 0;
 }
 
@@ -200,13 +212,13 @@ a {
 .mat-step-label {
   font-family: 'Open Sans', sans-serif;
   font-weight: 700 !important;
-  color: #aaaaaa !important;
+  color: var(--secondary-light-text-color) !important;
 }
 
 .mat-step-icon {
-  border: 2px solid #aaaaaa;
+  border: 2px solid var(--secondary-light-text-color);
   box-sizing: border-box;
-  color: #aaaaaa !important;
+  color: var(--secondary-light-text-color) !important;
   background-color: transparent !important;
 }
 
@@ -222,12 +234,12 @@ a {
 }
 
 .mat-step-label-active {
-  color: black !important;
+  color: var(--primary-dark-text-color) !important;
 }
 
 .mat-step-icon-state-done {
-  color: black !important;
-  border: 2px solid black;
+  color: var(--primary-dark-text-color) !important;
+  border: 2px solid var(--primary-dark-text-color);
 }
 
 .mat-badge-accent {
@@ -362,7 +374,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--primary-light-text-color) inset !important;
   line-height: initial;
   font-family: 'Open Sans', sans-serif;
 }
@@ -403,7 +415,7 @@ input:-webkit-autofill:active {
     }
 
     .mdc-radio__inner-circle {
-      border-color: #fff;
+      border-color: var(--primary-light-text-color);
     }
   }
 }
@@ -455,7 +467,7 @@ input:focus {
 }
 
 input:disabled {
-  background-color: white;
+  background-color: var(--primary-light-bg-color);
 }
 
 input {

@@ -1,10 +1,12 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .wrapper-full-width {
   width: 100%;
 }
 
 .search-bar {
-  background: #ffffff;
-  border: 1px solid #ffffff;
+  background: var(--primary-light-bg-color);
+  border: 1px solid var(--primary-light-bg-color);
   box-sizing: border-box;
   border-radius: 60px;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -34,7 +36,7 @@
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 button {

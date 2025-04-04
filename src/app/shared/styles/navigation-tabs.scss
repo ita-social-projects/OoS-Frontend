@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 :host ::ng-deep {
   .mat-mdc-tab-group:hover,
   .mat-mdc-tab-nav-bar:hover {
@@ -14,10 +16,10 @@
 
   .mdc-tab-indicator--active {
     .mat-ripple {
-      color: #3849f9;
+      color: var(--primary-accent-color);
       background: rgba(56, 73, 249, 0.07);
-      --mat-tab-header-active-ripple-color: #3849f9;
-      border: 2px solid #3849f9;
+      --mat-tab-header-active-ripple-color: var(--primary-accent-color);
+      border: 2px solid var(--primary-accent-color);
       box-sizing: border-box;
       border-radius: 20px;
       opacity: 1;

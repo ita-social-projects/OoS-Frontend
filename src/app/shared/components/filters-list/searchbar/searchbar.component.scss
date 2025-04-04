@@ -25,18 +25,18 @@
 .search-input {
   font-weight: normal;
   line-height: 22px;
-  color: #161414;
+  color: var(--primary-dark-text-color);
   text-overflow: ellipsis;
 
   &::placeholder {
-    color: rgba(170, 170, 170, 0.4) !important;
+    color: var(--specific-light-text-color) !important;
     font-family: 'Open Sans', sans-serif;
   }
 }
 
 .icon {
   margin: 0 1rem 0 0.5rem;
-  color: #aaaaaa;
+  color: var(--secondary-light-bg-color);
   cursor: pointer;
 }
 
@@ -63,7 +63,7 @@
     font-size: 1rem;
     width: 1rem;
     height: 1rem;
-    color: #aaaaaa;
+    color: var(--secondary-light-bg-color);
     cursor: pointer;
 
     &:hover {

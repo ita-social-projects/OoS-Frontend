@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 .config {
   width: 500px;
   display: flex;
@@ -5,7 +7,7 @@
   box-shadow: 0px 6px 16px rgb(0 0 0 / 8%);
   position: relative;
   padding: 20px 25px;
-  background-color: #ffffff;
+  background-color: var(--primary-light-bg-color);
   margin-right: 2rem;
   margin-bottom: 2rem;
 
@@ -14,15 +16,15 @@
     top: 18px;
     right: 10px;
     z-index: 2;
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 
   .important {
-    color: red;
+    color: var(--error-color);
   }
 
   .link {
-    color: #3849f9;
+    color: var(--primary-accent-color);
     font-weight: 600;
     cursor: pointer;
   }

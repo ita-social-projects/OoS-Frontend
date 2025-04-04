@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 .dropdown {
   display: flex;
   justify-content: flex-end;
@@ -11,7 +13,7 @@
 }
 
 .activeInfoBtn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-size: 30px;
 }
 .inactiveInfoBtn {
@@ -23,7 +25,7 @@
   z-index: 100;
 }
 .child-name {
-  color: #444444;
+  color: var(--cancel-text-color);
   font-family: 'Innerspace';
   font-weight: 700;
   font-size: 18px;

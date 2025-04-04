@@ -1,3 +1,5 @@
+@import './theme-variables.scss';
+
 .pagination-wrapper {
   margin-bottom: 62px;
 }
@@ -7,10 +9,10 @@ pagination-controls {
   display: flex;
   align-items: center;
   li {
-    color: #444444;
+    color: var(--cancel-text-color);
   }
   li.current {
-    color: #3849f9;
+    color: var(--cancel-text-color);
     background-color: inherit;
   }
 }
@@ -24,25 +26,25 @@ pagination-controls {
 }
 
 .pagination ::ng-deep .ngx-pagination a {
-  color: #444444;
+  color: var(--cancel-text-color);
   line-height: 15px;
   outline: none;
 }
 .pagination ::ng-deep .ngx-pagination .current {
   background: inherit;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   line-height: 19px;
 }
 
 .pagination ::ng-deep .ngx-pagination .pagination-next a::after {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-family: 'Material Icons';
   content: 'arrow_forward';
   font-size: 13px;
   line-height: 24px;
 }
 .pagination ::ng-deep .ngx-pagination .pagination-previous a::before {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-family: 'Material Icons';
   content: 'arrow_backward';
   width: 16px;

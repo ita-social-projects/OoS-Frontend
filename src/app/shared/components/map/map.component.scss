@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .map {
   height: 100%;
   width: 100%;
@@ -16,12 +18,12 @@
   left: 10px;
   z-index: 1000;
   cursor: pointer;
-  background-color: #fff;
+  background-color: var(--primary-light-bg-color);
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 
   &:hover {
-    background-color: #f4f4f4;
+    background-color: var(--primary-light-bg-color);
   }
 
   @media (max-width: 750px) {

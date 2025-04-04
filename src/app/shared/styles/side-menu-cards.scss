@@ -1,5 +1,7 @@
+@import './theme-variables.scss';
+
 .container {
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   width: 300px;
@@ -18,7 +20,7 @@
     font-size: 18px;
     line-height: 20px;
 
-    color: #444444;
+    color: var(--cancel-text-color);
   }
 
   .contact-info {
@@ -38,11 +40,11 @@
 
     .card_icon {
       position: relative;
-      color: #aaaaaa;
+      color: var(--primary-light-text-color);
       font-size: 16px;
     }
     a {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
 
     span {
@@ -62,7 +64,7 @@
   line-height: 15px;
 
   &-msg {
-    color: #272425;
+    color: var(--list-text-color);
     &-icon {
       margin: 5px;
     }
@@ -71,7 +73,7 @@
 
 .map {
   margin-left: 24px;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-size: 11px;
   font-weight: 700;
   line-height: 12.35px;

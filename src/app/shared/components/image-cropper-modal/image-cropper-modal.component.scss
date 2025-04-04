@@ -1,11 +1,12 @@
 @import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .cropped-image {
   max-width: 100%;
 }
 small.warning {
   display: block;
-  color: red;
+  color: var(--error-color);
   font-size: 10px;
 }
 .image-cropper-wrapper {

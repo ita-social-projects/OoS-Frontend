@@ -1,4 +1,5 @@
 @import 'src/app/shared/styles/application-statuses.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .mat-application-menu,
 .application-info-menu {
@@ -12,7 +13,7 @@
   font-weight: normal;
 }
 .application-info-description-card {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .application-info-menu,
 ::ng-deep .mat-application-menu {
@@ -28,7 +29,7 @@
 .application-info-title {
   max-width: max-content;
   line-height: 17px;
-  color: black;
+  color: var(--primary-dark-text-color);
 
   span {
     padding: 8px;
@@ -46,7 +47,7 @@
   .Completed,
   .Left,
   .Blocked {
-    color: black;
+    color: var(--primary-dark-text-color);
   }
   max-width: 70%;
 }

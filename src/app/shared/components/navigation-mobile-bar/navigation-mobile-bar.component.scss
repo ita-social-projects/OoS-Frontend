@@ -1,5 +1,7 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .mobile-navigation {
-  color: #fff;
+  color: var(--primary-light-text-color);
 
   .mat-icon {
     font-size: 16px;

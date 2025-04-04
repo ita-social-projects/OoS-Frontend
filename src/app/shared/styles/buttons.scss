@@ -1,7 +1,7 @@
 @import './theme-variables.scss';
 
 .btn {
-  color: var(--primary-light-color);
+  color: var(--primary-light-text-color);
   background-color: var(--primary-accent-color);
   border: 1px solid var(--primary-accent-color);
   box-sizing: border-box;
@@ -31,9 +31,9 @@
   }
 
   &-cancel {
-    color: var(--primary-cancel-color) !important;
+    color: var(--cancel-text-color) !important;
     background-color: transparent !important;
-    border-color: var(--primary-cancel-color) !important;
+    border-color: var(--cancel-text-color) !important;
   }
 
   &-rejected {
@@ -44,12 +44,12 @@
 
   &-transparent {
     padding: 0.75rem 1rem;
-    color: var(--primary-dark-color);
+    color: var(--primary-dark-text-color);
     font-weight: 700;
     gap: 0.5rem;
 
     background-color: transparent;
-    border-color: var(--secondary-light-color);
+    border-color: var(--secondary-light-text-color);
 
     .download-icon {
       font-size: 1rem;
@@ -71,7 +71,7 @@
   &-application {
     background: var(--primary-accent-color);
     border: 1px solid var(--primary-accent-color);
-    color: var(--primary-light-color);
+    color: var(--primary-light-text-color);
   }
 
   &:hover {
@@ -82,9 +82,9 @@
 
 button:disabled,
 button[disabled] {
-  border: 1px solid var(--secondary-light-color);
-  background-color: var(--secondary-light-color);
-  color: var(--primary-cancel-color);
+  border: 1px solid var(--secondary-light-text-color);
+  background-color: var(--secondary-light-bg-color);
+  color: var(--cancel-text-coor);
   pointer-events: none;
 }
 

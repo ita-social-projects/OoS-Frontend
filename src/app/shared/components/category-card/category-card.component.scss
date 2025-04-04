@@ -4,7 +4,7 @@
   padding: 24px 0;
   gap: 1rem;
   box-sizing: border-box;
-  background: #ffffff;
+  background: var(--specific-light-text-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
@@ -15,12 +15,13 @@
   .title {
     text-align: center;
     margin-bottom: 9px;
+    color: var(--secondary-dark-text-color) !important;
   }
 
   .link {
     display: flex;
     font-weight: bold;
-    color: #3849f9;
+    color: var(--primary-accent-color);
     align-items: center;
     justify-content: center;
 
@@ -44,7 +45,7 @@
     width: 20px;
     height: 20px;
     margin: 0;
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 
   .mdc-button {
@@ -65,7 +66,7 @@
     width: 20px;
     height: 20px;
     margin: 0;
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 
   .mdc-button {
@@ -86,6 +87,6 @@
 
 .link:hover {
   opacity: 0.5;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   cursor: pointer;
 }

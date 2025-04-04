@@ -28,7 +28,7 @@
 .input-filter {
   text-transform: capitalize;
   font-family: 'Innerspace';
-  color: #000000;
+  color: var(--primary-dark-text-color);
   font-size: 1.125rem !important;
   line-height: 1.25rem;
   font-weight: 500 !important;
@@ -46,7 +46,7 @@ h4 {
 
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
@@ -57,7 +57,7 @@ h4 {
 }
 
 .option-sub-text {
-  color: #161414;
+  color: var(--primary-dark-text-color);
   opacity: 0.6;
   font-size: 14px;
 
@@ -77,12 +77,12 @@ h4 {
 
 .city-confirmation {
   position: absolute;
-  color: #444444;
+  color: var(--cancel-text-color);
   width: 300px;
   min-height: 130px;
   border-radius: 10px;
   box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
-  background: #fff;
+  background: var(--primary-light-bg-color);
   padding: 10px;
   z-index: 1000;
   top: 20px;
@@ -102,7 +102,7 @@ h4 {
     cursor: pointer;
 
     &:hover {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
   }
 
@@ -111,18 +111,18 @@ h4 {
     margin-top: 25px;
 
     .button {
-      color: white;
-      background-color: #3849f9;
-      border: 1px solid #3849f9;
+      color: var(--primary-light-text-color);
+      background-color: var(--primary-accent-color);
+      border: 1px solid var(--primary-accent-color);
       box-sizing: border-box;
       border-radius: 20px;
       padding: 0 30px;
       margin: 0 auto;
 
       &-change {
-        color: #444444 !important;
+        color: var(--cancel-text-color) !important;
         background-color: transparent !important;
-        border-color: #444444 !important;
+        border-color: var(--cancel-text-color) !important;
       }
     }
   }
@@ -138,7 +138,7 @@ h4 {
   left: 46%;
   width: 32px;
   height: 15px;
-  background: #fff;
+  background: var(--primary-light-bg-color);
   top: -14px;
   clip-path: polygon(50% 0, 0 100%, 100% 100%);
 }

@@ -1,5 +1,7 @@
+@import 'src/app/shared/styles/theme-variables.scss';
+
 .search {
-  background: white;
+  background: var(--primary-light-bg-color);
   margin: 1rem 0;
   width: 100%;
   border-radius: 60px;
@@ -16,7 +18,7 @@
 
   .search-bar-wrap {
     width: 80%;
-    border-left: 1px solid #e3e3e3;
+    border-left: 1px solid var(--input-light-color);
 
     .search-bar {
       width: 100%;
@@ -30,7 +32,7 @@
 
 .icon {
   margin: 0 0.5rem 0 1rem;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 
 .search ::ng-deep .mat-icon {

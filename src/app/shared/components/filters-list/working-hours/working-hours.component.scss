@@ -1,13 +1,14 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/working-hours.scss';
+@import 'src/app/shared/styles/theme-variables.scss';
 
 .filter-text {
   margin: 0 1rem 0 0;
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 .title {
   margin-top: 24px;
@@ -32,8 +33,9 @@
 }
 
 .time-input {
-  border: 1px solid #e3e3e3;
-  background-color: #ffffff;
+  border: 1px solid var(--input-light-color);
+  background-color: var(--primary-light-bg-color);
+  color: var(--primary-light-text-color);
   box-sizing: border-box;
   position: relative;
   border-radius: 21px;
@@ -64,11 +66,12 @@
   height: 40px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #ebebeb;
-  background: #ffffff;
+  border: 1px solid var(--input-light-color);
+  color: var(--specific-light-text-color);
+  background: var(--primary-light-bg-color);
   &-selected {
     background: rgba(56, 73, 249, 0.07);
-    border: 1px solid #3849f9;
+    border: 1px solid var(--primary-accent-color);
   }
   &:first-child {
     border-top-left-radius: 25px;
@@ -97,7 +100,7 @@
 }
 
 ::ng-deep .mat-toolbar.mat-primary {
-  background-color: #3849f9 !important;
+  background-color: var(--primary-accent-color) !important;
 }
 
 ::ng-deep .timepicker__main-content {
@@ -114,7 +117,7 @@
   visibility: hidden;
   position: absolute;
   font-size: 18px;
-  color: #adadad;
+  color: var(--secondary-light-text-color);
   top: 8px;
   left: 85px;
 }
@@ -144,7 +147,7 @@
 .time-input.ng-invalid.ng-touched,
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .disabled-button {
@@ -152,9 +155,13 @@
 }
 
 .highlight-text {
-  color: red;
+  color: var(--error-color);
 }
 
 mat-error {
   margin-top: 8px;
+}
+
+.datepicker-icon {
+  color: var(--specific-light-text-color);
 }
