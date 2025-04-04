@@ -240,7 +240,11 @@ export interface AdditionalAbout {
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
-  workshopType: string;
+  groupType: string;
+  price: number;
+  payRate: PayRateType;
+  areThereBenefits: boolean;
+  preferentialTermsOfParticipation: string;
 }
 
 export interface WorkshopFilterAdministration extends PaginationParameters {
