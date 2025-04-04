@@ -7,7 +7,7 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}" />
     </div>
     <div class="reset" (keydown.enter)="onResetFilters()" (click)="onResetFilters()" *ngIf="!isAreaAdmin || !isModerator">
       <mat-icon class="reset__icon">refresh</mat-icon>
@@ -128,7 +128,7 @@
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ formOfLearningEnum[element.formOfLearning] | emptyValueTransform | translate }}
+                  {{ formOfLearningEnum[element.workshopDetails.formOfLearning] | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>

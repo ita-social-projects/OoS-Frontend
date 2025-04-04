@@ -51,6 +51,7 @@ th {
 
 th,
 td {
+  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -58,6 +59,9 @@ th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
   padding-left: 10px;
+  &:first-of-type {
+    padding-left: 24px;
+  }
 }
 
 td.mat-cell,
