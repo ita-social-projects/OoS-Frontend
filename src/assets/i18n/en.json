@@ -140,6 +140,7 @@
       "PLATFORM": "Platform",
       "PORTAL": "Portal",
       "PROVIDERS": "Providers",
+      "WORKSHOPS": "Workshops",
       "SEARCH_RESULT": "Search result",
       "SUPPORT": "Support",
       "USERS": "Users",
@@ -158,7 +159,8 @@
       "EXPORT": "Export",
       "EMPLOYEES": "Employees",
       "NEW_COMPETITION": "Add new competition event",
-      "EDIT_COMPETITION": "Edit competition event"
+      "EDIT_COMPETITION": "Edit competition event",
+      "WORKSHOP_DRAFTS": "Workshop drafts"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -434,6 +436,7 @@
       "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
+      "WORKSHOP_PENDING_MODERATION": "Workshop pending moderation",
       "FORM_OF_LEARNING": "Form of learning",
       "PARENT_COMPETITION": "Parent competition",
       "SECTION_TITLE": "Section title",
@@ -534,7 +537,15 @@
       "TEACHING_LANGUAGE": "Language of instruction",
       "LAST_REFERRED": "Date of the last reference",
       "USED_IN": "Times used in workshops",
-      "SUBJECT_NAME": "Study subject name"
+      "SUBJECT_NAME": "Study subject name",
+      "INFORMATION_ABOUT_WORKSHOP": "About",
+      "INSTITUTION_HIERARCHY": "Profile/scientific department",
+      "INSTITUTION": "Institution",
+      "DIRECTION": "Direction name",
+      "COST": "Cost",
+      "EMAILS": "Emails",
+      "PHONE_NUMBERS": "Phone numbers",
+      "LINK": "Link"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -637,6 +648,8 @@
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
+  "IS_FREE": "For free",
+  "IS_PAID": "Paid",
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
@@ -767,6 +780,7 @@
     "DELETE": "Delete",
     "GO_BACK": "Go back",
     "REGISTER": "Register",
+    "REQUEST_CHANGES": "Request changes",
     "ADD_DIRECTION": "Add a direction",
     "ADD_MORE_EMAIL": "Add more email",
     "ADD_MORE_PHONE": "Add more phone",
@@ -914,6 +928,7 @@
     "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you!",
     "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you!",
     "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you!",
+    "FULL_CONTACTS_INFO": "To view full contact information, go to the workshop details page.",
     "MESSAGE_STATUS": {
       "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
@@ -993,6 +1008,8 @@
       "POSITION_DELETED_SUCCESS": "Position successfully deleted!",
       "POSITION_BY_TITLE_NOT_FOUND": "No position found",
       "POSITION_NOT_FOUND": "Position not found",
+      "DRAFT_REJECTED_SUCCESS": "Changes requested successfully!",
+      "DRAFT_APPROVED_SUCCESS": "Workshop approved!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
@@ -1071,6 +1088,7 @@
       "DELETE_SUBJECT": "Are you sure you want to delete the study subject?",
       "EDIT_SUBJECT": "Are you sure you want to edit the study subject?",
       "CREATE_SUBJECT": "Are you sure you want to add the study subject?",
+      "EDITING_WORKSHOP": "Are you sure you want to submit the workshop for editing?",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1119,6 +1137,7 @@
         "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment.",
         "PUBLISH_WORKSHOP": "Publish workshop?",
         "ARCHIVE_WORKSHOP": "ARCHIVE WORKSHOP?",
+        "EDITING_WORKSHOP": "SUBMIT WORKSHOP FOR EDITING?",
         "INCOMPLETE_WORKSHOP": "Incomplete workshop",
         "PUBLISH_COMPETITION": "Publish competition?",
         "ARCHIVE_COMPETITION": "Archive competition?",

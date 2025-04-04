@@ -22,6 +22,7 @@ import { AdminApplicationsComponent } from './admin-applications/admin-applicati
 import { StatisticsComponent } from './statistics/statistics.component';
 // eslint-disable-next-line max-len
 import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-wrapper/directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
+import { AdminWorkshopListComponent } from './admin-workshop-list/admin-workshop-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-
     DirectionsInstitutionHierarchiesListComponent,
     AdminApplicationsComponent,
     StatisticsComponent,
-    DirectionsInstitutionHierarchiesEditFormComponent
+    DirectionsInstitutionHierarchiesEditFormComponent,
+    AdminWorkshopListComponent
   ],
   imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, TranslateModule, SharedCabinetModule],
   exports: [DataComponent]

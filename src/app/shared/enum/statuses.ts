@@ -30,7 +30,8 @@ export enum ApplicationStatuses {
   Completed = 'Completed',
   Rejected = 'Rejected',
   Left = 'Left',
-  Banned = 'Banned'
+  Banned = 'Banned',
+  PendingModeration = 'PendingModeration'
 }
 
 // Statuses for user Email Confirmation
@@ -48,5 +49,6 @@ export enum UserStatusIcons {
   Confrimed = 'fas fa-user-check',
   Blocked = 'fas fa-user-times',
   Editing = 'fas fa-user-edit',
-  Recheck = 'fas fa-user-edit'
+  Recheck = 'fas fa-user-edit',
+  PendingModeration = 'fas fa-user-clock'
 }

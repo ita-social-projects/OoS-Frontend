@@ -10,7 +10,9 @@ import { FilterData } from 'shared/models/history-log.model';
 import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
 import { ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from 'shared/models/region-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { StatisticParameters } from 'shared/models/statistic.model';
+import { WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get About Portal';
@@ -175,6 +177,22 @@ export class GetEmployeeHistory {
     public payload?: FilterData,
     public searchSting?: string
   ) {}
+}
+
+export class GetFilteredWorkshopDrafts {
+  static readonly type = '[admin] Get Filtered Workshop Drafts';
+
+  constructor(public workshopParameters: WorkshopFilterAdministration) {}
+}
+
+export class OnGetFilteredWorkshopDraftsSuccess {
+  static readonly type = '[admin] Get Filtered Workshop Drafts Success';
+  constructor(public workshops: SearchResponse<WorkshopDraft[]>) {}
+}
+
+export class OnGetFilteredWorkshopDraftsFail {
+  static readonly type = '[admin] Get Filtered Workshop Drafts Fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class GetApplicationHistory {
@@ -565,4 +583,43 @@ export class ReinviteAreaAdminFail {
   static readonly type = '[admin] Reinvite Area Admin Fail';
 
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class GetModeratorProfile {
+  static readonly type = '[admin] Get Moderator Profile';
+
+  constructor() {}
+}
+
+export class ApproveWorkshopDraft {
+  static readonly type = '[admin] Approve Workshop Draft';
+  constructor(public draftId: string) {}
+}
+
+export class OnApproveDraftFail {
+  static readonly type = '[admin] Approve Workshop Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnApproveDraftSuccess {
+  static readonly type = '[admin] Approve Workshop Draft Success';
+  constructor(public draftId: string) {}
+}
+
+export class RejectWorkshopDraft {
+  static readonly type = '[admin] Reject Workshop Draft';
+  constructor(
+    public draftId: string,
+    public rejectReason: string
+  ) {}
+}
+
+export class OnRejectDraftFail {
+  static readonly type = '[admin] Reject Workshop Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class OnRejectDraftSuccess {
+  static readonly type = '[admin] Reject Workshop Draft Success';
+  constructor(public draftId: string) {}
 }
