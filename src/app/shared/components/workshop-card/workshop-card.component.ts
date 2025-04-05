@@ -11,7 +11,7 @@ import { Constants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { DraftActionsEnum, DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationDescription, ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
@@ -59,7 +59,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
-  public readonly draftActionsEnum = DraftActionsEnum;
   public readonly draftStatusEnum = DraftStatusEnum;
   public readonly modalConfirmationType = ModalConfirmationType;
 
@@ -143,7 +142,15 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
       dialogRef.afterClosed().subscribe((res: boolean) => {
         if (res) {
-          this.store.dispatch(new UpdateWorkshopStatus({ workshopId: this.workshopData.id, status: status }, this.workshopData.providerId));
+          this.store.dispatch(
+            new UpdateWorkshopStatus(
+              {
+                workshopId: this.workshopData.id,
+                status: status
+              },
+              this.workshopData.providerId
+            )
+          );
         }
       });
     } else {

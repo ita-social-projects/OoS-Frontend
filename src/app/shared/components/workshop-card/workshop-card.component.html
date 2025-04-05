@@ -12,7 +12,8 @@
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow" class="card-title !flex !flex-row">
+        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow"
+                        class="card-title !flex !flex-row">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
@@ -83,7 +84,8 @@
       [routerLink]="['/create', workshopData.id ? 'workshop' : 'draft', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
       <mat-icon>edit</mat-icon>
     </div>
-    <div class="actions_btn action-icon" (click)="onDelete()">
+    <div *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+         class="actions_btn action-icon" (click)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
@@ -130,7 +132,8 @@
       <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
       <span class="card_text card_text_blue">
         {{ workshopData.takenSeats }}
-        <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
+        <ng-container
+          *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
       </span>
     </div>
     <div class="provider-content flex justify-between items-center">
@@ -138,7 +141,8 @@
       <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
     </div>
     <div class="provider-content flex justify-between items-center">
-      <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+      <p class="card_text"><i
+        class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
       <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
     </div>
   </ng-container>
