@@ -5,7 +5,7 @@
   </div>
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
-    [ngStyle]="{ 'padding-bottom': workshop.rejectionMessage ? '0' : '' }"
+    [ngStyle]="{ 'padding-bottom': workshop.draftStatus ? '0' : '' }"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button (click)="onActionButtonClick(modalType.archiveWorkshop)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
@@ -32,6 +32,17 @@
     </div>
   </div>
 
+  <div *ngIf="workshop.draftStatus === WorkshopDraftStatus.Draft || workshop.draftStatus === WorkshopDraftStatus.PendingModeration" class="draft-panel flex items-center"
+  [ngClass]="{ 'draft-panel-draft' : workshop.draftStatus === WorkshopDraftStatus.Draft, 'draft-panel-pending' : workshop.draftStatus === WorkshopDraftStatus.PendingModeration }">
+    <ng-container [ngSwitch]="workshop.draftStatus">
+    <span *ngSwitchCase="WorkshopDraftStatus.Draft">
+      {{ 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT' | translate | uppercase }}
+    </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.PendingModeration">
+      {{ 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING' | translate | uppercase }}
+    </span>
+    </ng-container>
+  </div>
   <div class="expansion-wrapper" *ngIf="workshop.rejectionMessage">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
