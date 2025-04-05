@@ -139,7 +139,7 @@ export class Workshop extends WorkshopBase {
 export class WorkshopDraft extends Workshop {
   workshopDraftId: string;
   rejectionMessage?: string;
-  draftStatus: string;
+  draftStatus: WorkshopDraftStatus;
   workshopDetails: Workshop;
 }
 
@@ -268,8 +268,6 @@ export interface Description {
   imageFiles?: File[];
   tagIds: number[];
   enrollmentProcedureDescription: string;
-  competitiveSelection: boolean;
-  competitiveSelectionDescription: string;
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
@@ -316,11 +314,4 @@ enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
-}
-
-export interface WorkshopDraft {
-  draftStatus: WorkshopDraftStatus;
-  workshopDraftId: string;
-  workshopDetails: Workshop;
-  tags: string;
 }
