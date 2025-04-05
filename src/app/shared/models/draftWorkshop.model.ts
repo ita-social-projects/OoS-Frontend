@@ -29,9 +29,7 @@ export class WorkshopMainRequiredProperties extends BaseWorkshop {
 
 export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredProperties {
   $type?: WorkshopType = WorkshopType.WithOtherRequiredProperties;
-  shortStay: boolean;
   isSelfFinanced: boolean;
-  isSpecial: boolean;
   specialNeedsType: string;
   isInclusive: boolean;
   educationalShift: string;

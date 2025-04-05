@@ -62,7 +62,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       this.activateEditMode();
     }
 
-    this.setupFormValidation();
     this.priceControlListener();
     this.priceValueListener();
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
@@ -76,9 +75,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   public activateEditMode(): void {
     this.AdditionalAboutGroup.patchValue(
       {
-        shortStay: this.workshop.shortStay || false,
         isSelfFinanced: this.workshop.isSelfFinanced || false,
-        isSpecial: this.workshop.isSpecial || false,
         isInclusive: this.workshop.isInclusive || false,
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
@@ -104,9 +101,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
   private initializeForm(): void {
     this.AdditionalAboutGroup = this.formBuilder.group({
-      shortStay: new FormControl(false),
       isSelfFinanced: new FormControl(false),
-      isSpecial: new FormControl(false),
       isInclusive: new FormControl(false),
       specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
@@ -145,27 +140,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       this.payRateControl.markAsUntouched();
       this.payRateControl.setErrors(null);
     }
-  }
-
-  private setupFormValidation(): void {
-    this.AdditionalAboutGroup.get('isSpecial')
-      .valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((isSpecial: boolean) => {
-        const specialNeedsTypeControl = this.AdditionalAboutGroup.get('specialNeedsType');
-        if (isSpecial) {
-          specialNeedsTypeControl.setValidators([Validators.required]);
-        } else {
-          specialNeedsTypeControl.clearValidators();
-          specialNeedsTypeControl.setValue(this.SpecialNeedsType.None);
-        }
-        specialNeedsTypeControl.updateValueAndValidity();
-        this.markFormAsDirtyOnUserInteraction();
-      });
-
-    this.AdditionalAboutGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.markFormAsDirtyOnUserInteraction();
-      this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
-    });
   }
 
   private markFormAsDirtyOnUserInteraction(): void {

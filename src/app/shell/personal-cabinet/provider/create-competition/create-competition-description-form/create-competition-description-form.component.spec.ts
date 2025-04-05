@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
-import { of } from 'rxjs';
 import { Competition } from 'shared/models/competition.model';
 import { CreateCompetitionDescriptionFormComponent } from './create-competition-description-form.component';
 
@@ -82,7 +81,6 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
       tagIds: new FormControl([]),
-      shortStay: new FormControl(false),
       isSelfFinanced: new FormControl(false),
       enrollmentProcedureDescription: new FormControl(''),
       specialNeedsType: new FormControl('None'),
