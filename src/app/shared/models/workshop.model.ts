@@ -36,10 +36,8 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
   tagIds: number[];
-  shortStay: boolean;
   isSelfFinanced: boolean;
   enrollmentProcedureDescription: string;
-  isSpecial: boolean;
   isInclusive: boolean;
   specialNeedsType: string;
   areThereBenefits: boolean;
@@ -76,10 +74,8 @@ export abstract class WorkshopBase {
     this.providerId = provider?.id;
     this.providerTitle = provider?.fullTitle;
     this.tagIds = description?.tagIds;
-    this.shortStay = additionalAbout?.shortStay;
     this.isSelfFinanced = additionalAbout?.isSelfFinanced;
     this.enrollmentProcedureDescription = description?.enrollmentProcedureDescription;
-    this.isSpecial = additionalAbout?.isSpecial;
     this.isInclusive = additionalAbout?.isInclusive;
     this.specialNeedsType = additionalAbout?.specialNeedsType;
     this.areThereBenefits = additionalAbout?.areThereBenefits;
@@ -178,10 +174,8 @@ export interface WorkshopBaseCard {
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
-  shortStay: boolean;
   isSelfFinanced: boolean;
   enrollmentProcedureDescription: string;
-  isSpecial: boolean;
   isInclusive: boolean;
   _meta?: string;
 }
@@ -233,9 +227,7 @@ export interface WorkshopAbout {
 }
 
 export interface AdditionalAbout {
-  shortStay: boolean;
   isSelfFinanced: boolean;
-  isSpecial: boolean;
   isInclusive: boolean;
   specialNeedsType: string;
   educationalShift: string;
