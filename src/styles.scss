@@ -128,8 +128,9 @@ $dark-theme: mat.define-dark-theme(
   --cancel-text-color: #e8e3e3;
   --secondary-cancel-text-color: #ece5e5;
   --primary-dark-text-color: #ffffff;
-  --primary-light-text-color: #2c2b2b;
+  --primary-light-text-color: #1b1a1a;
   --list-text-color: #494545;
+  --body-color: #2e2d2d;
 
   h1,
   h2,
@@ -141,7 +142,7 @@ $dark-theme: mat.define-dark-theme(
   }
 
   .unfinished-banner {
-    background-color: var(--list-text-color);
+    background-color: var(--banner-color);
   }
 }
 
@@ -359,13 +360,13 @@ mat-card.mat-mdc-card {
       font-family: 'Open Sans', sans-serif !important;
       font-weight: 700;
       font-size: 13px;
+      color: var(--primary-dark-text-color) !important;
       line-height: 18px;
     }
 
     .mat-mdc-menu-item {
       padding: 0.75rem !important;
       height: 36px;
-      color: #272425;
     }
   }
 

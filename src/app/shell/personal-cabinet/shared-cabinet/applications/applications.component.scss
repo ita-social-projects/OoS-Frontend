@@ -10,6 +10,11 @@
   width: 100%;
 }
 
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
+
 :host .mat-tab-header {
   border: none;
   margin-bottom: 1rem;

@@ -16,6 +16,7 @@
   cursor: pointer;
   margin: auto 0.5rem;
   z-index: 100;
+  color: var(--primary-dark-text-color);
   user-select: none;
 }
 
@@ -51,7 +52,7 @@
 .big-icon {
   font-size: 30px;
   line-height: 30px;
-  color: var(--secondary-dark-text-color);
+  color: var(--primary-dark-text-color);
 }
 
 .active-info-btn {

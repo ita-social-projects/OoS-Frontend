@@ -29,7 +29,7 @@
   text-overflow: ellipsis;
 
   &::placeholder {
-    color: var(--specific-light-text-color) !important;
+    color: var(--cancel-text-color) !important;
     font-family: 'Open Sans', sans-serif;
   }
 }

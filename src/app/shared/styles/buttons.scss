@@ -82,9 +82,9 @@
 
 button:disabled,
 button[disabled] {
-  border: 1px solid var(--secondary-light-text-color);
-  background-color: var(--secondary-light-bg-color);
-  color: var(--cancel-text-coor);
+  border: 1px solid var(--bg-disabled-button);
+  background-color: var(--bg-disabled-button);
+  color: var(--disabled-text-color);
   pointer-events: none;
 }
 

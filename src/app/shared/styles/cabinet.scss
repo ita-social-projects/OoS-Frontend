@@ -23,10 +23,10 @@
     }
 
     .active {
-      color: var(--primary-accent-color);
+      color: var(--primary-accent-color) !important;
 
       &::after {
-        background-color: var(--primary-accent-color);
+        background-color: var(--primary-accent-color) !important;
         bottom: 0;
         content: '';
         display: block;
@@ -65,18 +65,18 @@
 
 ::ng-deep .mat-mdc-tab-link.active {
   .mdc-tab__text-label {
-    color: var(--primary-accent-color);
+    color: var(--primary-accent-color) !important;
   }
 
   &:hover {
     .mdc-tab__text-label {
-      color: var(--primary-accent-color);
+      color: var(--primary-accent-color) !important;
     }
   }
 
   &:focus {
     .mdc-tab__text-label {
-      color: var(--primary-accent-color);
+      color: var(--primary-accent-color) !important;
     }
   }
 }

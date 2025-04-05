@@ -59,3 +59,8 @@
 :host ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
+
+.step-input {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}

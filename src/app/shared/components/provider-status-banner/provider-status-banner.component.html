@@ -21,7 +21,7 @@
       <p *ngIf="timeToLive" class="text-sm !mt-1">
         {{ timeToLive | timeRemaining }}
       </p>
-      <div class="flex mt-3 justify-start">
+      <div class="flex mt-3 justify-start btn-container">
         <button class="btn !m-0" (click)="continueDraft()" mat-raised-button>
           {{ 'PROVIDER_DRAFT.EDIT_LINK' | translate }}
         </button>

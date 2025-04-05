@@ -48,8 +48,9 @@
   cdk-accordion {
     .notification__wrapper {
       border-bottom: 1px solid var(--input-light-color);
+      background-color: var(--primary-light-bg-color);
       &:hover {
-        background-color: darken($color: #f8f8f8, $amount: 3.8);
+        background-color: var(--body-color);
       }
     }
 
@@ -158,6 +159,7 @@
 
 .no-message {
   padding: 0.75rem 1rem;
+  color: var(--primary-dark-text-color);
 }
 
 @media (max-width: 750px) {
@@ -176,4 +178,9 @@
   ::ng-deep .mat-mdc-menu-content {
     padding: 0px !important;
   }
+}
+
+.read-all-btn,
+.read-all-btn:disabled {
+  color: var(--cancel-text-color);
 }
