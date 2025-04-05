@@ -239,26 +239,26 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
-      if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && !this.shouldBeDraft(workshop)) {
-        this.store.dispatch(new UpdateWorkshop(workshop));
-        this.store.dispatch(new OnDeleteUnfinishedWorkshop());
-      } else if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop && this.shouldBeDraft(workshop)) {
-        const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
-          data: {
-            type: ModalConfirmationType.draftEditSet
-          }
-        });
-
-        dialogRef
-          .afterClosed()
-          .pipe(take(1))
-          .subscribe((res: boolean) => {
-            if (res) {
-              this.store.dispatch(this.store.dispatch(new CreateWorkshopDraft(workshop)));
-              this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+      if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop) {
+        if (this.shouldBeDraft(workshop)) {
+          const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+            width: Constants.MODAL_SMALL,
+            data: {
+              type: ModalConfirmationType.draftEditSet
             }
           });
+
+          dialogRef
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe((res: boolean) => {
+              if (res) {
+                this.store.dispatch(new UpdateWorkshop(workshop));
+              }
+            });
+        } else {
+          this.store.dispatch(new UpdateWorkshop(workshop));
+        }
       } else {
         const draftId = this.getRouteParam();
         this.store.dispatch(new UpdateDraft(draftId, workshop));
@@ -452,22 +452,19 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'preferentialTermsOfParticipation'
     ];
 
-    const workshop = this.workshop;
-    workshop.workshopDescriptionItems.forEach((item) => delete item.id);
-
     for (const fieldName of fieldsToCheck) {
       if (
         typeof newWorkshop[fieldName] === 'object' &&
-        typeof workshop[fieldName] === 'object' &&
+        typeof this.workshop[fieldName] === 'object' &&
         newWorkshop[fieldName] &&
-        workshop[fieldName]
+        this.workshop[fieldName]
       ) {
-        if (!Util.deepEqual(newWorkshop[fieldName], workshop[fieldName])) {
+        if (!Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName])) {
           return true;
         }
       } else if (
-        newWorkshop[fieldName] !== workshop[fieldName] &&
-        (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(workshop[fieldName]))
+        newWorkshop[fieldName] !== this.workshop[fieldName] &&
+        (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(this.workshop[fieldName]))
       ) {
         return true;
       }
