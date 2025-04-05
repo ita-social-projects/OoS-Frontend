@@ -17,9 +17,13 @@
       padding-bottom: 2.75px;
     }
 
+    .country-selector-code {
+      color: var(--primary-dark-text-color);
+    }
+
     .phone-number-input {
       margin-left: 5px;
-      color: var(--input-light-color);
+      color: var(--primary-dark-text-color);
     }
   }
 }
@@ -71,8 +75,4 @@
 .phone-invalid {
   outline: none;
   border: 1px solid var(--error-color);
-}
-
-.country-selector-code {
-  color: var(--primary-dark-text-color);
 }
