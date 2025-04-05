@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { merge, Subject, throttleTime } from 'rxjs';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -242,19 +242,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private listenToChanges(): void {
     merge(
-      this.AboutFormGroup.get('coverImage').valueChanges,
-      this.AboutFormGroup.get('title').valueChanges.pipe(
+      this.AboutFormGroup.get('coverImage')?.valueChanges ?? of(),
+      this.AboutFormGroup.get('title')?.valueChanges.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      ),
-      this.AboutFormGroup.get('shortTitle').valueChanges.pipe(
+      ) ?? of(),
+      this.AboutFormGroup.get('shortTitle')?.valueChanges.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      )
+      ) ?? of()
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {

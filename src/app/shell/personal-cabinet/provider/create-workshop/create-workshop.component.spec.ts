@@ -10,6 +10,7 @@ import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
 import { of } from 'rxjs';
 import { CreateWorkshopComponent } from './create-workshop.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateWorkshopComponent (Jest)', () => {
   let component: CreateWorkshopComponent;
@@ -54,7 +55,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [MatStepperModule, RouterTestingModule, BrowserAnimationsModule, NgxsModule.forRoot([]), HttpClientTestingModule],
+      imports: [MatStepperModule, RouterTestingModule, BrowserAnimationsModule, NgxsModule.forRoot([]), HttpClientTestingModule, MatDialogModule],
       declarations: [CreateWorkshopComponent],
       providers: [{ provide: Store, useValue: storeMock }]
     }).compileComponents();

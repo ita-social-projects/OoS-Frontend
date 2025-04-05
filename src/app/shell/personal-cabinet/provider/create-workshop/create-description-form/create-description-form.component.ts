@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { merge, Subject, throttleTime } from 'rxjs';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -340,7 +340,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
     this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
-    this.DescriptionFormGroup.get('tagIds').markAsDirty();
+    this.DescriptionFormGroup.get('tagIds')?.markAsDirty();
   }
 
   private updateKeywordsInputState(): void {
@@ -364,37 +364,37 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private listenToChanges(): void {
     merge(
-      this.DescriptionFormGroup.get('imageFiles').valueChanges,
-      this.DescriptionFormGroup.get('workshopDescriptionItems').valueChanges.pipe(
+      this.DescriptionFormGroup.get('imageFiles')?.valueChanges ?? of(),
+      this.DescriptionFormGroup.get('workshopDescriptionItems')?.valueChanges?.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      ),
-      this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.pipe(
+      ) ?? of(),
+      this.DescriptionFormGroup.get('disabilityOptionsDesc')?.valueChanges?.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      ),
-      this.DescriptionFormGroup.get('competitiveSelectionDescription').valueChanges.pipe(
+      ) ?? of(),
+      this.DescriptionFormGroup.get('competitiveSelectionDescription')?.valueChanges?.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      ),
-      this.DescriptionFormGroup.get('keyWords').valueChanges.pipe(
+      ) ?? of(),
+      this.DescriptionFormGroup.get('keyWords')?.valueChanges?.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      ),
-      this.DescriptionFormGroup.get('enrollmentProcedureDescription').valueChanges.pipe(
+      ) ?? of(),
+      this.DescriptionFormGroup.get('enrollmentProcedureDescription')?.valueChanges.pipe(
         throttleTime(5000, undefined, {
           leading: true,
           trailing: false
         })
-      )
+      ) ?? of()
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {

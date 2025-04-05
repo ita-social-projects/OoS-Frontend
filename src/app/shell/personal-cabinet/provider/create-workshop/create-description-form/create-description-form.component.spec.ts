@@ -80,7 +80,7 @@ describe('CreateDescriptionFormComponent', () => {
       competitiveSelection: new FormControl(''),
       tagIds: new FormControl([]),
       isSelfFinanced: new FormControl(false),
-      enrollmentProcedureDescription: new FormControl(''),
+      enrollmentProcedureDescription: new FormControl('some description'),
       isInclusive: new FormControl(false),
       specialNeedsType: new FormControl('None'),
       areThereBenefits: new FormControl(false),
@@ -165,7 +165,6 @@ describe('CreateDescriptionFormComponent', () => {
 
     const mockWorkshop: Partial<Workshop> = {
       tagIds: [1],
-      keywords: [],
       competitiveSelection: true
     };
 
