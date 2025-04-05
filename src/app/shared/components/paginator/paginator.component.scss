@@ -26,7 +26,7 @@
   pointer-events: all;
 }
 .arrow:hover {
-  color: (--primary-accent-color);
+  color: var(--primary-accent-color);
 }
 .page-selected:hover,
 .page-unselected:hover,
