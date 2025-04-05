@@ -1209,5 +1209,8 @@
   "EMPLOYEES_REGISTRATION": "Реєстрація співробітників",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "Цей функціонал буде додано пізніше"
+  },
+  "TOOLTIP": {
+    "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "Ви не можете редагувати гурток, який було надіслано на модерацію"
   }
 }

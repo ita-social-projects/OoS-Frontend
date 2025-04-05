@@ -1221,5 +1221,8 @@
   "EMPLOYEES_REGISTRATION": "Employees registration",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "This functionality will be added later"
+  },
+  "TOOLTIP": {
+    "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
   }
 }

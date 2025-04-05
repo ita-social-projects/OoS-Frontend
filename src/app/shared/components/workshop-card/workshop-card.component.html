@@ -78,6 +78,7 @@
 <ng-template #ProviderActions>
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
     <div
+      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       [routerLink]="['/create', workshopData.id ? 'workshop' : 'draft', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
       <mat-icon>edit</mat-icon>

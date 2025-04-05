@@ -9,7 +9,7 @@ import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/oper
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { DetailsTabTitlesEnum, DraftStatusEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
 import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';

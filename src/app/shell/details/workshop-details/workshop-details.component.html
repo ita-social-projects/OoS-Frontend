@@ -11,19 +11,16 @@
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
     </button>
     <div class="flex">
-      <!--      <div-->
-      <!--        *ngIf="workshop.draftStatus && workshop.draftStatus === WorkshopDraftStatus.Rejected"-->
-      <!--        class="reject-block flex flex-row items-center"-->
-      <!--        [matTooltip]="workshop.rejectionMessage">-->
-      <!--        <span class="reject-block-moderator-message">{{ 'MODERATOR_MESSAGE' | translate | uppercase }}</span>-->
-      <!--      </div>-->
-      <a
-        [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
-        class="btn btn-cancel"
-        [ngClass]="{ 'btn-rejected': workshop.draftStatus === WorkshopDraftStatus.Rejected }"
-        mat-button>
-        {{ 'BUTTONS.EDIT' | translate | uppercase }}
-      </a>
+      <span
+        [matTooltip]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate) : null">
+         <button
+           [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
+           class="btn btn-cancel"
+           [ngClass]="{ 'btn-rejected': workshop.draftStatus === WorkshopDraftStatus.Rejected }"
+           [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
+           mat-button>{{ 'BUTTONS.EDIT' | translate | uppercase }}
+         </button>
+      </span>
       <button
         *ngIf="!Util.isWorkshop(workshop)"
         class="btn"
@@ -55,7 +52,8 @@
           <div class="flex flex-row items-center">
             <h1 class="title">{{ workshop.title }}</h1>
             <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-              <div class="chip chip-draft chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+              <div class="chip chip-draft chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+              </div>
             </ng-container>
           </div>
           <h3 class="short-title" *ngIf="workshop.shortTitle">{{ workshop.shortTitle }}</h3>
@@ -106,7 +104,8 @@
       </div>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex"
+                   (selectedTabChange)="onTabChange($event)">
       <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
       </mat-tab>
@@ -119,7 +118,8 @@
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
         <!--        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>-->
       </mat-tab>
-      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+      <mat-tab *ngIf="role !== Role.unauthorized" class="label"
+               label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">

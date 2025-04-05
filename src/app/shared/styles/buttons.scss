@@ -32,9 +32,9 @@ $button-color-cancel: #444444;
   }
 
   &-cancel {
-    color: $button-color-cancel !important;
-    background-color: transparent !important;
-    border-color: $button-color-cancel !important;
+    color: $button-color-cancel;
+    background-color: transparent;
+    border-color: $button-color-cancel;
   }
 
   &-rejected {
