@@ -381,6 +381,10 @@ export class Util {
     return field === undefined || field === null || field === '' || (Array.isArray(field) && field.length === 0);
   }
 
+  public static isEmptyUUID(id: string): boolean {
+    return id === '00000000-0000-0000-0000-000000000000';
+  }
+
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
     return (+currentPage.element - 1) * size;
   }

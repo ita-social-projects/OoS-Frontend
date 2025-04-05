@@ -266,8 +266,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));
-      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
     }
+    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
   /**

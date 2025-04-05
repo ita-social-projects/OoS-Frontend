@@ -58,6 +58,9 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshops(): void {
+    this.providerParameters.excludedWorkshopId = !Util.isEmptyUUID(this.providerParameters.excludedWorkshopId)
+      ? this.providerParameters.excludedWorkshopId
+      : null;
     Util.setFromPaginationParam(this.providerParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch(new GetWorkshopsByProviderId(this.providerParameters));
   }
