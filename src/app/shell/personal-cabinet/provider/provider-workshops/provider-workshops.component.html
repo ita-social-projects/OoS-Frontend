@@ -12,6 +12,7 @@
   mode="unfinished"
   *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
   class="mb-8 unfinished-banner">
+</app-provider-status-banner>
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount">
     <app-workshop-card
