@@ -10,15 +10,7 @@
   max-width: 478px;
 }
 
-::ng-deep {
-  .mdc-tooltip.multiline-tooltip {
-    white-space: pre-line;
-  }
-
-  //.mdc-tooltip.description-tooltip .mdc-tooltip__surface {
-  //  color: black;
-  //  background-color: white;
-  //  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  //  padding: 10px;
-  //}
+.multiline {
+  white-space: pre-line;
 }
+

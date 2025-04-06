@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { ValidationConstants } from 'shared/constants/validation';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-info-form',
@@ -31,4 +32,6 @@ export class InfoFormComponent {
       this.infoEditFormGroup.get(formControlName).setValue(null);
     }
   }
+
+  protected readonly InfoMenuType = InfoMenuType;
 }
