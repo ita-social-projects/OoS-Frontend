@@ -53,20 +53,65 @@ describe('ContactsComponent', () => {
     expect(component.getFullAddress(address)).toBe('City, Main St, 123');
   });
 
-  it('should generate correct map link for Google Maps', () => {
+  describe('mapLink', () => {
+    const originalUserAgent = navigator.userAgent;
+
+    afterEach(() => {
+      Object.defineProperty(navigator, 'userAgent', {
+        value: originalUserAgent,
+        configurable: true
+      });
+    });
+
     const address: Address = {
       street: 'Main St',
       buildingNumber: '123',
       codeficatorAddressDto: { fullAddress: 'City, Main St 123' }
     } as Address;
 
-    window.open = jest.fn();
+    it('should use Apple Maps link on iOS devices', () => {
+      Object.defineProperty(navigator, 'userAgent', {
+        value: 'iPhone',
+        configurable: true
+      });
+      window.open = jest.fn();
 
-    component.mapLink(address);
+      component.mapLink(address);
 
-    expect(window.open).toHaveBeenCalledWith(
-      expect.stringContaining('https://www.google.com/maps/search/?api=1&query=Main%20St%2C%20123'),
-      '_blank'
-    );
+      expect(window.open).toHaveBeenCalledWith(
+        expect.stringContaining('https://maps.apple.com/?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
+        '_blank'
+      );
+    });
+
+    it('should use geo URI on Android devices', () => {
+      Object.defineProperty(navigator, 'userAgent', {
+        value: 'Android',
+        configurable: true
+      });
+      window.open = jest.fn();
+
+      component.mapLink(address);
+
+      expect(window.open).toHaveBeenCalledWith(
+        expect.stringContaining('geo:0,0?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
+        '_blank'
+      );
+    });
+
+    it('should use Google Maps link by default', () => {
+      Object.defineProperty(navigator, 'userAgent', {
+        value: 'Windows NT',
+        configurable: true
+      });
+      window.open = jest.fn();
+
+      component.mapLink(address);
+
+      expect(window.open).toHaveBeenCalledWith(
+        expect.stringContaining('https://www.google.com/maps/search/?api=1&query=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
+        '_blank'
+      );
+    });
   });
 });
