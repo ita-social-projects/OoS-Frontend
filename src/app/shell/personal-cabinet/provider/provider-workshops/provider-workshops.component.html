@@ -4,15 +4,15 @@
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>
-<div class="searchbar">
-  <app-workshop-searchbar (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
-</div>
 <app-provider-status-banner
   [provider]="provider"
   mode="unfinished"
   *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
   class="mb-8 unfinished-banner">
 </app-provider-status-banner>
+<div class="searchbar">
+  <app-workshop-searchbar (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
+</div>
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount">
     <app-workshop-card
