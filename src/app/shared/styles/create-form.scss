@@ -67,11 +67,12 @@
     border: 1px solid #e3e3e3;
     border-radius: 25px;
     padding: 20px;
-    height: 200px !important;
+    min-height: 200px;
 
     &-short {
-      height: 100px !important;
+      min-height: 100px;
       margin-top: 1rem;
+      resize: vertical;
     }
 
     textarea::-webkit-scrollbar {
@@ -176,7 +177,7 @@ button:focus {
 
 ::ng-deep .mat-mdc-form-field-infix {
   padding: 0.4375em 0 !important;
-  min-height: 36px; 
+  min-height: 36px;
   border: none;
   font-size: 13px !important;
 }
@@ -267,9 +268,9 @@ button:focus {
   }
 }
 
-::ng-deep .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after, 
+::ng-deep .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
 ::ng-deep .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
-  color: var(--mat-option-selected-state-label-text-color) !important; 
+  color: var(--mat-option-selected-state-label-text-color) !important;
 }
 
 ::ng-deep .select-with-form-field {

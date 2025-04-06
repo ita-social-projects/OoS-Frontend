@@ -1,0 +1,33 @@
+<form class="search-bar flex flex-row justify-evenly items-center">
+  <mat-form-field class="input-wrapper !flex !flex-row !items-center !justify-between" appearance="fill">
+    <mat-icon class="icon" style="transform: rotate(90deg)" (keydown.enter)="onValueEnter()" (click)="onValueEnter()">search</mat-icon>
+    <input
+      matInput
+      type="text"
+      class="search-input"
+      placeholder="{{ 'SEARCH_WORKSHOP' | translate }}"
+      disableOptionCentering
+      autocomplete="off"
+      appTrimValue
+      [formControl]="searchValueFormControl"
+      [matAutocomplete]="autoSearch"
+      (keyup.enter)="onValueEnter()" />
+    <mat-autocomplete
+      #autoSearch="matAutocomplete"
+      hideSingleSelectionIndicator="true"
+      class="search-input"
+      (optionSelected)="onValueSelect()">
+      <mat-option class="dropdown-option option search-dropdown-option" *ngFor="let result of filteredResults" [value]="result">
+        <div class="w-[100%] flex justify-between items-center">
+          <span class="option-value">{{ result }}</span>
+          <mat-icon
+            class="close-icon"
+            (keydown.enter)="onDeletePreviousSearchValue(result, $event)"
+            (click)="onDeletePreviousSearchValue(result, $event)">
+            close
+          </mat-icon>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

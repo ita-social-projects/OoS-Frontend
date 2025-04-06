@@ -1,6 +1,6 @@
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { FormOfLearning, PayRateType, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, PayRateType, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
@@ -36,10 +36,8 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
   tagIds: number[];
-  shortStay: boolean;
   isSelfFinanced: boolean;
   enrollmentProcedureDescription: string;
-  isSpecial: boolean;
   isInclusive: boolean;
   specialNeedsType: string;
   areThereBenefits: boolean;
@@ -65,21 +63,19 @@ export abstract class WorkshopBase {
     this.dateTimeRanges = about?.dateTimeRanges;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
-    this.competitiveSelection = about?.competitiveSelection;
-    this.competitiveSelectionDescription = about?.competitiveSelectionDescription;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
     this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
     this.institutionId = description?.institutionId;
     this.institutionHierarchyId = description?.institutionHierarchyId;
     this.keywords = description?.keyWords;
+    this.competitiveSelection = description?.competitiveSelection;
+    this.competitiveSelectionDescription = description?.competitiveSelectionDescription;
     this.teachers = teachers;
     this.providerId = provider?.id;
     this.providerTitle = provider?.fullTitle;
     this.tagIds = description?.tagIds;
-    this.shortStay = additionalAbout?.shortStay;
     this.isSelfFinanced = additionalAbout?.isSelfFinanced;
     this.enrollmentProcedureDescription = description?.enrollmentProcedureDescription;
-    this.isSpecial = additionalAbout?.isSpecial;
     this.isInclusive = additionalAbout?.isInclusive;
     this.specialNeedsType = additionalAbout?.specialNeedsType;
     this.areThereBenefits = additionalAbout?.areThereBenefits;
@@ -178,10 +174,8 @@ export interface WorkshopBaseCard {
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
-  shortStay: boolean;
   isSelfFinanced: boolean;
   enrollmentProcedureDescription: string;
-  isSpecial: boolean;
   isInclusive: boolean;
   _meta?: string;
 }
@@ -206,6 +200,7 @@ export interface WorkshopProviderViewCard extends WorkshopBaseCard {
 
 export interface WorkshopStatus {
   workshopId: string;
+  statusReason?: string;
   status: string;
 }
 
@@ -215,6 +210,7 @@ export interface WorkshopStatusWithTitle extends WorkshopStatus {
 
 export interface WorkshopCardParameters extends PaginationParameters {
   providerId: string;
+  searchText?: string;
 }
 
 export interface WorkshopAbout {
@@ -225,17 +221,13 @@ export interface WorkshopAbout {
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
   availableSeats: number;
-  competitiveSelection: boolean;
-  competitiveSelectionDescription: string;
   coverImageId?: string;
   coverImage?: File;
   isPaid?: boolean;
 }
 
 export interface AdditionalAbout {
-  shortStay: boolean;
   isSelfFinanced: boolean;
-  isSpecial: boolean;
   isInclusive: boolean;
   specialNeedsType: string;
   educationalShift: string;
@@ -245,6 +237,12 @@ export interface AdditionalAbout {
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
+}
+
+export interface WorkshopFilterAdministration extends PaginationParameters {
+  searchString?: string;
+  institutionId?: string;
+  catottgId?: number;
 }
 
 export interface Description {
@@ -258,6 +256,8 @@ export interface Description {
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
+  competitiveSelection: boolean;
+  competitiveSelectionDescription: string;
 }
 
 export class Contacts {
@@ -299,4 +299,11 @@ enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
+}
+
+export interface WorkshopDraft {
+  draftStatus: WorkshopDraftStatus;
+  workshopDraftId: string;
+  workshopDetails: Workshop;
+  tags: string;
 }

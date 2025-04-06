@@ -19,8 +19,8 @@ export class UserWorkshopService {
   private isImagesFeature: boolean;
 
   constructor(
-    private http: HttpClient,
-    private store: Store
+    private readonly http: HttpClient,
+    private readonly store: Store
   ) {}
 
   /**
@@ -36,7 +36,11 @@ export class UserWorkshopService {
    * This method get related workshops for provider personal cabinet
    */
   public getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
-    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+    let params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+
+    if (workshopCardParameters.searchText) {
+      params = params.set('SearchText', workshopCardParameters.searchText);
+    }
 
     return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>(
       `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${workshopCardParameters.providerId}`,
@@ -145,6 +149,14 @@ export class UserWorkshopService {
 
   public getTimeToLiveOfUnfinishedWorkshop(): Observable<string> {
     return this.http.get<string>('/api/v1/WorkshopTempSave/GetTimeToLive');
+  }
+
+  public rejectWorkshopDraft(draftId: string, rejectReason: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Reject/${draftId}`, { rejectionMessage: rejectReason });
+  }
+
+  public approveWorkshopDraft(draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/Approve/${draftId}`, null);
   }
 
   private createFormData(workshop: Workshop): FormData {

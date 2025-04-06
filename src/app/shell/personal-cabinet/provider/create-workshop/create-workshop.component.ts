@@ -12,7 +12,7 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { AdditionalAbout, Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -73,7 +73,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   };
   private readonly stepActions = {
     1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
-    2: (): void => this.dispatchUnfinishedData(2, this.AdditionalAboutGroup.getRawValue()),
+    2: (): void => this.dispatchUnfinishedData(2, this.createAdditionalAbout()),
     3: (): void =>
       this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
     4: (): void => {
@@ -209,7 +209,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const contacts = this.createContacts();
     const aboutInfo = this.createAbout();
-    const additionalAboutInfo = this.AdditionalAboutGroup.getRawValue();
+    const additionalAboutInfo = this.createAdditionalAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     // const teachers = this.createTeachers();
     const teachers = [];
@@ -363,11 +363,21 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }
-    if (aboutInfo.price === null) {
-      aboutInfo.price = 0;
-      aboutInfo.isPaid = false;
-    }
+
     return aboutInfo;
+  }
+
+  /**
+   * Prepares 'AdditionalAbout' section data from the form, setting 'price' to 0 if null.
+   */
+  private createAdditionalAbout(): AdditionalAbout {
+    const additionalInfo = this.AdditionalAboutGroup.getRawValue();
+    if (additionalInfo.price === null) {
+      additionalInfo.price = 0;
+      additionalInfo.isPaid = false;
+    }
+
+    return additionalInfo;
   }
 
   /**

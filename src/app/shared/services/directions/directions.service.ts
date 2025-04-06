@@ -20,11 +20,12 @@ export class DirectionsService {
 
   public getFilteredDirections(directionParameters: DirectionParameters): Observable<SearchResponse<Direction[]>> {
     const options = { params: this.setParams(directionParameters) };
-    return this.http.get<SearchResponse<Direction[]>>('/api/v1/Direction/GetByFilter', options);
+    return this.http.get<SearchResponse<Direction[]>>('/api/v1/directions', options);
   }
 
   public getDirections(): Observable<Direction[]> {
-    return this.http.get<Direction[]>('/api/v1/Direction/Get');
+    // TODO: Deprecated method on backend, usage should be refactored
+    return this.http.get<Direction[]>('/api/v1/directions/Get');
   }
 
   public getTopDirections(): Observable<Direction[]> {
@@ -39,11 +40,11 @@ export class DirectionsService {
   }
 
   public createDirection(direction: Direction): Observable<Direction> {
-    return this.http.post<Direction>('/api/v1/Direction/Create', direction);
+    return this.http.post<Direction>('/api/v1/directions', direction);
   }
 
   public getDirectionById(id: number): Observable<Direction> {
-    return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
+    return this.http.get<Direction>(`/api/v1/directions/${id}`);
   }
 
   private setParams(directionParameters: DirectionParameters): HttpParams {

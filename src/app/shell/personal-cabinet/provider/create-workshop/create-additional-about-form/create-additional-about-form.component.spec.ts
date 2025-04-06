@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Workshop } from 'shared/models/workshop.model';
-import { AgeComposition, EducationalShift, SpecialNeedsType, GroupType, PayRateType } from 'shared/enum/workshop';
+import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'shared/modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,9 +53,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
   });
 
   it('should initialize form with default values', () => {
-    expect(component.AdditionalAboutGroup.get('shortStay').value).toBeFalsy();
     expect(component.AdditionalAboutGroup.get('isSelfFinanced').value).toBeFalsy();
-    expect(component.AdditionalAboutGroup.get('isSpecial').value).toBeFalsy();
     expect(component.AdditionalAboutGroup.get('isInclusive').value).toBeFalsy();
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(SpecialNeedsType.None);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(EducationalShift.First);
@@ -63,22 +61,9 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('groupType').value).toBe(GroupType.None);
   });
 
-  it('should update specialNeedsType validation when isSpecial changes', () => {
-    const specialNeedsTypeControl = component.AdditionalAboutGroup.get('specialNeedsType');
-
-    component.AdditionalAboutGroup.patchValue({ isSpecial: true });
-    expect(specialNeedsTypeControl.hasValidator(Validators.required)).toBeTruthy();
-
-    component.AdditionalAboutGroup.patchValue({ isSpecial: false });
-    expect(specialNeedsTypeControl.hasValidator(Validators.required)).toBeFalsy();
-    expect(specialNeedsTypeControl.value).toBe(SpecialNeedsType.None);
-  });
-
   it('should update form in edit mode', () => {
     const mockWorkshop = {
-      shortStay: true,
       isSelfFinanced: true,
-      isSpecial: true,
       isInclusive: true,
       specialNeedsType: SpecialNeedsType.Hearing,
       educationalShift: EducationalShift.Second,
@@ -89,19 +74,12 @@ describe('CreateAdditionalAboutFormComponent', () => {
     component.workshop = mockWorkshop;
     component.activateEditMode();
 
-    expect(component.AdditionalAboutGroup.get('shortStay').value).toBe(mockWorkshop.shortStay);
     expect(component.AdditionalAboutGroup.get('isSelfFinanced').value).toBe(mockWorkshop.isSelfFinanced);
-    expect(component.AdditionalAboutGroup.get('isSpecial').value).toBe(mockWorkshop.isSpecial);
     expect(component.AdditionalAboutGroup.get('isInclusive').value).toBe(mockWorkshop.isInclusive);
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(mockWorkshop.specialNeedsType);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(mockWorkshop.educationalShift);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(mockWorkshop.ageComposition);
     expect(component.AdditionalAboutGroup.get('groupType').value).toBe(mockWorkshop.groupType);
-  });
-
-  it('should mark form as dirty on value changes', () => {
-    component.AdditionalAboutGroup.patchValue({ shortStay: true });
-    expect(component.AdditionalAboutGroup.dirty).toBeTruthy();
   });
 
   describe('price listener', () => {

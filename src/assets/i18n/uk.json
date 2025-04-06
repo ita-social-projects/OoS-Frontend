@@ -44,6 +44,7 @@
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
+  "SEARCH_WORKSHOP": "Пошук гуртка",
   "ENUM": {
     "CHAT_CHANGES": {
       "CHANGE_IN_MESSAGES": "зміна в повідомленнях",
@@ -137,13 +138,14 @@
       "PLATFORM": "Портал",
       "PORTAL": "Портал",
       "PROVIDERS": "Заклади",
+      "WORKSHOPS": "Гуртки",
       "SEARCH_RESULT": "Результати пошуку",
       "SUPPORT": "Підтримка",
       "USERS": "Користувачі",
       "MY_WORKSHOPS": "Мої гуртки",
-      "SUBJECTS":"Навчальні предмети",
-      "ADD_SUBJECTS":"Додати навчальний предмет",
-      "EDIT_SUBJECTS":"Редагування навчального предмету",
+      "SUBJECTS": "Навчальні предмети",
+      "ADD_SUBJECTS": "Додати навчальний предмет",
+      "EDIT_SUBJECTS": "Редагування навчального предмету",
       "MY_COMPETITIONS": "Мої конкурси",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
@@ -157,7 +159,8 @@
       "USER_REGISTRATION": "Реєстрація користувача",
       "EMPLOYEES": "Співробітники",
       "NEW_COMPETITION": "Реєстрація конкурсу",
-      "EDIT_COMPETITION": "Новий конкурс"
+      "EDIT_COMPETITION": "Новий конкурс",
+      "WORKSHOP_DRAFTS": "Чернетки гуртків"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",
@@ -433,6 +436,7 @@
       "PHONE_FEEDBACK": "Телефон для зворотного зв'язку",
       "PLACE_OF_STUDY": "Місце навчання (заклад)",
       "PRICE": "Вартість",
+      "WORKSHOP_PENDING_MODERATION": "Гурток очікує підтвердження",
       "FORM_OF_LEARNING": "Форма проведення",
       "PARENT_COMPETITION": "Батьківський конкурс",
       "SECTION_TITLE": "Назва розділу",
@@ -529,11 +533,19 @@
       "LANGUAGE": "Мова",
       "SOCIAL_NETWORKS": "Соціальні мережі",
       "SUBJECT_NAME_UKRAINIAN": "Назва предмету українською мовою",
-      "TEACHING_LANGUAGE_SUBJECT_NAME":"Назва предмету мовою викладання",
-      "TEACHING_LANGUAGE":"Мова викладання",
-      "LAST_REFERRED":"Дата останнього посилання на навчальний предмет",
-      "USED_IN":"Кількість гуртків у яких використовується",
-      "SUBJECT_NAME":"Назва навчального предмету"
+      "TEACHING_LANGUAGE_SUBJECT_NAME": "Назва предмету мовою викладання",
+      "TEACHING_LANGUAGE": "Мова викладання",
+      "LAST_REFERRED": "Дата останнього посилання на навчальний предмет",
+      "USED_IN": "Кількість гуртків у яких використовується",
+      "SUBJECT_NAME": "Назва навчального предмету",
+      "INFORMATION_ABOUT_WORKSHOP": "Про гурток",
+      "INSTITUTION_HIERARCHY": "Профіль/наукове відділення",
+      "INSTITUTION": "Підпорядкування",
+      "DIRECTION": "Назва напрямку",
+      "COST": "Вартість",
+      "EMAILS": "Електронні адреси",
+      "PHONE_NUMBERS": "Номери телефонів",
+      "LINK": "Посилання"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -553,7 +565,7 @@
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
       "SEARCH_STUDY_SUBJECT": "Пошук навчального предмету за назвою",
-      "SELECT_LANGUAGE_OF_INSTRUCTION":"Оберіть мову викладання",
+      "SELECT_LANGUAGE_OF_INSTRUCTION": "Оберіть мову викладання",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
@@ -626,6 +638,8 @@
   },
   "FOUND": "Знайдено",
   "FREE_WORKSHOP": "Безкоштовний гурток",
+  "IS_FREE": "Безкоштовний",
+  "IS_PAID": "Платний",
   "FROM": "Від",
   "INFO_MENU": {
     "UNLIMITED": "Якщо вибрати опцію \"Без обмежень\" - гурток не матиме обмеження кількості користувачів. Якщо ввести кількість доступних місць для користувачів - після досягнення ліміту набір буде автоматично закрито і подачу заявок зупинено автоматично.",
@@ -725,6 +739,7 @@
     "ENROLL_TO_WORKSHOP": "Зарахувати",
     "LEAVE_WORKSHOP": "Залишити гурток",
     "REJECT": "Відмовити",
+    "REQUEST_CHANGES": "Запросити зміни",
     "BLOCK_USER": "Заблокувати користувача",
     "UNBLOCK_USER": "Розблокувати користувача",
     "SEND_INVITATION": "Надіслати запрошення",
@@ -804,7 +819,7 @@
     "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
     "NO_CHILD_WORKSHOPS": "Гуртків поки немає!",
     "NO_CHAT_HISTORY": "У чаті ще немає повідомлень",
-    "NO_STUDY_SUBJECTS":"Навчальних предметів поки немає",
+    "NO_STUDY_SUBJECTS": "Навчальних предметів поки немає",
     "NO_JUDGES": "Суддів поки немає",
     "NO_FEATURE": "Цей функціонал поки недоступний"
   },
@@ -905,6 +920,7 @@
     "UNREGISTERED_FAVORITE": "Для того, щоб додати гурток в улюблені, будь ласка, зареєструйтеся на порталі. Дякуємо!",
     "UNREGISTERED_APPLICATION": "Для того, щоб подати заявку на гурток, будь ласка, зареєструйтеся на порталі. Дякуємо!",
     "UNREGISTERED_MESSAGE": "Для того, щоб надіслати повідомлення, будь ласка, зареєструйтеся на порталі. Дякуємо!",
+    "FULL_CONTACTS_INFO": "Для того, щоб переглянути повну контактну інформацію, перейдіть на детальну сторінку гуртка.",
     "MESSAGE_STATUS": {
       "LEFT": "Гурток успішно залишено",
       "APPROVED": "Статус заявки успішно змінено",
@@ -955,9 +971,9 @@
       "UPDATE_PROVIDER_DEPUTY": "Заступника директора успішно відредаговано!",
       "COMPLETE_PROVIDER_REGISTRATION": "Будь ласка, завершіть реєстрацію закладу.",
       "COMPLETE_USER_REGISTRATION": "Будь ласка, завершіть реєстрацію користувача.",
-      "CREATE_SUBJECT":"Навчальний предмет успішно створено!",
-      "UPDATE_SUBJECT":"Навчальний предмет успішно відредаговано!",
-      "DELETE_SUBJECT":"Навчальний предмет успішно видалено!",
+      "CREATE_SUBJECT": "Навчальний предмет успішно створено!",
+      "UPDATE_SUBJECT": "Навчальний предмет успішно відредаговано!",
+      "DELETE_SUBJECT": "Навчальний предмет успішно видалено!",
       "CREATE_RATING": "Оцінка успішно поставлена!",
       "UPDATE_PORTAL": "Інформація про портал успішно відредагована",
       "UPDATE_USER": "Особиста інформація успішно відредагована!",
@@ -984,6 +1000,8 @@
       "POSITION_DELETED_SUCCESS": "Посаду успішно видалено!",
       "POSITION_BY_TITLE_NOT_FOUND": "Не знайдено жодної посади",
       "POSITION_NOT_FOUND": "Посаду не знайдено",
+      "DRAFT_REJECTED_SUCCESS": "Зміни запрошено!",
+      "DRAFT_APPROVED_SUCCESS": "Гурток підтверджено!",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",
@@ -1060,6 +1078,7 @@
       "DELETE_SUBJECT": "Ви впевнені, що хочете видалити навчальний предмет?",
       "EDIT_SUBJECT": "Ви впевнені, що хочете редагувати навчальний предмет?",
       "CREATE_SUBJECT": "Ви впевнені, що хочете створити навчальний предмет?",
+      "EDITING_WORKSHOP": "Ви впевнені, що хочете відправити гурток на редагування?",
       "TITLES": {
         "DELETE_WORKSHOP": "ВИДАЛИТИ ГУРТОК?",
         "DELETE_DIRECTION": "ВИДАЛИТИ НАПРЯМОК?",
@@ -1108,6 +1127,7 @@
         "WORKSHOP_EDIT_SEATS": "Вам необхідно змінити кількість місць у гуртку, щоб відкрити набір.",
         "PUBLISH_WORKSHOP": "Опублікувати гурток?",
         "ARCHIVE_WORKSHOP": "АРХІВУВАТИ ГУРТОК?",
+        "EDITING_WORKSHOP": "ВІДПРАВИТИ ГУРТОК НА РЕДАГУВАННЯ?",
         "INCOMPLETE_WORKSHOP": "Незавершене створення гуртка",
         "DELETE_SUBJECT": "ВИДАЛИТИ НАВЧАЛЬНИЙ ПРЕДМЕТ?",
         "EDIT_SUBJECT": "РЕДАГУВАТИ НАВЧАЛЬНИЙ ПРЕДМЕТ?",
@@ -1137,9 +1157,9 @@
     "SELECT_FILE": "Вибрати файл",
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
     "SUBMIT_FILE": "Надіслати файл",
-    "UPLOAD_SUCCESS":"Дані успішно завантажені",
-    "UPLOAD_FAILURE":"Помилка завантаження,спробуйте пізніше",
-    "INCORRECT_ROWS":"Не валідних рядків: ",
+    "UPLOAD_SUCCESS": "Дані успішно завантажені",
+    "UPLOAD_FAILURE": "Помилка завантаження,спробуйте пізніше",
+    "INCORRECT_ROWS": "Не валідних рядків: ",
     "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
     "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
     "FILE_READER_ERROR": "Помилка при читанні файлу",
@@ -1156,16 +1176,16 @@
       "EMPLOYEE_ASSIGNED_ROLE": "Призначені ролі"
     },
     "ERRORS": {
-      "ERRORS_TYPES":"Типи помилок",
-      "DATA_DUPLICATE":"Дублікат",
-      "MISSING_INFO_EMPTY_FIELD":"Відсутня інформація/пусте поле",
-      "WRONG_LENGTH":"Некоректна кількість знаків",
-      "WRONG_FORMAT":"Некоректний формат",
-      "WRONG_LANGUAGE":"Некоректно вибрана мова"
+      "ERRORS_TYPES": "Типи помилок",
+      "DATA_DUPLICATE": "Дублікат",
+      "MISSING_INFO_EMPTY_FIELD": "Відсутня інформація/пусте поле",
+      "WRONG_LENGTH": "Некоректна кількість знаків",
+      "WRONG_FORMAT": "Некоректний формат",
+      "WRONG_LANGUAGE": "Некоректно вибрана мова"
     }
   },
-  "EMPLOYEES":"Співробітники",
-  "EMPLOYEES_REGISTRATION":"Реєстрація співробітників",
+  "EMPLOYEES": "Співробітники",
+  "EMPLOYEES_REGISTRATION": "Реєстрація співробітників",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "Цей функціонал буде додано пізніше"
   }
