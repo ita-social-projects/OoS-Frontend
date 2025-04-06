@@ -169,6 +169,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         case WorkshopType.Draft:
           this.store.dispatch(new GetWorkshopDraftById(param));
           break;
+        default:
+          this.editMode = false;
+          return;
       }
 
       this.selectedWorkshop$

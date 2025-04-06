@@ -106,20 +106,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by id;
    */
   private getEntity(id: string): void {
-    if (this.workshopType) {
-      switch (this.workshopType) {
-        case WorkshopType.Workshop:
-          this.store.dispatch(new GetWorkshopById(id));
-          break;
-        case WorkshopType.Draft:
-          this.store.dispatch(new GetWorkshopDraftById(id));
-          break;
-        case WorkshopType.Competition:
-          this.store.dispatch(new GetCompetitionById(id));
-          break;
-      }
-    } else {
-      this.store.dispatch(new GetProviderById(id));
+    switch (this.workshopType) {
+      case WorkshopType.Workshop:
+        this.store.dispatch(new GetWorkshopById(id));
+        break;
+      case WorkshopType.Draft:
+        this.store.dispatch(new GetWorkshopDraftById(id));
+        break;
+      case WorkshopType.Competition:
+        this.store.dispatch(new GetCompetitionById(id));
+        break;
+      default:
+        this.store.dispatch(new GetProviderById(id));
+        break;
     }
   }
 }

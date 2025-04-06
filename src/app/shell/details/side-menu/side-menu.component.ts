@@ -34,7 +34,7 @@ export class SideMenuComponent implements OnInit {
     this.getContactsData(this.workshop ?? this.competition);
   }
 
-  private getContactsData(contactsParent: Competition | Workshop): void {
+  private getContactsData(contactsParent: Competition | Workshop | WorkshopDraft): void {
     this.contactsData = {
       phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
       email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,

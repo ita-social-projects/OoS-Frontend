@@ -76,7 +76,6 @@ describe('CreateAboutFormComponent', () => {
       email: new FormControl(''),
       minAge: new FormControl(''),
       maxAge: new FormControl(''),
-      competitiveSelection: new FormControl(''),
       image: new FormControl(''),
       price: new FormControl(''),
       payRate: new FormControl(''),

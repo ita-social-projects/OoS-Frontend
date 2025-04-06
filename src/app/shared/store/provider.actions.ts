@@ -7,13 +7,7 @@ import { Position, PositionParameters } from 'shared/models/position.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
-import {
-  Workshop,
-  WorkshopCardParameters,
-  WorkshopDraftCard,
-  WorkshopProviderViewCard,
-  WorkshopStatus
-} from 'shared/models/workshop.model';
+import { Workshop, WorkshopCardParameters, WorkshopDraftCard, WorkshopStatus } from 'shared/models/workshop.model';
 import {
   WorkshopContacts,
   WorkshopDescription,
@@ -115,6 +109,7 @@ export class GetProviderViewWorkshopDrafts {
 
 export class GetProviderViewCompetitions {
   static readonly type = '[provider] get Competitions for provider cabinet';
+
   constructor(public competitionCardParameters: CompetitionCardParameters) {}
 }
 
@@ -151,7 +146,7 @@ export class DraftSendForModeration {
 export class OnDraftSendForModerationSuccess {
   static readonly type = '[provider] send for Moderation success';
 
-  constructor(public payload: void) {}
+  constructor() {}
 }
 
 export class OnDraftSendForModerationFail {
@@ -795,36 +790,43 @@ export class OnDeleteStudySubjectFail {
 
 export class CreateCompetition {
   static readonly type = '[provider] create Competition';
+
   constructor(public payload: Competition) {}
 }
 
 export class OnCreateCompetitionFail {
   static readonly type = '[provider] create Competition fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnCreateCompetitionSuccess {
   static readonly type = '[provider] create Competition success';
+
   constructor(public payload: Competition) {}
 }
 
 export class UpdateCompetition {
   static readonly type = '[provider] update Competition';
+
   constructor(public payload: Competition) {}
 }
 
 export class OnUpdateCompetitionFail {
   static readonly type = '[provider] update Competition fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateCompetitionSuccess {
   static readonly type = '[provider] update Competition success';
+
   constructor(public payload: Competition) {}
 }
 
 export class DeleteCompetitionById {
   static readonly type = '[provider] delete Competition by id';
+
   constructor(
     public competition: CompetitionProviderViewCard,
     public parameters: CompetitionCardParameters
@@ -833,10 +835,12 @@ export class DeleteCompetitionById {
 
 export class DeleteCompetitionByIdFail {
   static readonly type = '[provider] delete Competition by id fail';
+
   constructor(public error: HttpErrorResponse) {}
 }
 
 export class DeleteCompetitionByIdSuccess {
   static readonly type = '[provider] delete Competition by id success';
+
   constructor(public competition: CompetitionCardParameters) {}
 }

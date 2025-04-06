@@ -118,10 +118,7 @@ export class UserWorkshopService {
    * @param workshop Workshop
    */
   public createWorkshopDraft(workshop: Workshop): Observable<Workshop> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    if (this.isImagesFeature) {
-      return this.createWorkshopDraftV2(workshop);
-    }
+    return this.createWorkshopDraftV2(workshop);
   }
 
   public createWorkshopDraftV2(workshop: Workshop): Observable<Workshop> {
@@ -129,14 +126,11 @@ export class UserWorkshopService {
   }
 
   public updateDraft(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    if (this.isImagesFeature) {
-      return this.updateDraftV2(draftId, draft);
-    }
+    return this.updateDraftV2(draftId, draft);
   }
 
   public updateDraftV2(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
-    const formData = this.createDraftUpdateFormData(draftId, draft);
+    const formData = this.createFormData(draft, draftId);
     return this.http.put<WorkshopDraft>('/api/v2/WorkshopDraft/Update', formData);
   }
 
@@ -203,39 +197,25 @@ export class UserWorkshopService {
     return this.http.put<void>(`/api/v2/WorkshopDraft/Approve/${draftId}`, null);
   }
 
-  private createFormData(workshop: Workshop): FormData {
+  private createFormData(workshop: Workshop, draftId?: string): FormData {
+    const preKey = draftId ? 'WorkshopV2Dto.' : '';
     const formData = new FormData();
     const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(workshop).forEach((key: string) => {
       if (imageFiles.includes(key)) {
-        workshop[key].forEach((file: File) => formData.append(key, file));
+        workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
       } else if (formNames.includes(key)) {
-        formData.append(key, JSON.stringify(workshop[key]));
+        formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
       } else {
-        formData.append(key, workshop[key]);
-      }
-    });
-    return formData;
-  }
-
-  private createDraftUpdateFormData(draftId: string, workshop: Workshop): FormData {
-    const formData = new FormData();
-    const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
-    const imageFiles = ['imageFiles', 'coverImage'];
-
-    Object.keys(workshop).forEach((key: string) => {
-      if (imageFiles.includes(key)) {
-        workshop[key].forEach((file: File) => formData.append(`WorkshopV2Dto.${key}`, file));
-      } else if (formNames.includes(key)) {
-        formData.append(`WorkshopV2Dto.${key}`, JSON.stringify(workshop[key]));
-      } else {
-        formData.append(`WorkshopV2Dto.${key}`, workshop[key]);
+        formData.append(`${preKey}${key}`, workshop[key]);
       }
     });
 
-    formData.append('id', draftId);
+    if (draftId) {
+      formData.append('id', draftId);
+    }
 
     return formData;
   }
