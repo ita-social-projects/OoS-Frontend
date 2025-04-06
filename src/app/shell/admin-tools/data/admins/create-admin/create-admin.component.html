@@ -106,7 +106,7 @@
           appTrimValue
           [placeholder]="Constants.MAIL_FORMAT_PLACEHOLDER" />
       </mat-form-field>
-      <app-validation-hint [validationFormControl]="adminFormGroup.get('email')"></app-validation-hint>
+      <app-validation-hint [maxCharacters]="ValidationConstants.INPUT_LENGTH_254" [validationFormControl]="adminFormGroup.get('email')"></app-validation-hint>
     </form>
 
     <div class="wrapper-check-box step flex flex-col justify-start items-start">
