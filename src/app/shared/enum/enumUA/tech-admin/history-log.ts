@@ -7,7 +7,7 @@ export enum HistoryLogTabTitles {
 
 export enum TypeChange {
   FullTitle = 'FORMS.LABELS.PROVIDER_TITLE',
-  EdrpouIpn = 'FORMS.LABELS.EDRPO_IPN',
+  Edrpou = 'FORMS.LABELS.EDRPOU',
   Director = 'FORMS.LABELS.DIRECTOR_NAME',
   Institution = 'FORMS.LABELS.SUBORDINATION',
   LegalAddress = 'FORMS.HEADERS.LEGAL_ADDRESS',

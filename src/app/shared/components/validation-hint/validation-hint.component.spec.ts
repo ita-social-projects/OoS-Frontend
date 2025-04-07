@@ -143,13 +143,13 @@ describe('ValidationHintComponent', () => {
       expect(component.errors).toContain(ValidationMessages.INVALID_PHONE_NUMBER);
     });
 
-    it('should add INVALID_EDRPO_IPN if isEdrpouIpn=true and minlength error is present', () => {
-      component.isEdrpouIpn = true;
+    it('should add INVALID_EDRPOU if isEdrpou=true and minlength error is present', () => {
+      component.isEdrpou = true;
       errors = { minlength: true };
 
       (component as any).checkValidationErrors(errors);
 
-      expect(component.errors).toContain(ValidationMessages.INVALID_EDRPO_IPN);
+      expect(component.errors).toContain(ValidationMessages.INVALID_EDRPOU);
     });
 
     it('should add INVALID_LENGTH_NO_MORE_THAN (generic field length error) if minlength/maxlength errors are present', () => {
