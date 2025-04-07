@@ -40,7 +40,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public maxCharacters: number;
   @Input() public displayCharacterCounter: boolean;
   @Input() public isPhoneNumber: boolean; // required to display validation for phone number
-  @Input() public isEdrpouIpn: boolean;
+  @Input() public isEdrpou: boolean;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
@@ -172,7 +172,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () =>
           !this.isPhoneNumber &&
-          !this.isEdrpouIpn &&
+          !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
           this.validationParams?.minCharacters &&
           !this.displayCharacterCounter,
@@ -181,7 +181,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () =>
           !this.isPhoneNumber &&
-          !this.isEdrpouIpn &&
+          !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
           this.validationParams?.minCharacters &&
           this.displayCharacterCounter,
@@ -190,7 +190,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () =>
           !this.isPhoneNumber &&
-          !this.isEdrpouIpn &&
+          !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
           !this.validationParams?.minCharacters &&
           this.displayCharacterCounter,
@@ -199,7 +199,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () =>
           !this.isPhoneNumber &&
-          !this.isEdrpouIpn &&
+          !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
           !this.validationParams?.minCharacters &&
           !this.displayCharacterCounter,
@@ -261,8 +261,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_TAGS_LENGTH
       },
       {
-        condition: () => this.isEdrpouIpn && errors.minlength && !errors.maxlength,
-        message: ValidationMessages.INVALID_EDRPO_IPN
+        condition: () => this.isEdrpou && errors.minlength && !errors.maxlength,
+        message: ValidationMessages.INVALID_EDRPOU
       }
     ];
 

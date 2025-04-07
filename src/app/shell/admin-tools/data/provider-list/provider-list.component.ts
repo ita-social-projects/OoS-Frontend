@@ -89,7 +89,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [
     'fullTitle',
     'ownership',
-    'edrpouIpn',
+    'edrpou',
     'license',
     'city',
     'street',
