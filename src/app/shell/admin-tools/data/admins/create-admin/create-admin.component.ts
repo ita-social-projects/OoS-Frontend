@@ -78,7 +78,12 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       middleName: new FormControl('', defaultValidators.slice(1)),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       institution: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
+      email: new FormControl('', [
+        Validators.required,
+        FormValidators.email,
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
+        BlacklistEmailValidator()
+      ])
     });
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 

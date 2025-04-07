@@ -109,7 +109,7 @@
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
-                  <app-validation-hint [validationFormControl]="emailField.get('address')"></app-validation-hint>
+                  <app-validation-hint [maxCharacters]="validationConstants.INPUT_LENGTH_254" [validationFormControl]="emailField.get('address')"></app-validation-hint>
                 </div>
               </div>
             </div>
