@@ -18,6 +18,7 @@ export class InfoFormComponent {
   @Output() public deleteForm = new EventEmitter();
 
   public readonly ValidationConstants = ValidationConstants;
+  protected readonly InfoMenuType = InfoMenuType;
 
   public get infoEditForm(): FormGroup {
     return this.infoEditFormGroup as FormGroup;
@@ -32,6 +33,4 @@ export class InfoFormComponent {
       this.infoEditFormGroup.get(formControlName).setValue(null);
     }
   }
-
-  protected readonly InfoMenuType = InfoMenuType;
 }
