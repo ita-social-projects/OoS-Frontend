@@ -4,6 +4,7 @@ import { NgxsModule } from '@ngxs/store';
 import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
 import { UserWorkshopService } from './user-workshop.service';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 
 describe('UserWorkshopService', () => {
   let service: UserWorkshopService;
@@ -63,7 +64,7 @@ describe('UserWorkshopService', () => {
     req.flush(mockResponse);
   });
 
-  it('should delete draft workshop', (done) => {
+  it('should delete unfinished workshop', (done) => {
     service.deleteUnfinishedWorkshop().subscribe({
       next: () => {
         done();
@@ -76,7 +77,7 @@ describe('UserWorkshopService', () => {
     req.flush(null);
   });
 
-  it('should get draft workshop', (done) => {
+  it('should get unfinished workshop', (done) => {
     service.getUnfinishedWorkshop().subscribe({
       next: (workshop) => {
         expect(workshop).toEqual(mockWorkshop);
@@ -90,7 +91,7 @@ describe('UserWorkshopService', () => {
     req.flush(mockWorkshop);
   });
 
-  it('should get time to live of draft', (done) => {
+  it('should get time to live of unfinished', (done) => {
     service.getTimeToLiveOfUnfinishedWorkshop().subscribe({
       next: (timeToLive) => {
         expect(timeToLive).toBeTruthy();
@@ -102,5 +103,74 @@ describe('UserWorkshopService', () => {
     const req = http.expectOne('/api/v1/WorkshopTempSave/GetTimeToLive');
     expect(req.request.method).toBe('GET');
     req.flush('6.04:46:52.0000000');
+  });
+
+  it('should create workshop draft', (done) => {
+    const createDraftV2Spy = jest.spyOn(service, 'createWorkshopDraftV2');
+    service.createWorkshopDraft(mockWorkshop as unknown as Workshop).subscribe({
+      next: (res) => {
+        expect(res).toBeTruthy();
+        done();
+      },
+      error: done.fail
+    });
+
+    const req = http.expectOne((reqIns) => reqIns.method === 'POST' && reqIns.url === '/api/v2/WorkshopDraft/Create');
+    expect(createDraftV2Spy).toHaveBeenCalled();
+    expect(req.request.method).toBe('POST');
+    req.flush({} as WorkshopDraft);
+  });
+
+  it('should get provider view draft cardss', (done) => {
+    const workshopCardParameters = {
+      from: 0,
+      size: 10,
+      providerId: '08da842d-12fc-4865-85c5-ec6e6142abad'
+    };
+
+    const mockResponse = [
+      {
+        workshopDraftId: '123',
+        rejectionMessage: 'test',
+        draftStatus: 'draft'
+      },
+      {
+        workshopDraftId: '124',
+        rejectionMessage: 'test1',
+        draftStatus: 'draft'
+      }
+    ];
+
+    service.getProviderViewWorkshopDrafts(workshopCardParameters).subscribe({
+      next: (res) => {
+        expect(res).toBeTruthy();
+        done();
+      },
+      error: done.fail
+    });
+
+    const request = http.expectOne(
+      (req) =>
+        req.method === 'GET' &&
+        req.url === `/api/v2/WorkshopDraft/GetByProviderId/provider/${workshopCardParameters.providerId}/drafts` &&
+        req.params.get('From') === '0' &&
+        req.params.get('Size') === '10'
+    );
+    expect(request.request.method).toBe('GET');
+    request.flush(mockResponse);
+  });
+
+  it('should send draft for moderation', (done) => {
+    service.sendDraftForModeration('123').subscribe({
+      next: (res) => {
+        expect(res).toBeFalsy();
+        done();
+      },
+      error: done.fail
+    });
+
+    const req = http.expectOne('/api/v2/WorkshopDraft/SendForModeration/123');
+    expect(req.request.method).toBe('PUT');
+    req.flush(null);
   });
 });
