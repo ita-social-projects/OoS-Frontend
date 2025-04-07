@@ -1,5 +1,5 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/'), 'header-disabled': isRouter('/server-error') }">
-  <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
+    <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div class="flex flex-row justify-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
@@ -20,7 +20,7 @@
             </span>
           </button>
 
-          <button mat-flat-button class="lang" (click)="lngSelect.open()">
+          <button *ngIf="!featuresList?.onlyUkrainianLanguage" mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
             <mat-select
               #lngSelect
@@ -59,7 +59,7 @@
   <app-navigation-mobile-bar [ngClass]="'nav-mobile'"></app-navigation-mobile-bar>
 </ng-template>
 
-<ng-template #logoTmpl>
+<ng-template #logoTmpl> 
   <a routerLink="/"><img class="logo" src="assets/images/Logo.svg" alt="Позашкілля" /></a>
 </ng-template>
 
@@ -71,7 +71,7 @@
 
 <ng-template #isAuthorizedTmpl>
   <ng-container *ngIf="!isMobileScreen; else menuTmpl">
-    <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
+    <app-notifications class="menu" *ngIf="featuresList?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
       <mat-icon class="account-circle">account_circle</mat-icon>
@@ -142,7 +142,7 @@
         {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate }}
       </button>
     </a>
-    <a [routerLink]="'./personal-cabinet/messages'">
+    <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>

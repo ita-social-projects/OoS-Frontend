@@ -56,6 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly ModeConstants = ModeConstants;
   public readonly isRoleAdmin = isRoleAdmin;
   public readonly isRoleProvider = isRoleProvider;
+  public featuresList: FeaturesList;
 
   public selectedLanguage = localStorage.getItem('ui-culture');
   public showModalReg = false;
@@ -91,6 +92,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.headerInfo$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((headerInfo: CompanyInformation) => {
       this.headerTitle = headerInfo.title;
       this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
+    });
+
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+      this.featuresList = featuresList;
     });
   }
 
