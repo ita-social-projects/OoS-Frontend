@@ -103,11 +103,10 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     this.ownershipTypeControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        filter(() => this.isOwnershipTypeStateOrCommon),
-        filter(() => this.edrpouTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH)
+        filter(() => this.edrpouTypeControl.value.length > this.edrpouLength)
       )
       .subscribe(() => {
-        this.edrpouTypeControl.setValue(this.edrpouTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
+        this.edrpouTypeControl.setValue(this.edrpouTypeControl.value.substring(0, this.edrpouLength), {
           emitEvent: false
         });
       });
@@ -172,7 +171,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   private initData(): void {
     // TODO: Find better workaround for FormControl disable
     this.isEditMode$.pipe(takeUntil(this.destroy$)).subscribe((isEditMode: boolean) => {
-      isEditMode ? this.ownershipTypeControl.enable({ emitEvent: false }) : this.ownershipTypeControl.disable({ emitEvent: false });
+      isEditMode ? this.ownershipTypeControl.disable({ emitEvent: false }) : this.ownershipTypeControl.enable({ emitEvent: false });
     });
 
     this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {

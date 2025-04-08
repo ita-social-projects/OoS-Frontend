@@ -93,20 +93,21 @@ describe('CreateInfoFormComponent', () => {
   describe('ownershipTypeControl valueChanges subscription', () => {
     const mockEdrpou = '123456789012345678901234567890123';
 
-    it('should update edrpouTypeControl value if ownership type is state', () => {
+    it('should update edrpouTypeControl value if ownership type is state or common', () => {
       component.ngOnInit();
       component.edrpouTypeControl.setValue(mockEdrpou, { emitEvent: false });
       jest.spyOn(component.edrpouTypeControl, 'setValue');
 
       component.ownershipTypeControl.setValue(OwnershipTypes.State);
+      component.ownershipTypeControl.setValue(OwnershipTypes.Common);
 
       expect(component.edrpouTypeControl.setValue).toHaveBeenCalled();
       expect(component.edrpouTypeControl.value).toEqual(mockEdrpou.substring(0, ValidationConstants.EDRPOU_LENGTH));
     });
 
-    it('should not update edrpouTypeControl value if ownership type is not state', () => {
+    it('should not update edrpouTypeControl value if ownership type is not state or common', () => {
       component.ngOnInit();
-      component.edrpouTypeControl.setValue(mockEdrpou, { emitEvent: false });
+      component.edrpouTypeControl.setValue('1234567890', { emitEvent: false });
       jest.spyOn(component.edrpouTypeControl, 'setValue');
 
       component.ownershipTypeControl.setValue('anything else');
