@@ -1089,6 +1089,7 @@
       "EDIT_SUBJECT": "Are you sure you want to edit the study subject?",
       "CREATE_SUBJECT": "Are you sure you want to add the study subject?",
       "EDITING_WORKSHOP": "Are you sure you want to submit the workshop for editing?",
+      "DELETE_COMPETITION": "Are you sure you want to delte competition",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1143,7 +1144,8 @@
         "ARCHIVE_COMPETITION": "Archive competition?",
         "DELETE_SUBJECT": "DELETE STUDY SUBJECT?",
         "EDIT_SUBJECT": "EDIT STUDY SUBJECT?",
-        "CREATE_SUBJECT": "ADD STUDY SUBJECT?"
+        "CREATE_SUBJECT": "ADD STUDY SUBJECT?",
+        "DELETE_COMPETITION": "DELETE COMPETITION?"
       }
     }
   },
