@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, filter, first, takeUntil } from 'rxjs';
+import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
@@ -100,13 +100,17 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
     this.initData();
     this.passInfoFormGroup.emit(this.infoFormGroup);
-    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOwnershipTypeStateOrCommon && this.edrpouTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
+    this.ownershipTypeControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(() => this.isOwnershipTypeStateOrCommon),
+        filter(() => this.edrpouTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH)
+      )
+      .subscribe(() => {
         this.edrpouTypeControl.setValue(this.edrpouTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
           emitEvent: false
         });
-      }
-    });
+      });
   }
 
   public ngOnDestroy(): void {
@@ -167,11 +171,9 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
 
   private initData(): void {
     // TODO: Find better workaround for FormControl disable
-    this.isEditMode$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isEditMode: boolean) =>
-        isEditMode ? this.ownershipTypeControl.disable({ emitEvent: false }) : this.ownershipTypeControl.enable({ emitEvent: false })
-      );
+    this.isEditMode$.pipe(takeUntil(this.destroy$)).subscribe((isEditMode: boolean) => {
+      isEditMode ? this.ownershipTypeControl.enable({ emitEvent: false }) : this.ownershipTypeControl.disable({ emitEvent: false });
+    });
 
     this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {
       if (this.provider) {
