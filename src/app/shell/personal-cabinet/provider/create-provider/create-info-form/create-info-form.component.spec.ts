@@ -107,11 +107,11 @@ describe('CreateInfoFormComponent', () => {
     it('should not update edrpouTypeControl value if ownership type is not state', () => {
       component.ngOnInit();
       component.edrpouTypeControl.setValue(mockEdrpou, { emitEvent: false });
-      const spy = jest.spyOn(component.edrpouTypeControl, 'setValue');
+      jest.spyOn(component.edrpouTypeControl, 'setValue');
 
       component.ownershipTypeControl.setValue('anything else');
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(component.edrpouTypeControl.setValue).not.toHaveBeenCalled();
     });
   });
 
