@@ -197,7 +197,9 @@ describe('CreateWorkshopComponent (Jest)', () => {
       } as Workshop;
     });
 
-    it('should NOT be draft', () => {});
+    it('should NOT be draft', () => {
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
+    });
 
     it('should be draft if primitives changed', () => {
       anotherWorkshop.title = 'Another Title';

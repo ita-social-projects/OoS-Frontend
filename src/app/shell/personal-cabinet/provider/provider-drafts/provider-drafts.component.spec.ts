@@ -19,6 +19,7 @@ import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForM
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { RegistrationState } from 'shared/store/registration.state';
+import { PaginationConstants } from 'shared/constants/constants';
 import { ProviderDraftsComponent } from './provider-drafts.component';
 
 describe('ProviderWorkshopsComponent', () => {
@@ -168,12 +169,13 @@ describe('ProviderWorkshopsComponent', () => {
 
     it('should update item per page', () => {
       const mockSize = 8;
+      const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-      component.onPageChange = jest.fn();
       component.onItemsPerPageChange(8);
 
       expect(component.workshopCardParameters.size).toEqual(mockSize);
-      expect(component.onPageChange).toHaveBeenCalled();
+      expect(component.currentPage).toEqual(PaginationConstants.firstPage);
+      expect(dispatchSpy).toHaveBeenCalledWith(new GetProviderViewWorkshopDrafts(component.workshopCardParameters));
     });
   });
 });
