@@ -356,7 +356,7 @@ export class Util {
       return true;
     }
 
-    if (obj1 === null || obj2 === null) {
+    if (obj1 === null || obj2 === null || obj1 === undefined || obj2 === undefined) {
       return false;
     }
 
@@ -384,11 +384,17 @@ export class Util {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public static isEmpty(field: any): boolean {
-    return field === undefined || field === null || field === '' || (Array.isArray(field) && field.length === 0);
+    return (
+      field === undefined ||
+      field === null ||
+      field === '' ||
+      (Array.isArray(field) && field.length === 0) ||
+      (typeof field === 'object' && Object.keys(field).length === 0)
+    );
   }
 
   public static isEmptyUUID(id: string): boolean {
-    return id === '00000000-0000-0000-0000-000000000000';
+    return this.isEmpty(id) || id === '00000000-0000-0000-0000-000000000000';
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
