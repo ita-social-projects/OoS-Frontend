@@ -657,7 +657,8 @@
     "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account.",
     "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed).",
     "SHORT_TITLE_DESCRIPTION": "This name will be displayed for parents and children. Example: Folk Art",
-    "WORKING_HOURS": "The workshop may have different hours on different days of the week."
+    "WORKING_HOURS": "The workshop may have different hours on different days of the week.",
+    "IMAGES_RECOMMENDATION": "Recommendations for photos:<br>- The images should depict the essence of the workshop and its activities<br>- Images should not be processed in photo editors<br>- Images should be in horizontal format"
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
@@ -734,7 +735,8 @@
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
     "ADD_POSITION": "You can add positions here",
-    "ADD_IMG_SUBHEADER": "Add a photo by clicking on the “+”. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER": "Add photos of them from your workshop. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER_DESC": "Photos will be available for parents and children to view in order to learn more about the workshop.",
     "UPLOAD_EMPLOYEE": "Here you can upload a file with an employee of your workshop"
   },
   "BUTTONS": {

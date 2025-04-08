@@ -8,6 +8,7 @@ import { Cropper } from 'shared/models/cropper';
 import { DecodedImage } from 'shared/models/image.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
@@ -178,4 +179,5 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor {
 
   private onChange: FilesToVoid = () => {};
   private onTouched: () => void = () => {};
+  protected readonly InfoMenuType = InfoMenuType;
 }
