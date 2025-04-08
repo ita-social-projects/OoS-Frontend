@@ -5,6 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { Actions, NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
 
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { Workshop, WorkshopDraftCard } from 'shared/models/workshop.model';
@@ -12,7 +13,6 @@ import { ApplicationChildFilterPipe } from 'shared/pipes/application-child-filte
 import { ApplicationFilterPipe } from 'shared/pipes/application-filter.pipe';
 import { SearchResponse } from 'shared/models/search.model';
 import { ProviderState } from 'shared/store/provider.state';
-import { of } from 'rxjs';
 import { Provider } from 'shared/models/provider.model';
 import { Role } from 'shared/enum/role';
 import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
@@ -55,9 +55,6 @@ describe('ProviderWorkshopsComponent', () => {
         ]
       ]
     }).compileComponents();
-  });
-
-  beforeEach(() => {
     const initialState = {
       totalAmount: 2,
       entities: [{} as WorkshopDraftCard, {} as WorkshopDraftCard]

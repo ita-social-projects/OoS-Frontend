@@ -17,6 +17,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-about-form',
@@ -62,7 +63,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: Store,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute
   ) {}
 
   public get availableSeatsControl(): FormControl {
@@ -88,7 +90,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.workshop) {
       this.activateEditMode();
-      this.listenToChanges();
+      if (this.route.snapshot.paramMap.get('param') !== 'unfinished') {
+        this.listenToChanges();
+      }
     }
 
     this.initListeners();

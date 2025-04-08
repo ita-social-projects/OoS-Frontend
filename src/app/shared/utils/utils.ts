@@ -368,7 +368,13 @@ export class Util {
     }
 
     for (const key of keys1) {
-      if (!this.deepEqual(obj1[key], obj2[key])) {
+      const val1 = obj1[key];
+      const val2 = obj2[key];
+      if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+        if (!Util.deepEqual(val1, val2)) {
+          return false;
+        }
+      } else if (val1 !== val2) {
         return false;
       }
     }

@@ -3,8 +3,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NgxsModule } from '@ngxs/store';
 import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
-import { UserWorkshopService } from './user-workshop.service';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { UserWorkshopService } from './user-workshop.service';
 
 describe('UserWorkshopService', () => {
   let service: UserWorkshopService;

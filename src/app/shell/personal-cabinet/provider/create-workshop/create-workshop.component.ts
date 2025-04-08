@@ -452,24 +452,20 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'preferentialTermsOfParticipation'
     ];
 
-    fieldsToCheck.some((fieldName) => {
+    return fieldsToCheck.some((fieldName) => {
       if (
         typeof newWorkshop[fieldName] === 'object' &&
         typeof this.workshop[fieldName] === 'object' &&
         newWorkshop[fieldName] &&
         this.workshop[fieldName]
       ) {
-        if (!Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName])) {
-          return true;
-        }
-      } else if (
+        return !Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName]);
+      }
+
+      return (
         newWorkshop[fieldName] !== this.workshop[fieldName] &&
         (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(this.workshop[fieldName]))
-      ) {
-        return true;
-      }
+      );
     });
-
-    return false;
   }
 }

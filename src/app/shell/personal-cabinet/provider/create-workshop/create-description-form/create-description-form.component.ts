@@ -29,6 +29,7 @@ import { Direction } from 'shared/models/category.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-description-form',
@@ -89,7 +90,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     private readonly formBuilder: FormBuilder,
     private readonly tagService: TagService,
     private readonly store: Store,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -132,7 +134,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
     if (this.workshop) {
       this.activateEditMode();
-      this.listenToChanges();
+      if (this.route.snapshot.paramMap.get('param') !== 'unfinished') {
+        this.listenToChanges();
+      }
     } else {
       this.onAddForm();
     }
