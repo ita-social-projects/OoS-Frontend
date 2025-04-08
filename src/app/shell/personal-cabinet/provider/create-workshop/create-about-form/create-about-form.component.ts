@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngxs/store';
 import { merge, of, Subject, throttleTime } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
@@ -14,9 +16,7 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { Store } from '@ngxs/store';
 import { ShowMessageBar } from 'shared/store/app.actions';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-about-form',
@@ -242,19 +242,15 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private listenToChanges(): void {
     merge(
-      this.AboutFormGroup.get('coverImage')?.valueChanges ?? of(),
-      this.AboutFormGroup.get('title')?.valueChanges.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of(),
-      this.AboutFormGroup.get('shortTitle')?.valueChanges.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of()
+      ['coverImage', 'title', 'shortTitle'].map(
+        (controlName) =>
+          this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
+            throttleTime(5000, undefined, {
+              leading: true,
+              trailing: false
+            })
+          ) ?? of()
+      )
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {

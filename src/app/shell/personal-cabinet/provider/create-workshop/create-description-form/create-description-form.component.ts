@@ -364,37 +364,22 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private listenToChanges(): void {
     merge(
-      this.DescriptionFormGroup.get('imageFiles')?.valueChanges ?? of(),
-      this.DescriptionFormGroup.get('workshopDescriptionItems')?.valueChanges?.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of(),
-      this.DescriptionFormGroup.get('disabilityOptionsDesc')?.valueChanges?.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of(),
-      this.DescriptionFormGroup.get('competitiveSelectionDescription')?.valueChanges?.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of(),
-      this.DescriptionFormGroup.get('keyWords')?.valueChanges?.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of(),
-      this.DescriptionFormGroup.get('enrollmentProcedureDescription')?.valueChanges.pipe(
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      ) ?? of()
+      [
+        'imageFiles',
+        'workshopDescriptionItems',
+        'disabilityOptionsDesc',
+        'competitiveSelectionDescription',
+        'keyWords',
+        'enrollmentProcedureDescription'
+      ].map(
+        (controlName) =>
+          this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
+            throttleTime(5000, undefined, {
+              leading: true,
+              trailing: false
+            })
+          ) ?? of()
+      )
     )
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {

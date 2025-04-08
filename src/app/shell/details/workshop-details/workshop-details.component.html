@@ -5,7 +5,7 @@
   </div>
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
-    [ngStyle]="{ 'padding-bottom': workshop.draftStatus ? '0' : '' }"
+    [class.draft-panel-action-row]="workshop.draftStatus"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button (click)="onActionButtonClick(modalType.archiveWorkshop)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
@@ -16,7 +16,7 @@
          <button
            [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
            class="btn btn-cancel"
-           [ngClass]="{ 'btn-rejected': workshop.draftStatus === WorkshopDraftStatus.Rejected }"
+           [class.btn-rejected]="workshop.draftStatus === WorkshopDraftStatus.Rejected"
            [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
            mat-button>{{ 'BUTTONS.EDIT' | translate | uppercase }}
          </button>
@@ -35,7 +35,7 @@
   <div
     *ngIf="workshop.draftStatus === WorkshopDraftStatus.Draft || workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
     class="draft-panel flex items-center"
-    [ngClass]="{ 'draft-panel-draft' : workshop.draftStatus === WorkshopDraftStatus.Draft, 'draft-panel-pending' : workshop.draftStatus === WorkshopDraftStatus.PendingModeration }">
+    [ngClass]="{ 'draft-panel-draft': workshop.draftStatus === WorkshopDraftStatus.Draft, 'draft-panel-pending': workshop.draftStatus === WorkshopDraftStatus.PendingModeration }">
     <ng-container [ngSwitch]="workshop.draftStatus">
     <span *ngSwitchCase="WorkshopDraftStatus.Draft">
       {{ 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT' | translate | uppercase }}
@@ -132,7 +132,7 @@
         <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
       <mat-tab *ngIf="role !== Role.unauthorized" class="label"
-               label="{{ workshopTitles.Reviews | translate | uppercase }}">
+               [label]="workshopTitles.Reviews | translate | uppercase">
         <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">

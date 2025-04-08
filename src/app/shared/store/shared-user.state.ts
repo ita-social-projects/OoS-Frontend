@@ -31,6 +31,9 @@ import {
   OnGetCompetitionByIdFail,
   OnGetProviderByIdFail,
   OnGetWorkshopByIdFail,
+  OnGetWorkshopByIdSuccess,
+  OnGetWorkshopDraftByIdFail,
+  OnGetWorkshopDraftByIdSuccess,
   OnUpdateApplicationFail,
   OnUpdateApplicationSuccess,
   ResetProviderWorkshopDetails,
@@ -107,6 +110,22 @@ export class SharedUserState {
     );
   }
 
+  @Action(OnGetWorkshopByIdSuccess)
+  onGetWorkshopByIdSuccess({ patchState }: StateContext<SharedUserStateModel>, { workshop }: OnGetWorkshopByIdSuccess): void {
+    patchState({ selectedWorkshop: workshop, isLoading: false });
+  }
+
+  @Action(OnGetWorkshopByIdFail)
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
+    patchState({ selectedWorkshop: null, isLoading: false });
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedWorkshop,
+        type: 'error'
+      })
+    );
+  }
+
   @Action(GetWorkshopDraftById)
   getWorkshopDraftById(
     { patchState, dispatch }: StateContext<SharedUserStateModel>,
@@ -114,8 +133,24 @@ export class SharedUserState {
   ): Observable<WorkshopDraft | void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftById(payload).pipe(
-      tap((workshop: WorkshopDraft) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
+      tap((workshop: WorkshopDraft) => dispatch(new OnGetWorkshopDraftByIdSuccess(workshop))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopDraftByIdFail(error)))
+    );
+  }
+
+  @Action(OnGetWorkshopDraftByIdSuccess)
+  onGetWorkshopDraftByIdSuccess({ patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopDraftByIdSuccess): void {
+    patchState({ selectedWorkshop: payload, isLoading: false });
+  }
+
+  @Action(OnGetWorkshopDraftByIdFail)
+  onGetWorkshopDraftByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopDraftByIdFail): void {
+    patchState({ selectedWorkshop: null, isLoading: false });
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedDraft,
+        type: 'error'
+      })
     );
   }
 
@@ -144,17 +179,6 @@ export class SharedUserState {
           patchState({ applicationCards: applicationCards ?? EMPTY_RESULT, isLoading: false })
         )
       );
-  }
-
-  @Action(OnGetWorkshopByIdFail)
-  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
-    patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.deletedWorkshop,
-        type: 'error'
-      })
-    );
   }
 
   @Action(OnGetCompetitionByIdFail)

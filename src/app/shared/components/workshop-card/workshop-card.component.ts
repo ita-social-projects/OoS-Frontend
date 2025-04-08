@@ -48,24 +48,27 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
 
+  public readonly tooltipPositionAbove = Constants.MAT_TOOL_TIP_POSITION_ABOVE;
+  public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
+
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
-  public readonly tooltipPositionAbove = Constants.MAT_TOOL_TIP_POSITION_ABOVE;
-  public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly draftStatusEnum = DraftStatusEnum;
   public readonly modalConfirmationType = ModalConfirmationType;
+  public readonly WorkshopDraft = WorkshopDraft;
+  public readonly ModalConfirmationType = ModalConfirmationType;
+  public readonly Util = Util;
 
   public isFavorite = false;
   public canChangeWorkshopStatus: boolean;
   public workshopData: WorkshopBaseCard | WorkshopDraftCard;
-
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -136,23 +139,24 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
-          type: type
+          type
         }
       });
 
-      dialogRef.afterClosed().subscribe((res: boolean) => {
-        if (res) {
+      dialogRef
+        .afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe(() => {
           this.store.dispatch(
             new UpdateWorkshopStatus(
               {
                 workshopId: this.workshopData.id,
-                status: status
+                status
               },
               this.workshopData.providerId
             )
           );
-        }
-      });
+        });
     } else {
       this.dialog.open(WorkshopSeatsLackModalComponent, {
         width: Constants.MODAL_SMALL,
@@ -208,9 +212,4 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  protected readonly WorkshopDraft = WorkshopDraft;
-  protected readonly WorkshopDraftStatus = WorkshopDraftStatus;
-  protected readonly ModalConfirmationType = ModalConfirmationType;
-  protected readonly Util = Util;
 }

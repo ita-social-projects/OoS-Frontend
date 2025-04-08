@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { WINDOW } from 'ngx-window-token';
 
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
@@ -23,7 +24,6 @@ import {
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { WINDOW } from 'ngx-window-token';
 
 @Component({
   selector: 'app-details',

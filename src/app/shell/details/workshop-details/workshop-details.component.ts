@@ -3,7 +3,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -111,11 +111,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ResetAchievements());
   }
 
-  public onActionButtonClick(modalType: ModalConfirmationType): void {
+  public onActionButtonClick(type: ModalConfirmationType): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: modalType
+        type
       }
     });
     dialogRef
@@ -124,7 +124,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         take(1),
         filter(Boolean),
         switchMap(() => {
-          if (modalType === ModalConfirmationType.draftSet) {
+          if (type === ModalConfirmationType.draftSet) {
             this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
 
             return this.actions$.pipe(
@@ -133,7 +133,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
               tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
             );
           }
-          return [];
+          return of([]);
         })
       )
       .subscribe();

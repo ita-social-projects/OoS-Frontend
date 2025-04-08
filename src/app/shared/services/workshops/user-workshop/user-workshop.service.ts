@@ -168,7 +168,6 @@ export class UserWorkshopService {
     return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
   }
 
-  // TODO: deprecated?
   public publishWorkshop(id: string): Observable<void> {
     return this.http.put<void>('/api/v1/Workshop/Publish', id);
   }

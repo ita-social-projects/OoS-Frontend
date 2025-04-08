@@ -955,6 +955,7 @@
       "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
       "CREATE_DRAFT": "The workshop was successfully created as draft",
       "DELETE_DRAFT": "Draft deleted",
+      "DELETED_DRAFT": "This draft has been deleted!",
       "SEND_FOR_MODERATION": "Draft sent for moderation",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",

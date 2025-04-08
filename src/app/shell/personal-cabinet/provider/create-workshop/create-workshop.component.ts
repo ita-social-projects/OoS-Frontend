@@ -12,7 +12,7 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Contacts, Workshop, WorkshopAbout, AdditionalAbout, WorkshopDraft } from 'shared/models/workshop.model';
+import { AdditionalAbout, Contacts, Workshop, WorkshopAbout, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -244,20 +244,17 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
       if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop) {
         if (this.shouldBeDraft(workshop)) {
-          const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
-            width: Constants.MODAL_SMALL,
-            data: {
-              type: ModalConfirmationType.draftEditSet
-            }
-          });
-
-          dialogRef
-            .afterClosed()
-            .pipe(take(1))
-            .subscribe((res: boolean) => {
-              if (res) {
-                this.store.dispatch(new UpdateWorkshop(workshop));
+          this.dialog
+            .open(ConfirmationModalWindowComponent, {
+              width: Constants.MODAL_SMALL,
+              data: {
+                type: ModalConfirmationType.draftEditSet
               }
+            })
+            .afterClosed()
+            .pipe(take(1), filter(Boolean))
+            .subscribe(() => {
+              this.store.dispatch(new UpdateWorkshop(workshop));
             });
         } else {
           this.store.dispatch(new UpdateWorkshop(workshop));
@@ -446,7 +443,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'title',
       'shortTitle',
       'coverImage',
-      'imageIds',
+      'imageFiles',
       'competitiveSelectionDescription',
       'workshopDescriptionItems',
       'disabilityOptionsDesc',
@@ -455,7 +452,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'preferentialTermsOfParticipation'
     ];
 
-    for (const fieldName of fieldsToCheck) {
+    fieldsToCheck.some((fieldName) => {
       if (
         typeof newWorkshop[fieldName] === 'object' &&
         typeof this.workshop[fieldName] === 'object' &&
@@ -471,7 +468,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       ) {
         return true;
       }
-    }
+    });
 
     return false;
   }

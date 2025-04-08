@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
 
@@ -13,9 +14,29 @@ export class GetWorkshopById {
   constructor(public payload: string) {}
 }
 
+export class OnGetWorkshopByIdSuccess {
+  static readonly type = '[user] get Workshop By Workshop Id success';
+  constructor(public workshop: Workshop) {}
+}
+
+export class OnGetWorkshopByIdFail {
+  static readonly type = '[user] get Workshop By Workshop Id fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
 export class GetWorkshopDraftById {
   static readonly type = '[user] get Workshop Draft By Draft Id';
   constructor(public payload: string) {}
+}
+
+export class OnGetWorkshopDraftByIdSuccess {
+  static readonly type = '[user] get Workshop Draft By Draft Id success';
+  constructor(public payload: WorkshopDraft) {}
+}
+
+export class OnGetWorkshopDraftByIdFail {
+  static readonly type = '[user] get Workshop Draft By Draft Id fail';
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetCompetitionById {
@@ -26,11 +47,6 @@ export class GetCompetitionById {
 export class GetAllApplications {
   static readonly type = '[admin] Get All Applications';
   constructor(public params: ApplicationFilterParameters) {}
-}
-
-export class OnGetWorkshopByIdFail {
-  static readonly type = '[user] get Workshop By Workshop Id fail';
-  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnGetCompetitionByIdFail {

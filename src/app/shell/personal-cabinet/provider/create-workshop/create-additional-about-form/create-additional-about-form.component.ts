@@ -1,21 +1,21 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { merge, Subject, throttleTime } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, throttleTime } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { AgeComposition, EducationalShift, PayRateType, SpecialNeedsType, GroupType } from 'shared/enum/workshop';
+import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
   EducationalShiftEnum,
+  GroupTypeEnum,
   PayRateTypeEnum,
-  SpecialNeedsTypeEnum,
-  GroupTypeEnum
+  SpecialNeedsTypeEnum
 } from 'shared/enum/enumUA/workshop';
 import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
-import { Store } from '@ngxs/store';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-additional-about-form',
