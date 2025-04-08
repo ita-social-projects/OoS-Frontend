@@ -13,12 +13,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import {
-  DeleteWorkshopDraftById,
-  GetEmployeeWorkshops,
-  GetProviderViewWorkshopDrafts,
-  OnDraftSendForModerationSuccess
-} from 'shared/store/provider.actions';
+import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
@@ -118,9 +113,6 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshopDrafts?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshopDrafts(this.workshopCardParameters));
-    } else {
-      // TODO: delete?
-      this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
   }
 }
