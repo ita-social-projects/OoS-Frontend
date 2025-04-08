@@ -13,6 +13,7 @@ import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.mode
 
 import { TranslateModule } from '@ngx-translate/core';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
+import { Workshop } from 'shared/models/workshop.model';
 import { CreateWorkshopComponent } from './create-workshop.component';
 
 describe('CreateWorkshopComponent (Jest)', () => {
@@ -157,5 +158,138 @@ describe('CreateWorkshopComponent (Jest)', () => {
     (component as any).stepActions[step]();
 
     expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(1, expect.any(Object));
+  });
+
+  describe('shouldBeDraft', () => {
+    let anotherWorkshop: Workshop;
+
+    beforeEach(() => {
+      component.workshop = {
+        title: 'Title',
+        shortTitle: 'Short',
+        coverImage: new File([''], 'filename.jpg', { type: 'image/jpeg' }),
+        imageFiles: [new File([''], 'filename1.jpg', { type: 'image/jpeg' }), new File([''], 'filename2.jpg', { type: 'image/jpeg' })],
+        competitiveSelectionDescription: 'desc',
+        workshopDescriptionItems: [
+          { sectionName: 'hel2', description: 'hel2' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ],
+        disabilityOptionsDesc: 'Option',
+        keywords: ['a', 'b'],
+        enrollmentProcedureDescription: 'enroll',
+        preferentialTermsOfParticipation: 'terms'
+      };
+
+      anotherWorkshop = {
+        title: 'Title',
+        shortTitle: 'Short',
+        coverImage: new File([''], 'filename.jpg', { type: 'image/jpeg' }),
+        imageFiles: [new File([''], 'filename1.jpg', { type: 'image/jpeg' }), new File([''], 'filename2.jpg', { type: 'image/jpeg' })],
+        competitiveSelectionDescription: 'desc',
+        workshopDescriptionItems: [
+          { sectionName: 'hel2', description: 'hel2' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ],
+        disabilityOptionsDesc: 'Option',
+        keywords: ['a', 'b'],
+        enrollmentProcedureDescription: 'enroll',
+        preferentialTermsOfParticipation: 'terms'
+      } as Workshop;
+    });
+
+    it('should NOT be draft', () => {});
+
+    it('should be draft if primitives changed', () => {
+      anotherWorkshop.title = 'Another Title';
+
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+    });
+
+    it('should be draft if arrays changed', () => {
+      anotherWorkshop.keywords = ['a', 'c'];
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      anotherWorkshop.keywords = ['a', 'b', 'c'];
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+    });
+
+    it('shoild be draft if coverImage changed', () => {
+      anotherWorkshop.coverImage = new File([''], 'filename1.jpg', { type: 'image/png' });
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+
+      anotherWorkshop.coverImage = null;
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+    });
+
+    it('should be draft if files changed', () => {
+      anotherWorkshop.imageFiles = [
+        new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
+        new File([''], 'filename3.jpg', { type: 'image/jpeg' })
+      ];
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+
+      anotherWorkshop.imageFiles = [
+        new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
+        new File([''], 'filename2.jpg', { type: 'image/jpeg' }),
+        new File([''], 'filename3.jpg', { type: 'image/jpeg' })
+      ];
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+    });
+
+    describe('should be draft if workshopDescriptionItems changed', () => {
+      afterEach(() => {
+        expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      });
+
+      it('length changed', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: 'hel2', description: 'hel2' },
+          { sectionName: 'hel2', description: 'hel2' },
+          { sectionName: 'hel3', description: 'hel3' }
+        ];
+      });
+
+      it('sectionName changed', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: 'hel1', description: 'hel2' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ];
+      });
+
+      it('description changed', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: 'hel2', description: 'hel3' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ];
+      });
+
+      it('structure changed', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: 'hel2', description: 'hel3', workshopId: '123' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ];
+      });
+
+      it('partially null', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: null, description: 'hel3' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ];
+      });
+
+      it('partially undefined', () => {
+        anotherWorkshop.workshopDescriptionItems = [
+          { sectionName: undefined, description: 'hel3' },
+          { sectionName: 'hel2', description: 'hel2' }
+        ];
+      });
+
+      it('fully null', () => {
+        anotherWorkshop.workshopDescriptionItems = [null, { sectionName: 'hel2', description: 'hel2' }];
+      });
+
+      it('fully undefined', () => {
+        anotherWorkshop.workshopDescriptionItems = [undefined, null];
+      });
+    });
   });
 });

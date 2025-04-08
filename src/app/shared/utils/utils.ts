@@ -356,8 +356,17 @@ export class Util {
       return true;
     }
 
-    if (obj1 === null || obj2 === null || obj1 === undefined || obj2 === undefined) {
+    if (
+      (obj1 === null && obj2 !== null) ||
+      (obj1 !== null && obj2 === null) ||
+      (obj1 === undefined && obj2 !== undefined) ||
+      (obj1 !== undefined && obj2 === undefined)
+    ) {
       return false;
+    }
+
+    if (obj1 instanceof File && obj2 instanceof File) {
+      return obj1.name === obj2.name && obj1.type === obj2.type && obj1.size === obj2.size;
     }
 
     const keys1 = Object.keys(obj1);

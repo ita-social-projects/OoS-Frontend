@@ -174,14 +174,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
           return;
       }
 
-      this.selectedWorkshop$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((workshop) => workshop !== null)
-        )
-        .subscribe((workshop: Workshop | WorkshopDraft) => {
-          this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
-        });
+      this.selectedWorkshop$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((workshop: Workshop | WorkshopDraft) => {
+        this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
+      });
     }
   }
 
@@ -453,12 +448,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     ];
 
     return fieldsToCheck.some((fieldName) => {
-      if (
-        typeof newWorkshop[fieldName] === 'object' &&
-        typeof this.workshop[fieldName] === 'object' &&
-        newWorkshop[fieldName] &&
-        this.workshop[fieldName]
-      ) {
+      if (typeof newWorkshop[fieldName] === 'object' && typeof this.workshop[fieldName] === 'object') {
         return !Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName]);
       }
 

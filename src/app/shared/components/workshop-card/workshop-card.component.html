@@ -85,7 +85,7 @@
       <mat-icon>edit</mat-icon>
     </div>
     <div *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
-         class="actions_btn action-icon" (click)="onDelete()">
+         class="actions_btn action-icon" (click)="onDelete()" tabindex="1" (keypress)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
   </div>

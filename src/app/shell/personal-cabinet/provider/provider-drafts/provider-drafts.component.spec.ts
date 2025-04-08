@@ -39,20 +39,18 @@ describe('ProviderWorkshopsComponent', () => {
         NoResultCardComponent
       ],
       providers: [
-        [
-          {
-            provide: Actions,
-            useValue: {
-              pipe: jest.fn().mockReturnValue(of(new OnDraftSendForModerationSuccess()))
-            }
-          },
-          {
-            provide: MatDialog,
-            useValue: {
-              open: jest.fn()
-            }
+        {
+          provide: Actions,
+          useValue: {
+            pipe: jest.fn().mockReturnValue(of(new OnDraftSendForModerationSuccess()))
           }
-        ]
+        },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: jest.fn()
+          }
+        }
       ]
     }).compileComponents();
     const initialState = {
