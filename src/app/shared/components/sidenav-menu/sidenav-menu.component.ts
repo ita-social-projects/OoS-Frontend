@@ -47,6 +47,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   public visibleSidenav: boolean;
   public user: User;
   public selectedLanguage: string;
+  public featuresList: FeaturesList;
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -66,6 +67,9 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((visible) => (this.visibleSidenav = visible));
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
       this.user = user;
+    });
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+      this.featuresList = featuresList;
     });
   }
 

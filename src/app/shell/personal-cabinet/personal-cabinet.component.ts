@@ -17,6 +17,8 @@ import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
 import { isRoleProvider } from 'shared/utils/provider.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -28,6 +30,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   public pendingApplications$: Observable<SearchResponse<Application[]>>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
 

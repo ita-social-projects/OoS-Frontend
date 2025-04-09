@@ -210,7 +210,12 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
     return this.overrideTouch(
       this.formBuilder.group({
         type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-        address: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
+        address: new FormControl('', [
+          Validators.required,
+          FormValidators.email,
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
+          BlacklistEmailValidator()
+        ])
       })
     );
   }

@@ -4,4 +4,12 @@ export interface FeaturesList {
   release3: boolean;
   images: boolean;
   showForProduction: boolean;
+  onlyUkrainianLanguage: boolean;
+  directionManagement: boolean;
+  achievementManagement: boolean;
+  messagingFeature: boolean;
+  adminsChildrenParentsManagement: boolean;
+  emailConfirmation: boolean;
+  emailManagement: boolean;
+  passwordManagement: boolean;
 }

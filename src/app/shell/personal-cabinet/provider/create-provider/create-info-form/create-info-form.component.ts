@@ -76,20 +76,23 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     return this.infoFormGroup.get('ownership');
   }
 
-  public get edrpouIpnTypeControl(): AbstractControl {
-    return this.infoFormGroup.get('edrpouIpn');
+  public get edrpouTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('edrpou');
   }
 
-  public get edrpouIpnLabel(): string {
-    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
+  public get edrpouLabel(): string {
+    return this.isOwnershipTypeStateOrCommon ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
   }
 
-  public get edrpouIpnLength(): number {
-    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
+  public get edrpouLength(): number {
+    return this.isOwnershipTypeStateOrCommon ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
   }
 
-  private get isOwnershipTypeState(): boolean {
-    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
+  private get isOwnershipTypeStateOrCommon(): boolean {
+    return (
+      this.infoFormGroup?.get('ownership').value === OwnershipTypes.State ||
+      this.infoFormGroup?.get('ownership').value === OwnershipTypes.Common
+    );
   }
 
   public ngOnInit(): void {
@@ -98,8 +101,8 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     this.initData();
     this.passInfoFormGroup.emit(this.infoFormGroup);
     this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
-        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
+      if (this.isOwnershipTypeStateOrCommon && this.edrpouTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
+        this.edrpouTypeControl.setValue(this.edrpouTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
           emitEvent: false
         });
       }
@@ -127,7 +130,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      edrpouIpn: new FormControl('', [Validators.required, FormValidators.edrpouIpn]),
+      edrpou: new FormControl('', [Validators.required, FormValidators.edrpou]),
       director: new FormControl('', [
         Validators.required,
         Validators.pattern(FULL_NAME_REGEX),
@@ -136,7 +139,12 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()]),
+      email: new FormControl('', [
+        Validators.required,
+        FormValidators.email,
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
+        BlacklistEmailValidator()
+      ]),
       typeId: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),

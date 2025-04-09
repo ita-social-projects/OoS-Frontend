@@ -14,8 +14,8 @@ export const FULL_NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ\s'’`-
 // Regex for email
 export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 
-// Regex for EDRPOU and IPN
-export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;
+// Regex for EDRPOU
+export const EDRPOU_REGEX: RegExp = /^\d{8}$/;
 
 // RegEx for RNOKPP/drfocode from Diya
 export const RNOKPP_DRFOCODE: RegExp = /^\d{10}$|^\d{9}$|^[А-Яа-яЄєІіЇїҐґ]{2}\d{6}$/;

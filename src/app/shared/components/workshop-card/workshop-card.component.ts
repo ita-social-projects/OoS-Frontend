@@ -23,6 +23,8 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
 import { UpdateWorkshopStatus } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
@@ -42,6 +44,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;

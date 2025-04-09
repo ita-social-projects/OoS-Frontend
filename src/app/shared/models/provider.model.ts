@@ -15,7 +15,7 @@ export abstract class ProviderBase {
   website?: string;
   facebook?: string;
   instagram?: string;
-  edrpouIpn: string;
+  edrpou: string;
   director: string;
   directorDateOfBirth: string | Date;
   phoneNumber: string;
@@ -53,7 +53,7 @@ export abstract class ProviderBase {
     this.website = description.website;
     this.facebook = description.facebook;
     this.instagram = description.instagram;
-    this.edrpouIpn = info.edrpouIpn;
+    this.edrpou = info.edrpou;
     this.director = info.director;
     this.directorDateOfBirth = new Date(info.directorDateOfBirth).toISOString();
     this.phoneNumber = info.phoneNumber;

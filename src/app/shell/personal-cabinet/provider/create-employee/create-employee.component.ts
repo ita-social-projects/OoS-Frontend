@@ -76,7 +76,12 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
       firstName: new FormControl('', [Validators.required, ...defaultValidators]),
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
+      email: new FormControl('', [
+        Validators.required,
+        FormValidators.email,
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
+        BlacklistEmailValidator()
+      ])
     });
 
     this.providerRole = EmployeeRole[this.route.snapshot.paramMap.get('param')];
