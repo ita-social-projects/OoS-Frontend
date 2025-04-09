@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { filter, switchMap } from 'rxjs';
+import { filter } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -66,7 +66,7 @@ export class CompetitionDetailsComponent implements OnInit {
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
-    this.images = this.imageService.getCarouselImages(this.competition);
+    this.images = this.imageService.getCarouselImages(Object.setPrototypeOf(this.competition, Competition.prototype));
   }
 
   public onActionButtonClick(ModalType: ModalConfirmationType): void {
