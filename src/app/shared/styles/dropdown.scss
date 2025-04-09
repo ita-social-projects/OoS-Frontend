@@ -31,23 +31,20 @@
 
 ::ng-deep .mat-mdc-select-panel {
   .mat-mdc-option.mdc-list-item--selected {
-    background-color: var(--primary-light-bg-color) !important;
+    background-color: var(--mat-option-focus-state-layer-color) !important;
 
     &:hover {
-      background-color: var(--bg-light-additional) !important;
+      background-color: var(--mat-option-focus-state-layer-color) !important;
     }
   }
 
   .mat-mdc-option.mdc-list-item--activated {
-    background-color: var(--primary-light-bg-color) !important;
+    background-color: var(--mat-option-focus-state-layer-color) !important;
   }
 
   .mat-mdc-option {
     &:hover {
-      .mdc-list-item__primary-text {
-        background-color: var(--bg-light-additional) !important;
-      }
-      background-color: var(--bg-light-additional) !important;
+      background-color: var(--mat-option-focus-state-layer-color) !important;
     }
   }
 
