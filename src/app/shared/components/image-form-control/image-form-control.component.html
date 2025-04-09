@@ -1,7 +1,13 @@
 <form>
   <div class="form-wrapper">
-    <div class="step-label">{{ label }}</div>
+    <div class="container flex flex-row justify-between items-center">
+      <div class="step-label">{{ label }}</div>
+      <app-info-menu [type]="InfoMenuType.Text">
+        <div [innerHTML]="'INFO_MENU.IMAGES_RECOMMENDATION' | translate"></div>
+      </app-info-menu>
+    </div>
     <div class="photo-subheader">{{ 'BANNERS.ADD_IMG_SUBHEADER' | translate }} {{ imgMaxAmount }}</div>
+    <div class="photo-subheader">{{ 'BANNERS.ADD_IMG_SUBHEADER_DESC' | translate }}</div>
     <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
       <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount">
         <label>
