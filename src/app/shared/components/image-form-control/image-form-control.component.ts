@@ -39,6 +39,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor {
   public smallScreen = 366;
   public selectedImages: File[] = [];
   public decodedImages: DecodedImage[] = [];
+  protected readonly InfoMenuType = InfoMenuType;
 
   constructor(
     public dialog: MatDialog,
@@ -179,5 +180,4 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor {
 
   private onChange: FilesToVoid = () => {};
   private onTouched: () => void = () => {};
-  protected readonly InfoMenuType = InfoMenuType;
 }
