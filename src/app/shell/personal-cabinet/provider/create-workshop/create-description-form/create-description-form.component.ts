@@ -134,9 +134,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
     if (this.workshop) {
       this.activateEditMode();
-      if (this.route.snapshot.paramMap.get('param') !== 'unfinished') {
-        this.listenToChanges();
-      }
     } else {
       this.onAddForm();
     }
@@ -287,6 +284,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     if (this.workshop.competitiveSelection) {
       this.DescriptionFormGroup.get('competitiveSelectionDescription')?.enable();
     }
+
+    if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
+      this.listenToChanges();
+    }
   }
 
   private onCompetitiveSelectionInit(): void {
@@ -368,7 +369,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private listenToChanges(): void {
     merge(
-      [
+      ...[
         'imageFiles',
         'workshopDescriptionItems',
         'disabilityOptionsDesc',

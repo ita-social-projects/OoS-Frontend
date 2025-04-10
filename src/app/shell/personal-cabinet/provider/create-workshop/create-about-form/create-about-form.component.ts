@@ -90,9 +90,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.workshop) {
       this.activateEditMode();
-      if (this.route.snapshot.paramMap.get('param') !== 'unfinished') {
-        this.listenToChanges();
-      }
     }
 
     this.initListeners();
@@ -126,6 +123,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     } else {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
+    }
+
+    if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
+      this.listenToChanges();
     }
   }
 
@@ -246,7 +247,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private listenToChanges(): void {
     merge(
-      ['coverImage', 'title', 'shortTitle'].map(
+      ...['coverImage', 'title', 'shortTitle'].map(
         (controlName) =>
           this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
             throttleTime(5000, undefined, {
