@@ -600,6 +600,9 @@
       "SORT_BY_CREATED_AT": "By creation date",
       "SEARCH_BY_TITLE": "Search by full title"
     },
+    "TOOLTIP": {
+      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"
+    },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
     "FOR": "for",

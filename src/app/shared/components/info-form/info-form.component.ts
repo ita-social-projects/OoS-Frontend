@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { ValidationConstants } from 'shared/constants/validation';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-info-form',
@@ -17,6 +18,7 @@ export class InfoFormComponent {
   @Output() public deleteForm = new EventEmitter();
 
   public readonly ValidationConstants = ValidationConstants;
+  protected readonly InfoMenuType = InfoMenuType;
 
   public get infoEditForm(): FormGroup {
     return this.infoEditFormGroup as FormGroup;

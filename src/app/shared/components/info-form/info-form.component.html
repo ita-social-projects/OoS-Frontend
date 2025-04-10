@@ -22,7 +22,12 @@
   </div>
 
   <div class="step-label-combined">
-    <label class="step-label" for="description"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
+    <div class="flex flex-row">
+      <label class="step-label" for="description"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
+      <app-info-menu [type]="InfoMenuType.Text">
+        <span class="multiline">{{ 'FORMS.TOOLTIP.DESCRIPTION' | translate }}</span>
+      </app-info-menu>
+    </div>
     <span class="step-characters-count"> {{ infoEditFormGroup.get('description').value?.length }}/{{ maxDescriptionLength }}</span>
   </div>
   <mat-form-field appearance="fill">
