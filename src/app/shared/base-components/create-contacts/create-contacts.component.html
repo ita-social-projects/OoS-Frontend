@@ -133,7 +133,7 @@
               </label>
               <div class="flex" *ngFor="let socialNetwork of addressForm.get('socialNetworks').controls; let jindex = index">
                 <div class="flex flex-col grow" [formGroupName]="jindex">
-                  <label class="step-label" for="type">{{ 'FORMS.LABELS.TYPE' | translate }}</label>
+                  <label class="step-label" for="type">{{ 'FORMS.LABELS.TYPE' | translate }}<span class="step-required">*</span></label>
                   <mat-form-field class="grow">
                     <mat-select
                       formControlName="type"
@@ -146,7 +146,7 @@
                     </mat-select>
                   </mat-form-field>
                   <app-validation-hint [validationFormControl]="socialNetwork.get('type')"></app-validation-hint>
-                  <label class="step-label" for="socials-{{ jindex }}">URL</label>
+                  <label class="step-label" for="socials-{{ jindex }}">URL<span class="step-required">*</span></label>
                   <div class="flex flex-row items-center">
                     <mat-form-field class="grow">
                       <input formControlName="url" matInput class="step-input" type="text" [id]="'socials-' + jindex" appTrimValue />
