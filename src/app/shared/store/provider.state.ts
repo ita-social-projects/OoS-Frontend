@@ -533,9 +533,16 @@ export class ProviderState {
     { draftId, payload }: providerActions.UpdateDraft
   ): Observable<WorkshopDraft | void> {
     return this.userWorkshopService.updateDraft(draftId, payload).pipe(
-      tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateWorkshopSuccess(res))),
+      tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
     );
+  }
+
+  @Action(providerActions.OnUpdateDraftSuccess)
+  onUpdateDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateDraftSuccess): void {
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.updateWorkshop);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['/personal-cabinet/provider/drafts']);
   }
 
   @Action(providerActions.DeleteWorkshopDraftById)

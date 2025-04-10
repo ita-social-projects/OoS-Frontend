@@ -227,6 +227,12 @@ export class UpdateDraft {
   ) {}
 }
 
+export class OnUpdateDraftSuccess {
+  static readonly type = '[provider] update Draft success';
+
+  constructor(public payload: Workshop) {}
+}
+
 export class DeleteWorkshopDraftById {
   static readonly type = '[provider] delete Draft';
 
