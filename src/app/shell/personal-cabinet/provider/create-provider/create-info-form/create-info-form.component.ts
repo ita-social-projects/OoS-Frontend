@@ -126,7 +126,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       fullTitle: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       shortTitle: new FormControl('', [
         Validators.required,
