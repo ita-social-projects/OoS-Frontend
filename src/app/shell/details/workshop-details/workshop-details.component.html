@@ -24,7 +24,7 @@
       <button
         *ngIf="!Util.isWorkshop(workshop)"
         class="btn"
-        [disabled]="workshop.draftStatus !== WorkshopDraftStatus.Draft"
+        [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
         (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
         mat-button>
         {{ 'BUTTONS.PUBLISH' | translate | uppercase }}

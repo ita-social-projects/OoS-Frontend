@@ -200,7 +200,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
 export interface WorkshopDraftCard extends WorkshopBaseCard {
   workshopDraftId: string;
   rejectionMessage?: string;
-  draftStatus: string;
+  draftStatus: WorkshopDraftStatus;
 }
 
 export interface WorkshopProviderViewCard extends WorkshopBaseCard {
