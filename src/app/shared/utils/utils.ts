@@ -17,7 +17,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
@@ -50,6 +50,14 @@ export class Util {
       top: 0,
       behavior: 'smooth'
     });
+  }
+
+  public static isWorkshop(workshop: Workshop | WorkshopDraft): boolean {
+    return workshop instanceof Workshop;
+  }
+
+  public static containsWorkshopDetails(workshop: object): workshop is { workshopDetails: Workshop } {
+    return !!workshop && 'workshopDetails' in workshop;
   }
 
   /**
@@ -341,6 +349,61 @@ export class Util {
       value = value?.slice(0, 2) + ':' + value?.slice(2);
     }
     return value;
+  }
+
+  public static deepEqual(obj1: object, obj2: object): boolean {
+    if (obj1 === obj2) {
+      return true;
+    }
+
+    if (
+      (obj1 === null && obj2 !== null) ||
+      (obj1 !== null && obj2 === null) ||
+      (obj1 === undefined && obj2 !== undefined) ||
+      (obj1 !== undefined && obj2 === undefined)
+    ) {
+      return false;
+    }
+
+    if (obj1 instanceof File && obj2 instanceof File) {
+      return obj1.name === obj2.name && obj1.type === obj2.type && obj1.size === obj2.size;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      const val1 = obj1[key];
+      const val2 = obj2[key];
+      if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+        if (!Util.deepEqual(val1, val2)) {
+          return false;
+        }
+      } else if (val1 !== val2) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static isEmpty(field: any): boolean {
+    return (
+      field === undefined ||
+      field === null ||
+      field === '' ||
+      (Array.isArray(field) && field.length === 0) ||
+      (typeof field === 'object' && Object.keys(field).length === 0)
+    );
+  }
+
+  public static isEmptyUUID(id: string): boolean {
+    return this.isEmpty(id) || id === '00000000-0000-0000-0000-000000000000';
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

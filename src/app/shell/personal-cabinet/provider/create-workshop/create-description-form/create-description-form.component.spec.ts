@@ -3,6 +3,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { MaterialModule } from 'shared/modules/material.module';
@@ -56,6 +57,16 @@ describe('CreateDescriptionFormComponent', () => {
           // eslint-disable-next-line @angular-eslint/no-forward-ref
           useExisting: forwardRef(() => ImageFormControlComponent),
           multi: true
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: convertToParamMap({ param: 'someValue' }),
+              params: {},
+              data: {}
+            }
+          }
         }
       ]
     }).compileComponents();
@@ -80,7 +91,7 @@ describe('CreateDescriptionFormComponent', () => {
       competitiveSelection: new FormControl(''),
       tagIds: new FormControl([]),
       isSelfFinanced: new FormControl(false),
-      enrollmentProcedureDescription: new FormControl(''),
+      enrollmentProcedureDescription: new FormControl('some description'),
       isInclusive: new FormControl(false),
       specialNeedsType: new FormControl('None'),
       areThereBenefits: new FormControl(false),
@@ -165,7 +176,6 @@ describe('CreateDescriptionFormComponent', () => {
 
     const mockWorkshop: Partial<Workshop> = {
       tagIds: [1],
-      keywords: [],
       competitiveSelection: true
     };
 

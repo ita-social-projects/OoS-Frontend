@@ -1,10 +1,6 @@
 <div class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_WORKSHOP' | translate }}</p>
-  <button
-    class="btn"
-    mat-raised-button
-    [disabled]="hasUnfinishedWorkshopData$ | async"
-    [routerLink]="['/create-workshop', ModeConstants.NEW]">
+  <button class="btn" mat-raised-button [disabled]="hasUnfinishedWorkshopData$ | async" [routerLink]="['/create', ModeConstants.NEW]">
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>

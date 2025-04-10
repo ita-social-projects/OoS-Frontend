@@ -3,7 +3,7 @@ import { Competition } from 'shared/models/competition.model';
 import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { Provider } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
@@ -11,7 +11,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 })
 export class SideMenuComponent implements OnInit {
   @Input() public provider: Provider;
-  @Input() public workshop: Workshop;
+  @Input() public workshop: Workshop | WorkshopDraft;
   @Input() public competition: Competition;
   @Input() public role: string;
   @Input() public isMobileScreen: boolean;
@@ -34,7 +34,7 @@ export class SideMenuComponent implements OnInit {
     this.getContactsData(this.workshop ?? this.competition);
   }
 
-  private getContactsData(contactsParent: Competition | Workshop): void {
+  private getContactsData(contactsParent: Competition | Workshop | WorkshopDraft): void {
     this.contactsData = {
       phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
       email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,

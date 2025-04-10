@@ -15,7 +15,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Parent } from 'shared/models/parent.model';
 import { Rate, RateParameters } from 'shared/models/rating';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import {
@@ -35,7 +35,7 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
-  @Input() public workshop: Workshop;
+  @Input() public workshop: Workshop | WorkshopDraft;
   @Input() public role: string;
 
   @Select(RegistrationState.parent)
@@ -77,7 +77,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.rateParameters.entityId = this.workshop.id;
+    this.rateParameters.entityId = Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.id : this.workshop.id;
     this.getRates();
 
     this.getParentData();
@@ -109,7 +109,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           new CreateRating({
             rate: result,
             type: Constants.WORKSHOP_ENTITY_TYPE,
-            entityId: `${this.workshop.id}`,
+            entityId: `${this.rateParameters.entityId}`,
             parentId: this.parent.id
           })
         );
@@ -152,8 +152,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
       this.parent = parent;
       this.store.dispatch([
-        new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
-        new GetReviewedStatus(this.parent.id, this.workshop.id)
+        new GetStatusAllowedToReview(this.parent.id, this.rateParameters.entityId),
+        new GetReviewedStatus(this.parent.id, this.rateParameters.entityId)
       ]);
     });
   }

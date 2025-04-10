@@ -12,7 +12,7 @@ import { Achievement, AchievementParameters, AchievementType } from 'shared/mode
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { GetAchievementsType } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'shared/store/provider.actions';
@@ -27,7 +27,7 @@ import { FeaturesList } from 'shared/models/features-list.model';
   styleUrls: ['./achievements.component.scss']
 })
 export class AchievementsComponent implements OnInit, OnDestroy {
-  @Input() public workshop: Workshop;
+  @Input() public workshop: Workshop | WorkshopDraft;
 
   @Select(ProviderState.achievements)
   public achievements$: Observable<SearchResponse<Achievement[]>>;
@@ -60,7 +60,9 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
-    this.achievementParameters.workshopId = this.workshop.id;
+    this.achievementParameters.workshopId = Util.containsWorkshopDetails(this.workshop)
+      ? this.workshop.workshopDetails.id
+      : this.workshop.id;
     this.store.dispatch(new GetAchievementsType());
     this.getAchievements();
 

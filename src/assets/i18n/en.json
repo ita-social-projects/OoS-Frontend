@@ -148,6 +148,7 @@
       "ADD_SUBJECTS": "Add new study subject",
       "EDIT_SUBJECTS": "Edit study subject",
       "MY_WORKSHOPS": "My workshops",
+      "MY_DRAFTS": "Drafts",
       "MY_COMPETITIONS": "My competition",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
@@ -161,6 +162,13 @@
       "NEW_COMPETITION": "Add new competition event",
       "EDIT_COMPETITION": "Edit competition event",
       "WORKSHOP_DRAFTS": "Workshop drafts"
+    },
+    "WORKSHOP_DRAFT": {
+      "STATUS": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending for moderation",
+        "REJECTED": "Rejected"
+      }
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -374,6 +382,7 @@
   "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
   "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
   "INFO_ABOUT_SELECTION": "Information about selection",
+  "MODERATOR_MESSAGE": "Moderator's response",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "ADD_JUDGE_LATER": "Judges can be added to the competition later",
@@ -757,6 +766,7 @@
     "SEND": "Send",
     "EDIT": "Edit",
     "SAVE": "Save",
+    "SAVE_DRAFT": "Save draft",
     "BACK": "Back",
     "NEXT": "Next",
     "ADD_ANOTHER_CHILD": "Add another child",
@@ -790,6 +800,7 @@
     "ADD_MORE_ADDRESS": "Add more address",
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
+    "CANCEL_MODERATION": "Cancel",
     "ARCHIVE": "Archive",
     "CONTINUE": "Continue",
     "USE_ADDRESS_AS_PRIMARY": "Use as primary",
@@ -942,6 +953,10 @@
       "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
       "DELETED_WORKSHOP": "This workshop has been deleted!",
       "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
+      "CREATE_DRAFT": "The workshop was successfully created as draft",
+      "DELETE_DRAFT": "Draft deleted",
+      "DELETED_DRAFT": "This draft has been deleted!",
+      "SEND_FOR_MODERATION": "Draft sent for moderation",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
       "CREATE_COMPETITION": "Thank you! New competition successfully added.",
@@ -1033,7 +1048,8 @@
       "GET_DRAFT_FAIL": "Failed to get draft",
       "GET_TIME_TO_LIVE_FAIL": "Failed to get time to live draft",
       "DELETE_DRAFT_FAIL": "Failed to delete draft",
-      "DELETE_DRAFT_SUCCESS": "Draft deleted successfully"
+      "DELETE_DRAFT_SUCCESS": "Draft deleted successfully",
+      "CHANGE_REQUIRES_MODERATION": "Changing this field requires re-moderation"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
@@ -1076,6 +1092,8 @@
       "UNBLOCK_USER": "Are you sure you want to unblock the user?",
       "CLOSE_SET": "Are you sure you want to pause the workshop recruitment?",
       "OPEN_SET": "Are you sure you want to open the workshop recruitment?",
+      "DRAFT_SET": "Are you sure you want to send the workshop draft for moderation?",
+      "SAVE_WORKSHOP_AS_DRAFT": "Changes made require re-moderation. A draft will be created for this, do you want to continue?",
       "DELETE_ADMIN": "Are you sure you want to delete an administrator",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
@@ -1129,6 +1147,8 @@
         "UNBLOCK_USER": "UNBLOCK USER?",
         "CLOSE_SET": "CLOSE RECRUITMENT?",
         "OPEN_SET": "OPEN RECRUITMENT?",
+        "DRAFT_SET": "SEND FOR MODERATION?",
+        "SAVE_WORKSHOP_AS_DRAFT": "SAVE AS DRAFT?",
         "DELETE_ADMIN": "DELETE ADMINISTRATOR?",
         "BLOCK_ADMIN": "BLOCK ADMINISTRATOR?",
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",
@@ -1202,5 +1222,8 @@
   "EMPLOYEES_REGISTRATION": "Employees registration",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "This functionality will be added later"
+  },
+  "TOOLTIP": {
+    "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
   }
 }

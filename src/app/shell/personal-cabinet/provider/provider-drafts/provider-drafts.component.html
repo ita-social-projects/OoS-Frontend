@@ -1,0 +1,27 @@
+<div class="add-wrapper">
+  <p class="text">{{ 'BANNERS.ADD_WORKSHOP' | translate }}</p>
+  <a [routerLink]="['/create', ModeConstants.NEW]">
+    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_WORKSHOP' | translate }}</button>
+  </a>
+</div>
+
+<ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">
+  <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount">
+    <app-workshop-card
+      class="card"
+      *ngFor="let workshopDraft of workshopDrafts.entities; trackBy: trackByDraft"
+      [workshop]="workshopDraft"
+      [isCabinetView]="true"
+      (deleteWorkshop)="onDelete($event)">
+    </app-workshop-card>
+  </div>
+  <ng-container *ngIf="workshopDrafts.totalAmount">
+    <app-paginator
+      [totalEntities]="workshopDrafts.totalAmount"
+      [currentPage]="currentPage"
+      [itemsPerPage]="workshopCardParameters.size"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-paginator>
+  </ng-container>
+</ng-container>

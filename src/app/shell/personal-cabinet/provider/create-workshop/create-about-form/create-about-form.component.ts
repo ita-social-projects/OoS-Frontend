@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngxs/store';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -14,6 +16,8 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-about-form',
@@ -56,7 +60,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly store: Store,
+    private readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
@@ -115,6 +124,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
     }
+
+    if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
+      this.listenToChanges();
+    }
   }
 
   private initForm(): void {
@@ -153,9 +166,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
             disabled: true
           },
           [Validators.required, Validators.min(this.minSeats), Validators.max(ValidationConstants.MAX_SEATS)]
-        ),
-        competitiveSelection: new FormControl(false),
-        competitiveSelectionDescription: null
+        )
       },
       {
         validators: [AgeRangeValidator('minAge', 'maxAge')]
@@ -232,5 +243,28 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
       }
     });
+  }
+
+  private listenToChanges(): void {
+    merge(
+      ...['coverImage', 'title', 'shortTitle'].map(
+        (controlName) =>
+          this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
+            throttleTime(5000, undefined, {
+              leading: true,
+              trailing: false
+            })
+          ) ?? of()
+      )
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

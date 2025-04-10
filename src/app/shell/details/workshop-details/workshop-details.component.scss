@@ -12,12 +12,40 @@
 }
 
 .chip {
+  font-family: Innerspace, sans-serif;
   margin-left: 0;
   white-space: nowrap;
 }
 
 .title {
   margin-right: 16px;
+}
+
+.reject {
+  &-block {
+    height: 34px;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 0 30px;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease; /* Плавний ефект */
+
+    &-moderator-message {
+      font-family: Innerspace, sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      color: #ff0000;
+      user-select: none;
+    }
+  }
+
+  &-block:hover {
+    background-color: #ece8e8;
+  }
+}
+
+.reject-block:hover {
 }
 
 .details-link {

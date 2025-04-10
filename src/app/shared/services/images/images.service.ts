@@ -5,7 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
 import { ImgPath } from '../../models/carousel.model';
 import { Provider } from '../../models/provider.model';
-import { Workshop, WorkshopBaseCard } from '../../models/workshop.model';
+import { Workshop, WorkshopBaseCard, WorkshopDraftCard } from '../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import { Workshop, WorkshopBaseCard } from '../../models/workshop.model';
 export class ImagesService {
   private readonly defaultCoverImage: string = 'assets/images/groupimages/workshop-img.png';
 
-  public getWorkshopCardCoverImage(workshop: WorkshopBaseCard): string {
+  public getWorkshopCardCoverImage(workshop: WorkshopBaseCard | WorkshopDraftCard): string {
     return workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
   }
 
