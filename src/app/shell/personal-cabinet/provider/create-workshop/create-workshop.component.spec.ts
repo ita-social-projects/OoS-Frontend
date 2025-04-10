@@ -1,4 +1,4 @@
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -8,19 +8,24 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { NgxsModule, Store } from '@ngxs/store';
 import { GetUnfinishedWorkshop, OnSaveWorkshopStep } from 'shared/store/provider.actions';
-import { FormOfLearning } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopType } from 'shared/enum/workshop';
 import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { Workshop } from 'shared/models/workshop.model';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateWorkshopComponent } from './create-workshop.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CreateWorkshopComponent (Jest)', () => {
   let component: CreateWorkshopComponent;
   let fixture: ComponentFixture<CreateWorkshopComponent>;
   let routeMock: any;
   let storeMock: any;
+  let matDialogMock: any;
+  let activatedRouteMock: any;
 
   const mockProvider = { id: '08da842d-12fc-4865-85c5-ec6e6142abad' };
   const mockWorkshop: WorkshopMainRequiredProperties = {
@@ -41,6 +46,25 @@ describe('CreateWorkshopComponent (Jest)', () => {
       snapshot: {
         paramMap: {
           get: jest.fn().mockReturnValue('unfinished')
+        }
+      }
+    };
+
+    matDialogMock = {
+      open: jest.fn().mockReturnValue({
+        afterClosed: () => of(true)
+      })
+    };
+
+    activatedRouteMock = {
+      snapshot: {
+        paramMap: {
+          get: jest.fn().mockImplementation((key: string) => {
+            if (key === 'entity') {
+              return WorkshopType.Workshop;
+            }
+            return null;
+          })
         }
       }
     };
@@ -67,7 +91,17 @@ describe('CreateWorkshopComponent (Jest)', () => {
         MatDialogModule
       ],
       declarations: [CreateWorkshopComponent, StepperDirective],
-      providers: [{ provide: Store, useValue: storeMock }]
+      providers: [
+        { provide: Store, useValue: storeMock },
+        {
+          provide: MatDialog,
+          useValue: matDialogMock
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: activatedRouteMock
+        }
+      ]
     }).compileComponents();
   });
 
@@ -292,6 +326,33 @@ describe('CreateWorkshopComponent (Jest)', () => {
       it('fully undefined', () => {
         anotherWorkshop.workshopDescriptionItems = [undefined, null];
       });
+    });
+
+    it('should be draft matDialog', () => {
+      jest.spyOn(component, 'shouldBeDraft').mockReturnValue(true);
+
+      component.editMode = true;
+
+      component.onSubmit();
+
+      expect(matDialogMock.open).toHaveBeenCalledWith(
+        ConfirmationModalWindowComponent,
+        expect.objectContaining({
+          data: expect.objectContaining({
+            type: ModalConfirmationType.draftEditSet
+          })
+        })
+      );
+    });
+
+    it('should NOT be draft matDialog', () => {
+      jest.spyOn(component, 'shouldBeDraft').mockReturnValue(false);
+
+      component.editMode = true;
+
+      component.onSubmit();
+
+      expect(matDialogMock.open).not.toHaveBeenCalled();
     });
   });
 });
