@@ -16,8 +16,8 @@ import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { Workshop } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { CreateWorkshopComponent } from './create-workshop.component';
 import { ActivatedRoute } from '@angular/router';
+import { CreateWorkshopComponent } from './create-workshop.component';
 
 describe('CreateWorkshopComponent (Jest)', () => {
   let component: CreateWorkshopComponent;
