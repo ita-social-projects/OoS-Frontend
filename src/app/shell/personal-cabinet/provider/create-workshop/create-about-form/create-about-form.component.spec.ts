@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -57,6 +58,18 @@ describe('CreateAboutFormComponent', () => {
         MockWorkingHoursComponent,
         MockInfoMenuComponent,
         MockInstitutionHierarchyComponent
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: convertToParamMap({ param: 'someValue' }),
+              params: {},
+              data: {}
+            }
+          }
+        }
       ]
     }).compileComponents();
   });
@@ -76,7 +89,6 @@ describe('CreateAboutFormComponent', () => {
       email: new FormControl(''),
       minAge: new FormControl(''),
       maxAge: new FormControl(''),
-      competitiveSelection: new FormControl(''),
       image: new FormControl(''),
       price: new FormControl(''),
       payRate: new FormControl(''),

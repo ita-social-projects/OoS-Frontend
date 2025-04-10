@@ -8,7 +8,15 @@ import { TruncatedItem } from 'shared/models/item.model';
 import { ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  Workshop,
+  WorkshopCard,
+  WorkshopCardParameters,
+  WorkshopDraft,
+  WorkshopDraftCard,
+  WorkshopProviderViewCard,
+  WorkshopStatus
+} from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { BaseWorkshop } from 'shared/models/draftWorkshop.model';
 
@@ -51,6 +59,24 @@ export class UserWorkshopService {
   }
 
   /**
+   * This method get related workshop drafts for provider personal cabinet
+   */
+  public getProviderViewWorkshopDrafts(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopDraftCard[]>> {
+    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+
+    return this.http.get<SearchResponse<WorkshopDraftCard[]>>(
+      `/api/v2/WorkshopDraft/GetByProviderId/provider/${workshopCardParameters.providerId}/drafts`,
+      {
+        params
+      }
+    );
+  }
+
+  public getWorkshopDraftById(id: string): Observable<WorkshopDraft> {
+    return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/Get/drafts/${id}`);
+  }
+
+  /**
    * This method get workshops by Provider id for details page
    */
   public getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
@@ -75,6 +101,10 @@ export class UserWorkshopService {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
+  public sendDraftForModeration(id: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/WorkshopDraft/SendForModeration/${id}`, {});
+  }
+
   public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {
     return this.http.get(`/api/v1/Workshop/GetCompetitiveSelectionDescription/${id}`, { responseType: 'text' });
   }
@@ -84,21 +114,28 @@ export class UserWorkshopService {
   }
 
   /**
-   * This method create workshop
+   * This method create workshop draft
    * @param workshop Workshop
    */
-  public createWorkshop(workshop: Workshop): Observable<Workshop> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+  public createWorkshopDraft(workshop: Workshop): Observable<Workshop> {
+    return this.createWorkshopDraftV2(workshop);
   }
 
-  public createWorkshopV1(workshop: Workshop): Observable<Workshop> {
-    return this.http.post<Workshop>('/api/v1/Workshop/Create', workshop);
+  public createWorkshopDraftV2(workshop: Workshop): Observable<Workshop> {
+    return this.http.post<Workshop>('/api/v2/WorkshopDraft/Create', this.createFormData(workshop));
   }
 
-  public createWorkshopV2(workshop: Workshop): Observable<Workshop> {
-    const formData = this.createFormData(workshop);
-    return this.http.post<Workshop>('/api/v2/Workshop/Create', formData);
+  public updateDraft(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
+    return this.updateDraftV2(draftId, draft);
+  }
+
+  public updateDraftV2(draftId: string, draft: Workshop): Observable<WorkshopDraft> {
+    const formData = this.createFormData(draft, draftId);
+    return this.http.put<WorkshopDraft>('/api/v2/WorkshopDraft/Update', formData);
+  }
+
+  public deleteWorkshopDraft(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/WorkshopDraft/Delete/${id}`);
   }
 
   /**
@@ -159,20 +196,26 @@ export class UserWorkshopService {
     return this.http.put<void>(`/api/v2/WorkshopDraft/Approve/${draftId}`, null);
   }
 
-  private createFormData(workshop: Workshop): FormData {
+  private createFormData(workshop: Workshop, draftId?: string): FormData {
+    const preKey = draftId ? 'WorkshopV2Dto.' : '';
     const formData = new FormData();
     const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(workshop).forEach((key: string) => {
       if (imageFiles.includes(key)) {
-        workshop[key].forEach((file: File) => formData.append(key, file));
+        workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
       } else if (formNames.includes(key)) {
-        formData.append(key, JSON.stringify(workshop[key]));
+        formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
       } else {
-        formData.append(key, workshop[key]);
+        formData.append(`${preKey}${key}`, workshop[key]);
       }
     });
+
+    if (draftId) {
+      formData.append('id', draftId);
+    }
+
     return formData;
   }
 }

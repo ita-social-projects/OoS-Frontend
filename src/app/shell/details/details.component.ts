@@ -1,20 +1,29 @@
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { WINDOW } from 'ngx-window-token';
 
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
-import { Role } from '../../shared/enum/role';
-import { Workshop } from '../../shared/models/workshop.model';
-import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
-import { AppState } from '../../shared/store/app.state';
-import { DeleteNavPath } from '../../shared/store/navigation.actions';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { GetCompetitionById, GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from '../../shared/store/shared-user.actions';
-import { SharedUserState } from '../../shared/store/shared-user.state';
+import { Role } from 'shared/enum/role';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AppState } from 'shared/store/app.state';
+import { DeleteNavPath } from 'shared/store/navigation.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import {
+  GetCompetitionById,
+  GetProviderById,
+  GetWorkshopById,
+  GetWorkshopDraftById,
+  ResetProviderWorkshopDetails
+} from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { WorkshopType } from 'shared/enum/workshop';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-details',
@@ -27,7 +36,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen)
   private isMobileScreen$: Observable<boolean>;
   @Select(SharedUserState.selectedWorkshop)
-  private workshop$: Observable<Workshop>;
+  private workshop$: Observable<Workshop | WorkshopDraft>;
   @Select(SharedUserState.selectedProvider)
   private provider$: Observable<Provider>;
   @Select(SharedUserState.selectedCompetition)
@@ -36,18 +45,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private role$: Observable<Role>;
 
   public isMobileScreen: boolean;
-  public workshop: Workshop;
+  public workshop: Workshop | WorkshopDraft;
   public provider: Provider;
   public competition: Competition;
   public role: Role;
 
-  public isWorkshop = false;
   public isCompetition = false;
   public displayActionCard: boolean;
+
+  protected workshopType: WorkshopType;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    @Inject(WINDOW) private window: Window,
     private store: Store,
     private route: ActivatedRoute,
     public navigationBarService: NavigationBarService
@@ -56,18 +67,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
-      this.isWorkshop = params.entity === 'workshop';
-      this.isCompetition = params.entity === 'competition';
-
+      this.workshopType = params.entity;
       this.getEntity(params.id);
 
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      Util.scrollToTop(this.window);
     });
 
-    this.setDataSubscribtion();
+    this.setDataSubscription();
   }
 
   public ngOnDestroy(): void {
@@ -76,13 +82,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  private setDataSubscribtion(): void {
+  private setDataSubscription(): void {
     combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$, this.competition$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([isMobileScreen, role, workshop, provider, competition]) => {
         this.isMobileScreen = isMobileScreen;
         this.role = role;
-        this.workshop = workshop;
+        this.workshop = Util.containsWorkshopDetails(workshop)
+          ? {
+              draftStatus: workshop.draftStatus,
+              rejectionMessage: workshop.rejectionMessage,
+              workshopDraftId: workshop.workshopDraftId,
+              ...workshop.workshopDetails
+            }
+          : workshop;
         this.provider = provider;
         this.competition = competition;
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
@@ -90,15 +103,22 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method get Workshop or Provider by Id;
+   * This method get Workshop or Provider by id;
    */
   private getEntity(id: string): void {
-    if (this.isWorkshop) {
-      this.store.dispatch(new GetWorkshopById(id));
-    } else if (this.isCompetition) {
-      this.store.dispatch(new GetCompetitionById(id));
-    } else {
-      this.store.dispatch(new GetProviderById(id));
+    switch (this.workshopType) {
+      case WorkshopType.Workshop:
+        this.store.dispatch(new GetWorkshopById(id));
+        break;
+      case WorkshopType.Draft:
+        this.store.dispatch(new GetWorkshopDraftById(id));
+        break;
+      case WorkshopType.Competition:
+        this.store.dispatch(new GetCompetitionById(id));
+        break;
+      default:
+        this.store.dispatch(new GetProviderById(id));
+        break;
     }
   }
 }

@@ -11,7 +11,7 @@ import { Application } from 'shared/models/application.model';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopDraft, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
@@ -26,10 +26,14 @@ import {
   GetCompetitionById,
   GetProviderById,
   GetWorkshopById,
+  GetWorkshopDraftById,
   GetWorkshopsByProviderId,
   OnGetCompetitionByIdFail,
   OnGetProviderByIdFail,
   OnGetWorkshopByIdFail,
+  OnGetWorkshopByIdSuccess,
+  OnGetWorkshopDraftByIdFail,
+  OnGetWorkshopDraftByIdSuccess,
   OnUpdateApplicationFail,
   OnUpdateApplicationSuccess,
   ResetProviderWorkshopDetails,
@@ -38,8 +42,8 @@ import {
 
 export interface SharedUserStateModel {
   isLoading: boolean;
-  workshops: SearchResponse<WorkshopCard[]>;
-  selectedWorkshop: Workshop;
+  workshops: SearchResponse<WorkshopCard[] | WorkshopDraftCard[]>;
+  selectedWorkshop: Workshop | WorkshopDraft;
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
   selectedCompetition: Competition;
@@ -73,7 +77,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static workshops(state: SharedUserStateModel): SearchResponse<WorkshopCard[]> {
+  static workshops(state: SharedUserStateModel): SearchResponse<WorkshopCard[] | WorkshopDraftCard[]> {
     return state.workshops;
   }
 
@@ -83,7 +87,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static selectedWorkshop(state: SharedUserStateModel): Workshop {
+  static selectedWorkshop(state: SharedUserStateModel): Workshop | WorkshopDraft {
     return state.selectedWorkshop;
   }
 
@@ -103,6 +107,50 @@ export class SharedUserState {
     return this.userWorkshopService.getWorkshopById(payload).pipe(
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
+    );
+  }
+
+  @Action(OnGetWorkshopByIdSuccess)
+  onGetWorkshopByIdSuccess({ patchState }: StateContext<SharedUserStateModel>, { workshop }: OnGetWorkshopByIdSuccess): void {
+    patchState({ selectedWorkshop: workshop, isLoading: false });
+  }
+
+  @Action(OnGetWorkshopByIdFail)
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
+    patchState({ selectedWorkshop: null, isLoading: false });
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedWorkshop,
+        type: 'error'
+      })
+    );
+  }
+
+  @Action(GetWorkshopDraftById)
+  getWorkshopDraftById(
+    { patchState, dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: GetWorkshopDraftById
+  ): Observable<WorkshopDraft | void> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.getWorkshopDraftById(payload).pipe(
+      tap((workshop: WorkshopDraft) => dispatch(new OnGetWorkshopDraftByIdSuccess(workshop))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopDraftByIdFail(error)))
+    );
+  }
+
+  @Action(OnGetWorkshopDraftByIdSuccess)
+  onGetWorkshopDraftByIdSuccess({ patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopDraftByIdSuccess): void {
+    patchState({ selectedWorkshop: payload, isLoading: false });
+  }
+
+  @Action(OnGetWorkshopDraftByIdFail)
+  onGetWorkshopDraftByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopDraftByIdFail): void {
+    patchState({ selectedWorkshop: null, isLoading: false });
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedDraft,
+        type: 'error'
+      })
     );
   }
 
@@ -133,17 +181,6 @@ export class SharedUserState {
       );
   }
 
-  @Action(OnGetWorkshopByIdFail)
-  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
-    patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.deletedWorkshop,
-        type: 'error'
-      })
-    );
-  }
-
   @Action(OnGetCompetitionByIdFail)
   onGetCompetitionByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetCompetitionByIdFail): void {
     patchState({ selectedCompetition: null, isLoading: false });
@@ -171,9 +208,14 @@ export class SharedUserState {
     { providerParameters }: GetWorkshopsByProviderId
   ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService
-      .getWorkshopsByProviderId(providerParameters)
-      .pipe(tap((workshops: SearchResponse<WorkshopCard[]>) => patchState({ workshops: workshops ?? EMPTY_RESULT, isLoading: false })));
+    return this.userWorkshopService.getWorkshopsByProviderId(providerParameters).pipe(
+      tap((workshops: SearchResponse<WorkshopCard[]>) =>
+        patchState({
+          workshops: workshops ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetApplicationsByPropertyId)

@@ -136,6 +136,13 @@ export class Workshop extends WorkshopBase {
   }
 }
 
+export class WorkshopDraft extends Workshop {
+  workshopDraftId: string;
+  rejectionMessage?: string;
+  draftStatus: WorkshopDraftStatus;
+  workshopDetails: Workshop;
+}
+
 export interface WorkshopTruncated {
   id?: string;
   title: string;
@@ -190,12 +197,20 @@ export interface WorkshopCard extends WorkshopBaseCard {
   status: WorkshopOpenStatus;
 }
 
+export interface WorkshopDraftCard extends WorkshopBaseCard {
+  workshopDraftId: string;
+  rejectionMessage?: string;
+  draftStatus: WorkshopDraftStatus;
+}
+
 export interface WorkshopProviderViewCard extends WorkshopBaseCard {
   availableSeats: number;
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
   unreadMessages: number;
+  id: string;
+  draftStatus: string;
 }
 
 export interface WorkshopStatus {
@@ -299,11 +314,4 @@ enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
-}
-
-export interface WorkshopDraft {
-  draftStatus: WorkshopDraftStatus;
-  workshopDraftId: string;
-  workshopDetails: Workshop;
-  tags: string;
 }

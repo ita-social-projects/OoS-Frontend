@@ -12,26 +12,32 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { AdditionalAbout, Contacts, Workshop, WorkshopAbout } from 'shared/models/workshop.model';
+import { AdditionalAbout, Contacts, Workshop, WorkshopAbout, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
-  CreateWorkshop,
+  CreateWorkshopDraft,
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,
+  UpdateDraft,
   UpdateWorkshop
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { WorkshopType } from 'shared/models/draftWorkshop.model';
+import { WorkshopType as WorkshopTypeUnfinished } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
+import { WorkshopType } from 'shared/enum/workshop';
+import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -50,13 +56,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
   @Select(SharedUserState.selectedWorkshop)
-  public selectedWorkshop$: Observable<Workshop>;
+  public selectedWorkshop$: Observable<Workshop | WorkshopDraft>;
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
-  public workshop: Workshop;
+  public workshop: Workshop | WorkshopDraft;
 
   public AboutFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
@@ -66,10 +72,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public WorkshopContactsFormArray: FormArray;
 
   private readonly unfinishedWorkshopTypeMap = {
-    1: WorkshopType.WithMainProperties,
-    2: WorkshopType.WithOtherRequiredProperties,
-    3: WorkshopType.WithDescription,
-    4: WorkshopType.WithContacts
+    1: WorkshopTypeUnfinished.WithMainProperties,
+    2: WorkshopTypeUnfinished.WithOtherRequiredProperties,
+    3: WorkshopTypeUnfinished.WithDescription,
+    4: WorkshopTypeUnfinished.WithContacts
   };
   private readonly stepActions = {
     1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
@@ -86,7 +92,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     super(store, route, navigationBarService);
   }
@@ -155,13 +162,21 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.loadUnfinishedWorkshopData();
       this.editMode = false;
     } else {
-      this.store.dispatch(new GetWorkshopById(param));
-      this.selectedWorkshop$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((workshop: Workshop) => workshop?.id === param)
-        )
-        .subscribe((workshop: Workshop) => (this.workshop = workshop));
+      switch (this.route.snapshot.paramMap.get('entity')) {
+        case WorkshopType.Workshop:
+          this.store.dispatch(new GetWorkshopById(param));
+          break;
+        case WorkshopType.Draft:
+          this.store.dispatch(new GetWorkshopDraftById(param));
+          break;
+        default:
+          this.editMode = false;
+          return;
+      }
+
+      this.selectedWorkshop$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((workshop: Workshop | WorkshopDraft) => {
+        this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
+      });
     }
   }
 
@@ -221,11 +236,31 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     let workshop: Workshop;
 
     if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop.id);
-      this.store.dispatch(new UpdateWorkshop(workshop));
+      workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
+      if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop) {
+        if (this.shouldBeDraft(workshop)) {
+          this.dialog
+            .open(ConfirmationModalWindowComponent, {
+              width: Constants.MODAL_SMALL,
+              data: {
+                type: ModalConfirmationType.draftEditSet
+              }
+            })
+            .afterClosed()
+            .pipe(take(1), filter(Boolean))
+            .subscribe(() => {
+              this.store.dispatch(new UpdateWorkshop(workshop));
+            });
+        } else {
+          this.store.dispatch(new UpdateWorkshop(workshop));
+        }
+      } else {
+        const draftId = this.getRouteParam();
+        this.store.dispatch(new UpdateDraft(draftId, workshop));
+      }
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
-      this.store.dispatch(new CreateWorkshop(workshop));
+      this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
     this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
@@ -396,5 +431,31 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private shouldBeDraft(newWorkshop: Workshop): boolean {
+    const fieldsToCheck = [
+      'title',
+      'shortTitle',
+      'coverImage',
+      'imageFiles',
+      'competitiveSelectionDescription',
+      'workshopDescriptionItems',
+      'disabilityOptionsDesc',
+      'keywords',
+      'enrollmentProcedureDescription',
+      'preferentialTermsOfParticipation'
+    ];
+
+    return fieldsToCheck.some((fieldName) => {
+      if (typeof newWorkshop[fieldName] === 'object' && typeof this.workshop[fieldName] === 'object') {
+        return !Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName]);
+      }
+
+      return (
+        newWorkshop[fieldName] !== this.workshop[fieldName] &&
+        (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(this.workshop[fieldName]))
+      );
+    });
   }
 }

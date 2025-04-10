@@ -5,17 +5,17 @@ import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsT
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'shared/modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxsModule } from '@ngxs/store';
 import { CreateAdditionalAboutFormComponent } from './create-additional-about-form.component';
 
 describe('CreateAdditionalAboutFormComponent', () => {
   let component: CreateAdditionalAboutFormComponent;
   let fixture: ComponentFixture<CreateAdditionalAboutFormComponent>;
-  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAdditionalAboutFormComponent],
-      imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule, TranslateModule.forRoot(), NgxsModule.forRoot([])],
       providers: [FormBuilder]
     }).compileComponents();
   });
@@ -23,7 +23,6 @@ describe('CreateAdditionalAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAdditionalAboutFormComponent);
     component = fixture.componentInstance;
-    formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
 

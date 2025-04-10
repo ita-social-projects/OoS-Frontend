@@ -102,7 +102,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public continueUnfinishedCreation(): void {
-    this.router.navigate(['/create-workshop', 'unfinished']);
+    this.router.navigate(['/create', 'unfinished']);
   }
 
   public cancelUnfinishedCreation(): void {

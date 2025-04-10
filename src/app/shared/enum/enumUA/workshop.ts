@@ -65,3 +65,13 @@ export enum CoverageEnum {
 export enum GroupTypeEnum {
   None = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.NONE'
 }
+
+export enum DraftStatusEnum {
+  Draft = 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT',
+  PendingForModeration = 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING',
+  Rejected = 'ENUM.WORKSHOP_DRAFT.STATUS.REJECTED'
+}
+
+export enum DraftActionsEnum {
+  SendForModeration = 'ENUM.WORKSHOP_DRAFT.ACTIONS.SEND_FOR_MODERATION'
+}

@@ -100,10 +100,10 @@ describe('MainComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new Login(true));
   });
   describe('Draft Functionality', () => {
-    it('should continue draft and navigate to create-workshop/draft', () => {
+    it('should continue draft and navigate to create/unfinished', () => {
       jest.spyOn(router, 'navigate');
       component.continueUnfinishedCreation();
-      expect(router.navigate).toHaveBeenCalledWith(['/create-workshop', 'unfinished']);
+      expect(router.navigate).toHaveBeenCalledWith(['/create', 'unfinished']);
     });
 
     it('should cancel draft and dispatch OnDeleteDraftWorkshop', () => {

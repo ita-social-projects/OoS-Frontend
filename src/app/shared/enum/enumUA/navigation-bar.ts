@@ -25,6 +25,7 @@ export enum NavBarName {
   UpdateEmployee = 'ENUM.NAV_BAR_NAME.EDIT_EMPLOYEE',
   Applications = 'ENUM.NAV_BAR_NAME.APPLICATIONS',
   Workshops = 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS',
+  Drafts = 'ENUM.NAV_BAR_NAME.MY_DRAFTS',
   Favorite = 'ENUM.NAV_BAR_NAME.FAVORITE',
   NewPosition = 'ENUM.NAV_BAR_NAME.NEW_POSITION',
   EditPosition = 'ENUM.NAV_BAR_NAME.EDIT_POSITION',
