@@ -125,6 +125,14 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.availableSeatsRadioBtnControl.setValue(false);
     }
 
+    if (this.workshop.noAgeRestrictions) {
+      this.AboutFormGroup.get('maxAge').setValue(null, { emitEvent: false });
+      this.AboutFormGroup.get('minAge').setValue(null, { emitEvent: false });
+    } else {
+      this.AboutFormGroup.get('minAge').enable({ emitEvent: true });
+      this.AboutFormGroup.get('maxAge').enable({ emitEvent: true });
+    }
+
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
       this.listenToChanges();
     }
@@ -145,16 +153,21 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           Validators.pattern(MUST_CONTAIN_LETTERS),
           Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
         ]),
-        minAge: new FormControl(null, [
-          Validators.required,
-          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
-          Validators.min(ValidationConstants.AGE_MIN)
-        ]),
-        maxAge: new FormControl(null, [
-          Validators.required,
-          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
-          Validators.min(ValidationConstants.AGE_MIN)
-        ]),
+        noAgeRestrictions: new FormControl(true),
+        minAge: new FormControl(
+          {
+            value: null,
+            disabled: true
+          },
+          [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
+        ),
+        maxAge: new FormControl(
+          {
+            value: null,
+            disabled: true
+          },
+          [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
+        ),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
@@ -179,11 +192,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControlListener();
     this.validateAgeControls();
     this.showHintAboutClosingWorkshop();
+    this.noAgeRestrictionsControlListener();
   }
 
   /**
    * This method add listener to availableSeats control and
-   * makes formGroup input enable if radiobutton value is true
+   * makes formGroup input enable if radio button value is true
    */
   private availableSeatsControlListener(): void {
     this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
@@ -194,6 +208,31 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.setAvailableSeatsControlValue(this.availableSeats, 'enable');
       }
     });
+  }
+
+  /**
+   * This method add listener to unlimitedAge control and
+   * makes formGroup input disable if radio button value is true
+   */
+  private noAgeRestrictionsControlListener(): void {
+    this.AboutFormGroup.get('noAgeRestrictions')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((noLimit: boolean) => {
+        const ageFormControls = ['maxAge', 'minAge'];
+        if (noLimit) {
+          ageFormControls.forEach((field) => {
+            const control = this.AboutFormGroup.get(field);
+            control?.disable();
+            control?.setValue(null, { emitEvent: false });
+          });
+        } else {
+          ageFormControls.forEach((field) => {
+            const control = this.AboutFormGroup.get(field);
+            control?.enable({ emitEvent: false });
+            control?.markAsUntouched();
+          });
+        }
+      });
   }
 
   /**
