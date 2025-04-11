@@ -144,6 +144,14 @@ $dark-theme: mat.define-dark-theme(
   .unfinished-banner {
     background-color: var(--banner-color);
   }
+
+  .chip {
+    &-color {
+      &-draft {
+        color: var(--specific-light-text-color) !important;
+      }
+    }
+  }
 }
 
 @include mat.core();

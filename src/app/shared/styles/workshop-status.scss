@@ -12,9 +12,9 @@
     &-open,
     &-close,
     &-draft,
-  &-pending,
-  &-rejected{
-      color: var(--primary-light-text-color);
+    &-pending,
+    &-rejected {
+      color: var(--primary-dark-text-color);
       font-weight: bold;
       padding: 7px;
       border-radius: 16px;
@@ -25,12 +25,13 @@
     }
 
     &-close,
-    &-rejected{
+    &-rejected {
       background-color: var(--error-color);
     }
 
     &-draft {
-      background-color: var(--bg-cancel-color);
+      background-color: var(--secondary-dark-text-color);
+      color: var(--specific-light-text-color);
     }
 
     &-pending {
