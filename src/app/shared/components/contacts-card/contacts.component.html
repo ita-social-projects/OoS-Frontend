@@ -32,12 +32,12 @@
         <div class="container-left">
           <div
             class="contact-type-card"
-            [ngClass]="{ 'extended-view': contact.phones.length > 2 || contact.emails.length > 2 || contact.socialNetworks.length > 2 }">
+            [class.extended-view]="contact.phones.length > 2 || contact.emails.length > 2 || contact.socialNetworks.length > 2">
             <div class="phone-info">
               <div class="contact-info-extended" *ngFor="let phone of contact.phones">
                 <mat-icon class="card_icon">call</mat-icon>
                 <span class="contact-title">{{ phone.type }}</span>
-                <a href="tel:{{ phone.number }}" rel="noopener">{{ phone.number }}</a>
+                <a [href]="'tel:' + phone.number" rel="noopener">{{ phone.number }}</a>
               </div>
             </div>
             <div class="email-info">

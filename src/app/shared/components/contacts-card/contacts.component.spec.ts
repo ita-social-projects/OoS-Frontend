@@ -7,22 +7,42 @@ import { MaterialModule } from 'shared/modules/material.module';
 import { Address } from 'shared/models/address.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
+import { WINDOW } from 'ngx-window-token';
+import { Platform } from '@angular/cdk/platform';
 import { ContactsCardComponent } from './contacts.component';
 
 describe('ContactsComponent', () => {
   let component: ContactsCardComponent;
   let fixture: ComponentFixture<ContactsCardComponent>;
   let storeMock: any;
+  let windowMock: Window;
+  let platformMock: Partial<Platform>;
 
   beforeEach(async () => {
     storeMock = {
       selectSnapshot: jest.fn().mockReturnValue([{ phones: ['123'], emails: ['test@example.com'], socialNetworks: [] }])
     };
 
+    windowMock = {
+      open: jest.fn(),
+      navigator: {
+        userAgent: 'Windows NT'
+      }
+    } as unknown as Window;
+
+    platformMock = {
+      IOS: false,
+      ANDROID: false
+    };
+
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, NoopAnimationsModule, MaterialModule, TranslateModule.forRoot(), BrowserAnimationsModule],
       declarations: [ContactsCardComponent],
-      providers: [{ provide: Store, useValue: storeMock }]
+      providers: [
+        { provide: Store, useValue: storeMock },
+        { provide: WINDOW, useValue: windowMock },
+        { provide: Platform, useValue: platformMock }
+      ]
     }).compileComponents();
   });
 
@@ -70,30 +90,26 @@ describe('ContactsComponent', () => {
     } as Address;
 
     it('should use Apple Maps link on iOS devices', () => {
-      Object.defineProperty(navigator, 'userAgent', {
-        value: 'iPhone',
-        configurable: true
-      });
-      window.open = jest.fn();
+      platformMock.IOS = true;
+      platformMock.ANDROID = false;
+      windowMock.open = jest.fn();
 
       component.mapLink(address);
 
-      expect(window.open).toHaveBeenCalledWith(
+      expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('https://maps.apple.com/?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'
       );
     });
 
     it('should use geo URI on Android devices', () => {
-      Object.defineProperty(navigator, 'userAgent', {
-        value: 'Android',
-        configurable: true
-      });
-      window.open = jest.fn();
+      platformMock.IOS = false;
+      platformMock.ANDROID = true;
+      windowMock.open = jest.fn();
 
       component.mapLink(address);
 
-      expect(window.open).toHaveBeenCalledWith(
+      expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('geo:0,0?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'
       );
@@ -104,11 +120,11 @@ describe('ContactsComponent', () => {
         value: 'Windows NT',
         configurable: true
       });
-      window.open = jest.fn();
+      windowMock.open = jest.fn();
 
       component.mapLink(address);
 
-      expect(window.open).toHaveBeenCalledWith(
+      expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('https://www.google.com/maps/search/?api=1&query=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'
       );

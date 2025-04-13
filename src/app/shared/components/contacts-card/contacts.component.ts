@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Address } from 'shared/models/address.model';
 import { Store } from '@ngxs/store';
+import { Contact } from 'shared/models/contacts.model';
+import { WINDOW } from 'ngx-window-token';
+import { Platform } from '@angular/cdk/platform';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Provider } from '../../../shared/models/provider.model';
 
@@ -12,10 +15,17 @@ import { Provider } from '../../../shared/models/provider.model';
 export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
-  constructor(private store: Store) {}
 
-  public contacts: any = [];
+  public addressLinkGoogleMaps = 'https://www.google.com/maps/search/?api=1&query=';
+  public addressLinkIOS = 'https://maps.apple.com/?q=';
+  public addressLinkAndroid = 'geo:0,0?q=';
+  public contacts: Contact[] = [];
   public panelOpenState = false;
+  constructor(
+    @Inject(WINDOW) private window: Window,
+    private store: Store,
+    private platform: Platform
+  ) {}
 
   public getFullAddress(address: Address): string {
     if (!address) {
@@ -38,13 +48,13 @@ export class ContactsCardComponent implements OnInit {
     const { street, buildingNumber, codeficatorAddressDto } = address;
     const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
     const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
-    let addressLink = 'https://www.google.com/maps/search/?api=1&query=';
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      addressLink = 'https://maps.apple.com/?q=';
-    } else if (/Android/i.test(navigator.userAgent)) {
-      addressLink = 'geo:0,0?q=';
+    let addressLink = this.addressLinkGoogleMaps;
+    if (this.platform.IOS) {
+      addressLink = this.addressLinkIOS;
+    } else if (this.platform.ANDROID) {
+      addressLink = this.addressLinkAndroid;
     }
 
-    window.open(`${addressLink}${encodeURIComponent(formattedAddress)}`, '_blank');
+    this.window.open(`${addressLink}${encodeURIComponent(formattedAddress)}`, '_blank');
   }
 }
