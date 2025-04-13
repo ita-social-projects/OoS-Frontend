@@ -70,48 +70,49 @@ describe('CreateInfoFormComponent', () => {
     });
 
     it('should return correct edrpou/ipn type control', () => {
-      expect(component.edrpouIpnTypeControl).toEqual(component.infoFormGroup.get('edrpouIpn'));
+      expect(component.edrpouTypeControl).toEqual(component.infoFormGroup.get('edrpou'));
     });
 
     it('should return correct edrpou/ipn label', () => {
       component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
-      expect(component.edrpouIpnLabel).toEqual('FORMS.LABELS.EDRPO');
+      expect(component.edrpouLabel).toEqual('FORMS.LABELS.EDRPO');
 
-      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Common);
-      expect(component.edrpouIpnLabel).toEqual('FORMS.LABELS.IPN');
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Private);
+      expect(component.edrpouLabel).toEqual('FORMS.LABELS.IPN');
     });
 
     it('should return correct edrpou/ipn length', () => {
       component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
-      expect(component.edrpouIpnLength).toEqual(ValidationConstants.EDRPOU_LENGTH);
+      expect(component.edrpouLength).toEqual(ValidationConstants.EDRPOU_LENGTH);
 
-      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Common);
-      expect(component.edrpouIpnLength).toEqual(ValidationConstants.IPN_LENGTH);
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Private);
+      expect(component.edrpouLength).toEqual(ValidationConstants.IPN_LENGTH);
     });
   });
 
   describe('ownershipTypeControl valueChanges subscription', () => {
-    const mockEdrpouIpn = '123456789012345678901234567890123';
+    const mockEdrpou = '123456789012345678901234567890123';
 
-    it('should update edrpouIpnTypeControl value if ownership type is state', () => {
+    it('should update edrpouTypeControl value if ownership type is state or common', () => {
       component.ngOnInit();
-      component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
-      jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
+      component.edrpouTypeControl.setValue(mockEdrpou, { emitEvent: false });
+      jest.spyOn(component.edrpouTypeControl, 'setValue');
 
       component.ownershipTypeControl.setValue(OwnershipTypes.State);
-
-      expect(component.edrpouIpnTypeControl.setValue).toHaveBeenCalled();
-      expect(component.edrpouIpnTypeControl.value).toEqual(mockEdrpouIpn.substring(0, ValidationConstants.EDRPOU_LENGTH));
-    });
-
-    it('should not update edrpouIpnTypeControl value if ownership type is not state', () => {
-      component.ngOnInit();
-      component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
-      jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
-
       component.ownershipTypeControl.setValue(OwnershipTypes.Common);
 
-      expect(component.edrpouIpnTypeControl.setValue).not.toHaveBeenCalled();
+      expect(component.edrpouTypeControl.setValue).toHaveBeenCalled();
+      expect(component.edrpouTypeControl.value).toEqual(mockEdrpou.substring(0, ValidationConstants.EDRPOU_LENGTH));
+    });
+
+    it('should not update edrpouTypeControl value if ownership type is not state or common', () => {
+      component.ngOnInit();
+      component.edrpouTypeControl.setValue('1234567890', { emitEvent: false });
+      jest.spyOn(component.edrpouTypeControl, 'setValue');
+
+      component.ownershipTypeControl.setValue('anything else');
+
+      expect(component.edrpouTypeControl.setValue).not.toHaveBeenCalled();
     });
   });
 
@@ -148,7 +149,7 @@ describe('CreateInfoFormComponent', () => {
         fullTitle: '',
         shortTitle: '',
         email: '',
-        edrpouIpn: '',
+        edrpou: '',
         director: '',
         directorDateOfBirth: '',
         phoneNumber: '',
@@ -200,7 +201,7 @@ class MockValidationHintForInputComponent {
   @Input() public minMaxDate: boolean;
   @Input() public isTouched: boolean;
   @Input() public isPhoneNumber: boolean;
-  @Input() public isEdrpouIpn: boolean;
+  @Input() public isEdrpou: boolean;
 }
 
 @State<MetaDataStateModel>({

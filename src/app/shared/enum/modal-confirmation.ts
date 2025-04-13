@@ -37,6 +37,8 @@ export enum ModalConfirmationType {
   reject = 'reject',
   closeSet = 'closeSet',
   openSet = 'openSet',
+  draftSet = 'draftSet',
+  draftEditSet = 'draftEditSet',
   deleteAdmin = 'deleteAdmin',
   blockAdmin = 'blockAdmin',
   unBlockAdmin = 'unBlockAdmin',
@@ -52,12 +54,14 @@ export enum ModalConfirmationType {
   archiveCompetition = 'archiveCompetition',
   deleteSubject = 'deleteSubject',
   editSubject = 'editSubject',
-  createSubject = 'createSubject'
+  createSubject = 'createSubject',
+  deleteCompetition = 'deleteCompetition'
 }
 
 export enum ModalConfirmationTypeWithQuotes {
   delete = 'delete',
-  deleteDirection = 'deleteDirection'
+  deleteDirection = 'deleteDirection',
+  deleteCompetition = 'deleteCompetition'
 }
 
 export enum ModalConfirmationTitle {
@@ -98,6 +102,8 @@ export enum ModalConfirmationTitle {
   blockParent = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.BLOCK_USER',
   closeSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CLOSE_SET',
   openSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.OPEN_SET',
+  draftSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DRAFT_SET',
+  draftEditSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.SAVE_WORKSHOP_AS_DRAFT',
   deleteAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_ADMIN',
   blockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.BLOCK_ADMIN',
   unBlockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UNBLOCK_ADMIN',
@@ -112,7 +118,8 @@ export enum ModalConfirmationTitle {
   publishCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.PUBLISH_COMPETITION',
   archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.ARCHIVE_COMPETITION',
   editingWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDITING_WORKSHOP',
-  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP'
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP',
+  deleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_COMPETITION'
 }
 
 export enum ModalConfirmationText {
@@ -152,6 +159,8 @@ export enum ModalConfirmationText {
   blockParent = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.BLOCK_USER',
   closeSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CLOSE_SET',
   openSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.OPEN_SET',
+  draftSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DRAFT_SET',
+  draftEditSet = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.SAVE_WORKSHOP_AS_DRAFT',
   deleteAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_ADMIN',
   blockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.BLOCK_ADMIN',
   unBlockAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UNBLOCK_ADMIN',
@@ -166,7 +175,8 @@ export enum ModalConfirmationText {
   publishCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.PUBLISH_COMPETITION',
   archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_COMPETITION',
   editingWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDITING_WORKSHOP',
-  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP'
+  incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP',
+  deleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_COMPETITION'
 }
 
 export enum ModalConfirmationDescription {

@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -26,6 +26,10 @@ import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction } from 'shared/models/category.model';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-description-form',
@@ -84,7 +88,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly tagService: TagService
+    private readonly tagService: TagService,
+    private readonly store: Store,
+    private readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
@@ -277,6 +284,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     if (this.workshop.competitiveSelection) {
       this.DescriptionFormGroup.get('competitiveSelectionDescription')?.enable();
     }
+
+    if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
+      this.listenToChanges();
+    }
   }
 
   private onCompetitiveSelectionInit(): void {
@@ -334,7 +345,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   private updateTagIds(tags: Tag[]): void {
     const tagIds = tags.map((tag) => tag.id);
     this.DescriptionFormGroup.get('tagIds')?.setValue(tagIds);
-    this.DescriptionFormGroup.get('tagIds').markAsDirty();
+    this.DescriptionFormGroup.get('tagIds')?.markAsDirty();
   }
 
   private updateKeywordsInputState(): void {
@@ -354,5 +365,35 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.tagsControl.markAsTouched(); // to mark as touched another control which represents this in template
       (formControl.statusChanges as EventEmitter<any>).emit();
     };
+  }
+
+  private listenToChanges(): void {
+    merge(
+      ...[
+        'imageFiles',
+        'workshopDescriptionItems',
+        'disabilityOptionsDesc',
+        'competitiveSelectionDescription',
+        'keyWords',
+        'enrollmentProcedureDescription'
+      ].map(
+        (controlName) =>
+          this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
+            throttleTime(5000, undefined, {
+              leading: true,
+              trailing: false
+            })
+          ) ?? of()
+      )
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

@@ -122,8 +122,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         this.dataSource.data = subjects.entities;
         this.totalElements = subjects.totalAmount;
         this.isLoaded = true;
+        this.dataSource.sort = this.sort;
       });
-    this.dataSource.sort = this.sort;
   }
 
   public onDelete(subject: StudySubject): void {

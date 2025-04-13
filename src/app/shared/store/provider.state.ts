@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -17,7 +17,7 @@ import { Employee } from 'shared/models/employee.model';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft, WorkshopDraftCard, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
@@ -38,13 +38,8 @@ import { Competition, CompetitionProviderViewCard } from 'shared/models/competit
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
+import { OnSaveWorkshopStep, OnSaveWorkshopStepFail, OnSaveWorkshopStepSuccess } from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import {
-  GetUnfinishedWorkshopTimeToLiveSuccess,
-  OnSaveWorkshopStep,
-  OnSaveWorkshopStepFail,
-  OnSaveWorkshopStepSuccess
-} from './provider.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -55,6 +50,7 @@ export interface ProviderStateModel {
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
+  providerDrafts: SearchResponse<WorkshopDraftCard[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -79,6 +75,7 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerCompetition: null,
     officialEmployees: null,
+    providerDrafts: null,
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
@@ -134,6 +131,11 @@ export class ProviderState {
   }
 
   @Selector()
+  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
+    return state.providerDrafts;
+  }
+
+  @Selector()
   static providerCompetition(state: ProviderStateModel): SearchResponse<CompetitionProviderViewCard[]> {
     return state.providerCompetition;
   }
@@ -167,17 +169,21 @@ export class ProviderState {
   static pendingApplications(state: ProviderStateModel): SearchResponse<Application[]> {
     return state.pendingApplications;
   }
+
   @Selector()
   static hasUnfinishedWorkshopData(state: ProviderStateModel): boolean {
     return Boolean(state.unfinishedWorkshop?.workshopForLoading);
   }
+
   @Selector() static isModalShown(state: ProviderStateModel): boolean {
     return state.isDraftModalShown;
   }
+
   @Selector()
   static getTimeToLiveUnfinishedWorkshop(state: ProviderStateModel): string | null {
     return state.timeToLiveUnfinishedWorkshop;
   }
+
   @Selector()
   static positions(state: ProviderStateModel): SearchResponse<Position[]> {
     return state.positions;
@@ -215,11 +221,14 @@ export class ProviderState {
     { payload }: providerActions.GetAchievementsByWorkshopId
   ): Observable<SearchResponse<Achievement[]>> {
     patchState({ isLoading: true });
-    return this.achievementsService
-      .getAchievementsByWorkshopId(payload)
-      .pipe(
-        tap((achievements: SearchResponse<Achievement[]>) => patchState({ achievements: achievements ?? EMPTY_RESULT, isLoading: false }))
-      );
+    return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
+      tap((achievements: SearchResponse<Achievement[]>) =>
+        patchState({
+          achievements: achievements ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(providerActions.GetChildrenByWorkshopId)
@@ -246,6 +255,35 @@ export class ProviderState {
     return this.userWorkshopService
       .getWorkshopListByProviderId(payload)
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
+  }
+
+  @Action(providerActions.DraftSendForModeration)
+  sendDraftForModeration(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { id }: providerActions.DraftSendForModeration
+  ): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.sendDraftForModeration(id).pipe(
+      tap(() => dispatch(new providerActions.OnDraftSendForModerationSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDraftSendForModerationFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDraftSendForModerationSuccess)
+  onDraftSendForModerationSuccess({ dispatch, patchState }: StateContext<ProviderStateModel>): void {
+    patchState({ isLoading: false });
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.sendDraftForModeration,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(providerActions.OnDraftSendForModerationFail)
+  onDraftSendForModerationFail({ dispatch, patchState }: StateContext<ProviderStateModel>): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(providerActions.GetWorkshopListByEmployeeId)
@@ -384,6 +422,21 @@ export class ProviderState {
       );
   }
 
+  @Action(providerActions.GetProviderViewWorkshopDrafts)
+  getProviderViewWorkshopDrafts(
+    { patchState }: StateContext<ProviderStateModel>,
+    { workshopCardParameters }: providerActions.GetProviderViewWorkshopDrafts
+  ): Observable<SearchResponse<WorkshopDraftCard[]>> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService
+      .getProviderViewWorkshopDrafts(workshopCardParameters)
+      .pipe(
+        tap((providerDrafts: SearchResponse<WorkshopDraftCard[]>) =>
+          patchState({ providerDrafts: providerDrafts ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
   @Action(providerActions.GetProviderViewCompetitions)
   getProviderViewCompetitions(
     { patchState }: StateContext<ProviderStateModel>,
@@ -414,13 +467,13 @@ export class ProviderState {
       );
   }
 
-  @Action(providerActions.CreateWorkshop)
-  createWorkshop(
+  @Action(providerActions.CreateWorkshopDraft)
+  createWorkshopDraft(
     { patchState, dispatch }: StateContext<ProviderStateModel>,
-    { payload }: providerActions.CreateWorkshop
+    { payload }: providerActions.CreateWorkshopDraft
   ): Observable<Workshop | void> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.createWorkshop(payload).pipe(
+    return this.userWorkshopService.createWorkshopDraft(payload).pipe(
       tap((res: Workshop) => dispatch(new providerActions.OnCreateWorkshopSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnCreateWorkshopFail(error)))
     );
@@ -440,10 +493,10 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: providerActions.OnCreateWorkshopSuccess
   ): void {
-    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createDraft);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
-    this.router.navigate(['./personal-cabinet/provider/workshops']);
+    this.router.navigate(['./personal-cabinet/provider/drafts']);
   }
 
   @Action(providerActions.UpdateWorkshop)
@@ -474,8 +527,48 @@ export class ProviderState {
     );
   }
 
-  @Action(providerActions.OnDeleteWorkshopFail)
-  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+  @Action(providerActions.UpdateDraft)
+  updateDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, payload }: providerActions.UpdateDraft
+  ): Observable<WorkshopDraft | void> {
+    return this.userWorkshopService.updateDraft(draftId, payload).pipe(
+      tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnUpdateDraftSuccess)
+  onUpdateDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateDraftSuccess): void {
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.updateWorkshop);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    this.router.navigate(['/personal-cabinet/provider/drafts']);
+  }
+
+  @Action(providerActions.DeleteWorkshopDraftById)
+  deleteDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload, parameters }: providerActions.DeleteWorkshopDraftById
+  ): Observable<void> {
+    return this.userWorkshopService.deleteWorkshopDraft(payload.workshopDraftId).pipe(
+      tap(() => dispatch(new providerActions.OnDeleteDraftSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteDraftSuccess)
+  onDeleteDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteDraftSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteDraft,
+        type: 'success'
+      }),
+      new providerActions.GetProviderViewWorkshopDrafts(parameters)
+    ]);
+  }
+
+  @Action(providerActions.OnDeleteDraftFail)
+  onDeleteDraftFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteDraftFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -488,6 +581,11 @@ export class ProviderState {
       }),
       new providerActions.GetProviderViewWorkshops(parameters)
     ]);
+  }
+
+  @Action(providerActions.OnDeleteWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(providerActions.PublishWorkshop)
@@ -929,7 +1027,13 @@ export class ProviderState {
     { position }: providerActions.OnCreatePositionSuccess
   ): void {
     patchState({ isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.createPositionSuccess, type: 'success' })]);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.createPositionSuccess,
+        type: 'success'
+      })
+    ]);
     this.router.navigate(['./personal-cabinet/provider/positions']);
   }
 
@@ -957,7 +1061,13 @@ export class ProviderState {
     { position }: providerActions.OnUpdatePositionSuccess
   ): void {
     patchState({ selectedPosition: null, isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.updatePositionSuccess, type: 'success' })]);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.updatePositionSuccess,
+        type: 'success'
+      })
+    ]);
     this.router.navigate(['/personal-cabinet/provider/positions']);
   }
 
@@ -1254,7 +1364,13 @@ export class ProviderState {
     { payload }: providerActions.OnCreateStudySubjectSuccess
   ): void {
     patchState({ isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.createSubjectSuccess, type: 'success' })]);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.createSubjectSuccess,
+        type: 'success'
+      })
+    ]);
     this.router.navigate(['/personal-cabinet/provider/study-subjects']);
   }
 
@@ -1273,11 +1389,14 @@ export class ProviderState {
     { payload }: providerActions.GetStudySubjects
   ): Observable<SearchResponse<StudySubject[]>> {
     patchState({ isLoading: true });
-    return this.studySubjectService
-      .getStudySubjects(payload)
-      .pipe(
-        tap((studySubject: SearchResponse<StudySubject[]>) => patchState({ studySubject: studySubject ?? EMPTY_RESULT, isLoading: false }))
-      );
+    return this.studySubjectService.getStudySubjects(payload).pipe(
+      tap((studySubject: SearchResponse<StudySubject[]>) =>
+        patchState({
+          studySubject: studySubject ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(providerActions.GetStudySubjectById)

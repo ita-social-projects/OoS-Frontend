@@ -91,7 +91,7 @@ describe('CreateCompetitionComponent', () => {
     fullTitle: 'Sample Provider',
     shortTitle: 'SP',
     email: 'provider@test.com',
-    edrpouIpn: '1234567890',
+    edrpou: '12345678',
     director: 'John Doe',
     directorDateOfBirth: '1990-01-01',
     phoneNumber: '123-456-7890',

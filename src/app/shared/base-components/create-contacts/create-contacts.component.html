@@ -45,7 +45,10 @@
                       autocomplete="off"
                       appTrimValue />
                   </mat-form-field>
-                  <app-validation-hint [validationFormControl]="phoneField.get('type')"></app-validation-hint>
+                  <app-validation-hint
+                    [validationFormControl]="phoneField.get('type')"
+                    [minCharacters]="3"
+                    [maxCharacters]="60"></app-validation-hint>
                   <label class="step-label" for="{{ phoneField.get('number') }}">{{ 'FORMS.LABELS.PHONE' | translate }}</label>
                   <div class="flex flex-row">
                     <app-phone-form-control class="grow" [parentFormControl]="phoneField.get('number')"></app-phone-form-control>
@@ -88,7 +91,10 @@
                       autocomplete="none"
                       appTrimValue />
                   </mat-form-field>
-                  <app-validation-hint [validationFormControl]="emailField.get('type')"></app-validation-hint>
+                  <app-validation-hint
+                    [validationFormControl]="emailField.get('type')"
+                    [minCharacters]="3"
+                    [maxCharacters]="60"></app-validation-hint>
                   <label class="step-label" for="email-{{ jindex }}">{{ 'FORMS.LABELS.EMAIL' | translate }}</label>
                   <div class="flex flex-row">
                     <mat-form-field class="grow">
@@ -109,7 +115,9 @@
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
-                  <app-validation-hint [validationFormControl]="emailField.get('address')"></app-validation-hint>
+                  <app-validation-hint
+                    [maxCharacters]="validationConstants.INPUT_LENGTH_254"
+                    [validationFormControl]="emailField.get('address')"></app-validation-hint>
                 </div>
               </div>
             </div>

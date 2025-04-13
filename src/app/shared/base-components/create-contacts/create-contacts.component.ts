@@ -200,7 +200,11 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createPhoneFormGroup(): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+        type: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        ]),
         number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
       })
     );
@@ -209,8 +213,17 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createEmailFormGroup(): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
-        address: new FormControl('', [Validators.required, FormValidators.email, BlacklistEmailValidator()])
+        type: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        ]),
+        address: new FormControl('', [
+          Validators.required,
+          FormValidators.email,
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
+          BlacklistEmailValidator()
+        ])
       })
     );
   }

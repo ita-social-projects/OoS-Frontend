@@ -18,6 +18,11 @@
       </a>
     </ng-container>
     <ng-container *ngIf="isRoleProvider(userRole)">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/drafts'">
+        {{ 'ENUM.NAV_BAR_NAME.MY_DRAFTS' | translate | uppercase }}
+      </a>
+    </ng-container>
+    <ng-container *ngIf="isRoleProvider(userRole)">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/competitions'">
         {{ 'ENUM.NAV_BAR_NAME.MY_COMPETITIONS' | translate | uppercase }}
       </a>
@@ -28,8 +33,8 @@
           {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
         </a>
       </span>
-    </ng-container>
-    <ng-container *ngIf="!isRoleAdmin(userRole)">
+    </ng-container>  
+    <ng-container *ngIf="!isRoleAdmin(userRole) && (featuresList$ | async)?.messagingFeature">
       <span [matBadge]="(unreadMessagesCount$ | async) || null" matBadgePosition="after">
         <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">
           {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}

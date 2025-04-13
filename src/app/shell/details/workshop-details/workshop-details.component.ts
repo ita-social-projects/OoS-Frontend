@@ -1,27 +1,28 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { Actions, ofAction, Store } from '@ngxs/store';
+import { of, Subject } from 'rxjs';
+import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { PublishWorkshop, ResetAchievements } from 'shared/store/provider.actions';
-import { GetProviderById } from 'shared/store/shared-user.actions';
+import { DraftSendForModeration, OnDraftSendForModerationSuccess, ResetAchievements } from 'shared/store/provider.actions';
+import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-details',
@@ -35,7 +36,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Input()
   public role: Role;
   @Input()
-  public workshop: Workshop;
+  public workshop: Workshop | WorkshopDraft;
   @Input()
   public provider: Provider;
   @Input()
@@ -49,6 +50,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly workshopTitles = DetailsTabTitlesEnum;
+  public readonly WorkshopDraftStatus = WorkshopDraftStatus;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Role = Role;
   public readonly InfoMenuType = InfoMenuType;
@@ -65,20 +67,27 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public tabIndex: number;
   public coverImage: string;
 
+  protected readonly Util = Util;
+  protected readonly WorkshopType = WorkshopType;
+  protected readonly ModalConfirmationType = ModalConfirmationType;
+
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private readonly route: ActivatedRoute,
+    protected readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly imagesService: ImagesService,
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly actions$: Actions
   ) {}
 
   public ngOnInit(): void {
-    this.providerParameters.excludedWorkshopId = this.workshop.id;
-    this.providerParameters.providerId = this.workshop.providerId;
+    this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
+    this.providerParameters.providerId = Util.containsWorkshopDetails(this.workshop)
+      ? this.workshop.workshopDetails.providerId
+      : this.workshop.providerId;
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -102,21 +111,29 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ResetAchievements());
   }
 
-  public onActionButtonClick(modalType: ModalConfirmationType): void {
+  public onActionButtonClick(type: ModalConfirmationType): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: modalType
+        type
       }
     });
     dialogRef
       .afterClosed()
       .pipe(
+        take(1),
         filter(Boolean),
         switchMap(() => {
-          if (modalType === this.modalType.publishWorkshop) {
-            return this.store.dispatch(new PublishWorkshop(this.workshop.providerId));
+          if (type === ModalConfirmationType.draftSet) {
+            this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
+
+            return this.actions$.pipe(
+              ofAction(OnDraftSendForModerationSuccess),
+              take(1),
+              tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
+            );
           }
+          return of([]);
         })
       )
       .subscribe();
@@ -125,7 +142,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   private getWorkshopData(): void {
     this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
-      new GetProviderById(this.workshop.providerId),
+      new GetProviderById(
+        Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {

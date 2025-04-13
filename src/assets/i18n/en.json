@@ -148,6 +148,7 @@
       "ADD_SUBJECTS": "Add new study subject",
       "EDIT_SUBJECTS": "Edit study subject",
       "MY_WORKSHOPS": "My workshops",
+      "MY_DRAFTS": "Drafts",
       "MY_COMPETITIONS": "My competition",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
@@ -161,6 +162,13 @@
       "NEW_COMPETITION": "Add new competition event",
       "EDIT_COMPETITION": "Edit competition event",
       "WORKSHOP_DRAFTS": "Workshop drafts"
+    },
+    "WORKSHOP_DRAFT": {
+      "STATUS": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending for moderation",
+        "REJECTED": "Rejected"
+      }
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -374,6 +382,7 @@
   "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
   "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
   "INFO_ABOUT_SELECTION": "Information about selection",
+  "MODERATOR_MESSAGE": "Moderator's response",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "ADD_JUDGE_LATER": "Judges can be added to the competition later",
@@ -470,7 +479,7 @@
       "PROVIDER_TITLE": "Provider title",
       "WORKSHOP_TITLE": "Workshop title",
       "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
-      "EDRPO_IPN": "Registration code",
+      "EDRPOU": "Registration code",
       "IPN": "Individual tax number",
       "RNOKPP": "RNOKPP",
       "FOUNDER": "Founder",
@@ -522,6 +531,7 @@
       "COVER_IMAGE": "Cover image",
       "PROVIDER_IMAGES": "Photos of the provider",
       "FULL_TITLE": "Full title",
+      "WORKSHOP_FULL_TITLE": "Full title",
       "RATE": "Rate",
       "TARIFF": "Tariff",
       "FOR_RURAL_AREAS": "For rural areas",
@@ -590,6 +600,9 @@
       "SORT_BY_CREATED_AT": "By creation date",
       "SEARCH_BY_TITLE": "Search by full title"
     },
+    "TOOLTIP": {
+      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"
+    },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
     "FOR": "for",
@@ -600,7 +613,7 @@
       "INVALID_DATA_START": "Use \"",
       "INVALID_START_END_DATES": "The end date must be later than or equal to the start date of the event.",
       "INVALID_EMAIL": "Enter a valid email.",
-      "INVALID_EDRPO_IPN_END": " digit number.",
+      "INVALID_EDRPOU_END": " digit number.",
       "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
@@ -612,7 +625,7 @@
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_DATE_RANGE": "Check your data </br> Date of birth is out of range.",
-      "INVALID_EDRPO_IPN": "This field must contain {{minCharacters}} digit number.",
+      "INVALID_EDRPOU": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
@@ -657,7 +670,8 @@
     "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account.",
     "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed).",
     "SHORT_TITLE_DESCRIPTION": "This name will be displayed for parents and children. Example: Folk Art",
-    "WORKING_HOURS": "The workshop may have different hours on different days of the week."
+    "WORKING_HOURS": "The workshop may have different hours on different days of the week.",
+    "IMAGES_RECOMMENDATION": "Recommendations for photos:<br>- The images should depict the essence of the workshop and its activities<br>- Images should not be processed in photo editors<br>- Images should be in horizontal format"
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
@@ -734,7 +748,8 @@
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
     "ADD_POSITION": "You can add positions here",
-    "ADD_IMG_SUBHEADER": "Add a photo by clicking on the “+”. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER": "Add photos of them from your workshop. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER_DESC": "Photos will be available for parents and children to view in order to learn more about the workshop.",
     "UPLOAD_EMPLOYEE": "Here you can upload a file with an employee of your workshop"
   },
   "BUTTONS": {
@@ -755,6 +770,7 @@
     "SEND": "Send",
     "EDIT": "Edit",
     "SAVE": "Save",
+    "SAVE_DRAFT": "Save draft",
     "BACK": "Back",
     "NEXT": "Next",
     "ADD_ANOTHER_CHILD": "Add another child",
@@ -788,6 +804,7 @@
     "ADD_MORE_ADDRESS": "Add more address",
     "ADD_POSITION": "Add position",
     "PUBLISH": "Publish",
+    "CANCEL_MODERATION": "Cancel",
     "ARCHIVE": "Archive",
     "CONTINUE": "Continue",
     "USE_ADDRESS_AS_PRIMARY": "Use as primary",
@@ -940,6 +957,10 @@
       "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
       "DELETED_WORKSHOP": "This workshop has been deleted!",
       "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
+      "CREATE_DRAFT": "The workshop was successfully created as draft",
+      "DELETE_DRAFT": "Draft deleted",
+      "DELETED_DRAFT": "This draft has been deleted!",
+      "SEND_FOR_MODERATION": "Draft sent for moderation",
       "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
       "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
       "CREATE_COMPETITION": "Thank you! New competition successfully added.",
@@ -1031,7 +1052,8 @@
       "GET_DRAFT_FAIL": "Failed to get draft",
       "GET_TIME_TO_LIVE_FAIL": "Failed to get time to live draft",
       "DELETE_DRAFT_FAIL": "Failed to delete draft",
-      "DELETE_DRAFT_SUCCESS": "Draft deleted successfully"
+      "DELETE_DRAFT_SUCCESS": "Draft deleted successfully",
+      "CHANGE_REQUIRES_MODERATION": "Changing this field requires re-moderation"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
@@ -1074,6 +1096,8 @@
       "UNBLOCK_USER": "Are you sure you want to unblock the user?",
       "CLOSE_SET": "Are you sure you want to pause the workshop recruitment?",
       "OPEN_SET": "Are you sure you want to open the workshop recruitment?",
+      "DRAFT_SET": "Are you sure you want to send the workshop draft for moderation?",
+      "SAVE_WORKSHOP_AS_DRAFT": "Changes made require re-moderation. A draft will be created for this, do you want to continue?",
       "DELETE_ADMIN": "Are you sure you want to delete an administrator",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
@@ -1089,6 +1113,7 @@
       "EDIT_SUBJECT": "Are you sure you want to edit the study subject?",
       "CREATE_SUBJECT": "Are you sure you want to add the study subject?",
       "EDITING_WORKSHOP": "Are you sure you want to submit the workshop for editing?",
+      "DELETE_COMPETITION": "Are you sure you want to delte competition",
       "TITLES": {
         "DELETE_WORKSHOP": "DELETE WORKSHOP?",
         "DELETE_DIRECTION": "DELETE DIRECTION?",
@@ -1127,6 +1152,8 @@
         "UNBLOCK_USER": "UNBLOCK USER?",
         "CLOSE_SET": "CLOSE RECRUITMENT?",
         "OPEN_SET": "OPEN RECRUITMENT?",
+        "DRAFT_SET": "SEND FOR MODERATION?",
+        "SAVE_WORKSHOP_AS_DRAFT": "SAVE AS DRAFT?",
         "DELETE_ADMIN": "DELETE ADMINISTRATOR?",
         "BLOCK_ADMIN": "BLOCK ADMINISTRATOR?",
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",
@@ -1143,7 +1170,8 @@
         "ARCHIVE_COMPETITION": "Archive competition?",
         "DELETE_SUBJECT": "DELETE STUDY SUBJECT?",
         "EDIT_SUBJECT": "EDIT STUDY SUBJECT?",
-        "CREATE_SUBJECT": "ADD STUDY SUBJECT?"
+        "CREATE_SUBJECT": "ADD STUDY SUBJECT?",
+        "DELETE_COMPETITION": "DELETE COMPETITION?"
       }
     }
   },
@@ -1200,5 +1228,8 @@
   "EMPLOYEES_REGISTRATION": "Employees registration",
   "TEMP": {
     "FUNCTIONALITY_LATER_MESSAGE": "This functionality will be added later"
+  },
+  "TOOLTIP": {
+    "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
   }
 }

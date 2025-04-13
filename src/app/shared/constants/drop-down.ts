@@ -6,8 +6,8 @@ export const ProviderOptions = [
     label: 'FORMS.LABELS.PROVIDER_TITLE'
   },
   {
-    value: 'EdrpouIpn',
-    label: 'FORMS.LABELS.EDRPO_IPN'
+    value: 'Edrpou',
+    label: 'FORMS.LABELS.EDRPOU'
   },
   {
     value: 'Director',

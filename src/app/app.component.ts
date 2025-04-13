@@ -9,8 +9,10 @@ import { ToggleMobileScreen } from 'shared/store/app.actions';
 import { GetFeaturesList } from 'shared/store/meta-data.actions';
 import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { ViewportScroller } from '@angular/common';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +22,14 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.isAuthorizationLoading)
   public isAuthorizationLoading$: Observable<boolean>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public isMobileView: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
-  private readonly ignoreScrollToTopRoutes = ['/result'];
+  private readonly ignoreScrollToTopRoutes = ['/result', '/details'];
 
   constructor(
     private store: Store,
@@ -58,9 +62,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.setLocale();
     this.router.canceledNavigationResolution = 'computed';
-    this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
   }
 
@@ -83,15 +87,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setLocale(): void {
     this.getLanguage();
-    this.translateService.use(this.selectedLanguage);
-    this.dateAdapter.setLocale(this.selectedLanguage);
+    this.setLanguageInServices();
   }
 
   private getLanguage(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture');
     if (!this.selectedLanguage) {
-      this.selectedLanguage = 'uk';
-      localStorage.setItem('ui-culture', this.selectedLanguage);
+      this.setDefaultLanguage();
     }
+    this.getOnlyUkrainianLanguage();
+  }
+
+  private getOnlyUkrainianLanguage(): void {
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+      if (featuresList.onlyUkrainianLanguage) {
+        this.setDefaultLanguage();
+        this.setLanguageInServices();
+      }
+    });
+  }
+
+  private setDefaultLanguage(): void {
+    this.selectedLanguage = 'uk';
+    localStorage.setItem('ui-culture', this.selectedLanguage);
+  }
+
+  private setLanguageInServices(): void {
+    this.translateService.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
   }
 }

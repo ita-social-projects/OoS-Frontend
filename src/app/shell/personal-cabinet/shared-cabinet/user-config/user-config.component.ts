@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { Gender } from 'shared/enum/enumUA/gender';
@@ -9,6 +10,8 @@ import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -21,6 +24,8 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly gender = Gender;
   public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
@@ -29,6 +34,9 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   public authServer: string = environment.stsServer;
   public culture: string = localStorage.getItem('ui-culture');
   public link: string;
+  public featuresList: FeaturesList;
+
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
@@ -40,6 +48,10 @@ export class UserConfigComponent implements OnInit, OnDestroy {
         disable: true
       })
     );
+
+    this.featuresList$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((featuresList: FeaturesList) => {
+      this.featuresList = featuresList;
+    });
   }
 
   public onRedirect(link: string): void {
@@ -48,5 +60,7 @@ export class UserConfigComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.store.dispatch(new PopNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

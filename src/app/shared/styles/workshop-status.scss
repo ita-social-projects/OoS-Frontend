@@ -9,7 +9,9 @@
   &-color {
     &-open,
     &-close,
-    &-draft {
+    &-draft,
+    &-pending,
+    &-rejected {
       color: #fff;
       font-weight: bold;
       padding: 7px;
@@ -20,12 +22,17 @@
       background-color: #99cd56;
     }
 
-    &-close {
+    &-close,
+    &-rejected {
       background-color: red;
     }
 
     &-draft {
       background-color: #333333;
+    }
+
+    &-pending {
+      background-color: orange;
     }
   }
 }
