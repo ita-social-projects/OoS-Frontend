@@ -52,7 +52,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     super(store, route, navigationBarService);
   }
 
-  public get isButtonDisabled(): boolean | Observable<boolean> {
+  public get areFormsInvalid(): boolean | Observable<boolean> {
     return (
       this.isLoading$ ||
       (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty && !this.JudgeFormArray?.dirty) ||
@@ -118,20 +118,22 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
    * This method dispatch store action to create a Competition with Form Groups values
    */
   public onSubmit(): void {
-    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const requiredInfo: CompetitionRequired = this.createRequired();
-    const descInfo = this.DescriptionFormGroup.getRawValue();
-    const contacts: Contacts[] = this.createContacts();
-    const judges: Judge[] = this.createJudges();
+    if (this.areFormsInvalid) {
+      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+      const requiredInfo: CompetitionRequired = this.createRequired();
+      const descInfo = this.DescriptionFormGroup.getRawValue();
+      const contacts: Contacts[] = this.createContacts();
+      const judges: Judge[] = this.createJudges();
 
-    let competition: Competition;
+      let competition: Competition;
 
-    if (this.editMode) {
-      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
-      this.store.dispatch(new UpdateCompetition(competition));
-    } else {
-      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
-      this.store.dispatch(new CreateCompetition(competition));
+      if (this.editMode) {
+        competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
+        this.store.dispatch(new UpdateCompetition(competition));
+      } else {
+        competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
+        this.store.dispatch(new CreateCompetition(competition));
+      }
     }
   }
 

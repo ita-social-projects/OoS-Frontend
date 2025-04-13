@@ -28,7 +28,8 @@
     [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span
+    class="step-required">*</span></label>
   <div class="flex flex-row justify-start">
     <div class="flex flex-col justify-start items-start">
       <div class="flex flex-row justify-start items-center">
@@ -51,7 +52,12 @@
             autocomplete="off" />
         </mat-form-field>
       </div>
-      <app-validation-hint [validationFormControl]="RequiredFormGroup.get('minimumAge')"></app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="RequiredFormGroup.get('minimumAge')"
+        isNumberValue="true"
+        [minValue]="validationConstants.AGE_MIN"
+        [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+      <app-validation-hint formLevelValidation="true" [validationFormControl]="RequiredFormGroup"></app-validation-hint>
     </div>
 
     <div class="flex flex-col justify-start items-start">
@@ -76,23 +82,20 @@
             autocomplete="off" />
         </mat-form-field>
       </div>
-      <app-validation-hint [validationFormControl]="RequiredFormGroup.get('maximumAge')"></app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="RequiredFormGroup.get('maximumAge')"
+        isNumberValue="true"
+        [minValue]="validationConstants.AGE_MIN"
+        [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
     </div>
   </div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}<span
+    class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
-    <mat-date-range-input
-      [rangePicker]="competitionPicker"
-      formGroupName="competitionDateRangeGroup"
-      [min]="
-        RequiredFormGroup.get('registrationDateRangeGroup.end').value
-          ? RequiredFormGroup.get('registrationDateRangeGroup.end').value
-          : minDate
-      "
-      [max]="maxDate">
-      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" />
-      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" />
+    <mat-date-range-input [rangePicker]="competitionPicker" formGroupName="competitionDateRangeGroup" [min]="minDate" [max]="maxDate">
+      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" appDateInput/>
+      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" appDateInput/>
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="competitionPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #competitionPicker></mat-date-range-picker>
@@ -113,10 +116,13 @@
     <mat-datepicker-toggle matSuffix [for]="registrationPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #registrationPicker></mat-date-range-picker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('registrationDateRangeGroup')" [minMaxDate]="true">
+  <app-validation-hint
+    [validationFormControl]="RequiredFormGroup.get('registrationDateRangeGroup').get('start')"
+    [minMaxDate]="true">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span
+    class="step-required">*</span></label>
   <mat-form-field appearance="fill">
     <mat-select
       formControlName="competitiveEventAccountingTypeId"
@@ -133,7 +139,8 @@
 
   <div *ngIf="provider.ownership !== ownershipType.State" class="flex flex-col justify-center items-between">
     <div class="flex flex-row justify-start items-between">
-      <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label>
+      <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span
+        class="step-required">*</span></label>
       <app-info-menu [type]="InfoMenuType.Text">
         {{ 'INFO_MENU.UNLIMITED' | translate }}
       </app-info-menu>
@@ -160,7 +167,8 @@
           </app-info-menu>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl" [minNumberValue]="minSeats"></app-validation-hint>
+      <app-validation-hint [validationFormControl]="availableSeatsControl"
+                           [minNumberValue]="minSeats"></app-validation-hint>
     </mat-radio-group>
   </div>
 </form>

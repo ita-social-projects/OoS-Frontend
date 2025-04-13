@@ -1,12 +1,16 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appDateInput]'
 })
-export class DateInputDirective {
+export class DateInputDirective implements OnInit {
   private indexesToInsert = [2, 5];
 
   constructor(private ref: ElementRef) {}
+
+  public ngOnInit(): void {
+    this.ref.nativeElement.setAttribute('maxlength', '10'); // dd/mm/yyyy = 10 символів
+  }
 
   @HostListener('input', ['$event'])
   public onInput(event: InputEvent): void {

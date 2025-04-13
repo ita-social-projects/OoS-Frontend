@@ -15,6 +15,7 @@ import { DOCUMENT } from '@angular/common';
 export class StepperDirective {
   @Input() public form: FormGroup | FormArray;
   @Input() public stepper: MatStepper;
+  @Input('appStepperNext') public submit!: (...args: any[]) => void;
 
   private stepElement!: HTMLElement;
 
@@ -32,6 +33,9 @@ export class StepperDirective {
     }
 
     if (this.form.valid) {
+      if (this.submit) {
+        this.submit();
+      }
       this.stepper.next();
     } else {
       const stepIndex = this.stepper.selectedIndex;

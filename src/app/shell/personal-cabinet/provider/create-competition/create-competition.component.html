@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear>
+      <mat-horizontal-stepper linear #stepper>
         <mat-step [stepControl]="RequiredFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</p>
@@ -28,7 +28,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="RequiredFormGroup?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="RequiredFormGroup" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -52,7 +52,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="DescriptionFormGroup" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -73,7 +73,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="ContactsFormArray?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="ContactsFormArray" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -98,7 +98,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button [disabled]="isButtonDisabled | async" type="submit" (click)="onSubmit()">
+            <button class="btn" mat-raised-button type="submit" [appStepperNext]="onSubmit" [form]="JudgeFormArray" [stepper]="stepper">
               {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>
