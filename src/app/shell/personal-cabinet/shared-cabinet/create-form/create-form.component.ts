@@ -80,18 +80,20 @@ export abstract class CreateFormComponent implements OnDestroy {
    */
   // TODO: rewrite/delete after migration to Angular 18, so this becomes useless
   protected subscribeOnTouchEvent(form: AbstractControl | FormControl | FormGroup | FormArray): void {
-    if (form instanceof FormControl) {
-      const originalMethod = form.markAsTouched;
-      form.markAsTouched = function (): void {
-        originalMethod.apply(this, arguments);
-        (form.statusChanges as EventEmitter<any>).emit();
-      };
-    } else if (form instanceof FormGroup) {
+    const originalMethod = form.markAsTouched;
+    form.markAsTouched = function (): void {
+      originalMethod.apply(this, arguments);
+      (form.statusChanges as EventEmitter<any>).emit();
+    };
+
+    if (form instanceof FormGroup) {
       Object.keys(form.controls).forEach((key: string) => {
         const control = form.get(key);
         this.subscribeOnTouchEvent(control);
       });
-    } else if (form instanceof FormArray) {
+    }
+
+    if (form instanceof FormArray) {
       form.controls.forEach((control: FormGroup) => {
         this.subscribeOnTouchEvent(control);
       });

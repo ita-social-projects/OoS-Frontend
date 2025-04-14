@@ -1,16 +1,17 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
-import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/competition';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
+import { OwnershipTypes } from 'shared/enum/provider';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 

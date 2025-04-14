@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -77,18 +77,28 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.errors = [];
       if (this.formLevelValidation) {
         this.checkFormLevelValidationErrors(this.validationFormControl.errors);
-      } else if (this.validationFormControl instanceof FormGroup) {
-        Object.keys(this.validationFormControl.controls).forEach((key) => {
-          this.updateValidationState(this.validationFormControl.get(key) as FormControl);
-        });
       } else {
-        this.updateValidationState(this.validationFormControl);
+        this.checkFormNestingAndUpdateValidation(this.validationFormControl);
       }
     });
 
     this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe((event: LangChangeEvent) => {
       this.cdr.markForCheck();
     });
+  }
+
+  public checkFormNestingAndUpdateValidation(abstractControl: AbstractControl): void {
+    if (abstractControl instanceof FormControl) {
+      this.updateValidationState(abstractControl);
+    } else if (abstractControl instanceof FormGroup) {
+      Object.keys(abstractControl.controls).forEach((controlName) => {
+        this.checkFormNestingAndUpdateValidation(abstractControl.get(controlName));
+      });
+    } else if (abstractControl instanceof FormArray) {
+      abstractControl.controls?.forEach((control: AbstractControl) => {
+        this.checkFormNestingAndUpdateValidation(control);
+      });
+    }
   }
 
   public updateValidationState(control: AbstractControl): void {
@@ -100,7 +110,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // Check is the field required and empty
-    if (errors?.required && !control?.value) {
+    if (errors?.required && !control?.value && !this.errors.includes(ValidationMessages.REQUIRED_INPUT)) {
       this.errors.push(ValidationMessages.REQUIRED_INPUT);
     }
 
@@ -207,12 +217,16 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       // DateTimePicker validation
       {
-        condition: () => this.validationFormControl.errors?.matDatepickerParse && this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        condition: () => errors?.matDatepickerParse && this.errors.includes(ValidationMessages.REQUIRED_INPUT),
         message: ValidationMessages.INVALID_DATE_FIELD
       },
       {
-        condition: () => this.validationFormControl.errors?.matDatepickerMin || this.validationFormControl.errors?.matDatepickerMax,
+        condition: () => errors?.matDatepickerMin || errors?.matDatepickerMax,
         message: ValidationMessages.INVALID_DATE_RANGE
+      },
+      {
+        condition: () => errors?.matStartDateInvalid || errors?.matEndDateInvalid,
+        message: ValidationMessages.INVALID_START_END_DATE
       },
       // Validation by RegExp
       {
@@ -267,7 +281,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     ];
 
     errorConditions.forEach(({ condition, message }) => {
-      if (condition()) {
+      if (condition() && !this.errors.includes(message)) {
         this.errors.push(message);
       }
     });

@@ -9,7 +9,7 @@ export class DateInputDirective implements OnInit {
   constructor(private ref: ElementRef) {}
 
   public ngOnInit(): void {
-    this.ref.nativeElement.setAttribute('maxlength', '10'); // dd/mm/yyyy = 10 символів
+    this.ref.nativeElement.setAttribute('maxlength', '10');
   }
 
   @HostListener('input', ['$event'])

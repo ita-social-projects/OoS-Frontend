@@ -94,13 +94,13 @@
     class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
     <mat-date-range-input [rangePicker]="competitionPicker" formGroupName="competitionDateRangeGroup" [min]="minDate" [max]="maxDate">
-      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" appDateInput/>
-      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" appDateInput/>
+      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" appDateInput appDigitOnly/>
+      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" appDateInput appDigitOnly/>
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="competitionPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #competitionPicker></mat-date-range-picker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')" [minMaxDate]="true">
+  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</label>
@@ -110,15 +110,14 @@
       formGroupName="registrationDateRangeGroup"
       [min]="minDate"
       [max]="RequiredFormGroup.get('competitionDateRangeGroup.start').value">
-      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" />
-      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" />
+      <input matStartDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="start" appDateInput appDigitOnly/>
+      <input matEndDate placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" formControlName="end" appDateInput appDigitOnly/>
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="registrationPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #registrationPicker></mat-date-range-picker>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="RequiredFormGroup.get('registrationDateRangeGroup').get('start')"
-    [minMaxDate]="true">
+    [validationFormControl]="RequiredFormGroup.get('registrationDateRangeGroup')">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span
