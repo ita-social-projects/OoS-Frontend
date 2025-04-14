@@ -86,11 +86,8 @@ import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { ServerErrorPageComponent } from './components/server-error-page/server-error-page.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
-import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
-import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
-import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
-import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
-import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
+import { ProfileWaitingPageComponent } from './components/profile-waiting-page/profile-waiting-page.component';
+import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-page.component';
 
 @NgModule({
   declarations: [
@@ -166,15 +163,8 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     CustomCarouselDirective,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    WorkshopListComponent,
-    WorkshopInfoComponent,
-    DateInputDirective,
-    ServerErrorPageComponent,
-    TimeRemainingPipe,
-    StepperDirective,
-    CompetitionCardComponent,
-    CreateContactsComponent,
-    CreateAddressFormComponent
+    ProfileWaitingPageComponent,
+    ForbiddenPageComponent
   ],
 
   imports: [
@@ -260,14 +250,7 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    WorkshopListComponent,
-    DateInputDirective,
-    ServerErrorPageComponent,
-    TimeRemainingPipe,
-    StepperDirective,
-    CompetitionCardComponent,
-    CreateContactsComponent,
-    CreateAddressFormComponent
+    ProfileWaitingPageComponent
   ]
 })
 export class SharedModule {}
