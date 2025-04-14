@@ -28,7 +28,12 @@ export class ImagesService {
 
     return [
       {
-        path: entity instanceof Workshop ? 'assets/images/groupimages/workshop-img.png' : 'assets/images/groupimages/competition-img.png'
+        path:
+          entity.constructor.name === 'Workshop'
+            ? 'assets/images/groupimages/workshop-img.png'
+            : entity.constructor.name === 'Competition'
+              ? 'assets/images/groupimages/competition-img.png' // TODO: add competition image
+              : null
       }
     ];
   }
