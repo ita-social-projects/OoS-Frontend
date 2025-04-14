@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ErrorPageComponent } from 'shared/components/error-page/error-page.component';
-import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
+import { ForbiddenPageComponent } from 'shared/components/forbidden-page/forbidden-page.component';
 import { LoginComponent } from 'shared/components/login/login.component';
 import { NotificationsListComponent } from 'shared/components/notifications/notifications-list/notifications-list.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
@@ -194,20 +194,9 @@ const routes: Routes = [
     canDeactivate: [CreateGuard],
     canLoad: [CreateParentGuard]
   },
-  { path: 'server-error', component: ServerErrorPageComponent },
   {
-    path: 'create-competition/:param',
-    component: CreateCompetitionComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
-    canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
-  },
-  {
-    path: 'create-competition/:id/:param',
-    component: CreateCompetitionComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
-    canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
+    path: 'forbidden',
+    component: ForbiddenPageComponent
   },
   { path: '**', component: ErrorPageComponent }
 ];

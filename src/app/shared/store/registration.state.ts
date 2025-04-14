@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable, of } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -18,13 +18,8 @@ import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { TechAdmin } from 'shared/models/tech-admin.model';
 import { User } from 'shared/models/user.model';
-import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
-import { EmployeeService } from 'shared/services/employee/employee.service';
-import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-admin.service';
-import { ParentService } from 'shared/services/parent/parent.service';
-import { ProviderService } from 'shared/services/provider/provider.service';
-import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
 import { UserService } from 'shared/services/user/user.service';
+import { UserProfileService } from 'shared/services/user/user-profile.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CheckAuth,
@@ -78,12 +73,7 @@ export class RegistrationState {
     private location: Location,
     private oidcSecurityService: OidcSecurityService,
     private userService: UserService,
-    private providerService: ProviderService,
-    private employeeService: EmployeeService,
-    private parentService: ParentService,
-    private ministryAdminService: MinistryAdminService,
-    private regionAdminService: RegionAdminService,
-    private areaAdmin: AreaAdminService
+    private userProfileService: UserProfileService
   ) {}
 
   @Selector()
@@ -156,6 +146,8 @@ export class RegistrationState {
         if (auth.isAuthenticated) {
           return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
         } else {
+          sessionStorage.removeItem('profile');
+          sessionStorage.removeItem('persolnalInfo');
           patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
           return of(null);
         }
@@ -174,7 +166,6 @@ export class RegistrationState {
     const state = getState();
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
-      patchState({ isAuthorizationLoading: false });
     } else {
       this.router
         .navigate([state.user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
@@ -192,33 +183,59 @@ export class RegistrationState {
     | Observable<Employee>
     | Observable<MinistryAdmin>
     | Observable<RegionAdmin>
-    | Observable<AreaAdmin> {
+    | Observable<AreaAdmin>
+    | void {
     const state = getState();
-    patchState({ role: state.user.role as Role });
+    const role = state.user.role as Role;
+    const profileKey = this.userProfileService.getStateKeyByRole(role);
 
-    switch (state.user.role) {
-      case Role.parent:
-        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent })));
-      case Role.provider:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider })));
-      case Role.providerDeputy:
-      case Role.employee:
-        // TODO: Add provider patch when profile/provider id will be provided
-        return this.employeeService.getEmployeeById(state.user.id).pipe(tap((employee: Employee) => patchState({ employee })));
-      case Role.ministryAdmin:
-        return this.ministryAdminService.getAdminProfile().pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin })));
-      case Role.regionAdmin:
-        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin })));
-      case Role.areaAdmin:
-        return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin })));
+    patchState({ isAuthorizationLoading: true, role });
+
+    const cachedProfile = sessionStorage.getItem('profile');
+
+    // if there is cached user profile
+    if (cachedProfile) {
+      const parsedProfile = JSON.parse(cachedProfile);
+      patchState({ [profileKey]: parsedProfile, isAuthorizationLoading: false });
+      return;
     }
+
+    const profileObservable = this.userProfileService.getProfileObservableByRole(role, state.user.id);
+    if (!profileObservable) {
+      patchState({ isAuthorizationLoading: false });
+      return;
+    }
+
+    return profileObservable.pipe(
+      tap((profile) => {
+        sessionStorage.setItem('profile', JSON.stringify(profile));
+        patchState({ [profileKey]: profile });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.router.navigate(['/forbidden']);
+        }
+        return throwError(() => new Error('Something went wrong!'));
+      }),
+      finalize(() => patchState({ isAuthorizationLoading: false }))
+    );
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>): Observable<User> {
+  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>): Observable<User> | void {
     patchState({ isLoading: true });
+
+    const cachedPersonalInfo = sessionStorage.getItem('persolnalInfo');
+
+    if (cachedPersonalInfo) {
+      const user: User = JSON.parse(cachedPersonalInfo);
+      patchState({ user, role: user.role as Role, isLoading: false });
+      return;
+    }
+
     return this.userService.getPersonalInfo().pipe(
       tap((user: User) => {
+        sessionStorage.setItem('persolnalInfo', JSON.stringify(user));
         patchState({ user, role: user.role as Role, isLoading: false });
       })
     );

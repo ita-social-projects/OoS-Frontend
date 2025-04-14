@@ -1198,6 +1198,15 @@
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404",
     "ERROR_TRY_MESSAGE": "Please wait for {{time}} seconds before trying again."
   },
+  "WAITING_PAGE": {
+    "WAIT": "Wait",
+    "GETTING_PROFILE": "Retrieving your profile data...",
+    "WAIT_A_MINUTE": "This may take up to a minute."
+  },
+  "FORBIDDEN_PAGE": {
+    "SORRY": "Sorry",
+    "FORBIDDEN": "You are denied account creation"
+  },
   "MORE": "...More",
   "LESS": "...Less",
   "PROVIDER_DRAFT": {
