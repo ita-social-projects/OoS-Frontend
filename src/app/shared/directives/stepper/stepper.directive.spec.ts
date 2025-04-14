@@ -1,11 +1,10 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { By } from '@angular/platform-browser';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { By } from '@angular/platform-browser';
-import { WINDOW } from 'ngx-window-token';
 import { of } from 'rxjs';
 import { StepperDirective } from './stepper.directive';
 
@@ -33,7 +32,7 @@ describe('StepperDirective', () => {
     } as unknown as jest.Mocked<Store>;
 
     mockTranslate = {
-      get: jest.fn().mockReturnValue(of('Required fields are empty'))
+      instant: jest.fn().mockReturnValue(of('Required fields are empty'))
     } as unknown as jest.Mocked<TranslateService>;
 
     TestBed.configureTestingModule({
@@ -68,7 +67,7 @@ describe('StepperDirective', () => {
     expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
   });
 
-  it('should touch form, scroll to input and dispatch ShowMessageBar if form is invalid', () => {
+  it('should touch form, scroll to input and dispatch ShowMessageBar if form is invalid', fakeAsync(() => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
       callback(0);
       return 0;
@@ -79,12 +78,13 @@ describe('StepperDirective', () => {
     invalidInput.scrollIntoView = jest.fn();
     invalidInput.focus = jest.fn();
     debugElement.triggerEventHandler('click', new MouseEvent('click'));
+    tick();
     expect(fixture.componentInstance.form.touched).toEqual(true);
     expect(spyUpdateValueAndValidity).toHaveBeenCalled();
-    expect(invalidInput.scrollIntoView).toHaveBeenCalled();
     expect(mockStore.dispatch).toHaveBeenCalled();
+    expect(invalidInput.scrollIntoView).toHaveBeenCalled();
     expect(invalidInput.focus).toHaveBeenCalled();
-  });
+  }));
 
   it('should return if step element is null or undefined', () => {
     const directive = debugElement.injector.get(StepperDirective);
