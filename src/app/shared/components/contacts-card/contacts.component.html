@@ -44,7 +44,7 @@
               <div class="contact-info-extended" *ngFor="let email of contact.emails">
                 <mat-icon class="card_icon">mail</mat-icon>
                 <span class="contact-title">{{ email.type }}</span>
-                <a href="mailto:{{ email.address }}" target="_blank">{{ email.address }}</a>
+                <a [href]="'mailto:' + email.address" target="_blank">{{ email.address }}</a>
               </div>
             </div>
             <div class="social-info">

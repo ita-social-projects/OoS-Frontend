@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { Contact } from 'shared/models/contacts.model';
 import { WINDOW } from 'ngx-window-token';
 import { Platform } from '@angular/cdk/platform';
+import { MAP_LINKS } from 'shared/constants/constants';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Provider } from '../../../shared/models/provider.model';
 
@@ -16,9 +17,6 @@ export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
 
-  public addressLinkGoogleMaps = 'https://www.google.com/maps/search/?api=1&query=';
-  public addressLinkIOS = 'https://maps.apple.com/?q=';
-  public addressLinkAndroid = 'geo:0,0?q=';
   public contacts: Contact[] = [];
   public panelOpenState = false;
   constructor(
@@ -48,11 +46,11 @@ export class ContactsCardComponent implements OnInit {
     const { street, buildingNumber, codeficatorAddressDto } = address;
     const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
     const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
-    let addressLink = this.addressLinkGoogleMaps;
+    let addressLink = MAP_LINKS.mapLinkGoogleMaps;
     if (this.platform.IOS) {
-      addressLink = this.addressLinkIOS;
+      addressLink = MAP_LINKS.mapLinkIOS;
     } else if (this.platform.ANDROID) {
-      addressLink = this.addressLinkAndroid;
+      addressLink = MAP_LINKS.mapLinkAndroid;
     }
 
     this.window.open(`${addressLink}${encodeURIComponent(formattedAddress)}`, '_blank');

@@ -167,3 +167,9 @@ export const NoInteractTooltipOptions: MatTooltipDefaultOptions = {
   touchendHideDelay: 0,
   disableTooltipInteractivity: true
 };
+
+export const MAP_LINKS = {
+  mapLinkGoogleMaps: 'https://www.google.com/maps/search/?api=1&query=',
+  mapLinkIOS: 'https://maps.apple.com/?q=',
+  mapLinkAndroid: 'geo:0,0?q='
+};
