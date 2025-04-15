@@ -168,6 +168,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           },
           [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
         ),
+        studyPeriodStartDate: new FormControl(null, [Validators.required]),
+        studyPeriodEndDate: new FormControl(null, [Validators.required]),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
