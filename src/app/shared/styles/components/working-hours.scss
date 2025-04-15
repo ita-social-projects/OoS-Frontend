@@ -20,7 +20,9 @@
 }
 
 .text {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 700;
   color: var(--secondary-light-text-color);
   margin: 0;
@@ -28,7 +30,9 @@
 }
 
 .input {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   border: 1px solid var(--input-light-color);
   box-sizing: border-box;
   border-radius: 21px;

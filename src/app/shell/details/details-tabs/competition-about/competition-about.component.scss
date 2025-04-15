@@ -29,7 +29,9 @@
 }
 
 .toggle {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 300;
   height: 40px;
   padding: 5px;
@@ -54,7 +56,9 @@
 }
 
 .text {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 700;
   color: var(--secondary-light-text-color);
   padding: 5px;

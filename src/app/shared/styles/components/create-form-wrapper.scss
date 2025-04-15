@@ -34,7 +34,9 @@ h3 {
   }
   &-text {
     text-align: center;
-    font-family: Open Sans;
+    font-family:
+      Open Sans,
+      sans-serif;
     font-weight: 700;
     color: var(--secondary-light-text-color);
     margin-top: 1rem !important;

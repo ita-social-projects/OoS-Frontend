@@ -1,6 +1,8 @@
 .wrapper {
   margin: 1rem;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 25px;
@@ -45,7 +47,9 @@
     color: var(--primary-dark-text-color);
   }
   &-date {
-    font-family: Open Sans;
+    font-family:
+      Open Sans,
+      sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
