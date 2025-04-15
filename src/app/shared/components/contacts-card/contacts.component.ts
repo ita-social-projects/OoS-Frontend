@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Contact } from 'shared/models/contacts.model';
 import { WINDOW } from 'ngx-window-token';
 import { Platform } from '@angular/cdk/platform';
-import { MAP_LINKS } from 'shared/constants/constants';
+import { MAP_URL } from 'shared/constants/constants';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Provider } from '../../../shared/models/provider.model';
 
@@ -46,11 +46,11 @@ export class ContactsCardComponent implements OnInit {
     const { street, buildingNumber, codeficatorAddressDto } = address;
     const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
     const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
-    let addressLink = MAP_LINKS.mapLinkGoogleMaps;
+    let addressLink = MAP_URL.GOOGLE;
     if (this.platform.IOS) {
-      addressLink = MAP_LINKS.mapLinkIOS;
+      addressLink = MAP_URL.APPLE;
     } else if (this.platform.ANDROID) {
-      addressLink = MAP_LINKS.mapLinkAndroid;
+      addressLink = MAP_URL.GEO;
     }
 
     this.window.open(`${addressLink}${encodeURIComponent(formattedAddress)}`, '_blank');
