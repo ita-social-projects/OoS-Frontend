@@ -138,6 +138,9 @@
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
         <app-achievements [workshop]="workshop"></app-achievements>
       </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Contacts | translate | uppercase }}">
+        <app-contacts-card [workshop]="workshop" [provider]="provider"></app-contacts-card>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>

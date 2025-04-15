@@ -29,7 +29,7 @@
         <mat-select
           disableOptionCentering
           [formControl]="setFormControlDependsOnTab(filter.controlName)"
-          panelClass="history-log-dropdown-panel select-with-form-field" 
+          panelClass="history-log-dropdown-panel select-with-form-field"
           class="select">
           <ng-container *ngFor="let option of filter.options">
             <mat-option *ngIf="option.available ?? true" [value]="option.value" class="dropdown-option">

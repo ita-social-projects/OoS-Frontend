@@ -34,7 +34,8 @@ export enum DetailsTabTitlesParams {
   'Teachers',
   'OtherWorkshops',
   'Reviews',
-  'Achievements'
+  'Achievements',
+  'Contacts'
 }
 
 export enum FormOfLearning {

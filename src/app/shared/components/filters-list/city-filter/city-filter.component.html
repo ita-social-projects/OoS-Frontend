@@ -21,11 +21,14 @@
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <div class="option-sub-text"
+      <div
+        class="option-sub-text"
         [matTooltip]="codeficator.fullName"
         matTooltipClass="tooltip"
         showTooltipIfTruncated
-        matTooltipPosition="below">{{ codeficator.fullName }}</div>
+        matTooltipPosition="below">
+        {{ codeficator.fullName }}
+      </div>
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">

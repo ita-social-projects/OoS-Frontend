@@ -11,7 +11,7 @@
       [formControl]="searchValueFormControl"
       [matAutocomplete]="autoSearch"
       (keyup.enter)="onValueEnter()" />
-    <mat-autocomplete 
+    <mat-autocomplete
       #autoSearch="matAutocomplete"
       hideSingleSelectionIndicator="true"
       class="search-input"
@@ -19,7 +19,12 @@
       <mat-option class="dropdown-option option search-dropdown-option" *ngFor="let result of filteredResults" [value]="result">
         <div class="w-[100%] flex justify-between items-center">
           <span class="option-value">{{ result }}</span>
-          <mat-icon class="close-icon"(keydown.enter)="onDeletePreviousSearchValue(result, $event)" (click)="onDeletePreviousSearchValue(result, $event)"> close </mat-icon>
+          <mat-icon
+            class="close-icon"
+            (keydown.enter)="onDeletePreviousSearchValue(result, $event)"
+            (click)="onDeletePreviousSearchValue(result, $event)">
+            close
+          </mat-icon>
         </div>
       </mat-option>
     </mat-autocomplete>

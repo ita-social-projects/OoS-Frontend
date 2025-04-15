@@ -35,7 +35,7 @@
             multiple
             disableOptionCentering
             panelClass="dropdown-panel select-with-form-field"
-            [ngClass]="directionsControl.value?.length ? 'select-with-tags' : '' "
+            [ngClass]="directionsControl.value?.length ? 'select-with-tags' : ''"
             class="step-input"
             [compareWith]="compareItems"
             [formControl]="this.directionsControl">
