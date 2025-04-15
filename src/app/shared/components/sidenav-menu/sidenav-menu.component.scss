@@ -52,7 +52,7 @@
     z-index: 10001;
 
     &-header {
-      font-family: Innerspace;
+      font-family: Innerspace, sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 13px;
@@ -76,7 +76,7 @@
     &-shell {
       display: flex;
       flex-direction: column;
-      font-family: Innerspace;
+      font-family: Innerspace, sans-serif;
       font-size: 13px;
       font-weight: bold;
       color: var(--primary-dark-text-color);

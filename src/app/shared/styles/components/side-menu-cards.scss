@@ -12,7 +12,7 @@
   }
 
   .card-title {
-    font-family: Innerspace;
+    font-family: Innerspace, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -56,11 +56,10 @@
 .button {
   width: 254px;
   height: 40px;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
-  line-height: 15px;
   line-height: 15px;
 
   &-msg {

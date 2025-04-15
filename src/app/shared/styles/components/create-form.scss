@@ -2,7 +2,7 @@
 
 .step {
   min-width: 410px;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 18px;
@@ -202,7 +202,7 @@ button:focus {
 
 .mat-chip.mat-standard-chip {
   display: flex;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-size: 13px;
   background-color: var(--primary-light-bg-color);
   color: var(--disabled-text-color);
