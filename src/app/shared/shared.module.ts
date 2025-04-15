@@ -88,6 +88,11 @@ import { ServerErrorPageComponent } from './components/server-error-page/server-
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { ProfileWaitingPageComponent } from './components/profile-waiting-page/profile-waiting-page.component';
 import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-page.component';
+import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
+import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
+import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
+import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +168,15 @@ import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-pa
     CustomCarouselDirective,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
+    WorkshopListComponent,
+    WorkshopInfoComponent,
+    DateInputDirective,
+    ServerErrorPageComponent,
+    TimeRemainingPipe,
+    StepperDirective,
+    CompetitionCardComponent,
+    CreateContactsComponent,
+    CreateAddressFormComponent,
     ProfileWaitingPageComponent,
     ForbiddenPageComponent
   ],
@@ -250,6 +264,14 @@ import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-pa
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
+    WorkshopListComponent,
+    DateInputDirective,
+    ServerErrorPageComponent,
+    TimeRemainingPipe,
+    StepperDirective,
+    CompetitionCardComponent,
+    CreateContactsComponent,
+    CreateAddressFormComponent,
     ProfileWaitingPageComponent
   ]
 })
