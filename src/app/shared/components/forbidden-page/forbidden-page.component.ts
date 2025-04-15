@@ -8,7 +8,7 @@ import { Logout } from 'shared/store/registration.actions';
   styleUrls: ['./forbidden-page.component.scss']
 })
 export class ForbiddenPageComponent {
-  constructor(private store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public onBack(): void {
     this.store.dispatch(new Logout());
