@@ -35,7 +35,8 @@ export class UserProfileService {
       [Role.all]: 'all',
       [Role.unauthorized]: 'unauthorized',
       [Role.providerDeputy]: 'providerDeputy',
-      [Role.techAdmin]: 'techAdmin'
+      [Role.techAdmin]: 'techAdmin',
+      [Role.moderator]: 'moderator'
     };
 
     return roleStateMap[role] || '';
@@ -58,7 +59,8 @@ export class UserProfileService {
       [Role.areaAdmin]: this.areaAdminService.getAdminProfile(),
       [Role.all]: new Observable<any>(),
       [Role.unauthorized]: new Observable<any>(),
-      [Role.techAdmin]: new Observable<any>()
+      [Role.techAdmin]: new Observable<any>(),
+      [Role.moderator]: new Observable<any>()
     };
 
     return roleServiceMap[role] || null;
