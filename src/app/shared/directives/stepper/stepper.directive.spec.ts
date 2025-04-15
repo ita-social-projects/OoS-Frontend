@@ -40,8 +40,7 @@ describe('StepperDirective', () => {
       imports: [ReactiveFormsModule],
       providers: [
         { provide: Store, useValue: mockStore },
-        { provide: TranslateService, useValue: mockTranslate },
-        { provide: WINDOW, useValue: window }
+        { provide: TranslateService, useValue: mockTranslate }
       ]
     });
 
