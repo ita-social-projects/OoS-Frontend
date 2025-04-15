@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormArray, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, tap } from 'rxjs';
 import { EventEmitter, SimpleChange } from '@angular/core';
@@ -54,36 +54,37 @@ describe('ValidationHintComponent', () => {
 
     it('should call updateValidationState for each control in FormGroup', () => {
       const mockStatusChanges = new Subject<void>();
-      const control1 = new FormControl('');
-      const control2 = new FormControl('');
-      const control3 = new FormControl('');
-      const control4 = new FormControl('');
-      const group1 = new FormGroup({
-        control11: control3,
-        control12: control4
+      const complexControl = new FormGroup({
+        name: new FormControl(''),
+        address: new FormGroup({
+          street: new FormControl(''),
+          city: new FormControl(''),
+          zip: new FormControl('')
+        }),
+        contacts: new FormArray([
+          new FormGroup({
+            type: new FormControl('email'),
+            value: new FormControl('test@example.com')
+          }),
+          new FormGroup({
+            type: new FormControl('phone'),
+            value: new FormControl('+380000000000')
+          })
+        ]),
+        tags: new FormArray([new FormControl('new'), new FormControl('important')])
       });
 
-      const formGroup = new FormGroup({
-        control1: control1,
-        control2: control2,
-        group: group1
-      });
-
-      jest.spyOn(formGroup.statusChanges, 'pipe').mockReturnValue(mockStatusChanges.asObservable());
+      jest.spyOn(complexControl.statusChanges, 'pipe').mockReturnValue(mockStatusChanges.asObservable());
       jest.spyOn(component, 'updateValidationState');
       jest.spyOn(component, 'checkFormNestingAndUpdateValidation');
 
-      component.validationFormControl = formGroup;
+      component.validationFormControl = complexControl;
       component.ngOnInit();
 
       mockStatusChanges.next();
 
-      expect(component.checkFormNestingAndUpdateValidation).toHaveBeenCalledWith(formGroup);
-      expect(component.updateValidationState).toHaveBeenCalledWith(control1);
-      expect(component.updateValidationState).toHaveBeenCalledWith(control2);
-      expect(component.checkFormNestingAndUpdateValidation).toHaveBeenCalledWith(group1);
-      expect(component.updateValidationState).toHaveBeenCalledWith(control3);
-      expect(component.updateValidationState).toHaveBeenCalledWith(control4);
+      expect(component.checkFormNestingAndUpdateValidation).toHaveBeenCalledWith(complexControl);
+      expect(component.updateValidationState).toHaveBeenCalledTimes(10);
     });
 
     it('should not mark validationFormControl as touched if already touched', fakeAsync(() => {
