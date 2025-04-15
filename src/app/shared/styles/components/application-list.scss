@@ -3,7 +3,7 @@
   justify-content: flex-end;
   z-index: 1000;
   position: absolute;
-  right: 0px;
+  right: 0;
 }
 
 .wrapper {
@@ -24,7 +24,7 @@
 }
 .child-name {
   color: var(--cancel-text-color);
-  font-family: 'Innerspace';
+  font-family: 'Innerspace', sans-serif;
   font-weight: 700;
   font-size: 18px;
 }
@@ -35,6 +35,5 @@
     margin-bottom: 1rem;
     justify-content: space-between;
     display: flex;
-    justify-content: flex-start;
   }
 }

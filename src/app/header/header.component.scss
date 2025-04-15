@@ -46,7 +46,7 @@
     background: none;
     color: var(--primary-light-text-color);
     font-size: 0.7rem;
-    font-family: 'Innerspace';
+    font-family: 'Innerspace', sans-serif;
     font-weight: bold;
     white-space: nowrap;
     line-height: 24px;
@@ -186,7 +186,7 @@
   color: var(--primary-light-text-color) !important;
   overflow: visible;
   padding-right: 0px !important;
-  font-family: 'Innerspace';
+  font-family: 'Innerspace', sans-serif;
 
   @media (max-width: 990px) {
     display: none;
@@ -231,7 +231,7 @@
 
 ::ng-deep .mat-mdc-menu-item-text {
   font-size: 13px !important;
-  font-family: 'Innerspace';
+  font-family: 'Innerspace', sans-serif;
   font-weight: 700 !important;
   line-height: 16px !important;
 }
