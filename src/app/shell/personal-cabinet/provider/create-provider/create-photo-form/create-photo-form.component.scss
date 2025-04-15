@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use '../../../../../shared/styles/components/create-form';
+@use '../../../../../shared/styles/components/validation-form';
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
 }

@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use '../../../../shared/styles/components/create-form-wrapper';
+@use '../../../../shared/styles/components/create-form';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/validation-form';
 
 ::ng-deep .dropdown-panel.create-admin {
   max-height: 216px;

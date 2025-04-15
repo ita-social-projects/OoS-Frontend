@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../../../shared/styles/components/create-form-wrapper';
+@use '../../../../shared/styles/components/create-form';
+@use '../../../../shared/styles/components/buttons';
 
 .agreement {
   margin-left: 1rem;

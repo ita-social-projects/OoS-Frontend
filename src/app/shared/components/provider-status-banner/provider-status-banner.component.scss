@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/status-themes.scss';
-@import 'src/app/shared/styles/hide-aside-animation.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../styles/components/status-themes';
+@use '../../styles/utils/animations/hide-aside-animation';
+@use '../../styles/components/buttons';
 
 p {
   margin: 0;

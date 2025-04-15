@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/working-hours.scss';
+@use '../../../styles/components/buttons';
+@use '../../../styles/components/validation-form';
+@use '../../../styles/components/working-hours';
 
 .filter-text {
   margin: 0 1rem 0 0;

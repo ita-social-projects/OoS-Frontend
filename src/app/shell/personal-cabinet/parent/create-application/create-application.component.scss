@@ -1,9 +1,9 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/navigation-tabs.scss';
+@use '../../../../shared/styles/components/create-form-wrapper';
+@use '../../../../shared/styles/components/create-form';
+@use '../../../../shared/styles/components/validation-form';
+@use '../../../../shared/styles/components/dropdown';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/navigation-tabs';
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;

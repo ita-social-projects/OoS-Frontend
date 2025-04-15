@@ -1,8 +1,8 @@
-@import 'src/app/shared/styles/dropdown.scss';
+@use '../shared/styles/components/dropdown';
 
 .header {
   padding: 1.5rem 5rem;
-  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  background: url(../../assets/images/header.png) center center/cover no-repeat;
 
   app-notifications {
     width: max-content;

@@ -1,5 +1,4 @@
-@import './theme-variables.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use 'buttons';
 
 .create-form {
   display: flex;

@@ -1,9 +1,9 @@
-@import 'src/app/shared/styles/tables.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/search.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use '../../../../shared/styles/components/tables';
+@use '../../../../shared/styles/components/list-wrappers';
+@use '../../../../shared/styles/components/card-wrapper';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/search';
+@use '../../../../shared/styles/components/dropdown';
 
 .search-icon {
   font-size: 1.2em;

@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/info-hint.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
+@use '../../../styles/components/navigation-tabs';
+@use '../../../styles/components/info-hint';
+@use '../../../styles/components/buttons';
+@use '../../../styles/components/list-wrappers';
 
 .wrapper {
   background: var(--primary-light-bg-color);

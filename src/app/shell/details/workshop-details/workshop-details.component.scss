@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/side-menu-cards.scss';
-@import 'src/app/shared/styles/details.scss';
-@import 'src/app/shared/styles/workshop-status.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../../shared/styles/components/side-menu-cards';
+@use '../../../shared/styles/components/details';
+@use '../../../shared/styles/components/workshop-status';
+@use '../../../shared/styles/components/buttons';
 
 .workshop-title {
   margin-bottom: 0;
@@ -46,7 +46,7 @@
       font-family: Innerspace, sans-serif;
       font-weight: bold;
       font-size: 13px;
-      color: #ff0000;
+      color: var(--specific-light-text-color);
       user-select: none;
     }
   }

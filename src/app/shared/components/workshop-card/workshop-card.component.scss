@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/application-statuses.scss';
-@import 'src/app/shared/styles/workshop-status.scss';
+@use '../../styles/components/cards';
+@use '../../styles/components/application-statuses';
+@use '../../styles/components/workshop-status';
 
 .card-img-mobile {
   width: 100%;

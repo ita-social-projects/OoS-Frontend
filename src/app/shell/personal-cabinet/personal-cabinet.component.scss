@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/cabinet.scss';
+@use '../../shared/styles/components/cabinet';
 
 :host::ng-deep {
   .mat-mdc-tab-link-container {

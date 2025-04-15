@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../../../shared/styles/components/list-wrappers';
+@use '../../../../shared/styles/components/card-wrapper';
+@use '../../../../shared/styles/components/buttons';
 
 .searchbar {
   display: flex;

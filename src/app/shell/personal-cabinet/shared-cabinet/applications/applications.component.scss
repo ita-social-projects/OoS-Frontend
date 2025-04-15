@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/application-list.scss';
-@import 'src/app/shared/styles/search.scss';
+@use '../../../../shared/styles/components/navigation-tabs';
+@use '../../../../shared/styles/components/application-list';
+@use '../../../../shared/styles/components/search';
 
 .search-area {
   flex: 1;

@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../styles/components/buttons';
 
 .unregistered-user-modal__content {
   max-width: 370px;

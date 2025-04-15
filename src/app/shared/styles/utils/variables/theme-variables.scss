@@ -1,85 +1,69 @@
-$primary-color: #1a69f3;
-$body-color: #f8f8f8;
-$button-color-cancel: #444444;
-$secondary-light-color: #aaaaaa;
-$additional-light-color: #bbbbbb;
-$disabled-color: #666666;
-$secondary-disabled-color: #888888;
-$light-primary-text: #ffffff;
-$dark-primary-text: #000000;
-$secondary-dark-text: #000000;
-$secondary-cancel-color: #494545b9;
-$light-form-input-color: #e3e3e3;
-$error-color: #ff4839;
-$list-text-color: #272425;
-$banner-color: #e5e6f1;
-$disabled-button: #dddcdc;
-
 // To see how colors change in dark mode, go to the `.dark-theme` block in styles.scss
+
 :root {
   // Primary accent color for buttons, links, etc. – doesn't change in dark theme
-  --primary-accent-color: #{$primary-color};
+  --primary-accent-color: #1a69f3;
 
   // Error color for validation messages, etc. – doesn't change in dark theme
-  --error-color: #{$error-color};
+  --error-color: #ff4839;
 
   // Background color for the body – changes in dark theme
-  --body-color: #{$body-color};
+  --body-color: #f8f8f8;
 
   // Main text color on dark backgrounds – changes in dark theme
-  --primary-light-text-color: #{$light-primary-text};
+  --primary-light-text-color: #ffffff;
 
   // Secondary text color – doesn't change in dark theme
-  --secondary-light-text-color: #{$secondary-light-color};
+  --secondary-light-text-color: #aaaaaa;
 
   // Additional lighter text color – doesn't change in dark theme
-  --additional-light-text-color: #{$additional-light-color};
+  --additional-light-text-color: #bbbbbb;
 
   // Static light text color - doesn’t change in dark theme
-  --specific-light-text-color: #{$light-primary-text};
+  --specific-light-text-color: #ffffff;
 
   // Primary grey color for text/buttons – changes in dark theme
-  --cancel-text-color: #{$button-color-cancel};
+  --cancel-text-color: #444444;
 
   // Secondary grey color for text/buttons  – changes in dark theme
-  --secondary-cancel-text-color: #{$secondary-cancel-color};
+  --secondary-cancel-text-color: #494545b9;
 
   // Disabled grey color for text/buttons – doesn't change in dark theme
-  --disabled-text-color: #{$secondary-disabled-color};
+  --disabled-text-color: #888888;
 
   // Text color for text/list – changes in dark theme
-  --list-text-color: #{$list-text-color};
+  --list-text-color: #272425;
 
   // Border/text/bg color for input fields – doesn't change in dark theme
-  --input-light-color: #{$light-form-input-color};
+  --input-light-color: #e3e3e3;
 
   // Primary dark text color – changes in dark theme
-  --primary-dark-text-color: #{$dark-primary-text};
+  --primary-dark-text-color: #000000;
 
   // Secondary dark text color – doesn't change in dark theme
-  --secondary-dark-text-color: #{$secondary-dark-text};
+  --secondary-dark-text-color: #000000;
 
   // Background color for dark theme – doesn't change in dark theme
-  --primary-dark-bg-color: #{$dark-primary-text};
+  --primary-dark-bg-color: #000000;
 
   // Background color for light theme – changes in dark theme
-  --primary-light-bg-color: #{$light-primary-text};
+  --primary-light-bg-color: #ffffff;
 
   // Secondary background color in light theme – doesn't change in dark theme
-  --secondary-light-bg-color: #{$secondary-light-color};
+  --secondary-light-bg-color: #aaaaaa;
 
   // Color used for info banners – doesn't change in dark theme
-  --banner-color: #{$banner-color};
+  --banner-color: #e5e6f1;
 
   // Background for disabled components – doesn't change in dark theme
-  --bg-disabled: #{$secondary-disabled-color};
+  --bg-disabled: #888888;
 
   // Background for cancel buttons/texts – doesn't change in dark theme
-  --bg-cancel-color: #{$button-color-cancel};
+  --bg-cancel-color: #444444;
 
   // Additional light background – doesn't change in dark theme
-  --bg-light-additional: #{$additional-light-color};
+  --bg-light-additional: #bbbbbb;
 
   // Background for disabled buttons – doesn't change in dark theme
-  --bg-disabled-button: #{$disabled-button};
+  --bg-disabled-button: #dddcdc;
 }

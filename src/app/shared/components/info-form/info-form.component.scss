@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../styles/components/create-form';
+@use '../../styles/components/validation-form';
+@use '../../styles/components/buttons';
 
 .step {
   padding: 0 !important;
@@ -13,4 +13,3 @@
 .multiline {
   white-space: pre-line;
 }
-

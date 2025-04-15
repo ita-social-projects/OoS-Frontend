@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/working-hours.scss';
+@use '../../../../../../../shared/styles/components/validation-form';
+@use '../../../../../../../shared/styles/components/buttons';
+@use '../../../../../../../shared/styles/components/working-hours';
 
 .step {
   gap: 10px;

@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
       <p class="text">{{ title | translate }}</p>
     </div>
   `,
-  styleUrls: ['../../styles/list-wrappers.scss']
+  styleUrls: ['../../styles/components/list-wrappers.scss']
 })
 export class NoResultCardComponent {
   @Input() public title: string;

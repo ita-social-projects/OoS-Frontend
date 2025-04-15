@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/cards.scss';
+@use '../../../../../shared/styles/components/card-wrapper';
+@use '../../../../../shared/styles/components/cards';
 
 .mat-mdc-card {
   margin: 1.3rem;

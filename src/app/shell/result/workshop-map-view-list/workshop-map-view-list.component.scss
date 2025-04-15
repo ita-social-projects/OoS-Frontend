@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/pagination.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
+@use '../../../shared/styles/components/pagination';
+@use '../../../shared/styles/components/card-wrapper';
 
 .wrapper {
   height: 77vh;

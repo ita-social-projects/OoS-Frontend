@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
+@use 'app/shared/styles/utils/variables/theme-variables.scss';
 @import '@angular/material/theming';
-@import 'src/app/shared/styles/theme-variables.scss';
 
 @font-face {
   font-family: 'Innerspace';
@@ -28,7 +28,7 @@ $primary-light-palette: mat.define-palette(
     200: #a4a8fe,
     300: #7b85fe,
     400: #5b67fd,
-    500: $primary-color,
+    500: var(--primary-accent-color),
     600: #333fed,
     700: #2832e0,
     800: #1d24d5,
@@ -238,14 +238,14 @@ a {
 }
 
 .mat-step-icon-selected {
-  border: 2px solid $primary-color;
+  border: 2px solid var(--primary-accent-color);
   box-sizing: border-box;
-  color: $primary-color !important;
+  color: var(--primary-accent-color) !important;
   background-color: transparent !important;
 }
 
 .mat-step-label-active.mat-step-label-selected {
-  color: $primary-color !important;
+  color: var(--primary-accent-color) !important;
 }
 
 .mat-step-label-active {
@@ -425,7 +425,7 @@ input:-webkit-autofill:active {
   .mdc-radio:hover .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
   .mdc-radio:not(:disabled):active .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
     .mdc-radio__outer-circle {
-      border-color: $primary-color;
+      border-color: var(--primary-accent-color);
       border-width: 5px;
     }
 

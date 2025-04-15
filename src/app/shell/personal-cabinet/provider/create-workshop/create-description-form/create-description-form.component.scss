@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use '../../../../../shared/styles/components/create-form';
+@use '../../../../../shared/styles/components/validation-form';
+@use '../../../../../shared/styles/components/dropdown';
 
 .keywords {
   min-height: 100px;

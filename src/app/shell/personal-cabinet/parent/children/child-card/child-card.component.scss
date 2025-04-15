@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/cards.scss';
+@use '../../../../../shared/styles/components/cards';
 .card {
   height: 410px;
   .img-section {

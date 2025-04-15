@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/search.scss';
+@use '../../../../shared/styles/components/navigation-tabs';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/list-wrappers';
+@use '../../../../shared/styles/components/search';
 
 .table-wrapper {
   padding: 1rem;

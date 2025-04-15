@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/full-width-card.scss';
+@use '../../../../../shared/styles/components/buttons';
+@use '../../../../../shared/styles/components/full-width-card';
 
 .card-block {
   max-width: 100%;

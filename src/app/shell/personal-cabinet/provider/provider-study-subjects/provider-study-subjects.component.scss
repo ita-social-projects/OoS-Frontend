@@ -1,8 +1,8 @@
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/tables.scss';
-@import 'src/app/shared/styles/search.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/calendar.scss';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/tables';
+@use '../../../../shared/styles/components/search';
+@use '../../../../shared/styles/components/dropdown';
+@use '../../../../shared/styles/components/calendar';
 
 table {
   width: 100%;

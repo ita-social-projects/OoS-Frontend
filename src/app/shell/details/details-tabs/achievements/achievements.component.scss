@@ -1,8 +1,8 @@
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use '../../../../shared/styles/components/card-wrapper';
+@use '../../../../shared/styles/components/cards';
+@use '../../../../shared/styles/components/list-wrappers';
+@use '../../../../shared/styles/components/navigation-tabs';
+@use '../../../../shared/styles/components/buttons';
 .text {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;

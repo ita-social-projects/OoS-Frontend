@@ -1,4 +1,4 @@
-@import './variables.scss';
+@use '../variables/variables' as vars;
 
 @keyframes loader {
   0% {
@@ -28,12 +28,12 @@
 }
 @keyframes pulse {
   0% {
-    color: $length-warning-message;
+    color: vars.$length-warning-message;
   }
   50% {
     opacity: 0.2;
   }
   100% {
-    color: $length-warning-message;
+    color: vars.$length-warning-message;
   }
 }

@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/tables.scss';
-@import 'src/app/shared/styles/search.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use '../../../../shared/styles/components/tables';
+@use '../../../../shared/styles/components/search';
+@use '../../../../shared/styles/components/buttons';
+@use '../../../../shared/styles/components/dropdown';
 
 .provider-list-status {
   font-family: 'Open Sans', sans-serif;
