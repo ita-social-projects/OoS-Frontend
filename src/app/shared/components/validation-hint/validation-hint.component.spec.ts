@@ -56,21 +56,34 @@ describe('ValidationHintComponent', () => {
       const mockStatusChanges = new Subject<void>();
       const control1 = new FormControl('');
       const control2 = new FormControl('');
+      const control3 = new FormControl('');
+      const control4 = new FormControl('');
+      const group1 = new FormGroup({
+        control11: control3,
+        control12: control4
+      });
+
       const formGroup = new FormGroup({
         control1: control1,
-        control2: control2
+        control2: control2,
+        group: group1
       });
 
       jest.spyOn(formGroup.statusChanges, 'pipe').mockReturnValue(mockStatusChanges.asObservable());
       jest.spyOn(component, 'updateValidationState');
+      jest.spyOn(component, 'checkFormNestingAndUpdateValidation');
 
       component.validationFormControl = formGroup;
       component.ngOnInit();
 
       mockStatusChanges.next();
 
+      expect(component.checkFormNestingAndUpdateValidation).toHaveBeenCalledWith(formGroup);
       expect(component.updateValidationState).toHaveBeenCalledWith(control1);
       expect(component.updateValidationState).toHaveBeenCalledWith(control2);
+      expect(component.checkFormNestingAndUpdateValidation).toHaveBeenCalledWith(group1);
+      expect(component.updateValidationState).toHaveBeenCalledWith(control3);
+      expect(component.updateValidationState).toHaveBeenCalledWith(control4);
     });
 
     it('should not mark validationFormControl as touched if already touched', fakeAsync(() => {
