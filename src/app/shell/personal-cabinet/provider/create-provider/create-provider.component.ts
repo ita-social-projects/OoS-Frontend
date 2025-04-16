@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -26,6 +26,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { Contacts } from 'shared/models/workshop.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -54,9 +55,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public isEditMode: boolean = false;
 
   public InfoFormGroup: FormGroup;
-  public ActualAddressFormGroup: FormGroup;
-  public LegalAddressFormGroup: FormGroup;
+  // public ActualAddressFormGroup: FormGroup;
+  // public LegalAddressFormGroup: FormGroup;
   public PhotoFormGroup: FormGroup;
+  public ContactsFormArray: FormArray;
 
   public ContactsFormGroup: FormGroup = new FormGroup({});
   public RobotFormControl = new FormControl(false);
@@ -148,21 +150,30 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-      let legalAddress: Address;
-      let actualAddress: Address;
+      // let legalAddress: Address;
+      // let actualAddress: Address;
       let provider: Provider;
+      let contacts: Contacts[];
 
       if (this.isEditMode) {
-        legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
-        actualAddress = this.ActualAddressFormGroup.disabled
-          ? null
-          : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actualAddress, this.PhotoFormGroup.value, user, this.provider);
+        contacts = this.createContacts();
+        // legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
+        // actualAddress = this.ActualAddressFormGroup.disabled
+        //   ? null
+        //   : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
+        provider = new Provider(
+          this.InfoFormGroup.value,
+          /* legalAddress, actualAddress,*/ contacts,
+          this.PhotoFormGroup.value,
+          user,
+          this.provider
+        );
         this.store.dispatch(new UpdateProvider(provider, this.isImagesFeature));
       } else {
-        legalAddress = new Address(this.LegalAddressFormGroup.value);
-        actualAddress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actualAddress, this.PhotoFormGroup.value, user);
+        contacts = this.createContacts();
+        // legalAddress = new Address(this.LegalAddressFormGroup.value);
+        // actualAddress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
+        provider = new Provider(this.InfoFormGroup.value, /* legalAddress, actualAddress,*/ contacts, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider, this.isImagesFeature));
       }
     }
@@ -181,16 +192,21 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
    * @param form FormGroup
    */
-  public onReceiveActualAddressFormGroup(form: FormGroup): void {
-    this.ActualAddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
-    this.ContactsFormGroup.addControl('actual', form);
-  }
+  // public onReceiveActualAddressFormGroup(form: FormGroup): void {
+  //   this.ActualAddressFormGroup = form;
+  //   this.subscribeOnDirtyForm(form);
+  //   this.ContactsFormGroup.addControl('actual', form);
+  // }
 
-  public onReceiveLegalAddressFormGroup(form: FormGroup): void {
-    this.LegalAddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
-    this.ContactsFormGroup.addControl('legal', form);
+  // public onReceiveLegalAddressFormGroup(form: FormGroup): void {
+  //   this.LegalAddressFormGroup = form;
+  //   this.subscribeOnDirtyForm(form);
+  //   this.ContactsFormGroup.addControl('legal', form);
+  // }
+
+  public onReceiveContactsFormArray(array: FormArray): void {
+    this.ContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
@@ -216,9 +232,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
   public checkValidationContacts(): void {
-    Object.keys(this.ContactsFormGroup.controls).forEach((key) => {
-      if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
-        this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
+    Object.keys(this.ContactsFormArray.controls).forEach((key) => {
+      if ((this.ContactsFormArray.get(key) as FormGroup).enabled) {
+        this.checkValidation(this.ContactsFormArray.get(key) as FormGroup);
       }
     });
   }
@@ -244,5 +260,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     } else {
       this.router.navigate(['/personal-cabinet/provider/info']);
     }
+  }
+
+  private createContacts(): Contacts[] {
+    return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 }
