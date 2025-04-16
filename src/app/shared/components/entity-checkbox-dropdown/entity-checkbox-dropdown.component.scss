@@ -2,6 +2,7 @@
 
 .dropdown {
   max-width: 125px;
+  display: flex;
   background: var(--primary-light-bg-color);
   font-weight: 500;
   border: 1px solid var(--input-light-color);

@@ -12,12 +12,13 @@
 
 $config: mat.define-typography-config(
   $font-family: 'Innerspace',
-  $button: mat.define-typography-level(13px, 15px, 700)
+  // temporarily font-family for buttons
+  $button: mat.define-typography-level(13px, 15px, 700, 'Open Sans')
 );
 
 @mixin mat-form-typography($config) {
   .mat-form-field {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif !important;
   }
 }
 
@@ -131,6 +132,7 @@ $dark-theme: mat.define-dark-theme(
   --primary-light-text-color: #1b1a1a;
   --list-text-color: #494545;
   --body-color: #2e2d2d;
+  --primary-accent-color: #4786f5;
 
   h1,
   h2,
@@ -170,7 +172,7 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 0.8125rem;
   line-height: 1.125rem;
   background-color: var(--body-color);
@@ -225,7 +227,7 @@ a {
 }
 
 .mat-step-label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-weight: 700 !important;
   color: var(--secondary-light-text-color) !important;
 }
@@ -292,7 +294,7 @@ a {
 }
 
 .mat-mdc-dialog-surface {
-  --mdc-dialog-supporting-text-font: 'Open Sans', serif;
+  --mdc-dialog-supporting-text-font: 'Open Sans', serif !important;
   padding: 10px 24px 24px;
 
   .mdc-dialog__title {
@@ -391,7 +393,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--primary-light-text-color) inset !important;
   line-height: initial;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 .mat-menu-panel {
@@ -486,7 +488,7 @@ input:disabled {
 }
 
 input {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-weight: 300;
   font-size: 13px;
   line-height: 18px;

@@ -12,7 +12,7 @@ export class ValidationMessageStylingDirective {
     private r: Renderer2
   ) {
     this.r.setStyle(this.el.nativeElement, 'display', 'block');
-    this.r.setStyle(this.el.nativeElement, 'color', 'red');
+    this.r.setStyle(this.el.nativeElement, 'color', 'var(--error-color)');
     this.r.setStyle(this.el.nativeElement, 'font-size', '10px');
   }
 }
