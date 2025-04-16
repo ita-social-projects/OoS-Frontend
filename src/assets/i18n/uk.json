@@ -359,7 +359,10 @@
         "INTERNATIONAL": "Міжнародний"
       },
       "GROUP_TYPE": {
-        "NONE": "Немає"
+        "WORKSHOP": "Гурток",
+        "CREATIVE_UNION": "Творче об'єднання",
+        "STUDIO": "Студія",
+        "SECTION": "Секція"
       }
     },
     "TYPE_OF_COMPETITION": {

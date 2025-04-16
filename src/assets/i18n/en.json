@@ -359,7 +359,10 @@
         "INTERNATIONAL": "International"
       },
       "GROUP_TYPE": {
-        "NONE": "None"
+        "WORKSHOP": "Workshop",
+        "CREATIVE_UNION": "Creative Union",
+        "STUDIO": "Studio",
+        "SECTION": "Section"
       }
     },
     "TYPE_OF_COMPETITION": {

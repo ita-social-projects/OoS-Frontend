@@ -74,7 +74,10 @@ export enum AgeComposition {
 }
 
 export enum GroupType {
-  None = 'None'
+  Workshop = 'Workshop',
+  CreativeUnion = 'CreativeUnion',
+  Studio = 'Studio',
+  Section = 'Section'
 }
 
 export enum SocialNetworks {
