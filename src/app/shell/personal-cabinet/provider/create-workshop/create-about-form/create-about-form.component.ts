@@ -222,7 +222,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         if (noLimit) {
           ageFormControls.forEach((field) => {
             const control = this.AboutFormGroup.get(field);
-            control?.disable();
+            control?.disable({ emitEvent: true });
             control?.setValue(null, { emitEvent: false });
           });
         } else {

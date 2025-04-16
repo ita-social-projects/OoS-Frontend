@@ -141,6 +141,33 @@ describe('CreateAboutFormComponent', () => {
       expect(component.isShowHintAboutWorkshopAutoClosing).toBe(false);
     });
   });
+
+  it('should disable age input fields if noAgeRestrictions is true', () => {
+    component.AboutFormGroup.controls.noAgeRestrictions.setValue(true);
+
+    expect(component.AboutFormGroup.controls.minAge.disabled).toBe(true);
+    expect(component.AboutFormGroup.controls.maxAge.disabled).toBe(true);
+    expect(component.AboutFormGroup.controls.minAge.value).toBe(null);
+    expect(component.AboutFormGroup.controls.maxAge.value).toBe(null);
+  });
+
+  it('should enable age input fields if noAgeRestrictions is false', () => {
+    component.AboutFormGroup.controls.noAgeRestrictions.setValue(false);
+
+    expect(component.AboutFormGroup.controls.minAge.disabled).toBe(false);
+    expect(component.AboutFormGroup.controls.maxAge.disabled).toBe(false);
+    expect(component.AboutFormGroup.controls.minAge.touched).toBe(false);
+    expect(component.AboutFormGroup.controls.maxAge.touched).toBe(false);
+  });
+
+  it('should set null value to age input fields if noAgeRestrictions is true', () => {
+    component.workshop.noAgeRestrictions = true;
+    component.workshop.minAge = 0;
+    component.workshop.maxAge = 120;
+
+    expect(component.AboutFormGroup.controls.minAge.value).toBe(null);
+    expect(component.AboutFormGroup.controls.maxAge.value).toBe(null);
+  });
 });
 
 @Component({
@@ -164,6 +191,9 @@ class MockValidationHintAboutComponent {
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
   @Input() minNumberValue: boolean;
+  @Input() maxValue: boolean;
+  @Input() minValue: boolean;
+  @Input() isNumberValue: boolean;
 }
 
 @Component({
