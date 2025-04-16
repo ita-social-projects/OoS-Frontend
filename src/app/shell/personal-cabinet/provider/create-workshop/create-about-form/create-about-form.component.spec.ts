@@ -87,6 +87,7 @@ describe('CreateAboutFormComponent', () => {
       shortTitle: new FormControl(''),
       phone: new FormControl(''),
       email: new FormControl(''),
+      noAgeRestrictions: new FormControl(false),
       minAge: new FormControl(''),
       maxAge: new FormControl(''),
       image: new FormControl(''),
@@ -164,6 +165,8 @@ describe('CreateAboutFormComponent', () => {
     component.workshop.noAgeRestrictions = true;
     component.workshop.minAge = 0;
     component.workshop.maxAge = 120;
+
+    component.activateEditMode();
 
     expect(component.AboutFormGroup.controls.minAge.value).toBe(null);
     expect(component.AboutFormGroup.controls.maxAge.value).toBe(null);
