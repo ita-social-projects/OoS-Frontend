@@ -90,7 +90,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public selectedAdmin: BaseAdmin;
   public role: Role;
   public workshop: Workshop;
-  public selectedWorkshopId: string;
+  public selectedWorkshopDraftId: string;
   public isInfoDisplayed: boolean;
   public displayedColumns: string[] = [
     'title',
@@ -217,7 +217,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   }
 
   public onViewWorkshopInfo(workshop: WorkshopDraft): void {
-    this.selectedWorkshopId = workshop.workshopDraftId;
+    this.selectedWorkshopDraftId = workshop.workshopDraftId;
     this.workshop = workshop.workshopDetails;
     this.isInfoDisplayed = true;
   }
@@ -266,7 +266,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
   public closeInfo(): void {
     this.isInfoDisplayed = false;
-    this.selectedWorkshopId = null;
+    this.selectedWorkshopDraftId = null;
   }
 
   public ngOnDestroy(): void {
