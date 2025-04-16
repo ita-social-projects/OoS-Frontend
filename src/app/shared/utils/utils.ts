@@ -53,7 +53,7 @@ export class Util {
   }
 
   public static isWorkshop(workshop: Workshop | WorkshopDraft): boolean {
-    return workshop instanceof Workshop;
+    return !('workshopDraftId' in workshop);
   }
 
   public static containsWorkshopDetails(workshop: object): workshop is { workshopDetails: Workshop } {
