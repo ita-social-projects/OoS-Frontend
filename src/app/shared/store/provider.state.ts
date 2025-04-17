@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, take, tap } from 'rxjs/operators';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -529,18 +529,19 @@ export class ProviderState {
 
   @Action(providerActions.GetWorkshopDraftIdByWorkshopId)
   getWorkshopDraftByWorkshopId(
-    { patchState }: StateContext<ProviderStateModel>,
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
     { id }: providerActions.GetWorkshopDraftIdByWorkshopId
-  ): void {
+  ): Observable<string> {
     patchState({ isLoading: true });
-    this.userWorkshopService
-      .getWorkshopDraftIdByWorkshopId(id)
-      .pipe(take(1))
-      .subscribe((draftId: string | undefined) => {
-        this.router.navigate(['/create', draftId ? 'draft' : 'workshop', draftId ?? id]).finally(() => {
-          patchState({ isLoading: false });
-        });
-      });
+    return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
+      take(1),
+      tap((draftId) => this.router.navigate(['/create', draftId ? 'draft' : 'workshop', draftId ?? id])),
+      catchError(() => {
+        dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+        return EMPTY;
+      }),
+      finalize(() => patchState({ isLoading: false }))
+    );
   }
 
   @Action(providerActions.UpdateDraft)
