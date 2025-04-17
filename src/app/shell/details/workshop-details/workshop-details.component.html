@@ -1,7 +1,10 @@
 <div class="container" *ngIf="provider">
   <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
-  <div class="img-wrapper flex justify-center">
-    <img class="coverImage" [src]="coverImage" [alt]="'ALT.IMG_COVER' | translate" />
+  <div class="img-wrapper relative flex justify-center">
+    <img class="coverImage" [src]="coverImage" (error)="fallback()" [alt]="'ALT.IMG_COVER' | translate" />
+    <ng-container *ngIf="isImageBroken">
+      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+    </ng-container>
   </div>
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"

@@ -76,8 +76,9 @@
 
     .fallback {
       box-sizing: border-box;
-      border: 1px solid red;
+      border: 2px solid red;
       color: red;
+      font-weight: bold;
       user-select: none;
     }
   }

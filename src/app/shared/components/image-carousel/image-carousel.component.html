@@ -1,5 +1,5 @@
 <owl-carousel-o [options]="customOptions">
   <ng-template carouselSlide *ngFor="let image of images; let index = index">
-    <img class="image" [src]="image.path" [alt]="('ALT.CAROUSEL_IMG' | translate) + ' ' + (index + indexOffset)" />
+    <img class="image" [src]="image.path" (error)="fallback($event)" [alt]="('ALT.CAROUSEL_IMG' | translate) + ' ' + (index + indexOffset)" />
   </ng-template>
 </owl-carousel-o>

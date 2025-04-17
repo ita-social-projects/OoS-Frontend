@@ -25,6 +25,10 @@ export class ImagesService {
     return entity.coverImageId ? environment.storageUrl + entity.coverImageId : this.defaultCoverImage;
   }
 
+  public getDefaultCoverImage(): string {
+    return this.defaultCoverImage;
+  }
+
   public getCarouselImages(entity: Workshop | Provider | Competition): ImgPath[] {
     if (entity.imageIds?.length) {
       return entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
@@ -34,7 +38,7 @@ export class ImagesService {
       {
         path:
           entity.constructor.name === 'Workshop'
-            ? 'assets/images/groupimages/workshop-img.png'
+            ? this.defaultCoverImage
             : entity.constructor.name === 'Competition'
               ? 'assets/images/groupimages/competition-img.png' // TODO: add competition image
               : null

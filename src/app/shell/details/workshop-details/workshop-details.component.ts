@@ -62,6 +62,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
+  public isImageBroken: boolean = false;
   public workshopStatusOpen: boolean;
   public selectedIndex: number;
   public tabIndex: number;
@@ -103,6 +104,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: { status: DetailsTabTitlesParams[event.index] }
     });
+  }
+
+  public fallback(): void {
+    this.isImageBroken = true;
+    this.coverImage = this.imagesService.getDefaultCoverImage();
   }
 
   public ngOnDestroy(): void {
