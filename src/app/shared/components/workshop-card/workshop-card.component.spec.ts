@@ -4,11 +4,14 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { CategoryIcons } from 'shared/enum/category-icons';
+import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { of } from 'rxjs';
+import { Role } from 'shared/enum/role';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -17,6 +20,13 @@ import { WorkshopCardComponent } from './workshop-card.component';
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
   let fixture: ComponentFixture<WorkshopCardComponent>;
+  const mockStore = {
+    dispatch: jest.fn(),
+    select: jest.fn().mockReturnValue(of(Role.provider))
+  };
+  const mockRouter = {
+    navigate: jest.fn()
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,13 +34,19 @@ describe('WorkshopCardComponent', () => {
         MatIconModule,
         MatCardModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule,
         MatChipsModule,
         MatTooltipModule,
         MatDialogModule,
         TranslateModule.forRoot()
       ],
-      declarations: [WorkshopCardComponent]
+      declarations: [WorkshopCardComponent],
+      providers: [
+        { provide: Store, useValue: mockStore },
+        {
+          provide: Router,
+          useValue: mockRouter
+        }
+      ]
     }).compileComponents();
   });
 
@@ -61,6 +77,22 @@ describe('WorkshopCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onEdit', () => {
+    it('should navigate directly if workshopDraftId provided', () => {
+      component.onEdit('111');
+      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['create/draft', '111']);
+    });
+
+    it('should dispatch check for workshopDraftId if workshopDraftId is not provided', () => {
+      component.workshopData = {
+        id: '111'
+      } as WorkshopCard;
+      component.onEdit(undefined);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('111'));
+    });
   });
 
   it('coverImage error', () => {
