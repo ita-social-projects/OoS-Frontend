@@ -12,6 +12,7 @@ import { of } from 'rxjs';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
 import { Role } from 'shared/enum/role';
+// eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
