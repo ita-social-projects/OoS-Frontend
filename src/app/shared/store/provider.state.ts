@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -525,6 +525,22 @@ export class ProviderState {
       tap(() => dispatch(new providerActions.OnDeleteWorkshopSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteWorkshopFail(error)))
     );
+  }
+
+  @Action(providerActions.GetWorkshopDraftIdByWorkshopId)
+  getWorkshopDraftByWorkshopId(
+    { patchState }: StateContext<ProviderStateModel>,
+    { id }: providerActions.GetWorkshopDraftIdByWorkshopId
+  ): void {
+    patchState({ isLoading: true });
+    this.userWorkshopService
+      .getWorkshopDraftIdByWorkshopId(id)
+      .pipe(take(1))
+      .subscribe((draftId: string | undefined) => {
+        this.router.navigate(['/create', draftId ? 'draft' : 'workshop', draftId ?? id]).finally(() => {
+          patchState({ isLoading: false });
+        });
+      });
   }
 
   @Action(providerActions.UpdateDraft)

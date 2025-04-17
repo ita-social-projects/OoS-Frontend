@@ -21,7 +21,9 @@
            class="btn btn-cancel"
            [class.btn-rejected]="workshop.draftStatus === WorkshopDraftStatus.Rejected"
            [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
-           mat-button>{{ 'BUTTONS.EDIT' | translate | uppercase }}
+           mat-button
+           (click)="onEdit()"
+         >{{ 'BUTTONS.EDIT' | translate | uppercase }}
          </button>
       </span>
       <button

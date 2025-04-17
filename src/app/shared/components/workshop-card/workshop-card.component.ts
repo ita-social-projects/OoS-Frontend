@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -21,7 +22,7 @@ import { WorkshopBaseCard, WorkshopDraft, WorkshopDraftCard, WorkshopProviderVie
 import { ImagesService } from 'shared/services/images/images.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
-import { DraftSendForModeration, UpdateWorkshopStatus } from 'shared/store/provider.actions';
+import { DraftSendForModeration, GetWorkshopDraftIdByWorkshopId, UpdateWorkshopStatus } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -78,7 +79,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private dialog: MatDialog,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private router: Router
   ) {}
 
   public get canOpenWorkshopRecruitment(): boolean {
@@ -106,6 +108,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         this.getFavoriteWorkshops();
         this.role = role;
       });
+  }
+
+  public onEdit(workshopDraftId: string | undefined): void {
+    if (workshopDraftId) {
+      this.router.navigate(['create/draft', workshopDraftId]);
+    } else {
+      this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.workshopData?.id));
+    }
   }
 
   public onDelete(): void {

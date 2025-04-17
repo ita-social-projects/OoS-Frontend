@@ -11,13 +11,18 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { DraftSendForModeration, OnDraftSendForModerationSuccess, ResetAchievements } from 'shared/store/provider.actions';
+import {
+  DraftSendForModeration,
+  GetWorkshopDraftIdByWorkshopId,
+  OnDraftSendForModerationSuccess,
+  ResetAchievements
+} from 'shared/store/provider.actions';
 import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -70,7 +75,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public coverImage: string;
 
   protected readonly Util = Util;
-  protected readonly WorkshopType = WorkshopType;
   protected readonly ModalConfirmationType = ModalConfirmationType;
   protected readonly isRoleProvider = isRoleProvider;
 
@@ -145,6 +149,10 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  public onEdit(): void {
+    this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.route.snapshot.paramMap.get('id')));
   }
 
   private getWorkshopData(): void {
