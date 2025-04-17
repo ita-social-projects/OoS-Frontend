@@ -303,6 +303,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () => errors?.invalidTimeRange,
         message: ValidationMessages.INVALID_TIME_RANGE
+      },
+      {
+        condition: () => errors?.invalidDateRange,
+        message: ValidationMessages.INVALID_STUDY_PERIOD_DATE
       }
     ];
 

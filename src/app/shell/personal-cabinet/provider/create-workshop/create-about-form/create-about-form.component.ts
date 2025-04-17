@@ -18,6 +18,7 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
+import { dateRangeValidator } from 'shared/validators/date-range/date-range-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -69,6 +70,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
+  }
+
+  public get studyPeriodDates(): FormGroup {
+    return this.AboutFormGroup.get('studyPeriodDates') as FormGroup;
   }
 
   public get minSeats(): number {
@@ -168,8 +173,15 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           },
           [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
         ),
-        studyPeriodStartDate: new FormControl(null, [Validators.required]),
-        studyPeriodEndDate: new FormControl(null, [Validators.required]),
+        studyPeriodDates: this.formBuilder.group(
+          {
+            studyPeriodStartDate: new FormControl<Date | null>(null, Validators.required),
+            studyPeriodEndDate: new FormControl<Date | null>(null, Validators.required)
+          },
+          {
+            validators: dateRangeValidator('studyPeriodStartDate', 'studyPeriodEndDate')
+          }
+        ),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
