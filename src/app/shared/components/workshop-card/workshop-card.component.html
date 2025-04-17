@@ -4,10 +4,14 @@
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full flex flex-row justify-center">
       <img
-        [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
+        [ngClass]="{ 'card-img-full': workshopData.coverImageId && !isImageBroken }"
         mat-card-image
         [src]="workshopData['_meta']"
+        (error)="fallback()"
         alt="{{ workshopData.title }}" />
+      <ng-container *ngIf="isImageBroken">
+        <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+      </ng-container>
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">

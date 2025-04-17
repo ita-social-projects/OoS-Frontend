@@ -6,6 +6,14 @@
   width: 100%;
 }
 
+.error-message {
+  color: red;
+
+  &:hover {
+    color: darkred;
+  }
+}
+
 .horizontal {
   margin: 0;
 }
