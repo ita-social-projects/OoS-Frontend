@@ -7,11 +7,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
 
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
-import { of } from 'rxjs';
 import { Role } from 'shared/enum/role';
+import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -22,7 +23,8 @@ describe('WorkshopCardComponent', () => {
   let fixture: ComponentFixture<WorkshopCardComponent>;
   const mockStore = {
     dispatch: jest.fn(),
-    select: jest.fn().mockReturnValue(of(Role.provider))
+    select: jest.fn().mockReturnValue(of(Role.provider)),
+    selectSnapshot: jest.fn().mockReturnValue({ userId: '111' })
   };
   const mockRouter = {
     navigate: jest.fn()
@@ -39,7 +41,7 @@ describe('WorkshopCardComponent', () => {
         MatDialogModule,
         TranslateModule.forRoot()
       ],
-      declarations: [WorkshopCardComponent],
+      declarations: [WorkshopCardComponent, UnregisteredUserWarningModalComponent],
       providers: [
         { provide: Store, useValue: mockStore },
         {
@@ -93,6 +95,35 @@ describe('WorkshopCardComponent', () => {
       component.onEdit(undefined);
       expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('111'));
     });
+  });
+
+  it('keydown', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {
+      key: 'Enter'
+    });
+
+    jest.spyOn(component, 'onEdit');
+    jest.spyOn(component, 'onLike');
+    jest.spyOn(component, 'onDisLike');
+    jest.spyOn(component, 'onDelete');
+    jest.spyOn(component, 'onOpenDialog');
+
+    component.onEditKeydown(keyboardEvent, '111');
+    expect(component.onEdit).toHaveBeenCalled();
+    component.onDeleteKeydown(keyboardEvent);
+    expect(component.onDelete).toHaveBeenCalled();
+
+    component.role = Role.parent;
+
+    component.onLikeKeydown(keyboardEvent);
+    expect(component.onLike).toHaveBeenCalled();
+    expect(component.onOpenDialog).not.toHaveBeenCalled();
+    component.onDislikeKeydown(keyboardEvent);
+    expect(component.onDisLike).toHaveBeenCalled();
+
+    component.role = Role.unauthorized;
+    component.onLikeKeydown(keyboardEvent);
+    expect(component.onOpenDialog).toHaveBeenCalled();
   });
 
   it('coverImage error', () => {
