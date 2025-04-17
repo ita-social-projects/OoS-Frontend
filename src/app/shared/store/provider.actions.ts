@@ -131,14 +131,14 @@ export class GetWorkshopListByProviderId {
   constructor(public payload: string) {}
 }
 
-export class DraftSendForModeration {
-  static readonly type = '[user] send Draft for Moderation';
+export class GetWorkshopDraftIdByWorkshopId {
+  static readonly type = '[provider] get Workshop Draft ID by Workshop Id';
 
   constructor(public id: string) {}
 }
 
-export class GetWorkshopDraftIdByWorkshopId {
-  static readonly type = '[user] get Workshop Draft ID by Workshop Id';
+export class DraftSendForModeration {
+  static readonly type = '[provider] send Draft for Moderation';
 
   constructor(public id: string) {}
 }
