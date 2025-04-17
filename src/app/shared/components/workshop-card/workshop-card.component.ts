@@ -110,6 +110,33 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
   }
 
+  public onKeydown(event: KeyboardEvent, action: () => void): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      action();
+      event.preventDefault();
+    }
+  }
+
+  public onEditKeydown(event: KeyboardEvent, id: string | undefined): void {
+    this.onKeydown(event, () => this.onEdit(id));
+  }
+
+  public onDeleteKeydown(event: KeyboardEvent): void {
+    this.onKeydown(event, () => this.onDelete());
+  }
+
+  public onLikeKeydown(event: KeyboardEvent): void {
+    if (this.role === Role.parent) {
+      this.onKeydown(event, () => this.onLike());
+    } else {
+      this.onKeydown(event, () => this.onOpenDialog());
+    }
+  }
+
+  public onDislikeKeydown(event: KeyboardEvent): void {
+    this.onKeydown(event, () => this.onDisLike());
+  }
+
   public onEdit(workshopDraftId: string | undefined): void {
     if (workshopDraftId) {
       this.router.navigate(['create/draft', workshopDraftId]);
@@ -123,15 +150,19 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   public onLike(): void {
-    const param = new Favorite(this.workshopData.id, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
-    this.store.dispatch([
-      new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({
-        message: SnackbarText.addedWorkshopFavorite,
-        type: 'success'
-      })
-    ]);
-    this.isFavorite = !this.isFavorite;
+    if (this.role === Role.parent) {
+      const param = new Favorite(this.workshopData.id, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
+      this.store.dispatch([
+        new CreateFavoriteWorkshop(param),
+        new ShowMessageBar({
+          message: SnackbarText.addedWorkshopFavorite,
+          type: 'success'
+        })
+      ]);
+      this.isFavorite = !this.isFavorite;
+    } else {
+      this.onOpenDialog();
+    }
   }
 
   public onDisLike(): void {

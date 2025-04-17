@@ -84,17 +84,16 @@
     <div
       *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
-      type="button"
+      role="button"
+      tabindex="0"
       (click)="onEdit(workshopData.workshopDraftId)"
+      (keydown)="onEditKeydown($event, workshopData.workshopDraftId)"
     >
       <mat-icon>edit</mat-icon>
     </div>
-    <div
-      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
-      class="actions_btn action-icon"
-      (click)="onDelete()"
-      tabindex="0"
-      (keypress)="onDelete()">
+    <div *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+         class="actions_btn action-icon" role="button" tabindex="0" (click)="onDelete()"
+         (keydown)="onDeleteKeydown($event)">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
@@ -107,13 +106,13 @@
 </ng-template>
 
 <ng-template #favorite>
-  <div class="actions_btn action-icon favorite-icon" (click)="role === Role.parent && onDisLike()">
+  <div class="actions_btn action-icon favorite-icon" (click)="role === Role.parent && onDisLike()" tabindex="0" role="button" (keydown)="role === Role.parent && onDislikeKeydown($event)">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
 
 <ng-template #notFavorite>
-  <div (click)="role === Role.parent ? onLike() : onOpenDialog()" class="actions_btn action-icon">
+  <div (click)="onLike()" class="actions_btn action-icon" tabindex="0" role="button" (keydown)="onLikeKeydown($event)">
     <mat-icon>favorite_border</mat-icon>
   </div>
 </ng-template>
