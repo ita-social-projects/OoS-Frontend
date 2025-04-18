@@ -88,7 +88,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
         ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
-        groupType: this.workshop.groupType || GroupType.None,
+        groupType: this.workshop.groupType || GroupType.Workshop,
         payRate: this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
@@ -114,7 +114,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
       ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
-      groupType: new FormControl(this.GroupType.None, Validators.required),
+      groupType: new FormControl(this.GroupType.Workshop, Validators.required),
       price: new FormControl({ value: null, disabled: true }, [
         Validators.required,
         Validators.min(ValidationConstants.MIN_PRICE),

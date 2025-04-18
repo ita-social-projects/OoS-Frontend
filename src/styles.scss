@@ -16,15 +16,6 @@ $config: mat.define-typography-config(
   $button: mat.define-typography-level(13px, 15px, 700)
 );
 
-@mixin mat-button-toggle-typography($config) {
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  .mat-button-toggle,
-  .mat-button-toggle-button {
-    @include mat.typography-level($config, button);
-    font-family: Innerspace, sans-serif;
-  }
-}
-
 @mixin mat-form-typography($config) {
   .mat-form-field {
     font-family: 'Open Sans', sans-serif;
@@ -92,18 +83,14 @@ $dark-theme: mat.define-dark-theme(
   )
 );
 
-/* TODO(mdc-migration): Remove all-legacy-component-themes once all legacy components are migrated */
-
-@include mat.all-legacy-component-themes($light-theme);
+@include mat.all-component-themes($light-theme);
 @include angular-material-theme($light-theme);
 
 .dark-theme {
-  @include mat.all-legacy-component-colors($dark-theme);
+  @include mat.all-component-colors($dark-theme);
   @include angular-material-color($dark-theme);
 }
 
-/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated */
-@include mat.legacy-core();
 @include mat.core();
 
 @include mat.button-toggle-typography($config);
@@ -399,6 +386,19 @@ button.mdc-button {
   }
 }
 
+button.mdc-icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .mat-icon {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .mat-mdc-chip .mdc-evolution-chip__text-label {
   display: flex;
   align-items: center;
@@ -435,6 +435,26 @@ input {
 
 .mat-mdc-select-panel {
   pointer-events: auto !important;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+
+  .mat-mdc-table {
+    *:not(mat-icon,i) {
+      font-family: "Open Sans", sans-serif;
+
+      .mat-mdc-header-cell {
+        font-size: 14px;
+        font-weight: 700;
+        color: #888888;
+      }
+
+      .mat-mdc-cell {
+        font-size: 13px;
+      }
+    }
+  }
 }
 
 @import 'tailwind.css';

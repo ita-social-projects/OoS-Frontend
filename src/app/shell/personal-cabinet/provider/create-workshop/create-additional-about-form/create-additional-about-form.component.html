@@ -51,8 +51,8 @@
       formControlName="areThereBenefits"
       color="primary"
       class="flex flex-col box-border justify-between content-center items-stretch">
-      <mat-radio-button [value]="true">{{ 'AGREEMENT' | translate }}</mat-radio-button>
-      <mat-radio-button [value]="false">{{ 'DISAGREEMENT' | translate }}</mat-radio-button>
+      <mat-radio-button [value]="true">{{ 'FORMS.LABELS.BENEFITS_POSITIVE' | translate }}</mat-radio-button>
+      <mat-radio-button [value]="false">{{ 'FORMS.LABELS.BENEFITS_NEGATIVE' | translate }}</mat-radio-button>
     </mat-radio-group>
     <ng-container *ngIf="AdditionalAboutGroup.get('areThereBenefits').value">
       <div class="flex flex-row justify-between">
