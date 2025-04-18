@@ -6,7 +6,7 @@ import { Competition, CompetitionProviderViewCard } from 'shared/models/competit
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { CompetitionCardParameters } from './../../models/competition.model';
+import { CompetitionCardParameters } from 'shared/models/competition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +49,7 @@ export class UserCompetitionService {
    * @param competition Competition
    */
   /**
-  / * This method creates a competition.
+   / * This method creates a competition.
    * todo: Update logic to use `createCompetitionV2` when the new version is available.
    */
   public createCompetition(competition: Competition): Observable<Competition> {
@@ -73,7 +73,7 @@ export class UserCompetitionService {
    * @param competition Competition
    */
   /**
-  / * This method creates a competition.
+   / * This method creates a competition.
    * todo: Update logic to use `createCompetitionV2` when the new version is available.
    */
   public updateCompetition(competition: Competition): Observable<Competition> {
@@ -102,14 +102,17 @@ export class UserCompetitionService {
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(competition).forEach((key: string) => {
-      if (imageFiles.includes(key)) {
-        competition[key].forEach((file: File) => formData.append(key, file));
-      } else if (formNames.includes(key)) {
-        formData.append(key, JSON.stringify(competition[key]));
-      } else {
-        formData.append(key, competition[key]);
+      if (competition[key]) {
+        if (imageFiles.includes(key)) {
+          competition[key].forEach((file: File) => formData.append(key, file));
+        } else if (formNames.includes(key)) {
+          formData.append(key, JSON.stringify(competition[key]));
+        } else {
+          formData.append(key, competition[key]);
+        }
       }
     });
+
     return formData;
   }
 }

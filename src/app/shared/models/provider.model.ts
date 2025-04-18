@@ -71,12 +71,14 @@ export abstract class ProviderBase {
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(provider).forEach((key: string) => {
-      if (imageFiles.includes(key)) {
-        provider[key].forEach((file: File) => formData.append(key, file));
-      } else if (formNames.includes(key)) {
-        formData.append(key, JSON.stringify(provider[key]));
-      } else {
-        formData.append(key, provider[key]);
+      if (provider[key]) {
+        if (imageFiles.includes(key)) {
+          provider[key].forEach((file: File) => formData.append(key, file));
+        } else if (formNames.includes(key)) {
+          formData.append(key, JSON.stringify(provider[key]));
+        } else {
+          formData.append(key, provider[key]);
+        }
       }
     });
 
