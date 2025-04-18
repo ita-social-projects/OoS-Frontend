@@ -129,8 +129,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.AboutFormGroup.get('maxAge').setValue(null, { emitEvent: false });
       this.AboutFormGroup.get('minAge').setValue(null, { emitEvent: false });
     } else {
-      this.AboutFormGroup.get('minAge').enable({ emitEvent: true });
-      this.AboutFormGroup.get('maxAge').enable({ emitEvent: true });
+      this.AboutFormGroup.get('minAge').enable();
+      this.AboutFormGroup.get('maxAge').enable();
     }
 
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
@@ -222,7 +222,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         if (noLimit) {
           ageFormControls.forEach((field) => {
             const control = this.AboutFormGroup.get(field);
-            control?.disable({ emitEvent: true });
+            control?.disable();
             control?.setValue(null, { emitEvent: false });
           });
         } else {
