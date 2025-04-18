@@ -9,7 +9,7 @@
         [src]="workshopData['_meta']"
         (error)="fallback()"
         alt="{{ workshopData.title }}" />
-      <ng-container *ngIf="isImageBroken">
+      <ng-container *ngIf="isImageBroken && isCabinetView">
         <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
       </ng-container>
     </div>
@@ -33,7 +33,7 @@
           </div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">
-          <img class="img" mat-card-image [src]="categoryIcons[id]" />
+          <img class="img" mat-card-image [src]="categoryIcons[id]" alt="direction {{ workshopData.directionIds }}"/>
         </ng-container>
       </mat-card-header>
 

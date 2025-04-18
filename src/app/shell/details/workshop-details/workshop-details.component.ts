@@ -23,6 +23,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-workshop-details',
@@ -164,4 +165,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )
     ]);
   }
+
+  protected readonly isRoleProvider = isRoleProvider;
 }
