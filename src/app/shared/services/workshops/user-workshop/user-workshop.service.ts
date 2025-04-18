@@ -208,12 +208,14 @@ export class UserWorkshopService {
     const skipNullKeys = ['maxAge', 'minAge'];
 
     Object.keys(workshop).forEach((key: string) => {
-      if (imageFiles.includes(key)) {
-        workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
-      } else if (formNames.includes(key)) {
-        formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
-      } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
-        formData.append(`${preKey}${key}`, workshop[key]);
+      if (workshop[key]) {
+        if (imageFiles.includes(key)) {
+          workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
+        } else if (formNames.includes(key)) {
+          formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
+        } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
+          formData.append(`${preKey}${key}`, workshop[key]);
+        }
       }
     });
 
