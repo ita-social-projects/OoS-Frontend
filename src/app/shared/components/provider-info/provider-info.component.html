@@ -50,36 +50,18 @@
       <p>{{ provider.edrpou }}</p>
       <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
       <p>
-        {{ provider.contacts[0].phones[0].number | phone }}
+        {{ provider.contacts?.[0]?.phones?.[0]?.number | phone }}
       </p>
       <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
-      <p>{{ provider.contacts[0].emails[0].address }}</p>
+      <p>{{ provider.contacts?.[0]?.emails?.[0]?.address }}</p>
       <h5>{{ 'FORMS.LABELS.FOUNDER' | translate }}</h5>
-      <!-- <p>{{ provider.founder }}</p>
-      <h5>{{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}</h5>
-      <p>{{ provider.director }}</p>
-      <h5>{{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}</h5>
-      <p>
-        {{ provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
-      </p> -->
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
       <div class="legal-address-wrapper">
         <h3>{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h3>
-        <!-- <ng-container *ngIf="provider?.legalAddress; then LegalAddress"></ng-container> -->
       </div>
       <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
-      <!-- <ng-container *ngIf="provider?.actualAddress; else LegalAddress">
-        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-        <p>{{ provider.actualAddress.codeficatorAddressDto.fullName }}</p>
-        <h5 *ngIf="provider.actualAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
-        <p>{{ provider.actualAddress.codeficatorAddressDto.cityDistrict }}</p>
-        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
-        <p>{{ provider.actualAddress.street }}</p>
-        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
-        <p>{{ provider.actualAddress.buildingNumber }}</p>
-      </ng-container> -->
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">

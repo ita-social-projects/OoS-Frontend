@@ -1,13 +1,7 @@
 <!-- LEGAL ADDRESS BLOCK -->
 <div class="step flex flex-col justify-between items-center">
   <h4 class="step-title">{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h4>
-  <div class="address-wrapper address-wrapper-border">
-    <!-- <app-create-address-form
-      [addressFormGroup]="legalAddressFormGroup"
-      [searchFormGroup]="searchLegalFormGroup"
-      [address]="provider?.legalAddress">
-    </app-create-address-form> -->
-  </div>
+  <div class="address-wrapper address-wrapper-border"></div>
 </div>
 
 <!-- ACTUAL ADDRESS CHECKBOX BLOCK -->
@@ -20,11 +14,5 @@
 
 <!-- ACTUAL ADDRESS BLOCK -->
 <div class="step flex flex-col justify-between items-stretch" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
-  <div class="address-wrapper">
-    <!-- <app-create-address-form
-      [addressFormGroup]="actualAddressFormGroup"
-      [searchFormGroup]="searchActualFormGroup"
-      [address]="provider?.actualAddress">
-    </app-create-address-form> -->
-  </div>
+  <div class="address-wrapper"></div>
 </div>

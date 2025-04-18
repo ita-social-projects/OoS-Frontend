@@ -134,36 +134,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method handle edit state for the formGroup
-   */
-  // private activateEditMode(): void {
-  //   const legalAddress = this.provider?.legalAddress;
-  //   const actualAddress = this.provider?.actualAddress;
-  //   const legalCodeficatorAddress = legalAddress?.codeficatorAddressDto;
-  //   const actualCodeficatorAddress = actualAddress?.codeficatorAddressDto;
-
-  //   // Setup Legal Address form controls
-  //   this.legalAddressFormGroup.patchValue(legalAddress, { emitEvent: false });
-  //   this.settlementLegalSearchFormControl.patchValue(legalCodeficatorAddress.settlement, {
-  //     emitEvent: false,
-  //     onlySelf: true
-  //   });
-  //   this.settlementLegalFormControl.patchValue(legalCodeficatorAddress, { emitEvent: false, onlySelf: true });
-
-  //   // Setup Actual Address form controls
-  //   if (actualAddress) {
-  //     this.actualAddressFormGroup.patchValue(actualAddress, { emitEvent: false });
-  //     this.settlementActualSearchFormControl.patchValue(actualCodeficatorAddress.settlement, {
-  //       emitEvent: false,
-  //       onlySelf: true
-  //     });
-  //     this.settlementActualFormControl.patchValue(actualCodeficatorAddress, { emitEvent: false, onlySelf: true });
-  //   }
-
-  //   this.isSameAddressControl.setValue(!Boolean(this.provider.actualAddress));
-  // }
-
-  /**
    * This method makes the formGroup enabled and and validators
    * @param control AbstractControl
    */
@@ -220,10 +190,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       controlsConfigList.forEach((config: { control: AbstractControl; validators: ValidatorFn | ValidatorFn[] }) => {
         this.setValidators(config.control, config.validators);
       });
-
-      // if (this.provider?.actualAddress) {
-      //   this.codeficatorIdActualFormControl.setValue(this.provider.actualAddress.catottgId);
-      // }
     }
   }
 }

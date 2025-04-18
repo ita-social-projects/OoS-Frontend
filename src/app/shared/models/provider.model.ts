@@ -1,6 +1,5 @@
 import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { Address } from './address.model';
 import { Institution } from './institution.model';
 import { DataItem } from './item.model';
 import { PaginationParameters } from './query-parameters.model';
@@ -27,8 +26,6 @@ export abstract class ProviderBase {
   imageIds?: string[];
   imageFiles?: File[];
   userId: string; // TODO: Remove as soon as it will be removed from the backend
-  // legalAddress: Address;
-  // actualAddress?: Address;
   contacts: Contacts[];
   institutionStatusId?: number;
   institutionId?: string;
@@ -36,15 +33,7 @@ export abstract class ProviderBase {
   institutionType: InstitutionTypes;
   providerSectionItems: ProviderSectionItem[];
 
-  constructor(
-    info: Partial<ProviderBase>,
-    // legalAddress: Address,
-    // actualAddress: Address,
-    contacts: Contacts[],
-    description: Partial<ProviderBase>,
-    user: User,
-    provider?: Provider
-  ) {
+  constructor(info: Partial<ProviderBase>, contacts: Contacts[], description: Partial<ProviderBase>, user: User, provider?: Provider) {
     this.fullTitle = info.fullTitle;
     this.shortTitle = info.shortTitle;
     this.website = description.website;
@@ -53,8 +42,6 @@ export abstract class ProviderBase {
     this.edrpou = info.edrpou;
     this.typeId = info.typeId;
     this.userId = user.id;
-    // this.legalAddress = legalAddress;
-    // this.actualAddress = actualAddress;
     this.contacts = contacts;
     this.institutionId = info.institution.id;
     this.institution = info.institution;
@@ -80,7 +67,7 @@ export abstract class ProviderBase {
 
   static createFormData(provider: Provider): FormData {
     const formData = new FormData();
-    const formNames = ['legalAddress', 'actualAddress', 'imageIds', 'providerSectionItems', 'contacts'];
+    const formNames = ['imageIds', 'providerSectionItems', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(provider).forEach((key: string) => {
@@ -105,16 +92,8 @@ export class Provider extends ProviderBase {
   numberOfRatings?: number;
   blockPhoneNumber?: string;
 
-  constructor(
-    info: Partial<Provider>,
-    // legalAddress: Address,
-    // actualAddress: Address,
-    contacts: Contacts[],
-    description: Partial<Provider>,
-    user: User,
-    provider?: Provider
-  ) {
-    super(info, /* legalAddress, actualAddress,*/ contacts, description, user, provider);
+  constructor(info: Partial<Provider>, contacts: Contacts[], description: Partial<Provider>, user: User, provider?: Provider) {
+    super(info, contacts, description, user, provider);
 
     this.ownership = info.ownership;
     if (provider?.isBlocked) {

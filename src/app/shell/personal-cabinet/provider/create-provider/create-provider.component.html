@@ -70,17 +70,11 @@
         <app-create-contacts
           [contacts]="provider?.contacts"
           (passContactsFormArray)="onReceiveContactsFormArray($event)"></app-create-contacts>
-        <!-- <app-create-contacts-form
-          (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
-          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)"
-          [provider]="provider">
-        </app-create-contacts-form> -->
         <div class="footer flex flex-row justify-center items-center">
           <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-
           <button
             class="btn"
             mat-button

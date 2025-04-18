@@ -55,8 +55,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public isEditMode: boolean = false;
 
   public InfoFormGroup: FormGroup;
-  // public ActualAddressFormGroup: FormGroup;
-  // public LegalAddressFormGroup: FormGroup;
   public PhotoFormGroup: FormGroup;
   public ContactsFormArray: FormArray;
 
@@ -150,30 +148,16 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-      // let legalAddress: Address;
-      // let actualAddress: Address;
       let provider: Provider;
       let contacts: Contacts[];
 
       if (this.isEditMode) {
         contacts = this.createContacts();
-        // legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
-        // actualAddress = this.ActualAddressFormGroup.disabled
-        //   ? null
-        //   : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
-        provider = new Provider(
-          this.InfoFormGroup.value,
-          /* legalAddress, actualAddress,*/ contacts,
-          this.PhotoFormGroup.value,
-          user,
-          this.provider
-        );
+        provider = new Provider(this.InfoFormGroup.value, contacts, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider, this.isImagesFeature));
       } else {
         contacts = this.createContacts();
-        // legalAddress = new Address(this.LegalAddressFormGroup.value);
-        // actualAddress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
-        provider = new Provider(this.InfoFormGroup.value, /* legalAddress, actualAddress,*/ contacts, this.PhotoFormGroup.value, user);
+        provider = new Provider(this.InfoFormGroup.value, contacts, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider, this.isImagesFeature));
       }
     }
@@ -187,22 +171,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.InfoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
-
-  /**
-   * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
-   * @param form FormGroup
-   */
-  // public onReceiveActualAddressFormGroup(form: FormGroup): void {
-  //   this.ActualAddressFormGroup = form;
-  //   this.subscribeOnDirtyForm(form);
-  //   this.ContactsFormGroup.addControl('actual', form);
-  // }
-
-  // public onReceiveLegalAddressFormGroup(form: FormGroup): void {
-  //   this.LegalAddressFormGroup = form;
-  //   this.subscribeOnDirtyForm(form);
-  //   this.ContactsFormGroup.addControl('legal', form);
-  // }
 
   public onReceiveContactsFormArray(array: FormArray): void {
     this.ContactsFormArray = array;
