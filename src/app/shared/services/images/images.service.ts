@@ -18,7 +18,7 @@ export class ImagesService {
   }
 
   public getDefaultWorkshopCardImage(workshop: WorkshopBaseCard | WorkshopDraftCard): string {
-    return CategoryIcons[workshop.directionIds[0]];
+    return CategoryIcons[workshop.directionIds[0]] ?? CategoryIcons['0'];
   }
 
   public getCoverImage(entity: Workshop | Provider | Competition): string {
