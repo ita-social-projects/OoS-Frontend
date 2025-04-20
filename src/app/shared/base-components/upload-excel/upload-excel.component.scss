@@ -1,6 +1,6 @@
 @use '../../styles/components/buttons';
 @use '../../styles/utils/animations/animations';
-@use '../../styles/utils/variables/variables' as vars;
+@use '../../styles/utils/variables/variables';
 
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
   background-color: var(--input-light-color) !important;
@@ -50,7 +50,7 @@
     line-height: 15px;
 
     mat-card-subtitle {
-      color: vars.$length-warning-message !important;
+      color: var(--length-warning-message) !important;
       animation: pulse 3s infinite;
     }
   }
@@ -158,23 +158,23 @@
 
 .error-field {
   &-empty {
-    background-color: vars.$empty-field;
+    background-color: var(--empty-field);
   }
 
   &-duplicate {
-    background-color: vars.$duplicated-value;
+    background-color: var(--duplicated-value);
   }
 
   &-wrong-length {
-    background-color: vars.$wrong-length;
+    background-color: var(--wrong-length);
   }
 
   &-wrong-format {
-    background-color: vars.$wrong-format;
+    background-color: var(--wrong-format);
   }
 
   &-wrong-language {
-    background-color: vars.$wrong-language;
+    background-color: var(--wrong-language);
   }
 }
 

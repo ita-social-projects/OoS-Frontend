@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use 'app/shared/styles/utils/variables/theme-variables.scss';
+@use 'app/shared/styles/utils/variables/variables.scss';
 @import '@angular/material/theming';
 
 @font-face {
@@ -507,8 +507,8 @@ input {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 
   .mat-mdc-table {
-    *:not(mat-icon,i) {
-      font-family: "Open Sans", sans-serif;
+    *:not(mat-icon, i) {
+      font-family: 'Open Sans', sans-serif;
 
       .mat-mdc-header-cell {
         font-size: 14px;
