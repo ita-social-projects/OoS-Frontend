@@ -84,9 +84,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   private initData(): void {
     this.initFormGroups();
     this.initListeners();
-    if (this.provider) {
-      // this.activateEditMode();
-    }
     this.passLegalAddressFormGroup.emit(this.legalAddressFormGroup);
     this.passActualAddressFormGroup.emit(this.actualAddressFormGroup);
   }
