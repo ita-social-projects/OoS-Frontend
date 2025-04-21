@@ -1,0 +1,87 @@
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@import 'light-theme.scss';
+
+$custom-dark-palette: mat.define-palette(
+  (
+    50: #ffffff,
+    100: #f5f8ff,
+    200: #eaeff7,
+    300: #c0c0c0,
+    400: #b8b5b5,
+    500: #eaeaff,
+    600: #575757,
+    700: #0c0c10,
+    800: #0e0b0b,
+    900: #0c0c10,
+    A100: #333fed,
+    A200: #2832e0,
+    A400: #1d24d5,
+    A700: #0000c5,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$primary-dark-palette: mat.define-palette($custom-dark-palette, 500, 100, 900);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $custom-dark-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+  @include angular-material-color($dark-theme);
+
+  --primary-light-bg-color: #404040;
+  --cancel-text-color: #e8e3e3;
+  --secondary-cancel-text-color: #ece5e5;
+  --primary-dark-text-color: #ffffff;
+  --primary-light-text-color: #1b1a1a;
+  --contacts-light-text-color: #ffffff;
+  --list-text-color: #494545;
+  --body-color: #2e2d2d;
+  --primary-accent-color: #4786f5;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--specific-light-text-color);
+  }
+
+  .unfinished-banner {
+    background-color: var(--banner-color);
+  }
+
+  .chip {
+    &-color {
+      &-draft {
+        color: var(--specific-light-text-color) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@use 'dark-theme.scss';
+@use '@angular/material' as mat;
+@import 'light-theme.scss';
+
+@font-face {
+  font-family: 'Innerspace', sans-serif;
+  src:
+    local('Innerspace'),
+    url('../../../../assets/fonts/Innerspace/Innerspace-normal.ttf') format('truetype'),
+    url('../../../../assets/fonts/Innerspace/Innerspace-bold.ttf') format('truetype');
+}
+
+$config: mat.define-typography-config(
+  $font-family: 'Innerspace',
+  // temporarily font-family for buttons
+  $button: mat.define-typography-level(13px, 15px, 700, 'Open Sans')
+);
+
+@mixin mat-form-typography($config) {
+  .mat-form-field {
+    font-family: 'Open Sans', sans-serif !important;
+  }
+}
+
+@include mat.core();
+
+@include mat.button-toggle-typography($config);
+@include mat.button-typography($config);
+@include mat.expansion-typography($config);
+@include mat.fab-typography($config);
+@include mat.icon-button-typography($config);
+@include mat-form-typography($config);
+
+@include mat.all-component-themes($light-theme);
+@include angular-material-theme($light-theme);
