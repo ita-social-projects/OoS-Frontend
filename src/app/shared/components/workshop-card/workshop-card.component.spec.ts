@@ -8,11 +8,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
+import { CategoryIcons } from 'shared/enum/category-icons';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { WorkshopCardComponent } from './workshop-card.component';
-import { CategoryIcons } from 'shared/enum/category-icons';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
