@@ -8,10 +8,6 @@ export class DateInputDirective implements OnInit {
 
   constructor(private ref: ElementRef) {}
 
-  public ngOnInit(): void {
-    this.ref.nativeElement.setAttribute('maxlength', '10');
-  }
-
   @HostListener('input', ['$event'])
   public onInput(event: InputEvent): void {
     const value = this.ref.nativeElement.value;
@@ -29,6 +25,10 @@ export class DateInputDirective implements OnInit {
 
     this.ref.nativeElement.value = this.formatDate(pastedText);
     this.ref.nativeElement.dispatchEvent(new Event('input'));
+  }
+
+  public ngOnInit(): void {
+    this.ref.nativeElement.setAttribute('maxlength', '10');
   }
 
   private formatDate(value: string): string {

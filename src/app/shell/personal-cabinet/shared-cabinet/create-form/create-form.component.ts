@@ -30,13 +30,14 @@ export abstract class CreateFormComponent implements OnDestroy {
   public isImagesFeature: boolean;
   public isPristine = true;
   public editMode: boolean;
-  public loadUnfinishedWorkshopData?(): void;
 
-  constructor(
+  protected constructor(
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService
   ) {}
+
+  public loadUnfinishedWorkshopData?(): void;
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
