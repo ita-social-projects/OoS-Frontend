@@ -15,6 +15,8 @@ export abstract class WorkshopBase {
   noAgeRestrictions: boolean;
   minAge?: number;
   maxAge?: number;
+  studyPeriodStartDate: string;
+  studyPeriodEndDate: string;
   dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;

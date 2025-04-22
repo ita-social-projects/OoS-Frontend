@@ -38,6 +38,7 @@ import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { formatDateOnlyForServer } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -405,6 +406,12 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createAbout(): WorkshopAbout {
     const aboutInfo = this.AboutFormGroup.getRawValue();
+
+    if (aboutInfo.studyPeriodDates) {
+      aboutInfo.studyPeriodDates.studyPeriodStartDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.studyPeriodStartDate);
+      aboutInfo.studyPeriodDates.studyPeriodEndDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.studyPeriodEndDate);
+    }
+
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }
