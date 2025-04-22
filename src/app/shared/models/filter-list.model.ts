@@ -1,4 +1,4 @@
-import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus, PayRateType } from 'shared/enum/workshop';
 
 export interface FilterList {
   withDisabilityOption: boolean;
@@ -23,6 +23,14 @@ export interface PriceFilter {
   maxPrice: number;
   isFree: boolean;
   isPaid: boolean;
+  payRate: PayRateType;
+  limitMinMaxPrice: MinMaxPriceFilter;
+}
+
+export interface MinMaxPriceFilter {
+  minPrice: number;
+  maxPrice: number;
+  isActiveLimitation: boolean;
 }
 
 export interface WorkingHoursFilter {

@@ -31,7 +31,41 @@
       </div>
     </mat-form-field>
   </div>
+  <div *ngIf="limitMinMaxPrice.isActiveLimitation">
+    <app-validation-hint
+      [validationFormControl]="minPriceControl"
+      [isArbitraryListErrors]="true"
+      [minValue]="limitMinMaxPrice.minPrice"
+      [maxValue]="limitMinMaxPrice.maxPrice">
+    </app-validation-hint>
+    <app-validation-hint
+      [validationFormControl]="maxPriceControl"
+      [isArbitraryListErrors]="true"
+      [minValue]="limitMinMaxPrice.minPrice"
+      [maxValue]="limitMinMaxPrice.maxPrice">
+    </app-validation-hint>
+  </div>
   <div class="filter-slider flex flex-col justify-between gap-4" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }">
     <ngx-slider (userChange)="priceHandler($event)" [value]="minValue" [highValue]="maxValue" [options]="options"> </ngx-slider>
+  </div>
+  <div>
+    <p class="filter-text title">
+      {{ 'FORMS.LABELS.PAYMENT_UNIT' | translate }}
+    </p>
+    <div class="flex flex-nowrap" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }">
+      <mat-select
+        disableOptionCentering
+        panelClass="dropdown-panel"
+        class="step-input payment-type-input"
+        [formControl]="payRateControl"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
+        <ng-container *ngFor="let type of PayRateType | keyvalue">
+          <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+            {{ PayRateTypeEnum[type.key] | translate }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+      <mat-icon class="clear-payRate" [class.disabled-payRate]="!isPaidControl.value" (keydown.enter)="clearPayRate()" (click)="clearPayRate()">clear</mat-icon>
+    </div>
   </div>
 </div>

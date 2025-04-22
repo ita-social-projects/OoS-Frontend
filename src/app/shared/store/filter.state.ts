@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
-import { FilterList } from 'shared/models/filter-list.model';
+import { FilterList, MinMaxPriceFilter } from 'shared/models/filter-list.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
@@ -50,7 +50,8 @@ import {
   SetStartTime,
   SetWithDisabilityOption,
   SetWorkingDays,
-  SetWorkshopSearchQueryValue
+  SetWorkshopSearchQueryValue,
+  SetPayRate
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -152,6 +153,11 @@ export class FilterState {
   }
 
   @Selector()
+  static limitMinMaxPrice(state: FilterStateModel): MinMaxPriceFilter {
+    return state.limitMinMaxPrice;
+  }
+
+  @Selector()
   static filterList(state: FilterStateModel): FilterList {
     const {
       withDisabilityOption,
@@ -163,9 +169,11 @@ export class FilterState {
       directionIds,
       minPrice,
       maxPrice,
+      limitMinMaxPrice,
       formsOfLearning,
       isFree,
       isPaid,
+      payRate,
       workingDays,
       startTime,
       endTime,
@@ -183,7 +191,9 @@ export class FilterState {
         minPrice,
         maxPrice,
         isFree,
-        isPaid
+        isPaid,
+        payRate,
+        limitMinMaxPrice
       },
       workingHours: {
         workingDays,
@@ -253,6 +263,11 @@ export class FilterState {
   @Action(SetIsPaid)
   setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
     patchState({ isPaid: payload, from: 0 });
+  }
+
+  @Action(SetPayRate)
+  setPayRate({ patchState }: StateContext<FilterStateModel>, { payload }: SetPayRate): void {
+    patchState({ payRate: payload });
   }
 
   @Action(SetMinPrice)
@@ -334,10 +349,21 @@ export class FilterState {
   ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
-    return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
-      tap((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
-        patchState({ filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT, isLoading: false });
-      })
+
+    return forkJoin({
+      filteredWorkshops: this.appWorkshopsService.getFilteredWorkshops(state, payload),
+      minMaxPriceFilter: state.isPaid ? this.appWorkshopsService.getLimitMinMaxPriceFilter(state, payload) : of(null)
+    }).pipe(
+      tap(({ filteredWorkshops, minMaxPriceFilter }) => {
+        patchState({
+          filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT,
+          limitMinMaxPrice: minMaxPriceFilter
+            ? { ...minMaxPriceFilter, isActiveLimitation: true }
+            : { minPrice: 0, maxPrice: 0, isActiveLimitation: false },
+          isLoading: false
+        });
+      }),
+      map(({ filteredWorkshops }) => filteredWorkshops)
     );
   }
 

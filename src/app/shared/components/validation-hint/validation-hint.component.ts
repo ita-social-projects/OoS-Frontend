@@ -15,7 +15,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } 
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { ValidationMessages, ValidationParams } from 'shared/enum/validation-messages';
+import { ValidationMessages, ValidationParams, ErrorConditionsInterface } from 'shared/enum/validation-messages';
 import {
   FULL_NAME_REGEX,
   HOUSE_REGEX,
@@ -34,7 +34,11 @@ import {
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
-  @Input() public validationFormControl: AbstractControl; // required for validation
+  @Input() public validationFormControl: FormControl | FormGroup; // required for validation
+
+  // For outputting arbitrary validation strings generated within components
+  @Input() public isArbitraryListErrors: boolean;
+
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
@@ -286,6 +290,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_EDRPOU
       }
     ];
+
+    if (this.isArbitraryListErrors && Array.isArray(errors?.ListErrors)) {
+      errorConditions.push(
+        ...errors.ListErrors.map((error: ErrorConditionsInterface) => ({
+          condition: error.condition,
+          message: error.message
+        }))
+      );
+    }
 
     errorConditions.forEach(({ condition, message }) => {
       if (condition() && !this.errors.includes(message)) {

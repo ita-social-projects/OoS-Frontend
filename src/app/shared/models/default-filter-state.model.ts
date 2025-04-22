@@ -1,5 +1,5 @@
 import { ValidationConstants } from 'shared/constants/validation';
-import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus, PayRateType } from 'shared/enum/workshop';
 
 /**
  * Default filter state model
@@ -15,8 +15,10 @@ export class DefaultFilterState {
   formsOfLearning: FormOfLearning[] = [];
   isFree = false;
   isPaid = false;
+  payRate: PayRateType = PayRateType.None;
   maxPrice = ValidationConstants.MAX_PRICE;
   minPrice = ValidationConstants.MIN_PRICE;
+  limitMinMaxPrice: null;
   statuses: WorkshopOpenStatus[] = [];
   searchQuery = '';
   order = 'Rating';

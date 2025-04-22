@@ -1,4 +1,4 @@
-import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus, PayRateType } from 'shared/enum/workshop';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
@@ -60,6 +60,11 @@ export class SetIsFree {
 export class SetIsPaid {
   static readonly type = '[filter] Set Is Paid type of payment';
   constructor(public payload: boolean) {}
+}
+
+export class SetPayRate {
+  static readonly type = '[filter] Set Pay Rate';
+  constructor(public payload: PayRateType) {}
 }
 
 export class SetMinPrice {
