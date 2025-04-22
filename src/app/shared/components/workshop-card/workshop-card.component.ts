@@ -194,7 +194,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  public fallback(): void {
+  public onImageError(): void {
     this.isImageBroken = true;
     this.workshopData._meta = this.imagesService.getDefaultWorkshopCardImage(this.workshopData);
   }

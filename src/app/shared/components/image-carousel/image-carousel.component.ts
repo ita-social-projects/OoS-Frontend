@@ -29,7 +29,7 @@ export class ImageCarouselComponent implements OnInit {
     }
   }
 
-  public fallback(event: Event): void {
+  public onImageError(event: Event): void {
     const imgEl = event.target as HTMLImageElement;
     imgEl.src = this.imageService.getDefaultCoverImage();
   }

@@ -7,7 +7,7 @@
         [ngClass]="{ 'card-img-full': workshopData.coverImageId && !isImageBroken }"
         mat-card-image
         [src]="workshopData['_meta']"
-        (error)="fallback()"
+        (error)="onImageError()"
         alt="{{ workshopData.title }}" />
       <ng-container *ngIf="isImageBroken && isCabinetView">
         <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>

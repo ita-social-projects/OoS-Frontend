@@ -72,6 +72,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   protected readonly Util = Util;
   protected readonly WorkshopType = WorkshopType;
   protected readonly ModalConfirmationType = ModalConfirmationType;
+  protected readonly isRoleProvider = isRoleProvider;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -107,7 +108,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public fallback(): void {
+  public onImageError(): void {
     this.isImageBroken = true;
     this.coverImage = this.imagesService.getDefaultCoverImage();
   }
@@ -165,6 +166,4 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )
     ]);
   }
-
-  protected readonly isRoleProvider = isRoleProvider;
 }
