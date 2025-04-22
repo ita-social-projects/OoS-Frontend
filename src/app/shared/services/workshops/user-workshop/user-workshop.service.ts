@@ -201,13 +201,14 @@ export class UserWorkshopService {
     const formData = new FormData();
     const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
     const imageFiles = ['imageFiles', 'coverImage'];
+    const skipNullKeys = ['maxAge', 'minAge'];
 
     Object.keys(workshop).forEach((key: string) => {
       if (imageFiles.includes(key)) {
         workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
       } else if (formNames.includes(key)) {
         formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
-      } else {
+      } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
         formData.append(`${preKey}${key}`, workshop[key]);
       }
     });

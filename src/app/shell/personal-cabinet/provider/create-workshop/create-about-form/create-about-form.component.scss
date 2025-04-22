@@ -29,3 +29,10 @@
 :host ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
+
+::ng-deep .age-radio-btn {
+  .mdc-label {
+    padding: 0;
+    padding-left: 8px;
+  }
+}
