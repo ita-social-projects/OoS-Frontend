@@ -106,7 +106,7 @@
 </ng-template>
 
 <ng-template #favorite>
-  <div class="actions_btn action-icon favorite-icon" (click)="role === Role.parent && onDisLike()" tabindex="0" role="button" (keydown)="role === Role.parent && onDislikeKeydown($event)">
+  <div class="actions_btn action-icon favorite-icon" (click)="onDisLike()" tabindex="0" role="button" (keydown)="onDislikeKeydown($event)">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
