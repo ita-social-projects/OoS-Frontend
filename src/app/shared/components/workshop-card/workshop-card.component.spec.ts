@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { ENTER } from '@angular/cdk/keycodes';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
@@ -100,7 +101,7 @@ describe('WorkshopCardComponent', () => {
 
   it('keydown', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {
-      key: 'Enter'
+      keyCode: ENTER
     });
 
     jest.spyOn(component, 'onEdit');
