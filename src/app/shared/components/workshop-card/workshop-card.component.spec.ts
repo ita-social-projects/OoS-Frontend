@@ -12,6 +12,7 @@ import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { WorkshopCardComponent } from './workshop-card.component';
+import { CategoryIcons } from 'shared/enum/category-icons';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -60,5 +61,12 @@ describe('WorkshopCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('coverImage error', () => {
+    component.onImageError();
+    expect(component.isImageBroken).toBeTruthy();
+
+    expect(component.workshopData._meta).toEqual(CategoryIcons['0']);
   });
 });
