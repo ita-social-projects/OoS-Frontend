@@ -33,16 +33,5 @@ export class ImagesService {
     if (entity.imageIds?.length) {
       return entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
     }
-
-    return [
-      {
-        path:
-          entity.constructor.name === 'Workshop'
-            ? this.defaultCoverImage
-            : entity.constructor.name === 'Competition'
-              ? 'assets/images/groupimages/competition-img.png' // TODO: add competition image
-              : null
-      }
-    ];
   }
 }
