@@ -14,11 +14,14 @@ import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
 import { of } from 'rxjs';
 import { WorkshopDetailsComponent } from './workshop-details.component';
+import { ImagesService } from 'shared/services/images/images.service';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
@@ -49,6 +52,15 @@ describe('WorkshopDetailsComponent', () => {
         ImageCarouselComponent,
         MockActionsComponent,
         ConfirmationModalWindowComponent
+      ],
+      providers: [
+        {
+          provide: ImagesService,
+          useValue: {
+            getCoverImage: jest.fn(),
+            getDefaultCoverImage: jest.fn().mockReturnValue('default-image.png')
+          }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -81,7 +93,15 @@ describe('WorkshopDetailsComponent', () => {
     expect(matDialogSpy).toHaveBeenCalledTimes(1);
     expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
   });
+
+  it('should set default coverImage', () => {
+    component.onImageError();
+
+    expect(component.isImageBroken).toBe(true);
+    expect(component.coverImage).toBe('default-image.png');
+  });
 });
+
 @Component({
   selector: 'app-workshop-about',
   template: ''
@@ -122,6 +142,7 @@ class MockProviderAboutComponent {
 class MockAllProviderWorkshopsComponent {
   @Input() workshops: Workshop[];
 }
+
 @Component({
   selector: 'app-actions',
   template: ''
