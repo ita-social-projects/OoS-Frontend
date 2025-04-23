@@ -18,12 +18,19 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-competition',
   templateUrl: './create-competition.component.html',
-  styleUrls: ['./create-competition.component.scss']
+  styleUrls: ['./create-competition.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class CreateCompetitionComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
@@ -111,7 +118,9 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
         takeUntil(this.destroy$),
         filter((competition: Competition) => competition?.id === competitionId)
       )
-      .subscribe((competition: Competition) => (this.competition = competition));
+      .subscribe((competition: Competition) => {
+        this.competition = competition;
+      });
   }
 
   /**

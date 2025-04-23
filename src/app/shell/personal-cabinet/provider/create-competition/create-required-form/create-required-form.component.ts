@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Constants } from 'shared/constants/constants';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/competition';
@@ -102,10 +101,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     if (!this.RequiredFormGroup.dirty) {
       this.RequiredFormGroup.markAsDirty({ onlySelf: true });
     }
-  }
-
-  public sortTime(): number {
-    return 0;
   }
 
   /**
