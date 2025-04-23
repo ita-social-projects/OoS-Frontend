@@ -22,8 +22,7 @@ import { CopperConfig } from 'shared/configs/copper.config';
 @Component({
   selector: 'app-create-competition-description-form',
   templateUrl: './create-competition-description-form.component.html',
-  styleUrls: ['./create-competition-description-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-competition-description-form.component.scss']
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
@@ -76,6 +75,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   public ngOnInit(): void {
+    console.log('oninit')
     this.store.dispatch(new GetAllInstitutions(false));
     this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
       if (institutions) {

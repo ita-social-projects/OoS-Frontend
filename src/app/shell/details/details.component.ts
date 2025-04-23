@@ -50,7 +50,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public competition: Competition;
   public role: Role;
 
-  public isCompetition = false;
   public displayActionCard: boolean;
 
   protected workshopType: WorkshopType;
@@ -98,6 +97,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
           : workshop;
         this.provider = provider;
         this.competition = competition;
+        console.log('competition set');
+        console.log(this.competition);
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
       });
   }
@@ -121,4 +122,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         break;
     }
   }
+
+  protected readonly WorkshopType = WorkshopType;
 }

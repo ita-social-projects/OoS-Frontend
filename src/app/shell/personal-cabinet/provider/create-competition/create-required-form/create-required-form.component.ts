@@ -18,8 +18,7 @@ import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 @Component({
   selector: 'app-create-required-form',
   templateUrl: './create-required-form.component.html',
-  styleUrls: ['./create-required-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-required-form.component.scss']
 })
 export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
