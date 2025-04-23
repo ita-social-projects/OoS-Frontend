@@ -14,9 +14,7 @@ import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
 import { of } from 'rxjs';
