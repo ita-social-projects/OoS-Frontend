@@ -7,8 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
+import { ImagesService } from 'shared/services/images/images.service';
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
@@ -17,9 +19,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { of } from 'rxjs';
 import { WorkshopDetailsComponent } from './workshop-details.component';
-import { ImagesService } from 'shared/services/images/images.service';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
