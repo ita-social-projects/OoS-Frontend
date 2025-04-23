@@ -27,32 +27,7 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="ContactsFormGroup" [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid">
-        <ng-template matStepLabel>
-          <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
-        </ng-template>
-        <app-create-contacts-form
-          (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
-          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)"
-          [provider]="provider">
-        </app-create-contacts-form>
-        <div class="footer flex flex-row justify-center items-center">
-          <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
-            {{ 'BUTTONS.CANCEL' | translate }}
-          </button>
-          <button
-            class="btn"
-            mat-raised-button
-            matStepperNext
-            (click)="checkValidationContacts(ContactsFormGroup)"
-            [disabled]="ContactsFormGroup.invalid">
-            {{ 'BUTTONS.NEXT' | translate }}
-          </button>
-        </div>
-      </mat-step>
-
-      <mat-step [stepControl]="PhotoFormGroup" [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid">
+      <mat-step [stepControl]="PhotoFormGroup" [completed]="!InfoFormGroup.invalid">
         <ng-template matStepLabel>
           <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
         </ng-template>
@@ -74,6 +49,29 @@
           <button class="btn" mat-raised-button matStepperPrevious>
             {{ 'BUTTONS.BACK' | translate }}
           </button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
+          <button
+            class="btn"
+            mat-raised-button
+            matStepperNext
+            (click)="checkValidationContacts(ContactsFormArray)"
+            [disabled]="PhotoFormGroup.invalid">
+            {{ 'BUTTONS.NEXT' | translate }}
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="ContactsFormArray" [completed]="!PhotoFormGroup.invalid && !InfoFormGroup.invalid">
+        <ng-template matStepLabel>
+          <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
+        </ng-template>
+        <app-create-contacts
+          [contacts]="provider?.contacts"
+          (passContactsFormArray)="onReceiveContactsFormArray($event)"></app-create-contacts>
+        <div class="footer flex flex-row justify-center items-center">
+          <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>

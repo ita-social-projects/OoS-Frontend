@@ -37,12 +37,12 @@ export class SideMenuComponent implements OnInit {
 
   private getContactsData(contactsParent: Competition | Workshop | WorkshopDraft): void {
     this.contactsData = {
-      phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider.phoneNumber,
-      email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider.email,
+      phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider?.contacts?.[0]?.phones?.[0]?.number,
+      email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider?.contacts?.[0]?.emails?.[0]?.address,
       facebook: contactsParent?.contacts?.[0]?.socialNetworks?.[0]?.url ?? this.provider.facebook,
       instagram: contactsParent?.contacts?.[0]?.socialNetworks?.[1]?.url ?? this.provider.instagram,
       website: contactsParent?.contacts?.[0]?.socialNetworks?.[2]?.url ?? this.provider.website
     };
-    this.address = { ...(contactsParent?.contacts?.[0]?.address ?? this.provider?.actualAddress ?? this.provider.legalAddress) };
+    this.address = { ...contactsParent?.contacts?.[0]?.address };
   }
 }
