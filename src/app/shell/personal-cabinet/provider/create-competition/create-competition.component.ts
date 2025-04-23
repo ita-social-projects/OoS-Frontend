@@ -113,9 +113,14 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetCompetitionById(competitionId));
-    this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition) => {
-      this.competition = competition;
-    });
+    this.selectedCompetition$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((competition: Competition) => competition?.id === competitionId)
+      )
+      .subscribe((competition: Competition) => {
+        this.competition = competition;
+      });
   }
 
   /**
