@@ -88,11 +88,12 @@ import { ServerErrorPageComponent } from './components/server-error-page/server-
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { ProfileWaitingPageComponent } from './components/profile-waiting-page/profile-waiting-page.component';
 import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-page.component';
+import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
-import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
-import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
+import { LocalizedDatePipe } from './pipes/localized-date.pipe';
 
 @NgModule({
   declarations: [
@@ -178,7 +179,8 @@ import { CompetitionCardComponent } from './components/competition-card/competit
     CreateContactsComponent,
     CreateAddressFormComponent,
     ProfileWaitingPageComponent,
-    ForbiddenPageComponent
+    ForbiddenPageComponent,
+    LocalizedDatePipe
   ],
 
   imports: [
@@ -272,7 +274,8 @@ import { CompetitionCardComponent } from './components/competition-card/competit
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
-    ProfileWaitingPageComponent
+    ProfileWaitingPageComponent,
+    LocalizedDatePipe
   ]
 })
 export class SharedModule {}

@@ -15,8 +15,8 @@ export abstract class WorkshopBase {
   noAgeRestrictions: boolean;
   minAge?: number;
   maxAge?: number;
-  studyPeriodStartDate: string;
-  studyPeriodEndDate: string;
+  startDate: string;
+  endDate: string;
   dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;
@@ -65,6 +65,8 @@ export abstract class WorkshopBase {
     this.minAge = about?.minAge;
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
+    this.startDate = about?.startDate;
+    this.endDate = about?.endDate;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
@@ -238,6 +240,8 @@ export interface WorkshopAbout {
   noAgeRestrictions: boolean;
   minAge?: number;
   maxAge?: number;
+  startDate: string;
+  endDate: string;
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
   availableSeats: number;

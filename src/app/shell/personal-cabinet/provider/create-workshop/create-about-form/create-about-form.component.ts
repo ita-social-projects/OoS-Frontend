@@ -175,11 +175,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         ),
         studyPeriodDates: this.formBuilder.group(
           {
-            studyPeriodStartDate: new FormControl<Date | null>(null, Validators.required),
-            studyPeriodEndDate: new FormControl<Date | null>(null, Validators.required)
+            startDate: new FormControl<Date | null>(null, Validators.required),
+            endDate: new FormControl<Date | null>(null, Validators.required)
           },
           {
-            validators: dateRangeValidator('studyPeriodStartDate', 'studyPeriodEndDate')
+            validators: dateRangeValidator('startDate', 'endDate')
           }
         ),
         image: new FormControl(''),

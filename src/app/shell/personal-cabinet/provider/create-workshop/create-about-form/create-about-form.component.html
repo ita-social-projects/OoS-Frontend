@@ -88,13 +88,13 @@
             <input
               matInput
               [matDatepicker]="startPicker"
-              formControlName="studyPeriodStartDate"
+              formControlName="startDate"
               placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
         </div>
-        <app-validation-hint [validationFormControl]="studyPeriodDates.get('studyPeriodStartDate')"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')"> </app-validation-hint>
       </div>
 
       <div class="flex flex-col justify-start items-start">
@@ -106,13 +106,13 @@
             <input
               matInput
               [matDatepicker]="endPicker"
-              formControlName="studyPeriodEndDate"
+              formControlName="endDate"
               placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
-        <app-validation-hint [validationFormControl]="studyPeriodDates.get('studyPeriodEndDate')"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')"> </app-validation-hint>
       </div>
     </div>
     <app-validation-hint [validationFormControl]="studyPeriodDates" [formLevelValidation]="true"> </app-validation-hint>

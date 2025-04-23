@@ -408,8 +408,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const aboutInfo = this.AboutFormGroup.getRawValue();
 
     if (aboutInfo.studyPeriodDates) {
-      aboutInfo.studyPeriodDates.studyPeriodStartDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.studyPeriodStartDate);
-      aboutInfo.studyPeriodDates.studyPeriodEndDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.studyPeriodEndDate);
+      aboutInfo.studyPeriodDates.startDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.startDate);
+      aboutInfo.studyPeriodDates.endDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.endDate);
     }
 
     if (aboutInfo.availableSeats === null) {

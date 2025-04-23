@@ -1260,5 +1260,9 @@
   "IMAGE": {
     "ERROR": "Error",
     "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
-  }
+  },
+  "MONTHS.NAMES": [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]
 }

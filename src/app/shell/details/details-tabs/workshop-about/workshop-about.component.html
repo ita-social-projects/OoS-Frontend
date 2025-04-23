@@ -14,6 +14,11 @@
   <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
   <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : ('NOT_AVAILABLE' | translate) }}</p>
 
+  <h5 class="title">{{ 'FORMS.LABELS.STUDY_PERIOD' | translate }}</h5>
+  <p class="txt">
+    {{ pipeCheck | localizedDate }}
+  </p>
+
   <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
   <div *ngFor="let timeRange of workshop.dateTimeRanges">
     <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
