@@ -1239,6 +1239,6 @@
   },
   "IMAGE": {
     "ERROR": "Error",
-    "CHANGE_IMAGE": "This photo is no longer available and needs to be replaced"
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop"
   }
 }
