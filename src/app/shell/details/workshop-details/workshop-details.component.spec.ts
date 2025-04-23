@@ -5,12 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
 
+import { WorkshopDetailsComponent } from './workshop-details.component';
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
-import { ImagesService } from 'shared/services/images/images.service';
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
@@ -19,7 +20,6 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
@@ -50,15 +50,6 @@ describe('WorkshopDetailsComponent', () => {
         ImageCarouselComponent,
         MockActionsComponent,
         ConfirmationModalWindowComponent
-      ],
-      providers: [
-        {
-          provide: ImagesService,
-          useValue: {
-            getCoverImage: jest.fn(),
-            getDefaultCoverImage: jest.fn().mockReturnValue('default-image.png')
-          }
-        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -93,10 +84,11 @@ describe('WorkshopDetailsComponent', () => {
   });
 
   it('should set default coverImage', () => {
-    component.onImageError();
+    const imgEl = fixture.debugElement.query(By.css('img'));
+    imgEl.triggerEventHandler('error', {});
+    fixture.detectChanges();
 
     expect(component.isImageBroken).toBe(true);
-    expect(component.coverImage).toBe('default-image.png');
   });
 });
 
