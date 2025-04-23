@@ -10,7 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { of } from 'rxjs';
 
-import { WorkshopDetailsComponent } from './workshop-details.component';
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
@@ -20,6 +19,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
+import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
