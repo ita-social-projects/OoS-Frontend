@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { WINDOW } from 'ngx-window-token';
 import { filter, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -40,7 +41,8 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
-    private actions$: Actions
+    private actions$: Actions,
+    @Inject(WINDOW) private window: Window
   ) {
     super(store, matDialog);
   }
@@ -98,6 +100,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviderDrafts();
+    Util.scrollToTop(this.window);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {

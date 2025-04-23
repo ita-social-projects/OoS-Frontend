@@ -2,12 +2,16 @@
   <ng-container *ngIf="role === Role.parent; then UserWorkshopView; else ProviderActions"></ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
-    <div class="card-img card-img-full flex flex-row justify-center">
+    <div class="card-img card-img-full flex flex-row justify-center" [class.competition-default]="isImageBroken">
       <img
-        [ngClass]="{ 'card-img-full': competitionData.coverImageId }"
+        [ngClass]="{ 'card-img-full': competitionData.coverImageId || isImageBroken }"
         mat-card-image
         [src]="competitionData['_meta']"
+        (error)="onImageError()"
         alt="{{ competitionData.title }}" />
+      <ng-container *ngIf="isImageBroken && isCabinet">
+        <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+      </ng-container>
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">

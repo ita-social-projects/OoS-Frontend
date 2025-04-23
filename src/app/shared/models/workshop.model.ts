@@ -12,8 +12,9 @@ export abstract class WorkshopBase {
   id?: string;
   title: string;
   shortTitle: string;
-  minAge: number;
-  maxAge: number;
+  noAgeRestrictions: boolean;
+  minAge?: number;
+  maxAge?: number;
   dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;
@@ -58,6 +59,7 @@ export abstract class WorkshopBase {
   ) {
     this.title = about?.title;
     this.shortTitle = about?.shortTitle;
+    this.noAgeRestrictions = about?.noAgeRestrictions;
     this.minAge = about?.minAge;
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
@@ -231,8 +233,9 @@ export interface WorkshopCardParameters extends PaginationParameters {
 export interface WorkshopAbout {
   title: string;
   shortTitle: string;
-  minAge: number;
-  maxAge: number;
+  noAgeRestrictions: boolean;
+  minAge?: number;
+  maxAge?: number;
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
   availableSeats: number;

@@ -35,32 +35,46 @@
   </app-validation-hint>
 
   <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
-  <div class="flex flex-row justify-start">
-    <div class="flex flex-col justify-start items-start">
-      <div class="flex flex-row justify-start items-center">
-        <p class="step-text">{{ 'FROM' | translate }}</p>
-        <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly />
-      </div>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('minAge')"
-        isNumberValue="true"
-        [minValue]="validationConstants.AGE_MIN"
-        [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
-      <app-validation-hint formLevelValidation="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
-    </div>
+  <mat-radio-group color="primary" formControlName="noAgeRestrictions" class="flex flex-col justify-between items-stretch">
+    <mat-radio-button [value]="true">
+      {{ 'UNLIMITED' | translate }}
+    </mat-radio-button>
+    <div>
+      <mat-radio-button [value]="false" class="age-radio-btn">
+        <div class="flex flex-row justify-start">
+          <div class="flex flex-col justify-start items-start">
+            <div class="flex flex-row justify-start items-center">
+              <p class="step-text font-sans">{{ 'FROM' | translate }}</p>
+              <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly />
+            </div>
+          </div>
 
-    <div class="flex flex-col justify-start items-start">
-      <div class="flex flex-row justify-start items-center">
-        <p class="step-text">{{ 'TO' | translate }}</p>
-        <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly />
+          <div class="flex flex-col justify-start items-start">
+            <div class="flex flex-row justify-start items-center">
+              <p class="step-text font-sans">{{ 'TO' | translate }}</p>
+              <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly />
+            </div>
+          </div>
+        </div>
+      </mat-radio-button>
+      <div class="pl-[33px] flex">
+        <div class="w-[225px]">
+          <app-validation-hint
+            [validationFormControl]="AboutFormGroup.get('minAge')"
+            isNumberValue="true"
+            [minValue]="validationConstants.AGE_MIN"
+            [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+          <app-validation-hint formLevelValidation="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
+        </div>
+        <app-validation-hint
+          class="w-[225px] ml-4"
+          [validationFormControl]="AboutFormGroup.get('maxAge')"
+          isNumberValue="true"
+          [minValue]="validationConstants.AGE_MIN"
+          [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
       </div>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('maxAge')"
-        isNumberValue="true"
-        [minValue]="validationConstants.AGE_MIN"
-        [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
     </div>
-  </div>
+  </mat-radio-group>
 
   <div class="flex flex-row items-center">
     <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>

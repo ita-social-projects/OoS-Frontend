@@ -43,9 +43,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family:
-      Open Sans,
-      sans-serif;
+    font-family: Open Sans,
+    sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -85,6 +84,7 @@
     }
   }
 }
+
 .wrap-for-details {
   padding: 0.8rem 1rem;
   display: flex;
@@ -92,6 +92,7 @@
   width: 100%;
   box-sizing: border-box;
 }
+
 .card-footer {
   display: flex;
   flex-direction: row-reverse;
@@ -103,6 +104,7 @@
   width: 110px;
   justify-content: space-between;
   align-items: center;
+
   .mat-icon {
     font-size: 16px;
     width: 16px;
@@ -110,10 +112,12 @@
     color: #3849f9;
     font-weight: 700;
   }
+
   &:hover {
     opacity: 0.5;
   }
 }
+
 .actions_btn {
   border-radius: 50%;
   background-color: #494545b9;
@@ -122,6 +126,7 @@
   cursor: pointer;
   z-index: 2;
   display: flex;
+
   &:hover {
     opacity: 0.5;
   }
@@ -168,16 +173,20 @@
 .chip_denied {
   background: red;
 }
+
 .mat-mdc-card {
   padding: 0;
 }
+
 .mat-mdc-card-footer {
   margin: 0 !important;
 }
+
 .mat-mdc-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .mat-mdc-card-title {
     white-space: nowrap;
     overflow: hidden;
@@ -185,16 +194,19 @@
     height: 20px;
     margin: 0;
   }
+
   img {
     width: 25px;
     height: 25px;
     margin-block-end: auto;
   }
 }
+
 ::ng-deep .mat-mdc-card-header-text {
   width: calc(100% - 40px);
   margin: 0 !important;
 }
+
 .mat-mdc-card-image {
   display: flex;
   flex-direction: row;
@@ -205,11 +217,13 @@
   object-fit: cover;
   object-position: top;
 }
+
 .actions {
   position: absolute;
   top: 0;
   right: 0;
 }
+
 .card-img-full {
   width: 100%;
   height: 180px;
@@ -219,14 +233,17 @@
 .mat-mdc-card-content {
   margin-bottom: 16px;
 }
+
 .mat-mdc-card-header,
 .mat-mdc-card-content,
 .mat-mdc-card-content:first-child {
   padding: 0;
 }
+
 .mat-mdc-card > :first-child {
   margin-top: 0;
 }
+
 .mat-mdc-card-content:last-child {
   padding-bottom: 0;
 }

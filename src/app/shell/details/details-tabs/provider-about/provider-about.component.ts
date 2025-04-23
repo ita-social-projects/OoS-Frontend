@@ -19,6 +19,6 @@ export class ProviderAboutComponent implements OnInit {
   constructor(private readonly imagesService: ImagesService) {}
 
   public ngOnInit(): void {
-    this.images = this.imagesService.getCarouselImages(Object.setPrototypeOf(this.provider, Provider.prototype));
+    this.images = this.imagesService.getCarouselImages(this.provider);
   }
 }

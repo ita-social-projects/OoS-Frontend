@@ -1,6 +1,7 @@
-<div class="relative phone-input-wrapper" [class.invalid]="parentControl.invalid && parentControl.touched">
+<div class="relative phone-input-wrapper" [class.phone-invalid]="parentControl.invalid && parentControl.touched">
   <ngx-mat-intl-tel-input
     cssClass="phone-number-input"
+    [cssClass]="parentControl.invalid && parentControl.touched ? 'ng-invalid' : ''"
     [preferredCountries]="['ua']"
     [enableSearch]="true"
     searchPlaceholder="{{ 'SEARCH_PHONE_COUNTRY' | translate }}"

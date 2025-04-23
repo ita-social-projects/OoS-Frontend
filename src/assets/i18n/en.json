@@ -629,7 +629,7 @@
       "INVALID_SYMBOLS": "Check your data, please use only cyrillic and symbols ( ' - )",
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
-      "INVALID_DATE_RANGE": "Check your data </br> Date of birth is out of range.",
+      "INVALID_DATE_RANGE": "Check your data </br> Date is out of range.",
       "INVALID_EDRPOU": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
@@ -1236,5 +1236,9 @@
   },
   "TOOLTIP": {
     "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
+  },
+  "IMAGE": {
+    "ERROR": "Error",
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
   }
 }

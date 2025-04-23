@@ -1,17 +1,19 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
-import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/competition';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
+import { OwnershipTypes } from 'shared/enum/provider';
 import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { CopperConfig } from 'shared/configs/copper.config';
+import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 
 @Component({
   selector: 'app-create-required-form',
@@ -40,6 +42,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
 
   protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth()));
   protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+  protected readonly validationConstants = ValidationConstants;
   protected readonly TypeOfCompetition = TypeOfCompetition;
   protected readonly InfoMenuType = InfoMenuType;
   protected readonly ownershipType = OwnershipTypes;
@@ -151,40 +154,53 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    this.RequiredFormGroup = this.formBuilder.group({
-      image: new FormControl(''),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
-      ]),
-      competitionDateRangeGroup: this.formBuilder.group({
-        start: new FormControl<Date | null>(null, Validators.required),
-        end: new FormControl<Date | null>(null, Validators.required)
-      }),
-      minimumAge: new FormControl(null, Validators.required),
-      maximumAge: new FormControl(null, Validators.required),
-      registrationDateRangeGroup: this.formBuilder.group({
-        start: new FormControl<Date | null>(null),
-        end: new FormControl<Date | null>(null)
-      }),
-      competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
-      parentCompetitionControl: new FormControl(null),
-      numberOfSeats: new FormControl({ value: null, disabled: true }, [
-        Validators.required,
-        Validators.min(this.minSeats),
-        Validators.max(ValidationConstants.MAX_SEATS)
-      ])
-    });
+    this.RequiredFormGroup = this.formBuilder.group(
+      {
+        image: new FormControl(''),
+        coverImage: new FormControl(''),
+        coverImageId: new FormControl(''),
+        title: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
+        shortTitle: new FormControl('', [
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.required,
+          Validators.pattern(MUST_CONTAIN_LETTERS),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+        ]),
+        competitionDateRangeGroup: this.formBuilder.group({
+          start: new FormControl<Date | null>(null, Validators.required),
+          end: new FormControl<Date | null>(null, Validators.required)
+        }),
+        minimumAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        maximumAge: new FormControl(null, [
+          Validators.required,
+          Validators.max(ValidationConstants.BIRTH_AGE_MAX),
+          Validators.min(ValidationConstants.AGE_MIN)
+        ]),
+        registrationDateRangeGroup: this.formBuilder.group({
+          start: new FormControl<Date | null>(null, Validators.required),
+          end: new FormControl<Date | null>(null, Validators.required)
+        }),
+        competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
+        parentCompetitionControl: new FormControl(null),
+        numberOfSeats: new FormControl({ value: null, disabled: true }, [
+          Validators.required,
+          Validators.min(this.minSeats),
+          Validators.max(ValidationConstants.MAX_SEATS)
+        ])
+      },
+      {
+        validators: [AgeRangeValidator('minimumAge', 'maximumAge')]
+      }
+    );
   }
 
   private initListeners(): void {
