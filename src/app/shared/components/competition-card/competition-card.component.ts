@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants } from 'shared/constants/constants';
@@ -10,6 +10,7 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { CompetitionBaseCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ImagesService } from 'shared/services/images/images.service';
 
 @Component({
   selector: 'app-competition-card',
@@ -27,6 +28,8 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   public Role$: Observable<Role>;
 
+  public isImageBroken = false;
+
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
@@ -40,6 +43,8 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private imageService: ImagesService) {}
 
   @Input() public set competition(competition: CompetitionProviderViewCard) {
     this.competitionData = competition;
@@ -60,6 +65,11 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.competitionData._meta = this.imageService.getDefaultCoverImage();
   }
 
   public onDelete(): void {
