@@ -52,6 +52,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public displayActionCard: boolean;
 
+  protected readonly WorkshopType = WorkshopType;
   protected workshopType: WorkshopType;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -97,8 +98,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
           : workshop;
         this.provider = provider;
         this.competition = competition;
-        console.log('competition set');
-        console.log(this.competition);
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
       });
   }
@@ -122,6 +121,4 @@ export class DetailsComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-  protected readonly WorkshopType = WorkshopType;
 }

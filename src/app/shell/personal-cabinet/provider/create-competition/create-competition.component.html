@@ -34,7 +34,7 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid && DescriptionFormGroup?.valid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
@@ -60,7 +60,7 @@
 
         <mat-step
           [stepControl]="ContactsFormArray"
-          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !ContactsFormArray.invalid">
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && ContactsFormArray?.valid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>

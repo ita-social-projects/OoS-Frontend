@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Constants } from 'shared/constants/constants';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -18,7 +19,8 @@ import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 @Component({
   selector: 'app-create-required-form',
   templateUrl: './create-required-form.component.html',
-  styleUrls: ['./create-required-form.component.scss']
+  styleUrls: ['./create-required-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
@@ -101,10 +103,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     if (!this.RequiredFormGroup.dirty) {
       this.RequiredFormGroup.markAsDirty({ onlySelf: true });
     }
-  }
-
-  public sortTime(): number {
-    return 0;
   }
 
   /**

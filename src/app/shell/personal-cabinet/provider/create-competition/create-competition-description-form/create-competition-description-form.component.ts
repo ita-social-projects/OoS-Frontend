@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, takeLast } from 'rxjs';
-
-import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { Observable, Subject } from 'rxjs';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
@@ -10,11 +8,11 @@ import { Competition, CompetitiveDescriptionItem } from 'shared/models/competiti
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CompetitionCoverageEnum } from 'shared/enum/enumUA/competition';
 import { Select, Store } from '@ngxs/store';
 import { InstituitionHierarchy, Institution } from 'shared/models/institution.model';
-import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetAllInstitutionsHierarchy } from 'shared/store/meta-data.actions';
+import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
@@ -22,7 +20,8 @@ import { CopperConfig } from 'shared/configs/copper.config';
 @Component({
   selector: 'app-create-competition-description-form',
   templateUrl: './create-competition-description-form.component.html',
-  styleUrls: ['./create-competition-description-form.component.scss']
+  styleUrls: ['./create-competition-description-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
@@ -75,7 +74,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   public ngOnInit(): void {
-    console.log('oninit')
     this.store.dispatch(new GetAllInstitutions(false));
     this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
       if (institutions) {
