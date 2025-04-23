@@ -5,8 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
 import { Role } from 'shared/enum/role';
@@ -17,7 +19,6 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { of } from 'rxjs';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -81,7 +82,16 @@ describe('WorkshopDetailsComponent', () => {
     expect(matDialogSpy).toHaveBeenCalledTimes(1);
     expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
   });
+
+  it('should set default coverImage', () => {
+    const imgEl = fixture.debugElement.query(By.css('img'));
+    imgEl.triggerEventHandler('error', {});
+    fixture.detectChanges();
+
+    expect(component.isImageBroken).toBe(true);
+  });
 });
+
 @Component({
   selector: 'app-workshop-about',
   template: ''
@@ -122,6 +132,7 @@ class MockProviderAboutComponent {
 class MockAllProviderWorkshopsComponent {
   @Input() workshops: Workshop[];
 }
+
 @Component({
   selector: 'app-actions',
   template: ''

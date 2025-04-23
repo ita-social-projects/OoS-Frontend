@@ -106,7 +106,7 @@
 :host ::ng-deep .mat-tab-label-content,
 .nav,
 .icon-text {
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
 }
 
@@ -181,7 +181,7 @@
 .coverImage {
   max-width: 100%;
   min-height: 400px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 @media (max-width: 1200px) {

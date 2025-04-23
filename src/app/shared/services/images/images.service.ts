@@ -17,24 +17,21 @@ export class ImagesService {
     return workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
   }
 
+  public getDefaultWorkshopCardImage(workshop: WorkshopBaseCard | WorkshopDraftCard): string {
+    return CategoryIcons[workshop.directionIds[0]] ?? CategoryIcons['0'];
+  }
+
   public getCoverImage(entity: Workshop | Provider | Competition): string {
     return entity.coverImageId ? environment.storageUrl + entity.coverImageId : this.defaultCoverImage;
+  }
+
+  public getDefaultCoverImage(): string {
+    return this.defaultCoverImage;
   }
 
   public getCarouselImages(entity: Workshop | Provider | Competition): ImgPath[] {
     if (entity.imageIds?.length) {
       return entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
     }
-
-    return [
-      {
-        path:
-          entity.constructor.name === 'Workshop'
-            ? 'assets/images/groupimages/workshop-img.png'
-            : entity.constructor.name === 'Competition'
-              ? 'assets/images/groupimages/competition-img.png' // TODO: add competition image
-              : null
-      }
-    ];
   }
 }

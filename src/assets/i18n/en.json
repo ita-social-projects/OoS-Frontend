@@ -1236,5 +1236,9 @@
   },
   "TOOLTIP": {
     "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
+  },
+  "IMAGE": {
+    "ERROR": "Error",
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
   }
 }

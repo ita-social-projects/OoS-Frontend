@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
+import { CategoryIcons } from 'shared/enum/category-icons';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -60,5 +61,12 @@ describe('WorkshopCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('coverImage error', () => {
+    component.onImageError();
+    expect(component.isImageBroken).toBeTruthy();
+
+    expect(component.workshopData._meta).toEqual(CategoryIcons['0']);
   });
 });

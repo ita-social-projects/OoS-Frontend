@@ -23,6 +23,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-workshop-details',
@@ -62,6 +63,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
+  public isImageBroken: boolean = false;
   public workshopStatusOpen: boolean;
   public selectedIndex: number;
   public tabIndex: number;
@@ -70,6 +72,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   protected readonly Util = Util;
   protected readonly WorkshopType = WorkshopType;
   protected readonly ModalConfirmationType = ModalConfirmationType;
+  protected readonly isRoleProvider = isRoleProvider;
 
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -103,6 +106,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: { status: DetailsTabTitlesParams[event.index] }
     });
+  }
+
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.coverImage = this.imagesService.getDefaultCoverImage();
   }
 
   public ngOnDestroy(): void {
