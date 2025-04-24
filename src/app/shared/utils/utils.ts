@@ -352,12 +352,7 @@ export class Util {
       return true;
     }
 
-    if (
-      (obj1 === null && obj2 !== null) ||
-      (obj1 !== null && obj2 === null) ||
-      (obj1 === undefined && obj2 !== undefined) ||
-      (obj1 !== undefined && obj2 === undefined)
-    ) {
+    if (typeof obj1 !== 'object' && typeof obj2 !== 'object' && obj1 !== obj2) {
       return false;
     }
 
@@ -365,22 +360,48 @@ export class Util {
       return obj1.name === obj2.name && obj1.type === obj2.type && obj1.size === obj2.size;
     }
 
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    if (keys1.length !== keys2.length) {
+    if ((this.isEmpty(obj1) && !this.isEmpty(obj2)) || (this.isEmpty(obj2) && !this.isEmpty(obj1))) {
       return false;
     }
 
-    for (const key of keys1) {
-      const val1 = obj1[key];
-      const val2 = obj2[key];
-      if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
-        if (!Util.deepEqual(val1, val2)) {
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+      if (obj1.length !== obj2.length) {
+        return false;
+      }
+
+      const safeStringify = (v: unknown): string => {
+        try {
+          const str = JSON.stringify(v);
+          return str === undefined ? String(v) : str;
+        } catch {
+          return String(v);
+        }
+      };
+
+      const sorted1 = [...obj1].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
+      const sorted2 = [...obj2].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
+
+      return sorted1.every((el, idx) => this.deepEqual(el, sorted2[idx]));
+    }
+
+    if (!this.isEmpty(obj1) && !this.isEmpty(obj2)) {
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
+
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
+
+      for (const key of keys1) {
+        const val1 = obj1[key];
+        const val2 = obj2[key];
+        if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+          if (!Util.deepEqual(val1, val2)) {
+            return false;
+          }
+        } else if (val1 !== val2) {
           return false;
         }
-      } else if (val1 !== val2) {
-        return false;
       }
     }
 
@@ -389,11 +410,15 @@ export class Util {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public static isEmpty(field: any): boolean {
+    if (field instanceof Blob) {
+      return false;
+    }
+
     return (
       field === undefined ||
       field === null ||
       field === '' ||
-      (Array.isArray(field) && field.length === 0) ||
+      (Array.isArray(field) && (field.length === 0 || field.every((el) => this.isEmpty(el)))) ||
       (typeof field === 'object' && Object.keys(field).length === 0)
     );
   }
