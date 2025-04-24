@@ -127,7 +127,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
 
-    this.entity = this.route.snapshot.paramMap.get('entity');
+    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Workshop;
     this.addNavPath();
 
     const param = this.getRouteParam();
