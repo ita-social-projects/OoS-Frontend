@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, take, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -35,6 +37,8 @@ import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
@@ -107,7 +111,9 @@ export class ProviderState {
     private readonly blockService: BlockService,
     private readonly positionService: PositionService,
     private readonly studySubjectService: StudySubjectService,
-    private readonly languageListService: LanguageListService
+    private readonly languageListService: LanguageListService,
+    private readonly matDialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {}
 
   @Selector()
@@ -540,13 +546,43 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
       take(1),
-      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId))),
+      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId, id))),
       catchError(() => {
         dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
         return EMPTY;
       }),
       finalize(() => patchState({ isLoading: false }))
     );
+  }
+
+  @Action(providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess)
+  onGetWorkshopDraftIdByWorkshopIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, workshopId }: providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess
+  ): void {
+    if (!draftId) {
+      this.router.navigate(['/create/workshop', workshopId]);
+    } else {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.draftExistsSet
+          }
+        })
+        .afterClosed()
+        .pipe(take(1), filter(Boolean))
+        .subscribe(() => {
+          this.router.navigate(['/create/draft', draftId]).then(() => {
+            dispatch(
+              new ShowMessageBar({
+                type: 'warningBlue',
+                message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REDIRECTED_TO_DRAFT')
+              })
+            );
+          });
+        });
+    }
   }
 
   @Action(providerActions.UpdateDraft)

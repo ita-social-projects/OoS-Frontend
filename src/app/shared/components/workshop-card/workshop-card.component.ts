@@ -2,10 +2,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { TranslateService } from '@ngx-translate/core';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { ParentState } from 'shared-store/parent.state';
 // eslint-disable-next-line max-len
@@ -24,12 +23,7 @@ import { WorkshopBaseCard, WorkshopDraft, WorkshopDraftCard, WorkshopProviderVie
 import { ImagesService } from 'shared/services/images/images.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
-import {
-  DraftSendForModeration,
-  GetWorkshopDraftIdByWorkshopId,
-  OnGetWorkshopDraftIdByWorkshopIdSuccess,
-  UpdateWorkshopStatus
-} from 'shared/store/provider.actions';
+import { DraftSendForModeration, GetWorkshopDraftIdByWorkshopId, UpdateWorkshopStatus } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -87,9 +81,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly dialog: MatDialog,
     private readonly imagesService: ImagesService,
-    private readonly router: Router,
-    private readonly actions$: Actions,
-    private readonly translateService: TranslateService
+    private readonly router: Router
   ) {}
 
   public get canOpenWorkshopRecruitment(): boolean {
@@ -151,34 +143,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       this.router.navigate(['create/draft', workshopDraftId]);
     } else {
       this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.workshopData?.id));
-
-      this.actions$
-        .pipe(ofAction(OnGetWorkshopDraftIdByWorkshopIdSuccess), take(1))
-        .subscribe((action: OnGetWorkshopDraftIdByWorkshopIdSuccess) => {
-          if (!action.draftId) {
-            this.router.navigate(['/create/workshop', this.workshopData?.id]);
-          } else {
-            this.dialog
-              .open(ConfirmationModalWindowComponent, {
-                width: Constants.MODAL_SMALL,
-                data: {
-                  type: ModalConfirmationType.draftExistsSet
-                }
-              })
-              .afterClosed()
-              .pipe(take(1), filter(Boolean))
-              .subscribe(() => {
-                this.router.navigate(['/create/draft', action.draftId]).then(() => {
-                  this.store.dispatch(
-                    new ShowMessageBar({
-                      type: 'warningBlue',
-                      message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REDIRECTED_TO_DRAFT')
-                    })
-                  );
-                });
-              });
-          }
-        });
     }
   }
 

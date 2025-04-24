@@ -140,7 +140,10 @@ export class GetWorkshopDraftIdByWorkshopId {
 export class OnGetWorkshopDraftIdByWorkshopIdSuccess {
   static readonly type = '[provider] get Workshop DraftId by Workshop Id Success';
 
-  constructor(public draftId: string) {}
+  constructor(
+    public draftId: string,
+    public workshopId: string
+  ) {}
 }
 
 export class DraftSendForModeration {
