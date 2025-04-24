@@ -96,7 +96,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
         this.navigationBarService.createNavPaths(
           {
             name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
+            path: '/personal-cabinet/provider/competitions',
             isActive: false,
             disable: false
           },

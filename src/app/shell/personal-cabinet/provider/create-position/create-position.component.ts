@@ -111,7 +111,7 @@ export class CreatePositionComponent extends CreateFormComponent implements OnIn
         this.navigationBarService.createNavPaths(
           {
             name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
+            path: '/personal-cabinet/provider/positions',
             isActive: false,
             disable: false
           },
