@@ -157,8 +157,7 @@
               [appStepperNext]="onSubmit.bind(this)"
               [form]="TeacherFormArray"
               [stepper]="stepper"
-              type="submit"
-              (click)="onSubmit()">
+              type="submit">
               {{ (entity === WorkshopType.Workshop ? 'BUTTONS.SAVE' : 'BUTTONS.SAVE_DRAFT') | translate }}
             </button>
           </div>
