@@ -124,6 +124,7 @@
       "EDIT_PERSONAL_INFORMATION": "Редагування особистої інформації",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
+      "EDIT_DRAFT": "Редагування чернетки",
       "EDIT_POSITION": "Редагування посади",
       "ADD_NEW_ADMIN": "Додати адміністратора",
       "EDIT_ADMIN": "Редагування адміністратора",
@@ -404,6 +405,7 @@
     },
     "HEADERS": {
       "EDIT_WORKSHOP": "РЕДАГУВАННЯ ГУРТКА",
+      "EDIT_DRAFT": "РЕДАГУВАННЯ ЧЕРНЕТКИ",
       "EDIT_DESCRIPTION_PATH": "Відредагуйте",
       "NEW_WORKSHOP": "НОВИЙ ГУРТОК",
       "NEW_DESCRIPTION_PATH": "Додайте новий",
@@ -1054,7 +1056,8 @@
       "GET_TIME_TO_LIVE_FAIL": "Не вдалось отримати час автовидалення незавершеного гуртка",
       "DELETE_DRAFT_FAIL": "Не вдалось видалити незавершений гурток",
       "DELETE_DRAFT_SUCCESS": "Незавершений гурток успішно видалений",
-      "CHANGE_REQUIRES_MODERATION": "Зміна даного поля вимагає повторної модерації"
+      "CHANGE_REQUIRES_MODERATION": "Зміна даного поля вимагає повторної модерації",
+      "REDIRECTED_TO_DRAFT": "Перенаправлено на редагування чернетки"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Вкажіть причину блокування",

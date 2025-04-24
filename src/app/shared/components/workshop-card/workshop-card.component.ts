@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
@@ -83,11 +84,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   private favoriteWorkshopId: string;
 
   constructor(
-    private store: Store,
-    private dialog: MatDialog,
-    private imagesService: ImagesService,
-    private router: Router,
-    private actions$: Actions
+    private readonly store: Store,
+    private readonly dialog: MatDialog,
+    private readonly imagesService: ImagesService,
+    private readonly router: Router,
+    private readonly actions$: Actions,
+    private readonly translateService: TranslateService
   ) {}
 
   public get canOpenWorkshopRecruitment(): boolean {
@@ -166,7 +168,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
               .afterClosed()
               .pipe(take(1), filter(Boolean))
               .subscribe(() => {
-                this.router.navigate(['/create/draft', action.draftId]);
+                this.router.navigate(['/create/draft', action.draftId]).then(() => {
+                  this.store.dispatch(
+                    new ShowMessageBar({
+                      type: 'warningBlue',
+                      message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REDIRECTED_TO_DRAFT')
+                    })
+                  );
+                });
               });
           }
         });

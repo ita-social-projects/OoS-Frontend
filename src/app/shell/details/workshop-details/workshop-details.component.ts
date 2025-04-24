@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Actions, ofAction, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
@@ -30,6 +31,7 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { isRoleProvider } from 'shared/utils/provider.utils';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-workshop-details',
@@ -88,7 +90,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService,
     private readonly dialog: MatDialog,
-    private readonly actions$: Actions
+    private readonly actions$: Actions,
+    private readonly translateService: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -173,7 +176,14 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
             .afterClosed()
             .pipe(take(1), filter(Boolean))
             .subscribe(() => {
-              this.router.navigate(['/create/draft', action.draftId]);
+              this.router.navigate(['/create/draft', action.draftId]).then(() => {
+                this.store.dispatch(
+                  new ShowMessageBar({
+                    type: 'warningBlue',
+                    message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REDIRECTED_TO_DRAFT')
+                  })
+                );
+              });
             });
         }
       });
