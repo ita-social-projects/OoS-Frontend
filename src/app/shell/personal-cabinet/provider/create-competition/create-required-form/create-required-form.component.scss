@@ -1,12 +1,14 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/toggle-button.scss';
-@import 'src/app/shared/styles/info-hint.scss';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/toggle-button';
+@use 'src/app/shared/styles/components/info-hint';
 
 .seat-input {
   max-width: 100px;
   text-align: center;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 ::ng-deep .dropdown-panel {
@@ -26,7 +28,7 @@
 
   .seat::after {
     font-weight: 700;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
     padding: 5px;
     line-height: initial;
     width: 65px;

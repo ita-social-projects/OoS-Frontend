@@ -7,7 +7,7 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  color: #444444;
+  color: var(--cancel-text-color);
   pointer-events: none;
   padding: 1rem;
   min-width: 20px !important;
@@ -17,7 +17,7 @@
   }
 
   &-selected {
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 }
 .arrow,
@@ -26,7 +26,7 @@
   pointer-events: all;
 }
 .arrow:hover {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 .page-selected:hover,
 .page-unselected:hover,
@@ -49,7 +49,7 @@
 }
 :host::ng-deep .mat-select-arrow:hover {
   opacity: 0.5;
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 
 @media (max-width: 750px) {
@@ -67,6 +67,6 @@
     padding: 0 !important;
     width: 100%;
     font-weight: 400;
-    color: #000;
+    color: var(--primary-dark-text-color);
   }
 }

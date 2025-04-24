@@ -1,7 +1,7 @@
 .phone-input-wrapper {
   width: 100%;
   margin: 4px 0 !important;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   border-radius: 21px;
   line-height: initial;
   font-family: 'Open Sans', sans-serif;
@@ -15,8 +15,13 @@
       padding-bottom: 2.75px;
     }
 
+    .country-selector-code {
+      color: var(--primary-dark-text-color);
+    }
+
     .phone-number-input {
       margin-left: 5px;
+      color: var(--primary-dark-text-color);
     }
   }
 }
@@ -67,5 +72,5 @@
 
 .phone-invalid {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }

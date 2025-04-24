@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/cards.scss';
+@use 'src/app/shared/styles/components/card-wrapper';
+@use 'src/app/shared/styles/components/cards';
 
 .mat-mdc-card {
   margin: 1.3rem;
@@ -32,8 +32,9 @@
 }
 
 .achievement_icon {
-  color: #fff;
+  color: var(--primary-light-text-color);
 }
+
 .image {
   margin-right: 1em;
 }
@@ -47,7 +48,7 @@
   overflow: visible;
 }
 .more_btn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;

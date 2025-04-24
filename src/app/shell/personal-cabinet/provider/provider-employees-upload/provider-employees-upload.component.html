@@ -6,7 +6,7 @@
         <button mat-raised-button class="btn" type="button" (click)="triggerFileInput(fileInput)">
           {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
         </button>
-        <app-info-menu [isBigIcon]="true">
+        <app-info-menu [isBigIcon]="true" [isDarkIcon]="true">
           <p>
             <b> {{ 'IMPORT/EXPORT.FILE_EXTENSION' | translate }} <i>.xlsx</i></b>
           </p>
@@ -53,7 +53,7 @@
           <span class="incorrect-row-number">{{ dataSourceInvalid.length }}</span>
         </mat-slide-toggle>
       </ng-container>
-      <app-info-menu *ngIf="dataSourceInvalid?.length" class="errors-types-tooltip" [isBigIcon]="true">
+      <app-info-menu *ngIf="dataSourceInvalid?.length" class="errors-types-tooltip" [isBigIcon]="true" [isDarkIcon]="true">
         <div class="errors-types">
           <h3>{{ 'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate }}</h3>
           <ul>

@@ -42,7 +42,7 @@
     .status {
       &-icon,
       &-title {
-        color: #c72a21;
+        color: var(--error-color);
       }
     }
   }

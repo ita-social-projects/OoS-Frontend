@@ -1,7 +1,5 @@
-@import 'src/app/shared/styles/pagination.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
-
-$links-color: #3849f9;
+@use 'src/app/shared/styles/components/pagination';
+@use 'src/app/shared/styles/components/card-wrapper';
 
 .wrapper {
   height: 77vh;
@@ -61,7 +59,7 @@ $links-color: #3849f9;
   .workshop-counter {
     font-weight: 700;
     padding: 8px 16px;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
     z-index: 400;
@@ -113,7 +111,7 @@ $links-color: #3849f9;
       width: 40px;
       background-color: #fff;
       border: none;
-      color: #3849f9;
+      color: var(--primary-accent-color);
       .mat-icon {
         font-size: 2rem;
       }

@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'src/app/shared/styles/components/buttons';
 
 :host ::ng-deep .mat-mdc-dialog {
   &-actions .mat-button-base + .mat-button-base {
@@ -8,23 +8,25 @@
   &-title {
     text-align: center;
     margin-bottom: 0;
-    font-family: Innerspace;
+    font-family: Innerspace, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
     line-height: 20px;
-    color: #444444;
+    color: var(--cancel-text-color);
   }
 }
 
 .confirmation {
   text-align: center;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 18px;
-  color: #333333;
+  color: var(--cancel-text-color);
   margin-top: 1rem;
   margin-bottom: 0;
 }

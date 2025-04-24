@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
 
 .pay-type {
   flex-grow: 1;
@@ -23,12 +23,14 @@
 .price-input {
   max-width: 100px;
   text-align: center;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 @media (max-width: 750px) {
   .price::after {
     font-weight: 700;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
     padding: 5px;
     line-height: initial;
     width: 65px;

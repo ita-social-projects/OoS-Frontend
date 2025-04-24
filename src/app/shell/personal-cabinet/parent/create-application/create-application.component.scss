@@ -1,9 +1,9 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/navigation-tabs.scss';
+@use 'src/app/shared/styles/components/create-form-wrapper';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/navigation-tabs';
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
@@ -36,31 +36,31 @@
 }
 
 .line {
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
 }
 .warning {
   margin-bottom: 1rem;
 }
 
 .background-text {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 18px;
-  color: #333333;
+  color: var(--cancel-text-color);
   text-align: center;
   margin-bottom: 1rem !important;
 }
 
 small.warning {
   display: block;
-  color: red;
+  color: var(--error-color);
   font-size: 10px;
 }
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .checkbox-label {

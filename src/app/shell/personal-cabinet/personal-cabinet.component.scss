@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/cabinet.scss';
+@use 'src/app/shared/styles/components/cabinet';
 
 :host::ng-deep {
   .mat-mdc-tab-link-container {
@@ -13,4 +13,8 @@
     border-radius: 13px;
     line-height: 15px;
   }
+}
+
+::ng-deep .mat-mdc-tab-link .mdc-tab__content .mdc-tab__text-label {
+  color: var(--cancel-text-color);
 }

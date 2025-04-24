@@ -1,14 +1,15 @@
-@import 'src/app/shared/styles/dropdown.scss';
+@use 'src/app/shared/styles/components/dropdown';
 
 .dropdown {
   max-width: 125px;
-  background: #ffffff;
+  display: flex;
+  background: var(--primary-light-bg-color);
   font-weight: 500;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.8rem;
-  color: #333333;
+  color: var(--cancel-text-color);
 }
 
 :host ::ng-deep .mat-mdc-form-field-infix {
@@ -31,7 +32,7 @@ mat-form-field mat-label {
   justify-content: center;
   font-weight: 800;
   font-size: 0.8rem;
-  color: #333333;
+  color: var(--cancel-text-color);
 }
 
 ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {

@@ -1,11 +1,10 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/info-hint.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
+@use 'src/app/shared/styles/components/navigation-tabs';
+@use 'src/app/shared/styles/components/info-hint';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/list-wrappers';
 
-$basen-blue-color: #3849f9;
 .wrapper {
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 2rem;
@@ -23,10 +22,10 @@ $basen-blue-color: #3849f9;
 }
 .edit-icon {
   position: relative;
-  color: $basen-blue-color;
+  color: var(--primary-accent-color);
 }
 .legal-address-wrapper {
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
   margin-bottom: 1rem;
 }
 .description {
@@ -49,11 +48,11 @@ h3 {
 }
 
 .close-icon {
-  color: #ccc;
+  color: var(--additional-light-text-color);
   cursor: pointer;
   &:hover {
     opacity: 0.5;
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 }
 
@@ -81,11 +80,11 @@ h3 {
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #ebebeb;
-  background: #ffffff;
-  color: #aaaaaa;
+  border: 1px solid var(--input-light-color);
+  background: var(--primary-light-bg-color);
+  color: var(--secondary-light-text-color);
   &-selected {
-    color: #454545;
+    color: var(--secondary-cancel-text-color);
     background: rgba(56, 73, 249, 0.07);
     border: 1px solid rgb(170, 170, 170, 0.1);
   }
@@ -102,7 +101,7 @@ h3 {
 .text {
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
   padding: 5px;
   &:last-child {
     padding: 5px 5px 5px 0px;

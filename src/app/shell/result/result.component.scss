@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/toggle-button.scss';
+@use 'src/app/shared/styles/components/toggle-button';
 
 .shadow {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -32,7 +32,7 @@
 
 .workshops-map-filters {
   .shell-search {
-    background: white;
+    background: var(--primary-light-bg-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,7 +48,7 @@
     }
 
     .shell-city {
-      border-right: 1px solid #e3e3e3;
+      border-right: 1px solid var(--input-light-color);
       width: 30%;
     }
   }
@@ -56,7 +56,7 @@
   .view-toggle {
     height: 30px;
     align-items: center;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
   }
 }
 
@@ -120,12 +120,12 @@
 
   &.visible {
     background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #ffffff;
-    border: 1px solid #3849f9;
-    color: #3849f9;
+    border: 1px solid var(--primary-accent-color);
+    color: var(--primary-accent-color);
   }
 
   &.hidden {
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
   }
 }
 
@@ -138,7 +138,7 @@
 
 .mat-drawer-side {
   border: none;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 :host ::ng-deep app-full-search-bar {

@@ -36,7 +36,7 @@
               clear
             </mat-icon>
           </div>
-          <button mat-icon-button (click)="timepickerStart.open()"><mat-icon>access_time</mat-icon></button>
+          <button mat-icon-button (click)="timepickerStart.open()"><mat-icon class="datepicker-icon">access_time</mat-icon></button>
         </div>
         <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
       </ng-container>
@@ -52,7 +52,7 @@
               clear
             </mat-icon>
           </div>
-          <button mat-icon-button (click)="timepickerEnd.open()"><mat-icon>access_time</mat-icon></button>
+          <button mat-icon-button (click)="timepickerEnd.open()"><mat-icon class="datepicker-icon">access_time</mat-icon></button>
         </div>
         <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
         <app-validation-hint [validationFormControl]="workingHoursFormGroup" [formLevelValidation]="true"></app-validation-hint>

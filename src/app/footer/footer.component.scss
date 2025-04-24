@@ -4,7 +4,7 @@
 
   .trial-message {
     font-size: 0.9rem;
-    font-family: 'Innerspace';
+    font-family: 'Innerspace', sans-serif;
     text-align: center;
 
     margin-top: 1.5rem;
@@ -89,4 +89,8 @@
       margin-right: 0 !important;
     }
   }
+}
+
+span {
+  color: var(--secondary-dark-text-color);
 }

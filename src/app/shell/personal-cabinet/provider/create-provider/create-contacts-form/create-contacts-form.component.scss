@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/create-form.scss';
+@use 'src/app/shared/styles/components/create-form';
 
 .address-wrapper,
 .address-wrapper-border {
@@ -7,5 +7,5 @@
 }
 
 .address-wrapper-border {
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
 }

@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/application-statuses.scss';
+@use 'src/app/shared/styles/components/application-statuses';
 
 .mat-application-menu,
 .application-info-menu {
@@ -8,11 +8,13 @@
   width: max-content;
   max-width: max-content;
   font-size: 13px;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: normal;
 }
 .application-info-description-card {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .application-info-menu,
 ::ng-deep .mat-application-menu {
@@ -28,7 +30,7 @@
 .application-info-title {
   max-width: max-content;
   line-height: 17px;
-  color: black;
+  color: var(--primary-dark-text-color);
 
   span {
     padding: 8px;
@@ -46,7 +48,7 @@
   .Completed,
   .Left,
   .Blocked {
-    color: black;
+    color: var(--primary-dark-text-color);
   }
   max-width: 70%;
 }

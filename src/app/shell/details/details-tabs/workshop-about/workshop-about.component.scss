@@ -7,11 +7,11 @@
 }
 
 .title {
-  font-family: 'Innerspace';
-  line-height: 14, 6px;
+  font-family: 'Innerspace', sans-serif;
+  line-height: 14.6px;
   font-size: 14px;
   font-weight: 700;
-  color: black;
+  color: var(--primary-dark-text-color);
   margin: 1.5rem 0 1rem 0;
 }
 
@@ -20,26 +20,28 @@
 }
 
 .txt {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   font-size: 13px;
-  line-height: 17, 7px;
+  line-height: 17.7px;
   font-weight: 400;
-  color: #444444;
+  color: var(--cancel-text-color);
   overflow-wrap: break-word;
 }
 
 .toggle {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 300;
   height: 40px;
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #ebebeb;
-  background: #ffffff;
-  color: #aaaaaa;
+  border: 1px solid var(--input-light-color);
+  background: var(--primary-light-bg-color);
+  color: var(--secondary-light-text-color);
   &-selected {
-    color: #454545;
+    color: var(--cancel-text-color);
     background: rgba(56, 73, 249, 0.07);
     border: 1px solid rgb(170, 170, 170, 0.1);
   }
@@ -54,9 +56,11 @@
 }
 
 .text {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 700;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
   padding: 5px;
   &:last-child {
     padding: 5px 5px 5px 0px;

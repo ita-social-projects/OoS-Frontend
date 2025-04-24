@@ -1,5 +1,5 @@
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/full-width-card.scss';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/full-width-card';
 
 .card {
   cursor: pointer;

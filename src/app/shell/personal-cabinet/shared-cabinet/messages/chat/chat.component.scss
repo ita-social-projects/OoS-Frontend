@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'src/app/shared/styles/components/buttons';
 
 .mat-mdc-card {
   padding: 16px;
@@ -21,7 +21,7 @@
 .header {
   display: flex;
   padding: 8px 0 16px;
-  border-bottom: 1px #e3e3e3 solid;
+  border-bottom: 1px var(--input-light-color) solid;
 
   p {
     margin: 6px 0 16px;
@@ -29,7 +29,7 @@
 
   &__icon {
     font-size: 16px;
-    color: #444444;
+    color: var(--cancel-text-color);
     width: 16px;
     height: 16px;
     margin-right: 16px;
@@ -80,20 +80,20 @@
 }
 
 .Blocked {
-  color: #c72a21;
+  color: var(--error-color);
 }
 
 .pay-attention-block {
   display: flex;
   align-self: center;
   margin-bottom: 180px;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 
 .footer {
   display: flex;
   align-items: center;
-  border-top: 1px #e3e3e3 solid;
+  border-top: 1px var(--input-light-color) solid;
   padding: 16px 0 8px;
 }
 
@@ -101,7 +101,7 @@
   font-size: 14px;
   font-weight: normal;
   line-height: 22px;
-  color: #161414;
+  color: var(--secondary-dark-text-color);
   width: 100%;
   max-height: 80px;
   padding-left: 10px; // TODO: Remove after finish sending file
@@ -111,10 +111,11 @@
 
   &::placeholder {
     opacity: 0.4;
+    color: var(--secondary-dark-text-color);
   }
 }
 .attach-icon {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
   margin-right: 14px;
   cursor: pointer;
 }
@@ -142,7 +143,7 @@
 .step-characters-count {
   display: flex;
   font-family: 'Open Sans', sans-serif;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
   padding-left: 10px;
 }
 
