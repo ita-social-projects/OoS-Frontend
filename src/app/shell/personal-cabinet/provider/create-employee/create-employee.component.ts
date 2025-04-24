@@ -150,7 +150,7 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
         this.navigationBarService.createNavPaths(
           {
             name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
+            path: '/personal-cabinet/provider/provider-employees',
             isActive: false,
             disable: false
           },
@@ -204,7 +204,7 @@ export class CreateEmployeeComponent extends CreateFormComponent implements OnIn
   }
 
   public onCancel(): void {
-    this.router.navigate(['/personal-cabinet/provider/administration']);
+    this.router.navigate(['/personal-cabinet/provider/provider-employees']);
   }
 
   /**

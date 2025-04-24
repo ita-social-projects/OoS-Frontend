@@ -746,7 +746,7 @@ export class ProviderState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/personal-cabinet/provider/administration']);
+    this.router.navigate(['/personal-cabinet/provider/provider-employees']);
   }
 
   @Action(providerActions.BlockEmployeeById)
@@ -836,7 +836,7 @@ export class ProviderState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/personal-cabinet/provider/administration']);
+    this.router.navigate(['/personal-cabinet/provider/provider-employees']);
   }
 
   @Action(providerActions.UpdateWorkshopStatus)

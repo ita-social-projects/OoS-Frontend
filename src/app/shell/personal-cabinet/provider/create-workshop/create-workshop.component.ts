@@ -142,7 +142,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         this.navigationBarService.createNavPaths(
           {
             name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
+            path: '/personal-cabinet/provider/workshops',
             isActive: false,
             disable: false
           },

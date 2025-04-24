@@ -126,7 +126,7 @@ export class CreateStudySubjectComponent extends CreateFormComponent implements 
         this.navigationBarService.createNavPaths(
           {
             name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
+            path: '/personal-cabinet/provider/study-subjects',
             isActive: false,
             disable: false
           },
