@@ -1497,7 +1497,7 @@ export class ProviderState {
   @Action(providerActions.OnUpdateStudySubjectFail)
   onUpdateStudySubjectFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateStudySubjectFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
-  }
+  } // eslint-disable-next-line max-lines
 
   @Action(providerActions.DeleteStudySubjectById)
   deleteStudySubjectById(
