@@ -1,7 +1,7 @@
-@use '../../../../shared/styles/components/dropdown';
-@use '../../../../shared/styles/components/calendar';
-@use '../../../../shared/styles/components/buttons';
-@use '../../../../shared/styles/components/tables';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/calendar';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/tables';
 
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0;

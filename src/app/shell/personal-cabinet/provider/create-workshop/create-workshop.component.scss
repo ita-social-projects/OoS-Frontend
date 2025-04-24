@@ -1,6 +1,6 @@
-@use '../../../../shared/styles/components/create-form-wrapper';
-@use '../../../../shared/styles/components/dropdown';
-@use '../../../../shared/styles/components/list-wrappers';
+@use 'src/app/shared/styles/components/create-form-wrapper';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/list-wrappers';
 
 :host .wrapper ::ng-deep form {
   width: 100%;

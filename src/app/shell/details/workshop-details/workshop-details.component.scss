@@ -1,7 +1,7 @@
-@use '../../../shared/styles/components/side-menu-cards';
-@use '../../../shared/styles/components/details';
-@use '../../../shared/styles/components/workshop-status';
-@use '../../../shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/side-menu-cards';
+@use 'src/app/shared/styles/components/details';
+@use 'src/app/shared/styles/components/workshop-status';
+@use 'src/app/shared/styles/components/buttons';
 
 .workshop-title {
   margin-bottom: 0;

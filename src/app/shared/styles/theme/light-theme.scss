@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
+@use '@angular/material/theming' as mat-theming;
 
 $primary-light-palette: mat.define-palette(
   (
@@ -18,20 +18,20 @@ $primary-light-palette: mat.define-palette(
     A400: #8838f9,
     A700: #4c00e8,
     contrast: (
-      50: $dark-primary-text,
-      100: $dark-primary-text,
-      200: $dark-primary-text,
-      300: $dark-primary-text,
-      400: $dark-primary-text,
-      500: $light-primary-text,
-      600: $light-primary-text,
-      700: $light-primary-text,
-      800: $light-primary-text,
-      900: $light-primary-text,
-      A100: $dark-primary-text,
-      A200: $light-primary-text,
-      A400: $light-primary-text,
-      A700: $light-primary-text
+      50: mat-theming.$dark-primary-text,
+      100: mat-theming.$dark-primary-text,
+      200: mat-theming.$dark-primary-text,
+      300: mat-theming.$dark-primary-text,
+      400: mat-theming.$dark-primary-text,
+      500: mat-theming.$light-primary-text,
+      600: mat-theming.$light-primary-text,
+      700: mat-theming.$light-primary-text,
+      800: mat-theming.$light-primary-text,
+      900: mat-theming.$light-primary-text,
+      A100: mat-theming.$dark-primary-text,
+      A200: mat-theming.$light-primary-text,
+      A400: mat-theming.$light-primary-text,
+      A700: mat-theming.$light-primary-text
     )
   )
 );
@@ -48,3 +48,5 @@ $light-theme: mat.define-light-theme(
     density: 0
   )
 );
+
+@include mat.all-component-themes($light-theme);

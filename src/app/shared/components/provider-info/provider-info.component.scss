@@ -1,6 +1,6 @@
-@use '../../styles/components/navigation-tabs';
-@use '../../styles/components/info-hint';
-@use '../../styles/components/buttons';
+@use 'src/app/shared/styles/components/navigation-tabs';
+@use 'src/app/shared/styles/components/info-hint';
+@use 'src/app/shared/styles/components/buttons';
 
 .wrapper {
   background: var(--primary-light-bg-color);

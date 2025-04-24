@@ -1,8 +1,8 @@
-@use '../../../../../shared/styles/components/create-form';
-@use '../../../../../shared/styles/components/validation-form';
-@use '../../../../../shared/styles/components/dropdown';
-@use '../../../../../shared/styles/components/toggle-button';
-@use '../../../../../shared/styles/components/info-hint';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/toggle-button';
+@use 'src/app/shared/styles/components/info-hint';
 
 .seat-input {
   max-width: 100px;

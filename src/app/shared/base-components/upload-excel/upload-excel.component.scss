@@ -1,6 +1,6 @@
-@use '../../styles/components/buttons';
-@use '../../styles/utils/animations/animations';
-@use '../../styles/utils/variables/variables';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/utils/animations/animations';
+@use 'src/app/shared/styles/utils/variables/variables';
 
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
   background-color: var(--input-light-color) !important;
