@@ -266,8 +266,8 @@ export class FilterState {
   }
 
   @Action(SetPayRate)
-  setPayRate({ patchState }: StateContext<FilterStateModel>, { payload }: SetPayRate): void {
-    patchState({ payRate: payload });
+  setPayRate({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetPayRate): void {
+    patchState({ payRate: payload, from: 0 });
   }
 
   @Action(SetMinPrice)

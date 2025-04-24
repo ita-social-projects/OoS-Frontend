@@ -6,7 +6,7 @@ import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil, filter } from 'rxjs/operators';
 import { ValidationConstants } from 'shared/constants/validation';
 import { PriceFilter, MinMaxPriceFilter } from 'shared/models/filter-list.model';
-import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate } from 'shared/store/filter.actions';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate, FilterChange } from 'shared/store/filter.actions';
 import { PayRateType } from 'shared/enum/workshop';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { FilterState } from 'shared/store/filter.state';
@@ -108,6 +108,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       if (!this.minPriceControl.errors && !this.maxPriceControl.errors) {
         this.store.dispatch(new SetMinPrice(val));
         this.minValue = val;
+        this.minPriceControl.updateValueAndValidity({ emitEvent: false });
       }
     });
 
@@ -118,22 +119,25 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       if (!this.maxPriceControl.errors && !this.minPriceControl.errors) {
         this.store.dispatch(new SetMaxPrice(val));
         this.maxValue = val;
+        this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
       }
     });
   }
 
   public getSliderOptions(disabled: boolean): Options {
-    const sliderOptions = {
-      floor: ValidationConstants.MIN_PRICE,
-      ceil: ValidationConstants.MAX_PRICE
-    };
+    const sliderOptions = this.options
+      ? { ...this.options }
+      : {
+          floor: ValidationConstants.MIN_PRICE,
+          ceil: ValidationConstants.MAX_PRICE
+        };
 
     if (this.limitMinMaxPrice?.isActiveLimitation) {
       sliderOptions.floor = this.limitMinMaxPrice.minPrice;
       sliderOptions.ceil = this.limitMinMaxPrice.maxPrice;
     }
 
-    return { ...sliderOptions, disabled };
+    return { ...sliderOptions, disabled: disabled };
   }
 
   public clearMin(): void {

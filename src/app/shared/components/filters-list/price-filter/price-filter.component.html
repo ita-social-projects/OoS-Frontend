@@ -65,7 +65,11 @@
           </mat-option>
         </ng-container>
       </mat-select>
-      <mat-icon class="clear-payRate" [class.disabled-payRate]="!isPaidControl.value" (keydown.enter)="clearPayRate()" (click)="clearPayRate()">clear</mat-icon>
+      <mat-icon class="clear-payRate"
+        type="button"
+        [class.disabled-payRate]="!isPaidControl.value"
+        (keydown.enter)="clearPayRate()"
+        (click)="clearPayRate()">clear</mat-icon>
     </div>
   </div>
 </div>
