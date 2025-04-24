@@ -38,7 +38,12 @@ import { Competition, CompetitionProviderViewCard } from 'shared/models/competit
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
-import { OnSaveWorkshopStep, OnSaveWorkshopStepFail, OnSaveWorkshopStepSuccess } from './provider.actions';
+import {
+  OnGetWorkshopDraftIdByWorkshopIdSuccess,
+  OnSaveWorkshopStep,
+  OnSaveWorkshopStepFail,
+  OnSaveWorkshopStepSuccess
+} from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 
 export interface ProviderStateModel {
@@ -528,14 +533,14 @@ export class ProviderState {
   }
 
   @Action(providerActions.GetWorkshopDraftIdByWorkshopId)
-  getWorkshopDraftByWorkshopId(
+  getWorkshopDraftIdByWorkshopId(
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { id }: providerActions.GetWorkshopDraftIdByWorkshopId
   ): Observable<string> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
       take(1),
-      tap((draftId) => this.router.navigate(['/create', draftId ? 'draft' : 'workshop', draftId ?? id])),
+      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId))),
       catchError(() => {
         dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
         return EMPTY;

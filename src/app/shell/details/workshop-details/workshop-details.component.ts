@@ -21,6 +21,7 @@ import {
   DraftSendForModeration,
   GetWorkshopDraftIdByWorkshopId,
   OnDraftSendForModerationSuccess,
+  OnGetWorkshopDraftIdByWorkshopIdSuccess,
   ResetAchievements
 } from 'shared/store/provider.actions';
 import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
@@ -152,7 +153,30 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onEdit(): void {
-    this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.route.snapshot.paramMap.get('id')));
+    const workshopId = this.route.snapshot.paramMap.get('id');
+
+    this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
+
+    this.actions$
+      .pipe(ofAction(OnGetWorkshopDraftIdByWorkshopIdSuccess), take(1))
+      .subscribe((action: OnGetWorkshopDraftIdByWorkshopIdSuccess) => {
+        if (!action.draftId) {
+          this.router.navigate(['/create/workshop', workshopId]);
+        } else {
+          this.dialog
+            .open(ConfirmationModalWindowComponent, {
+              width: Constants.MODAL_SMALL,
+              data: {
+                type: ModalConfirmationType.draftExistsSet
+              }
+            })
+            .afterClosed()
+            .pipe(take(1), filter(Boolean))
+            .subscribe(() => {
+              this.router.navigate(['/create/draft', action.draftId]);
+            });
+        }
+      });
   }
 
   private getWorkshopData(): void {
