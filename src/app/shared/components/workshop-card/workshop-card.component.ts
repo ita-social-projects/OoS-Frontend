@@ -67,6 +67,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly Util = Util;
 
   public isFavorite = false;
+  public isImageBroken = false;
   public canChangeWorkshopStatus: boolean;
   public workshopData: WorkshopBaseCard | WorkshopDraftCard;
   public role: Role;
@@ -191,6 +192,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         message: ModalConfirmationDescription.unregisteredFavoriteWarning
       }
     });
+  }
+
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.workshopData._meta = this.imagesService.getDefaultWorkshopCardImage(this.workshopData);
   }
 
   public ngOnDestroy(): void {

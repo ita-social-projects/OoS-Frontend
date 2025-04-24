@@ -18,12 +18,19 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-competition',
   templateUrl: './create-competition.component.html',
-  styleUrls: ['./create-competition.component.scss']
+  styleUrls: ['./create-competition.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class CreateCompetitionComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
@@ -52,7 +59,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     super(store, route, navigationBarService);
   }
 
-  public get isButtonDisabled(): boolean | Observable<boolean> {
+  public get areFormsInvalid(): boolean | Observable<boolean> {
     return (
       this.isLoading$ ||
       (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty && !this.JudgeFormArray?.dirty) ||
@@ -111,27 +118,31 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
         takeUntil(this.destroy$),
         filter((competition: Competition) => competition?.id === competitionId)
       )
-      .subscribe((competition: Competition) => (this.competition = competition));
+      .subscribe((competition: Competition) => {
+        this.competition = competition;
+      });
   }
 
   /**
    * This method dispatch store action to create a Competition with Form Groups values
    */
   public onSubmit(): void {
-    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const requiredInfo: CompetitionRequired = this.createRequired();
-    const descInfo = this.DescriptionFormGroup.getRawValue();
-    const contacts: Contacts[] = this.createContacts();
-    const judges: Judge[] = this.createJudges();
+    if (this.areFormsInvalid) {
+      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+      const requiredInfo: CompetitionRequired = this.createRequired();
+      const descInfo = this.DescriptionFormGroup.getRawValue();
+      const contacts: Contacts[] = this.createContacts();
+      const judges: Judge[] = this.createJudges();
 
-    let competition: Competition;
+      let competition: Competition;
 
-    if (this.editMode) {
-      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
-      this.store.dispatch(new UpdateCompetition(competition));
-    } else {
-      competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
-      this.store.dispatch(new CreateCompetition(competition));
+      if (this.editMode) {
+        competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
+        this.store.dispatch(new UpdateCompetition(competition));
+      } else {
+        competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
+        this.store.dispatch(new CreateCompetition(competition));
+      }
     }
   }
 

@@ -50,9 +50,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public competition: Competition;
   public role: Role;
 
-  public isCompetition = false;
   public displayActionCard: boolean;
 
+  protected readonly WorkshopType = WorkshopType;
   protected workshopType: WorkshopType;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();

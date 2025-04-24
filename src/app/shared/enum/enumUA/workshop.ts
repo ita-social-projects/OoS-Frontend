@@ -23,7 +23,8 @@ export enum DetailsTabTitlesEnum {
   OtherWorkshops = 'TITLES.OTHER_WORKSHOPS_OF_THE_PROVIDER',
   Reviews = 'TITLES.REVIEWS',
   Achievements = 'TITLES.ACHIEVEMENTS',
-  Workshops = 'TITLES.WORKSHOPS_OF_THE_PROVIDER'
+  Workshops = 'TITLES.WORKSHOPS_OF_THE_PROVIDER',
+  Contacts = 'TITLES.CONTACTS'
 }
 
 export enum FormOfLearningEnum {
@@ -62,7 +63,10 @@ export enum CoverageEnum {
 }
 
 export enum GroupTypeEnum {
-  None = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.NONE'
+  Workshop = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.WORKSHOP',
+  CreativeUnion = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.CREATIVE_UNION',
+  Studio = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.STUDIO',
+  Section = 'ENUM.WORKSHOP_SELECT_DESCRIPTION.GROUP_TYPE.SECTION'
 }
 
 export enum DraftStatusEnum {

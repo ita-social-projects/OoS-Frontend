@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <mat-horizontal-stepper linear>
+      <mat-horizontal-stepper linear #stepper>
         <mat-step [stepControl]="RequiredFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</p>
@@ -28,13 +28,13 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="RequiredFormGroup?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="RequiredFormGroup" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid && DescriptionFormGroup?.valid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
@@ -52,7 +52,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="DescriptionFormGroup" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -60,7 +60,7 @@
 
         <mat-step
           [stepControl]="ContactsFormArray"
-          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !ContactsFormArray.invalid">
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && ContactsFormArray?.valid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
@@ -73,7 +73,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="ContactsFormArray?.invalid">
+            <button class="btn" mat-raised-button appStepperNext [form]="ContactsFormArray" [stepper]="stepper">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -98,7 +98,7 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button [disabled]="isButtonDisabled | async" type="submit" (click)="onSubmit()">
+            <button class="btn" mat-raised-button type="button" [appStepperNext]="onSubmit.bind(this)" [form]="JudgeFormArray" [stepper]="stepper">
               {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>

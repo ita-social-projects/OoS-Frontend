@@ -33,7 +33,7 @@ describe('SideMenuComponent', () => {
 });
 
 @Component({
-  selector: 'app-contacts',
+  selector: 'app-contacts-card',
   template: ''
 })
 class MockContactsComponent {

@@ -1,7 +1,10 @@
 <div class="container" *ngIf="provider">
   <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
-  <div class="img-wrapper flex justify-center">
-    <img class="coverImage" [src]="coverImage" [alt]="'ALT.IMG_COVER' | translate" />
+  <div class="img-wrapper relative flex justify-center">
+    <img class="coverImage" [src]="coverImage" (error)="onImageError()" [alt]="'ALT.IMG_COVER' | translate" />
+    <ng-container *ngIf="isImageBroken && providerParameters?.providerId === currentProvider?.id">
+      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+    </ng-container>
   </div>
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
@@ -14,7 +17,7 @@
       <span
         [matTooltip]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate) : null">
          <button
-           [routerLink]="['/create', Util.isWorkshop(workshop) ? 'workshop' : 'draft', route.snapshot.paramMap.get('id')]"
+           [routerLink]="['/create', Util.containsWorkshopDetails(workshop) ? 'draft' : 'workshop', route.snapshot.paramMap.get('id')]"
            class="btn btn-cancel"
            [class.btn-rejected]="workshop.draftStatus === WorkshopDraftStatus.Rejected"
            [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
@@ -22,7 +25,7 @@
          </button>
       </span>
       <button
-        *ngIf="!Util.isWorkshop(workshop)"
+        *ngIf="workshop.workshopDraftId"
         class="btn"
         [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
         (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
@@ -137,6 +140,9 @@
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
         <app-achievements [workshop]="workshop"></app-achievements>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Contacts | translate | uppercase }}">
+        <app-contacts-card [workshop]="workshop" [provider]="provider"></app-contacts-card>
       </mat-tab>
     </mat-tab-group>
   </div>

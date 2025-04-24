@@ -11,6 +11,17 @@
   min-width: 24px;
 }
 
+.error-message {
+  color: red;
+  height: 40px;
+  width: 40px;
+  font-size: 40px;
+
+  &:hover {
+    color: darkred;
+  }
+}
+
 .chip {
   font-family: Innerspace, sans-serif;
   margin-left: 0;

@@ -134,32 +134,12 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       edrpou: new FormControl('', [Validators.required, FormValidators.edrpou]),
-      director: new FormControl('', [
-        Validators.required,
-        Validators.pattern(FULL_NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      directorDateOfBirth: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [
-        Validators.required,
-        FormValidators.email,
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_254),
-        BlacklistEmailValidator()
-      ]),
       typeId: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),
       institutionType: new FormControl('', Validators.required),
       institutionStatusId: new FormControl('', Validators.required),
       license: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      founder: new FormControl('', [
-        Validators.required,
-        Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),

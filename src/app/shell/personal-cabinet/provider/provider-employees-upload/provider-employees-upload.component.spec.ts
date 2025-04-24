@@ -67,12 +67,10 @@ describe('ProviderEmployeesUploadComponent', () => {
     // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
     component['ImportEmployeesStandardHeaders'] = importEmployeesStandardHeaders;
 
-    // Act
     component.ngOnInit();
 
-    // Assert
-    expect(component.columnNames).toEqual(Object.keys(importEmployeesColumnsNames)); // Compare with field names (keys)
-    expect(component.standardHeaders).toEqual(Object.values(importEmployeesStandardHeaders)); // Assuming this matches your test expectations
+    expect(component.columnNames).toEqual(Object.keys(importEmployeesColumnsNames));
+    expect(component.standardHeaders).toEqual(Object.values(importEmployeesStandardHeaders));
   });
 
   it('should create the component', () => {

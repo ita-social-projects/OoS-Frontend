@@ -57,7 +57,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(SpecialNeedsType.None);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(EducationalShift.First);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(AgeComposition.SameAge);
-    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(GroupType.None);
+    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(GroupType.Workshop);
   });
 
   it('should update form in edit mode', () => {
@@ -67,7 +67,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       specialNeedsType: SpecialNeedsType.Hearing,
       educationalShift: EducationalShift.Second,
       ageComposition: AgeComposition.SameAge,
-      groupType: GroupType.None
+      groupType: GroupType.Workshop
     } as unknown as Workshop;
 
     component.workshop = mockWorkshop;

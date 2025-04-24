@@ -1,5 +1,4 @@
-import { CompetitionCoverage, CompetitionStatus, TypeOfCompetition, FormOfLearning } from 'shared/enum/competition';
-import { Direction } from 'shared/models/category.model';
+import { CompetitionCoverage, CompetitionStatus, FormOfLearning } from 'shared/enum/competition';
 import { Address } from 'shared/models/address.model';
 import { Judge } from 'shared/models/judge.model';
 import { Provider } from 'shared/models/provider.model';
@@ -189,6 +188,7 @@ export interface CompetitionBaseCard {
   rating: number;
   numberOfRatings: number;
   directionIds: number[];
+  _meta?: string;
 }
 
 export interface CompetitionProviderViewCard extends CompetitionBaseCard {
@@ -214,6 +214,7 @@ export class CompetitiveDescriptionItem extends SectionItem {
     }
   }
 }
+
 interface Description {
   institutionHierarchyId?: string;
   subcategory?: string;

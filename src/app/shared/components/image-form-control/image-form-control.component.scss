@@ -6,12 +6,14 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .photo-header {
   font-weight: bold;
   font-size: 0.813rem;
   line-height: 0.938rem;
   color: #333333;
 }
+
 .photo-subheader {
   font-weight: normal;
   font-size: 0.813rem;
@@ -19,6 +21,7 @@
   margin-bottom: 0.3rem;
   color: #aaaaaa;
 }
+
 .logo {
   &_cancel {
     position: absolute;
@@ -28,9 +31,11 @@
     z-index: 10;
     display: none;
   }
+
   &_button {
     width: 100%;
     max-width: 95px;
+
     label {
       position: absolute;
       left: 0;
@@ -46,32 +51,47 @@
       align-items: center;
       cursor: pointer;
     }
+
     label:hover {
       transition: all 0.3s ease-out;
       background: rgba(56, 73, 249, 0.3);
     }
+
     input {
       display: none;
     }
   }
+
   &_images {
     width: 95px;
     height: 58px;
     background: #ffffff;
-    img {
+
+    img, .fallback {
       object-fit: cover;
       width: 95px;
       height: 58px;
       border-radius: 5px;
     }
+
+    .fallback {
+      box-sizing: border-box;
+      border: 2px solid red;
+      color: red;
+      font-weight: bold;
+      user-select: none;
+    }
   }
 }
-mat-grid-tile img:hover + .logo_cancel {
+
+mat-grid-tile img:hover + .logo_cancel, mat-grid-tile .fallback:hover + .logo_cancel {
   display: block;
 }
+
 .logo_cancel:hover {
   display: block;
 }
+
 mat-icon:hover {
   color: red;
 }

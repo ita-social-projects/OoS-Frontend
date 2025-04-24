@@ -1,13 +1,11 @@
 import { Directive, HostListener, Inject, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
 import { MatStepper } from '@angular/material/stepper';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { WINDOW } from 'ngx-window-token';
 
 import { ShowMessageBar } from 'shared/store/app.actions';
-import { take } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[appStepperNext]'
@@ -15,11 +13,11 @@ import { DOCUMENT } from '@angular/common';
 export class StepperDirective {
   @Input() public form: FormGroup | FormArray;
   @Input() public stepper: MatStepper;
+  @Input('appStepperNext') public submit!: (...args: any[]) => void;
 
   private stepElement!: HTMLElement;
 
   constructor(
-    @Inject(WINDOW) private readonly window: Window,
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly store: Store,
     private readonly translateService: TranslateService
@@ -27,12 +25,14 @@ export class StepperDirective {
 
   @HostListener('click', ['$event'])
   public onClick(): void {
-    if (!this.form || !this.stepper) {
+    if ((!this.submit && !this.form) || !this.stepper) {
       return;
     }
 
-    if (this.form.valid) {
+    if (this.form && this.form.valid && !this.submit) {
       this.stepper.next();
+    } else if ((this.form?.valid ?? !this.form) && this.submit) {
+      this.submit();
     } else {
       const stepIndex = this.stepper.selectedIndex;
       this.stepElement = this.document.querySelector(`[id^="cdk-step-content-"][id$="-${stepIndex}"]`);
@@ -52,18 +52,15 @@ export class StepperDirective {
     requestAnimationFrame(() => {
       const invalidFields = this.stepElement.querySelectorAll(
         'input.ng-invalid, select.ng-invalid, textarea.ng-invalid, .days-toggle-invalid, mat-select.ng-invalid'
-      ); // add selector for a specific non-input type element
+      ); // add a selector for a specific non-input type element
 
       if (invalidFields.length) {
-        this.translateService
-          .get('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY')
-          .pipe(take(1))
-          .subscribe((text) => {
-            this.store.dispatch(new ShowMessageBar({ message: text, type: 'error' }));
+        const message = this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REQUIRED_FIELDS_EMPTY');
 
-            invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            (invalidFields[0] as HTMLElement).focus({ preventScroll: true });
-          });
+        this.store.dispatch(new ShowMessageBar({ message, type: 'error' }));
+
+        invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        (invalidFields[0] as HTMLElement).focus({ preventScroll: true });
       }
     });
   }

@@ -34,7 +34,8 @@ export enum DetailsTabTitlesParams {
   'Teachers',
   'OtherWorkshops',
   'Reviews',
-  'Achievements'
+  'Achievements',
+  'Contacts'
 }
 
 export enum FormOfLearning {
@@ -73,7 +74,10 @@ export enum AgeComposition {
 }
 
 export enum GroupType {
-  None = 'None'
+  Workshop = 'Workshop',
+  CreativeUnion = 'CreativeUnion',
+  Studio = 'Studio',
+  Section = 'Section'
 }
 
 export enum SocialNetworks {

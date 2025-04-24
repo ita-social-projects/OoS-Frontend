@@ -359,7 +359,10 @@
         "INTERNATIONAL": "International"
       },
       "GROUP_TYPE": {
-        "NONE": "None"
+        "WORKSHOP": "Workshop",
+        "CREATIVE_UNION": "Creative Union",
+        "STUDIO": "Studio",
+        "SECTION": "Section"
       }
     },
     "TYPE_OF_COMPETITION": {
@@ -380,7 +383,7 @@
   "EXACT_MATCH": "Exact match",
   "FOR_FREE": "For free",
   "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
-  "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
+  "WITH_COMPETITIVE_SELECTION": "Competitive selection",
   "INFO_ABOUT_SELECTION": "Information about selection",
   "MODERATOR_MESSAGE": "Moderator's response",
   "FORMS": {
@@ -459,7 +462,6 @@
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for persons with disabilities",
       "COMPETITIVE_SELECTION": "Competitive selection",
       "DESCRIPTION_SELECTION": "Description of enrolment procedure",
-      "COMPETITIVE_BENEFITS": "Competitive benefits",
       "DESCRIPTION_BENEFITS": "Description of benefits",
       "TITLE": "Full title",
       "WEBSITE": "Website",
@@ -521,9 +523,12 @@
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
       "IS_SPECIAL": "Is special",
       "IS_INCLUSIVE": "Is inclusive",
+      "COMPETITIVE_SELECTION": "Competitive selection",
       "SPECIAL_NEEDS_TYPE": "Special needs type",
-      "ARE_THERE_BENEFITS": "Are there benefits",
-      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Preferential terms of participation",
+      "ARE_THERE_BENEFITS": "Benefits",
+      "BENEFITS_POSITIVE": "With benefits",
+      "BENEFITS_NEGATIVE": "Without benefits",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Description of preferential terms",
       "EDUCATIONAL_SHIFT": "Educational Shift",
       "AGE_COMPOSITION": "Age Composition",
       "GROUP_TYPE": "Workshop type",
@@ -612,7 +617,7 @@
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
       "INVALID_START_END_DATES": "The end date must be later than or equal to the start date of the event.",
-      "INVALID_EMAIL": "Enter a valid email.",
+      "INVALID_EMAIL": "Enter the email address in the format name@example.com",
       "INVALID_EDRPOU_END": " digit number.",
       "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_INPUT": "Check your data",
@@ -624,7 +629,7 @@
       "INVALID_SYMBOLS": "Check your data, please use only cyrillic and symbols ( ' - )",
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
-      "INVALID_DATE_RANGE": "Check your data </br> Date of birth is out of range.",
+      "INVALID_DATE_RANGE": "Check your data </br> Date is out of range.",
       "INVALID_EDRPOU": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
@@ -642,7 +647,7 @@
       "INVALID_LENGTH_FROM_TO_WITH_COUNT": "This field must contain from {{minCharacters}} to {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
       "INVALID_LENGTH_NO_MORE_THAN": "This field must contain no more than {{maxCharacters}} symbols.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "This field must contain no more than {{maxCharacters}} symbols. Current count: {{currentCharactersCount}}.",
-      "INVALID_LINK": "Enter a valid link to the page",
+      "INVALID_LINK": "Enter the link in the format https://example.com/username",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain {{minCharacters}}",
       "INVALID_VALUE_START_WITHOUT_PARAM": "This field must contain",
@@ -1231,5 +1236,9 @@
   },
   "TOOLTIP": {
     "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "You can't edit the workshop that has been sent for moderation"
+  },
+  "IMAGE": {
+    "ERROR": "Error",
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
   }
 }

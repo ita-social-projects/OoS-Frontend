@@ -359,7 +359,10 @@
         "INTERNATIONAL": "Міжнародний"
       },
       "GROUP_TYPE": {
-        "NONE": "Немає"
+        "WORKSHOP": "Гурток",
+        "CREATIVE_UNION": "Творче об'єднання",
+        "STUDIO": "Студія",
+        "SECTION": "Секція"
       }
     },
     "TYPE_OF_COMPETITION": {
@@ -380,7 +383,7 @@
   "EXACT_MATCH": "Повний збіг",
   "FOR_FREE": "Безкоштовно",
   "WITHOUT_COMPETITIVE_SELECTION": "Без конкурсного відбору",
-  "WITH_COMPETITIVE_SELECTION": "В групу діє конкурсний відбір",
+  "WITH_COMPETITIVE_SELECTION": "Є конкурсний відбір",
   "INFO_ABOUT_SELECTION": "Інформація про відбір",
   "MODERATOR_MESSAGE": "Відповідь модератора",
   "FORMS": {
@@ -459,7 +462,6 @@
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для осіб з ООП та осіб з інвалідністю",
       "COMPETITIVE_SELECTION": "В групу діє конкурсний відбір",
       "DESCRIPTION_SELECTION": "Опис процедури зарахування",
-      "COMPETITIVE_BENEFITS": "Пільгові умови участі",
       "DESCRIPTION_BENEFITS": "Опис пільгових умов",
       "TITLE": "Повна назва",
       "WEBSITE": "Вебсайт",
@@ -520,9 +522,12 @@
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Опис процедури зарахування",
       "IS_SPECIAL": "Є спеціальною",
       "IS_INCLUSIVE": "Є інклюзивною",
+      "COMPETITIVE_SELECTION": "Конкурсний відбір",
       "SPECIAL_NEEDS_TYPE": "Група за типом порушення",
-      "ARE_THERE_BENEFITS": "Чи є пільги",
-      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Пільгові умови участі",
+      "ARE_THERE_BENEFITS": "Пільгові умови",
+      "BENEFITS_POSITIVE": "Є пільгові умови",
+      "BENEFITS_NEGATIVE": "Відсутні пільгові умови",
+      "PREFERENTIAL_TERMS_OF_PARTICIPATION": "Опис пільгових умов",
       "EDUCATIONAL_SHIFT": "Зміна навчання",
       "AGE_COMPOSITION": "Тип групи за віковим складом",
       "COVERAGE": "Покриття",
@@ -612,9 +617,9 @@
       "INVALID_SYMBOLS": "Перевірте введені дані, будь ласка, використовуйте лише кирилицю та символи ( ' - )",
       "INVALID_PHONE_LENGTH": "Це поле має містити мінімум {{minCharacters}} символів.",
       "INVALID_PHONE_NUMBER": "Введіть коректний номер телефону.",
-      "INVALID_DATE_RANGE": "Перевірте введені дані </br> Дата народження виходить за межі допустимих.",
+      "INVALID_DATE_RANGE": "Перевірте введені дані </br> Дата виходить за межі допустимих.",
       "INVALID_START_END_DATES": "Дата завершення повинна бути пізніше або рівна даті початку заходу.",
-      "INVALID_EMAIL": "Введіть коректний імейл.",
+      "INVALID_EMAIL": "Введіть електронну пошту у форматі name@example.com",
       "INVALID_EDRPOU": "Це поле має містити {{minCharacters}}-значне число.",
       "INVALID_STREET": "Перевірте введені дані, будь ласка, використовуйте лише числа, кирилицю та символи ( ' . - ( ) )",
       "INVALID_HOUSE": "Перевірте введені дані, будь ласка, використовуйте лише числа, кирилицю та символи ( / - . )",
@@ -633,7 +638,7 @@
       "INVALID_LENGTH_NO_MORE_THAN": "Це поле має містити не більше ніж {{maxCharacters}} символів.",
       "INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT": "Це поле має містити не більше ніж {{maxCharacters}} символів. Зараз: {{currentCharactersCount}}.",
       "INVALID_INPUT": "Перевірте введені дані",
-      "INVALID_LINK": "Введіть вірне посилання на сторінку",
+      "INVALID_LINK": "Введіть посилання у форматі https://example.com/username",
       "INVALID_LENGTH_END": "символів.",
       "INVALID_LENGTH_START": "Це поле має містити {{minCharacters}}",
       "INVALID_VALUE_START_WITHOUT_PARAM": "Це поле має містити",
@@ -1219,5 +1224,9 @@
   },
   "TOOLTIP": {
     "CANNOT_EDIT_WORKSHOP_PENDING_MODERATION": "Ви не можете редагувати гурток, який було надіслано на модерацію"
+  },
+  "IMAGE": {
+    "ERROR": "Помилка",
+    "CHANGE_IMAGE": "Фото більше недоступне. Ви можете змінити його, відредагувавши гурток/конкурс"
   }
 }

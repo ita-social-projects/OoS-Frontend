@@ -1,9 +1,8 @@
-
 .paginator {
   margin-bottom: 2rem;
 }
 .page {
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
@@ -40,6 +39,7 @@
   max-height: 100px;
   overflow: visible;
   text-align: center;
+  display: flex;
 }
 :host::ng-deep .mat-mdc-select-placeholder,
 .dropdown-option {
@@ -48,7 +48,7 @@
   height: 2.1rem;
 }
 :host::ng-deep .mat-select-arrow:hover {
-  opacity: 0, 5;
+  opacity: 0.5;
   color: #3849f9;
 }
 
@@ -70,4 +70,3 @@
     color: #000;
   }
 }
-
