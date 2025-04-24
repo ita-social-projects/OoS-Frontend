@@ -369,8 +369,17 @@ export class Util {
         return false;
       }
 
-      const sorted1 = [...obj1].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
-      const sorted2 = [...obj2].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+      const safeStringify = (v: unknown): string => {
+        try {
+          const str = JSON.stringify(v);
+          return str === undefined ? String(v) : str;
+        } catch {
+          return String(v);
+        }
+      };
+
+      const sorted1 = [...obj1].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
+      const sorted2 = [...obj2].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
 
       return sorted1.every((el, idx) => this.deepEqual(el, sorted2[idx]));
     }
