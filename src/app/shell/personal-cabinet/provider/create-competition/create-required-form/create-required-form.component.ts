@@ -39,7 +39,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public filteredTypeOfCompetition: { key: string; value: string }[] = [];
 
-  protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth()));
+  protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 12));
   protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
   protected readonly validationConstants = ValidationConstants;
   protected readonly TypeOfCompetition = TypeOfCompetition;

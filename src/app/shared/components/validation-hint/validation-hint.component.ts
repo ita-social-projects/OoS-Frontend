@@ -44,6 +44,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
+  @Input() public isCompetitionDate: boolean;
 
   // For min number validation
   @Input() public minNumberValue: number;
@@ -221,11 +222,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_DATE_FIELD
       },
       {
-        condition: () => errors?.matDatepickerMin || errors?.matDatepickerMax,
+        condition: () => errors?.matStartDateInvalid || errors?.matEndDateInvalid,
         message: ValidationMessages.INVALID_DATE_RANGE
       },
       {
-        condition: () => errors?.matStartDateInvalid || errors?.matEndDateInvalid,
+        condition: () => this.isCompetitionDate && (errors?.matDatepickerMin || errors?.matDatepickerMax),
         message: ValidationMessages.INVALID_START_END_DATE
       },
       // Validation by RegExp
