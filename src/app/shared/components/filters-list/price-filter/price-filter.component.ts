@@ -108,7 +108,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       if (!this.minPriceControl.errors && !this.maxPriceControl.errors) {
         this.store.dispatch(new SetMinPrice(val));
         this.minValue = val;
-        this.minPriceControl.updateValueAndValidity({ emitEvent: false });
+        this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
       }
     });
 
@@ -119,7 +119,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       if (!this.maxPriceControl.errors && !this.minPriceControl.errors) {
         this.store.dispatch(new SetMaxPrice(val));
         this.maxValue = val;
-        this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
+        this.minPriceControl.updateValueAndValidity({ emitEvent: false });
       }
     });
   }
