@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { Direction, DirectionParameters, SubDirection } from 'shared/models/category.model';
+import { Direction, DirectionParameters, Subdirection, SubdirectionsResponse } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { FilterState } from 'shared/store/filter.state';
@@ -48,6 +48,10 @@ export class DirectionsService {
 
   public getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/directions/${id}`);
+  }
+
+  public getSubdirections(directionId: number): Observable<SubdirectionsResponse> {
+    return this.http.get<SubdirectionsResponse>(`/api/v1/directions/${directionId}/subdirections`);
   }
 
   private setParams(directionParameters: DirectionParameters): HttpParams {

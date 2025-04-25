@@ -1,14 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 
 import { Direction } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
-import { SetDirections } from 'shared/store/filter.actions';
 import { GetDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 
@@ -70,25 +68,35 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * @param direction
    * @param event
    */
-  public onDirectionCheck(direction: Direction, event: MatCheckboxChange): void {
-    if (event.checked) {
-      this.selectedDirectionIds.push(direction.id);
-    } else {
-      this.selectedDirectionIds.splice(
-        this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-        1
-      );
-    }
-    this.store.dispatch(new SetDirections(this.selectedDirectionIds));
-  }
+  // public onDirectionCheck(direction: Direction, event: MatCheckboxChange): void {
+  //   if (event.checked) {
+  //     this.selectedDirectionIds.push(direction.id);
+  //     this.directionsService
+  //       .getSubdirections(direction.id)
+  //       .pipe(map((response) => response.entities))
+  //       .subscribe((subdirections: Subdirection[]) => {
+  //         direction.subdirections = direction.subdirections || [];
+  //         for (const subdirection of subdirections) {
+  //           direction.subdirections.push(subdirection);
+  //         }
+  //         console.log('direction', direction);
+  //       });
+  //   } else {
+  //     this.selectedDirectionIds.splice(
+  //       this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+  //       1
+  //     );
+  //   }
+  //   this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+  // }
 
   /**
    * This method check if value is checked
    * @returns boolean
    */
-  public onSelectCheck(direction: Direction): boolean {
-    return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
-  }
+  // public onSelectCheck(direction: Direction): boolean {
+  //   return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
+  // }
 
   /**
    * This method filter directions according to the input value

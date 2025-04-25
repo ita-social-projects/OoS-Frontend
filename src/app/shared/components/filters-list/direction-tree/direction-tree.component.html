@@ -1,0 +1,17 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="deirection-node">
+    <mat-checkbox
+      color="primary"
+      (change)="onDirectionCheck(node, $event)"
+      [checked]="onSelectCheck(node)"
+      [indeterminate]="node.fullData?.subdirections && isParentIndeterminate(node)"
+      (click)="$event.stopPropagation()">
+    </mat-checkbox>
+    <span class="direction-node__label">{{ node.name }}</span>
+    <button mat-icon-button matTreeNodeToggle *ngIf="!node.level" [attr.aria-label]="'Toggle ' + node.name">
+      <mat-icon>
+        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+  </mat-tree-node>
+</mat-tree>

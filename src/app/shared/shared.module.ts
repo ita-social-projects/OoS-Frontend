@@ -98,6 +98,7 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
 import { DraftFiltersComponent } from './components/draft-filters/draft-filters.component';
+import { DirectionTreeComponent } from './components/filters-list/direction-tree/direction-tree.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +179,7 @@ import { DraftFiltersComponent } from './components/draft-filters/draft-filters.
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
+    DirectionTreeComponent,
     CookiesBannerComponent,
     CookiePreferencesComponent,
     ProfileWaitingPageComponent,
