@@ -11,7 +11,7 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -153,7 +153,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   public onEdit(): void {
     const workshopId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
+    if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Draft) {
+      this.router.navigate(['/create/draft', workshopId]);
+    } else {
+      this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
+    }
   }
 
   private getWorkshopData(): void {
