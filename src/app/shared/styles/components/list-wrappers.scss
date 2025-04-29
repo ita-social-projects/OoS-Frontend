@@ -3,18 +3,19 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  background: #e5e6f1;
+  background: var(--input-light-color);
   border-radius: 5px;
   min-height: 66px;
   margin: 2rem 0;
-  flex-wrap: wrap;
 }
 .text {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 25px;
-  color: #272425;
+  color: var(--list-text-color);
   opacity: 1;
   margin: 0 2rem;
 }
@@ -23,7 +24,8 @@
   justify-content: space-between;
   align-items: center;
   min-height: 66px;
-  background: #e5e6f1;
+  background: var(--banner-color);
+  color: var(--secondary-dark-text-color);
   border-radius: 5px;
   padding: 20px 24px;
   margin-bottom: 2rem;

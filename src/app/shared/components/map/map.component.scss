@@ -16,12 +16,11 @@
   left: 10px;
   z-index: 1000;
   cursor: pointer;
-  background-color: #fff;
   border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 
   &:hover {
-    background-color: #f4f4f4;
+    background-color: darken($color: #d6cece, $amount: 3);
   }
 
   @media (max-width: 750px) {

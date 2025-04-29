@@ -4,10 +4,10 @@
 
 .filter-text {
   margin: 0 1rem 0 0;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 .title {
@@ -16,8 +16,9 @@
 }
 
 .age-input {
-  border: 1px solid #e3e3e3;
-  background-color: #ffffff;
+  border: 1px solid var(--input-light-color);
+  background-color: var(--primary-light-bg-color);
+  color: var(--specific-light-text-color);
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
@@ -58,7 +59,7 @@
   visibility: hidden;
   position: absolute;
   font-size: 18px;
-  color: #adadad;
+  color: var(--secondary-light-text-color);
   top: 8px;
   left: 85px;
 }
@@ -88,7 +89,7 @@
 .age-input.ng-invalid.ng-touched,
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .disabled-button {
@@ -96,7 +97,7 @@
 }
 
 .highlight-text {
-  color: red;
+  color: var(--error-color);
 }
 
 mat-error {

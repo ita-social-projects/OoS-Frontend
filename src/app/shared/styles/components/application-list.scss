@@ -3,7 +3,7 @@
   justify-content: flex-end;
   z-index: 1000;
   position: absolute;
-  right: 0px;
+  right: 0;
 }
 
 .wrapper {
@@ -11,7 +11,7 @@
 }
 
 .activeInfoBtn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-size: 30px;
 }
 .inactiveInfoBtn {
@@ -23,8 +23,8 @@
   z-index: 100;
 }
 .child-name {
-  color: #444444;
-  font-family: 'Innerspace';
+  color: var(--cancel-text-color);
+  font-family: 'Innerspace', sans-serif;
   font-weight: 700;
   font-size: 18px;
 }
@@ -35,6 +35,5 @@
     margin-bottom: 1rem;
     justify-content: space-between;
     display: flex;
-    justify-content: flex-start;
   }
 }

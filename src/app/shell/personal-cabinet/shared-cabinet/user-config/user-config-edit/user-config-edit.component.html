@@ -73,7 +73,7 @@
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button
         [disabled]="!this.userEditFormGroup.dirty || !userEditFormGroup.valid || isDispatching"
-        class="btn"
+        class="btn btn-save"
         mat-button
         type="submit"
         (click)="onSubmit()">

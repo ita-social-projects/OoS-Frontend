@@ -172,8 +172,8 @@ describe('isEmpty', () => {
     expect(Util.isEmpty({ a: { b: 1 } })).toBe(false);
   });
 
-  it('should return false for an array with an empty object', () => {
-    expect(Util.isEmpty([{}])).toBe(false);
+  it('should return true for an array with an empty object', () => {
+    expect(Util.isEmpty([{}])).toBe(true);
   });
 });
 

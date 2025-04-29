@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+@use '@angular/material/theming' as mat-theming;
+
+$primary-light-palette: mat.define-palette(
+  (
+    50: #eaeaff,
+    100: #cacafe,
+    200: #a4a8fe,
+    300: #7b85fe,
+    400: #5b67fd,
+    500: var(--primary-accent-color),
+    600: #333fed,
+    700: #2832e0,
+    800: #1d24d5,
+    900: #0000c5,
+    A100: #d8bffc,
+    A200: #bd93fb,
+    A400: #8838f9,
+    A700: #4c00e8,
+    contrast: (
+      50: mat-theming.$dark-primary-text,
+      100: mat-theming.$dark-primary-text,
+      200: mat-theming.$dark-primary-text,
+      300: mat-theming.$dark-primary-text,
+      400: mat-theming.$dark-primary-text,
+      500: mat-theming.$light-primary-text,
+      600: mat-theming.$light-primary-text,
+      700: mat-theming.$light-primary-text,
+      800: mat-theming.$light-primary-text,
+      900: mat-theming.$light-primary-text,
+      A100: mat-theming.$dark-primary-text,
+      A200: mat-theming.$light-primary-text,
+      A400: mat-theming.$light-primary-text,
+      A700: mat-theming.$light-primary-text
+    )
+  )
+);
+
+$accent-palette: mat.define-palette(mat.$deep-orange-palette);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-light-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+@include mat.all-component-themes($light-theme);

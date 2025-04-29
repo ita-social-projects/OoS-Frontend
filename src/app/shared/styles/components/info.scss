@@ -7,7 +7,7 @@
     text-align: center;
     width: 97.6%;
     margin: 0 auto 2%;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 0 0 5px 5px;
   }
@@ -36,7 +36,7 @@
   }
 
   &-link {
-    color: blue;
+    color: var(--primary-accent-color);
     font-weight: 300;
   }
 }

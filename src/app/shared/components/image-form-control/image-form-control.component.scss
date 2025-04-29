@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/create-form.scss';
+@use 'src/app/shared/styles/components/create-form';
 
 .form-wrapper {
   width: 100%;
@@ -11,7 +11,7 @@
   font-weight: bold;
   font-size: 0.813rem;
   line-height: 0.938rem;
-  color: #333333;
+  color: var(--cancel-text-color);
 }
 
 .photo-subheader {
@@ -19,7 +19,7 @@
   font-size: 0.813rem;
   line-height: 1.125rem;
   margin-bottom: 0.3rem;
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 
 .logo {
@@ -43,7 +43,7 @@
       width: 95px;
       height: 58px;
       background: rgba(56, 73, 249, 0.1);
-      border: 0.063rem dashed #3849f9;
+      border: 0.063rem dashed var(--primary-accent-color);
       box-sizing: border-box;
       border-radius: 0.313rem;
       display: flex;
@@ -65,8 +65,7 @@
   &_images {
     width: 95px;
     height: 58px;
-    background: #ffffff;
-
+    background: var(--primary-light-bg-color);
     img, .fallback {
       object-fit: cover;
       width: 95px;
@@ -76,8 +75,8 @@
 
     .fallback {
       box-sizing: border-box;
-      border: 2px solid red;
-      color: red;
+      border: 2px solid var(--error-color);;
+      color: var(--error-color);;
       font-weight: bold;
       user-select: none;
     }
@@ -91,7 +90,6 @@ mat-grid-tile img:hover + .logo_cancel, mat-grid-tile .fallback:hover + .logo_ca
 .logo_cancel:hover {
   display: block;
 }
-
 mat-icon:hover {
-  color: red;
+  color: var(--error-color);
 }

@@ -1,9 +1,9 @@
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/animations.scss';
-@import 'src/app/shared/styles/variables.scss';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/utils/animations/animations';
+@use 'src/app/shared/styles/utils/variables/variables';
 
 ::ng-deep .custom-color-toggle .mdc-switch__track::before {
-  background-color: #e5e9f2 !important;
+  background-color: var(--input-light-color) !important;
 }
 
 .sequence-number-cell-width {
@@ -31,8 +31,8 @@
     border-radius: 20px;
 
     &:hover {
-      color: white;
-      background-color: #3849f9;
+      color: var(--primary-light-text-color);
+      background-color: var(--primary-accent-color);
     }
   }
 }
@@ -50,7 +50,7 @@
     line-height: 15px;
 
     mat-card-subtitle {
-      color: $length-warning-message !important;
+      color: var(--length-warning-message) !important;
       animation: pulse 3s infinite;
     }
   }
@@ -60,11 +60,11 @@
   }
 
   .incorrect-row {
-    color: red;
+    color: var(--error-color);
   }
 
   .incorrect-row-number {
-    color: red;
+    color: var(--error-color);
   }
 }
 
@@ -144,37 +144,37 @@
   &.load-result-success > mat-icon {
     width: fit-content;
     height: fit-content;
-    color: #3849f9;
+    color: var(--primary-accent-color);
     font-size: 40px;
   }
 
   &.load-result-error > mat-icon {
     width: fit-content;
     height: fit-content;
-    color: red;
+    color: var(--error-color);
     font-size: 40px;
   }
 }
 
 .error-field {
   &-empty {
-    background-color: $empty-field;
+    background-color: var(--empty-field);
   }
 
   &-duplicate {
-    background-color: $duplicated-value;
+    background-color: var(--duplicated-value);
   }
 
   &-wrong-length {
-    background-color: $wrong-length;
+    background-color: var(--wrong-length);
   }
 
   &-wrong-format {
-    background-color: $wrong-format;
+    background-color: var(--wrong-format);
   }
 
   &-wrong-language {
-    background-color: $wrong-language;
+    background-color: var(--wrong-language);
   }
 }
 
@@ -194,8 +194,8 @@
 }
 
 ::ng-deep .import-providers-table-tooltip {
-  color: #f6f6f6;
-  background-color: #505050;
+  color: var(--primary-light-text-color);
+  background-color: var(--secondary-cancel-text-color);
   border-radius: 4px;
   font-size: 12px;
   margin: 14px 14px 14px 5px;

@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
+@use 'src/app/shared/styles/components/list-wrappers';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/cards';
+@use 'src/app/shared/styles/components/card-wrapper';
 
 .disabled-anchor {
   pointer-events: none;

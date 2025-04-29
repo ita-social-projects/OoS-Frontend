@@ -1,5 +1,5 @@
 .container {
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   width: 300px;
@@ -12,17 +12,19 @@
   }
 
   .card-title {
-    font-family: Innerspace;
+    font-family: Innerspace, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
     line-height: 20px;
 
-    color: #444444;
+    color: var(--cancel-text-color);
   }
 
   .contact-info {
-    font-family: Open Sans;
+    font-family:
+      Open Sans,
+      sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -38,11 +40,11 @@
 
     .card_icon {
       position: relative;
-      color: #aaaaaa;
+      color: var(--primary-dark-text-color);
       font-size: 16px;
     }
     a {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
 
     span {
@@ -54,15 +56,14 @@
 .button {
   width: 254px;
   height: 40px;
-  font-family: Innerspace;
+  //font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  line-height: 15px;
 
   &-msg {
-    color: #272425;
+    color: var(--list-text-color);
     &-icon {
       margin: 5px;
     }
@@ -71,11 +72,12 @@
 
 .map {
   margin-left: 24px;
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-size: 11px;
   font-weight: 700;
   line-height: 12.35px;
-  font-family: Innerspace, serif;
+  // temporarily commented font-family
+  // font-family: Innerspace, serif;
   &:hover {
     text-decoration: underline;
     cursor: pointer;

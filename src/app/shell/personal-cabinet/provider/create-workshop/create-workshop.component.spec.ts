@@ -5,18 +5,18 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+
 import { GetUnfinishedWorkshop, OnSaveWorkshopStep } from 'shared/store/provider.actions';
 import { FormOfLearning, WorkshopType } from 'shared/enum/workshop';
 import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
-
-import { TranslateModule } from '@ngx-translate/core';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { Workshop } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { ActivatedRoute } from '@angular/router';
 import { CreateWorkshopComponent } from './create-workshop.component';
 
 describe('CreateWorkshopComponent (Jest)', () => {
@@ -241,14 +241,16 @@ describe('CreateWorkshopComponent (Jest)', () => {
       expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
     });
 
-    it('should be draft if arrays changed', () => {
+    it('arrays changed', () => {
       anotherWorkshop.keywords = ['a', 'c'];
       expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
       anotherWorkshop.keywords = ['a', 'b', 'c'];
       expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      anotherWorkshop.keywords = ['b', 'a'];
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
     });
 
-    it('shoild be draft if coverImage changed', () => {
+    it('should be draft if coverImage changed', () => {
       anotherWorkshop.coverImage = new File([''], 'filename1.jpg', { type: 'image/png' });
       expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
 
@@ -269,6 +271,13 @@ describe('CreateWorkshopComponent (Jest)', () => {
         new File([''], 'filename3.jpg', { type: 'image/jpeg' })
       ];
       expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+    });
+
+    it('should be draft if keyword are falsy', () => {
+      anotherWorkshop.keywords = null;
+      component.workshop.keywords = [''];
+
+      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
     });
 
     describe('should be draft if workshopDescriptionItems changed', () => {

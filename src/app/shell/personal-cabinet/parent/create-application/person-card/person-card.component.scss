@@ -1,10 +1,10 @@
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use 'src/app/shared/styles/components/cards';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
 
 .card-person {
   padding: 16px;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   box-sizing: border-box;
   border-radius: 20px;
 
@@ -25,7 +25,7 @@
   .edit {
     font-size: 13px;
     line-height: 18px;
-    color: #3849f9;
+    color: var(--primary-accent-color);
     cursor: pointer;
 
     &:hover {
@@ -34,7 +34,7 @@
   }
 }
 .card-label {
-  font-family: 'Innerspace';
+  font-family: 'Innerspace', sans-serif;
   font-weight: 700;
 }
 .step-label {

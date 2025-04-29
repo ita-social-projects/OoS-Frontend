@@ -2,7 +2,7 @@
 .step-textarea.ng-invalid.ng-touched,
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .disabled-button {
@@ -10,7 +10,7 @@
 }
 
 .highlight-text {
-  color: red;
+  color: var(--error-color);
 }
 
 mat-error {

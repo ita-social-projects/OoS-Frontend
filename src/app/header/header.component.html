@@ -1,5 +1,5 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/'), 'header-disabled': isRouter('/server-error') }">
-    <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
+  <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div class="flex flex-row justify-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
@@ -14,7 +14,7 @@
           </button>
 
           <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
-            <img src="./../../assets/icons/Support.svg" alt="Support" />
+            <div class="support-icon"></div>
             <span class="support-icon-text">
               {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
             </span>
@@ -59,7 +59,7 @@
   <app-navigation-mobile-bar [ngClass]="'nav-mobile'"></app-navigation-mobile-bar>
 </ng-template>
 
-<ng-template #logoTmpl> 
+<ng-template #logoTmpl>
   <a routerLink="/"><img class="logo" src="assets/images/Logo.svg" alt="Позашкілля" /></a>
 </ng-template>
 
@@ -157,7 +157,7 @@
         {{ 'ENUM.NAV_BAR_NAME.SUBJECTS' | translate }}
       </button>
     </a>
-    <a *ngIf="user.role === Role.provider || user.role === Role.providerDeputy" [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.providerDeputy" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>

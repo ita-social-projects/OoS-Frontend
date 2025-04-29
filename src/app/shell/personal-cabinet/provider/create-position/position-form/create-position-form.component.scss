@@ -1,6 +1,13 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use 'src/app/shared/styles/components/create-form';
+@use 'src/app/shared/styles/components/validation-form';
 
 .step-textarea {
   margin-top: 0;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
+
+.price-input {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }

@@ -58,13 +58,15 @@
           <mat-form-field appearance="fill">
             <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
           </mat-form-field>
-          <app-validation-hint [maxCharacters]="validationConstants.INPUT_LENGTH_254" [validationFormControl]="EmployeeFormGroup.get('email')"></app-validation-hint>
+          <app-validation-hint
+            [maxCharacters]="validationConstants.INPUT_LENGTH_254"
+            [validationFormControl]="EmployeeFormGroup.get('email')"></app-validation-hint>
         </form>
 
         <ng-container *ngTemplateOutlet="AgreementsTmpl"></ng-container>
 
         <div class="footer flex flex-row justify-center items-center">
-          <a [routerLink]="'/personal-cabinet/provider/administration'">
+          <a [routerLink]="'/personal-cabinet/provider/provider-employees'">
             <button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button>
           </a>
           <button

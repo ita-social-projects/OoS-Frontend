@@ -6,10 +6,10 @@
 ::ng-deep .mat-mdc-snack-bar-container {
   padding: 0;
   border-radius: 2rem;
-  color: #444444;
+  color: var(--secondary-dark-text-color);
   min-width: 350px;
 
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
@@ -40,7 +40,7 @@
 .icon {
   margin-right: 0.5rem;
   border-radius: 2rem;
-  border: solid 1px #444444;
+  border: solid 1px var(--secondary-dark-text-color);
   font-size: 13px;
   display: flex;
   flex-direction: row;
@@ -55,7 +55,7 @@
   justify-content: center;
   align-items: center;
 
-  color: #444444;
+  color: var(--secondary-dark-text-color);
   cursor: pointer;
   &:hover {
     opacity: 0.5;
@@ -84,7 +84,7 @@
 }
 
 .info {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;

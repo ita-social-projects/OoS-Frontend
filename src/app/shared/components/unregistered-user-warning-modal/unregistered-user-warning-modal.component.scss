@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'src/app/shared/styles/components/buttons';
 
 .unregistered-user-modal__content {
   max-width: 370px;
@@ -14,7 +14,7 @@
   text-align: center;
 }
 .unregistered-user-modal__message {
-  color: #333333;
+  color: var(--cancel-text-color);
   padding: 20px 0;
   font-size: 18px;
   font-weight: 600;
@@ -22,9 +22,9 @@
   text-align: center;
 }
 .unregistered-user-modal__action-button {
-  color: white;
-  background-color: #3849f9;
-  border: 1px solid #3849f9;
+  color: var(--primary-light-text-color);
+  background-color: var(--primary-accent-color);
+  border: 1px solid var(--primary-accent-color);
   border-radius: 20px;
   display: block;
 

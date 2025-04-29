@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/calendar.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/tables.scss';
+@use 'src/app/shared/styles/components/dropdown';
+@use 'src/app/shared/styles/components/calendar';
+@use 'src/app/shared/styles/components/buttons';
+@use 'src/app/shared/styles/components/tables';
 
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0;
@@ -15,7 +15,7 @@
     flex-wrap: wrap;
     gap: 25px;
     padding: 25px;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 5px;
 
@@ -40,7 +40,7 @@
       font-weight: 700;
       line-height: 18px;
       text-align: center;
-      color: #aaaaaa;
+      color: var(--secondary-light-text-color);
     }
 
     .btn {
@@ -66,7 +66,7 @@
 .control {
   padding: 0.5rem 1rem;
   box-sizing: border-box;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   border-radius: 24px;
   height: 40px;
   font-family: 'Open Sans', sans-serif;

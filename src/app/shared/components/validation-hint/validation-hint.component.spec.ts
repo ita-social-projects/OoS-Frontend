@@ -272,24 +272,24 @@ describe('ValidationHintComponent', () => {
       expect(component.errors).not.toContain(ValidationMessages.INVALID_DATE_FIELD);
     });
 
-    it('should add INVALID_DATE_RANGE if matDatepickerMin error is true', () => {
-      control.setErrors({ matDatepickerMin: true, matDatepickerMax: false });
+    it('should add INVALID_DATE_RANGE if matEndDateInvalid error is true', () => {
+      control.setErrors({ matStartDateInvalid: true, matEndDateInvalid: false });
 
       (component as any).checkValidationErrors(control.errors);
 
       expect(component.errors).toContain(ValidationMessages.INVALID_DATE_RANGE);
     });
 
-    it('should add INVALID_DATE_RANGE if matDatepickerMax error is true', () => {
-      control.setErrors({ matDatepickerMin: false, matDatepickerMax: true });
+    it('should add INVALID_DATE_RANGE if matStartDateInvalid error is true', () => {
+      control.setErrors({ matStartDateInvalid: false, matEndDateInvalid: true });
 
       (component as any).checkValidationErrors(control.errors);
 
       expect(component.errors).toContain(ValidationMessages.INVALID_DATE_RANGE);
     });
 
-    it('should NOT add INVALID_DATE_RANGE if neither matDatepickerMin nor matDatepickerMax errors exist', () => {
-      control.setErrors({ matDatepickerParse: false, matDatepickerMin: false });
+    it('should NOT add INVALID_DATE_RANGE if neither matEndDateInvalid nor matStartDateInvalid errors exist', () => {
+      control.setErrors({ matDatepickerParse: false, matEndDateInvalid: false });
 
       (component as any).checkValidationErrors(control.errors);
 

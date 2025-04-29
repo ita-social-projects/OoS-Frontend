@@ -1,9 +1,9 @@
 ::ng-deep .light-theme .mat-mdc-slide-toggle,
 ::ng-deep .dark-theme .mat-mdc-slide-toggle {
-  --mdc-switch-unselected-track-color: #ffffff;
-  --mdc-switch-unselected-pressed-track-color: #ffffff;
-  --mdc-switch-unselected-hover-track-color: #ffffff;
-  --mdc-switch-unselected-focus-track-color: #ffffff;
+  --mdc-switch-unselected-track-color: var(--primary-light-text-color);
+  --mdc-switch-unselected-pressed-track-color: var(--primary-light-text-color);
+  --mdc-switch-unselected-hover-track-color: var(--primary-light-text-color);
+  --mdc-switch-unselected-focus-track-color: var(--primary-light-text-color);
   --mdc-switch-unselected-handle-color: #3849f9;
   --mdc-switch-unselected-pressed-handle-color: #032998;
   --mdc-switch-unselected-hover-handle-color: #032998;
@@ -12,17 +12,17 @@
   --mdc-switch-unselected-hover-state-layer-color: #032998;
   --mdc-switch-unselected-pressed-state-layer-color: #032998;
   --mdc-switch-disabled-unselected-handle-color: #c0c0c0;
-  --mdc-switch-disabled-unselected-track-color: #ffffff;
+  --mdc-switch-disabled-unselected-track-color: var(--primary-light-text-color);
 
   --mdc-switch-handle-elevation-shadow: 0px 2px 2px 0px #00000033;
 }
 
 ::ng-deep .dark-theme .mat-mdc-slide-toggle.mat-accent,
 ::ng-deep .light-theme .mat-mdc-slide-toggle.mat-accent {
-  --mdc-switch-selected-track-color: #ffffff;
-  --mdc-switch-selected-pressed-track-color: #ffffff;
-  --mdc-switch-selected-hover-track-color: #ffffff;
-  --mdc-switch-selected-focus-track-color: #ffffff;
+  --mdc-switch-selected-track-color: var(--primary-light-text-color);
+  --mdc-switch-selected-pressed-track-color: var(--primary-light-text-color);
+  --mdc-switch-selected-hover-track-color: var(--primary-light-text-color);
+  --mdc-switch-selected-focus-track-color: var(--primary-light-text-color);
   --mdc-switch-selected-handle-color: #3849f9;
   --mdc-switch-selected-pressed-handle-color: #032998;
   --mdc-switch-selected-hover-handle-color: #032998;
@@ -31,7 +31,7 @@
   --mdc-switch-selected-hover-state-layer-color: #032998;
   --mdc-switch-selected-pressed-state-layer-color: #032998;
   --mdc-switch-disabled-selected-handle-color: #c0c0c0;
-  --mdc-switch-disabled-selected-track-color: #ffffff;
+  --mdc-switch-disabled-selected-track-color: var(--primary-light-text-color);
 
   --mdc-switch-handle-elevation-shadow: 0px 2px 2px 0px #00000033;
 }

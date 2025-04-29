@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/side-menu-cards.scss';
+@import 'src/app/shared/styles/components/side-menu-cards.scss';
 
 .container {
   max-width: 100%;
@@ -11,7 +11,8 @@
 a {
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #3849f9;
+  color: var(--primary-accent-color);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .description-width {
@@ -23,6 +24,8 @@ a {
   align-items: center;
   width: 60%;
   .contact-info {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--contacts-light-text-color);
     max-width: 100%;
     span {
       display: block;
@@ -58,6 +61,8 @@ a {
       margin: 10px 0 0 5px;
       align-items: center;
       .contact-title {
+        font-family: 'Open Sans', sans-serif;
+        color: var(--contacts-light-text-color) !important;
         width: 100px;
       }
     }
@@ -90,7 +95,7 @@ a {
 }
 
 .card_icon {
-  color: #aaaaaa;
+  color: var(--contacts-light-text-color);
   font-size: 16px;
 }
 

@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/application-statuses.scss';
-@import 'src/app/shared/styles/workshop-status.scss';
+@use 'src/app/shared/styles/components/cards';
+@use 'src/app/shared/styles/components/application-statuses';
+@use 'src/app/shared/styles/components/workshop-status';
 
 .card-img-mobile {
   width: 100%;
@@ -44,7 +44,7 @@
 }
 
 .action-icon {
-  color: #fff;
+  color: var(--primary-light-text-color);
 }
 
 .favorite-icon {
@@ -52,13 +52,13 @@
 }
 
 .provider-link {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   margin: 0.3rem 0;
 }
 
 .provider-link:hover {
   opacity: 0.5;
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 
 .horizontal-card {
@@ -68,7 +68,7 @@
   align-items: center;
   overflow: hidden;
 
-  background: #ffffff;
+  background: var(--primary-light-bg-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
@@ -106,7 +106,7 @@
 }
 
 .icon_launch {
-  color: #3849f9;
+  color: var(--primary-accent-color);
   font-size: 18px !important;
   width: 14px !important;
   height: 14px !important;

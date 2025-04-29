@@ -1,8 +1,8 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'buttons';
 
 .step {
   min-width: 410px;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: normal;
   line-height: 18px;
@@ -18,11 +18,11 @@
   }
 
   &-required {
-    color: red;
+    color: var(--error-color);
   }
 
   &-input {
-    border: 1px solid #e3e3e3;
+    border: 1px solid var(--input-light-color);
     border-radius: 21px;
     padding: 0.5rem 1rem;
     line-height: initial;
@@ -64,7 +64,7 @@
 
   &-textarea {
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid #e3e3e3;
+    border: 1px solid var(--input-light-color);
     border-radius: 25px;
     padding: 20px;
     min-height: 200px;
@@ -86,7 +86,7 @@
 
   &-text {
     font-weight: 700;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
     padding: 5px;
     line-height: initial;
   }
@@ -100,13 +100,13 @@
 
   &-characters-count {
     font-family: 'Open Sans', sans-serif;
-    color: #aaaaaa;
+    color: var(--secondary-light-text-color);
   }
 
   &-border {
     margin-bottom: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid #e3e3e3;
+    border-bottom: 2px solid var(--input-light-color);
   }
 }
 
@@ -137,8 +137,10 @@ button:focus {
 }
 
 ::ng-deep .placeholder {
-  color: #333333;
-  font-family: Open Sans;
+  color: var(--cancel-text-color);
+  font-family:
+    Open Sans,
+    sans-serif;
   font-style: normal;
   font-weight: normal;
 }
@@ -147,7 +149,7 @@ button:focus {
   width: 95px;
   height: 58px;
   background: rgba(56, 73, 249, 0.1);
-  border: 1px dashed #3849f9;
+  border: 1px dashed var(--primary-accent-color);
   border-radius: 5px;
   margin: 1rem;
 
@@ -187,9 +189,11 @@ button:focus {
 }
 
 :host ::ng-deep .mat-mdc-checkbox .mdc-label {
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 400;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 .btn {
@@ -198,11 +202,11 @@ button:focus {
 
 .mat-chip.mat-standard-chip {
   display: flex;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-size: 13px;
-  background-color: white;
-  color: #888888;
-  border: 1px solid #888888;
+  background-color: var(--primary-light-bg-color);
+  color: var(--disabled-text-color);
+  border: 1px solid var(--disabled-text-color);
   font-weight: bold;
   padding: 2px 10px;
   min-height: 24px;
@@ -216,19 +220,23 @@ button:focus {
 
 .mat-chip-input {
   margin: 8px;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: normal;
   font-size: 13px;
-  color: #333333;
+  color: var(--cancel-text-color);
 }
 
 .step-name__xs {
   display: none;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: 700;
   font-size: 14px;
   margin-bottom: 5px;
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 
 .step-label-input {
@@ -247,7 +255,7 @@ button:focus {
 }
 
 .border-bottom {
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
   margin: 1rem 0;
 }
 

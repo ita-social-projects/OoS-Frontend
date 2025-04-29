@@ -6,7 +6,7 @@
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
-    color: #000000;
+    color: var(--primary-dark-text-color);
     background-color: transparent;
     padding-left: 10px;
     font-size: 13px;
@@ -21,7 +21,7 @@
 }
 
 .mat-mdc-option.mat-mdc-option--disabled {
-  background-color: #f8f8f8 !important;
+  background-color: var(--bg-light-additional) !important;
   color: rgba(0, 0, 0, 0.11);
   opacity: 0.5;
   cursor: default;
@@ -29,23 +29,20 @@
 
 ::ng-deep .mat-mdc-select-panel {
   .mat-mdc-option.mdc-list-item--selected {
-    background-color: white !important;
+    background-color: var(--mat-option-focus-state-layer-color) !important;
 
     &:hover {
-      background-color: #f8f8f8 !important;
+      background-color: var(--mat-option-focus-state-layer-color) !important;
     }
   }
 
   .mat-mdc-option.mdc-list-item--activated {
-    background-color: white;
+    background-color: var(--mat-option-focus-state-layer-color) !important;
   }
 
   .mat-mdc-option {
     &:hover {
-      .mdc-list-item__primary-text {
-        background-color: #f8f8f8 !important;
-      }
-      background-color: #f8f8f8 !important;
+      background-color: var(--mat-option-focus-state-layer-color) !important;
     }
   }
 

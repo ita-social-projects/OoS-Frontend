@@ -616,7 +616,7 @@
       "INVALID_CHARACTERS": ", please use only cyrillic",
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
-      "INVALID_START_END_DATES": "The end date must be later than or equal to the start date of the event.",
+      "INVALID_START_END_DATES": "The registration end date cannot be later than the event date.",
       "INVALID_EMAIL": "Enter the email address in the format name@example.com",
       "INVALID_EDRPOU_END": " digit number.",
       "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",

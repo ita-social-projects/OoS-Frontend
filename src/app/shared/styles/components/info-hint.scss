@@ -2,7 +2,7 @@
   .hint-menu {
     width: 600px;
     max-width: max-content;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 5px !important;
     padding: 1rem;
@@ -11,8 +11,8 @@
     }
 
     .mat-mdc-menu-content {
-      color: grey;
-      font-family: 'Open Sans';
+      color: var(--secondary-cancel-text-color);
+      font-family: 'Open Sans', sans-serif;
       font-style: normal;
       font-weight: 400;
       font-size: 12px;
@@ -27,8 +27,8 @@
 }
 
 .activeInfoBtn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 .inactiveInfoBtn {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
