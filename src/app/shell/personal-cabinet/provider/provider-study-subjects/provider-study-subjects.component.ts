@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -8,7 +8,7 @@ import { Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -20,6 +20,7 @@ import { StudySubject, StudySubjectParameters } from 'shared/models/study-subjec
 import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { delay, switchMap } from 'rxjs/operators';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -27,7 +28,7 @@ import { ProviderComponent } from '../provider.component';
   templateUrl: './provider-study-subjects.component.html',
   styleUrls: ['./provider-study-subjects.component.scss']
 })
-export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit {
+export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) public sort: MatSort;
   @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
 
@@ -55,7 +56,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     providerId: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
-  public studySubjects$: Observable<StudySubject>;
   public filterForm: FormGroup;
 
   constructor(
@@ -90,16 +90,10 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         this.currentPage = PaginationConstants.firstPage;
         this.getStudySubjects();
       });
+  }
 
-    this.filterForm
-      .get('dateFrom')
-      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
-      .subscribe(() => this.setDateForFilters());
-
-    this.filterForm
-      .get('dateTo')
-      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
-      .subscribe(() => this.setDateForFilters());
+  public ngAfterViewInit(): void {
+    this.listenToDateOnPickerOpened();
   }
 
   public addNavPath(): void {
@@ -172,6 +166,30 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.subjectParameters.dateTo = dateFilters.dateTo;
 
     this.getStudySubjects();
+  }
+
+  public listenToDateOnPickerOpened(): void {
+    this.picker?.openedStream
+      .pipe(
+        takeUntil(this.destroy$),
+        delay(0),
+        switchMap(() => {
+          const calendar = (this.picker as any)?._componentRef?.instance._calendar;
+          return calendar ? calendar.selectedChange : EMPTY;
+        })
+      )
+      .subscribe((date: Date) => {
+        if (
+          !this.filterForm.get('dateFrom')?.value ||
+          (date < this.filterForm.get('dateFrom')?.value && !this.filterForm.get('dateTo')?.value)
+        ) {
+          this.filterForm.patchValue({ dateFrom: date }, { emitEvent: false });
+        } else if (!this.filterForm.get('dateTo')?.value) {
+          this.filterForm.patchValue({ dateTo: date }, { emitEvent: false });
+        } else {
+          this.filterForm.patchValue({ dateFrom: date, dateTo: null }, { emitEvent: false });
+        }
+      });
   }
 
   private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
