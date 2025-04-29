@@ -3,12 +3,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDateRangePicker } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
 import { Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, EMPTY, filter, map, merge, skip, startWith, takeUntil } from 'rxjs';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -21,6 +21,8 @@ import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { delay, switchMap } from 'rxjs/operators';
+import { DateAdapter } from '@angular/material/core';
+import { Moment } from 'moment';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -57,10 +59,13 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
   public filterForm: FormGroup;
+  public tempDateFrom: Moment | null = null;
+  public tempDateTo: Moment | null = null;
 
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog
+    protected matDialog: MatDialog,
+    protected adapter: DateAdapter<any>
   ) {
     super(store, matDialog);
   }
@@ -68,10 +73,12 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public ngOnInit(): void {
     super.ngOnInit();
 
+    console.log(this.adapter);
+
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
-      dateFrom: new FormControl(''),
-      dateTo: new FormControl('')
+      dateFrom: new FormControl<Date | null>(null),
+      dateTo: new FormControl<Date | null>(null)
     });
 
     this.filterForm
@@ -89,6 +96,19 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
         this.currentPage = PaginationConstants.firstPage;
         this.getStudySubjects();
+      });
+
+    // this.onDateInput$.pipe(takeUntil(this.destroy$), debounceTime(this.debounceInputTime)).subscribe(({ controlName, value }) => {
+    //   this.filterForm.get(controlName).setValue(value);
+    //   if (this.filterForm.get(controlName).valid) {
+    //     this.setDateForFilters();
+    //   }
+    // });
+
+    merge(...['dateFrom', 'dateTo'].map((controlName) => this.filterForm.get(controlName)?.valueChanges))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.setDateForFilters();
       });
   }
 
@@ -164,8 +184,23 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
     this.subjectParameters.dateFrom = dateFilters.dateFrom;
     this.subjectParameters.dateTo = dateFilters.dateTo;
-
     this.getStudySubjects();
+  }
+
+  public onDateApply(): void {
+    this.filterForm.patchValue({ dateFrom: this.tempDateFrom.toDate(), dateTo: this.tempDateTo.toDate() });
+  }
+
+  public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
+    console.log('==============');
+    // console.log(event.target.value.toDate());
+    console.log(event.target.value);
+    console.log('==============');
+    if (event.target.value) {
+      this.filterForm.get(controlName)?.patchValue(event.target.value?.toDate());
+    } else {
+      console.log('null');
+    }
   }
 
   public listenToDateOnPickerOpened(): void {
@@ -178,16 +213,17 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
           return calendar ? calendar.selectedChange : EMPTY;
         })
       )
-      .subscribe((date: Date) => {
-        if (
-          !this.filterForm.get('dateFrom')?.value ||
-          (date < this.filterForm.get('dateFrom')?.value && !this.filterForm.get('dateTo')?.value)
-        ) {
-          this.filterForm.patchValue({ dateFrom: date }, { emitEvent: false });
-        } else if (!this.filterForm.get('dateTo')?.value) {
-          this.filterForm.patchValue({ dateTo: date }, { emitEvent: false });
+      .subscribe((date: Moment) => {
+        if (!this.tempDateFrom || (date < this.tempDateFrom && !this.tempDateTo)) {
+          this.tempDateFrom = date;
+          // this.filterForm.patchValue({ dateFrom: date });
+        } else if (!this.tempDateTo) {
+          this.tempDateTo = date;
+          // this.filterForm.patchValue({ dateTo: date });
         } else {
-          this.filterForm.patchValue({ dateFrom: date, dateTo: null }, { emitEvent: false });
+          this.tempDateFrom = date;
+          this.tempDateTo = null;
+          // this.filterForm.patchValue({ dateFrom: date, dateTo: null });
         }
       });
   }

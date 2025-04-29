@@ -7,6 +7,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'shared/modules/material.module';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { SharedModule } from 'shared/shared.module';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MOMENT_DATE_FORMATS } from 'shared/constants/constants';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
@@ -86,6 +89,12 @@ import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.compo
     FormsModule,
     TranslateModule
   ],
-  providers: [DatePipe, GeolocationService]
+  providers: [
+    DatePipe,
+    GeolocationService,
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS }
+  ]
 })
 export class ProviderModule {}

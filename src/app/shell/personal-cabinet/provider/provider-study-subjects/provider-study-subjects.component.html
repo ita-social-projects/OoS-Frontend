@@ -22,24 +22,23 @@
           <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
             <input
               matStartDate
-              matInput
               placeholder="{{ 'FROM' | translate }}"
-              formControlName="dateFrom"
-              [appKeyFilter]="dateFilter"
+              [value]="tempDateFrom"
+              (dateInput)="onDateInput($event, 'dateFrom')"
               appDateInput />
             <input
               matEndDate
-              matInput
               placeholder="{{ 'TO' | translate }}"
-              formControlName="dateTo"
-              [appKeyFilter]="dateFilter"
+              [value]="tempDateTo"
+              (dateInput)="onDateInput($event, 'dateTo')"
+              [min]="filterForm.get('dateFrom').value"
               appDateInput />
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker>
             <mat-date-range-picker-actions>
               <div class="date-buttons">
-                <button class="btn" mat-raised-button matDatepickerApply (click)="setDateForFilters()">
+                <button class="btn" mat-raised-button matDatepickerApply (click)="onDateApply()">
                   {{ 'HISTORY_LOG.SHOW' | translate }}
                 </button>
                 <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
