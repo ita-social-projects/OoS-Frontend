@@ -13,7 +13,6 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-create-required-form',
@@ -50,10 +49,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly minimumSeats: number = 1;
 
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly adapter: DateAdapter<any>
-  ) {}
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   public get availableSeatsControl(): FormControl {
     return this.RequiredFormGroup.get('numberOfSeats') as FormControl;

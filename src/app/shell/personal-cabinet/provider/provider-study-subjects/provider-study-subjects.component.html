@@ -21,12 +21,14 @@
           <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
           <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
             <input
+              matInput
               matStartDate
               placeholder="{{ 'FROM' | translate }}"
               [value]="tempDateFrom"
               (dateInput)="onDateInput($event, 'dateFrom')"
               appDateInput />
             <input
+              matInput
               matEndDate
               placeholder="{{ 'TO' | translate }}"
               [value]="tempDateTo"

@@ -199,6 +199,8 @@ table {
     font-size: 24px;
     line-height: 19px;
     color: var(--cancel-text-color);
+    display: flex;
+    align-items: center;
   }
 }
 
