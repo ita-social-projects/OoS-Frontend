@@ -9,7 +9,7 @@ import { GeolocationService } from 'shared/services/geolocation/geolocation.serv
 import { SharedModule } from 'shared/shared.module';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MOMENT_DATE_FORMATS } from 'shared/constants/constants';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
@@ -93,8 +93,9 @@ import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.compo
     DatePipe,
     GeolocationService,
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
 export class ProviderModule {}

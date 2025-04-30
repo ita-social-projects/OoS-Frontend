@@ -73,8 +73,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public ngOnInit(): void {
     super.ngOnInit();
 
-    console.log(this.adapter);
-
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
       dateFrom: new FormControl<Date | null>(null),
@@ -105,11 +103,11 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     //   }
     // });
 
-    merge(...['dateFrom', 'dateTo'].map((controlName) => this.filterForm.get(controlName)?.valueChanges))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.setDateForFilters();
-      });
+    // merge(...['dateFrom', 'dateTo'].map((controlName) => this.filterForm.get(controlName)?.valueChanges))
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((val) => {
+    //     this.setDateForFilters();
+    //   });
   }
 
   public ngAfterViewInit(): void {
@@ -179,28 +177,13 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.getStudySubjects();
   }
 
-  public setDateForFilters(): void {
-    const { dateFrom, dateTo } = this.filterForm.value;
-    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
-    this.subjectParameters.dateFrom = dateFilters.dateFrom;
-    this.subjectParameters.dateTo = dateFilters.dateTo;
-    this.getStudySubjects();
-  }
-
   public onDateApply(): void {
     this.filterForm.patchValue({ dateFrom: this.tempDateFrom.toDate(), dateTo: this.tempDateTo.toDate() });
   }
 
   public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
-    console.log('==============');
-    // console.log(event.target.value.toDate());
-    console.log(event.target.value);
-    console.log('==============');
-    if (event.target.value) {
-      this.filterForm.get(controlName)?.patchValue(event.target.value?.toDate());
-    } else {
-      console.log('null');
-    }
+    this.filterForm.get(controlName)?.patchValue(event.target.value?.toDate(), { emitEvent: true });
+    this.setDateForFilters();
   }
 
   public listenToDateOnPickerOpened(): void {
@@ -226,6 +209,14 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
           // this.filterForm.patchValue({ dateFrom: date, dateTo: null });
         }
       });
+  }
+
+  public setDateForFilters(): void {
+    const { dateFrom, dateTo } = this.filterForm.value;
+    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
+    this.subjectParameters.dateFrom = dateFilters.dateFrom;
+    this.subjectParameters.dateTo = dateFilters.dateTo;
+    this.getStudySubjects();
   }
 
   private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
