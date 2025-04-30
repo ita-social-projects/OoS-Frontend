@@ -8,20 +8,18 @@ import { Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { debounceTime, distinctUntilChanged, EMPTY, filter, map, merge, skip, startWith, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { FilterOptions } from 'shared/enum/history.log';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { delay, switchMap } from 'rxjs/operators';
-import { DateAdapter } from '@angular/material/core';
 import { Moment } from 'moment';
 import { ProviderComponent } from '../provider.component';
 
@@ -64,8 +62,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog,
-    protected adapter: DateAdapter<any>
+    protected matDialog: MatDialog
   ) {
     super(store, matDialog);
   }
@@ -75,8 +72,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
-      dateFrom: new FormControl<Date | null>(null),
-      dateTo: new FormControl<Date | null>(null)
+      dateFrom: new FormControl<Moment | null>(null),
+      dateTo: new FormControl<Moment | null>(null)
     });
 
     this.filterForm
@@ -95,19 +92,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         this.currentPage = PaginationConstants.firstPage;
         this.getStudySubjects();
       });
-
-    // this.onDateInput$.pipe(takeUntil(this.destroy$), debounceTime(this.debounceInputTime)).subscribe(({ controlName, value }) => {
-    //   this.filterForm.get(controlName).setValue(value);
-    //   if (this.filterForm.get(controlName).valid) {
-    //     this.setDateForFilters();
-    //   }
-    // });
-
-    // merge(...['dateFrom', 'dateTo'].map((controlName) => this.filterForm.get(controlName)?.valueChanges))
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((val) => {
-    //     this.setDateForFilters();
-    //   });
   }
 
   public ngAfterViewInit(): void {
@@ -178,11 +162,12 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public onDateApply(): void {
-    this.filterForm.patchValue({ dateFrom: this.tempDateFrom.toDate(), dateTo: this.tempDateTo.toDate() });
+    this.filterForm.patchValue({ dateFrom: this.tempDateFrom, dateTo: this.tempDateTo });
+    this.setDateForFilters();
   }
 
   public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
-    this.filterForm.get(controlName)?.patchValue(event.target.value?.toDate(), { emitEvent: true });
+    this.filterForm.get(controlName)?.patchValue(event.target.value);
     this.setDateForFilters();
   }
 
@@ -199,60 +184,23 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
       .subscribe((date: Moment) => {
         if (!this.tempDateFrom || (date < this.tempDateFrom && !this.tempDateTo)) {
           this.tempDateFrom = date;
-          // this.filterForm.patchValue({ dateFrom: date });
         } else if (!this.tempDateTo) {
           this.tempDateTo = date;
-          // this.filterForm.patchValue({ dateTo: date });
         } else {
           this.tempDateFrom = date;
           this.tempDateTo = null;
-          // this.filterForm.patchValue({ dateFrom: date, dateTo: null });
         }
       });
   }
 
   public setDateForFilters(): void {
-    const { dateFrom, dateTo } = this.filterForm.value;
-    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
-    this.subjectParameters.dateFrom = dateFilters.dateFrom;
-    this.subjectParameters.dateTo = dateFilters.dateTo;
+    this.setTimePeriodEqualToWholeDay();
     this.getStudySubjects();
   }
 
-  private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(seconds);
-  }
-
-  private setTimeDependsOnTimezone(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
-    const result: StudySubjectParameters = {};
-
-    if (dateFrom) {
-      const timezoneGap = dateFrom.getTimezoneOffset() * 60 * 1000;
-      const dateFromWithTimezoneGap = dateFrom.getTime() - timezoneGap;
-      result[FilterOptions.DateFrom] = new Date(dateFromWithTimezoneGap).toISOString().split('T')[0];
-    }
-
-    if (dateTo) {
-      const timezoneGap = dateTo.getTimezoneOffset() * 60 * 1000;
-      const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
-      result[FilterOptions.DateTo] = new Date(dateToWithTimezoneGap).toISOString().split('T')[0];
-    }
-
-    return result;
-  }
-
-  private setTimePeriodEqualToWholeDay(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
-    if (dateFrom) {
-      this.setCustomTimeInDate(dateFrom, 0, 0, 0);
-    }
-
-    if (dateTo) {
-      this.setCustomTimeInDate(dateTo, 23, 59, 59);
-    }
-
-    return this.setTimeDependsOnTimezone(dateFrom, dateTo);
+  private setTimePeriodEqualToWholeDay(): void {
+    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.startOf('day')?.format('YYYY-MM-DD') || '';
+    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.endOf('day')?.format('YYYY-MM-DD') || '';
   }
 
   private getStudySubjects(): void {
