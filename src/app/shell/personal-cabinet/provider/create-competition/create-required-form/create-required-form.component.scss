@@ -15,11 +15,6 @@
   max-height: 150px !important;
 }
 
-::ng-deep .mat-datepicker-toggle-default-icon {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-}
 @media (max-width: 750px) {
   .container {
     flex-direction: column !important;
