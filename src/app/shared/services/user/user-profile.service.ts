@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Role } from 'shared/enum/role';
 import { Observable } from 'rxjs';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { Employee } from 'shared/models/employee.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
 import { ParentService } from '../parent/parent.service';
 import { ProviderService } from '../provider/provider.service';
 import { EmployeeService } from '../employee/employee.service';
@@ -48,8 +54,11 @@ export class UserProfileService {
    * @param userId The user's id
    * @returns The profile observable
    */
-  public getProfileObservableByRole(role: Role, userId: string): Observable<any> | null {
-    const roleServiceMap: Record<Role, Observable<any>> = {
+  public getProfileObservableByRole(
+    role: Role,
+    userId: string
+  ): Observable<Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin> | null {
+    const roleServiceMap: Record<Role, Observable<Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin>> = {
       [Role.parent]: this.parentService.getProfile(),
       [Role.provider]: this.providerService.getProfile(),
       [Role.providerDeputy]: this.employeeService.getEmployeeById(userId),

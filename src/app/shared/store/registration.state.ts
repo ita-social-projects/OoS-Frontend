@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { TechAdmin } from 'shared/models/tech-admin.model';
 import { User } from 'shared/models/user.model';
 import { UserService } from 'shared/services/user/user.service';
 import { UserProfileService } from 'shared/services/user/user-profile.service';
-import { MarkFormDirty, ShowMessageBar } from './app.actions';
+import { ClearPersonalInfo, ClearProfile, MarkFormDirty, SetPersonalInfo, SetProfile, ShowMessageBar } from './app.actions';
 import {
   CheckAuth,
   CheckRegistration,
@@ -33,6 +33,7 @@ import {
   OnUpdateUserSuccess,
   UpdateUser
 } from './registration.actions';
+import { AppState } from './app.state';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -69,6 +70,7 @@ export interface RegistrationStateModel {
 @Injectable()
 export class RegistrationState {
   constructor(
+    private store: Store,
     private router: Router,
     private location: Location,
     private oidcSecurityService: OidcSecurityService,
@@ -146,8 +148,8 @@ export class RegistrationState {
         if (auth.isAuthenticated) {
           return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
         } else {
-          sessionStorage.removeItem('profile');
-          sessionStorage.removeItem('persolnalInfo');
+          dispatch(new ClearProfile());
+          dispatch(new ClearPersonalInfo());
           patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
           return of(null);
         }
@@ -175,28 +177,21 @@ export class RegistrationState {
 
   @Action(GetProfile)
   getProfile({
+    dispatch,
     patchState,
     getState
-  }: StateContext<RegistrationStateModel>):
-    | Observable<Parent>
-    | Observable<Provider>
-    | Observable<Employee>
-    | Observable<MinistryAdmin>
-    | Observable<RegionAdmin>
-    | Observable<AreaAdmin>
-    | void {
+  }: StateContext<RegistrationStateModel>): Observable<Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin> {
     const state = getState();
     const role = state.user.role as Role;
     const profileKey = this.userProfileService.getStateKeyByRole(role);
 
     patchState({ isAuthorizationLoading: true, role });
 
-    const cachedProfile = sessionStorage.getItem('profile');
+    const cachedProfile = this.store.selectSnapshot(AppState.profile);
 
     // if there is cached user profile
     if (cachedProfile) {
-      const parsedProfile = JSON.parse(cachedProfile);
-      patchState({ [profileKey]: parsedProfile, isAuthorizationLoading: false });
+      patchState({ [profileKey]: cachedProfile, isAuthorizationLoading: false });
       return;
     }
 
@@ -207,12 +202,12 @@ export class RegistrationState {
     }
 
     return profileObservable.pipe(
-      tap((profile) => {
-        sessionStorage.setItem('profile', JSON.stringify(profile));
+      tap((profile: Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin) => {
+        dispatch(new SetProfile(profile));
         patchState({ [profileKey]: profile });
       }),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 || error.status === 403) {
+        if (error.status === HttpStatusCode.Unauthorized || error.status === HttpStatusCode.Forbidden) {
           this.router.navigate(['/forbidden']);
         }
         return throwError(() => new Error('Something went wrong!'));
@@ -222,20 +217,19 @@ export class RegistrationState {
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>): Observable<User> | void {
+  getUserPersonalInfo({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<User> | void {
     patchState({ isLoading: true });
 
-    const cachedPersonalInfo = sessionStorage.getItem('persolnalInfo');
+    const cachedPersonalInfo = this.store.selectSnapshot(AppState.personalInfo);
 
     if (cachedPersonalInfo) {
-      const user: User = JSON.parse(cachedPersonalInfo);
-      patchState({ user, role: user.role as Role, isLoading: false });
+      patchState({ user: cachedPersonalInfo, role: cachedPersonalInfo.role as Role, isLoading: false });
       return;
     }
 
     return this.userService.getPersonalInfo().pipe(
       tap((user: User) => {
-        sessionStorage.setItem('persolnalInfo', JSON.stringify(user));
+        dispatch(new SetPersonalInfo(user));
         patchState({ user, role: user.role as Role, isLoading: false });
       })
     );
