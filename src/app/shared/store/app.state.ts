@@ -4,9 +4,29 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
 import { TimerData } from 'shared/models/server-error';
-import { ActivateEditMode, ClearMessageBar, MarkFormDirty, SetErrorTimerData, ShowMessageBar, ToggleMobileScreen } from './app.actions';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { Employee } from 'shared/models/employee.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { User } from 'shared/models/user.model';
+import {
+  ActivateEditMode,
+  ClearMessageBar,
+  ClearPersonalInfo,
+  ClearProfile,
+  MarkFormDirty,
+  SetErrorTimerData,
+  SetPersonalInfo,
+  SetProfile,
+  ShowMessageBar,
+  ToggleMobileScreen
+} from './app.actions';
 
 export interface AppStateModel {
+  profile: Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin | null;
+  personalInfo: User | null;
   isDirtyForm: boolean;
   isEditMode: boolean;
   isMobileScreen: undefined | boolean;
@@ -16,6 +36,8 @@ export interface AppStateModel {
 @State<AppStateModel>({
   name: 'app',
   defaults: {
+    profile: undefined,
+    personalInfo: undefined,
     isDirtyForm: false,
     isEditMode: false,
     isMobileScreen: undefined,
@@ -25,6 +47,16 @@ export interface AppStateModel {
 @Injectable()
 export class AppState {
   constructor(private snackBar: MatSnackBar) {}
+
+  @Selector()
+  static profile(state: AppStateModel): Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin | null {
+    return state.profile;
+  }
+
+  @Selector()
+  static personalInfo(state: AppStateModel): User | null {
+    return state.personalInfo;
+  }
 
   @Selector()
   static isMobileScreen(state: AppStateModel): boolean {
@@ -44,6 +76,26 @@ export class AppState {
   @Selector()
   static timerErrorTime(state: AppStateModel): TimerData {
     return state.timerErrorTime;
+  }
+
+  @Action(SetProfile)
+  setProfile({ patchState }: StateContext<AppStateModel>, { payload }: SetProfile): void {
+    patchState({ profile: payload });
+  }
+
+  @Action(ClearProfile)
+  clearProfile({ patchState }: StateContext<AppStateModel>): void {
+    patchState({ profile: null });
+  }
+
+  @Action(SetPersonalInfo)
+  setPersonalInfo({ patchState }: StateContext<AppStateModel>, { payload }: SetPersonalInfo): void {
+    patchState({ personalInfo: payload });
+  }
+
+  @Action(ClearPersonalInfo)
+  clearPersonalInfo({ patchState }: StateContext<AppStateModel>): void {
+    patchState({ personalInfo: null });
   }
 
   @Action(MarkFormDirty)
