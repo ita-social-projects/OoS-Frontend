@@ -64,3 +64,12 @@
   background-color: transparent;
   color: var(--primary-dark-text-color);
 }
+
+.appearing-field {
+  position: absolute;
+  height: calc(100% + 5px);
+  width: calc(100% + 20px);
+  top: 0;
+  left: -10px;
+  border-radius: 24px;
+}

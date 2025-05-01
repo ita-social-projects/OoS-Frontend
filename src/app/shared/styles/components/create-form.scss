@@ -15,6 +15,7 @@
   &-label {
     font-weight: 600;
     margin: 5px 0;
+    display: inline-block;
   }
 
   &-required {
@@ -93,6 +94,8 @@
   }
 
   &-characters-count {
+    display: flex;
+    align-items: center;
     font-family: 'Open Sans', sans-serif;
     color: var(--secondary-light-text-color);
   }
