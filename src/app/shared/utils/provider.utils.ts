@@ -32,11 +32,6 @@ export function formatDateOnlyForServer(date: Date | string | null): string | nu
       dateObj = new Date(date);
     }
 
-    // // Перевірка на валідність дати
-    // if (isNaN(dateObj.getTime())) {
-    //   return null;
-    // }
-
     return dateObj.toISOString().split('T')[0];
   } catch (error) {
     return null;

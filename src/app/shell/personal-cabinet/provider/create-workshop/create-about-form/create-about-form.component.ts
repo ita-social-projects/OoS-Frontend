@@ -19,6 +19,7 @@ import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { dateRangeValidator } from 'shared/validators/date-range/date-range-validator';
+import { formatToClientDate } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-create-about-form',
@@ -121,6 +122,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
+    }
+
+    if (this.workshop.startDate && this.workshop.endDate) {
+      this.studyPeriodDates.patchValue({
+        startDate: formatToClientDate(this.workshop.startDate),
+        endDate: formatToClientDate(this.workshop.endDate)
+      });
     }
 
     if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
