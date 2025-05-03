@@ -10,14 +10,13 @@
         (error)="onImageError()"
         alt="{{ workshopData.title }}" />
       <ng-container *ngIf="isImageBroken && isCabinetView">
-        <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+        <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}"> error </mat-icon>
       </ng-container>
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow"
-                        class="card-title !flex !flex-row">
+        <mat-card-title matTooltipClass="tooltip" [matTooltipPosition]="tooltipPositionBelow" class="card-title !flex !flex-row">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
@@ -33,7 +32,7 @@
           </div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">
-          <img class="img" mat-card-image [src]="categoryIcons[id]" alt="direction {{ workshopData.directionIds }}"/>
+          <img class="img" mat-card-image [src]="categoryIcons[id]" alt="direction {{ workshopData.directionIds }}" />
         </ng-container>
       </mat-card-header>
 
@@ -54,8 +53,7 @@
           <mat-icon>arrow_forward</mat-icon>
         </a>
         <ng-container *ngIf="isCabinetView && (featuresList$ | async)?.achievementManagement && workshopData.id">
-          <a class="more-details"
-             [routerLink]="['/create-achievement', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
             <mat-icon>add</mat-icon>
             <span class="card_link">
               {{ 'ADD_ACHIEVEMENT' | translate }}
@@ -89,8 +87,12 @@
       [routerLink]="['/create', workshopData.id ? 'workshop' : 'draft', workshopData.id ? workshopData.id : workshopData.workshopDraftId]">
       <mat-icon>edit</mat-icon>
     </div>
-    <div *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
-         class="actions_btn action-icon" (click)="onDelete()" tabindex="1" (keypress)="onDelete()">
+    <div
+      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      class="actions_btn action-icon"
+      (click)="onDelete()"
+      tabindex="0"
+      (keypress)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
@@ -137,8 +139,7 @@
       <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
       <span class="card_text card_text_blue">
         {{ workshopData.takenSeats }}
-        <ng-container
-          *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
+        <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
       </span>
     </div>
     <div class="provider-content flex justify-between items-center">
@@ -146,8 +147,7 @@
       <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
     </div>
     <div class="provider-content flex justify-between items-center">
-      <p class="card_text"><i
-        class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+      <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
       <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
     </div>
   </ng-container>
@@ -173,15 +173,25 @@
       <span class="card_link">{{ 'BUTTONS.PUBLISH' | translate }}</span>
     </a>
   </div>
-  <div *ngIf="workshopData.draftStatus === workshopDraftStatus.Rejected" class="flex flex-col flex-grow">
-    <div class="flex flex-row justify-start">
-      <span class="admin-response flex items-center"> {{ 'MODERATOR_MESSAGE' | translate }}</span>
-    </div>
-    <div class="rejection-message">
-      <div class="rejection-message-wrapper" [matTooltip]="workshopData.rejectionMessage">
-        {{ workshopData.rejectionMessage }}
+  <div class="flex flex-col flex-grow">
+    <ng-container [ngSwitch]="workshopData.draftStatus">
+      <div *ngSwitchCase="workshopDraftStatus.Draft" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.PUBLISH' | translate }}
       </div>
-    </div>
+      <div *ngSwitchCase="workshopDraftStatus.PendingModeration" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.PENDING_MODERATION' | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.Rejected">
+        <div class="flex flex-row justify-start">
+          <div class="admin-response flex items-center">{{ 'MODERATOR_MESSAGE' | translate }}</div>
+        </div>
+        <div class="rejection-message">
+          <div class="rejection-message-wrapper" [matTooltip]="workshopData.rejectionMessage">
+            {{ workshopData.rejectionMessage }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </ng-template>
 
