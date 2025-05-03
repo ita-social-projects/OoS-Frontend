@@ -386,6 +386,10 @@
   "WITH_COMPETITIVE_SELECTION": "Competitive selection",
   "INFO_ABOUT_SELECTION": "Information about selection",
   "MODERATOR_MESSAGE": "Moderator's response",
+  "DRAFT_CARD_HINT": {
+    "PUBLISH": "Click \"Publish\" to submit your draft for moderation.",
+    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear."
+  },
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "ADD_JUDGE_LATER": "Judges can be added to the competition later",

@@ -3,7 +3,7 @@
 @use '@angular/material' as mat;
 
 @font-face {
-  font-family: 'Innerspace', sans-serif;
+  font-family: 'Innerspace';
   src:
     local('Innerspace'),
     url('../../../../assets/fonts/Innerspace/Innerspace-normal.ttf') format('truetype'),
@@ -13,7 +13,7 @@
 $config: mat.define-typography-config(
   $font-family: 'Innerspace',
   // temporarily font-family for buttons
-  $button: mat.define-typography-level(13px, 15px, 700, 'Open Sans')
+  $button: mat.define-typography-level(13px, 15px, 700, 'Innerspace', sans-serif)
 );
 
 @mixin mat-form-typography($config) {
