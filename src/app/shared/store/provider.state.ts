@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -1497,7 +1498,7 @@ export class ProviderState {
   @Action(providerActions.OnUpdateStudySubjectFail)
   onUpdateStudySubjectFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateStudySubjectFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
-  } // eslint-disable-next-line max-lines
+  }
 
   @Action(providerActions.DeleteStudySubjectById)
   deleteStudySubjectById(
