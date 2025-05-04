@@ -76,6 +76,10 @@ export class UserWorkshopService {
     return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/Get/drafts/${id}`);
   }
 
+  public getWorkshopDraftIdByWorkshopId(workshopId: string): Observable<string> {
+    return this.http.get<string>(`/api/v2/WorkshopDraft/GetWorkshopDraftIdByWorkshopId/${workshopId}`);
+  }
+
   /**
    * This method get workshops by Provider id for details page
    */

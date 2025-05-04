@@ -19,6 +19,7 @@ export enum NavBarName {
   Platform = 'ENUM.NAV_BAR_NAME.PLATFORM',
   NewWorkshop = 'ENUM.NAV_BAR_NAME.NEW_WORKSHOP',
   EditWorkshop = 'ENUM.NAV_BAR_NAME.EDIT_WORKSHOP',
+  EditDraft = 'ENUM.NAV_BAR_NAME.EDIT_DRAFT',
   CreateProviderDeputy = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_DEPUTY',
   CreateEmployee = 'ENUM.NAV_BAR_NAME.ADD_EMPLOYEE',
   UpdateProviderDeputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_DEPUTY',
