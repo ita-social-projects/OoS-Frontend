@@ -97,12 +97,7 @@ export class GetFilteredChildren {
   constructor() {}
 }
 
-export class ResetProviderWorkshopDetails {
-  static readonly type = '[user] clear Provider And Workshop Details';
-  constructor() {}
-}
-
-export class ResetProviderCompetitionDetails {
-  static readonly type = '[user] clear Provider And Competition Details';
+export class ResetProviderWorkshopAndCompetitionDetails {
+  static readonly type = '[user] clear Provider, Workshop, Competition Details';
   constructor() {}
 }

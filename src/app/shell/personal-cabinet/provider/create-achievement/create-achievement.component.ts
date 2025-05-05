@@ -26,7 +26,7 @@ import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateAchievement, GetAchievementById, GetChildrenByWorkshopId, UpdateAchievement } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, ResetProviderWorkshopAndCompetitionDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
@@ -229,7 +229,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.store.dispatch(new ResetProviderWorkshopAndCompetitionDetails());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

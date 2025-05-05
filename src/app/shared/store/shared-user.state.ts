@@ -36,7 +36,7 @@ import {
   OnGetWorkshopDraftByIdSuccess,
   OnUpdateApplicationFail,
   OnUpdateApplicationSuccess,
-  ResetProviderWorkshopDetails,
+  ResetProviderWorkshopAndCompetitionDetails,
   UpdateApplication
 } from './shared-user.actions';
 
@@ -258,8 +258,8 @@ export class SharedUserState {
     ]);
   }
 
-  @Action(ResetProviderWorkshopDetails)
-  clearProviderWorkshopDetails({ patchState }: StateContext<SharedUserStateModel>): void {
-    patchState({ selectedWorkshop: null, selectedProvider: null });
+  @Action(ResetProviderWorkshopAndCompetitionDetails)
+  clearProviderWorkshopAndCompetitionDetails({ patchState }: StateContext<SharedUserStateModel>): void {
+    patchState({ selectedWorkshop: null, selectedCompetition: null, selectedProvider: null });
   }
 }

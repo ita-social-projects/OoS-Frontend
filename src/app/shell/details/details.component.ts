@@ -19,7 +19,7 @@ import {
   GetProviderById,
   GetWorkshopById,
   GetWorkshopDraftById,
-  ResetProviderWorkshopDetails
+  ResetProviderWorkshopAndCompetitionDetails
 } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { WorkshopType } from 'shared/enum/workshop';
@@ -66,7 +66,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.store.dispatch(new ResetProviderWorkshopDetails());
+      this.store.dispatch(new ResetProviderWorkshopAndCompetitionDetails());
       this.workshopType = params.entity;
       this.getEntity(params.id);
 
@@ -77,7 +77,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
+    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopAndCompetitionDetails()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
