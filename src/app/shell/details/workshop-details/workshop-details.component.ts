@@ -2,8 +2,8 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
-import { of, Subject } from 'rxjs';
+import { Actions, ofAction, Store, Select } from '@ngxs/store';
+import { of, Subject, Observable } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -29,6 +29,8 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { isRoleProvider } from 'shared/utils/provider.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-workshop-details',
@@ -51,6 +53,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public displayActionCard: boolean;
   @Input()
   public currentProvider: Provider;
+
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly categoryIcons = CategoryIcons;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;

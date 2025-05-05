@@ -13,6 +13,7 @@ import { GetAmountOfNewUsersNotifications, ReadUsersNotificationsByType } from '
 import { NotificationState } from 'shared/store/notification.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-notifications',
@@ -44,9 +45,10 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
     const role = this.store.selectSnapshot(RegistrationState.role);
+    const featuresList = this.store.selectSnapshot(MetaDataState.featuresList);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-    if (!isRoleAdmin(role)) {
+    if (!isRoleAdmin(role) && featuresList.messagingFeature) {
       this.store.dispatch(new GetUnreadMessagesCount());
     }
     this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
