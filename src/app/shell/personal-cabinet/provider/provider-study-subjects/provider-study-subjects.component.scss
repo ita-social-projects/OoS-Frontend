@@ -100,7 +100,6 @@ table {
 ::ng-deep .mat-datepicker-actions {
   justify-content: center !important;
   background: var(--primary-light-bg-color) !important;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   border-radius: 0 0 24px 24px;
 }
 
@@ -108,7 +107,6 @@ table {
   border-radius: 24px !important;
   .mat-calendar {
     border-radius: 24px 24px 0 0;
-    padding: 1rem;
   }
 }
 
@@ -118,6 +116,8 @@ table {
 
 .date-buttons {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 :host ::ng-deep .date {
@@ -160,12 +160,6 @@ table {
       transform: translateY(-90%) scale(0.75);
     }
   }
-
-  .mat-datepicker-toggle-default-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
 }
 
 ::ng-deep .mat-form-field.mat-focused.mat-primary,
@@ -199,6 +193,8 @@ table {
     font-size: 24px;
     line-height: 19px;
     color: var(--cancel-text-color);
+    display: flex;
+    align-items: center;
   }
 }
 
