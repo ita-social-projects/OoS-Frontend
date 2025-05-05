@@ -5,10 +5,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
 import { Store } from '@ngxs/store';
+import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
+import { Moment } from 'moment';
+
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -19,8 +22,6 @@ import { StudySubject, StudySubjectParameters } from 'shared/models/study-subjec
 import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { delay, switchMap } from 'rxjs/operators';
-import { Moment } from 'moment';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -194,13 +195,13 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public setDateForFilters(): void {
-    this.setTimePeriodEqualToWholeDay();
+    this.setTimeFormat();
     this.getStudySubjects();
   }
 
-  private setTimePeriodEqualToWholeDay(): void {
-    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.startOf('day')?.format('YYYY-MM-DD') || '';
-    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.endOf('day')?.format('YYYY-MM-DD') || '';
+  private setTimeFormat(): void {
+    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.format('YYYY-MM-DD') ?? '';
   }
 
   private getStudySubjects(): void {
