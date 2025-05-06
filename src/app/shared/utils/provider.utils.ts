@@ -38,7 +38,17 @@ export function formatDateOnlyForServer(date: Date | string | null): string | nu
   }
 }
 
-export function formatToClientDate(serverDate: string | null): string | null {
-  const [year, month, day] = serverDate.split('-');
-  return `${day}/${month}/${year}`;
+export function formatToClientDate(serverDate: string | null): Date | null {
+  if (!serverDate) {
+    return null;
+  }
+
+  const parts = serverDate.split('-').map(Number);
+  const [year, month, day] = parts;
+  const dateObj = new Date(Date.UTC(year, month - 1, day));
+  if (isNaN(dateObj.getTime())) {
+    return null;
+  }
+
+  return dateObj;
 }

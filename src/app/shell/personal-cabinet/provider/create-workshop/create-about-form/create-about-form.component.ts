@@ -20,11 +20,14 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { dateRangeValidator } from 'shared/validators/date-range/date-range-validator';
 import { formatToClientDate } from 'shared/utils/provider.utils';
+import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss']
+  styleUrls: ['./create-about-form.component.scss'],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: LOCAL_STUDY_PERIOD_DATE_FORMATS }]
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -125,20 +128,18 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.workshop?.studyPeriodDates?.startDate && this.workshop?.studyPeriodDates?.endDate) {
-      this.studyPeriodDates.patchValue(
-        {
-          startDate: formatToClientDate(this.workshop.studyPeriodDates.startDate),
-          endDate: formatToClientDate(this.workshop.studyPeriodDates.endDate)
-        },
-        { emitEvent: false }
-      );
-    }
+      const startDateObj = formatToClientDate(this.workshop.studyPeriodDates.startDate);
+      const endDateObj = formatToClientDate(this.workshop.studyPeriodDates.endDate);
 
-    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
-      this.setAvailableSeatsControlValue(null, 'disable', false);
-    } else {
-      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
-      this.availableSeatsRadioBtnControl.setValue(false);
+      if (startDateObj !== null && endDateObj !== null) {
+        this.studyPeriodDates.patchValue(
+          {
+            startDate: startDateObj,
+            endDate: endDateObj
+          },
+          { emitEvent: false }
+        );
+      }
     }
 
     if (this.workshop.noAgeRestrictions) {
@@ -147,6 +148,14 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     } else {
       this.AboutFormGroup.get('minAge').enable();
       this.AboutFormGroup.get('maxAge').enable();
+    }
+
+
+    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
+      this.setAvailableSeatsControlValue(null, 'disable', false);
+    } else {
+      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
+      this.availableSeatsRadioBtnControl.setValue(false);
     }
 
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
@@ -184,15 +193,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           },
           [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
         ),
-        studyPeriodDates: this.formBuilder.group(
-          {
-            startDate: new FormControl<Date | null>(null, Validators.required),
-            endDate: new FormControl<Date | null>(null, Validators.required)
-          },
-          {
-            validators: dateRangeValidator('startDate', 'endDate')
-          }
-        ),
+        studyPeriodDates: this.formBuilder.group({
+          startDate: new FormControl<Date | null>(null, Validators.required),
+          endDate: new FormControl<Date | null>(null, Validators.required)
+        }),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),

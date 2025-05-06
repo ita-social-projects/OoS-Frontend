@@ -89,7 +89,8 @@
               matInput
               [matDatepicker]="startPicker"
               formControlName="startDate"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
@@ -107,7 +108,8 @@
               matInput
               [matDatepicker]="endPicker"
               formControlName="endDate"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>

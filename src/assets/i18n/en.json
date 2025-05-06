@@ -576,6 +576,7 @@
       "MAXIMUM": "Maximum",
       "PAYMENT_TYPE": "Choose the type of payment for the workshop",
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
+      "STUDY_PERIOD_DATE_FORMAT": "DD/MM",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
       "SYMBOLS": "symbols",
       "CHILDREN": "Children",
