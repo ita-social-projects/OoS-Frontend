@@ -181,8 +181,8 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         registrationDateRangeGroup: this.formBuilder.group({
-          start: new FormControl<Date | null>(null, Validators.required),
-          end: new FormControl<Date | null>(null, Validators.required)
+          start: new FormControl<Date | null>(null),
+          end: new FormControl<Date | null>(null)
         }),
         competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
         parentCompetitionControl: new FormControl(null),
