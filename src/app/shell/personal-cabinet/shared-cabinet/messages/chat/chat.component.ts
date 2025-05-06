@@ -28,7 +28,7 @@ import {
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { ResetProviderWorkshopAndCompetitionDetails } from 'shared/store/shared-user.actions';
+import { ResetProvider } from 'shared/store/shared-user.actions';
 import { isRoleProvider } from 'shared/utils/provider.utils';
 import { Util } from 'shared/utils/utils';
 
@@ -90,7 +90,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProviderWorkshopAndCompetitionDetails()]);
+    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProvider()]);
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

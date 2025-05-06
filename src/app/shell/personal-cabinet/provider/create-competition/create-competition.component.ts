@@ -12,7 +12,7 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetCompetitionById, ResetProviderWorkshopAndCompetitionDetails } from 'shared/store/shared-user.actions';
+import { GetCompetitionById, ResetCompetition } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
@@ -188,7 +188,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(new ResetProviderWorkshopAndCompetitionDetails());
+    this.store.dispatch(new ResetCompetition());
   }
 
   /**

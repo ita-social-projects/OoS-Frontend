@@ -23,7 +23,7 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 import { CreateApplication, GetStatusIsAllowToApply, GetUsersChildren } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopAndCompetitionDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, ResetWorkshop } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
@@ -161,7 +161,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopAndCompetitionDetails()]);
+    this.store.dispatch([new DeleteNavPath(), new ResetWorkshop()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
