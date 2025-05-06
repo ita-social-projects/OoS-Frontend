@@ -410,6 +410,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     if (aboutInfo.studyPeriodDates) {
       aboutInfo.studyPeriodDates.startDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.startDate);
       aboutInfo.studyPeriodDates.endDate = formatDateOnlyForServer(aboutInfo.studyPeriodDates.endDate);
+      console.log('formatted object:', aboutInfo.studyPeriodDates);
     }
 
     if (aboutInfo.availableSeats === null) {

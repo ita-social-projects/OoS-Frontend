@@ -124,11 +124,14 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
 
-    if (this.workshop.startDate && this.workshop.endDate) {
-      this.studyPeriodDates.patchValue({
-        startDate: formatToClientDate(this.workshop.startDate),
-        endDate: formatToClientDate(this.workshop.endDate)
-      });
+    if (this.workshop?.studyPeriodDates?.startDate && this.workshop?.studyPeriodDates?.endDate) {
+      this.studyPeriodDates.patchValue(
+        {
+          startDate: formatToClientDate(this.workshop.studyPeriodDates.startDate),
+          endDate: formatToClientDate(this.workshop.studyPeriodDates.endDate)
+        },
+        { emitEvent: false }
+      );
     }
 
     if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {

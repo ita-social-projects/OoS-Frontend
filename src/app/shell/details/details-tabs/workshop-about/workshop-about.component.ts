@@ -20,7 +20,6 @@ export class WorkshopAboutComponent implements OnInit {
   public readonly workingDaysReverse = WorkingDaysReverse;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
 
-  public pipeCheck = '2005-05-19';
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 
   public images: ImgPath[];
