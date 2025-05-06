@@ -39,9 +39,6 @@ export function formatDateOnlyForServer(date: Date | string | null): string | nu
 }
 
 export function formatToClientDate(serverDate: string | null): string | null {
-  if (!serverDate || !/^\d{4}-\d{2}-\d{2}$/.test(serverDate)) {
-    return null;
-  }
   const [year, month, day] = serverDate.split('-');
   return `${day}/${month}/${year}`;
 }
