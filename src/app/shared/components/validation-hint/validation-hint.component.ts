@@ -218,7 +218,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       // DateTimePicker validation
       {
-        condition: () => errors?.matDatepickerParse && this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        condition: () => errors?.matDatepickerParse,
         message: ValidationMessages.INVALID_DATE_FIELD
       },
       {
