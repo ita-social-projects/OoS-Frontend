@@ -1,4 +1,4 @@
-export class studyPeriodDates {
+export class StudyPeriodDates {
   startDate: string;
   endDate: string;
 }

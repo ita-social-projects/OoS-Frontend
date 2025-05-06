@@ -2,7 +2,7 @@ import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { FormOfLearning, PayRateType, WorkshopDraftStatus, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { DateTimeRanges } from 'shared/models/working-hours.model';
-import { studyPeriodDates } from 'shared/models/studyPeriodDates.model';
+import { StudyPeriodDates } from 'shared/models/study-period-dates.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { PaginationParameters } from './query-parameters.model';
@@ -16,7 +16,7 @@ export abstract class WorkshopBase {
   noAgeRestrictions: boolean;
   minAge?: number;
   maxAge?: number;
-  studyPeriodDates: studyPeriodDates;
+  studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;
@@ -239,7 +239,7 @@ export interface WorkshopAbout {
   noAgeRestrictions: boolean;
   minAge?: number;
   maxAge?: number;
-  studyPeriodDates: studyPeriodDates;
+  studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
   formOfLearning: FormOfLearning;
   availableSeats: number;

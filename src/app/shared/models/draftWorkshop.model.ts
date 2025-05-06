@@ -1,7 +1,7 @@
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Contacts, Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
-import { studyPeriodDates } from 'shared/models/studyPeriodDates.model';
+import { studyPeriodDates } from 'shared/models/study-period-dates.model';
 
 export enum WorkshopType {
   WithMainProperties = 'withMainProperties',

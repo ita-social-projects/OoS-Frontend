@@ -6,7 +6,7 @@
 }
 
 mat-form-field.redBorder .mat-form-field-outline {
-  border: 1px solid #c72a21 !important;
+  border: 1px solid var(--error-color) !important;
 }
 
 .disabled-button {

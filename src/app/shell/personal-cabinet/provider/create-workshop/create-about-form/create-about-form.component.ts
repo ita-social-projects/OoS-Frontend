@@ -18,7 +18,6 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
-import { dateRangeValidator } from 'shared/validators/date-range/date-range-validator';
 import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
@@ -149,7 +148,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.AboutFormGroup.get('minAge').enable();
       this.AboutFormGroup.get('maxAge').enable();
     }
-
 
     if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
       this.setAvailableSeatsControlValue(null, 'disable', false);
