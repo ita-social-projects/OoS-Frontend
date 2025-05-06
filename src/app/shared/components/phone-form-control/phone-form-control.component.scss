@@ -21,7 +21,6 @@
 
     .phone-number-input {
       margin-left: 5px;
-      color: var(--primary-dark-text-color);
     }
   }
 }
@@ -66,8 +65,9 @@
   }
 }
 
-:host ::ng-deep .mat-mdc-input-element.phone-number-input {
+:host ::ng-deep .mat-mdc-input-element {
   margin-left: 0 !important;
+  color: var(--primary-dark-text-color) !important;
 }
 
 .phone-invalid {

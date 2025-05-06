@@ -96,7 +96,8 @@ describe('ThemeSwitcherComponent', () => {
         new ShowMessageBar({
           message: darkMessageKey,
           type: 'success',
-          infinityDuration: false
+          infinityDuration: false,
+          duration: 2000
         })
       );
     });
