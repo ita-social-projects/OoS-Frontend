@@ -16,20 +16,11 @@ import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/me
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-create-competition-description-form',
   templateUrl: './create-competition-description-form.component.html',
   styleUrls: ['./create-competition-description-form.component.scss'],
-  animations: [
-    trigger('flashAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, background: 'var(--primary-accent-color)' }),
-        animate('500ms ease-out', style({ opacity: 1, background: 'none' }))
-      ])
-    ])
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
