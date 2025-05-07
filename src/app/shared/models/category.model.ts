@@ -34,16 +34,9 @@ export interface SubdirectionsResponse {
 }
 
 export interface DirectionNode {
-  name: string;
   id: number;
-  direction?: Direction;
+  title: string;
+  description: string;
   children?: DirectionNode[];
-}
-
-export interface DirectionFlatNode {
-  expanded: boolean;
-  name: string;
-  id: number;
-  level: number;
-  fullData?: Direction;
+  workshopsCount?: number;
 }

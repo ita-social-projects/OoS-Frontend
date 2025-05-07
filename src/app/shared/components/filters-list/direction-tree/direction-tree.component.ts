@@ -1,12 +1,11 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
-import { Direction, DirectionFlatNode, DirectionNode, Subdirection } from 'shared/models/category.model';
+import { Direction, DirectionNode, Subdirection } from 'shared/models/category.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
-import { SetDirections } from 'shared/store/filter.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
@@ -23,25 +22,12 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   @Select(MetaDataState.directions)
   private directions$: Observable<Direction[]>;
 
-  public treeControl = new FlatTreeControl<DirectionFlatNode>(
-    (node) => node.level,
-    (node) => node.expanded
-  );
+  public treeControl = new NestedTreeControl<DirectionNode>((node) => node.children);
+  public dataSource = new MatTreeNestedDataSource<DirectionNode>();
 
-  public treeFlattener = new MatTreeFlattener(
-    this.transformer,
-    (node) => node.level,
-    (node) => node.expanded,
-    (node) => node.children
-  );
-
-  public dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  private allDirections: Direction[] = [];
+  private allDirections: DirectionNode[] = [];
   private indeterminateDirectionIds: number[] = [];
   private selectedSubdirectionIds: number[] = [];
-
-  private isFetching: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -53,16 +39,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   public ngOnInit(): void {
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions: Direction[]) => {
       // update data source when directions are received
-      this.allDirections = directions.map((d: Direction) => ({ ...d, subdirections: d.subdirections || [] }));
-      this.dataSource.data = this.buildTreeData(directions);
-    });
-
-    this.treeControl.expansionModel.changed.pipe(takeUntil(this.destroy$)).subscribe((change) => {
-      change.added.forEach((flatNode: DirectionFlatNode) => {
-        if (flatNode.fullData && (!flatNode.fullData.subdirections || flatNode.fullData.subdirections.length === 0)) {
-          this.fetchAndAddSubdirections(flatNode.fullData);
-        }
-      });
+      this.allDirections = this.transformDirections(directions);
+      this.dataSource.data = this.allDirections;
     });
   }
 
@@ -76,102 +54,76 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
    * @param directions
    * @returns DirectionNode[]
    */
-  public buildTreeData(directions: Direction[]): DirectionNode[] {
+  public transformDirections(directions: Direction[]): DirectionNode[] {
     return directions.map((direction: Direction) => ({
-      name: direction.title,
       id: direction.id,
-      // store full direction object for later use
-      direction: direction,
+      title: direction.title,
+      description: direction.description,
       children: direction.subdirections
-        ? direction.subdirections.map((subdireciton: Subdirection) => ({
-            name: subdireciton.title,
-            id: subdireciton.id
+        ? direction.subdirections.map((sub: Subdirection) => ({
+            id: sub.id,
+            title: sub.title,
+            description: sub.description
           }))
         : []
     }));
   }
 
-  /**
-   * This method transform direction node to flat node
-   * @param node
-   * @param level
-   * @returns DirectionFlatNode
-   */
-  public transformer(node: DirectionNode, level: number): DirectionFlatNode {
-    return {
-      expanded: !!node.children && node.children.length > 0,
-      name: node.name,
-      id: node.id,
-      level: level,
-      fullData: node.direction
-    };
+  public hasChild = (_: number, node: DirectionNode): boolean => !!node.children;
+
+  public onToggle(node: DirectionNode): void {
+    if (node?.children.length === 0) {
+      this.loadChildren(node);
+    }
   }
 
-  /**
-   * This method add checked direction to the list of selected directions and dispatch filter action
-   * @param direction
-   * @param event
-   */
-  public onDirectionCheck(direction: DirectionFlatNode, event: MatCheckboxChange): void {
+  public onDirectionCheck(direction: DirectionNode, event: MatCheckboxChange): void {
     if (event.checked) {
-      if (direction.level === 0) {
-        this.selectedDirectionIds.push(direction.id);
-        // expand direction and mark its subdirections as selected
-        this.isFetching = true;
-        this.fetchAndAddSubdirections(direction.fullData);
-      } else if (direction.level === 1) {
-        this.selectedSubdirectionIds.push(direction.id);
-      }
+      // checked
+      this.selectedDirectionIds.push(direction.id);
+      this.loadChildrenAndPush(direction);
     } else {
-      if (direction.level === 0) {
-        // remove direction and its subdirections
-        this.removeDirectionAndChildren(direction.fullData);
-      } else if (direction.level === 1) {
-        // remove subdirection from selected subdirections list
-        this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== direction.id);
-      }
-    }
-    this.store.dispatch(new SetDirections(this.selectedDirectionIds));
-  }
-
-  /**
-   * This method check if value is checked
-   * @returns boolean
-   */
-  public onSelectCheck(direction: DirectionFlatNode): boolean {
-    if (direction.level === 0) {
-      // check if all children are selected
-      if (direction.expanded) {
-        const allChildrenSelected: boolean = direction.fullData?.subdirections.every((sub: Subdirection) =>
-          this.selectedSubdirectionIds.includes(sub.id)
-        );
-        if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
-          this.selectedDirectionIds.push(direction.id);
-        } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id) && !this.isFetching) {
-          this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
-        }
-        this.store.dispatch(new SetDirections(this.selectedDirectionIds));
-        return allChildrenSelected;
-      }
-      // else return if parent is selected
-      return this.selectedDirectionIds.includes(direction.id);
-    } else if (direction.level === 1) {
-      // check if subdirection is selected
-      return this.selectedSubdirectionIds.includes(direction.id);
+      // unchecked
+      this.removeDirectionAndChildren(direction);
     }
   }
 
-  public isParentIndeterminate(direction: DirectionFlatNode): boolean {
-    // check if item has children
-    if (!direction.fullData?.subdirections || direction.fullData?.subdirections.length === 0) {
+  public onSubdirectionCheck(subdirection: DirectionNode, event: MatCheckboxChange): void {
+    if (event.checked) {
+      // checked
+      this.selectedSubdirectionIds.push(subdirection.id);
+    } else {
+      // unchecked
+      this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== subdirection.id);
+    }
+  }
+
+  public directionChecked(direction: DirectionNode): boolean {
+    // check if all children are selected
+    const allChildrenSelected: boolean =
+      direction.children.length > 0 && direction.children.every((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id));
+    if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
+      this.selectedDirectionIds.push(direction.id);
+    } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id)) {
+      this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
+    }
+    return allChildrenSelected;
+  }
+
+  public subdirectionChecked(subdirection: DirectionNode): boolean {
+    return this.selectedSubdirectionIds.includes(subdirection.id);
+  }
+
+  public isDirectionIndeterminate(direction: DirectionNode): boolean {
+    // has no children
+    if (!direction.children || direction.children.length === 0) {
       this.indeterminateDirectionIds = this.indeterminateDirectionIds.filter((id: number) => id !== direction.id);
       return false;
     }
-    // find the number of selected subdirections
-    const numSelected = direction.fullData?.subdirections.filter((sub: Subdirection) =>
-      this.selectedSubdirectionIds.includes(sub.id)
-    ).length;
-    const isIndeterminate: boolean = numSelected > 0 && numSelected < direction.fullData?.subdirections.length;
+    // count and compare
+    const numSelected: number = direction.children.filter((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id)).length;
+    const isIndeterminate: boolean = numSelected > 0 && numSelected < direction.children.length;
+
     if (isIndeterminate && !this.indeterminateDirectionIds.includes(direction.id)) {
       this.indeterminateDirectionIds.push(direction.id);
     }
@@ -181,67 +133,51 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     return isIndeterminate;
   }
 
-  private removeDirectionAndChildren(direction: Direction): void {
-    // remove parent's id
-    this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
-    // remove all children ids
-    if (direction.subdirections && direction.subdirections.length > 0) {
-      direction.subdirections.forEach((sub: Subdirection) => {
-        this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== sub.id);
-      });
-    }
-  }
-
-  /**
-   * This method fetch subdirections from server and add them to the direction
-   * @param direction
-   */
-  private fetchAndAddSubdirections(direction: Direction): void {
-    const expandedIds = this.treeControl.dataNodes.filter((node) => this.treeControl.isExpanded(node)).map((node) => node.id);
-
+  private loadChildren(node: DirectionNode): void {
     this.directionsService
-      .getSubdirections(direction.id)
+      .getSubdirections(node.id)
       .pipe(
         map((response) => response.entities),
         takeUntil(this.destroy$)
       )
-      .subscribe((subdirections: Subdirection[]) => {
-        direction.subdirections = subdirections || [];
-        if (this.selectedDirectionIds.includes(direction.id)) {
-          direction.subdirections.forEach((sub: Subdirection) => {
-            if (!this.selectedSubdirectionIds.includes(sub.id)) {
-              this.selectedSubdirectionIds.push(sub.id);
-            }
-          });
-          this.isFetching = false;
-        }
-        // Update the tree data source with the new subdirections
-        this.dataSource.data = this.buildTreeData(this.allDirections);
-
-        setTimeout(() => {
-          this.treeControl.dataNodes.forEach((node) => {
-            if (expandedIds.includes(node.id)) {
-              this.treeControl.expand(node);
-            }
-          });
-
-          // find the flat node corresponding to this direction and re-expand it.
-          const flatNodes = this.treeControl.dataNodes;
-          const targetNode = flatNodes.find((node) => node.id === direction.id);
-          if (targetNode) {
-            this.treeControl.expand(targetNode);
-          }
-        }, 0);
+      .subscribe((subs: Subdirection[]) => {
+        node.children = subs as DirectionNode[];
+        this.dataSource.data = [];
+        this.dataSource.data = this.allDirections;
       });
   }
 
-  /**
-   * This method add subdirection id to the list of selected subdirections
-   * @param direction
-   */
-  private addIfSubdirection(direction: DirectionFlatNode): void {
-    if (direction.level === 1) {
-      this.selectedSubdirectionIds.push(direction.id);
+  private loadChildrenAndPush(node: DirectionNode): void {
+    if (node.children.length > 0) {
+      // subdirections already fetched
+      node.children.forEach((sub) => {
+        this.selectedSubdirectionIds.push(sub.id);
+      });
+    } else {
+      // fetch subdirections from backend
+      this.directionsService
+        .getSubdirections(node.id)
+        .pipe(
+          map((response) => response.entities),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((subs: Subdirection[]) => {
+          node.children = subs as DirectionNode[];
+          subs.forEach((sub) => {
+            this.selectedSubdirectionIds.push(sub.id);
+          });
+        });
+    }
+  }
+
+  private removeDirectionAndChildren(direction: DirectionNode): void {
+    // remove parent's id
+    this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
+    // remove all children ids
+    if (direction.children && direction.children.length > 0) {
+      direction.children.forEach((sub: Subdirection) => {
+        this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== sub.id);
+      });
     }
   }
 }
