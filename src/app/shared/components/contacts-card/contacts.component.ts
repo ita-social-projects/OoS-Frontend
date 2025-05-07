@@ -1,12 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Address } from 'shared/models/address.model';
-import { Store } from '@ngxs/store';
-import { Contact } from 'shared/models/contacts.model';
-import { WINDOW } from 'ngx-window-token';
 import { Platform } from '@angular/cdk/platform';
+import { WINDOW } from 'ngx-window-token';
+
+import { Address } from 'shared/models/address.model';
 import { MAP_URL } from 'shared/constants/constants';
-import { Workshop } from '../../../shared/models/workshop.model';
-import { Provider } from '../../../shared/models/provider.model';
+import { Contacts, Workshop } from 'shared/models/workshop.model';
+import { Provider } from 'shared/models/provider.model';
 
 @Component({
   selector: 'app-contacts-card',
@@ -17,11 +16,11 @@ export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
 
-  public contacts: Contact[] = [];
+  public contacts: Contacts[];
   public panelOpenState = false;
+
   constructor(
     @Inject(WINDOW) private window: Window,
-    private store: Store,
     private platform: Platform
   ) {}
 
@@ -39,7 +38,7 @@ export class ContactsCardComponent implements OnInit {
   }
 
   public getContactsData(): void {
-    this.contacts = this.store.selectSnapshot((store) => store.user.selectedWorkshop?.contacts);
+    this.contacts = this.workshop.contacts ?? [];
   }
 
   public mapLink(address: Address): void {
