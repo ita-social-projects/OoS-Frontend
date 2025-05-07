@@ -36,8 +36,8 @@ export interface AppStateModel {
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    profile: undefined,
-    personalInfo: undefined,
+    profile: null,
+    personalInfo: null,
     isDirtyForm: false,
     isEditMode: false,
     isMobileScreen: undefined,

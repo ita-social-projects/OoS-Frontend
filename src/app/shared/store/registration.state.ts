@@ -210,7 +210,7 @@ export class RegistrationState {
         if (error.status === HttpStatusCode.Unauthorized || error.status === HttpStatusCode.Forbidden) {
           this.router.navigate(['/forbidden']);
         }
-        return throwError(() => new Error('Something went wrong!'));
+        return throwError(() => error);
       }),
       finalize(() => patchState({ isAuthorizationLoading: false }))
     );
