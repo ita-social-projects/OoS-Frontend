@@ -103,9 +103,7 @@ a {
 
       &-selected {
         border: 2px solid var(--primary-accent-color);
-        box-sizing: border-box;
         color: var(--primary-accent-color);
-        background-color: transparent;
       }
 
       &-state-done {
