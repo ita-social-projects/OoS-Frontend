@@ -1,16 +1,16 @@
 import { Options, ChangeContext } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
 import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil, filter } from 'rxjs/operators';
 import { ValidationConstants } from 'shared/constants/validation';
 import { PriceFilter, MinMaxPriceFilter } from 'shared/models/filter-list.model';
-import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate, FilterChange } from 'shared/store/filter.actions';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate } from 'shared/store/filter.actions';
 import { PayRateType } from 'shared/enum/workshop';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { FilterState } from 'shared/store/filter.state';
-import { ValidationMessages, ErrorConditionsInterface } from 'shared/enum/validation-messages';
+import { MinMaxPriceValidator } from 'shared/validators/filter-min-max-price-validator';
 
 @Component({
   selector: 'app-price-filter',
@@ -71,8 +71,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       this.limitMinMaxPrice = limitMinMaxPrice;
       this.options = this.getSliderOptions(!this.isPaidControl.value);
       this.updateMinMaxPrice();
-      this.minPriceControl.setValidators(validatorMinMaxPrice('min', this.limitMinMaxPrice, this.maxValue));
-      this.maxPriceControl.setValidators(validatorMinMaxPrice('max', this.limitMinMaxPrice, this.minValue));
+      this.minPriceControl.setValidators(MinMaxPriceValidator('min', this.limitMinMaxPrice, this.maxValue));
+      this.maxPriceControl.setValidators(MinMaxPriceValidator('max', this.limitMinMaxPrice, this.minValue));
       this.minPriceControl.updateValueAndValidity({ emitEvent: false });
       this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
       this.cdr.markForCheck();
@@ -125,12 +125,12 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   }
 
   public getSliderOptions(disabled: boolean): Options {
-    const sliderOptions = this.options
-      ? { ...this.options }
-      : {
-          floor: ValidationConstants.MIN_PRICE,
-          ceil: ValidationConstants.MAX_PRICE
-        };
+    const sliderOptions = {
+      ...(this.options ?? {
+        floor: ValidationConstants.MIN_PRICE,
+        ceil: ValidationConstants.MAX_PRICE
+      })
+    };
 
     if (this.limitMinMaxPrice?.isActiveLimitation) {
       sliderOptions.floor = this.limitMinMaxPrice.minPrice;
@@ -178,23 +178,4 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       this.maxPriceControl.setValue(this.maxValue, { emitEvent: false });
     }
   }
-}
-
-export function validatorMinMaxPrice(minMax: string, limitMinMaxPrice: MinMaxPriceFilter, currentMinMaxPrice: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const errors: ErrorConditionsInterface[] = [];
-    if (limitMinMaxPrice?.isActiveLimitation) {
-      const value = control.value;
-      if (minMax === 'min') {
-        if (value < limitMinMaxPrice.minPrice || value > limitMinMaxPrice.maxPrice || value > currentMinMaxPrice) {
-          errors.push({ condition: () => true, message: ValidationMessages.INVALID_MINIMUM_FILTER_PRICE });
-        }
-      } else if (minMax === 'max') {
-        if (value > limitMinMaxPrice.maxPrice || value < limitMinMaxPrice.minPrice || value < currentMinMaxPrice) {
-          errors.push({ condition: () => true, message: ValidationMessages.INVALID_MAXIMUM_FILTER_PRICE });
-        }
-      }
-    }
-    return errors.length > 0 ? { ListErrors: errors } : null;
-  };
 }

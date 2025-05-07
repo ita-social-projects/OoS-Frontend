@@ -6,11 +6,6 @@ export interface ValidationParams {
   currentCharactersCount: string;
 }
 
-export interface ErrorConditionsInterface {
-  condition: (...args: any[]) => boolean;
-  message: ValidationMessages;
-}
-
 export enum ValidationMessages {
   REQUIRED_INPUT = 'FORMS.VALIDATIONS.REQUIRED_INPUT',
   INVALID_DATE_FIELD = 'FORMS.VALIDATIONS.INVALID_DATE_FIELD',
