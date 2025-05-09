@@ -1050,7 +1050,7 @@ export class ProviderState {
   ): Observable<SearchResponse<Position[]> | void> {
     patchState({ isLoading: true });
     return this.positionService.getPositions(positionParameters).pipe(
-      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions, isLoading: false })),
+      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions ?? EMPTY_RESULT, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnGetPositionsFail(error)))
     );
   }

@@ -1,22 +1,22 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs';
 
 import { ProviderState } from 'shared/store/provider.state';
-import { GetPositions, DeletePositionById } from 'shared/store/provider.actions';
+import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { Position, PositionParameters } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { PositionSortEnum } from 'shared/enum/enumUA/provider';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Util } from 'shared/utils/utils';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -31,17 +31,17 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
-  public readonly sortList: string[] = Object.values(PositionSortEnum);
+  public readonly NoResultsTitle = NoResultsTitle;
   public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
   public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
   public totalElements = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public filterFormControl: FormControl = new FormControl('');
-  public positions$: Observable<Position>;
 
   constructor(
-    protected store: Store,
-    protected matDialog: MatDialog
+    protected readonly store: Store,
+    protected readonly matDialog: MatDialog,
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(store, matDialog);
   }
@@ -50,16 +50,11 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     super.ngOnInit();
 
     this.filterFormControl.valueChanges
-      .pipe(
-        debounceTime(this.debounceInputTime),
-        distinctUntilChanged(),
-        tap((value: string) => {
-          this.positionParameters.searchString = value;
-          this.getPositions();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+      .pipe(debounceTime(this.debounceInputTime), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((filterString: string) => {
+        this.positionParameters.searchString = filterString;
+        this.getPositions();
+      });
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -88,7 +83,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
   public initProviderData(): void {
     if (!this.provider) {
-      console.error('Provider is undefined, cannot initialize positions.');
       return;
     }
 
@@ -97,13 +91,11 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
     this.store
       .select(ProviderState.positions)
-      .pipe(
-        filter((position: SearchResponse<Position[]>) => Boolean(position)),
-        takeUntil(this.destroy$)
-      )
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((positions: SearchResponse<Position[]>) => {
         this.dataSource.data = positions.entities;
         this.totalElements = positions.totalAmount;
+        this.cdr.markForCheck();
       });
   }
 
@@ -119,7 +111,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
 
   private getPositions(): void {
     if (!this.provider) {
-      console.error('Provider is undefined, cannot fetch positions.');
       return;
     }
 
