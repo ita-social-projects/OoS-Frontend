@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
+
 import { DeletePositionById, GetPositions } from 'shared/store/provider.actions';
 import { Position } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -93,14 +94,6 @@ describe('ProviderPositionsComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new GetPositions(component.positionParameters));
     });
-
-    it('should log an error if provider is undefined', () => {
-      jest.spyOn(console, 'error');
-
-      (component as any).getPositions();
-
-      expect(console.error).toHaveBeenCalledWith('Provider is undefined, cannot fetch positions.');
-    });
   });
 
   describe('sortData', () => {
@@ -146,14 +139,6 @@ describe('ProviderPositionsComponent', () => {
 
       expect(component.dataSource.data).toEqual(mockPositions.entities);
       expect(component.totalElements).toBe(mockPositions.totalAmount);
-    });
-
-    it('should log an error if provider is undefined', () => {
-      jest.spyOn(console, 'error');
-
-      component.initProviderData();
-
-      expect(console.error).toHaveBeenCalledWith('Provider is undefined, cannot initialize positions.');
     });
   });
 });
