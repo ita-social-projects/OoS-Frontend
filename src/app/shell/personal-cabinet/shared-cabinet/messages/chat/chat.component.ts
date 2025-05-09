@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxjs';
+import { asyncScheduler, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
@@ -13,7 +13,7 @@ import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { Role } from 'shared/enum/role';
-import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
+import { UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
@@ -28,7 +28,7 @@ import {
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { ResetProvider } from 'shared/store/shared-user.actions';
 import { isRoleProvider } from 'shared/utils/provider.utils';
 import { Util } from 'shared/utils/utils';
 
@@ -90,7 +90,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProviderWorkshopDetails()]);
+    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProvider()]);
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

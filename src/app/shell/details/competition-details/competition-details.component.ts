@@ -21,6 +21,7 @@ import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-competition-details',
@@ -79,6 +80,7 @@ export class CompetitionDetailsComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(
+        take(1),
         filter(Boolean)
         /*
          * todo: this code should be return when

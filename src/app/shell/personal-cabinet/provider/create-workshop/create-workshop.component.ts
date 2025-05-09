@@ -24,7 +24,7 @@ import {
   UpdateWorkshop
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, GetWorkshopDraftById, ResetProvider, ResetWorkshop } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -331,7 +331,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
   }
 
   // eslint-disable-next-line @typescript-eslint/typedef
