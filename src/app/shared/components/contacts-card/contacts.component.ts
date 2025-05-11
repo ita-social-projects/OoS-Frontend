@@ -1,10 +1,13 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Platform } from '@angular/cdk/platform';
-import { WINDOW } from 'ngx-window-token';
-
 import { Address } from 'shared/models/address.model';
+import { Store } from '@ngxs/store';
+import { Contact } from 'shared/models/contact.model';
+import { WINDOW } from 'ngx-window-token';
+import { Platform } from '@angular/cdk/platform';
 import { MAP_URL } from 'shared/constants/constants';
-import { Contacts, Workshop } from 'shared/models/workshop.model';
+import { Competition } from 'shared/models/competition.model';
+import { ActivatedRoute } from '@angular/router';
+import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 
 @Component({
@@ -15,13 +18,15 @@ import { Provider } from 'shared/models/provider.model';
 export class ContactsCardComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
+  @Input() public competition: Competition;
 
-  public contacts: Contacts[];
+  public contacts: Contact[] = [];
   public panelOpenState = false;
-
   constructor(
     @Inject(WINDOW) private window: Window,
-    private platform: Platform
+    private store: Store,
+    private platform: Platform,
+    private route: ActivatedRoute
   ) {}
 
   public getFullAddress(address: Address): string {
@@ -38,7 +43,22 @@ export class ContactsCardComponent implements OnInit {
   }
 
   public getContactsData(): void {
-    this.contacts = this.workshop.contacts ?? [];
+    const entity = this.route.snapshot.paramMap.get('entity');
+    const isInfoPath = this.route.snapshot.routeConfig?.path === 'info';
+    if (isInfoPath && this.provider?.contacts) {
+      this.contacts = this.provider?.contacts as unknown as Contact[];
+    } else {
+      const entityMap = {
+        workshop: 'selectedWorkshop',
+        competition: 'selectedCompetition',
+        provider: 'selectedProvider'
+      };
+      if (entity && entityMap[entity]) {
+        this.contacts = this.store.selectSnapshot((store) => store.user[entityMap[entity]]?.contacts);
+      } else {
+        console.warn(`Unknown entity type: ${entity}`);
+      }
+    }
   }
 
   public mapLink(address: Address): void {

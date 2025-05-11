@@ -92,6 +92,9 @@
       <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Judges | translate | uppercase }}">
         <app-competition-judges [teachers]="competition.judges"></app-competition-judges>
       </mat-tab>
+      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Contacts | translate | uppercase }}">
+        <app-contacts-card [provider]="provider" [competition]="competition"></app-contacts-card>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>

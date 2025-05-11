@@ -91,6 +91,7 @@ import { CompetitionCardComponent } from './components/competition-card/competit
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
+import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 
 @NgModule({
   declarations: [
@@ -174,7 +175,8 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     StepperDirective,
     CompetitionCardComponent,
     CreateContactsComponent,
-    CreateAddressFormComponent
+    CreateAddressFormComponent,
+    ContactsCardComponent
   ],
 
   imports: [
@@ -267,7 +269,8 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     StepperDirective,
     CompetitionCardComponent,
     CreateContactsComponent,
-    CreateAddressFormComponent
+    CreateAddressFormComponent,
+    ContactsCardComponent
   ]
 })
 export class SharedModule {}
