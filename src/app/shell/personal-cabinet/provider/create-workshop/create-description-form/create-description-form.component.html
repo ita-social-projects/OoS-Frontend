@@ -95,7 +95,7 @@
   <div
     class="step-input keywords step-textarea-short"
     (click)="setFocus()"
-    tabindex="1"
+    tabindex="0"
     (keypress)="setFocus()"
     [ngClass]="{ 'expanded-field': keyWords.length }">
     <span *ngIf="!keyWordsCtrl.value && keyWords.length < 1" class="keywordsPlaceholder"

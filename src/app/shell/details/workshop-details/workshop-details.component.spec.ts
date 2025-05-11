@@ -1,13 +1,14 @@
 import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
@@ -15,10 +16,10 @@ import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
+import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -27,12 +28,25 @@ describe('WorkshopDetailsComponent', () => {
   let expectingMatDialogData: object;
   let matDialog: MatDialog;
   let matDialogSpy: jest.SpyInstance;
+  const mockActivatedRoute = {
+    snapshot: {
+      paramMap: {
+        get: jest.fn()
+      }
+    },
+    queryParams: of({ status: '111' })
+  };
+  const mockStore = {
+    dispatch: jest.fn()
+  };
+  const mockRouter = {
+    navigate: jest.fn()
+  } as any;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         MatChipsModule,
         MatTabsModule,
-        RouterTestingModule,
         MatIconModule,
         MatChipsModule,
         NgxsModule.forRoot([]),
@@ -50,6 +64,11 @@ describe('WorkshopDetailsComponent', () => {
         ImageCarouselComponent,
         MockActionsComponent,
         ConfirmationModalWindowComponent
+      ],
+      providers: [
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Store, useValue: mockStore },
+        { provide: Router, useValue: mockRouter }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -89,6 +108,38 @@ describe('WorkshopDetailsComponent', () => {
     fixture.detectChanges();
 
     expect(component.isImageBroken).toBe(true);
+  });
+
+  describe('onEdit', () => {
+    it('should navigate to edit if draft', () => {
+      mockActivatedRoute.snapshot.paramMap.get = jest.fn().mockImplementation((key: string) => {
+        if (key === 'id') {
+          return '123';
+        }
+        if (key === 'entity') {
+          return 'draft';
+        }
+      });
+
+      component.onEdit();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/draft', '123']);
+    });
+
+    it('should dispatch GetWorkshopDraftIdByWorkshopId if workshop', () => {
+      mockActivatedRoute.snapshot.paramMap.get = jest.fn().mockImplementation((key: string) => {
+        if (key === 'id') {
+          return '123';
+        }
+        if (key === 'entity') {
+          return 'workshop';
+        }
+      });
+
+      component.onEdit();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('123'));
+    });
   });
 });
 

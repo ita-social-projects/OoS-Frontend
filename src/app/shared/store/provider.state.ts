@@ -1,9 +1,12 @@
+/* eslint-disable max-lines */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { catchError, filter, finalize, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -35,10 +38,17 @@ import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
-import { OnSaveWorkshopStep, OnSaveWorkshopStepFail, OnSaveWorkshopStepSuccess } from './provider.actions';
+import {
+  OnGetWorkshopDraftIdByWorkshopIdSuccess,
+  OnSaveWorkshopStep,
+  OnSaveWorkshopStepFail,
+  OnSaveWorkshopStepSuccess
+} from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 
 export interface ProviderStateModel {
@@ -102,7 +112,9 @@ export class ProviderState {
     private readonly blockService: BlockService,
     private readonly positionService: PositionService,
     private readonly studySubjectService: StudySubjectService,
-    private readonly languageListService: LanguageListService
+    private readonly languageListService: LanguageListService,
+    private readonly matDialog: MatDialog,
+    private readonly translateService: TranslateService
   ) {}
 
   @Selector()
@@ -525,6 +537,53 @@ export class ProviderState {
       tap(() => dispatch(new providerActions.OnDeleteWorkshopSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteWorkshopFail(error)))
     );
+  }
+
+  @Action(providerActions.GetWorkshopDraftIdByWorkshopId)
+  getWorkshopDraftIdByWorkshopId(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { id }: providerActions.GetWorkshopDraftIdByWorkshopId
+  ): Observable<string> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
+      take(1),
+      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId, id))),
+      catchError(() => {
+        dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+        return EMPTY;
+      }),
+      finalize(() => patchState({ isLoading: false }))
+    );
+  }
+
+  @Action(providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess)
+  onGetWorkshopDraftIdByWorkshopIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, workshopId }: providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess
+  ): void {
+    if (!draftId) {
+      this.router.navigate(['/create/workshop', workshopId]);
+    } else {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.draftExistsSet
+          }
+        })
+        .afterClosed()
+        .pipe(take(1), filter(Boolean))
+        .subscribe(() => {
+          this.router.navigate(['/create/draft', draftId]).then(() => {
+            dispatch(
+              new ShowMessageBar({
+                type: 'warningBlue',
+                message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.REDIRECTED_TO_DRAFT')
+              })
+            );
+          });
+        });
+    }
   }
 
   @Action(providerActions.UpdateDraft)
@@ -991,7 +1050,7 @@ export class ProviderState {
   ): Observable<SearchResponse<Position[]> | void> {
     patchState({ isLoading: true });
     return this.positionService.getPositions(positionParameters).pipe(
-      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions, isLoading: false })),
+      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions ?? EMPTY_RESULT, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnGetPositionsFail(error)))
     );
   }

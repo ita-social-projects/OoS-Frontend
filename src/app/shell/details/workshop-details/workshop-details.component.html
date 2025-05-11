@@ -17,11 +17,12 @@
       <span
         [matTooltip]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate) : null">
          <button
-           [routerLink]="['/create', Util.containsWorkshopDetails(workshop) ? 'draft' : 'workshop', route.snapshot.paramMap.get('id')]"
            class="btn btn-cancel"
            [class.btn-rejected]="workshop.draftStatus === WorkshopDraftStatus.Rejected"
            [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
-           mat-button>{{ 'BUTTONS.EDIT' | translate | uppercase }}
+           mat-button
+           (click)="onEdit()"
+         >{{ 'BUTTONS.EDIT' | translate | uppercase }}
          </button>
       </span>
       <button

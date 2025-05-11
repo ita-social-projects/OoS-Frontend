@@ -24,7 +24,7 @@ import {
   UpdateWorkshop
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, GetWorkshopDraftById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, GetWorkshopDraftById, ResetProvider, ResetWorkshop } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -62,6 +62,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
+  public entity: string;
   public workshop: Workshop | WorkshopDraft;
 
   public AboutFormGroup: FormGroup;
@@ -70,6 +71,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
+
+  protected readonly WorkshopType = WorkshopType;
 
   private readonly unfinishedWorkshopTypeMap = {
     1: WorkshopTypeUnfinished.WithMainProperties,
@@ -123,7 +126,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     this.determineEditMode();
     this.determineRelease();
+
+    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Workshop;
     this.addNavPath();
+
     const param = this.getRouteParam();
     if (param === ModeConstants.UNFINISHED) {
       this.loadUnfinishedWorkshopData();
@@ -147,7 +153,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             disable: false
           },
           {
-            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
+            name: this.editMode
+              ? this.entity === WorkshopType.Workshop
+                ? NavBarName.EditWorkshop
+                : NavBarName.EditDraft
+              : NavBarName.NewWorkshop,
             isActive: false,
             disable: true
           }
@@ -321,7 +331,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
   }
 
   // eslint-disable-next-line @typescript-eslint/typedef

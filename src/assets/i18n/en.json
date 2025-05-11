@@ -124,6 +124,7 @@
       "EDIT_PERSONAL_INFORMATION": "Edit personal information",
       "EDIT_PROVIDER_INFORMATION": "Edit provider information",
       "EDIT_WORKSHOP": "Edit workshop",
+      "EDIT_DRAFT": "Edit draft",
       "EDIT_POSITION": "Edit position",
       "ADD_NEW_ADMIN": "Add new administrator",
       "EDIT_ADMIN": "Edit administrator",
@@ -386,6 +387,10 @@
   "WITH_COMPETITIVE_SELECTION": "Competitive selection",
   "INFO_ABOUT_SELECTION": "Information about selection",
   "MODERATOR_MESSAGE": "Moderator's response",
+  "DRAFT_CARD_HINT": {
+    "PUBLISH": "Click \"Publish\" to submit your draft for moderation.",
+    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear."
+  },
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "ADD_JUDGE_LATER": "Judges can be added to the competition later",
@@ -400,6 +405,7 @@
     },
     "HEADERS": {
       "EDIT_WORKSHOP": "EDIT WORKSHOP",
+      "EDIT_DRAFT": "EDIT DRAFT",
       "EDIT_DESCRIPTION_PATH": "Edit a",
       "NEW_WORKSHOP": "NEW WORKSHOP",
       "NEW_DESCRIPTION_PATH": "Add a new",
@@ -1058,7 +1064,8 @@
       "GET_TIME_TO_LIVE_FAIL": "Failed to get time to live draft",
       "DELETE_DRAFT_FAIL": "Failed to delete draft",
       "DELETE_DRAFT_SUCCESS": "Draft deleted successfully",
-      "CHANGE_REQUIRES_MODERATION": "Changing this field requires re-moderation"
+      "CHANGE_REQUIRES_MODERATION": "Changing this field requires re-moderation",
+      "REDIRECTED_TO_DRAFT": "Redirected to draft editing"
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",
@@ -1103,6 +1110,7 @@
       "OPEN_SET": "Are you sure you want to open the workshop recruitment?",
       "DRAFT_SET": "Are you sure you want to send the workshop draft for moderation?",
       "SAVE_WORKSHOP_AS_DRAFT": "Changes made require re-moderation. A draft will be created for this, do you want to continue?",
+      "DRAFT_EXISTS": "A draft already exists for this workshop. Would you like to edit the draft?",
       "DELETE_ADMIN": "Are you sure you want to delete an administrator",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
@@ -1159,6 +1167,7 @@
         "OPEN_SET": "OPEN RECRUITMENT?",
         "DRAFT_SET": "SEND FOR MODERATION?",
         "SAVE_WORKSHOP_AS_DRAFT": "SAVE AS DRAFT?",
+        "DRAFT_EXISTS": "EDIT DRAFT?",
         "DELETE_ADMIN": "DELETE ADMINISTRATOR?",
         "BLOCK_ADMIN": "BLOCK ADMINISTRATOR?",
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",

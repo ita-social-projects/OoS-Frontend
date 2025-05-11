@@ -76,6 +76,10 @@ export class UserWorkshopService {
     return this.http.get<WorkshopDraft>(`/api/v2/WorkshopDraft/Get/drafts/${id}`);
   }
 
+  public getWorkshopDraftIdByWorkshopId(workshopId: string): Observable<string> {
+    return this.http.get<string>(`/api/v2/WorkshopDraft/GetWorkshopDraftIdByWorkshopId/${workshopId}`);
+  }
+
   /**
    * This method get workshops by Provider id for details page
    */
@@ -204,12 +208,14 @@ export class UserWorkshopService {
     const skipNullKeys = ['maxAge', 'minAge'];
 
     Object.keys(workshop).forEach((key: string) => {
-      if (imageFiles.includes(key)) {
-        workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
-      } else if (formNames.includes(key)) {
-        formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
-      } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
-        formData.append(`${preKey}${key}`, workshop[key]);
+      if (workshop[key]) {
+        if (imageFiles.includes(key)) {
+          workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
+        } else if (formNames.includes(key)) {
+          formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
+        } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
+          formData.append(`${preKey}${key}`, workshop[key]);
+        }
       }
     });
 

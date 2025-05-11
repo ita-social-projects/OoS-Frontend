@@ -41,7 +41,7 @@ export class ThemeSwitcherComponent implements OnInit {
     const darkThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_ON');
     const lightThemeMessage: string = this.translate.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.DARK_THEME_OFF');
     const message: string = checked ? darkThemeMessage : lightThemeMessage;
-    this.showMessage(message, 'success', false);
+    this.showMessage(message, 'success', false, 2000);
   }
 
   private changeThemeClass(isDark: boolean): void {
@@ -54,7 +54,7 @@ export class ThemeSwitcherComponent implements OnInit {
     }
   }
 
-  private showMessage(message: string, type: MessageBarType, infinityDuration: boolean): void {
-    this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
+  private showMessage(message: string, type: MessageBarType, infinityDuration: boolean, duration?: number): void {
+    this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration, duration }));
   }
 }

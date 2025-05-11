@@ -12,7 +12,7 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetCompetitionById, ResetProviderCompetitionDetails } from 'shared/store/shared-user.actions';
+import { GetCompetitionById, ResetCompetition } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
@@ -148,7 +148,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   /**
    * This method receives a form from create-required child component and assigns to the Address FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveRequiredFormGroup(form: FormGroup): void {
     this.RequiredFormGroup = form;
@@ -157,7 +157,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
-   * @param FormGroup form
+   * @param form
    */
   public onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
@@ -166,7 +166,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   /**
    * This method receives a form from create-address child component and assigns to the Address FormGroup
-   * @param FormGroup form
+   * @param array
    */
   public onReceiveContactsFormArray(array: FormArray): void {
     this.ContactsFormArray = array;
@@ -175,7 +175,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   /**
    * This method receives an array of forms from create-judge child component and assigns to the Judge FormArray
-   * @param FormArray array
+   * @param array
    */
   public onReceiveJudgeFormArray(array: FormArray): void {
     this.JudgeFormArray = array;
@@ -188,7 +188,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(new ResetProviderCompetitionDetails());
+    this.store.dispatch(new ResetCompetition());
   }
 
   /**
@@ -204,7 +204,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   /**
    * This method create array of judges
-   * @param FormArray formArray
    */
   private createJudges(): Judge[] {
     const judges: Judge[] = [];

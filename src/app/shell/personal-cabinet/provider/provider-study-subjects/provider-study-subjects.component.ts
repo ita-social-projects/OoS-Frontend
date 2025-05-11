@@ -1,20 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDateRangePicker } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
 import { Store } from '@ngxs/store';
+import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
+import { Moment } from 'moment';
+
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteStudySubjectById, GetStudySubjects } from 'shared/store/provider.actions';
-import { Observable, distinctUntilChanged, skip, filter, map, takeUntil, startWith, debounceTime } from 'rxjs';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { DATE_REGEX } from 'shared/constants/regex-constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { FilterOptions } from 'shared/enum/history.log';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -27,7 +29,7 @@ import { ProviderComponent } from '../provider.component';
   templateUrl: './provider-study-subjects.component.html',
   styleUrls: ['./provider-study-subjects.component.scss']
 })
-export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit {
+export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) public sort: MatSort;
   @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
 
@@ -55,8 +57,9 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     providerId: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
-  public studySubjects$: Observable<StudySubject>;
   public filterForm: FormGroup;
+  public tempDateFrom: Moment | null = null;
+  public tempDateTo: Moment | null = null;
 
   constructor(
     protected store: Store,
@@ -70,8 +73,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
-      dateFrom: new FormControl(''),
-      dateTo: new FormControl('')
+      dateFrom: new FormControl<Moment | null>(null),
+      dateTo: new FormControl<Moment | null>(null)
     });
 
     this.filterForm
@@ -90,16 +93,10 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         this.currentPage = PaginationConstants.firstPage;
         this.getStudySubjects();
       });
+  }
 
-    this.filterForm
-      .get('dateFrom')
-      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
-      .subscribe(() => this.setDateForFilters());
-
-    this.filterForm
-      .get('dateTo')
-      ?.valueChanges.pipe(distinctUntilChanged(), debounceTime(this.debounceInputTime), takeUntil(this.destroy$))
-      .subscribe(() => this.setDateForFilters());
+  public ngAfterViewInit(): void {
+    this.listenToDateOnPickerOpened();
   }
 
   public addNavPath(): void {
@@ -165,49 +162,46 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.getStudySubjects();
   }
 
-  public setDateForFilters(): void {
-    const { dateFrom, dateTo } = this.filterForm.value;
-    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
-    this.subjectParameters.dateFrom = dateFilters.dateFrom;
-    this.subjectParameters.dateTo = dateFilters.dateTo;
+  public onDateApply(): void {
+    this.filterForm.patchValue({ dateFrom: this.tempDateFrom, dateTo: this.tempDateTo });
+    this.setDateForFilters();
+  }
 
+  public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
+    this.filterForm.get(controlName)?.patchValue(event.target.value);
+    this.setDateForFilters();
+  }
+
+  public listenToDateOnPickerOpened(): void {
+    this.picker?.openedStream
+      .pipe(
+        takeUntil(this.destroy$),
+        delay(0),
+        switchMap(() => {
+          const calendar = (this.picker as any)?._componentRef?.instance._calendar;
+          return calendar ? calendar.selectedChange : EMPTY;
+        })
+      )
+      .subscribe((date: Moment) => {
+        if (!this.tempDateFrom || (date < this.tempDateFrom && !this.tempDateTo)) {
+          this.tempDateFrom = date;
+        } else if (!this.tempDateTo) {
+          this.tempDateTo = date;
+        } else {
+          this.tempDateFrom = date;
+          this.tempDateTo = null;
+        }
+      });
+  }
+
+  public setDateForFilters(): void {
+    this.setTimeFormat();
     this.getStudySubjects();
   }
 
-  private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(seconds);
-  }
-
-  private setTimeDependsOnTimezone(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
-    const result: StudySubjectParameters = {};
-
-    if (dateFrom) {
-      const timezoneGap = dateFrom.getTimezoneOffset() * 60 * 1000;
-      const dateFromWithTimezoneGap = dateFrom.getTime() - timezoneGap;
-      result[FilterOptions.DateFrom] = new Date(dateFromWithTimezoneGap).toISOString().split('T')[0];
-    }
-
-    if (dateTo) {
-      const timezoneGap = dateTo.getTimezoneOffset() * 60 * 1000;
-      const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
-      result[FilterOptions.DateTo] = new Date(dateToWithTimezoneGap).toISOString().split('T')[0];
-    }
-
-    return result;
-  }
-
-  private setTimePeriodEqualToWholeDay(dateFrom?: Date, dateTo?: Date): StudySubjectParameters {
-    if (dateFrom) {
-      this.setCustomTimeInDate(dateFrom, 0, 0, 0);
-    }
-
-    if (dateTo) {
-      this.setCustomTimeInDate(dateTo, 23, 59, 59);
-    }
-
-    return this.setTimeDependsOnTimezone(dateFrom, dateTo);
+  private setTimeFormat(): void {
+    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.format('YYYY-MM-DD') ?? '';
   }
 
   private getStudySubjects(): void {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +7,7 @@ import { AddNavPath } from 'shared-store/navigation.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared-store/registration.state';
 import { CreateStudySubject, GetLanguageList, GetStudySubjectById, UpdateStudySubject } from 'shared/store/provider.actions';
-import { Observable, tap, combineLatest } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'shared-constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared-constants/regex-constants';

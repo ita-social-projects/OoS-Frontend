@@ -1,36 +1,51 @@
-::ng-deep .mat-datepicker-content .mat-calendar {
-  max-width: 320px;
-  max-height: 317px;
-  padding: 1rem;
-  background: var(--primary-light-bg-color);
+::ng-deep mat-datepicker-content.mat-datepicker-content {
   box-shadow:
-    0px 8px 10px -5px rgba(0, 0, 0, 0.2),
+    0 8px 10px -5px rgba(0, 0, 0, 0.2),
     0px 16px 24px 2px rgba(0, 0, 0, 0.14),
     0px 6px 30px 5px rgba(0, 0, 0, 0.12);
-  border-radius: 24px;
-}
-::ng-deep .mat-datepicker-content {
-  box-shadow: none;
   background-color: transparent !important;
+  border-radius: 24px;
+
+  .mat-calendar {
+    max-width: 320px;
+    max-height: fit-content;
+    background: var(--primary-light-bg-color);
+    border-radius: 24px;
+  }
+
+  .mat-datepicker-actions {
+    box-sizing: border-box;
+    padding: 0 8px 8px 8px;
+  }
 }
+
+::ng-deep mat-datepicker-content.mat-datepicker-content:has(.mat-datepicker-actions) .mat-calendar {
+  border-radius: 24px 24px 0 0;
+}
+
 ::ng-deep .mat-calendar-spacer {
   display: none;
 }
+
 ::ng-deep .mat-calendar-controls {
   margin: 0 !important;
   display: flex;
   justify-content: space-between;
 }
+
 ::ng-deep .mat-datepicker-content .mat-calendar-previous-button {
   order: -1;
 }
+
 ::ng-deep .mat-calendar-body-selected {
   background-color: var(--primary-accent-color) !important;
 }
+
 ::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
   border-color: var(--primary-accent-color) !important;
   background-color: transparent;
 }
+
 ::ng-deep .mat-datepicker-toggle-default-icon:hover {
   color: var(--primary-accent-color) !important;
 }
