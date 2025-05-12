@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
@@ -8,9 +11,7 @@ import { Competition, CompetitiveDescriptionItem } from 'shared/models/competiti
 import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
-import { takeUntil } from 'rxjs/operators';
 import { CompetitionCoverageEnum } from 'shared/enum/enumUA/competition';
-import { Select, Store } from '@ngxs/store';
 import { InstituitionHierarchy, Institution } from 'shared/models/institution.model';
 import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -92,6 +93,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     }
 
     this.initializeFormControls();
+    this.priceControlListener();
   }
 
   public ngOnDestroy(): void {
@@ -277,5 +279,18 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.filteredCompetitionCoverage = Object.entries(CompetitionCoverage)
       .filter(([key]) => !isNaN(Number(key)))
       .map(([key, value]) => ({ key, value: value as string }));
+  }
+
+  private priceControlListener(): void {
+    this.priceControl.valueChanges
+      .pipe(
+        map((val) => !!val),
+        distinctUntilChanged(),
+        filter(() => this.benefitsOptionRadioBtn.value),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.benefitsOptionRadioBtn.setValue(false);
+      });
   }
 }
