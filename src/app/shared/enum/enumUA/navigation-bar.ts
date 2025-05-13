@@ -53,7 +53,8 @@ export enum NavBarName {
   NewCompetition = 'ENUM.NAV_BAR_NAME.NEW_COMPETITION',
   EditCompetition = 'ENUM.NAV_BAR_NAME.EDIT_COMPETITION',
   Competition = 'ENUM.NAV_BAR_NAME.MY_COMPETITIONS',
-  WorkshopDrafts = 'ENUM.NAV_BAR_NAME.WORKSHOP_DRAFTS'
+  WorkshopDrafts = 'ENUM.NAV_BAR_NAME.WORKSHOP_DRAFTS',
+  ModerateWorkshop = 'ENUM.NAV_BAR_NAME.MODERATE_WORKSHOP'
 }
 
 export enum PersonalCabinetTitle {

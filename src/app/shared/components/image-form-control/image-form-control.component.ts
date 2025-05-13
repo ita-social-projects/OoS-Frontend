@@ -32,6 +32,8 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor {
   @Input() public label: string;
   @Input() public cropperConfig: Partial<Cropper>;
 
+  // Allows only delete operation
+  @Input() public deleteMode: boolean;
   @ViewChild('inputImage') public inputImage: ElementRef;
 
   public gridCols: number;

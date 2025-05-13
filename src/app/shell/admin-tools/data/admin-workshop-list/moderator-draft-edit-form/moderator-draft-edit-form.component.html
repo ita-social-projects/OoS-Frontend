@@ -1,0 +1,158 @@
+<ng-container>
+  <div class="create-form" *ngIf="selectedWorkshop">
+    <div class="wrapper !px-8">
+      <div class="create-form-header flex flex-col justify-center items-center">
+        <h3 class="wrapper-title">
+          {{ 'FORMS.HEADERS.EDIT_WORKSHOP' | translate }}
+        </h3>
+        <p class="wrapper-text">
+          {{ 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' | translate }}
+          {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
+        </p>
+      </div>
+      <form [formGroup]="form" class="step flex flex-col justify-between items-stretch">
+        <app-image-form-control
+          *ngIf="isImagesFeature && form.get('coverImageId').value?.length"
+          [imgMaxAmount]="1"
+          [cropperConfig]="cropperConfig"
+          [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
+          formControlName="coverImage"
+          [deleteMode]="true"
+          [imageIdsFormControl]="form.get('coverImageId')">
+        </app-image-form-control>
+
+        <label for="title" class="step-label block">{{ 'FORMS.LABELS.TITLE' | translate }}<span class="step-required">*</span></label>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="title" appTrimValue />
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="form.get('title')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
+
+        <div class="flex flex-row justify-between items-center">
+          <label for="shortTitle" class="step-label"
+            >{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label
+          >
+          <app-info-menu [type]="InfoMenuType.Text">
+            {{ 'INFO_MENU.SHORT_TITLE_DESCRIPTION' | translate }}
+          </app-info-menu>
+        </div>
+
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="shortTitle" appTrimValue />
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="form.get('shortTitle')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
+
+        <app-image-form-control
+          *ngIf="isImagesFeature && form.get('imageIds').value?.length"
+          [imgMaxAmount]="10"
+          [cropperConfig]="cropperConfig"
+          [label]="'Фото'"
+          [deleteMode]="true"
+          formControlName="imageFiles"
+          [imageIdsFormControl]="form.get('imageIds')">
+        </app-image-form-control>
+
+        <fieldset class="fieldset-additional-desc flex flex-col justify-center">
+          <legend class="step-label">{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}<span class="step-required">*</span></legend>
+          <app-info-form
+            *ngFor="let form of SectionItemsFormArray.controls"
+            [infoEditFormGroup]="form"
+            [index]="SectionItemsFormArray.controls.indexOf(form)"
+            [formAmount]="SectionItemsFormArray.controls.length"
+            [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
+            (deleteForm)="onDeleteForm($event)">
+          </app-info-form>
+          <button
+            *ngIf="SectionItemsFormArray.controls.length < 10"
+            [disabled]="SectionItemsFormArray.invalid"
+            class="btn-add"
+            mat-button
+            (click)="onAddForm()">
+            <mat-icon class="mat-icon-add">add</mat-icon>
+            {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
+          </button>
+        </fieldset>
+
+        <label class="step-label">{{ 'FORMS.LABELS.COMPETITIVE_SELECTION' | translate }}</label>
+        <mat-radio-group
+          formControlName="competitiveSelection"
+          color="primary"
+          class="flex flex-col box-border justify-between content-center items-stretch">
+          <mat-radio-button #radio1 name="radioBtn1" [value]="false">
+            {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
+          </mat-radio-button>
+          <mat-radio-button #radio2 name="radioBtn2" [value]="true">
+            {{ 'WITH_COMPETITIVE_SELECTION' | translate }}
+          </mat-radio-button>
+          <ng-container *ngIf="form.get('competitiveSelection').value">
+            <div class="step-label-combined">
+              <label for="competitiveSelectionDescription" class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
+              <label for="competitiveSelectionDescription" class="step-characters-count">
+                <ng-container *ngIf="form.get('competitiveSelectionDescription').value; else elseBlock">
+                  {{ form.get('competitiveSelectionDescription').value?.length }}/{{
+                    validationConstants.MAX_DESCRIPTION_LENGTH_500
+                  }}
+                </ng-container>
+                <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
+              </label>
+            </div>
+            <textarea
+              matInput
+              class="step-textarea step-textarea-short"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+                'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+              }}"
+              formControlName="competitiveSelectionDescription"
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+            </textarea>
+            <app-validation-hint
+              [validationFormControl]="form.get('competitiveSelectionDescription')"
+              [minCharacters]="validationConstants.INPUT_LENGTH_1"
+              [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+            </app-validation-hint>
+          </ng-container>
+        </mat-radio-group>
+
+        <div class="step-label-combined">
+          <label for="enrollmentProcedureDescription" class="step-label">{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</label>
+          <label for="enrollmentProcedureDescription" class="step-characters-count">
+            <ng-container *ngIf="form.get('enrollmentProcedureDescription').value; else emptyState">
+              {{ form.get('enrollmentProcedureDescription').value?.length }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
+            </ng-container>
+            <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}</ng-template>
+          </label>
+        </div>
+        <textarea
+          matInput
+          class="step-textarea step-textarea-short"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
+            'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+          }}"
+          formControlName="enrollmentProcedureDescription"
+          [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+        </textarea>
+        <app-validation-hint
+          [validationFormControl]="form.get('enrollmentProcedureDescription')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+        </app-validation-hint>
+      </form>
+      <div class="footer flex flex-row justify-center items-center">
+        <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+          {{ 'BUTTONS.CANCEL' | translate }}
+        </button>
+        <button class="btn" mat-raised-button (click)="onSubmit()">
+          {{ 'BUTTONS.SEND' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
