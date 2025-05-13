@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 })
 export class DateInputDirective implements OnInit {
   private indexesToInsert = [2, 5];
-  private dateRegex: RegExp = new RegExp('[^0-9/]*$', 'g');
+  private dateRegex: RegExp = new RegExp('[^0-9/]+', 'g');
 
   constructor(private ref: ElementRef) {}
 
@@ -14,7 +14,7 @@ export class DateInputDirective implements OnInit {
     const value = this.ref.nativeElement.value;
 
     if (event.inputType !== 'deleteContentBackward') {
-      this.ref.nativeElement.value = this.formatDate(value);
+      this.ref.nativeElement.value = this.formatDate(value.replace(this.dateRegex, ''));
     }
   }
 
@@ -24,7 +24,7 @@ export class DateInputDirective implements OnInit {
 
     const pastedText = event.clipboardData?.getData('text') ?? '';
 
-    this.ref.nativeElement.value = this.formatDate(pastedText);
+    this.ref.nativeElement.value = this.formatDate(pastedText.replace(this.dateRegex, ''));
     this.ref.nativeElement.dispatchEvent(new Event('input'));
   }
 
@@ -46,6 +46,6 @@ export class DateInputDirective implements OnInit {
       return formattedDate.split('/')[0] + '/' + formattedDate.split('/')[1] + '/' + formattedDate.split('/').slice(2).join('');
     }
 
-    return formattedDate.replace(this.dateRegex, '');
+    return formattedDate;
   }
 }
