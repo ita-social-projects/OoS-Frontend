@@ -60,21 +60,21 @@
     </div>
   </div>
 
-  <ngx-mat-timepicker
-    #timepickerStart
-    [format]="24"
-    [defaultTime]="startTimeFormControl.value"
-    (timeSet)="onTimeSet($event, startTimeFormControl)"
-    [cancelBtnTmpl]="btnCancel"
-    [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
-  <ngx-mat-timepicker
-    #timepickerEnd
-    [format]="24"
-    [defaultTime]="endTimeFormControl.value"
-    (timeSet)="onTimeSet($event, endTimeFormControl)"
-    [cancelBtnTmpl]="btnCancel"
-    [confirmBtnTmpl]="btnConfirm">
-  </ngx-mat-timepicker>
+  <!--  <ngx-mat-timepicker-->
+  <!--    #timepickerStart-->
+  <!--    [format]="24"-->
+  <!--    [defaultTime]="startTimeFormControl.value"-->
+  <!--    (timeSet)="onTimeSet($event, startTimeFormControl)"-->
+  <!--    [cancelBtnTmpl]="btnCancel"-->
+  <!--    [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>-->
+  <!--  <ngx-mat-timepicker-->
+  <!--    #timepickerEnd-->
+  <!--    [format]="24"-->
+  <!--    [defaultTime]="endTimeFormControl.value"-->
+  <!--    (timeSet)="onTimeSet($event, endTimeFormControl)"-->
+  <!--    [cancelBtnTmpl]="btnCancel"-->
+  <!--    [confirmBtnTmpl]="btnConfirm">-->
+  <!--  </ngx-mat-timepicker>-->
 
   <ng-template #btnCancel>
     <button mat-raised-button class="btn btn-cancel">
