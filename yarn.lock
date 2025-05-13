@@ -8848,6 +8848,13 @@ ngx-mat-intl-tel-input@^5.0.0:
   dependencies:
     tslib "^2.x"
 
+ngx-material-timepicker@^13.1.1:
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-13.1.1.tgz#1dade06660c6a7b9689840396b4ea5681ac0eb35"
+  integrity sha512-GST4IBFXrPSBB5VP5LVxoOk1yHbdSnaB293tjuyu+vusg+pQ/3+AtcxQEIadk6Nmsdt8zKsbXNgvLrI4nbYRKQ==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-owl-carousel-o@16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/ngx-owl-carousel-o/-/ngx-owl-carousel-o-16.0.0.tgz#7b174e93c24060670f81fee2f8a41d84be2c172c"
