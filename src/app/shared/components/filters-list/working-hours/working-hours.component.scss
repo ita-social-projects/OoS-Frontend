@@ -52,12 +52,12 @@
   display: none;
 }
 
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
 
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0 !important;
 }
 

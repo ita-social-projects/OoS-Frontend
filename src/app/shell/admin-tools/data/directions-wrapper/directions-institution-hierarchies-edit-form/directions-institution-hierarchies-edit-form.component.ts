@@ -2,7 +2,7 @@ import { Component, Inject, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatOption } from '@angular/material/core';
-import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, forkJoin, asyncScheduler } from 'rxjs';

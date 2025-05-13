@@ -3,7 +3,7 @@
 @use 'src/app/shared/styles/components/buttons';
 @use 'src/app/shared/styles/components/tables';
 
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0;
 }
 
