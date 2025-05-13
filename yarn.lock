@@ -375,10 +375,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@asymmetrik/ngx-leaflet@^16.0.1":
-  version "16.0.1"
-  resolved "https://registry.yarnpkg.com/@asymmetrik/ngx-leaflet/-/ngx-leaflet-16.0.1.tgz#316a1452d0e3cf9834e2eb44bb57a6e3ec14d978"
-  integrity sha512-sYtEWEgSTV5freW5YXvvKSvyxCZxPLqp/AqJ9ueL+yLQzVVB6YFrCejquRgnqbQHEhGM+AvAZUx5xBd4NFBgKw==
+"@asymmetrik/ngx-leaflet@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@asymmetrik/ngx-leaflet/-/ngx-leaflet-17.0.0.tgz#8b3875caab515b0c4834ac83e2f1f5befc4ee4c3"
+  integrity sha512-Tg09780yg1pPRR7k9Z0B0Fb3Mr4SMXYfi+hii8S0McHiqiUqkB+ZhhB4hJq83v4cuvcYgZjtkz+p06lCJY/z+w==
   dependencies:
     tslib "^2.3.0"
 
@@ -8847,10 +8847,10 @@ ngx-material-timepicker@^13.1.1:
   dependencies:
     tslib "^2.0.0"
 
-ngx-owl-carousel-o@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-owl-carousel-o/-/ngx-owl-carousel-o-16.0.0.tgz#7b174e93c24060670f81fee2f8a41d84be2c172c"
-  integrity sha512-dmHByyjE1GhUpwLPJPplS9bBZcj8o4yDhZ/ZF+ZmRBIicn3+0OyAKpw6LiaXVKtWEi+HVdjZkpkaYVaAEoEP7A==
+ngx-owl-carousel-o@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-owl-carousel-o/-/ngx-owl-carousel-o-17.0.1.tgz#c0e51b5e8d773657d5dd5da983c7f42952e929ab"
+  integrity sha512-cVcFIR8wlTJy85UjDn/jwiGmBwqzlpQf1GiLI8wVoiEYRV9uEKHSlc9Lq87L/L7hI5nGk9P7lhAz7uzcXyMATQ==
   dependencies:
     tslib "^2.3.0"
 
