@@ -64,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.setLocale();
-    this.router.canceledNavigationResolution = 'computed';
     this.isWindowMobile(window);
   }
 

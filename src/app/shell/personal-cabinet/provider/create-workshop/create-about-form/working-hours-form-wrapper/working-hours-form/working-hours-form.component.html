@@ -33,7 +33,8 @@
                 required
                 maxlength="5"
                 autocomplete="off" />
-              <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()">
+              <!--              below (click)="timepickerStart.open()"-->
+              <button mat-icon-button [disabled]="!startTimeFormControl.enabled">
                 <mat-icon>access_time</mat-icon>
               </button>
             </div>
@@ -53,7 +54,8 @@
                 required
                 maxlength="5"
                 autocomplete="off" />
-              <button mat-icon-button [disabled]="!endTimeFormControl.enabled" (click)="timepickerEnd.open()">
+              <!--              below (click)="timepickerEnd.open()"-->
+              <button mat-icon-button [disabled]="!endTimeFormControl.enabled">
                 <mat-icon>access_time</mat-icon>
               </button>
               <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
