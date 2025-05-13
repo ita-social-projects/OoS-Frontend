@@ -109,18 +109,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "out-of-school:build:production"
+              "buildTarget": "out-of-school:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           }
         },
         "test": {
