@@ -39,6 +39,8 @@ import { CreateParentGuard } from './personal-cabinet/parent/create-parent/creat
 import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
 import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
 import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
+import { ModeratorDraftEditFormComponent } from './admin-tools/data/admin-workshop-list/moderator-draft-edit-form/moderator-draft-edit-form.component';
+import { AdminsGuard } from './admin-tools/data/admins/admins.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -128,6 +130,13 @@ const routes: Routes = [
     path: 'admin-tools/data/directions/create/:param',
     component: CreateDirectionComponent,
     loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule)
+  },
+  {
+    path: 'admin-tools/data/moderate/draft/:id',
+    component: ModeratorDraftEditFormComponent,
+    loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule),
+    canDeactivate: [CreateGuard],
+    canLoad: [AdminsGuard]
   },
   {
     path: 'create-provider/:param',
