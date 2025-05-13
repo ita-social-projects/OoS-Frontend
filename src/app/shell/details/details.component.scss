@@ -3,11 +3,20 @@
     margin-top: 20px;
   }
 }
-@media (max-width: 1280px){
-  app-side-menu{
+
+@media (max-width: 1280px) {
+  app-side-menu {
     width: 100%;
   }
 }
+
+@media (min-width: 1110px) {
+  .details-container {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
 .workshop-page-wrap {
   overflow: hidden;
   width: 100%;
