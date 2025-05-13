@@ -20,7 +20,6 @@
   },
   "private": true,
   "dependencies": {
-    "@alexfriesen/ngx-mat-timepicker": "^19.0.1",
     "@angular-slider/ngx-slider": "^16.0.1",
     "@angular/animations": "^17.3.12",
     "@angular/cdk": "16.2.14",
