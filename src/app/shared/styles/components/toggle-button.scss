@@ -19,10 +19,7 @@
 }
 
 .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
-  border-top-right-radius: 1.2rem !important;
-  border-bottom-right-radius: 1.2rem !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+  border-radius: 0 1.2rem 1.2rem 0;
 }
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
   line-height: 32px;

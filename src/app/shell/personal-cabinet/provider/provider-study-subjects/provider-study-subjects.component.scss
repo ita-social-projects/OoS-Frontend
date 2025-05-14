@@ -3,6 +3,7 @@
 @use 'src/app/shared/styles/components/search';
 @use 'src/app/shared/styles/components/dropdown';
 @use 'src/app/shared/styles/components/calendar';
+@use 'src/app/shared/styles/components/create-form';
 
 table {
   width: 100%;
@@ -167,7 +168,7 @@ table {
   border: 0;
 }
 
-::ng-deep .mat-form-field-appearance .mat-form-field-infix {
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
   padding: 0;
 }
 

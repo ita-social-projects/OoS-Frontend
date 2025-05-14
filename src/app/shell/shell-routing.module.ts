@@ -105,6 +105,13 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
+    path: 'create-competition/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
     path: 'create-study-subject/:param',
     component: CreateStudySubjectComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
