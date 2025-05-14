@@ -36,8 +36,9 @@
               clear
             </mat-icon>
           </div>
-          <!--          below (click)="timepickerStart.open()"-->
-          <button mat-icon-button><mat-icon class="datepicker-icon">access_time</mat-icon></button>
+          <button mat-icon-button (click)="timepickerStart.open()">
+            <mat-icon class="datepicker-icon">access_time</mat-icon>
+          </button>
         </div>
         <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
       </ng-container>
@@ -53,8 +54,9 @@
               clear
             </mat-icon>
           </div>
-          <!--      below (click)="timepickerEnd.open()"-->
-          <button mat-icon-button><mat-icon class="datepicker-icon">access_time</mat-icon></button>
+          <button mat-icon-button (click)="timepickerEnd.open()">
+            <mat-icon class="datepicker-icon">access_time</mat-icon>
+          </button>
         </div>
         <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
         <app-validation-hint [validationFormControl]="workingHoursFormGroup" [formLevelValidation]="true"></app-validation-hint>
@@ -62,21 +64,21 @@
     </div>
   </div>
 
-  <!--  <ngx-mat-timepicker-->
-  <!--    #timepickerStart-->
-  <!--    [format]="24"-->
-  <!--    [defaultTime]="startTimeFormControl.value"-->
-  <!--    (timeSet)="onTimeSet($event, startTimeFormControl)"-->
-  <!--    [cancelBtnTmpl]="btnCancel"-->
-  <!--    [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>-->
-  <!--  <ngx-mat-timepicker-->
-  <!--    #timepickerEnd-->
-  <!--    [format]="24"-->
-  <!--    [defaultTime]="endTimeFormControl.value"-->
-  <!--    (timeSet)="onTimeSet($event, endTimeFormControl)"-->
-  <!--    [cancelBtnTmpl]="btnCancel"-->
-  <!--    [confirmBtnTmpl]="btnConfirm">-->
-  <!--  </ngx-mat-timepicker>-->
+  <ngx-material-timepicker
+    #timepickerStart
+    [format]="24"
+    [defaultTime]="startTimeFormControl.value"
+    (timeSet)="onTimeSet($event, startTimeFormControl)"
+    [cancelBtnTmpl]="btnCancel"
+    [confirmBtnTmpl]="btnConfirm"></ngx-material-timepicker>
+  <ngx-material-timepicker
+    #timepickerEnd
+    [format]="24"
+    [defaultTime]="endTimeFormControl.value"
+    (timeSet)="onTimeSet($event, endTimeFormControl)"
+    [cancelBtnTmpl]="btnCancel"
+    [confirmBtnTmpl]="btnConfirm">
+  </ngx-material-timepicker>
 
   <ng-template #btnCancel>
     <button mat-raised-button class="btn btn-cancel">

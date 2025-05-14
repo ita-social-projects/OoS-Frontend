@@ -1,0 +1,47 @@
+::ng-deep ngx-material-timepicker-container .timepicker-overlay ngx-material-timepicker-content {
+  .timepicker {
+    width: 380px;
+    height: 439px;
+    border-radius: 4px;
+    overflow: hidden;
+
+    &__header {
+      padding: 0;
+      background: var(--primary-accent-color);
+
+      .timepicker-dial {
+        &__container {
+          justify-content: center;
+
+          ngx-material-timepicker-period {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &__main-content {
+      display: flex;
+      flex-direction: column;
+
+      .timepicker__actions {
+        justify-content: center;
+        padding: 8px;
+      }
+    }
+  }
+}
+
+::ng-deep ngx-material-timepicker-container .timepicker {
+  --clock-hand-color: var(--primary-accent-color);
+}
+
+::ng-deep ngx-material-timepicker-container .timepicker .clock-face .clock-face__number span {
+  cursor: pointer;
+}
+
+::ng-deep ngx-material-timepicker-container .timepicker .clock-face .clock-face__number .active {
+  width: 40px;
+  height: 40px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+}
