@@ -291,6 +291,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.errors = this.errors.filter((error) => error !== ValidationMessages.REQUIRED_INPUT);
     }
 
+    if (
+      this.validationFormControl.parent?.parent?.get('studyPeriodDates') === this.validationFormControl.parent &&
+      this.errors.includes(ValidationMessages.INVALID_DATE_FIELD)
+    ) {
+      this.errors = this.errors.map((error) =>
+        error === ValidationMessages.INVALID_DATE_FIELD ? ValidationMessages.INVALID_STUDY_PERIOD_DATE : error
+      );
+    }
+
     this.cdr.markForCheck();
   }
 
@@ -303,10 +312,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: () => errors?.invalidTimeRange,
         message: ValidationMessages.INVALID_TIME_RANGE
-      },
-      {
-        condition: () => errors?.invalidDateRange,
-        message: ValidationMessages.INVALID_STUDY_PERIOD_DATE
       }
     ];
 

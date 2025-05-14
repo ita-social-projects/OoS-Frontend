@@ -668,7 +668,7 @@
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
       "CURRENT_COUNT": "Current count:",
-      "INVALID_STUDY_PERIOD_RANGE": "Start date cannot be later than end date"
+      "INVALID_STUDY_PERIOD_RANGE": "Check your entries. Use the date format DD/MM. For example: \"20/10"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
@@ -685,7 +685,8 @@
     "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed).",
     "SHORT_TITLE_DESCRIPTION": "This name will be displayed for parents and children. Example: Folk Art",
     "WORKING_HOURS": "The workshop may have different hours on different days of the week.",
-    "IMAGES_RECOMMENDATION": "Recommendations for photos:<br>- The images should depict the essence of the workshop and its activities<br>- Images should not be processed in photo editors<br>- Images should be in horizontal format"
+    "IMAGES_RECOMMENDATION": "Recommendations for photos:<br>- The images should depict the essence of the workshop and its activities<br>- Images should not be processed in photo editors<br>- Images should be in horizontal format",
+    "STUDY_PERIOD_RANGE": "The date format uses only day and month. The year is not taken into account, so the date is considered repetitive every year."
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
