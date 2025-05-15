@@ -22,7 +22,7 @@
   }
 
   &-input {
-    border: 1px solid var(--input-light-color);
+    border: 1px solid var(--input-light-color) !important;
     border-radius: 21px;
     padding: 0.5rem 1rem;
     line-height: initial;
