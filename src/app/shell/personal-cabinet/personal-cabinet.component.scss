@@ -7,11 +7,10 @@
 
   .mat-badge-overlap.mat-badge-after .mat-badge-content {
     background-color: #f5bc4a;
-    right: 0;
-    top: -11px;
-    bottom: 22px;
     margin: 0;
-    left: initial;
+    bottom: 22px;
+    right: 0;
+    left: auto;
     width: 25px;
     height: 15px;
     border-radius: 13px;
