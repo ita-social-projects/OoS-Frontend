@@ -1,3 +1,9 @@
+mat-button-toggle {
+  font-size: 13px;
+  font-weight: 700;
+  --mat-standard-button-toggle-height: 1;
+}
+
 .mat-button-toggle-button :active {
   color: var(--primary-accent-color);
 }
@@ -21,11 +27,18 @@
 .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
   border-radius: 0 1.2rem 1.2rem 0;
 }
+
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-  line-height: 32px;
+  line-height: 1;
 }
+
 .mat-button-toggle-group .mat-button-toggle:nth-child(2) {
   &.mat-button-toggle-checked {
     border-left: 2px solid var(--primary-accent-color);
   }
+}
+
+::ng-deep .mat-button-toggle .mat-button-toggle-button .mat-button-toggle-label-content {
+  display: flex;
+  align-items: center;
 }

@@ -12,7 +12,6 @@
 
 $config: mat.define-typography-config(
   $font-family: 'Innerspace',
-  // temporarily font-family for buttons
   $button: mat.define-typography-level(13px, 15px, 700, 'Innerspace', sans-serif)
 );
 
@@ -24,6 +23,7 @@ $config: mat.define-typography-config(
 
 @include mat.core();
 
+@include mat.select-typography($config);
 @include mat.button-toggle-typography($config);
 @include mat.button-typography($config);
 @include mat.expansion-typography($config);

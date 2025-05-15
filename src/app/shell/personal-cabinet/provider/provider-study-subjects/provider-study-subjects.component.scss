@@ -155,7 +155,7 @@ table {
   }
 
   .mdc-floating-label {
-    top: 18px;
+    top: 18px !important;
     width: 100%;
     &--float-above {
       transform: translateY(-90%) scale(0.75);

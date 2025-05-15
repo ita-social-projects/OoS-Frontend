@@ -58,7 +58,7 @@
 
   &-textarea {
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid var(--input-light-color);
+    border: 1px solid var(--input-light-color) !important;
     border-radius: 25px;
     padding: 20px;
     min-height: 200px;
