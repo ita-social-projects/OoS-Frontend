@@ -8,8 +8,10 @@
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
+  <legend class="font-semibold inline-block mt-2">
+    {{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}<span class="step-required">*</span>
+  </legend>
   <fieldset class="fieldset-additional-desc flex flex-col justify-center">
-    <legend class="step-label">{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}<span class="step-required">*</span></legend>
     <app-info-form
       *ngFor="let form of SectionItemsFormArray.controls"
       [infoEditFormGroup]="form"
