@@ -1,5 +1,5 @@
-@use 'src/app/shared/styles/components/dropdown';
-@use 'src/app/shared/styles/components/create-form';
+@use 'dropdown';
+@use 'create-form';
 
 .dropdown {
   max-width: 125px;

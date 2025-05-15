@@ -154,39 +154,40 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     const errorConditions = [
       // Number validation
+      // typesc
       {
-        condition: () => this.isNumberValue && (errors.max || errors.min),
+        condition: (): boolean => this.isNumberValue && (errors.max || errors.min),
         message: ValidationMessages.INVALID_VALUE
       },
       {
-        condition: () => this.minNumberValue,
+        condition: (): number => this.minNumberValue,
         message: ValidationMessages.LESS_THAN_PARTICIPANTS
       },
       // Email validation
       {
-        condition: () => errors.email && !this.errors.includes(ValidationMessages.REQUIRED_INPUT),
+        condition: (): boolean => errors.email && !this.errors.includes(ValidationMessages.REQUIRED_INPUT),
         message: ValidationMessages.INVALID_EMAIL
       },
       {
-        condition: () => errors.blacklistedDomain,
+        condition: (): boolean => errors.blacklistedDomain,
         message: ValidationMessages.INVALID_EMAIL_TYPE
       },
       // Phone number validation
       {
-        condition: () => this.isPhoneNumber && errors.minlength,
+        condition: (): boolean => this.isPhoneNumber && errors.minlength,
         message: ValidationMessages.INVALID_PHONE_LENGTH
       },
       {
-        condition: () => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
+        condition: (): boolean => this.isPhoneNumber && !errors.minlength && errors.validatePhoneNumber,
         message: ValidationMessages.INVALID_PHONE_NUMBER
       },
       {
-        condition: () => this.isPrice && (errors.max || errors.min),
+        condition: (): boolean => this.isPrice && (errors.max || errors.min),
         message: ValidationMessages.INVALID_PRICE
       },
       // Value length validation
       {
-        condition: () =>
+        condition: (): boolean =>
           !this.isPhoneNumber &&
           !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
@@ -195,7 +196,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_LENGTH_FROM_TO
       },
       {
-        condition: () =>
+        condition: (): boolean =>
           !this.isPhoneNumber &&
           !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
@@ -204,7 +205,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_LENGTH_FROM_TO_WITH_COUNT
       },
       {
-        condition: () =>
+        condition: (): boolean =>
           !this.isPhoneNumber &&
           !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
@@ -213,7 +214,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_LENGTH_NO_MORE_THAN_WITH_COUNT
       },
       {
-        condition: () =>
+        condition: (): boolean =>
           !this.isPhoneNumber &&
           !this.isEdrpou &&
           (errors.maxlength || errors.minlength) &&
@@ -223,65 +224,65 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       // DateTimePicker validation
       {
-        condition: () => errors?.matDatepickerParse,
+        condition: (): boolean => errors?.matDatepickerParse,
         message: ValidationMessages.INVALID_DATE_FIELD
       },
       {
-        condition: () => errors?.matStartDateInvalid || errors?.matEndDateInvalid,
+        condition: (): boolean => errors?.matStartDateInvalid || errors?.matEndDateInvalid,
         message: ValidationMessages.INVALID_DATE_RANGE
       },
       {
-        condition: () => this.isCompetitionDate && (errors?.matDatepickerMin || errors?.matDatepickerMax),
+        condition: (): boolean => this.isCompetitionDate && (errors?.matDatepickerMin || errors?.matDatepickerMax),
         message: ValidationMessages.INVALID_START_END_DATE
       },
       // Validation by RegExp
       {
-        condition: () => requiredPattern === NAME_REGEX.toString(),
+        condition: (): boolean => requiredPattern === NAME_REGEX.toString(),
         message: ValidationMessages.INVALID_SYMBOLS
       },
       {
-        condition: () => requiredPattern === FULL_NAME_REGEX.toString(),
+        condition: (): boolean => requiredPattern === FULL_NAME_REGEX.toString(),
         message: ValidationMessages.INVALID_SYMBOLS
       },
       {
-        condition: () => requiredPattern === NO_LATIN_REGEX.toString(),
+        condition: (): boolean => requiredPattern === NO_LATIN_REGEX.toString(),
         message: ValidationMessages.INVALID_CHARACTERS
       },
       {
-        condition: () => requiredPattern === STREET_REGEX.toString(),
+        condition: (): boolean => requiredPattern === STREET_REGEX.toString(),
         message: ValidationMessages.INVALID_STREET
       },
       {
-        condition: () => requiredPattern === HOUSE_REGEX.toString(),
+        condition: (): boolean => requiredPattern === HOUSE_REGEX.toString(),
         message: ValidationMessages.INVALID_HOUSE
       },
       {
-        condition: () => requiredPattern === SECTION_NAME_REGEX.toString(),
+        condition: (): boolean => requiredPattern === SECTION_NAME_REGEX.toString(),
         message: ValidationMessages.INVALID_SECTION_NAME
       },
       {
-        condition: () => requiredPattern === SOCIAL_NETWORK_LINK_REGEX.toString(),
+        condition: (): boolean => requiredPattern === SOCIAL_NETWORK_LINK_REGEX.toString(),
         message: ValidationMessages.INVALID_LINK
       },
       {
-        condition: () => requiredPattern === MUST_CONTAIN_LETTERS.toString(),
+        condition: (): boolean => requiredPattern === MUST_CONTAIN_LETTERS.toString(),
         message: ValidationMessages.MUST_CONTAIN_LETTERS
       },
       // Other validation
       {
-        condition: () => errors.invalidSearch,
+        condition: (): boolean => errors.invalidSearch,
         message: ValidationMessages.INVALID_SEARCH
       },
       {
-        condition: () => errors.invalidTimeFormat,
+        condition: (): boolean => errors.invalidTimeFormat,
         message: ValidationMessages.INVALID_TIME_FORMAT
       },
       {
-        condition: () => errors?.minArrayLength || errors?.maxArrayLength,
+        condition: (): boolean => errors?.minArrayLength || errors?.maxArrayLength,
         message: ValidationMessages.INVALID_TAGS_LENGTH
       },
       {
-        condition: () => this.isEdrpou && errors.minlength && !errors.maxlength,
+        condition: (): boolean => this.isEdrpou && errors.minlength && !errors.maxlength,
         message: ValidationMessages.INVALID_EDRPOU
       }
     ];
@@ -302,11 +303,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     const errorConditions = [
       {
-        condition: () => errors?.invalidAgeRange,
+        condition: (): boolean => errors?.invalidAgeRange,
         message: ValidationMessages.INVALID_AGE_RANGE
       },
       {
-        condition: () => errors?.invalidTimeRange,
+        condition: (): boolean => errors?.invalidTimeRange,
         message: ValidationMessages.INVALID_TIME_RANGE
       }
     ];

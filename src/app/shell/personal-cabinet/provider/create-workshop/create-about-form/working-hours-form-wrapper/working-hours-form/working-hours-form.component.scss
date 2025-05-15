@@ -1,7 +1,7 @@
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/buttons';
-@use 'src/app/shared/styles/components/working-hours';
-@use 'src/app/shared/styles/components/timepicker';
+@use 'validation-form';
+@use 'buttons';
+@use 'working-hours';
+@use 'timepicker';
 
 .step {
   gap: 10px;

@@ -1,9 +1,9 @@
-@use 'src/app/shared/styles/components/buttons';
-@use 'src/app/shared/styles/components/tables';
-@use 'src/app/shared/styles/components/search';
-@use 'src/app/shared/styles/components/dropdown';
-@use 'src/app/shared/styles/components/calendar';
-@use 'src/app/shared/styles/components/create-form';
+@use 'buttons';
+@use 'tables';
+@use 'search';
+@use 'dropdown';
+@use 'calendar';
+@use 'create-form';
 
 table {
   width: 100%;

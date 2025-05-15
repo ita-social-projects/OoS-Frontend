@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/dropdown';
+@use 'validation-form';
+@use 'create-form';
+@use 'dropdown';
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0;

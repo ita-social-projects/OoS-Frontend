@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/buttons';
+@use 'create-form';
+@use 'validation-form';
+@use 'buttons';
 
 .step {
   padding: 0 !important;

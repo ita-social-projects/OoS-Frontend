@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/dropdown';
-@use 'src/app/shared/styles/components/calendar';
-@use 'src/app/shared/styles/components/buttons';
+@use 'dropdown';
+@use 'calendar';
+@use 'buttons';
 
 .form-wrapper {
   display: flex;
