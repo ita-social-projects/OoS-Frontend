@@ -19,7 +19,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/out-of-school",
             "index": "src/index.html",
@@ -40,6 +40,11 @@
               "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                ""
+              ]
+            },
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -107,7 +112,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server-esbuild",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "out-of-school:build"
           },
