@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Workshop } from 'shared/models/workshop.model';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalizedDatePipe } from 'shared/pipes/localized-date.pipe';
 import { WorkshopAboutComponent } from './workshop-about.component';
 
 describe('WorkshopAboutComponent', () => {
@@ -11,7 +10,7 @@ describe('WorkshopAboutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
-      declarations: [WorkshopAboutComponent, LocalizedDatePipe]
+      declarations: [WorkshopAboutComponent]
     }).compileComponents();
   });
 

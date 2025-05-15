@@ -21,6 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { ValidationMessages } from 'shared/enum/validation-messages';
 
 @Component({
   selector: 'app-create-about-form',
@@ -61,9 +62,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
+  public errorMap = new Map<string, string>([[ValidationMessages.INVALID_DATE_FIELD, ValidationMessages.INVALID_STUDY_PERIOD_RANGE]]);
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
-
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: Store,

@@ -100,7 +100,8 @@
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
         </div>
-        <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')" [errorMessagesMap]="errorMap">
+        </app-validation-hint>
       </div>
 
       <div class="input-column">
@@ -119,7 +120,7 @@
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
-        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"> </app-validation-hint>
       </div>
     </div>
   </div>

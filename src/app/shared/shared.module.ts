@@ -93,7 +93,6 @@ import { CompetitionCardComponent } from './components/competition-card/competit
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
-import { LocalizedDatePipe } from './pipes/localized-date.pipe';
 
 @NgModule({
   declarations: [
@@ -179,8 +178,7 @@ import { LocalizedDatePipe } from './pipes/localized-date.pipe';
     CreateContactsComponent,
     CreateAddressFormComponent,
     ProfileWaitingPageComponent,
-    ForbiddenPageComponent,
-    LocalizedDatePipe
+    ForbiddenPageComponent
   ],
 
   imports: [
@@ -274,8 +272,7 @@ import { LocalizedDatePipe } from './pipes/localized-date.pipe';
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
-    ProfileWaitingPageComponent,
-    LocalizedDatePipe
+    ProfileWaitingPageComponent
   ]
 })
 export class SharedModule {}

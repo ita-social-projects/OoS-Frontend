@@ -60,6 +60,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For form level validation
   @Input() public formLevelValidation: boolean;
 
+  // For specific study period range validation
+  @Input() public errorMessagesMap: Map<string, string> = new Map<string, string>();
+
   @Input() public displayToolTip: boolean;
   public tooltipText: string[] = [];
   public errors: string[] = [];
@@ -117,6 +120,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     // Check errors from validators
     this.checkValidationErrors(errors);
+
+    this.applyCustomErrorMessages();
 
     if (this.displayToolTip) {
       this.tooltipText = this.errors.map((message) => this.createMessage(message));
@@ -291,15 +296,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.errors = this.errors.filter((error) => error !== ValidationMessages.REQUIRED_INPUT);
     }
 
-    if (
-      this.validationFormControl.parent?.parent?.get('studyPeriodDates') === this.validationFormControl.parent &&
-      this.errors.includes(ValidationMessages.INVALID_DATE_FIELD)
-    ) {
-      this.errors = this.errors.map((error) =>
-        error === ValidationMessages.INVALID_DATE_FIELD ? ValidationMessages.INVALID_STUDY_PERIOD_DATE : error
-      );
-    }
-
     this.cdr.markForCheck();
   }
 
@@ -332,5 +328,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       maxValue: String(this.maxValue ?? ''),
       currentCharactersCount: String(this.validationFormControl.value?.length ?? '')
     };
+  }
+
+  private applyCustomErrorMessages(): void {
+    if (!this.errorMessagesMap) {
+      return;
+    }
+    this.errors = this.errors.map((error) => this.errorMessagesMap.get(error) || error);
   }
 }
