@@ -25,14 +25,14 @@ export class WorkshopAboutComponent implements OnInit {
 
   public images: ImgPath[];
 
-  public get currentLang(): string {
-    return this.translateService.currentLang;
-  }
-
   constructor(
     private readonly imagesService: ImagesService,
     private readonly translateService: TranslateService
   ) {}
+
+  public get currentLang(): string {
+    return this.translateService.currentLang;
+  }
 
   public ngOnInit(): void {
     this.images = this.imagesService.getCarouselImages(Object.setPrototypeOf(this.workshop, Workshop.prototype));
