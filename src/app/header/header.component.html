@@ -4,7 +4,13 @@
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
-          <app-theme-switcher></app-theme-switcher>
+          <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
+            <div class="support-icon"></div>
+            <span class="support-icon-text">
+              {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
+            </span>
+          </button>
+
           <button mat-flat-button class="info-link" [routerLink]="'./info/about'">
             {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}
           </button>
@@ -13,12 +19,7 @@
             {{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate | uppercase }}
           </button>
 
-          <button mat-flat-button class="info-link" [routerLink]="'./info/support'">
-            <div class="support-icon"></div>
-            <span class="support-icon-text">
-              {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
-            </span>
-          </button>
+          <app-theme-switcher></app-theme-switcher>
 
           <button *ngIf="!featuresList?.onlyUkrainianLanguage" mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
