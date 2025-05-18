@@ -1,10 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule } from '@ngx-translate/core';
+import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { Competition } from 'shared/models/competition.model';
@@ -113,5 +114,29 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
     component.onDeleteForm(0);
 
     expect(component.DescriptionFormGroup.dirty).toBe(true);
+  });
+
+  describe('price radio listener', () => {
+    it('should set benefits radio to false if participation is free', () => {
+      component.priceRadioBtn.setValue(true);
+      component.priceControl.setValue(1, { emitEvent: false });
+      component.benefitsOptionRadioBtn.setValue(true);
+      component.DescriptionFormGroup.get('benefitsOptionsDesc').setValue('some val');
+      component.priceRadioBtn.setValue(false);
+
+      expect(component.benefitsOptionRadioBtn.value).toBe(false);
+      expect(component.DescriptionFormGroup.get('benefitsOptionsDesc').value).toBeFalsy();
+    });
+
+    it('should not touch benefits radio if price was changed', () => {
+      component.priceRadioBtn.setValue(true);
+      component.priceControl.setValue(1);
+      component.benefitsOptionRadioBtn.setValue(true);
+      component.DescriptionFormGroup.get('benefitsOptionsDesc').setValue('some val');
+      component.priceControl.setValue(12);
+
+      expect(component.benefitsOptionRadioBtn.value).toBe(true);
+      expect(component.DescriptionFormGroup.get('benefitsOptionsDesc').value).toEqual('some val');
+    });
   });
 });

@@ -67,7 +67,7 @@ export class CompetitionDetailsComponent implements OnInit {
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
-    this.images = this.imageService.getCarouselImages(this.competition);
+    this.images = this.imageService.getCarouselImages(Object.setPrototypeOf(this.competition, Competition.prototype));
   }
 
   public onActionButtonClick(ModalType: ModalConfirmationType): void {

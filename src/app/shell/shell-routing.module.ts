@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ErrorPageComponent } from 'shared/components/error-page/error-page.component';
-import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
+import { ForbiddenPageComponent } from 'shared/components/forbidden-page/forbidden-page.component';
 import { LoginComponent } from 'shared/components/login/login.component';
 import { NotificationsListComponent } from 'shared/components/notifications/notifications-list/notifications-list.component';
+import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { CreateAdminComponent } from './admin-tools/data/admins/create-admin/create-admin.component';
@@ -208,6 +209,10 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenPageComponent
   },
   { path: '**', component: ErrorPageComponent }
 ];
