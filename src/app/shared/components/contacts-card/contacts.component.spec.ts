@@ -9,6 +9,7 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { WINDOW } from 'ngx-window-token';
 import { Platform } from '@angular/cdk/platform';
+import { ActivatedRoute } from '@angular/router';
 import { ContactsCardComponent } from './contacts.component';
 
 describe('ContactsComponent', () => {
@@ -17,6 +18,7 @@ describe('ContactsComponent', () => {
   let storeMock: any;
   let windowMock: Window;
   let platformMock: Partial<Platform>;
+  let routeMock: any;
 
   beforeEach(async () => {
     storeMock = {
@@ -34,6 +36,16 @@ describe('ContactsComponent', () => {
       IOS: false,
       ANDROID: false
     };
+    routeMock = {
+      snapshot: {
+        paramMap: {
+          get: jest.fn()
+        },
+        routeConfig: {
+          path: ''
+        }
+      }
+    };
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, NoopAnimationsModule, MaterialModule, TranslateModule.forRoot(), BrowserAnimationsModule],
@@ -41,7 +53,8 @@ describe('ContactsComponent', () => {
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: WINDOW, useValue: windowMock },
-        { provide: Platform, useValue: platformMock }
+        { provide: Platform, useValue: platformMock },
+        { provide: ActivatedRoute, useValue: routeMock }
       ]
     }).compileComponents();
   });
@@ -73,6 +86,31 @@ describe('ContactsComponent', () => {
     expect(component.getFullAddress(address)).toBe('City, Main St, 123');
   });
 
+  describe('getContactsData', () => {
+    it('should get contacts from provider if route is "info"', () => {
+      routeMock.snapshot.routeConfig.path = 'info';
+      component.provider = { contacts: [{ name: 'John Doe', phone: '123456789' }] } as unknown as Provider;
+      component.getContactsData();
+      expect(component.contacts).toEqual([{ name: 'John Doe', phone: '123456789' }]);
+    });
+
+    it('should get contacts from store for valid entities', () => {
+      const entities = ['workshop', 'competition', 'provider'];
+      entities.forEach((entity) => {
+        routeMock.snapshot.paramMap.get.mockReturnValue(entity);
+        component.getContactsData();
+        expect(storeMock.selectSnapshot).toHaveBeenCalledWith(expect.any(Function));
+      });
+    });
+
+    it('should log warning for unknown entity type', () => {
+      const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      routeMock.snapshot.paramMap.get.mockReturnValue('unknownEntity');
+      component.getContactsData();
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Unknown entity type: unknownEntity');
+      consoleWarnSpy.mockRestore();
+    });
+  });
   describe('mapLink', () => {
     const originalUserAgent = navigator.userAgent;
 
