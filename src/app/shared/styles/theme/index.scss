@@ -269,11 +269,11 @@ mat-card.mat-mdc-card {
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px var(--primary-light-text-color) inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--autofill-text-color) inset !important;
   line-height: initial;
   font-family: 'Open Sans', sans-serif !important;
+  -webkit-text-fill-color: var(--primary-dark-text-color) !important;
 }
 
 .mat-menu-panel {
