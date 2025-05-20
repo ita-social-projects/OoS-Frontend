@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { Position, PositionParameters } from 'shared/models/position.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -10,21 +9,19 @@ import { SearchResponse } from 'shared/models/search.model';
 })
 export class PositionService {
   private readonly baseUrl: string = '/api/v1/providers';
-  constructor(
-    private readonly store: Store,
-    private readonly http: HttpClient
-  ) {}
+
+  constructor(private readonly http: HttpClient) {}
 
   public getPositions(parameters: PositionParameters): Observable<SearchResponse<Position[]>> {
     let params = new HttpParams()
       .set('SearchString', parameters.searchString || '')
       .set('From', parameters.from.toString() || '0')
       .set('Size', parameters.size?.toString() || '10');
-    if (typeof parameters.orderByCreatedAt === 'boolean') {
-      params = params.set('OrderByCreatedAt', parameters.orderByCreatedAt);
+    if (typeof parameters.OrderByCreatedAt === 'boolean') {
+      params = params.set('OrderByCreatedAt', parameters.OrderByCreatedAt);
     }
-    if (typeof parameters.orderByFullName === 'boolean') {
-      params = params.set('OrderByFullName', parameters.orderByFullName);
+    if (typeof parameters.OrderByFullName === 'boolean') {
+      params = params.set('OrderByFullName', parameters.OrderByFullName);
     }
     return this.http.get<SearchResponse<Position[]>>(`${this.baseUrl}/${parameters.providerId}/positions/GetByFilter`, { params });
   }
