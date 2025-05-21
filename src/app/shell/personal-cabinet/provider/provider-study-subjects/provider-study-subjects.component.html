@@ -53,7 +53,12 @@
       </div>
     </div>
 
-    <div class="reset" (click)="onResetFilters()">
+    <div
+      class="reset"
+      (click)="onResetFilters()"
+      tabindex="0"
+      (keydown.enter)="onResetFilters()"
+      [matTooltip]="'HISTORY_LOG.RESET_FILTERS' | translate">
       <mat-icon class="reset__icon">refresh</mat-icon>
     </div>
 
