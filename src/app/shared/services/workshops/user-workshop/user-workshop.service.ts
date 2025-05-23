@@ -203,7 +203,16 @@ export class UserWorkshopService {
   private createFormData(workshop: Workshop, draftId?: string): FormData {
     const preKey = draftId ? 'WorkshopV2Dto.' : '';
     const formData = new FormData();
-    const formNames = ['dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems', 'tagIds', 'teachers', 'contacts'];
+    const formNames = [
+      'dateTimeRanges',
+      'keywords',
+      'imageIds',
+      'workshopDescriptionItems',
+      'tagIds',
+      'teachers',
+      'contacts',
+      'studyPeriodDates'
+    ];
     const imageFiles = ['imageFiles', 'coverImage'];
     const skipNullKeys = ['maxAge', 'minAge'];
 

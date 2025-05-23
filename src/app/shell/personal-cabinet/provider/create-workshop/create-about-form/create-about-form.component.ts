@@ -18,11 +18,16 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
+import { formatToClientDate } from 'shared/utils/provider.utils';
+import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { ValidationMessages } from 'shared/enum/validation-messages';
 
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss']
+  styleUrls: ['./create-about-form.component.scss'],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: LOCAL_STUDY_PERIOD_DATE_FORMATS }]
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
@@ -57,9 +62,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
+  public errorMap = new Map<string, string>([[ValidationMessages.INVALID_DATE_FIELD, ValidationMessages.INVALID_STUDY_PERIOD_RANGE]]);
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
-
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: Store,
@@ -69,6 +74,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
+  }
+
+  public get studyPeriodDates(): FormGroup {
+    return this.AboutFormGroup.get('studyPeriodDates') as FormGroup;
   }
 
   public get minSeats(): number {
@@ -118,11 +127,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
 
-    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
-      this.setAvailableSeatsControlValue(null, 'disable', false);
-    } else {
-      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
-      this.availableSeatsRadioBtnControl.setValue(false);
+    if (this.workshop?.studyPeriodDates?.startDate && this.workshop?.studyPeriodDates?.endDate) {
+      const startDateObj = formatToClientDate(this.workshop.studyPeriodDates.startDate);
+      const endDateObj = formatToClientDate(this.workshop.studyPeriodDates.endDate);
+
+      if (startDateObj !== null && endDateObj !== null) {
+        this.studyPeriodDates.patchValue(
+          {
+            startDate: startDateObj,
+            endDate: endDateObj
+          },
+          { emitEvent: false }
+        );
+      }
     }
 
     if (this.workshop.noAgeRestrictions) {
@@ -131,6 +148,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     } else {
       this.AboutFormGroup.get('minAge').enable();
       this.AboutFormGroup.get('maxAge').enable();
+    }
+
+    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
+      this.setAvailableSeatsControlValue(null, 'disable', false);
+    } else {
+      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
+      this.availableSeatsRadioBtnControl.setValue(false);
     }
 
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
@@ -168,6 +192,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           },
           [Validators.required, Validators.max(ValidationConstants.BIRTH_AGE_MAX), Validators.min(ValidationConstants.AGE_MIN)]
         ),
+        studyPeriodDates: this.formBuilder.group({
+          startDate: new FormControl<Date | null>(null, Validators.required),
+          endDate: new FormControl<Date | null>(null, Validators.required)
+        }),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
