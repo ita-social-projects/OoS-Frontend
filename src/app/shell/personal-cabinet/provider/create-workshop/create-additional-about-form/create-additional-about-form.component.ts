@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, throttleTime } from 'rxjs';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, throttleTime } from 'rxjs';
+import { distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
@@ -16,6 +16,9 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { GetLanguageList } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -23,6 +26,9 @@ import { ShowMessageBar } from 'shared/store/app.actions';
   styleUrls: ['./create-additional-about-form.component.scss']
 })
 export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
+  @Select(ProviderState.languageList)
+  public languageList$!: Observable<LanguageListItem[]>;
+
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
@@ -77,6 +83,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       this.activateEditMode();
     }
 
+    this.getLanguageList();
     this.priceControlListener();
     this.priceValueListener();
     this.listenToChanges();
@@ -131,7 +138,8 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       ]),
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl('')
+      preferentialTermsOfParticipation: new FormControl(''),
+      studyLanguage: new FormControl(null, Validators.required)
     });
   }
 
@@ -210,6 +218,10 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
           })
         );
       });
+  }
+
+  private getLanguageList(): void {
+    this.store.dispatch(new GetLanguageList());
   }
 
   private listenToBenefitsChanges(): void {
