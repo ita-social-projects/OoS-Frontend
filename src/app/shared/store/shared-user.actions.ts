@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { EditDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
 
@@ -110,4 +110,58 @@ export class ResetWorkshop {
 export class ResetCompetition {
   static readonly type = '[user] clear Competition';
   constructor() {}
+}
+
+export class DeleteWorkshopDraftCoverImage {
+  static readonly type = '[user] Delete Workshop Draft Cover Image';
+  constructor(
+    public draftId: string,
+    public moderatorId: string
+  ) {}
+}
+
+export class DeleteWorkshopDraftCoverImageSuccess {
+  static readonly type = '[user] Delete Workshop Draft Cover Image Success';
+}
+
+export class DeleteWorkshopDraftCoverImageFail {
+  static readonly type = '[user] Delete Workshop Draft Cover Image Fail';
+}
+
+export class DeleteWorkshopDraftImage {
+  static readonly type = '[user] Delete Workshop Draft Image';
+  constructor(
+    public draftId: string,
+    public imageId: string,
+    public moderatorId: string
+  ) {}
+}
+
+export class DeleteWorkshopDraftImageSuccess {
+  static readonly type = '[user] Delete Workshop Draft Image Success';
+}
+
+export class DeleteWorkshopDraftImageFail {
+  static readonly type = '[user] Delete Workshop Draft Image Fail';
+}
+
+export class EditWorkshopDraftByModerator {
+  static readonly type = '[user] Edit Workshop Draft By Moderator';
+  constructor(
+    public formData: EditDraft,
+    public moderatorId: string,
+    public draftId: string
+  ) {}
+}
+
+export class EditWorkshopDraftByModeratorSuccess {
+  static readonly type = '[user] Edit Workshop Draft By Moderator Success';
+}
+
+export class EditWorkshopDraftByModeratorFail {
+  static readonly type = '[user] Edit Workshop Draft By Moderator Fail';
+}
+
+export class ResetSelectedWorkshop {
+  static readonly type = '[user] Reset Selected Workshop';
 }

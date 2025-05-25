@@ -72,7 +72,8 @@ export enum GroupTypeEnum {
 export enum DraftStatusEnum {
   Draft = 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT',
   PendingForModeration = 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING',
-  Rejected = 'ENUM.WORKSHOP_DRAFT.STATUS.REJECTED'
+  Rejected = 'ENUM.WORKSHOP_DRAFT.STATUS.REJECTED',
+  EditedByModerator = 'ENUM.WORKSHOP_DRAFT.STATUS.EDITED_BY_MODERATOR'
 }
 
 export enum DraftActionsEnum {

@@ -168,7 +168,8 @@
       "STATUS": {
         "DRAFT": "Draft",
         "PENDING": "Pending for moderation",
-        "REJECTED": "Rejected"
+        "REJECTED": "Rejected",
+        "EDITED_BY_MODERATOR": "Edited by moderator"
       }
     },
     "INSTITUTION_TYPE": {
@@ -1051,6 +1052,9 @@
       "POSITION_NOT_FOUND": "Position not found",
       "DRAFT_REJECTED_SUCCESS": "Changes requested successfully!",
       "DRAFT_APPROVED_SUCCESS": "Workshop approved!",
+      "COVER_IMAGE_DELETED": "Cover image deleted!",
+      "IMAGE_DELETED": "Image deleted",
+      "DRAFT_EDITED": "Draft successfully edited!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
@@ -1095,6 +1099,7 @@
       "DELETE_JUDGE": "Are you sure you want to delete judge's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider",
       "DELETE_EMPLOYEE": "Are you sure you want to delete the employee",
+      "DELETE_IMAGE": "Are you sure you want to delete the image?",
       "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy",
       "BLOCK_EMPLOYEE": "Are you sure you want to block the employee",
       "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy",
@@ -1153,6 +1158,7 @@
         "DELETE_PROVIDER": "Delete provider?",
         "DELETE_EMPLOYEE": "Delete employee?",
         "DELETE_PROVIDER_DEPUTY": "Delete provider deputy?",
+        "DELETE_IMAGE": "Delete image?",
         "BLOCK_EMPLOYEE": "Block employee?",
         "BLOCK_PROVIDER_DEPUTY": "Block provider deputy?",
         "BLOCK_PROVIDER": "Block provider?",

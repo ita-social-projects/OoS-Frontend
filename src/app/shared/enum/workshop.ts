@@ -25,6 +25,7 @@ export enum WorkshopDraftStatus {
   Draft = 'Draft',
   PendingModeration = 'PendingModeration',
   Rejected = 'Rejected',
+  EditedByModerator = 'EditedByModerator',
   Approved = 'Approved'
 }
 

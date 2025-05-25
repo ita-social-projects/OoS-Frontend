@@ -134,7 +134,6 @@ const routes: Routes = [
   {
     path: 'admin-tools/data/moderate/draft/:id',
     component: ModeratorDraftEditFormComponent,
-    loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule),
     canDeactivate: [CreateGuard],
     canLoad: [AdminsGuard]
   },

@@ -1,8 +1,5 @@
 <div class="wrapper" *ngIf="workshop">
-  <div class="justify-between mb-[10px] items-center flex">
-    <a [routerLink]="['../moderate/draft', workshopDraftId]" class="edit-icon">
-      <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
-    </a>
+  <div class="justify-end mb-[10px] items-center flex">
     <a (click)="onCloseInfo()" class="close-icon h-[24px]">
       <mat-icon>close</mat-icon>
     </a>

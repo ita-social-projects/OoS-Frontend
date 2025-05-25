@@ -166,6 +166,9 @@
       <div *ngSwitchCase="workshopDraftStatus.Rejected" class="chip-color-rejected">
         {{ draftStatusEnum.Rejected | translate }}
       </div>
+      <div *ngSwitchCase="workshopDraftStatus.EditedByModerator" class="chip-color-edited">
+        {{ draftStatusEnum.EditedByModerator | translate }}
+      </div>
     </ng-container>
     <a
       *ngIf="workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
