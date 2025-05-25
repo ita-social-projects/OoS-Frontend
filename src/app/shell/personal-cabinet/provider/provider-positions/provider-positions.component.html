@@ -73,7 +73,7 @@
               matTooltipClass="tooltip"
               [matTooltipPosition]="tooltipPosition"
               class="tab-text">
-              {{ element.rate }}
+              {{ element.rate | decimal }}
             </div>
           </td>
         </ng-container>
@@ -87,7 +87,7 @@
               matTooltipClass="tooltip"
               [matTooltipPosition]="tooltipPosition"
               class="tab-text">
-              {{ element.tariff }}
+              {{ element.tariff | decimal }}
             </div>
           </td>
         </ng-container>

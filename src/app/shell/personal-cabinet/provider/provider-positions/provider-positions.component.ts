@@ -102,7 +102,9 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public sortData(sortData: Sort): void {
     this.positionParameters.filterByProperty = sortData.active;
     this.positionParameters.order = sortData.direction === 'asc';
-    this.getPositions();
+    if (sortData.direction) {
+      this.getPositions();
+    }
   }
 
   private getPositions(): void {
