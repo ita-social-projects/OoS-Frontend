@@ -302,6 +302,16 @@ export class Contacts {
   }
 }
 
+export class EditDraft {
+  title: string;
+  shortTitle: string;
+  competitiveSelectionDescription?: string;
+  preferentialTermsOfParticipation?: string;
+  enrollmentProcedureDescription?: string;
+  institutionHierarchyId: string;
+  workshopDescriptionItems: WorkshopDescriptionItem[];
+}
+
 interface PhoneType {
   type: string;
   number: string;

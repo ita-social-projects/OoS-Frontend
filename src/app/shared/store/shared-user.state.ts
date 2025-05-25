@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, mapTo, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -17,10 +17,20 @@ import { ApplicationService } from 'shared/services/applications/application.ser
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
-import { ShowMessageBar } from './app.actions';
+import { Router } from '@angular/router';
+import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetPendingApplicationsByProviderId } from './provider.actions';
 import { RegistrationState } from './registration.state';
 import {
+  DeleteWorkshopDraftCoverImage,
+  DeleteWorkshopDraftCoverImageFail,
+  DeleteWorkshopDraftCoverImageSuccess,
+  DeleteWorkshopDraftImage,
+  DeleteWorkshopDraftImageFail,
+  DeleteWorkshopDraftImageSuccess,
+  EditWorkshopDraftByModerator,
+  EditWorkshopDraftByModeratorFail,
+  EditWorkshopDraftByModeratorSuccess,
   GetAllApplications,
   GetApplicationsByPropertyId,
   GetCompetitionById,
@@ -65,12 +75,13 @@ export interface SharedUserStateModel {
 @Injectable()
 export class SharedUserState {
   constructor(
-    private userWorkshopService: UserWorkshopService,
-    private userCompetitionService: UserCompetitionService,
-    private applicationService: ApplicationService,
-    private adminService: AdminService,
-    private providerService: ProviderService,
-    private store: Store
+    private readonly userWorkshopService: UserWorkshopService,
+    private readonly userCompetitionService: UserCompetitionService,
+    private readonly applicationService: ApplicationService,
+    private readonly adminService: AdminService,
+    private readonly providerService: ProviderService,
+    private readonly store: Store,
+    private readonly router: Router
   ) {}
 
   @Selector()
@@ -273,5 +284,75 @@ export class SharedUserState {
   @Action(ResetCompetition)
   clearCompetitionDetails({ patchState }: StateContext<SharedUserStateModel>): void {
     patchState({ selectedCompetition: null });
+  }
+
+  @Action(DeleteWorkshopDraftCoverImage)
+  onDeleteWorkshopDraftCoverImage(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId, moderatorId }: DeleteWorkshopDraftCoverImage
+  ): Observable<void> {
+    return this.userWorkshopService.deleteCoverImageByWorkshopDraftId(draftId, moderatorId).pipe(
+      tap(() => dispatch(new DeleteWorkshopDraftCoverImageSuccess())),
+      catchError((error) => {
+        dispatch(new DeleteWorkshopDraftCoverImageFail());
+        throw error;
+      })
+    );
+  }
+
+  @Action(DeleteWorkshopDraftCoverImageSuccess)
+  onDeleteWorkshopDraftCoverImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.workshopCoverImageDeleted, type: 'success' }));
+  }
+
+  @Action(DeleteWorkshopDraftCoverImageFail)
+  onDeleteWorkshopDraftCoverImageFail({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(DeleteWorkshopDraftImage)
+  onDeleteWorkshopDraftImage(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId, imageId, moderatorId }: DeleteWorkshopDraftImage
+  ): Observable<void> {
+    return this.userWorkshopService.deleteImageByWorkshopDraftId(draftId, imageId, moderatorId).pipe(
+      tap(() => dispatch(new DeleteWorkshopDraftImageSuccess())),
+      catchError((error) => {
+        dispatch(new DeleteWorkshopDraftImageFail());
+        throw error;
+      })
+    );
+  }
+
+  @Action(DeleteWorkshopDraftImageSuccess)
+  onDeleteWorkshopDraftImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.workshopImageDeleted, type: 'success' }));
+  }
+
+  @Action(DeleteWorkshopDraftImageFail)
+  onDeleteWorkshopDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(EditWorkshopDraftByModerator)
+  onEditWorkshopDraftByModerator(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId, formData, moderatorId }: EditWorkshopDraftByModerator
+  ): Observable<void> {
+    return this.userWorkshopService.editWorkshopDraftByModerator(formData, moderatorId, draftId).pipe(
+      tap(() => dispatch(new EditWorkshopDraftByModeratorSuccess())),
+      catchError((error) => dispatch(new EditWorkshopDraftByModeratorFail()))
+    );
+  }
+
+  @Action(EditWorkshopDraftByModeratorSuccess)
+  onEditWorkshopDraftByModeratorSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.editDraft, type: 'success' })]);
+    this.router.navigate(['/admin-tools/data/workshop-list']);
+  }
+
+  @Action(EditWorkshopDraftByModeratorFail)
+  onEditWorkshopDraftByModeratorFail({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil } from 'rxjs';
@@ -10,20 +10,32 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { WorkshopDescriptionItem, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { GetWorkshopDraftById } from 'shared/store/shared-user.actions';
+import {
+  DeleteWorkshopDraftCoverImage,
+  DeleteWorkshopDraftImage,
+  EditWorkshopDraftByModerator,
+  GetWorkshopDraftById,
+  ResetSelectedWorkshop
+} from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { RegistrationState } from 'shared/store/registration.state';
+import { User } from 'shared/models/user.model';
 
 @Component({
   selector: 'app-moderator-draft-edit-form',
   templateUrl: './moderator-draft-edit-form.component.html',
   styleUrls: ['./moderator-draft-edit-form.component.scss']
 })
-export class ModeratorDraftEditFormComponent extends CreateFormComponent implements OnInit {
+export class ModeratorDraftEditFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(SharedUserState.selectedWorkshop)
   public selectedWorkshop$: Observable<WorkshopDraft>;
+  @Select(RegistrationState.user)
+  public currentUser$: Observable<User>;
+
   public selectedWorkshop: WorkshopDraft;
+  public currentUser: User;
   public activatedRoute: ActivatedRoute;
   public form: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
@@ -36,7 +48,8 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     navBarService: NavigationBarService,
     store: Store,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef
   ) {
     super(store, activatedRoute, navBarService);
     this.activatedRoute = activatedRoute;
@@ -56,18 +69,17 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         Validators.pattern(MUST_CONTAIN_LETTERS),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
       ]),
-      competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
+      competitiveSelectionDescription: new FormControl('', [Validators.required, Validators.pattern(MUST_CONTAIN_LETTERS)]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
       ]),
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
-      workshopDescriptionItems: this.SectionItemsFormArray
+      workshopDescriptionItems: this.SectionItemsFormArray,
+      preferentialTermsOfParticipation: new FormControl(''),
+      institutionHierarchyId: new FormControl(''),
+      institutionId: new FormControl('')
     });
   }
 
@@ -76,7 +88,6 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     this.determineRelease();
     this.determineEditMode();
     this.addNavPath();
-    this.onCompetitiveSelectionInit();
   }
 
   public addNavPath(): void {
@@ -90,7 +101,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
             disable: false
           },
           {
-            name: NavBarName.ModerateWorkshop,
+            name: NavBarName.EditWorkshop,
             isActive: false,
             disable: true
           }
@@ -117,7 +128,15 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     }
   }
 
-  public onSubmit(): void {}
+  public onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.form.getRawValue();
+    this.store.dispatch(new EditWorkshopDraftByModerator(formData, this.currentUser.id, this.selectedWorkshop.workshopDraftId));
+  }
 
   public onCancel(): void {
     this.router.navigate(['/admin-tools/data/workshop-list']);
@@ -126,21 +145,21 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   public setEditMode(): void {
     this.store.dispatch(new GetWorkshopDraftById(this.activatedRoute.snapshot.paramMap.get('id')));
 
+    this.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((currentUser) => {
+      this.currentUser = currentUser;
+    });
+
     this.selectedWorkshop$
       .pipe(
         filter((workshopDraft) => Boolean(workshopDraft)),
         takeUntil(this.destroy$)
       )
       .subscribe((workshopDraft) => {
-        this.form.patchValue({
-          coverImageId: [workshopDraft.workshopDetails.coverImageId],
-          coverImage: workshopDraft.workshopDetails.coverImage,
-          title: workshopDraft.workshopDetails.title,
-          shortTitle: workshopDraft.workshopDetails.shortTitle,
-          competitiveSelection: workshopDraft.workshopDetails.competitiveSelection,
-          competitiveSelectionDescription: workshopDraft.workshopDetails.competitiveSelectionDescription,
-          enrollmentProcedureDescription: workshopDraft.workshopDetails.enrollmentProcedureDescription
-        });
+        this.form.patchValue(workshopDraft.workshopDetails);
+
+        if (workshopDraft.workshopDetails.coverImageId) {
+          this.form.get('coverImageId').setValue([workshopDraft.workshopDetails.coverImageId], { emitEvent: false });
+        }
 
         this.selectedWorkshop = workshopDraft;
 
@@ -155,11 +174,61 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         } else {
           this.onAddForm();
         }
-
-        if (this.selectedWorkshop.competitiveSelection) {
-          this.form.get('competitiveSelectionDescription')?.enable();
-        }
       });
+  }
+
+  public onDeleteImage(imageId: string): void {
+    this.store
+      .dispatch(new DeleteWorkshopDraftImage(this.selectedWorkshop.workshopDraftId, imageId, this.currentUser.id))
+      .pipe(
+        filter((actionResult) => !actionResult.error),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const filesFormControl = this.form.get('imageFiles');
+        const imageIdsFormControl = this.form.get('imageIds');
+
+        const imageIds = [...imageIdsFormControl.value];
+        const files = [...filesFormControl.value];
+
+        const indexToDelete = imageIds.findIndex((value) => value === imageId);
+        if (indexToDelete !== -1) {
+          imageIds.splice(indexToDelete, 1);
+          files.splice(indexToDelete, 1);
+        }
+
+        this.form.patchValue({
+          imageFiles: files,
+          imageIds: imageIds
+        });
+      });
+  }
+
+  public onDeleteCoverImage(): void {
+    this.store
+      .dispatch(new DeleteWorkshopDraftCoverImage(this.selectedWorkshop.workshopDraftId, this.currentUser.id))
+      .pipe(
+        filter((actionResult) => !actionResult.error),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const coverImageIdFormControl = this.form.get('coverImageId');
+        const coverImageFormControl = this.form.get('coverImage');
+
+        const ids = [...coverImageIdFormControl.value];
+        const files = [...coverImageFormControl.value];
+
+        ids.pop();
+        files.pop();
+
+        coverImageIdFormControl.setValue(ids);
+        coverImageFormControl.setValue(files);
+      });
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetSelectedWorkshop());
   }
 
   /**
@@ -199,19 +268,5 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     if (!this.form.dirty) {
       this.form.markAsDirty({ onlySelf: true });
     }
-  }
-
-  private onCompetitiveSelectionInit(): void {
-    this.form
-      .get('competitiveSelection')
-      .valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((value: boolean) => {
-        if (value) {
-          this.form.get('competitiveSelectionDescription').enable();
-        } else {
-          this.form.get('competitiveSelectionDescription').markAsUntouched();
-          this.form.get('competitiveSelectionDescription').disable();
-        }
-      });
   }
 }
