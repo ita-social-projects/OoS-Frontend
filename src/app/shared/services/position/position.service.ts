@@ -13,16 +13,13 @@ export class PositionService {
   constructor(private readonly http: HttpClient) {}
 
   public getPositions(parameters: PositionParameters): Observable<SearchResponse<Position[]>> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('SearchString', parameters.searchString || '')
       .set('From', parameters.from.toString() || '0')
-      .set('Size', parameters.size?.toString() || '10');
-    if (typeof parameters.OrderByCreatedAt === 'boolean') {
-      params = params.set('OrderByCreatedAt', parameters.OrderByCreatedAt);
-    }
-    if (typeof parameters.OrderByFullName === 'boolean') {
-      params = params.set('OrderByFullName', parameters.OrderByFullName);
-    }
+      .set('Size', parameters.size?.toString() || '10')
+      .set('Order', parameters.order?.toString() || '')
+      .set('FilterByProperty', parameters.filterByProperty?.toString() || '');
+
     return this.http.get<SearchResponse<Position[]>>(`${this.baseUrl}/${parameters.providerId}/positions/GetByFilter`, { params });
   }
 

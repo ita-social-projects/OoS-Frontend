@@ -27,7 +27,7 @@ import { ProviderComponent } from '../provider.component';
 })
 export class ProviderPositionsComponent extends ProviderComponent implements OnInit {
   public readonly debounceInputTime = 500;
-  public readonly positionParameters: PositionParameters = { size: 12, providerId: '', OrderByCreatedAt: true };
+  public readonly positionParameters: PositionParameters = { size: 12, providerId: '', order: false };
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
@@ -100,12 +100,8 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   }
 
   public sortData(sortData: Sort): void {
-    const ascendingDirection = 'desc';
-    this.positionParameters.OrderByFullName = null;
-    this.positionParameters.OrderByCreatedAt = null;
-    if (sortData.direction) {
-      this.positionParameters[sortData.active] = sortData.direction === ascendingDirection;
-    }
+    this.positionParameters.filterByProperty = sortData.active;
+    this.positionParameters.order = sortData.direction === 'asc';
     this.getPositions();
   }
 

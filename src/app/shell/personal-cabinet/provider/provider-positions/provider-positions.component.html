@@ -23,7 +23,7 @@
     <div class="table-container mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort appStretchTable (matSortChange)="sortData($event)">
         <ng-container matColumnDef="fullName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="orderByFullName">{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="fullName">{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.fullName"
@@ -37,7 +37,7 @@
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>{{ 'TITLES.DESCRIPTION' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="description">{{ 'TITLES.DESCRIPTION' | translate }}</th>
           <td mat-cell class="overflow" *matCellDef="let element">
             <div
               [matTooltip]="element.description"
@@ -51,7 +51,7 @@
         </ng-container>
 
         <ng-container matColumnDef="shortName">
-          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="shortName">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.shortName"
@@ -65,7 +65,7 @@
         </ng-container>
 
         <ng-container matColumnDef="rate">
-          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.RATE' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="rate">{{ 'FORMS.LABELS.RATE' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.rate"
@@ -79,7 +79,7 @@
         </ng-container>
 
         <ng-container matColumnDef="tariff">
-          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.TARIFF' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="tariff">{{ 'FORMS.LABELS.TARIFF' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.tariff"
@@ -93,7 +93,7 @@
         </ng-container>
 
         <ng-container matColumnDef="seatsAmount">
-          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="seatsAmount">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.seatsAmount === validationConstants.UNLIMITED_SEATS ? ('UNLIMITED' | translate) : element.seatsAmount"
@@ -107,7 +107,7 @@
         </ng-container>
 
         <ng-container matColumnDef="createdAt">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="orderByCreatedAt">{{ 'FORMS.LABELS.CREATED_AT' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">{{ 'FORMS.LABELS.CREATED_AT' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.createdAt | date: 'dd.MM.yy HH:mm'"

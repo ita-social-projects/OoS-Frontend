@@ -45,6 +45,6 @@ export interface PositionParameters extends PaginationParameters {
   providerId?: string;
   searchString?: string;
   currentPage?: number;
-  OrderByFullName?: boolean;
-  OrderByCreatedAt?: boolean;
+  order?: boolean;
+  filterByProperty?: string;
 }
