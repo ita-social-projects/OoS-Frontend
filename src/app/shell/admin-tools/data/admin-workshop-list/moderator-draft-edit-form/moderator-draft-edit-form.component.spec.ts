@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store/';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { EditWorkshopDraftByModerator, ResetSelectedWorkshop } from 'shared/store/shared-user.actions';
+import { EditWorkshopDraftByModerator } from 'shared/store/shared-user.actions';
 import { ModeratorDraftEditFormComponent } from './moderator-draft-edit-form.component';
 
 describe('ModerateWorkshopFormComponent', () => {

@@ -87,13 +87,16 @@
       role="button"
       tabindex="0"
       (click)="onEdit(workshopData.workshopDraftId)"
-      (keydown)="onEditKeydown($event, workshopData.workshopDraftId)"
-    >
+      (keydown)="onEditKeydown($event, workshopData.workshopDraftId)">
       <mat-icon>edit</mat-icon>
     </div>
-    <div *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
-         class="actions_btn action-icon" role="button" tabindex="0" (click)="onDelete()"
-         (keydown)="onDeleteKeydown($event)">
+    <div
+      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      class="actions_btn action-icon"
+      role="button"
+      tabindex="0"
+      (click)="onDelete()"
+      (keydown)="onDeleteKeydown($event)">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
@@ -184,6 +187,9 @@
       </div>
       <div *ngSwitchCase="workshopDraftStatus.PendingModeration" class="text-center admin-response">
         {{ 'DRAFT_CARD_HINT.PENDING_MODERATION' | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.EditedByModerator" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.EDITED_BY_MODERATOR' | translate }}
       </div>
       <div *ngSwitchCase="workshopDraftStatus.Rejected">
         <div class="flex flex-row justify-start">

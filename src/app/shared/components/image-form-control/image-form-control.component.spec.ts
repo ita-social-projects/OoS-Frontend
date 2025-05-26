@@ -12,7 +12,7 @@ import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { SharedModule } from 'shared/shared.module';
 import { FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImageFormControlComponent } from './image-form-control.component';
 
 describe('ImageFormControlComponent', () => {
@@ -26,13 +26,13 @@ describe('ImageFormControlComponent', () => {
   let hostFixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
   let dialogMock: jest.Mocked<MatDialog>;
-  let afterClosedSpy: jest.Mock;
+  let afterCloseObservable: Observable<boolean>;
 
   beforeEach(async () => {
-    afterClosedSpy = jest.fn();
+    afterCloseObservable = of(true);
     dialogMock = {
       open: jest.fn().mockReturnValue({
-        afterClosed: () => afterClosedSpy
+        afterClosed: () => afterCloseObservable
       })
     } as unknown as jest.Mocked<MatDialog>;
 
@@ -250,7 +250,7 @@ describe('ImageFormControlComponent', () => {
     const mockDecodedImage = { image: 'http://storage-url/image1.jpg', imgFile: new File([], 'image1.jpg') } as any;
     component.decodedImages = [mockDecodedImage];
     const removeImageSpy = jest.spyOn(component as any, 'removeImage');
-    afterClosedSpy = of(true) as any;
+    afterCloseObservable = of(true) as any;
 
     component.onRemoveImg(mockDecodedImage);
 
@@ -263,7 +263,7 @@ describe('ImageFormControlComponent', () => {
     const mockDecodedImage = { image: 'http://storage-url/image1.jpg', imgFile: new File([], 'image1.jpg') } as any;
     component.decodedImages = [mockDecodedImage];
     const removeImageSpy = jest.spyOn(component as any, 'removeImage');
-    afterClosedSpy = of(false) as any;
+    afterCloseObservable = of(false) as any;
 
     component.onRemoveImg(mockDecodedImage);
 

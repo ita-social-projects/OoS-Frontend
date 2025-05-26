@@ -390,7 +390,8 @@
   "MODERATOR_MESSAGE": "Moderator's response",
   "DRAFT_CARD_HINT": {
     "PUBLISH": "Click \"Publish\" to submit your draft for moderation.",
-    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear."
+    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear.",
+    "EDITED_BY_MODERATOR": "The draft has been edited by a moderator. You can review it and make changes and send it for moderation again."
   },
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",

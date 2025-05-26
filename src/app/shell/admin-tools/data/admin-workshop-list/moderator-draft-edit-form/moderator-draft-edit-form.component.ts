@@ -15,7 +15,7 @@ import {
   DeleteWorkshopDraftImage,
   EditWorkshopDraftByModerator,
   GetWorkshopDraftById,
-  ResetSelectedWorkshop
+  ResetWorkshop
 } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
@@ -227,7 +227,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.store.dispatch(new ResetSelectedWorkshop());
+    this.store.dispatch(new ResetWorkshop());
   }
 
   /**
