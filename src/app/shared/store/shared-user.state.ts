@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, mapTo, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';

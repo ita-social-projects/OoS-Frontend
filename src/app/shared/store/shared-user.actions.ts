@@ -161,7 +161,3 @@ export class EditWorkshopDraftByModeratorSuccess {
 export class EditWorkshopDraftByModeratorFail {
   static readonly type = '[user] Edit Workshop Draft By Moderator Fail';
 }
-
-export class ResetSelectedWorkshop {
-  static readonly type = '[user] Reset Selected Workshop';
-}
