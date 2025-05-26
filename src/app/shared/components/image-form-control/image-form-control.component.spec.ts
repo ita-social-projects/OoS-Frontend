@@ -1,15 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { AppStateModel } from 'shared/store/app.state';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { SharedModule } from 'shared/shared.module';
+import { FormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { ImageFormControlComponent } from './image-form-control.component';
 
 describe('ImageFormControlComponent', () => {
@@ -20,8 +23,19 @@ describe('ImageFormControlComponent', () => {
   let fileReaderMock: { onload: any; readAsDataURL?: jest.Mock<any, any, any> };
   let mockEvent: Event;
   let imgMock: { onload: any; src?: string; width?: number; height?: number };
+  let hostFixture: ComponentFixture<TestHostComponent>;
+  let hostComponent: TestHostComponent;
+  let dialogMock: jest.Mocked<MatDialog>;
+  let afterClosedSpy: jest.Mock;
 
   beforeEach(async () => {
+    afterClosedSpy = jest.fn();
+    dialogMock = {
+      open: jest.fn().mockReturnValue({
+        afterClosed: () => afterClosedSpy
+      })
+    } as unknown as jest.Mocked<MatDialog>;
+
     await TestBed.configureTestingModule({
       imports: [
         MatIconModule,
@@ -31,10 +45,11 @@ describe('ImageFormControlComponent', () => {
         SharedModule,
         TranslateModule.forRoot()
       ],
-      declarations: [ImageFormControlComponent],
+      declarations: [ImageFormControlComponent, TestHostComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialog, useValue: dialogMock }
       ]
     }).compileComponents();
   });
@@ -44,11 +59,14 @@ describe('ImageFormControlComponent', () => {
     fixture = TestBed.createComponent(ImageFormControlComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
+    hostFixture = TestBed.createComponent(TestHostComponent);
+    hostComponent = hostFixture.componentInstance;
 
     dispatchSpy = jest.spyOn(store, 'dispatch');
     jest.spyOn(component, 'openCropperModal');
 
     fixture.detectChanges();
+    hostFixture.detectChanges();
 
     component.cropperConfig = {
       cropperMinWidth: 100,
@@ -200,6 +218,57 @@ describe('ImageFormControlComponent', () => {
   it('should handle writeValue without errors', () => {
     expect(() => component.writeValue(null)).not.toThrow();
   });
+
+  it('should update decodedImages when formControl value changes from parent', () => {
+    const componentDebugElement = hostFixture.debugElement.query(By.directive(ImageFormControlComponent));
+    const componentInstance: ImageFormControlComponent = componentDebugElement.componentInstance;
+
+    expect(componentInstance.decodedImages.length).toBe(1);
+
+    hostComponent.formControl.setValue(['newImageId1', 'newImageId2']);
+    hostFixture.detectChanges();
+
+    expect(componentInstance.decodedImages.length).toBe(2);
+    expect(componentInstance.decodedImages[0].image).toContain('newImageId1');
+    expect(componentInstance.decodedImages[1].image).toContain('newImageId2');
+  });
+
+  it('should emit deleteImage event when onRemoveImg is called', () => {
+    const mockDecodedImage = { image: 'http://storage-url/image1.jpg', imgFile: new File([], 'image1.jpg') } as any;
+    component.moderatorDeleteFlow = true;
+    component.decodedImages = [mockDecodedImage];
+    component.imageIdsFormControl = new FormControl(['image1.jpg']);
+    const deleteImageSpy = jest.spyOn(component.deleteImage, 'emit');
+
+    component.onRemoveImg(mockDecodedImage);
+
+    expect(deleteImageSpy).toHaveBeenCalledWith(mockDecodedImage.image);
+  });
+
+  it('should call matDialog.open when onRemoveImg is called with showConfirmationWindow true', () => {
+    component.showConfirmationWindow = true;
+    const mockDecodedImage = { image: 'http://storage-url/image1.jpg', imgFile: new File([], 'image1.jpg') } as any;
+    component.decodedImages = [mockDecodedImage];
+    const removeImageSpy = jest.spyOn(component as any, 'removeImage');
+    afterClosedSpy = of(true) as any;
+
+    component.onRemoveImg(mockDecodedImage);
+
+    expect(dialogMock.open).toHaveBeenCalled();
+    expect(removeImageSpy).toHaveBeenCalledWith(mockDecodedImage);
+  });
+
+  it('should not remove image if matDialog.afterClose() returns false', () => {
+    component.showConfirmationWindow = true;
+    const mockDecodedImage = { image: 'http://storage-url/image1.jpg', imgFile: new File([], 'image1.jpg') } as any;
+    component.decodedImages = [mockDecodedImage];
+    const removeImageSpy = jest.spyOn(component as any, 'removeImage');
+    afterClosedSpy = of(false) as any;
+
+    component.onRemoveImg(mockDecodedImage);
+
+    expect(removeImageSpy).not.toHaveBeenCalled();
+  });
 });
 
 @State<AppStateModel>({
@@ -212,3 +281,11 @@ describe('ImageFormControlComponent', () => {
 })
 @Injectable()
 export class MockAppState {}
+
+@Component({
+  selector: 'app-host-component',
+  template: '<app-image-form-control [imageIdsFormControl]="formControl" [moderatorDeleteFlow]="true"></app-image-form-control>'
+})
+class TestHostComponent {
+  formControl = new FormControl(['initial1']);
+}

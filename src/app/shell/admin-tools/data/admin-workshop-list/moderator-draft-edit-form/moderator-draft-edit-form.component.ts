@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil } from 'rxjs';
@@ -18,10 +18,10 @@ import {
   ResetSelectedWorkshop
 } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
+import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-moderator-draft-edit-form',
@@ -48,8 +48,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     navBarService: NavigationBarService,
     store: Store,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef
+    private readonly router: Router
   ) {
     super(store, activatedRoute, navBarService);
     this.activatedRoute = activatedRoute;
