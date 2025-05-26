@@ -7,6 +7,7 @@ import { ImgPath } from 'shared/models/carousel.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-workshop-about',
@@ -24,7 +25,14 @@ export class WorkshopAboutComponent implements OnInit {
 
   public images: ImgPath[];
 
-  constructor(private readonly imagesService: ImagesService) {}
+  constructor(
+    private readonly imagesService: ImagesService,
+    private readonly translateService: TranslateService
+  ) {}
+
+  public get currentLang(): string {
+    return this.translateService.currentLang;
+  }
 
   public ngOnInit(): void {
     this.images = this.imagesService.getCarouselImages(Object.setPrototypeOf(this.workshop, Workshop.prototype));

@@ -1,6 +1,7 @@
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Contacts, Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
+import { StudyPeriodDates } from 'shared/models/study-period-dates.model';
 
 export enum WorkshopType {
   WithMainProperties = 'withMainProperties',
@@ -20,6 +21,7 @@ export class WorkshopMainRequiredProperties extends BaseWorkshop {
   minAge: number;
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
+  studyPeriodDates: StudyPeriodDates;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;

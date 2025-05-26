@@ -77,6 +77,55 @@
   </mat-radio-group>
 
   <div class="flex flex-row justify-between items-center">
+    <label class="step-label">{{ 'FORMS.LABELS.STUDY_PERIOD' | translate }}<span class="step-required">*</span></label>
+    <app-info-menu [type]="InfoMenuType.Text">
+      {{ 'INFO_MENU.STUDY_PERIOD_RANGE' | translate }}
+    </app-info-menu>
+  </div>
+  <div class="study-period-group flex flex-row justify-start" [formGroupName]="'studyPeriodDates'">
+    <div class="flex flex-row justify-start">
+      <div class="input-column mr-4">
+        <div class="flex flex-row justify-start items-center">
+          <p class="step-text">{{ 'FROM' | translate }}</p>
+          <mat-form-field
+            class="step-input step-input-date"
+            [ngClass]="{ redBorder: studyPeriodDates.errors?.invalidDateRange && studyPeriodDates.touched }">
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              formControlName="startDate"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')" [errorMessagesMap]="errorMap">
+        </app-validation-hint>
+      </div>
+
+      <div class="input-column">
+        <div class="flex flex-row justify-start items-center">
+          <p class="step-text">{{ 'TO' | translate }}</p>
+          <mat-form-field
+            class="step-input step-input-date"
+            [ngClass]="{ redBorder: studyPeriodDates.errors?.invalidDateRange && studyPeriodDates.touched }">
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              formControlName="endDate"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"> </app-validation-hint>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-row justify-between items-center">
     <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
     <app-info-menu [type]="InfoMenuType.Text">
       {{ 'INFO_MENU.WORKING_HOURS' | translate }}
