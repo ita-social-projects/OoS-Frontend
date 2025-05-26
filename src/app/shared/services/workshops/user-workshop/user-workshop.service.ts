@@ -113,9 +113,10 @@ export class UserWorkshopService {
   }
 
   /**
-   * This method delete cover image by WorkshopDraft id
+   * This method delete cover image by WorkshopDraft id and moderator id
    * Used in moderator flow
    * @param draftId string
+   * @param moderatorId string
    */
   public deleteCoverImageByWorkshopDraftId(draftId: string, moderatorId: string): Observable<void> {
     const params = new HttpParams().set('moderatorId', moderatorId);
@@ -123,9 +124,11 @@ export class UserWorkshopService {
   }
 
   /**
-   * This method delete image by WorkshopDraft id and image id
+   * This method delete image by WorkshopDraft id, image id and moderator id
    * Used in moderator flow
    * @param draftId string
+   * @param imageId string
+   * @param moderatorId string
    */
   public deleteImageByWorkshopDraftId(draftId: string, imageId: string, moderatorId: string): Observable<void> {
     const params = new HttpParams().set('moderatorId', moderatorId);
@@ -138,6 +141,8 @@ export class UserWorkshopService {
    * This method update WorkshopDraft
    * Used in moderator flow
    * @param draftId string
+   * @param moderatorId string
+   * @param formData EditDraft - contains data for editing workshop draft
    */
   public editWorkshopDraftByModerator(formData: EditDraft, moderatorId: string, draftId: string): Observable<void> {
     const params = new HttpParams().set('moderatorId', moderatorId);
