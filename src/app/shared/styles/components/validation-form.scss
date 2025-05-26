@@ -5,6 +5,10 @@
   border: 1px solid var(--error-color);
 }
 
+mat-form-field.redBorder .mat-form-field-outline {
+  border: 1px solid var(--error-color) !important;
+}
+
 .disabled-button {
   opacity: 0.5;
 }

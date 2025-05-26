@@ -405,6 +405,17 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createAbout(): WorkshopAbout {
     const aboutInfo = this.AboutFormGroup.getRawValue();
+
+    if (aboutInfo.studyPeriodDates) {
+      if (aboutInfo.studyPeriodDates.startDate) {
+        aboutInfo.studyPeriodDates.startDate = new Date(aboutInfo.studyPeriodDates.startDate).toISOString().split('T')[0];
+      }
+
+      if (aboutInfo.studyPeriodDates.endDate) {
+        aboutInfo.studyPeriodDates.endDate = new Date(aboutInfo.studyPeriodDates.endDate).toISOString().split('T')[0];
+      }
+    }
+
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
     }

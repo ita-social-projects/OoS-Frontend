@@ -88,11 +88,11 @@ import { ServerErrorPageComponent } from './components/server-error-page/server-
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
 import { ProfileWaitingPageComponent } from './components/profile-waiting-page/profile-waiting-page.component';
 import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-page.component';
+import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
-import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
-import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 
 @NgModule({

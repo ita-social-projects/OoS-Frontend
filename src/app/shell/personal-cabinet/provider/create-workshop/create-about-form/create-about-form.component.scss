@@ -46,3 +46,16 @@
     padding-left: 8px;
   }
 }
+
+.study-period-group {
+  align-items: flex-start;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 250px;
+  flex-shrink: 0;
+}
