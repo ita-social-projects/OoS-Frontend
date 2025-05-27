@@ -139,7 +139,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
       preferentialTermsOfParticipation: new FormControl(''),
-      studyLanguage: new FormControl(null, Validators.required)
+      languageOfEducationId: new FormControl(null, Validators.required)
     });
   }
 

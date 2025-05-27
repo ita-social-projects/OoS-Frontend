@@ -28,6 +28,7 @@ export abstract class WorkshopBase {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   withDisabilityOptions: boolean;
   disabilityOptionsDesc: string;
+  languageOfEducationId: string;
   institutionId: string;
   institution: string;
   institutionHierarchyId: string;
@@ -89,6 +90,7 @@ export abstract class WorkshopBase {
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
     this.groupType = additionalAbout?.groupType;
+    this.languageOfEducationId = additionalAbout?.languageOfEducationId;
     this.isPaid = additionalAbout?.isPaid;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
@@ -261,6 +263,7 @@ export interface AdditionalAbout {
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
+  languageOfEducationId: string;
 }
 
 export interface WorkshopFilterAdministration extends PaginationParameters {
