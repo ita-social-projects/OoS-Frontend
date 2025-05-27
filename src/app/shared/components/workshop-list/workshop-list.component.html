@@ -1,5 +1,5 @@
 <form class="wrapper-header" [formGroup]="filterGroup">
-  <div class="search-area" *ngIf="!isModerator">
+  <div class="search-area">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2">search</mat-icon>
       <input
@@ -9,14 +9,14 @@
         class="search"
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}" />
     </div>
-    <div class="reset" (keydown.enter)="onResetFilters()" (click)="onResetFilters()" *ngIf="!isAreaAdmin || !isModerator">
+    <div class="reset" (keydown.enter)="onResetFilters()" (click)="onResetFilters()" *ngIf="!isAreaAdmin">
       <mat-icon class="reset__icon">refresh</mat-icon>
       <span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
     </div>
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
-      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
+      <mat-form-field *ngIf="isTechAdmin || isModerator" appearance="fill">
         <mat-select
           disableOptionCentering
           formControlName="institution"
@@ -31,7 +31,7 @@
     </div>
     <div class="region-filters-area">
       <div class="filter-dropdown institution-filter">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isModerator" appearance="fill">
           <mat-select
             disableOptionCentering
             formControlName="region"
@@ -45,7 +45,7 @@
         </mat-form-field>
       </div>
       <div class="filter-dropdown">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin || isModerator" appearance="fill">
           <mat-select
             [compareWith]="compareCodeficators"
             disableOptionCentering

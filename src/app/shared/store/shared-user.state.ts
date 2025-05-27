@@ -1,11 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
-import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { messageStatus, showHttpErrorMessage, SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application } from 'shared/models/application.model';
 import { Competition } from 'shared/models/competition.model';
@@ -289,12 +289,12 @@ export class SharedUserState {
   @Action(DeleteWorkshopDraftCoverImage)
   onDeleteWorkshopDraftCoverImage(
     { dispatch }: StateContext<SharedUserStateModel>,
-    { draftId, moderatorId }: DeleteWorkshopDraftCoverImage
+    { draftId }: DeleteWorkshopDraftCoverImage
   ): Observable<void> {
-    return this.userWorkshopService.deleteCoverImageByWorkshopDraftId(draftId, moderatorId).pipe(
+    return this.userWorkshopService.deleteCoverImageByWorkshopDraftId(draftId).pipe(
       tap(() => dispatch(new DeleteWorkshopDraftCoverImageSuccess())),
       catchError((error) => {
-        dispatch(new DeleteWorkshopDraftCoverImageFail());
+        dispatch(new DeleteWorkshopDraftCoverImageFail(error));
         throw error;
       })
     );
@@ -306,19 +306,22 @@ export class SharedUserState {
   }
 
   @Action(DeleteWorkshopDraftCoverImageFail)
-  onDeleteWorkshopDraftCoverImageFail({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  onDeleteWorkshopDraftCoverImageFail(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { error }: DeleteWorkshopDraftCoverImageFail
+  ): void {
+    showHttpErrorMessage(dispatch, error.status);
   }
 
   @Action(DeleteWorkshopDraftImage)
   onDeleteWorkshopDraftImage(
     { dispatch }: StateContext<SharedUserStateModel>,
-    { draftId, imageId, moderatorId }: DeleteWorkshopDraftImage
+    { draftId, imageId }: DeleteWorkshopDraftImage
   ): Observable<void> {
-    return this.userWorkshopService.deleteImageByWorkshopDraftId(draftId, imageId, moderatorId).pipe(
+    return this.userWorkshopService.deleteImageByWorkshopDraftId(draftId, imageId).pipe(
       tap(() => dispatch(new DeleteWorkshopDraftImageSuccess())),
       catchError((error) => {
-        dispatch(new DeleteWorkshopDraftImageFail());
+        dispatch(new DeleteWorkshopDraftImageFail(error));
         throw error;
       })
     );
@@ -330,18 +333,18 @@ export class SharedUserState {
   }
 
   @Action(DeleteWorkshopDraftImageFail)
-  onDeleteWorkshopDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  onDeleteWorkshopDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: DeleteWorkshopDraftImageFail): void {
+    showHttpErrorMessage(dispatch, error.status);
   }
 
   @Action(EditWorkshopDraftByModerator)
   onEditWorkshopDraftByModerator(
     { dispatch }: StateContext<SharedUserStateModel>,
-    { draftId, formData, moderatorId }: EditWorkshopDraftByModerator
+    { draftId, formData }: EditWorkshopDraftByModerator
   ): Observable<void> {
-    return this.userWorkshopService.editWorkshopDraftByModerator(formData, moderatorId, draftId).pipe(
+    return this.userWorkshopService.editWorkshopDraftByModerator(formData, draftId).pipe(
       tap(() => dispatch(new EditWorkshopDraftByModeratorSuccess())),
-      catchError((error) => dispatch(new EditWorkshopDraftByModeratorFail()))
+      catchError((error) => dispatch(new EditWorkshopDraftByModeratorFail(error)))
     );
   }
 
@@ -352,7 +355,7 @@ export class SharedUserState {
   }
 
   @Action(EditWorkshopDraftByModeratorFail)
-  onEditWorkshopDraftByModeratorFail({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  onEditWorkshopDraftByModeratorFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: EditWorkshopDraftByModeratorFail): void {
+    showHttpErrorMessage(dispatch, error.status);
   }
 }

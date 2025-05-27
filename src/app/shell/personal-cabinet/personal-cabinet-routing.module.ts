@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ParentGuard } from './parent/parent.guard';
-import { ProviderGuard } from './provider/provider.guard';
 import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
 import { MessagesComponent } from './shared-cabinet/messages/messages.component';
 import { MessagesGuard } from './shared-cabinet/messages/messages.guard';

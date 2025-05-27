@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { EditWorkshopDraftByModerator } from 'shared/store/shared-user.actions';
 import { ModeratorDraftEditFormComponent } from './moderator-draft-edit-form.component';
 
-describe('ModerateWorkshopFormComponent', () => {
+describe('ModeratorDraftEditFormComponent', () => {
   let component: ModeratorDraftEditFormComponent;
   let fixture: ComponentFixture<ModeratorDraftEditFormComponent>;
 
@@ -72,7 +72,7 @@ describe('ModerateWorkshopFormComponent', () => {
 
     component.onSubmit();
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(new EditWorkshopDraftByModerator(expect.anything(), expect.anything(), expect.anything()));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(new EditWorkshopDraftByModerator(expect.anything(), expect.anything()));
   });
 
   it('should dispatch EditWorkshopDraftByModerator with correct data when form is valid', () => {
@@ -90,13 +90,12 @@ describe('ModerateWorkshopFormComponent', () => {
       sectionName: 'Section 1',
       description: 'Description 1'
     });
-    component.currentUser = { id: 'user-id' } as any;
     component.selectedWorkshop = { workshopDraftId: 'draft-id' } as any;
     const dispatchSpy = jest.spyOn(storeMock, 'dispatch');
 
     component.onSubmit();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(new EditWorkshopDraftByModerator(component.form.getRawValue(), 'user-id', 'draft-id'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new EditWorkshopDraftByModerator(component.form.getRawValue(), 'draft-id'));
   });
 
   it('should remove imageId and imageFile from form controls on image deletion', () => {

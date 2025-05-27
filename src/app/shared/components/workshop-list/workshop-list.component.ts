@@ -12,7 +12,7 @@ import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { DraftStatusEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
@@ -28,7 +28,6 @@ import {
   ApproveWorkshopDraft,
   GetAreaAdminProfile,
   GetMinistryAdminProfile,
-  GetModeratorProfile,
   GetRegionAdminProfile,
   RejectWorkshopDraft
 } from 'shared/store/admin.actions';
@@ -81,11 +80,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public readonly statusIcons = UserStatusIcons;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
-  public readonly workshopDraftStatusTitles = {
-    Draft: 'FORMS.LABELS.DRAFT',
-    Rejected: 'FORMS.LABELS.REJECTED',
-    PendingModeration: 'FORMS.LABELS.WORKSHOP_PENDING_MODERATION'
-  };
+  public readonly workshopDraftStatusTitles = DraftStatusEnum;
 
   public selectedAdmin: BaseAdmin;
   public role: Role;
@@ -182,9 +177,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
             case Role.areaAdmin:
               return this.store.dispatch(new GetAreaAdminProfile());
             case Role.moderator:
-              return this.store.dispatch(new GetModeratorProfile());
+              return of(null);
             case Role.provider:
-              // TODO: Add moderator profile fetch
               return this.store.dispatch(new GetProfile());
           }
         }),
@@ -276,10 +270,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   }
 
   private setInformationDependingOnRole(): void {
-    if (this.isTechAdmin) {
+    if (this.isTechAdmin || this.isModerator) {
       this.store.dispatch(new GetAllInstitutions(true));
     }
-    if (this.isTechAdmin || this.isMinistryAdmin) {
+    if (this.isTechAdmin || this.isMinistryAdmin || this.isModerator) {
       this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
         map((state) => [...state.metaDataState.codeficatorSearch]),
         takeUntil(this.destroy$)

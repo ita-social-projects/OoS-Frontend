@@ -68,7 +68,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         Validators.pattern(MUST_CONTAIN_LETTERS),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
       ]),
-      competitiveSelectionDescription: new FormControl('', [Validators.required, Validators.pattern(MUST_CONTAIN_LETTERS)]),
+      competitiveSelectionDescription: new FormControl('', [Validators.pattern(MUST_CONTAIN_LETTERS)]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
@@ -76,7 +76,10 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
       workshopDescriptionItems: this.SectionItemsFormArray,
-      preferentialTermsOfParticipation: new FormControl(''),
+      preferentialTermsOfParticipation: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+      ]),
       institutionHierarchyId: new FormControl(''),
       institutionId: new FormControl('')
     });
@@ -134,7 +137,8 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     }
 
     const formData = this.form.getRawValue();
-    this.store.dispatch(new EditWorkshopDraftByModerator(formData, this.currentUser.id, this.selectedWorkshop.workshopDraftId));
+    formData.workshopDescriptionItems = this.SectionItemsFormArray.getRawValue();
+    this.store.dispatch(new EditWorkshopDraftByModerator(formData, this.selectedWorkshop.workshopDraftId));
   }
 
   public onCancel(): void {
@@ -178,7 +182,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
 
   public onDeleteImage(imageId: string): void {
     this.store
-      .dispatch(new DeleteWorkshopDraftImage(this.selectedWorkshop.workshopDraftId, imageId, this.currentUser.id))
+      .dispatch(new DeleteWorkshopDraftImage(this.selectedWorkshop.workshopDraftId, imageId))
       .pipe(
         filter((actionResult) => !actionResult.error),
         takeUntil(this.destroy$)
@@ -205,7 +209,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
 
   public onDeleteCoverImage(): void {
     this.store
-      .dispatch(new DeleteWorkshopDraftCoverImage(this.selectedWorkshop.workshopDraftId, this.currentUser.id))
+      .dispatch(new DeleteWorkshopDraftCoverImage(this.selectedWorkshop.workshopDraftId))
       .pipe(
         filter((actionResult) => !actionResult.error),
         takeUntil(this.destroy$)

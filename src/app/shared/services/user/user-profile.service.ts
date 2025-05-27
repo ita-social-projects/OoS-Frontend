@@ -66,10 +66,10 @@ export class UserProfileService {
       [Role.ministryAdmin]: this.ministryAdminService.getAdminProfile(),
       [Role.regionAdmin]: this.regionAdminService.getAdminProfile(),
       [Role.areaAdmin]: this.areaAdminService.getAdminProfile(),
-      [Role.all]: new Observable<any>(),
-      [Role.unauthorized]: new Observable<any>(),
-      [Role.techAdmin]: new Observable<any>(),
-      [Role.moderator]: new Observable<any>()
+      [Role.all]: null,
+      [Role.unauthorized]: null,
+      [Role.techAdmin]: null,
+      [Role.moderator]: null
     };
 
     return roleServiceMap[role] || null;
