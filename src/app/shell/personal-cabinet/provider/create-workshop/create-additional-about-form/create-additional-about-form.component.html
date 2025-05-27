@@ -166,7 +166,7 @@
       panelClass="dropdown-panel select-with-form-field"
       class="step-input"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_LANGUAGE_OF_INSTRUCTION' | translate }}">
-      <mat-option *ngFor="let lang of languageList$ | async" [value]="lang" class="dropdown-option">
+      <mat-option *ngFor="let lang of languageList$ | async" [value]="lang.id" class="dropdown-option">
         {{ lang.name }}
       </mat-option>
     </mat-select>
