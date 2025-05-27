@@ -23,13 +23,13 @@
       [routerLink]="'./data/users'">
       {{ 'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase }}
     </a>
-    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/applications'">
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/applications'">
       {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
     </a>
-    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/history-log'">
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/history-log'">
       {{ 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES' | translate | uppercase }}
     </a>
-    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/statistics'">
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/statistics'">
       {{ 'ENUM.NAV_BAR_NAME.STATISTICS' | translate | uppercase }}
     </a>
   </nav>

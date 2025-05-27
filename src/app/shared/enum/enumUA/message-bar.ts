@@ -1,3 +1,6 @@
+import { HttpStatusCode } from '@angular/common/http';
+import { ShowMessageBar } from 'shared/store/app.actions';
+
 export enum messageStatus {
   left = 'SERVICE_MESSAGES.MESSAGE_STATUS.LEFT',
   approved = 'SERVICE_MESSAGES.MESSAGE_STATUS.APPROVED',
@@ -117,4 +120,12 @@ export enum SnackbarText {
   workshopCoverImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COVER_IMAGE_DELETED',
   workshopImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.IMAGE_DELETED',
   editDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_EDITED'
+}
+
+export function showHttpErrorMessage(dispatch: Function, status?: number, defaultError: SnackbarText = SnackbarText.error): void {
+  if (status > HttpStatusCode.BadRequest && status < HttpStatusCode.MethodNotAllowed) {
+    dispatch(new ShowMessageBar({ message: SnackbarText[`error${status}`], type: 'error' }));
+  } else {
+    dispatch(new ShowMessageBar({ message: defaultError, type: 'error' }));
+  }
 }

@@ -29,6 +29,7 @@ export class AdminWorkshopListComponent {
 
     switch (role) {
       case Role.techAdmin:
+      case Role.moderator:
         workshopParameters.institutionId = '';
         workshopParameters.catottgId = 0;
         break;

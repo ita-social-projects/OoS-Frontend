@@ -176,19 +176,13 @@ describe('UserWorkshopService', () => {
 
   it('should delete cover image by workshop draft ID and moderator ID', (done) => {
     const draftId = 'draft-id';
-    const moderatorId = 'moderator-id';
 
-    service.deleteCoverImageByWorkshopDraftId(draftId, moderatorId).subscribe({
+    service.deleteCoverImageByWorkshopDraftId(draftId).subscribe({
       next: () => done(),
       error: done.fail
     });
 
-    const req = http.expectOne(
-      (r) =>
-        r.method === 'DELETE' &&
-        r.url === `/api/v2/workshop-drafts/${draftId}/moderator/cover-image` &&
-        r.params.get('moderatorId') === moderatorId
-    );
+    const req = http.expectOne((r) => r.method === 'DELETE' && r.url === `/api/v2/workshop-drafts/${draftId}/moderator/cover-image`);
 
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
@@ -197,15 +191,14 @@ describe('UserWorkshopService', () => {
   it('should delete image by workshop draft ID, image ID, and moderator ID', (done) => {
     const draftId = 'draft-id';
     const imageId = 'some/image id with special&chars';
-    const moderatorId = 'moderator-id';
 
-    service.deleteImageByWorkshopDraftId(draftId, imageId, moderatorId).subscribe({
+    service.deleteImageByWorkshopDraftId(draftId, imageId).subscribe({
       next: () => done(),
       error: done.fail
     });
 
     const expectedUrl = `/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`;
-    const req = http.expectOne((r) => r.method === 'DELETE' && r.url === expectedUrl && r.params.get('moderatorId') === moderatorId);
+    const req = http.expectOne((r) => r.method === 'DELETE' && r.url === expectedUrl);
 
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
@@ -229,15 +222,12 @@ describe('UserWorkshopService', () => {
       enrollmentProcedureDescription: 'Online form + in-person visit'
     };
 
-    service.editWorkshopDraftByModerator(formData, moderatorId, draftId).subscribe({
+    service.editWorkshopDraftByModerator(formData, draftId).subscribe({
       next: () => done(),
       error: done.fail
     });
 
-    const req = http.expectOne(
-      (r) =>
-        r.method === 'PUT' && r.url === `/api/v2/workshop-drafts/${draftId}/moderator-edit` && r.params.get('moderatorId') === moderatorId
-    );
+    const req = http.expectOne((r) => r.method === 'PUT' && r.url === `/api/v2/workshop-drafts/${draftId}/moderator-edit`);
 
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(formData);

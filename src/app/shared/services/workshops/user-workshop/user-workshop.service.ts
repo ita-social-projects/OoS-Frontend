@@ -118,9 +118,8 @@ export class UserWorkshopService {
    * @param draftId string
    * @param moderatorId string
    */
-  public deleteCoverImageByWorkshopDraftId(draftId: string, moderatorId: string): Observable<void> {
-    const params = new HttpParams().set('moderatorId', moderatorId);
-    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/cover-image`, { params });
+  public deleteCoverImageByWorkshopDraftId(draftId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/cover-image`);
   }
 
   /**
@@ -130,11 +129,8 @@ export class UserWorkshopService {
    * @param imageId string
    * @param moderatorId string
    */
-  public deleteImageByWorkshopDraftId(draftId: string, imageId: string, moderatorId: string): Observable<void> {
-    const params = new HttpParams().set('moderatorId', moderatorId);
-    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`, {
-      params
-    });
+  public deleteImageByWorkshopDraftId(draftId: string, imageId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`);
   }
 
   /**
@@ -144,9 +140,8 @@ export class UserWorkshopService {
    * @param moderatorId string
    * @param formData EditDraft - contains data for editing workshop draft
    */
-  public editWorkshopDraftByModerator(formData: EditDraft, moderatorId: string, draftId: string): Observable<void> {
-    const params = new HttpParams().set('moderatorId', moderatorId);
-    return this.http.put<void>(`/api/v2/workshop-drafts/${draftId}/moderator-edit`, formData, { params });
+  public editWorkshopDraftByModerator(formData: EditDraft, draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/workshop-drafts/${draftId}/moderator-edit`, formData);
   }
 
   public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {

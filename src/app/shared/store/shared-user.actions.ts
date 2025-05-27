@@ -114,10 +114,7 @@ export class ResetCompetition {
 
 export class DeleteWorkshopDraftCoverImage {
   static readonly type = '[user] Delete Workshop Draft Cover Image';
-  constructor(
-    public draftId: string,
-    public moderatorId: string
-  ) {}
+  constructor(public draftId: string) {}
 }
 
 export class DeleteWorkshopDraftCoverImageSuccess {
@@ -126,14 +123,14 @@ export class DeleteWorkshopDraftCoverImageSuccess {
 
 export class DeleteWorkshopDraftCoverImageFail {
   static readonly type = '[user] Delete Workshop Draft Cover Image Fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class DeleteWorkshopDraftImage {
   static readonly type = '[user] Delete Workshop Draft Image';
   constructor(
     public draftId: string,
-    public imageId: string,
-    public moderatorId: string
+    public imageId: string
   ) {}
 }
 
@@ -143,13 +140,13 @@ export class DeleteWorkshopDraftImageSuccess {
 
 export class DeleteWorkshopDraftImageFail {
   static readonly type = '[user] Delete Workshop Draft Image Fail';
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class EditWorkshopDraftByModerator {
   static readonly type = '[user] Edit Workshop Draft By Moderator';
   constructor(
     public formData: EditDraft,
-    public moderatorId: string,
     public draftId: string
   ) {}
 }
@@ -160,4 +157,5 @@ export class EditWorkshopDraftByModeratorSuccess {
 
 export class EditWorkshopDraftByModeratorFail {
   static readonly type = '[user] Edit Workshop Draft By Moderator Fail';
+  constructor(public error: HttpErrorResponse) {}
 }
