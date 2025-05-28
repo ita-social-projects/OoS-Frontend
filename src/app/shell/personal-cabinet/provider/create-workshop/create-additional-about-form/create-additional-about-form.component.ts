@@ -60,6 +60,14 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     return this.AdditionalAboutGroup.get('payRate') as FormControl;
   }
 
+  public get areThereBenefitsControl(): FormControl {
+    return this.AdditionalAboutGroup.get('areThereBenefits') as FormControl;
+  }
+
+  public get preferentialTermsOfParticipationControl(): FormControl {
+    return this.AdditionalAboutGroup.get('preferentialTermsOfParticipation') as FormControl;
+  }
+
   private get workshopPrice(): number {
     return this.workshop?.price ? this.workshop.price : null;
   }
@@ -72,6 +80,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     this.priceControlListener();
     this.priceValueListener();
     this.listenToChanges();
+    this.listenToBenefitsChanges();
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
   }
 
@@ -201,5 +210,19 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
           })
         );
       });
+  }
+
+  private listenToBenefitsChanges(): void {
+    this.areThereBenefitsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
+      if (value) {
+        this.preferentialTermsOfParticipationControl.setValidators([Validators.required]);
+      } else {
+        this.preferentialTermsOfParticipationControl.setValidators([]);
+        this.preferentialTermsOfParticipationControl.setValue('');
+      }
+
+      this.preferentialTermsOfParticipationControl.updateValueAndValidity();
+      this.preferentialTermsOfParticipationControl.markAsUntouched();
+    });
   }
 }
