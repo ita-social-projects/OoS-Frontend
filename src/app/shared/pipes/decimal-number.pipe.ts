@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'decimal'
 })
 export class DecimalNumberPipe implements PipeTransform {
-  public transform(value: string): string {
-    return Number.parseFloat(value).toFixed(2) ?? value;
+  public transform(value: string, digits: number = 2): string {
+    return Number.parseFloat(value).toFixed(digits) ?? value;
   }
 }
