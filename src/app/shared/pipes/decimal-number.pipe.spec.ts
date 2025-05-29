@@ -1,6 +1,6 @@
 import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
 
-describe('GetFullNamePipe', () => {
+describe('DecimalNumberPipe', () => {
   it('create an instance', () => {
     const pipe = new DecimalNumberPipe();
     expect(pipe).toBeTruthy();
@@ -8,6 +8,7 @@ describe('GetFullNamePipe', () => {
 
   it('should add decimals', () => {
     const pipe = new DecimalNumberPipe();
+    expect(pipe.transform('312')).toEqual('312.00');
     expect(pipe.transform('312')).toEqual('312.00');
     expect(pipe.transform('312.3')).toEqual('312.30');
     expect(pipe.transform('312.30')).toEqual('312.30');
@@ -17,5 +18,11 @@ describe('GetFullNamePipe', () => {
     const pipe = new DecimalNumberPipe();
     expect(pipe.transform('312.333')).toEqual('312.33');
     expect(pipe.transform('312.356')).toEqual('312.36');
+  });
+
+  it('should return provided value if value is NaN', () => {
+    const pipe = new DecimalNumberPipe();
+    expect(pipe.transform('hello')).toEqual('hello');
+    expect(pipe.transform('tt123tt')).toEqual('tt123tt');
   });
 });

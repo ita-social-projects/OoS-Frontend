@@ -5,6 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DecimalNumberPipe implements PipeTransform {
   public transform(value: string, digits: number = 2): string {
-    return Number.parseFloat(value).toFixed(digits) ?? value;
+    if (value || value.trim() !== '') {
+      const parsed = Number.parseFloat(value);
+      return !isNaN(parsed) ? parsed.toFixed(digits) : value;
+    }
+
+    return value;
   }
 }
