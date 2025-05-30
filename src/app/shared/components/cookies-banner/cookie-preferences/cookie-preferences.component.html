@@ -1,0 +1,22 @@
+<div class="preferences-modal">
+  <div class="preferences-content">
+    <mat-icon>cookie</mat-icon>
+    <h3>Згода на cookies</h3>
+
+    <div class="flex flex-col items-start">
+      <div class="toggle-row">
+        <span class="label">Cookies, які забезпечують функціонування сайту</span>
+        <mat-slide-toggle [checked]="true" [disabled]="true"></mat-slide-toggle>
+      </div>
+      <div class="toggle-row" *ngFor="let option of cookieOptions">
+        <span class="label">{{ option.label }}</span>
+        <mat-slide-toggle [checked]="preferences[option.key]" (change)="onPreferenceChange(option.key, $event)"> </mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button mat-stroked-button (click)="onSave()">Підтвердити</button>
+      <button mat-stroked-button (click)="onCancel()">Скасувати</button>
+    </div>
+  </div>
+</div>

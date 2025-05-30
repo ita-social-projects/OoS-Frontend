@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { CookiesPreferences } from '../../models/cookies-preferences.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CookieConsentService {
+  private readonly consentKey = 'cookieConsent';
+  private readonly preferencesKey = 'cookiePreferences';
+
+  getConsent(): boolean {
+    return localStorage.getItem(this.consentKey) === 'true';
+  }
+
+  setConsent(value: boolean): void {
+    localStorage.setItem(this.consentKey, value.toString());
+  }
+
+  getPreferences(): any {
+    const stored = localStorage.getItem(this.preferencesKey);
+    return stored
+      ? JSON.parse(stored)
+      : {
+          Essential: true,
+          Analytics: false,
+          Advertising: false
+        };
+  }
+
+  setPreferences(preferences: CookiesPreferences): void {
+    localStorage.setItem(this.preferencesKey, JSON.stringify(preferences));
+  }
+}
