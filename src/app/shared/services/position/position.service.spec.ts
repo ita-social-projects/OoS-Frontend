@@ -31,11 +31,11 @@ describe('PositionService', () => {
   it('should send a GET request and return positions', () => {
     const mockParameters: PositionParameters = {
       providerId: '1',
-      orderByFullName: true,
-      orderByCreatedAt: false,
       searchString: '',
+      order: false,
       from: 0,
-      size: 10
+      size: 10,
+      filterByProperty: ''
     };
     const mockResponse: SearchResponse<Position[]> = {
       entities: [{ id: '1', providerId: '1', fullName: 'Position 1' } as Position],
@@ -47,7 +47,7 @@ describe('PositionService', () => {
     });
 
     const req = httpTestingController.expectOne(
-      `${mockBaseUrl}/${mockParameters.providerId}/positions/GetByFilter?SearchString=&From=0&Size=10&OrderByCreatedAt=false&OrderByFullName=true`
+      `${mockBaseUrl}/${mockParameters.providerId}/positions/GetByFilter?SearchString=&From=0&Size=10&Order=false&FilterByProperty=`
     );
 
     expect(req.request.method).toBe('GET');
