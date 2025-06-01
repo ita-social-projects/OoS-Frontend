@@ -100,26 +100,26 @@ describe('ProviderPositionsComponent', () => {
     it('should set the correct sort parameters and fetch positions', () => {
       jest.spyOn(component as any, 'getPositions');
 
-      component.sortData({ active: 'orderByFullName', direction: 'asc' });
-      expect(component.positionParameters.orderByFullName).toBeTruthy();
-      expect(component.positionParameters.orderByCreatedAt).toBeNull();
+      component.sortData({ active: 'fullName', direction: 'asc' });
+      expect(component.positionParameters.filterByProperty).toEqual('fullName');
+      expect(component.positionParameters.order).toBe(true);
       expect((component as any).getPositions).toHaveBeenCalled();
 
-      component.sortData({ active: 'orderByFullName', direction: 'desc' });
-      expect(component.positionParameters.orderByFullName).toBeFalsy();
-      expect(component.positionParameters.orderByCreatedAt).toBeNull();
+      component.sortData({ active: 'fullName', direction: 'desc' });
+      expect(component.positionParameters.filterByProperty).toEqual('fullName');
+      expect(component.positionParameters.order).toBe(false);
 
-      component.sortData({ active: 'orderByCreatedAt', direction: 'asc' });
-      expect(component.positionParameters.orderByCreatedAt).toBeTruthy();
-      expect(component.positionParameters.orderByFullName).toBeNull();
+      component.sortData({ active: 'createdAt', direction: 'asc' });
+      expect(component.positionParameters.filterByProperty).toEqual('createdAt');
+      expect(component.positionParameters.order).toBe(true);
 
-      component.sortData({ active: 'orderByCreatedAt', direction: 'desc' });
-      expect(component.positionParameters.orderByCreatedAt).toBeFalsy();
-      expect(component.positionParameters.orderByFullName).toBeNull();
+      component.sortData({ active: 'createdAt', direction: 'desc' });
+      expect(component.positionParameters.filterByProperty).toEqual('createdAt');
+      expect(component.positionParameters.order).toBe(false);
 
-      component.sortData({ active: 'orderByCreatedAt', direction: '' });
-      expect(component.positionParameters.orderByFullName).toBeNull();
-      expect(component.positionParameters.orderByCreatedAt).toBeNull();
+      component.sortData({ active: 'createdAt', direction: '' });
+      expect(component.positionParameters.filterByProperty).toEqual('createdAt');
+      expect(component.positionParameters.order).toBe(false);
     });
   });
 
