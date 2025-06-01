@@ -12,6 +12,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
+import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -180,6 +181,7 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     CreateAddressFormComponent,
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
+    DecimalNumberPipe,
     ContactsCardComponent
   ],
 
@@ -275,6 +277,7 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     CreateContactsComponent,
     CreateAddressFormComponent,
     ProfileWaitingPageComponent,
+    DecimalNumberPipe,
     ContactsCardComponent
   ]
 })

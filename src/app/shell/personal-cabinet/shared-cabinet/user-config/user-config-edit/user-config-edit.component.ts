@@ -83,6 +83,9 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public setEditMode(): void {
     this.userEditFormGroup.patchValue(this.user, { emitEvent: false });
+    this.userEditFormGroup.get('lastName').disable();
+    this.userEditFormGroup.get('firstName').disable();
+    this.userEditFormGroup.get('middleName').disable();
     this.addNavPath();
   }
 
