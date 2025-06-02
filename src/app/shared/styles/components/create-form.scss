@@ -112,6 +112,7 @@ textarea:focus,
 select:focus,
 button:focus {
   outline: none;
+  color: var(--primary-dark-text-color);
 }
 
 .step-input ::ng-deep .mat-select-trigger {

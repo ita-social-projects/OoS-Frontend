@@ -29,6 +29,7 @@
 .keywords-input {
   position: absolute;
   top: 5px;
+  color: var(--primary-dark-text-color);
 }
 
 .expanded-field {
@@ -39,12 +40,18 @@
   padding-top: 5px;
 }
 
+.step-input {
+  background: transparent;
+  color: var(--primary-dark-text-color);
+}
+
 .min-logo {
   width: 20px;
   height: 20px;
 }
 
-.step-textarea {
+.step-textarea,
+.step-textarea-short {
   background-color: transparent;
   color: var(--primary-dark-text-color);
 }
