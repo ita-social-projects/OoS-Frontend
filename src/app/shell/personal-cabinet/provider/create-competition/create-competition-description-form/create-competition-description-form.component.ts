@@ -66,6 +66,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     return this.DescriptionFormGroup.get('directionId') as FormControl;
   }
 
+  public get subDirectionControl(): FormControl {
+    return this.DescriptionFormGroup.get('subDirectionIds') as FormControl;
+  }
+
   public get coverageControl(): FormControl {
     return this.DescriptionFormGroup.get('coverageId') as FormControl;
   }
@@ -286,7 +290,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   private directionControlListener(): void {
     this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: number) => {
-      this.DescriptionFormGroup.get('subDirectionIds').enable();
+      this.subDirectionControl.enable();
+      this.subDirectionControl.reset();
       this.store.dispatch(new GetSubDirections(directionId));
     });
   }
