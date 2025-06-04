@@ -15,22 +15,22 @@ export class CookiePreferencesComponent {
   };
 
   cookieOptions = [
-    { key: 'Analytics', label: 'Cookies, які враховують ваші вподобання' },
-    { key: 'Advertising', label: 'Cookies, які надають персоналізований контент' }
+    { key: 'Analytics', label: 'COOKIES.COOKIE_ANALYTICS_DESCRIPTION' },
+    { key: 'Advertising', label: 'COOKIES.COOKIE_ADVERTISING_DESCRIPTION' }
   ];
 
-  @Output() save = new EventEmitter<any>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() private readonly save = new EventEmitter<CookiesPreferences>();
+  @Output() private readonly cancel = new EventEmitter<void>();
 
-  onSave(): void {
+  public onSave(): void {
     this.save.emit(this.preferences);
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.cancel.emit();
   }
 
-  onPreferenceChange(key: keyof typeof this.preferences, event: MatSlideToggleChange): void {
-    this.preferences[key] = event.checked;
+  public onPreferenceChange(key: keyof typeof this.preferences, event: MatSlideToggleChange): void {
+    this.preferences = { ...this.preferences, [key]: event.checked };
   }
 }

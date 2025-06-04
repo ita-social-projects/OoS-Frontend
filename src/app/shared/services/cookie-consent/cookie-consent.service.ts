@@ -8,15 +8,15 @@ export class CookieConsentService {
   private readonly consentKey = 'cookieConsent';
   private readonly preferencesKey = 'cookiePreferences';
 
-  getConsent(): boolean {
+  public getConsent(): boolean {
     return localStorage.getItem(this.consentKey) === 'true';
   }
 
-  setConsent(value: boolean): void {
+  public setConsent(value: boolean): void {
     localStorage.setItem(this.consentKey, value.toString());
   }
 
-  getPreferences(): any {
+  public getPreferences(): CookiesPreferences {
     const stored = localStorage.getItem(this.preferencesKey);
     return stored
       ? JSON.parse(stored)
@@ -27,7 +27,7 @@ export class CookieConsentService {
         };
   }
 
-  setPreferences(preferences: CookiesPreferences): void {
+  public setPreferences(preferences: CookiesPreferences): void {
     localStorage.setItem(this.preferencesKey, JSON.stringify(preferences));
   }
 }
