@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { AchievementType } from 'shared/models/achievement.model';
-import { Direction } from 'shared/models/category.model';
+import { Direction, SubDirection } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
@@ -42,12 +42,14 @@ import {
   GetProviderTypes,
   GetRateByEntityId,
   GetSocialGroup,
+  GetSubDirections,
   ResetInstitutionHierarchy,
   UpdateInstitutionHierarchy
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
+  subDirections: SubDirection[];
   socialGroups: DataItem[];
   institutionStatuses: DataItem[];
   providerTypes: DataItem[];
@@ -69,6 +71,7 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     directions: null,
+    subDirections: null,
     socialGroups: [],
     institutionStatuses: null,
     providerTypes: null,
@@ -103,6 +106,11 @@ export class MetaDataState {
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] {
     return state.directions;
+  }
+
+  @Selector()
+  static subDirections(state: MetaDataStateModel): SubDirection[] {
+    return state.subDirections;
   }
 
   @Selector()
@@ -184,12 +192,24 @@ export class MetaDataState {
   getDirections({ patchState }: StateContext<MetaDataStateModel>): Observable<Direction[]> {
     patchState({ isLoading: true });
     return this.categoriesService.getDirections().pipe(
+      map((searchResponse) => searchResponse.entities),
       tap((directions: Direction[]) =>
         patchState({
           directions,
           isLoading: false
         })
       )
+    );
+  }
+
+  @Action(GetSubDirections)
+  getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<SubDirection[]> {
+    patchState({ isLoading: true });
+    return this.categoriesService.getSubDirections(directionId).pipe(
+      map((searchResponse) => searchResponse.entities),
+      tap((subDirections: SubDirection[]) => {
+        patchState({ subDirections, isLoading: false });
+      })
     );
   }
 

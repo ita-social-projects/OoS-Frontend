@@ -12,12 +12,12 @@ import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { CompetitionCoverageEnum } from 'shared/enum/enumUA/competition';
-import { InstituitionHierarchy, Institution } from 'shared/models/institution.model';
-import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/meta-data.actions';
+import { GetDirections, GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { Direction, SubDirection } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -26,10 +26,10 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
-  @Select(MetaDataState.institutions)
-  public institutions$: Observable<Institution[]>;
-  @Select(MetaDataState.instituitionsHierarchy)
-  public instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.directions)
+  public directions$: Observable<Direction[]>;
+  @Select(MetaDataState.subDirections)
+  public subDirections$: Observable<SubDirection[]>;
 
   @Input() public competition: Competition;
   @Input() public isImagesFeature: boolean;
@@ -62,8 +62,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     private readonly store: Store
   ) {}
 
-  public get categoryControl(): FormControl {
-    return this.DescriptionFormGroup.get('institutionHierarchyId') as FormControl;
+  public get directionControl(): FormControl {
+    return this.DescriptionFormGroup.get('directionId') as FormControl;
   }
 
   public get coverageControl(): FormControl {
@@ -75,13 +75,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new GetAllInstitutions(false));
-    this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
-      if (institutions) {
-        const nonGovernmentInstitution: Institution = institutions.filter((institution) => !institution.isGovernment)[0];
-        this.store.dispatch(new GetAllByInstitutionAndLevel(nonGovernmentInstitution.id, nonGovernmentInstitution.numberOfHierarchyLevels));
-      }
-    });
+    this.store.dispatch(new GetDirections());
 
     this.initForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
@@ -96,6 +90,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     this.initializeFormControls();
     this.priceControlListener();
+    this.directionControlListener();
   }
 
   public ngOnDestroy(): void {
@@ -200,8 +195,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
-      institutionHierarchyId: new FormControl(null),
-      subcategory: new FormControl(null),
+      directionId: new FormControl(null),
+      subDirectionIds: new FormControl({ value: null, disabled: true }),
       description: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
@@ -287,5 +282,12 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       .subscribe(() => {
         this.benefitsOptionRadioBtn.setValue(false);
       });
+  }
+
+  private directionControlListener(): void {
+    this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: number) => {
+      this.DescriptionFormGroup.get('subDirectionIds').enable();
+      this.store.dispatch(new GetSubDirections(directionId));
+    });
   }
 }

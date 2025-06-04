@@ -52,28 +52,32 @@
   <label class="step-label">{{ 'FORMS.LABELS.CATEGORY' | translate }}</label>
   <mat-form-field appearance="fill">
     <mat-select
-      name="institutionHierarchyId"
       placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
       disableOptionCentering
       panelClass="dropdown-panel"
-      [formControl]="categoryControl"
+      [formControl]="directionControl"
       class="step-input">
-      <mat-option *ngFor="let type of instituitionsHierarchy$ | async" [value]="type.id" class="dropdown-option">
+      <mat-option *ngFor="let type of directions$ | async" [value]="type.id" class="dropdown-option">
         {{ type.title | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="categoryControl"></app-validation-hint>
+  <app-validation-hint [validationFormControl]="directionControl"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.SUBCATEGORY' | translate }}</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="subcategory" autocomplete="none" appTrimValue />
+  <label class="step-label">{{ 'FORMS.LABELS.SUB_CATEGORY' | translate }}</label>
+  <mat-form-field appearance="fill">
+    <mat-select
+      placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      formControlName="subDirectionIds"
+      class="step-input">
+      <mat-option *ngFor="let type of subDirections$ | async" [value]="type.id" class="dropdown-option">
+        {{ type.title | translate }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('subcategory')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
+  <app-validation-hint [validationFormControl]="DescriptionFormGroup?.get('subDirectionIds')"></app-validation-hint>
 
   <div class="step-label-combined">
     <label class="step-label" for="description"> {{ 'FORMS.LABELS.DESCRIPTION' | translate }}</label>
