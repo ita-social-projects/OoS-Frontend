@@ -191,11 +191,15 @@ a {
 
   .mdc-checkbox {
     padding: 0;
+    position: relative;
+
+    .mdc-checkbox__checkmark-path {
+      stroke: white;
+    }
 
     .mdc-checkbox__native-control {
       width: 18px;
       height: 18px;
-      position: static;
     }
 
     .mdc-checkbox__background {
