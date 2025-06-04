@@ -20,8 +20,8 @@ export abstract class CompetitionBase {
   registrationEndTime?: string;
   parentCompetition?: string;
   numberOfSeats: number;
-  institutionHierarchyId?: string;
-  subcategory?: string;
+  directionId: number;
+  subDirectionIds: number[];
   description?: string;
   coverageId: number;
   plannedFormatOfClasses?: FormOfLearning;
@@ -85,11 +85,11 @@ export abstract class CompetitionBase {
     if (required.maximumAge) {
       this.maximumAge = required.maximumAge;
     }
-    if (description.institutionHierarchyId) {
-      this.institutionHierarchyId = description.institutionHierarchyId;
+    if (description.directionId) {
+      this.directionId = description.directionId;
     }
-    if (description.subcategory) {
-      this.subcategory = description.subcategory;
+    if (description.subDirectionIds) {
+      this.subDirectionIds = description.subDirectionIds;
     }
     if (description.description) {
       this.description = description.description;
@@ -209,8 +209,8 @@ export class CompetitiveDescriptionItem extends SectionItem {
 }
 
 interface Description {
-  institutionHierarchyId?: string;
-  subcategory?: string;
+  directionId?: number;
+  subDirectionIds: number[];
   description?: string;
   coverageId: CompetitionCoverage;
   formOfLearning?: FormOfLearning;
