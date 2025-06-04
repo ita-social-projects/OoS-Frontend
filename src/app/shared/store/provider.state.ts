@@ -187,6 +187,11 @@ export class ProviderState {
     return Boolean(state.unfinishedWorkshop?.workshopForLoading);
   }
 
+  @Selector()
+  static unfinishedWorkshop(state: ProviderStateModel): Workshop {
+    return state.unfinishedWorkshop?.workshopForLoading;
+  }
+
   @Selector() static isModalShown(state: ProviderStateModel): boolean {
     return state.isDraftModalShown;
   }

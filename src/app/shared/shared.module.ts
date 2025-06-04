@@ -12,6 +12,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
+import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -182,7 +183,8 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
     CookiesBannerComponent,
     CookiePreferencesComponent,
     ProfileWaitingPageComponent,
-    ForbiddenPageComponent
+    ForbiddenPageComponent,
+    DecimalNumberPipe
   ],
 
   imports: [
@@ -277,7 +279,9 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
     CreateContactsComponent,
     CreateAddressFormComponent,
     CookiesBannerComponent,
-    ProfileWaitingPageComponent
+    ProfileWaitingPageComponent,
+    ProfileWaitingPageComponent,
+    DecimalNumberPipe
   ]
 })
 export class SharedModule {}

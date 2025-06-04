@@ -38,6 +38,7 @@ import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { ProviderState } from 'shared/store/provider.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -59,7 +60,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public selectedWorkshop$: Observable<Workshop | WorkshopDraft>;
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
-  public unfinishedWorkshop$ = this.store.select((state) => state.provider.unfinishedWorkshop.workshopForLoading);
+  @Select(ProviderState.unfinishedWorkshop)
+  public unfinishedWorkshop$: Observable<Workshop>;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public provider: Provider;
   public entity: string;

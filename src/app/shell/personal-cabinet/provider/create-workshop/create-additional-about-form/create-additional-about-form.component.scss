@@ -27,6 +27,11 @@
   color: var(--primary-dark-text-color);
 }
 
+.step-textarea {
+  background: transparent;
+  color: var(--primary-dark-text-color);
+}
+
 @media (max-width: 750px) {
   .price::after {
     font-weight: 700;
