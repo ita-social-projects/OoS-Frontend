@@ -430,10 +430,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createAdditionalAbout(): AdditionalAbout {
     const additionalInfo = this.AdditionalAboutGroup.getRawValue();
-    if (additionalInfo.price === null) {
-      additionalInfo.price = 0;
-      additionalInfo.isPaid = false;
-    }
+
+    additionalInfo.price = additionalInfo.price || 0;
+    additionalInfo.isPaid = additionalInfo.price > 0;
 
     return additionalInfo;
   }
