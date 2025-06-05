@@ -8,19 +8,19 @@ import { CookiesPreferences } from '../../../models/cookies-preferences.model';
   styleUrls: ['./cookie-preferences.component.scss']
 })
 export class CookiePreferencesComponent {
-  @Input() preferences: CookiesPreferences = {
+  @Input() private preferences: CookiesPreferences = {
     Essential: true,
     Analytics: false,
     Advertising: false
   };
 
-  cookieOptions = [
+  @Output() private readonly save = new EventEmitter<CookiesPreferences>();
+  @Output() private readonly cancel = new EventEmitter<void>();
+
+  public cookieOptions = [
     { key: 'Analytics', label: 'COOKIES.COOKIE_ANALYTICS_DESCRIPTION' },
     { key: 'Advertising', label: 'COOKIES.COOKIE_ADVERTISING_DESCRIPTION' }
   ];
-
-  @Output() private readonly save = new EventEmitter<CookiesPreferences>();
-  @Output() private readonly cancel = new EventEmitter<void>();
 
   public onSave(): void {
     this.save.emit(this.preferences);

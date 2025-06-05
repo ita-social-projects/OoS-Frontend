@@ -8,16 +8,16 @@ import { CookiesPreferences } from '../../models/cookies-preferences.model';
   styleUrls: ['./cookies-banner.component.scss']
 })
 export class CookiesBannerComponent implements OnInit {
-  consentGiven = false;
-  showPreferences = false;
+  public consentGiven: boolean = false;
+  public showPreferences: boolean = false;
 
-  preferences: CookiesPreferences = {
+  public preferences: CookiesPreferences = {
     Essential: true,
     Analytics: false,
     Advertising: false
   };
 
-  constructor(private cookieService: CookieConsentService) {}
+  constructor(private readonly cookieService: CookieConsentService) {}
 
   public ngOnInit(): void {
     this.consentGiven = this.cookieService.getConsent();
