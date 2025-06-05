@@ -93,7 +93,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public onRegister(): void {
-    this.store.dispatch(new Login(true));
+    this.store.dispatch(new Login(false));
   }
 
   public ngOnDestroy(): void {
