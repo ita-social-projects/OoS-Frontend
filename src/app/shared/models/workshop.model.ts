@@ -18,6 +18,7 @@ export abstract class WorkshopBase {
   maxAge?: number;
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
+  isPaid: boolean;
   price: number;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
@@ -88,6 +89,7 @@ export abstract class WorkshopBase {
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
     this.groupType = additionalAbout?.groupType;
+    this.isPaid = additionalAbout?.isPaid;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
     this.coverage = description?.coverage;
@@ -245,12 +247,12 @@ export interface WorkshopAbout {
   availableSeats: number;
   coverImageId?: string;
   coverImage?: File;
-  isPaid?: boolean;
 }
 
 export interface AdditionalAbout {
   isSelfFinanced: boolean;
   isInclusive: boolean;
+  isPaid: boolean;
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
