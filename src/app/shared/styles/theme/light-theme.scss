@@ -50,3 +50,6 @@ $light-theme: mat.define-light-theme(
 );
 
 @include mat.all-component-themes($light-theme);
+.light-theme {
+  --mat-datepicker-calendar-date-in-range-state-background-color: rgba(0, 0, 255, 0.2) !important;
+}

@@ -3,3 +3,7 @@
   width: 100%;
   z-index: 999;
 }
+
+::ng-deep .mat-mdc-progress-bar {
+  --mdc-linear-progress-track-color: rgba(56, 73, 249, 0.25);
+}
