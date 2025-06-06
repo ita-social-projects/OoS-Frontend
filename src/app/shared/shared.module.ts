@@ -94,6 +94,8 @@ import { CompetitionCardComponent } from './components/competition-card/competit
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
+import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
+import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +180,8 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
+    CookiesBannerComponent,
+    CookiePreferencesComponent,
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
     DecimalNumberPipe
@@ -274,6 +278,8 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
+    CookiesBannerComponent,
+    ProfileWaitingPageComponent,
     ProfileWaitingPageComponent,
     DecimalNumberPipe
   ]

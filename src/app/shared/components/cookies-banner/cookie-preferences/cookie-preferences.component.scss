@@ -1,0 +1,92 @@
+.preferences-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Innerspace', sans-serif;
+
+  .preferences-content {
+    background-color: var(--primary-light-bg-color);
+    color: var(--primary-dark-text-color);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .button-group {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+
+      button {
+        padding: 8px 16px;
+        border: 1px solid;
+        border-color: var(--primary-dark-text-color);
+        color: var(--primary-dark-text-color);
+        background-color: transparent;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-size: 0.8rem;
+        height: 2.125rem;
+
+        &:hover {
+          background-color: var(--primary-hover-bg-color);
+        }
+      }
+
+      @media (min-width: 480px) {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  width: 100%;
+
+  .label {
+    font-size: 0.95rem;
+    color: var(--primary-dark-text-color);
+  }
+
+  ::ng-deep .mat-slide-toggle {
+    margin: 0;
+  }
+
+  ::ng-deep .mdc-switch__icons {
+    background-color: var(--primary-dark-text-color);
+    border-radius: 100%;
+  }
+
+  ::ng-deep .mdc-switch__track {
+    background-color: var(--primary-light-bg-color);
+    border: 1px solid var(--primary-dark-text-color);
+  }
+}

@@ -823,7 +823,9 @@
     "ARCHIVE": "Archive",
     "CONTINUE": "Continue",
     "USE_ADDRESS_AS_PRIMARY": "Use as primary",
-    "TRY_AGAIN": "Try again"
+    "TRY_AGAIN": "Try again",
+    "CONFIRM_ALL": "Confirm all",
+    "MANAGE_PARAMETERS": "Manage your preferences"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -1262,5 +1264,12 @@
   "IMAGE": {
     "ERROR": "Error",
     "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
+  },
+  "COOKIES": {
+    "COOKIE_DESCRIPTION": "Cookies help the website function properly. Below you can review what data we and our partners collect and for what purpose. You have the option to specify the conditions for their storage or access. You can withdraw your consent at any time by deleting cookies from your browser. More information can be found in the privacy policy.",
+    "COOKIE_CONSENT": "Cookie consent",
+    "COOKIE_ANALYTICS_DESCRIPTION": "Cookies that consider your preferences",
+    "COOKIE_ADVERTISING_DESCRIPTION": "Cookies that provide personalized content",
+    "COOKIES_ESSENTIAL_DESCRIPTION": "Cookies that ensure the website's functionality"
   }
 }
