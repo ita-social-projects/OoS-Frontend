@@ -1,13 +1,14 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Competition, CompetitionRequired } from 'shared/models/competition.model';
+import { Competition, CompetitionRequired, Description } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -18,7 +19,7 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { SubDirection } from 'shared/models/category.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -113,14 +114,9 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetCompetitionById(competitionId));
-    this.selectedCompetition$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((competition: Competition) => competition?.id === competitionId)
-      )
-      .subscribe((competition: Competition) => {
-        this.competition = competition;
-      });
+    this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition) => {
+      this.competition = competition;
+    });
   }
 
   /**
@@ -130,7 +126,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     if (this.areFormsInvalid) {
       const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
       const requiredInfo: CompetitionRequired = this.createRequired();
-      const descInfo = this.DescriptionFormGroup.getRawValue();
+      const descInfo: Description = this.createDescription();
       const contacts: Contacts[] = this.createContacts();
       const judges: Judge[] = this.createJudges();
 
@@ -200,6 +196,12 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
     }
     return requiredInfo;
+  }
+
+  private createDescription(): Description {
+    const description = this.DescriptionFormGroup.getRawValue();
+    description.subDirectionIds = description.subDirectionIds.map((subDirection: SubDirection) => subDirection.id) ?? undefined;
+    return description;
   }
 
   /**

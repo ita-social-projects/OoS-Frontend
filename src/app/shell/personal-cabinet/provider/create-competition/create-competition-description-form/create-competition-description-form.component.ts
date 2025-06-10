@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -53,8 +53,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public SectionItemsFormArray: FormArray = new FormArray([]);
   public filteredCompetitionCoverage: { key: string; value: string }[] = [];
 
-  protected readonly CompetitionCoverage = CompetitionCoverage;
-
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -85,6 +83,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
 
     this.getFilterCompetitionCoverage();
+    this.directionControlListener();
 
     if (this.competition) {
       this.activateEditMode();
@@ -94,7 +93,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     this.initializeFormControls();
     this.priceControlListener();
-    this.directionControlListener();
   }
 
   public ngOnDestroy(): void {
@@ -146,6 +144,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
 
+    if (this.competition.directionSubDirectionIds) {
+      this.directionControl.patchValue(this.competition.directionSubDirectionIds[0].directionId);
+    }
+
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
       this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').enable({ emitEvent: false });
@@ -195,12 +197,19 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.markFormAsDirtyOnUserInteraction();
   }
 
+  public compareItems(item1: SubDirection, item2: SubDirection): boolean {
+    if (!item1 || !item2) {
+      return false;
+    }
+    return item1.id === item2.id;
+  }
+
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
-      directionId: new FormControl(null),
-      subDirectionIds: new FormControl({ value: null, disabled: true }),
+      directionId: new FormControl(null, Validators.required),
+      subDirectionIds: new FormControl(null, Validators.required),
       description: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
@@ -290,9 +299,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   private directionControlListener(): void {
     this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: number) => {
-      this.subDirectionControl.enable();
-      this.subDirectionControl.reset();
+      this.subDirectionControl.reset(null, { emitEvent: false });
       this.store.dispatch(new GetSubDirections(directionId));
+    });
+
+    this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections) => {
+      const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
+      asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
     });
   }
 }

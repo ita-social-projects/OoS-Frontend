@@ -49,7 +49,7 @@
   </mat-form-field>
   <app-validation-hint [validationFormControl]="coverageControl"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.DIRECTION' | translate }}</label>
+  <label class="step-label">{{ 'FORMS.LABELS.DIRECTION' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appearance="fill">
     <mat-select
       placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
@@ -64,30 +64,32 @@
   </mat-form-field>
   <app-validation-hint [validationFormControl]="directionControl"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.SUB_DIRECTION' | translate }}</label>
-  <mat-form-field>
-    <mat-select
-      multiple
-      disableOptionCentering
-      panelClass="dropdown-panel select-with-form-field"
-      class="step-input chips"
-      [class.disabled-field]="directionControl.invalid"
-      formControlName="subDirectionIds">
-      <mat-select-trigger>
-        <mat-chip-set>
-          <mat-chip class="flex items-center" *ngFor="let subDirection of subDirectionControl.value">
-            <img class="min-logo" height="20" width="20" src="../../assets/icons/hashtag.svg" alt="tag" />
-            <span>{{ subDirection.title }}</span>
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip>
-        </mat-chip-set>
-      </mat-select-trigger>
-      <mat-option class="dropdown-option" *ngFor="let subDirection of subDirections$ | async" [value]="subDirection">
-        {{ subDirection.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <app-validation-hint [validationFormControl]="subDirectionControl"></app-validation-hint>
+  <ng-container *ngIf="directionControl.value">
+    <label class="step-label">{{ 'FORMS.LABELS.SUB_DIRECTION' | translate }}<span class="step-required">*</span></label>
+    <mat-form-field>
+      <mat-select
+        multiple
+        disableOptionCentering
+        panelClass="dropdown-panel select-with-form-field"
+        class="step-input chips"
+        [compareWith]="compareItems"
+        formControlName="subDirectionIds">
+        <mat-select-trigger>
+          <mat-chip-set>
+            <mat-chip class="flex items-center" *ngFor="let subDirection of subDirectionControl.value">
+              <img class="min-logo" height="20" width="20" src="../../assets/icons/hashtag.svg" alt="tag" />
+              <span>{{ subDirection.title }}</span>
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-set>
+        </mat-select-trigger>
+        <mat-option class="dropdown-option" *ngFor="let subDirection of subDirections$ | async" [value]="subDirection">
+          {{ subDirection.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <app-validation-hint [validationFormControl]="subDirectionControl"></app-validation-hint>
+  </ng-container>
 
   <div class="step-label-combined">
     <label class="step-label" for="description"> {{ 'FORMS.LABELS.DESCRIPTION' | translate }}</label>
