@@ -32,7 +32,6 @@ export abstract class CompetitionBase {
   areThereBenefits: boolean;
   benefits?: string;
   judges: Judge[];
-  directionIds: number[];
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
   contacts: Contacts[];
   parentId: string;
@@ -177,7 +176,6 @@ export interface CompetitionBaseCard {
   address?: Address;
   rating: number;
   numberOfRatings: number;
-  directionIds: number[];
   _meta?: string;
 }
 
