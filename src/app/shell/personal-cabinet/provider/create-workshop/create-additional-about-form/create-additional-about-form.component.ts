@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Select, Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, throttleTime } from 'rxjs';
-import { distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
@@ -16,9 +16,9 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
-import { ProviderState } from 'shared/store/provider.state';
 import { LanguageListItem } from 'shared/models/language-list.model';
-import { GetLanguageList } from 'shared/store/provider.actions';
+import { GetLanguageList } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -26,7 +26,7 @@ import { GetLanguageList } from 'shared/store/provider.actions';
   styleUrls: ['./create-additional-about-form.component.scss']
 })
 export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
-  @Select(ProviderState.languageList)
+  @Select(MetaDataState.languageList)
   public languageList$!: Observable<LanguageListItem[]>;
 
   @Input() public workshop: Workshop;

@@ -1,3 +1,5 @@
+@use 'src/app/shared/styles/components/create-form';
+
 .filters-wrapper {
   width: 302px;
 }
@@ -32,6 +34,10 @@
   font-weight: 700;
   line-height: 14.6px;
   color: var(--cancel-text-color);
+}
+
+.title {
+  margin-top: 24px;
 }
 
 .check-boxes {

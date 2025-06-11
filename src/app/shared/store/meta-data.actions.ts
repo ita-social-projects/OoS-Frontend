@@ -107,3 +107,7 @@ export class GetCodeficatorById {
 export class ClearCodeficatorSearch {
   static readonly type = '[meta-data] Clear Codeficator state';
 }
+
+export class GetLanguageList {
+  static readonly type = '[meta-data] get language list';
+}
