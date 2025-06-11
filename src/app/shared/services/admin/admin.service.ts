@@ -9,6 +9,7 @@ import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-a
 import { Provider, ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
+import { TechAdmin } from 'shared/models/tech-admin.model';
 import { WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 
 @Injectable({
@@ -18,6 +19,10 @@ export class AdminService {
   private readonly baseApiUrl = '/api/v1/Admin';
 
   constructor(private http: HttpClient) {}
+
+  public getAdminProfile(): Observable<TechAdmin> {
+    return this.http.get<TechAdmin>(`${this.baseApiUrl}/Profile`);
+  }
 
   public getAllMinistryAdmins(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
     const options = { params: this.setMinistryAdminParams(parameters) };

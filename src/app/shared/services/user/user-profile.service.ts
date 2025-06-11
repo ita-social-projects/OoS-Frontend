@@ -13,6 +13,7 @@ import { EmployeeService } from '../employee/employee.service';
 import { MinistryAdminService } from '../ministry-admin/ministry-admin.service';
 import { RegionAdminService } from '../region-admin/region-admin.service';
 import { AreaAdminService } from '../area-admin/area-admin.service';
+import { AdminService } from '../admin/admin.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
@@ -22,7 +23,8 @@ export class UserProfileService {
     private employeeService: EmployeeService,
     private ministryAdminService: MinistryAdminService,
     private regionAdminService: RegionAdminService,
-    private areaAdminService: AreaAdminService
+    private areaAdminService: AreaAdminService,
+    private adminService: AdminService
   ) {}
 
   /**
@@ -66,10 +68,10 @@ export class UserProfileService {
       [Role.ministryAdmin]: this.ministryAdminService.getAdminProfile(),
       [Role.regionAdmin]: this.regionAdminService.getAdminProfile(),
       [Role.areaAdmin]: this.areaAdminService.getAdminProfile(),
-      [Role.all]: new Observable<any>(),
-      [Role.unauthorized]: new Observable<any>(),
-      [Role.techAdmin]: new Observable<any>(),
-      [Role.moderator]: new Observable<any>()
+      [Role.all]: null,
+      [Role.unauthorized]: null,
+      [Role.techAdmin]: this.adminService.getAdminProfile(),
+      [Role.moderator]: this.adminService.getAdminProfile()
     };
 
     return roleServiceMap[role] || null;
