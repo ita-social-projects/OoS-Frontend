@@ -202,6 +202,11 @@ a {
       height: 18px;
     }
 
+    .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
+      background-color: var(--primary-accent-color) !important;
+      border-color: var(--primary-accent-color) !important;
+    }
+
     .mdc-checkbox__background {
       top: 0;
       left: 0;
