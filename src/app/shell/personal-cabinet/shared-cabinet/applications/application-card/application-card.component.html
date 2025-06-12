@@ -77,7 +77,7 @@
               </button>
             </ng-template>
             <button
-              class="btn btn-gray"
+              class="btn btn-gray reject-btn"
               (click)="reject.emit(application)"
               [ngClass]="
                 (application.status === ApplicationStatuses.Rejected || application.status === ApplicationStatuses.Left) && 'hidden'
@@ -89,7 +89,7 @@
         <mat-card-content class="card-block card-block__buttons flex flex-row justify-end items-center" *ngIf="userRole === Role.parent">
           <div>
             <button
-              class="btn btn-gray"
+              class="btn btn-gray reject-btn"
               (click)="leave.emit(application)"
               [class.hidden]="application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected">
               <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
