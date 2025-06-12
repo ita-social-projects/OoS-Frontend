@@ -29,6 +29,7 @@ export abstract class WorkshopBase {
   withDisabilityOptions: boolean;
   disabilityOptionsDesc: string;
   languageOfEducationId: string;
+  languageOfEducationName: string;
   institutionId: string;
   institution: string;
   institutionHierarchyId: string;
@@ -204,6 +205,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
+  languageOfEducationName: string;
 }
 
 export interface WorkshopDraftCard extends WorkshopBaseCard {
