@@ -48,7 +48,7 @@
         [readonly]="isDisabled"
         (keydown)="handleKeyDown($event)"></textarea>
       <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled">
-        <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
+        <span>{{ 'BUTTONS.SEND' | translate }}</span>
         <mat-icon>send</mat-icon>
       </button>
     </div>

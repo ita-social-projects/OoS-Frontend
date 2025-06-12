@@ -202,17 +202,25 @@ a {
       height: 18px;
     }
 
+    .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
+      background-color: var(--primary-accent-color) !important;
+      border-color: var(--primary-accent-color) !important;
+    }
+
     .mdc-checkbox__background {
       top: 0;
       left: 0;
     }
 
     .mdc-checkbox__ripple {
+      position: relative !important;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      height: 40px;
-      width: 40px;
+      height: 35px;
+      width: 35px;
+      overflow: visible !important;
+      z-index: 1000 !important;
     }
   }
 }

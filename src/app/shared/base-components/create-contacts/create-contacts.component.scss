@@ -45,6 +45,7 @@
 .accordion-item {
   padding-left: 1px;
   padding-right: 1px;
+  overflow: visible !important;
   ::ng-deep .mat-expansion-panel-body,
   .mat-expansion-panel-header {
     padding: 0;

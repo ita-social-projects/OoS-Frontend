@@ -12,6 +12,10 @@ $breakpoint-mobile: 500px;
   width: 100%;
   min-height: 500px;
 
+  .main-button {
+    letter-spacing: 0.5px;
+  }
+
   &-registration {
     padding: 32px 40px;
     background: var(--primary-accent-color);

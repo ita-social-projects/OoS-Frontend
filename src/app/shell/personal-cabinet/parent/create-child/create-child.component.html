@@ -49,14 +49,14 @@
     </div>
 
     <div class="footer flex flex-row justify-center items-center">
-      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
+      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button
         class="btn"
         [disabled]="!AgreementFormControl.value || !ChildrenFormArray.dirty || ChildrenFormArray.invalid || isDispatching"
         mat-button
         type="submit"
         (click)="onSubmit()">
-        {{ 'BUTTONS.SAVE' | translate | uppercase }}
+        {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>
   </div>
