@@ -31,7 +31,7 @@ export class AdminFactory {
 }
 
 export function isRoleAdmin(role: string): boolean {
-  return [Role.techAdmin, Role.ministryAdmin, Role.regionAdmin, Role.areaAdmin].includes(role as Role);
+  return [Role.techAdmin, Role.ministryAdmin, Role.regionAdmin, Role.areaAdmin, Role.moderator].includes(role as Role);
 }
 
 export function canManageInstitution(role: string): boolean {

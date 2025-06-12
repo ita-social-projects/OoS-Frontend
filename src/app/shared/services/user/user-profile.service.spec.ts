@@ -7,6 +7,7 @@ import { EmployeeService } from '../employee/employee.service';
 import { MinistryAdminService } from '../ministry-admin/ministry-admin.service';
 import { RegionAdminService } from '../region-admin/region-admin.service';
 import { AreaAdminService } from '../area-admin/area-admin.service';
+import { AdminService } from '../admin/admin.service';
 import { UserProfileService } from './user-profile.service';
 
 describe('UserProfileService', () => {
@@ -31,6 +32,9 @@ describe('UserProfileService', () => {
   const areaAdminServiceMock = {
     getAdminProfile: jest.fn().mockReturnValue(of({ profile: 'area admin profile' }))
   };
+  const adminServiceMock = {
+    getAdminProfile: jest.fn().mockReturnValue(of({ profile: 'admin profile' }))
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,7 +45,8 @@ describe('UserProfileService', () => {
         { provide: EmployeeService, useValue: employeeServiceMock },
         { provide: MinistryAdminService, useValue: ministryAdminServiceMock },
         { provide: RegionAdminService, useValue: regionAdminServiceMock },
-        { provide: AreaAdminService, useValue: areaAdminServiceMock }
+        { provide: AreaAdminService, useValue: areaAdminServiceMock },
+        { provide: AdminService, useValue: adminServiceMock }
       ]
     });
     service = TestBed.inject(UserProfileService);
@@ -141,13 +146,31 @@ describe('UserProfileService', () => {
       });
     });
 
+    it('should return admin profile observable for Role.techAdmin', (done) => {
+      const obs = service.getProfileObservableByRole(Role.techAdmin, '123');
+      expect(obs).not.toBeNull();
+      obs.subscribe((data) => {
+        expect(data.profile).toBe('admin profile');
+        done();
+      });
+    });
+
+    it('should return admin profile observable for Role.moderator', (done) => {
+      const obs = service.getProfileObservableByRole(Role.moderator, '123');
+      expect(obs).not.toBeNull();
+      obs.subscribe((data) => {
+        expect(data.profile).toBe('admin profile');
+        done();
+      });
+    });
+
     // For roles that return new Observable<any>() instances:
-    it('should return a new Observable for Role.all, Role.unauthorized, Role.techAdmin, and Role.moderator', () => {
-      const rolesToTest = [Role.all, Role.unauthorized, Role.techAdmin, Role.moderator];
+    it('should return a new Observable for Role.all, Role.unauthorized', () => {
+      const rolesToTest = [Role.all, Role.unauthorized];
       rolesToTest.forEach((role) => {
         const obs = service.getProfileObservableByRole(role, '123');
         // Check that we got something truthy; these observables likely don’t emit data.
-        expect(obs).toBeTruthy();
+        expect(obs).toBeNull();
       });
     });
   });
