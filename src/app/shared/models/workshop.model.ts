@@ -28,7 +28,7 @@ export abstract class WorkshopBase {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   withDisabilityOptions: boolean;
   disabilityOptionsDesc: string;
-  languageOfEducationId: string;
+  languageOfEducationId: number;
   languageOfEducationName: string;
   institutionId: string;
   institution: string;
@@ -69,6 +69,7 @@ export abstract class WorkshopBase {
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
     this.studyPeriodDates = about?.studyPeriodDates;
+    this.languageOfEducationId = about?.languageOfEducationId;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
@@ -91,7 +92,6 @@ export abstract class WorkshopBase {
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
     this.groupType = additionalAbout?.groupType;
-    this.languageOfEducationId = additionalAbout?.languageOfEducationId;
     this.isPaid = additionalAbout?.isPaid;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
@@ -247,6 +247,7 @@ export interface WorkshopAbout {
   maxAge?: number;
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
+  languageOfEducationId: number;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   coverImageId?: string;
@@ -265,7 +266,6 @@ export interface AdditionalAbout {
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
-  languageOfEducationId: string;
 }
 
 export interface WorkshopFilterAdministration extends PaginationParameters {

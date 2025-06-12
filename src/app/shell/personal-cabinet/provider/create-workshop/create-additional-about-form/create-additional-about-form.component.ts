@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, throttleTime } from 'rxjs';
+import { Subject, throttleTime } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
@@ -16,9 +16,6 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
-import { LanguageListItem } from 'shared/models/language-list.model';
-import { GetLanguageList } from 'shared/store/meta-data.actions';
-import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -26,9 +23,6 @@ import { MetaDataState } from 'shared/store/meta-data.state';
   styleUrls: ['./create-additional-about-form.component.scss']
 })
 export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
-  @Select(MetaDataState.languageList)
-  public languageList$!: Observable<LanguageListItem[]>;
-
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
@@ -83,7 +77,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       this.activateEditMode();
     }
 
-    this.getLanguageList();
     this.priceControlListener();
     this.priceValueListener();
     this.listenToChanges();
@@ -138,8 +131,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       ]),
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl(''),
-      languageOfEducationId: new FormControl(null, Validators.required)
+      preferentialTermsOfParticipation: new FormControl('')
     });
   }
 
@@ -218,10 +210,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
           })
         );
       });
-  }
-
-  private getLanguageList(): void {
-    this.store.dispatch(new GetLanguageList());
   }
 
   private listenToBenefitsChanges(): void {
