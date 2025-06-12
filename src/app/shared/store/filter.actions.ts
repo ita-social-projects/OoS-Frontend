@@ -125,7 +125,7 @@ export class SetWithDisabilityOption {
 export class SetLanguageOfEducation {
   static readonly type = '[filter] Set Language of Education';
 
-  constructor(public payload: number) {}
+  constructor(public payload: number | null) {}
 }
 
 export class SetIsStrictWorkdays {

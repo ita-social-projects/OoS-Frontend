@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -181,7 +181,7 @@ export class MetaDataState {
   }
 
   @Action(GetDirections)
-  getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {
+  getDirections({ patchState }: StateContext<MetaDataStateModel>): Observable<Direction[]> {
     patchState({ isLoading: true });
     return this.categoriesService.getDirections().pipe(
       tap((directions: Direction[]) =>
@@ -386,8 +386,12 @@ export class MetaDataState {
   @Action(GetLanguageList)
   getLanguageList({ patchState }: StateContext<MetaDataStateModel>, {}: GetLanguageList): Observable<LanguageListItem[]> {
     patchState({ isLoading: true });
-    return this.languageListService
-      .getLanguageList()
-      .pipe(tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })));
+    return this.languageListService.getLanguageList().pipe(
+      tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })),
+      catchError(() => {
+        patchState({ isLoading: false });
+        return EMPTY;
+      })
+    );
   }
 }

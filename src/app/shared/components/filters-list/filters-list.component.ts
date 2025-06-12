@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { first, startWith, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, first, startWith, takeUntil } from 'rxjs/operators';
 
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
@@ -94,8 +94,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
 
     this.LanguageOfEducationControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: number) => this.store.dispatch(new SetLanguageOfEducation(val)));
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .subscribe((val: number | null) => this.store.dispatch(new SetLanguageOfEducation(val)));
   }
 
   /**

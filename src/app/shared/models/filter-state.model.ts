@@ -35,5 +35,5 @@ export interface FilterStateModel {
   previousResults: string[];
   workshopSearchQuery: string;
   workshopPreviousResults: string[];
-  languageOfEducationId: number;
+  languageOfEducationId: number | null;
 }
