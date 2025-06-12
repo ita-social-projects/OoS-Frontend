@@ -17,6 +17,7 @@ import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Util } from 'shared/utils/utils';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import moment from 'moment';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -116,4 +117,6 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
     Util.setFromPaginationParam(this.positionParameters, this.currentPage, this.totalElements);
     this.store.dispatch(new GetPositions(this.positionParameters));
   }
+
+  protected readonly moment = moment;
 }

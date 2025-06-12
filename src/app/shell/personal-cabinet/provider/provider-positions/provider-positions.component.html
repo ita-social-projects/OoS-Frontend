@@ -115,7 +115,7 @@
               matTooltipClass="tooltip"
               [matTooltipPosition]="tooltipPosition"
               class="tab-text">
-              {{ element.createdAt | date: 'dd.MM.yy HH:mm' }}
+              {{ element.createdAt | localDate: 'DD.MM.YY HH:mm' }}
             </div>
           </td>
         </ng-container>
