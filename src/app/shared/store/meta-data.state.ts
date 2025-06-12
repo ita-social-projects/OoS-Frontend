@@ -384,7 +384,7 @@ export class MetaDataState {
   }
 
   @Action(GetLanguageList)
-  getLanguageList({ patchState }: StateContext<MetaDataStateModel>, {}: GetLanguageList): Observable<LanguageListItem[]> {
+  getLanguageList({ patchState }: StateContext<MetaDataStateModel>): Observable<LanguageListItem[]> {
     patchState({ isLoading: true });
     return this.languageListService.getLanguageList().pipe(
       tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })),
