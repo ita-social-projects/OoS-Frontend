@@ -13,6 +13,7 @@
       class="btn"
       mat-button
       cdkFocusInitial
+      [disabled]="data.type === modalConfirmationType.rate && !ratingSelectControl?.value"
       [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true">
       {{ getConfirmationButtonMessage() | translate }}
     </button>
