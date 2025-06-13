@@ -3,8 +3,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { catchError, debounceTime, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, finalize, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -251,13 +251,18 @@ export class ParentState {
 
   @Action(GetAllUsersChildrenByParentId)
   getAllUsersChildrenByParentId(
-    { patchState }: StateContext<ParentStateModel>,
+    { patchState, dispatch }: StateContext<ParentStateModel>, // Додай dispatch
     { payload }: GetAllUsersChildrenByParentId
   ): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
-    return this.childrenService
-      .getUsersChildrenByParentId(payload)
-      .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
+    return this.childrenService.getUsersChildrenByParentId(payload).pipe(
+      tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })),
+      catchError((error: HttpErrorResponse) => {
+        patchState({ isLoading: false });
+        dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+        return of([]);
+      })
+    );
   }
 
   @Action(DeleteChildById)
