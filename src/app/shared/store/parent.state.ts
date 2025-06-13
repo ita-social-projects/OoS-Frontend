@@ -256,12 +256,12 @@ export class ParentState {
   ): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
     return this.childrenService.getUsersChildrenByParentId(payload).pipe(
-      tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })),
+      tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems })),
       catchError((error: HttpErrorResponse) => {
-        patchState({ isLoading: false });
         dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
         return of([]);
-      })
+      }),
+      finalize(() => patchState({ isLoading: false }))
     );
   }
 
