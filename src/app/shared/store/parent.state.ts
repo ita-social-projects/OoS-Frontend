@@ -251,7 +251,7 @@ export class ParentState {
 
   @Action(GetAllUsersChildrenByParentId)
   getAllUsersChildrenByParentId(
-    { patchState, dispatch }: StateContext<ParentStateModel>, // Додай dispatch
+    { patchState, dispatch }: StateContext<ParentStateModel>,
     { payload }: GetAllUsersChildrenByParentId
   ): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
