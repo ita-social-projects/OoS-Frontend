@@ -28,6 +28,8 @@ export abstract class WorkshopBase {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   withDisabilityOptions: boolean;
   disabilityOptionsDesc: string;
+  languageOfEducationId: number;
+  languageOfEducationName: string;
   institutionId: string;
   institution: string;
   institutionHierarchyId: string;
@@ -67,6 +69,7 @@ export abstract class WorkshopBase {
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
     this.studyPeriodDates = about?.studyPeriodDates;
+    this.languageOfEducationId = about?.languageOfEducationId;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
@@ -202,6 +205,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
+  languageOfEducationName: string;
 }
 
 export interface WorkshopDraftCard extends WorkshopBaseCard {
@@ -243,6 +247,7 @@ export interface WorkshopAbout {
   maxAge?: number;
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
+  languageOfEducationId: number;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   coverImageId?: string;

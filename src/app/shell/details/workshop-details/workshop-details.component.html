@@ -108,6 +108,10 @@
             {{ workshop.minAge }} - {{ workshop.maxAge }}
             {{ 'YEARS' | translate }}
           </span>
+          <span class="icon-text">
+            <mat-icon class="icon">language</mat-icon>
+            {{ workshop.languageOfEducationName }}
+          </span>
         </div>
         <div class="flex flex-col" *ngIf="workshop.competitiveSelection">
           <span class="flex flex-row items-center">
