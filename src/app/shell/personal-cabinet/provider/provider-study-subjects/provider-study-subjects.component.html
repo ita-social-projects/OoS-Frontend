@@ -33,7 +33,6 @@
               placeholder="{{ 'TO' | translate }}"
               [value]="tempDateTo"
               (dateInput)="onDateInput($event, 'dateTo')"
-              [min]="filterForm.get('dateFrom').value"
               appDateInput />
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
