@@ -10,6 +10,7 @@ table {
 
   a {
     cursor: pointer;
+
     span {
       vertical-align: top;
     }
@@ -21,23 +22,10 @@ table {
   height: 40px;
 }
 
-.actions-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
 .search {
   padding-left: 1rem;
   background-color: transparent;
   color: var(--primary-dark-text-color);
-}
-
-.search-area {
-  position: static;
-  display: flex;
-  max-height: 2.5rem;
 }
 
 @media (max-width: 1200px) {
@@ -65,32 +53,14 @@ table {
   }
 }
 
-.header-column {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-.filters-wrapper {
-  display: flex;
-  align-items: center;
-  column-gap: 5px;
-}
-
 .filters-period {
-  display: flex;
-  align-items: flex-end;
-  row-gap: 10px;
-
-  > span {
-    margin-right: 10px;
-    font-size: 14px;
-    align-self: center;
-    line-height: 14.6px;
-    color: var(--cancel-text-color);
-    font-weight: 700;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
-  }
+  margin-right: 10px;
+  font-size: 14px;
+  align-self: center;
+  line-height: 14.6px;
+  color: var(--cancel-text-color);
+  font-weight: 700;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 
   mat-datepicker-toggle {
     pointer-events: all;
@@ -105,6 +75,7 @@ table {
 
 ::ng-deep .mat-datepicker-content {
   border-radius: 24px !important;
+
   .mat-calendar {
     border-radius: 24px 24px 0 0;
   }
@@ -112,12 +83,6 @@ table {
 
 ::ng-deep mat-date-range-picker-actions .date-buttons {
   justify-content: center;
-}
-
-.date-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }
 
 :host ::ng-deep .date {
@@ -156,6 +121,7 @@ table {
   .mdc-floating-label {
     top: 18px;
     width: 100%;
+
     &--float-above {
       transform: translateY(-90%) scale(0.75);
     }
@@ -176,13 +142,6 @@ table {
 }
 
 .reset {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  margin-left: 8px;
-
   &:hover {
     opacity: 0.5;
   }
@@ -193,8 +152,6 @@ table {
     font-size: 24px;
     line-height: 19px;
     color: var(--cancel-text-color);
-    display: flex;
-    align-items: center;
   }
 }
 
