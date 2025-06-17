@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { MaterialModule } from 'shared/modules/material.module';
@@ -31,7 +31,7 @@ describe('AgeFilterComponent', () => {
         MatIconModule,
         BrowserModule,
         MatDatepickerModule,
-        NgxMatTimepickerModule,
+        NgxMaterialTimepickerModule,
         MatButtonModule,
         MaterialModule,
         TranslateModule.forRoot()

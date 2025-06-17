@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { take } from 'rxjs/operators';
@@ -24,7 +24,7 @@ describe('WorkingHoursFormComponent', () => {
         BrowserAnimationsModule,
         MatDatepickerModule,
         MatInputModule,
-        NgxMatTimepickerModule,
+        NgxMaterialTimepickerModule,
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,

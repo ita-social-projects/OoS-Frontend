@@ -21,7 +21,8 @@
     color: var(--error-color);
   }
 
-  &-input {
+  &-input,
+  &-input.mat-mdc-form-field-input-control {
     border: 1px solid var(--input-light-color);
     border-radius: 21px;
     padding: 0.5rem 1rem;
@@ -58,7 +59,7 @@
 
   &-textarea {
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid var(--input-light-color);
+    border: 1px solid var(--input-light-color) !important;
     border-radius: 25px;
     padding: 20px;
     min-height: 200px;
@@ -156,8 +157,8 @@ button:focus {
   }
 }
 
-::ng-deep .mat-mdc-form-field .mdc-line-ripple {
-  display: none !important;
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper .mdc-line-ripple {
+  display: none;
 }
 
 ::ng-deep .mat-mdc-input-element {
@@ -176,7 +177,7 @@ button:focus {
 
 ::ng-deep .mat-mdc-form-field-infix {
   padding: 0.4375em 0 !important;
-  min-height: 36px;
+  min-height: 36px !important;
   border: none;
   font-size: 13px !important;
 }

@@ -1,8 +1,9 @@
-@use 'src/app/shared/styles/components/buttons';
-@use 'src/app/shared/styles/components/tables';
-@use 'src/app/shared/styles/components/search';
-@use 'src/app/shared/styles/components/dropdown';
-@use 'src/app/shared/styles/components/calendar';
+@use 'buttons';
+@use 'tables';
+@use 'search';
+@use 'dropdown';
+@use 'calendar';
+@use 'create-form';
 
 table {
   width: 100%;
@@ -154,7 +155,7 @@ table {
   }
 
   .mdc-floating-label {
-    top: 18px;
+    top: 18px !important;
     width: 100%;
     &--float-above {
       transform: translateY(-90%) scale(0.75);
@@ -167,7 +168,7 @@ table {
   border: 0;
 }
 
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
   padding: 0;
 }
 

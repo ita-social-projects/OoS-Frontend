@@ -1,4 +1,4 @@
-@use 'src/app/shared/styles/components/cabinet';
+@use 'cabinet';
 
 :host::ng-deep {
   .mat-mdc-tab-link-container {
@@ -7,7 +7,10 @@
 
   .mat-badge-overlap.mat-badge-after .mat-badge-content {
     background-color: #f5bc4a;
+    margin: 0;
+    bottom: 22px;
     right: 0;
+    left: auto;
     width: 25px;
     height: 15px;
     border-radius: 13px;

@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
@@ -194,7 +194,7 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    NgxMatTimepickerModule,
+    NgxMaterialTimepickerModule,
     NgxMatIntlTelInputComponent,
     ImageCropperComponent,
     TranslateModule,
