@@ -1,4 +1,3 @@
-@use 'buttons';
 @use 'tables';
 @use 'search';
 @use 'dropdown';
@@ -155,7 +154,7 @@ table {
   }
 
   .mdc-floating-label {
-    top: 18px !important;
+    top: 18px;
     width: 100%;
     &--float-above {
       transform: translateY(-90%) scale(0.75);
