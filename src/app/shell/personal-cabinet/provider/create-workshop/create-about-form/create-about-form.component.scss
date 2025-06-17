@@ -3,6 +3,7 @@
 @use 'dropdown';
 @use 'toggle-button';
 @use 'info-hint';
+@use 'calendar';
 
 ::ng-deep .dropdown-panel {
   max-height: 150px !important;
