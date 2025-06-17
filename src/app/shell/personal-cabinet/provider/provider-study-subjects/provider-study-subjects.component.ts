@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -73,8 +73,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
-      dateFrom: new FormControl<Moment | null>(null),
-      dateTo: new FormControl<Moment | null>(null)
+      dateFrom: new FormControl<Moment | null>(null, Validators.max(this.filterForm.get('dateTo')?.value)),
+      dateTo: new FormControl<Moment | null>(null, Validators.min(this.filterForm.get('dateFrom')?.value))
     });
 
     this.filterForm
@@ -169,6 +169,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
   public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
     this.filterForm.get(controlName)?.patchValue(event.target.value);
+    console.log(this.filterForm.get(controlName));
     this.setDateForFilters();
   }
 
