@@ -21,8 +21,9 @@
     color: var(--error-color);
   }
 
-  &-input {
-    border: 1px solid var(--input-light-color) !important;
+  &-input,
+  &-input.mat-mdc-form-field-input-control {
+    border: 1px solid var(--input-light-color);
     border-radius: 21px;
     padding: 0.5rem 1rem;
     line-height: initial;
