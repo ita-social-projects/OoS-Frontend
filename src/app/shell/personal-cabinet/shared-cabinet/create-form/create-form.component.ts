@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil, takeWhile } from 'rxjs/operators';
+import { filter, take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -74,10 +74,8 @@ export abstract class CreateFormComponent implements OnDestroy {
     form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
       this.isPristine = false;
       this.store.dispatch(new MarkFormDirty(true));
-      this.isDirtyForm$.pipe(takeUntil(this.destroy$)).subscribe((isDirty: boolean) => {
-        if (isDirty) {
-          this.removeUnloadProtection = addBeforeUnloadProtection(() => true);
-        }
+      this.isDirtyForm$.pipe(filter(Boolean), take(1), takeUntil(this.destroy$)).subscribe(() => {
+        this.removeUnloadProtection = addBeforeUnloadProtection(() => true);
       });
     });
     this.subscribeOnTouchEvent(form);
