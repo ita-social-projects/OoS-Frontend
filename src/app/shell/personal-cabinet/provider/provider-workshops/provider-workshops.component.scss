@@ -1,6 +1,7 @@
-@use 'src/app/shared/styles/components/list-wrappers';
-@use 'src/app/shared/styles/components/card-wrapper';
-@use 'src/app/shared/styles/components/buttons';
+@use 'list-wrappers';
+@use 'card-wrapper';
+@use 'buttons';
+@use 'create-form';
 
 .searchbar {
   display: flex;

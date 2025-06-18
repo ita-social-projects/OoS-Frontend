@@ -12,7 +12,6 @@
 
 $config: mat.define-typography-config(
   $font-family: 'Innerspace',
-  // temporarily font-family for buttons
   $button: mat.define-typography-level(13px, 15px, 700, 'Innerspace', sans-serif)
 );
 
@@ -24,6 +23,7 @@ $config: mat.define-typography-config(
 
 @include mat.core();
 
+@include mat.select-typography($config);
 @include mat.button-toggle-typography($config);
 @include mat.button-typography($config);
 @include mat.expansion-typography($config);
@@ -191,11 +191,20 @@ a {
 
   .mdc-checkbox {
     padding: 0;
+    position: relative;
+
+    .mdc-checkbox__checkmark-path {
+      stroke: white;
+    }
 
     .mdc-checkbox__native-control {
       width: 18px;
       height: 18px;
-      position: static;
+    }
+
+    .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
+      background-color: var(--primary-accent-color) !important;
+      border-color: var(--primary-accent-color) !important;
     }
 
     .mdc-checkbox__background {
@@ -204,11 +213,14 @@ a {
     }
 
     .mdc-checkbox__ripple {
+      position: relative !important;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      height: 40px;
-      width: 40px;
+      height: 35px;
+      width: 35px;
+      overflow: visible !important;
+      z-index: 1000 !important;
     }
   }
 }

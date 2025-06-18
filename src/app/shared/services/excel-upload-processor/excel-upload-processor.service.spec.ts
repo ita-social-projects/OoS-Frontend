@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx/xlsx.mjs';
 import { ExcelUploadProcessorService } from './excel-upload-processor.service';
+
+jest.mock('xlsx/xlsx.mjs', () => ({
+  __esModule: true,
+  read: jest.fn()
+}));
 
 describe('ExcelUploadProcessorService', () => {
   let service: ExcelUploadProcessorService;

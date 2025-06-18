@@ -1,5 +1,5 @@
-@use 'src/app/shared/styles/components/buttons';
-@use 'src/app/shared/styles/components/full-width-card';
+@use 'buttons';
+@use 'full-width-card';
 
 .card-block {
   max-width: 100%;
@@ -87,7 +87,6 @@
   padding: 0.6rem 1.7rem;
   margin: 0 8px;
   min-width: 10rem;
-  text-transform: uppercase;
 
   &-gray {
     background: var(--primary-light-bg-color);
@@ -95,6 +94,10 @@
     color: var(--cancel-text-color);
     padding: 0.6rem 1.9rem;
   }
+}
+
+.reject-btn {
+  color: var(--cancel-text-color) !important;
 }
 
 .hidden {

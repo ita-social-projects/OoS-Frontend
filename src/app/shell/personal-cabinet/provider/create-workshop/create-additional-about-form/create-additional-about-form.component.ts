@@ -177,6 +177,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       } else {
         this.setPriceControlValue();
         this.setPayRateControlValue();
+        this.areThereBenefitsControl.setValue(false);
       }
       this.priceControl.markAsUntouched();
       this.payRateControl.markAsUntouched();
@@ -215,12 +216,11 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   private listenToBenefitsChanges(): void {
     this.areThereBenefitsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
       if (value) {
-        this.preferentialTermsOfParticipationControl.setValidators([Validators.required]);
+        this.preferentialTermsOfParticipationControl.addValidators(Validators.required);
       } else {
-        this.preferentialTermsOfParticipationControl.setValidators([]);
+        this.preferentialTermsOfParticipationControl.removeValidators(Validators.required);
         this.preferentialTermsOfParticipationControl.setValue('');
       }
-
       this.preferentialTermsOfParticipationControl.updateValueAndValidity();
       this.preferentialTermsOfParticipationControl.markAsUntouched();
     });

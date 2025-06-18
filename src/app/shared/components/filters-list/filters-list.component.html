@@ -25,6 +25,19 @@
       </mat-checkbox>
     </ng-container>
   </div>
+  <div class="flex flex-col justify-start">
+    <p class="filter-text title">{{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}</p>
+    <mat-select
+      [formControl]="LanguageOfEducationControl"
+      panelClass="dropdown-panel select-with-form-field"
+      class="step-input"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_LANGUAGE_OF_INSTRUCTION' | translate }}">
+      <mat-option [value]="null"> {{ 'ALL' | translate }}</mat-option>
+      <mat-option *ngFor="let lang of languageList$ | async" [value]="lang.id" class="dropdown-option">
+        {{ lang.name }}
+      </mat-option>
+    </mat-select>
+  </div>
   <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'RECRUITMENT' | translate }}</p>
     <mat-checkbox class="check-boxes__item" color="primary" [formControl]="OpenRecruitmentControl">

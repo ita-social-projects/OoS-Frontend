@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/dropdown';
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
 
 :host {
   margin: 5px 0;

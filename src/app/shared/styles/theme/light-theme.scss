@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
-@use '@angular/material/theming' as mat-theming;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
 
 $primary-light-palette: mat.define-palette(
   (
@@ -18,20 +20,20 @@ $primary-light-palette: mat.define-palette(
     A400: #8838f9,
     A700: #4c00e8,
     contrast: (
-      50: mat-theming.$dark-primary-text,
-      100: mat-theming.$dark-primary-text,
-      200: mat-theming.$dark-primary-text,
-      300: mat-theming.$dark-primary-text,
-      400: mat-theming.$dark-primary-text,
-      500: mat-theming.$light-primary-text,
-      600: mat-theming.$light-primary-text,
-      700: mat-theming.$light-primary-text,
-      800: mat-theming.$light-primary-text,
-      900: mat-theming.$light-primary-text,
-      A100: mat-theming.$dark-primary-text,
-      A200: mat-theming.$light-primary-text,
-      A400: mat-theming.$light-primary-text,
-      A700: mat-theming.$light-primary-text
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
     )
   )
 );
@@ -50,3 +52,6 @@ $light-theme: mat.define-light-theme(
 );
 
 @include mat.all-component-themes($light-theme);
+.light-theme {
+  --mat-datepicker-calendar-date-in-range-state-background-color: rgba(0, 0, 255, 0.2) !important;
+}

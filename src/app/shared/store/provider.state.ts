@@ -29,13 +29,11 @@ import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { PositionService } from 'shared/services/position/position.service';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
-import { LanguageListService } from 'shared/services/language-list/language-list.service';
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
-import { LanguageListItem } from 'shared/models/language-list.model';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -69,7 +67,6 @@ export interface ProviderStateModel {
   selectedPosition: Position;
   unfinishedWorkshop: WorkshopDraftState;
   timeToLiveUnfinishedWorkshop: string | null;
-  languageList: LanguageListItem[];
   studySubject: SearchResponse<StudySubject[]>;
   selectedSubject: StudySubject;
 }
@@ -94,7 +91,6 @@ export interface ProviderStateModel {
     selectedPosition: null,
     unfinishedWorkshop: null,
     timeToLiveUnfinishedWorkshop: null,
-    languageList: null,
     studySubject: null,
     selectedSubject: null
   }
@@ -112,7 +108,6 @@ export class ProviderState {
     private readonly blockService: BlockService,
     private readonly positionService: PositionService,
     private readonly studySubjectService: StudySubjectService,
-    private readonly languageListService: LanguageListService,
     private readonly matDialog: MatDialog,
     private readonly translateService: TranslateService
   ) {}
@@ -168,11 +163,6 @@ export class ProviderState {
   }
 
   @Selector()
-  static languageList(state: ProviderStateModel): LanguageListItem[] {
-    return state.languageList;
-  }
-
-  @Selector()
   static selectedEmployee(state: ProviderStateModel): Employee {
     return state.selectedEmployee;
   }
@@ -185,6 +175,11 @@ export class ProviderState {
   @Selector()
   static hasUnfinishedWorkshopData(state: ProviderStateModel): boolean {
     return Boolean(state.unfinishedWorkshop?.workshopForLoading);
+  }
+
+  @Selector()
+  static unfinishedWorkshop(state: ProviderStateModel): Workshop {
+    return state.unfinishedWorkshop?.workshopForLoading;
   }
 
   @Selector() static isModalShown(state: ProviderStateModel): boolean {
@@ -1050,7 +1045,12 @@ export class ProviderState {
   ): Observable<SearchResponse<Position[]> | void> {
     patchState({ isLoading: true });
     return this.positionService.getPositions(positionParameters).pipe(
-      tap((positions: SearchResponse<Position[]>) => patchState({ positions: positions ?? EMPTY_RESULT, isLoading: false })),
+      tap((positions: SearchResponse<Position[]>) =>
+        patchState({
+          positions: positions ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      ),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnGetPositionsFail(error)))
     );
   }
@@ -1395,14 +1395,6 @@ export class ProviderState {
   @Action(providerActions.SetDraftModalShown)
   setDraftModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetDraftModalShown): void {
     ctx.patchState({ isDraftModalShown: payload });
-  }
-
-  @Action(providerActions.GetLanguageList)
-  getLanguageList({ patchState }: StateContext<ProviderStateModel>, {}: providerActions.GetLanguageList): Observable<LanguageListItem[]> {
-    patchState({ isLoading: true });
-    return this.languageListService
-      .getLanguageList()
-      .pipe(tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })));
   }
 
   @Action(providerActions.CreateStudySubject)

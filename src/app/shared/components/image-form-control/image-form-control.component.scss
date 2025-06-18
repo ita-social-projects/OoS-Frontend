@@ -1,4 +1,4 @@
-@use 'src/app/shared/styles/components/create-form';
+@use 'create-form';
 
 .form-wrapper {
   width: 100%;
@@ -66,7 +66,8 @@
     width: 95px;
     height: 58px;
     background: var(--primary-light-bg-color);
-    img, .fallback {
+    img,
+    .fallback {
       object-fit: cover;
       width: 95px;
       height: 58px;
@@ -75,15 +76,16 @@
 
     .fallback {
       box-sizing: border-box;
-      border: 2px solid var(--error-color);;
-      color: var(--error-color);;
+      border: 2px solid var(--error-color);
+      color: var(--error-color);
       font-weight: bold;
       user-select: none;
     }
   }
 }
 
-mat-grid-tile img:hover + .logo_cancel, mat-grid-tile .fallback:hover + .logo_cancel {
+mat-grid-tile img:hover + .logo_cancel,
+mat-grid-tile .fallback:hover + .logo_cancel {
   display: block;
 }
 

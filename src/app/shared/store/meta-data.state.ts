@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -21,6 +21,8 @@ import { FeatureManagementService } from 'shared/services/feature-management/fea
 import { InstitutionsService } from 'shared/services/institutions/institutions.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { RatingService } from 'shared/services/rating/rating.service';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { LanguageListService } from 'shared/services/language-list/language-list.service';
 import {
   ClearCodeficatorSearch,
   ClearRatings,
@@ -36,6 +38,7 @@ import {
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById,
   GetInstitutionStatuses,
+  GetLanguageList,
   GetProviderTypes,
   GetRateByEntityId,
   GetSocialGroup,
@@ -59,6 +62,7 @@ export interface MetaDataStateModel {
   editInstituitionsHierarchy: InstituitionHierarchy[];
   codeficatorSearch: Codeficator[];
   codeficator: Codeficator;
+  languageList: LanguageListItem[];
 }
 
 @State<MetaDataStateModel>({
@@ -78,7 +82,8 @@ export interface MetaDataStateModel {
     instituitionsHierarchy: null,
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
-    codeficator: null
+    codeficator: null,
+    languageList: null
   }
 })
 @Injectable()
@@ -91,7 +96,8 @@ export class MetaDataState {
     private featureManagementService: FeatureManagementService,
     private institutionsService: InstitutionsService,
     private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService
+    private codeficatorService: CodeficatorService,
+    private readonly languageListService: LanguageListService
   ) {}
 
   @Selector()
@@ -169,10 +175,22 @@ export class MetaDataState {
     return state.codeficator;
   }
 
+  @Selector()
+  static languageList(state: MetaDataStateModel): LanguageListItem[] {
+    return state.languageList;
+  }
+
   @Action(GetDirections)
-  getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {
+  getDirections({ patchState }: StateContext<MetaDataStateModel>): Observable<Direction[]> {
     patchState({ isLoading: true });
-    return this.categoriesService.getDirections().pipe(tap((directions: Direction[]) => patchState({ directions, isLoading: false })));
+    return this.categoriesService.getDirections().pipe(
+      tap((directions: Direction[]) =>
+        patchState({
+          directions,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetSocialGroup)
@@ -363,5 +381,17 @@ export class MetaDataState {
   @Action(ClearCodeficatorSearch)
   clearCodeficatorSearch({ patchState }: StateContext<MetaDataStateModel>, {}: ClearCodeficatorSearch): void {
     patchState({ codeficatorSearch: [] });
+  }
+
+  @Action(GetLanguageList)
+  getLanguageList({ patchState }: StateContext<MetaDataStateModel>): Observable<LanguageListItem[]> {
+    patchState({ isLoading: true });
+    return this.languageListService.getLanguageList().pipe(
+      tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })),
+      catchError(() => {
+        patchState({ isLoading: false });
+        return EMPTY;
+      })
+    );
   }
 }

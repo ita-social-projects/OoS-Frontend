@@ -18,6 +18,7 @@ export abstract class WorkshopBase {
   maxAge?: number;
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
+  isPaid: boolean;
   price: number;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
@@ -27,6 +28,8 @@ export abstract class WorkshopBase {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   withDisabilityOptions: boolean;
   disabilityOptionsDesc: string;
+  languageOfEducationId: number;
+  languageOfEducationName: string;
   institutionId: string;
   institution: string;
   institutionHierarchyId: string;
@@ -66,6 +69,7 @@ export abstract class WorkshopBase {
     this.maxAge = about?.maxAge;
     this.dateTimeRanges = about?.dateTimeRanges;
     this.studyPeriodDates = about?.studyPeriodDates;
+    this.languageOfEducationId = about?.languageOfEducationId;
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
@@ -88,6 +92,7 @@ export abstract class WorkshopBase {
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
     this.groupType = additionalAbout?.groupType;
+    this.isPaid = additionalAbout?.isPaid;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
     this.coverage = description?.coverage;
@@ -200,6 +205,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
+  languageOfEducationName: string;
 }
 
 export interface WorkshopDraftCard extends WorkshopBaseCard {
@@ -241,16 +247,17 @@ export interface WorkshopAbout {
   maxAge?: number;
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
+  languageOfEducationId: number;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   coverImageId?: string;
   coverImage?: File;
-  isPaid?: boolean;
 }
 
 export interface AdditionalAbout {
   isSelfFinanced: boolean;
   isInclusive: boolean;
+  isPaid: boolean;
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;

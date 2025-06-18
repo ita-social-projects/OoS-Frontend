@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { EMPTY_RESULT, Constants } from 'shared/constants/constants';
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { FilterList } from 'shared/models/filter-list.model';
@@ -37,6 +37,7 @@ import {
   SetIsFree,
   SetIsPaid,
   SetIsStrictWorkdays,
+  SetLanguageOfEducation,
   SetMapView,
   SetMaxAge,
   SetMaxPrice,
@@ -169,7 +170,8 @@ export class FilterState {
       startTime,
       endTime,
       statuses,
-      order
+      order,
+      languageOfEducationId
     } = state;
     return {
       withDisabilityOption,
@@ -190,7 +192,8 @@ export class FilterState {
         isStrictWorkdays,
         isAppropriateHours
       },
-      order
+      order,
+      languageOfEducationId
     };
   }
 
@@ -331,7 +334,6 @@ export class FilterState {
   ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
-
     return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
       tap((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
         patchState({ filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT, isLoading: false });
@@ -342,6 +344,11 @@ export class FilterState {
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
     patchState({ withDisabilityOption: payload, from: 0 });
+  }
+
+  @Action(SetLanguageOfEducation)
+  setLanguageOfEducation({ patchState }: StateContext<FilterStateModel>, { payload }: SetLanguageOfEducation): void {
+    patchState({ languageOfEducationId: payload, from: 0 });
   }
 
   @Action(SetIsStrictWorkdays)

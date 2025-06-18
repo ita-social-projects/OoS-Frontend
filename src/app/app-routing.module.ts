@@ -12,7 +12,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       useHash: true,
-      anchorScrolling: 'enabled'
+      anchorScrolling: 'enabled',
+      canceledNavigationResolution: 'computed'
     })
   ],
   exports: [RouterModule]

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngxs/store';
-import { merge, of, Subject, throttleTime } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { merge, Observable, of, Subject, throttleTime } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -20,8 +21,10 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { ValidationMessages } from 'shared/enum/validation-messages';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { GetLanguageList } from 'shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-create-about-form',
@@ -30,6 +33,9 @@ import { ValidationMessages } from 'shared/enum/validation-messages';
   providers: [{ provide: MAT_DATE_FORMATS, useValue: LOCAL_STUDY_PERIOD_DATE_FORMATS }]
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
+  @Select(MetaDataState.languageList)
+  public languageList$!: Observable<LanguageListItem[]>;
+
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Input() public isImagesFeature: boolean;
@@ -95,6 +101,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.initForm();
+    this.getLanguageList();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
 
     if (this.workshop) {
@@ -198,6 +205,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         }),
         image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
+        languageOfEducationId: new FormControl(null, Validators.required),
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
         coverImage: new FormControl(''),
         coverImageId: new FormControl(''),
@@ -213,6 +221,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         validators: [AgeRangeValidator('minAge', 'maxAge')]
       }
     );
+  }
+
+  private getLanguageList(): void {
+    this.store.dispatch(new GetLanguageList());
   }
 
   private initListeners(): void {

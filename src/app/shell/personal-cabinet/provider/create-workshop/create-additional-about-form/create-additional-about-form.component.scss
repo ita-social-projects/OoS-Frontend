@@ -1,5 +1,5 @@
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
+@use 'create-form';
+@use 'validation-form';
 
 .pay-type {
   flex-grow: 1;
@@ -24,6 +24,11 @@
   max-width: 100px;
   text-align: center;
   background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
+
+.step-textarea {
+  background: transparent;
   color: var(--primary-dark-text-color);
 }
 

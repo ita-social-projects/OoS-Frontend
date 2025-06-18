@@ -1,5 +1,5 @@
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
+@use 'create-form';
+@use 'validation-form';
 
 .map {
   height: 500px;
@@ -45,6 +45,7 @@
 .accordion-item {
   padding-left: 1px;
   padding-right: 1px;
+  overflow: visible !important;
   ::ng-deep .mat-expansion-panel-body,
   .mat-expansion-panel-header {
     padding: 0;
