@@ -37,7 +37,7 @@
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="description">{{ 'TITLES.DESCRIPTION' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'TITLES.DESCRIPTION' | translate }}</th>
           <td mat-cell class="overflow" *matCellDef="let element">
             <div
               [matTooltip]="element.description"
@@ -51,7 +51,7 @@
         </ng-container>
 
         <ng-container matColumnDef="shortName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="shortName">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <div
               [matTooltip]="element.shortName"
