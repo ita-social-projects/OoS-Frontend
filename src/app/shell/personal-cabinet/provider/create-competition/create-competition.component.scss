@@ -1,5 +1,5 @@
-@use 'src/app/shared/styles/components/create-form-wrapper';
-@use 'src/app/shared/styles/components/dropdown';
+@use 'create-form-wrapper';
+@use 'dropdown';
 
 :host .wrapper ::ng-deep form {
   width: 100%;

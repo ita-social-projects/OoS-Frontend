@@ -57,6 +57,7 @@
       <mat-button-toggle-group
         class="view-toggle"
         #group="matButtonToggleGroup"
+        hideSingleSelectionIndicator="true"
         [value]="currentViewType"
         (change)="viewHandler(group.value)">
         <mat-button-toggle

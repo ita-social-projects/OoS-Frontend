@@ -4,10 +4,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatOption, MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatLegacyAutocompleteModule as MatAutocompleteModule,
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
-} from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

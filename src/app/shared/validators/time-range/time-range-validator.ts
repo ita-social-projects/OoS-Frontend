@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export function TimeRangeValidator(startCtrlName: string = 'startTime', endCtrlName: string = 'endTime'): ValidatorFn {
   return (formGroup: AbstractControl): ValidationErrors | null => {

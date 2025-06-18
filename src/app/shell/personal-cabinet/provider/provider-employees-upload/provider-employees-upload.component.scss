@@ -1,6 +1,6 @@
 @use 'src/app/shared/base-components/upload-excel/upload-excel.component.scss';
-@use 'src/app/shared/styles/components/list-wrappers';
-@use 'src/app/shared/styles/components/buttons';
+@use 'list-wrappers';
+@use 'buttons';
 
 .add-wrapper {
   margin: 0;

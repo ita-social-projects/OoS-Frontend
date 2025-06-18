@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/cards';
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
+@use 'cards';
+@use 'create-form';
+@use 'validation-form';
 
 .card-person {
   padding: 16px;

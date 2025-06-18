@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
+import 'moment/locale/uk';
 
 import { MOMENT_DATE_FORMATS } from 'shared/constants/constants';
 import { HttpTokenInterceptor } from 'shared/interceptors/http-token.interceptor';

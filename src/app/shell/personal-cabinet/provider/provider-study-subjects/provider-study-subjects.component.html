@@ -1,5 +1,5 @@
-<div class="actions-wrapper flex flex-row flex-wrap justify-between items-center" [formGroup]="filterForm">
-  <div class="search-area justify-start">
+<div class="flex flex-row flex-wrap justify-between items-center mb-4" [formGroup]="filterForm">
+  <div class="flex justify-start static max-h-10">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
@@ -13,11 +13,11 @@
     </div>
   </div>
 
-  <div class="header-column">
-    <div class="filters-wrapper justify-end items-start">
-      <div class="filters-period">
-        <span>{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
-        <mat-form-field appPlaceholderStyling class="date" appearance="fill">
+  <div class="flex flex-row gap-x-4">
+    <div class="flex justify-end items-center gap-1">
+      <div class="flex items-center">
+        <span class="filters-period">{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
+        <mat-form-field appPlaceholderStyling class="date">
           <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
           <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
             <input
@@ -39,7 +39,7 @@
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker>
             <mat-date-range-picker-actions>
-              <div class="date-buttons">
+              <div class="flex justify-between w-full">
                 <button class="btn" mat-raised-button matDatepickerApply (click)="onDateApply()">
                   {{ 'HISTORY_LOG.SHOW' | translate }}
                 </button>
@@ -54,12 +54,12 @@
     </div>
 
     <div
-      class="reset"
+      class="flex items-center justify-center gap-2 cursor-pointer ml-2"
       (click)="onResetFilters()"
       tabindex="0"
       (keydown.enter)="onResetFilters()"
       [matTooltip]="'HISTORY_LOG.RESET_FILTERS' | translate">
-      <mat-icon class="reset__icon">refresh</mat-icon>
+      <mat-icon class="!flex items-center reset__icon">refresh</mat-icon>
     </div>
 
     <a [routerLink]="['/create-study-subject', ModeConstants.NEW]">

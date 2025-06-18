@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+import { MatSelectChange } from '@angular/material/select';
 
 import { PaginationConstants } from 'shared/constants/constants';
 import { PaginationElement } from 'shared/models/pagination-element.model';

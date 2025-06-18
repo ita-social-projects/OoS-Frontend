@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Moment } from 'moment/moment';
 
 import { PaginatorComponent } from 'shared/components/paginator/paginator.component';
@@ -103,7 +103,6 @@ describe('ProviderStudySubjectsComponent', () => {
 
   describe('initProviderData', () => {
     it('should initialize provider data and subscribe to study subjects', () => {
-      const subject = { id: '123', providerId: '1', nameInUkrainian: 'Test Subject' } as StudySubject;
       const mockSubjects = {
         entities: [mockSubject()],
         totalAmount: 1

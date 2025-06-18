@@ -81,7 +81,7 @@ describe('UploadExcelComponent', () => {
       expect(req.request.method).toBe('PUT');
       req.flush({ status: HttpStatusCode.Ok, body: 'Success' });
       expect(component.isLoading).toBe(false);
-      expect(component.loadSuccess).not.toBe(true);
+      expect(component.loadSuccess).toBe(true);
       expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
     it('should handle an error response', () => {

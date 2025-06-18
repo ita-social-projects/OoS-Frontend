@@ -1,6 +1,7 @@
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/buttons';
-@use 'src/app/shared/styles/components/working-hours';
+@use 'validation-form';
+@use 'buttons';
+@use 'working-hours';
+@use 'timepicker';
 
 .step {
   gap: 10px;
@@ -64,7 +65,7 @@
   overflow: hidden;
 }
 
-::ng-deep div.ngx-mat-timepicker-dialog .mat-mdc-dialog-surface {
+::ng-deep div.ngx-material-timepicker-dialog .mat-mdc-dialog-surface {
   padding: 0;
 
   div[mat-dialog-actions] {

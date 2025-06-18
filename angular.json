@@ -19,7 +19,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/out-of-school",
             "index": "src/index.html",
@@ -39,9 +39,17 @@
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
-              "src/styles.scss"],
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/shared/styles/components",
+                "src/app/shared/styles/theme",
+                "src/app/shared/styles/utils/animations",
+                "src/app/shared/styles/utils/variables"
+              ]
+            },
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
@@ -61,7 +69,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -88,7 +95,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -109,18 +115,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "out-of-school:build:production"
+              "buildTarget": "out-of-school:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           }
         },
         "test": {

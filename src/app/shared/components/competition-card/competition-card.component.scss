@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/cards';
-@use 'src/app/shared/styles/components/application-statuses';
-@use 'src/app/shared/styles/components/workshop-status';
+@use 'cards';
+@use 'application-statuses';
+@use 'workshop-status';
 
 .error-message {
   color: orange;
