@@ -110,6 +110,9 @@ export class AppWorkshopsService {
     if (filters.order) {
       params = params.set('OrderByField', filters.order);
     }
+    if (filters.languageOfEducationId) {
+      params = params.set('LanguageOfEducationId', filters.languageOfEducationId);
+    }
     if (filters.statuses.length) {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }

@@ -1,6 +1,6 @@
-@use 'src/app/shared/styles/components/pagination';
-@use 'src/app/shared/styles/components/list-wrappers';
-@use 'src/app/shared/styles/components/card-wrapper';
+@use 'pagination';
+@use 'list-wrappers';
+@use 'card-wrapper';
 
 .placeholder {
   min-width: 285px;

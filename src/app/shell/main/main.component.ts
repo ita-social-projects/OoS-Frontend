@@ -93,7 +93,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public onRegister(): void {
-    this.store.dispatch(new Login(true));
+    this.store.dispatch(new Login(false));
   }
 
   public ngOnDestroy(): void {
@@ -141,7 +141,7 @@ export class MainComponent implements OnInit, OnDestroy {
         .subscribe(() => this.getMainPageData());
 
       return;
-    } else if (role !== Role.unauthorized) {
+    } else if (role === Role.provider) {
       this.store.dispatch(new GetUnfinishedWorkshop());
     }
     this.getMainPageData();

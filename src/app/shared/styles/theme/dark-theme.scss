@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
-@use '@angular/material/theming' as mat-theming;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
 
 $custom-dark-palette: mat.define-palette(
   (
@@ -18,20 +20,20 @@ $custom-dark-palette: mat.define-palette(
     A400: #1d24d5,
     A700: #0000c5,
     contrast: (
-      50: mat-theming.$dark-primary-text,
-      100: mat-theming.$dark-primary-text,
-      200: mat-theming.$dark-primary-text,
-      300: mat-theming.$dark-primary-text,
-      400: mat-theming.$dark-primary-text,
-      500: mat-theming.$light-primary-text,
-      600: mat-theming.$light-primary-text,
-      700: mat-theming.$light-primary-text,
-      800: mat-theming.$light-primary-text,
-      900: mat-theming.$light-primary-text,
-      A100: mat-theming.$dark-primary-text,
-      A200: mat-theming.$light-primary-text,
-      A400: mat-theming.$light-primary-text,
-      A700: mat-theming.$light-primary-text
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
     )
   )
 );
@@ -63,6 +65,7 @@ $dark-theme: mat.define-dark-theme(
   --body-color: #2e2d2d;
   --primary-accent-color: #4786f5;
   --autofill-text-color: #5f5f61;
+  --bg-disabled-button: #7e7b7b;
 
   h1,
   h2,

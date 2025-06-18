@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared-store/registration.state';
-import { CreateStudySubject, GetLanguageList, GetStudySubjectById, UpdateStudySubject } from 'shared/store/provider.actions';
+import { CreateStudySubject, GetStudySubjectById, UpdateStudySubject } from 'shared/store/provider.actions';
 import { combineLatest, Observable, tap } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'shared-constants/constants';
@@ -21,6 +21,8 @@ import { LanguageListItem } from 'shared/models/language-list.model';
 import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -37,7 +39,7 @@ const defaultValidators: ValidatorFn[] = [
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateStudySubjectComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Select(ProviderState.languageList)
+  @Select(MetaDataState.languageList)
   public languageList$!: Observable<LanguageListItem[]>;
 
   @Select(ProviderState.selectedSubject)

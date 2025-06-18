@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { first, startWith, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, first, startWith, takeUntil } from 'rxjs/operators';
 
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
@@ -11,6 +11,7 @@ import {
   FilterClear,
   SetClosedRecruitment,
   SetFormsOfLearning,
+  SetLanguageOfEducation,
   SetOpenRecruitment,
   SetWithDisabilityOption
 } from 'shared/store/filter.actions';
@@ -18,6 +19,9 @@ import { FilterState } from 'shared/store/filter.state';
 import { FiltersSidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
 import { Util } from 'shared/utils/utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { GetLanguageList } from 'shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-filters-list',
@@ -35,6 +39,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isMapView)
   public isMapView$: Observable<boolean>;
 
+  @Select(MetaDataState.languageList)
+  public languageList$: Observable<LanguageListItem[]>;
+
   @Input() public isMobileView: boolean;
 
   public readonly workshopStatus = WorkshopOpenStatus;
@@ -49,6 +56,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   public OpenRecruitmentControl = new FormControl(false);
   public ClosedRecruitmentControl = new FormControl(false);
   public WithDisabilityOptionControl = new FormControl(false);
+  public LanguageOfEducationControl = new FormControl(null);
 
   public filterList: FilterList;
   private visibleFiltersSidenav: boolean;
@@ -59,6 +67,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setFiltersValue();
+
+    this.store.dispatch(new GetLanguageList());
+
     combineLatest(
       Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
     )
@@ -81,6 +92,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.WithDisabilityOptionControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+
+    this.LanguageOfEducationControl.valueChanges
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .subscribe((val: number | null) => this.store.dispatch(new SetLanguageOfEducation(val)));
   }
 
   /**

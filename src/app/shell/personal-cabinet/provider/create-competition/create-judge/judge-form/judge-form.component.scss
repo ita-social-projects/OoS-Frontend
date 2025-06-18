@@ -1,3 +1,8 @@
-@use 'src/app/shared/styles/components/create-form';
-@use 'src/app/shared/styles/components/validation-form';
-@use 'src/app/shared/styles/components/calendar';
+@use 'create-form';
+@use 'validation-form';
+@use 'calendar';
+
+.border-bottom {
+  border-bottom: 2px solid var(--input-light-color);
+  margin: 1rem 0;
+}

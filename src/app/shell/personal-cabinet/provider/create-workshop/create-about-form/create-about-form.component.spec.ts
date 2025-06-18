@@ -16,7 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Provider } from 'shared/models/provider.model';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
@@ -47,7 +47,7 @@ describe('CreateAboutFormComponent', () => {
         MatMenuModule,
         MatSelectModule,
         MatGridListModule,
-        NgxMatTimepickerModule,
+        NgxMaterialTimepickerModule,
         TranslateModule.forRoot()
       ],
       declarations: [

@@ -1,5 +1,5 @@
 .btn {
-  color: var(--specific-light-text-color);
+  color: var(--specific-light-text-color) !important;
   background-color: var(--primary-accent-color);
   border: 1px solid var(--primary-accent-color);
   box-sizing: border-box;
@@ -10,7 +10,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  text-transform: capitalize;
 
   &-reset,
   &-add {

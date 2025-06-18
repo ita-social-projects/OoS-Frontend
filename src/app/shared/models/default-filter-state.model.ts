@@ -23,4 +23,5 @@ export class DefaultFilterState {
   withDisabilityOption = false;
   isStrictWorkdays = false;
   isAppropriateHours = false;
+  languageOfEducationId: number = null;
 }

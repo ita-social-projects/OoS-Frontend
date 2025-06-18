@@ -725,12 +725,6 @@ export class OnGetPositionByIdFail {
   constructor(public error: HttpErrorResponse) {}
 }
 
-export class GetLanguageList {
-  static readonly type = '[provider] get language list';
-
-  constructor() {}
-}
-
 export class CreateStudySubject {
   static readonly type = '[provider] create study subject';
 

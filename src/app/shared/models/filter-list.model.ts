@@ -9,6 +9,7 @@ export interface FilterList {
   priceFilter: PriceFilter;
   workingHours: WorkingHoursFilter;
   order: string;
+  languageOfEducationId: number;
 }
 
 export interface AgeFilter {

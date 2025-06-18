@@ -1,4 +1,4 @@
-@use 'src/app/shared/styles/components/buttons';
+@use 'buttons';
 
 :host ::ng-deep .mat-mdc-dialog {
   &-actions .mat-button-base + .mat-button-base {

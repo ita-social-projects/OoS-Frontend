@@ -97,7 +97,7 @@ describe('MainComponent', () => {
     button.nativeElement.click();
 
     expect(component.onRegister).toHaveBeenCalled();
-    expect(store.dispatch).toHaveBeenCalledWith(new Login(true));
+    expect(store.dispatch).toHaveBeenCalledWith(new Login(false));
   });
   describe('Draft Functionality', () => {
     it('should continue draft and navigate to create/unfinished', () => {

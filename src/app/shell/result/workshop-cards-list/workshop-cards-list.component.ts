@@ -25,7 +25,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
   @Input() public currentPage: PaginationElement;
-  @Output() public currentPageChange: EventEmitter<PaginationElement> = new EventEmitter<PaginationElement>(); // Створюємо подію
+  @Output() public currentPageChange: EventEmitter<PaginationElement> = new EventEmitter<PaginationElement>();
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;

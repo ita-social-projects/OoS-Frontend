@@ -10,7 +10,7 @@ export class PlaceholderFormDirective implements AfterViewInit {
   ) {}
 
   /**
-   * This directive change placeholder styling ptoperties for input forms
+   * This directive change placeholder styling properties for input forms
    */
 
   public ngAfterViewInit(): void {

@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
@@ -94,6 +94,8 @@ import { CompetitionCardComponent } from './components/competition-card/competit
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
 import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
+import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
+import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 
 @NgModule({
@@ -179,6 +181,8 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
+    CookiesBannerComponent,
+    CookiePreferencesComponent,
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
     DecimalNumberPipe,
@@ -192,7 +196,7 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    NgxMatTimepickerModule,
+    NgxMaterialTimepickerModule,
     NgxMatIntlTelInputComponent,
     ImageCropperComponent,
     TranslateModule,
@@ -276,6 +280,8 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     CompetitionCardComponent,
     CreateContactsComponent,
     CreateAddressFormComponent,
+    CookiesBannerComponent,
+    ProfileWaitingPageComponent,
     ProfileWaitingPageComponent,
     DecimalNumberPipe,
     ContactsCardComponent

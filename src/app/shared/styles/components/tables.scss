@@ -31,15 +31,15 @@ table {
 }
 
 ::ng-deep .mat-sort-header-content {
-  text-align: left;
+  text-align: left !important;
 }
 
 .mat-mdc-table-sticky-border-elem-right {
-  border-left: 1px solid  var(--input-light-color);
+  border-left: 1px solid var(--input-light-color);
 }
 
 .mat-mdc-table-sticky-border-elem-left {
-  border-right: 1px solid  var(--input-light-color);
+  border-right: 1px solid var(--input-light-color);
 }
 
 .icons {

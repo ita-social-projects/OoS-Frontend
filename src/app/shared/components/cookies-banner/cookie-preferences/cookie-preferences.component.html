@@ -1,0 +1,30 @@
+<div class="preferences-modal" role="dialog" aria-labelledby="preferences-title" aria-describedby="preferences-description">
+  <div class="preferences-content">
+    <mat-icon>cookie</mat-icon>
+    <h3 id="preferences-title">{{ 'COOKIES.COOKIE_CONSENT' | translate }}</h3>
+
+    <div class="flex flex-col items-start">
+      <div class="toggle-row">
+        <label class="label" for="essential-cookies">{{ 'COOKIES.COOKIES_ESSENTIAL_DESCRIPTION' | translate }}</label>
+        <mat-slide-toggle
+          id="essential-cookies"
+          [checked]="true"
+          [disabled]="true"
+          aria-label="Обов'язкові cookies завжди увімкнені"></mat-slide-toggle>
+      </div>
+      <div class="toggle-row" *ngFor="let option of cookieOptions">
+        <label class="label" [for]="option.key + '-toggle'">{{ option.label | translate }}</label>
+        <mat-slide-toggle
+          [id]="option.key + '-toggle'"
+          [checked]="preferences[option.key]"
+          (change)="onPreferenceChange(option.key, $event)"
+          [aria-label]="option.label"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button mat-stroked-button (click)="onSave()" type="button">{{ 'BUTTONS.CONFIRM' | translate }}</button>
+      <button mat-stroked-button (click)="onCancel()" type="button">{{ 'BUTTONS.CANCEL' | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,19 +1,24 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { SetLanguageOfEducation } from 'shared/store/filter.actions';
 import { Direction } from '../../models/category.model';
 import { FiltersListComponent } from './filters-list.component';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
   let fixture: ComponentFixture<FiltersListComponent>;
+  const store = {
+    dispatch: jest.fn(),
+    select: jest.fn().mockReturnValue(of(false))
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +40,8 @@ describe('FiltersListComponent', () => {
         MockAgeFilterComponent,
         MockCategoryCheckBoxComponent,
         MockCityFilterComponent
-      ]
+      ],
+      providers: [{ provide: Store, useValue: store }]
     }).compileComponents();
   });
 
@@ -81,6 +87,32 @@ describe('FiltersListComponent', () => {
     component.statusHandler(false, component.workshopStatus.Open);
     expect(component.filterList.statuses.includes(component.workshopStatus.Open)).toBe(false);
     expect(component.filterList.statuses.length).toBe(1);
+  });
+
+  describe('LanguageSelect', () => {
+    it('should dispatch Get Filtered Workshops with null value of LanguageOfEducation', () => {
+      component.ngOnInit();
+      component.LanguageOfEducationControl.setValue(1, { emitEvent: false });
+      component.LanguageOfEducationControl.patchValue(null);
+      expect(component.LanguageOfEducationControl.value).toBe(null);
+      expect(store.dispatch).toHaveBeenCalledWith(new SetLanguageOfEducation(null));
+    });
+
+    it('should dispatch Get Filtered Workshops with number value of LanguageOfEducation', () => {
+      component.ngOnInit();
+      component.LanguageOfEducationControl.patchValue(1);
+      expect(component.LanguageOfEducationControl.value).toBe(1);
+      expect(store.dispatch).toHaveBeenCalledWith(new SetLanguageOfEducation(1));
+
+      component.LanguageOfEducationControl.patchValue(1);
+      const calls = store.dispatch.mock.calls;
+      const matchingCalls = calls.filter((call) => call[0] instanceof SetLanguageOfEducation && call[0].payload === 1);
+      expect(matchingCalls.length).toEqual(1);
+
+      component.LanguageOfEducationControl.patchValue(2);
+      expect(component.LanguageOfEducationControl.value).toBe(2);
+      expect(store.dispatch).toHaveBeenCalledWith(new SetLanguageOfEducation(2));
+    });
   });
 });
 
