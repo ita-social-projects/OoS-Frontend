@@ -427,6 +427,33 @@ export class Util {
     return this.isEmpty(id) || id === '00000000-0000-0000-0000-000000000000';
   }
 
+  /**
+   * map and rename key in contacts[].address.codeficatorAddressDto -> codeficatorAddress
+   * @param value
+   */
+  public static mapAddress<T extends { contacts: any[] }>(response: T): T {
+    return {
+      ...response,
+      contacts: response.contacts.map((contact) => {
+        if (!contact.address) {
+          return contact;
+        }
+        if ('codeficatorAddress' in contact.address) {
+          return contact;
+        } else {
+          const { codeficatorAddressDto, ...rest } = contact.address;
+          return {
+            ...contact,
+            address: {
+              ...rest,
+              codeficatorAddress: codeficatorAddressDto
+            }
+          };
+        }
+      })
+    };
+  }
+
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
     return (+currentPage.element - 1) * size;
   }

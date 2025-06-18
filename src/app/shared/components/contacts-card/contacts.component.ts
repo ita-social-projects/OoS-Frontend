@@ -33,8 +33,8 @@ export class ContactsCardComponent implements OnInit {
     if (!address) {
       return '';
     }
-    const { street, buildingNumber, codeficatorAddressDto } = address;
-    const settlement = codeficatorAddressDto?.settlement ?? '';
+    const { street, buildingNumber, codeficatorAddress } = address;
+    const settlement = codeficatorAddress?.settlement ?? '';
     return `${settlement}, ${street ?? ''}, ${buildingNumber ?? ''}`.trim();
   }
 
@@ -43,7 +43,6 @@ export class ContactsCardComponent implements OnInit {
   }
 
   public getContactsData(): void {
-    console.log(this.provider);
     const entity = this.route.snapshot.paramMap.get('entity');
     const isInfoPath = this.route.snapshot.routeConfig?.path === 'info';
     if (isInfoPath && this.provider?.contacts) {
@@ -63,8 +62,8 @@ export class ContactsCardComponent implements OnInit {
   }
 
   public mapLink(address: Address): void {
-    const { street, buildingNumber, codeficatorAddressDto } = address;
-    const fullAddress = codeficatorAddressDto?.fullAddress ?? '';
+    const { street, buildingNumber, codeficatorAddress } = address;
+    const fullAddress = codeficatorAddress?.fullAddress ?? '';
     const formattedAddress = [street, buildingNumber, fullAddress].filter((part) => part).join(', ');
     let addressLink = MAP_URL.GOOGLE;
     if (this.platform.IOS) {

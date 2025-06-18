@@ -81,7 +81,7 @@ describe('ContactsComponent', () => {
     const address: Address = {
       street: 'Main St',
       buildingNumber: '123',
-      codeficatorAddressDto: { settlement: 'City', fullAddress: 'City, Main St 123' }
+      codeficatorAddress: { settlement: 'City', fullAddress: 'City, Main St 123' }
     } as Address;
     expect(component.getFullAddress(address)).toBe('City, Main St, 123');
   });
@@ -124,16 +124,14 @@ describe('ContactsComponent', () => {
     const address: Address = {
       street: 'Main St',
       buildingNumber: '123',
-      codeficatorAddressDto: { fullAddress: 'City, Main St 123' }
+      codeficatorAddress: { fullAddress: 'City, Main St 123' }
     } as Address;
 
     it('should use Apple Maps link on iOS devices', () => {
       platformMock.IOS = true;
       platformMock.ANDROID = false;
       windowMock.open = jest.fn();
-
       component.mapLink(address);
-
       expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('https://maps.apple.com/?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'
@@ -144,9 +142,7 @@ describe('ContactsComponent', () => {
       platformMock.IOS = false;
       platformMock.ANDROID = true;
       windowMock.open = jest.fn();
-
       component.mapLink(address);
-
       expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('geo:0,0?q=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'
@@ -159,9 +155,7 @@ describe('ContactsComponent', () => {
         configurable: true
       });
       windowMock.open = jest.fn();
-
       component.mapLink(address);
-
       expect(windowMock.open).toHaveBeenCalledWith(
         expect.stringContaining('https://www.google.com/maps/search/?api=1&query=Main%20St%2C%20123%2C%20City%2C%20Main%20St%20123'),
         '_blank'

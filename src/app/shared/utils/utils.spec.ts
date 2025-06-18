@@ -191,3 +191,65 @@ describe('isEmptyUUID', () => {
     expect(Util.isEmptyUUID(undefined)).toBe(true);
   });
 });
+
+describe('Util.mapAddress', () => {
+  it('rename codeficatorAddressDto to codeficatorAddress', () => {
+    const input = {
+      contacts: [
+        {
+          address: {
+            city: 'Kyiv',
+            codeficatorAddressDto: { region: 'Kyivska' }
+          }
+        }
+      ]
+    };
+    const result = Util.mapAddress(input) as any;
+    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Kyivska' });
+    expect(result.contacts[0].address.codeficatorAddressDto).toBeUndefined();
+    expect(result.contacts[0].address.city).toBe('Kyiv');
+  });
+
+  it('transfers the original response if codeficatorAddress already exist', () => {
+    const input = {
+      contacts: [
+        {
+          address: {
+            city: 'Lviv',
+            codeficatorAddress: { region: 'Lvivska' }
+          }
+        }
+      ]
+    };
+    const result = Util.mapAddress(input);
+    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Lvivska' });
+    expect(result.contacts[0].address.city).toBe('Lviv');
+  });
+
+  it('work correctly if address missing', () => {
+    const input = {
+      contacts: [
+        {
+          name: 'No address'
+        }
+      ]
+    };
+    const result = Util.mapAddress(input);
+    expect(result.contacts[0]).toEqual({ name: 'No address' });
+  });
+
+  it('return new object', () => {
+    const input = {
+      contacts: [
+        {
+          address: {
+            codeficatorAddressDto: { test: 123 }
+          }
+        }
+      ]
+    };
+    const original = JSON.parse(JSON.stringify(input));
+    Util.mapAddress(input);
+    expect(input).toEqual(original);
+  });
+});
