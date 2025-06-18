@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeWhile } from 'rxjs/operators';
+import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -13,6 +13,7 @@ import { AppState } from 'shared/store/app.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { addBeforeUnloadProtection } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-form',
@@ -30,6 +31,7 @@ export abstract class CreateFormComponent implements OnDestroy {
   public isImagesFeature: boolean;
   public isPristine = true;
   public editMode: boolean;
+  private removeUnloadProtection: () => void;
 
   protected constructor(
     protected store: Store,
@@ -40,6 +42,7 @@ export abstract class CreateFormComponent implements OnDestroy {
   public loadUnfinishedWorkshopData?(): void;
 
   public ngOnDestroy(): void {
+    this.removeUnloadProtection?.();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new DeleteNavPath());
@@ -71,6 +74,11 @@ export abstract class CreateFormComponent implements OnDestroy {
     form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
       this.isPristine = false;
       this.store.dispatch(new MarkFormDirty(true));
+      this.isDirtyForm$.pipe(takeUntil(this.destroy$)).subscribe((isDirty: boolean) => {
+        if (isDirty) {
+          this.removeUnloadProtection = addBeforeUnloadProtection(() => true);
+        }
+      });
     });
     this.subscribeOnTouchEvent(form);
   }
