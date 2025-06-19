@@ -58,7 +58,7 @@
         </div>
       </mat-radio-button>
       <div class="pl-[33px] flex">
-        <div class="w-[225px]">
+        <div class="w-[300px]">
           <app-validation-hint
             [validationFormControl]="AboutFormGroup.get('minAge')"
             isNumberValue="true"
@@ -67,7 +67,7 @@
           <app-validation-hint formLevelValidation="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
         </div>
         <app-validation-hint
-          class="w-[225px] ml-4"
+          class="w-[300px] ml-4"
           [validationFormControl]="AboutFormGroup.get('maxAge')"
           isNumberValue="true"
           [minValue]="validationConstants.AGE_MIN"
