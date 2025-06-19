@@ -171,11 +171,11 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public onDateApply(): void {
-    this.filterForm.patchValue({ dateFrom: this.tempDateFrom, dateTo: this.tempDateTo });
+    this.filterForm.get('dates').patchValue({ dateFrom: this.tempDateFrom, dateTo: this.tempDateTo });
     this.setDateForFilters();
   }
 
-  public onDateInput(event: MatDatepickerInputEvent<string>, controlName: 'dateFrom' | 'dateTo'): void {
+  public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
     const raw = (event.targetElement as HTMLInputElement).value;
     this.filterForm.get('dates').get(controlName)?.patchValue(event.target.value);
     this.filterForm.get('dates').get(controlName)?.markAsTouched();
@@ -211,8 +211,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   private setTimeFormat(): void {
-    this.subjectParameters.dateFrom = this.filterForm.value.dates.dateFrom?.format('YYYY-MM-DD') ?? '';
-    this.subjectParameters.dateTo = this.filterForm.value.dates.dateTo?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateFrom = this.filterForm.value.dates?.dateFrom?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateTo = this.filterForm.value.dates?.dateTo?.format('YYYY-MM-DD') ?? '';
   }
 
   private getStudySubjects(): void {

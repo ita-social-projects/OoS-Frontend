@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,7 @@ describe('ProviderStudySubjectsComponent', () => {
   let component: ProviderStudySubjectsComponent;
   let fixture: ComponentFixture<ProviderStudySubjectsComponent>;
   let store: Store;
+  let formBuilder: FormBuilder;
 
   const mockSubject = (overrides?: Partial<StudySubject>): StudySubject => ({
     id: '123',
@@ -69,6 +70,7 @@ describe('ProviderStudySubjectsComponent', () => {
     fixture = TestBed.createComponent(ProviderStudySubjectsComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
+    formBuilder = TestBed.inject(FormBuilder);
 
     component.provider = { id: '1' } as any;
     fixture.detectChanges();
@@ -137,8 +139,10 @@ describe('ProviderStudySubjectsComponent', () => {
 
       component.filterForm = new FormGroup({
         filterFormControl: new FormControl(''),
-        dateFrom: new FormControl<Moment | null>(null),
-        dateTo: new FormControl<Moment | null>(null)
+        dates: formBuilder.group({
+          dateFrom: new FormControl<Moment | null>(null),
+          dateTo: new FormControl<Moment | null>(null)
+        })
       });
     });
 
@@ -171,20 +175,23 @@ describe('ProviderStudySubjectsComponent', () => {
       component.tempDateTo = mockDate;
       jest.spyOn(component, 'setDateForFilters');
       component.onDateApply();
-      expect(component.filterForm.get('dateFrom').value).toEqual(component.tempDateFrom);
-      expect(component.filterForm.get('dateTo').value).toEqual(component.tempDateTo);
+      expect(component.filterForm.get('dates.dateFrom').value).toEqual(component.tempDateFrom);
+      expect(component.filterForm.get('dates.dateTo').value).toEqual(component.tempDateTo);
       expect(component.setDateForFilters).toHaveBeenCalled();
     });
 
     it('should update form fields and set filters on keyboard input', () => {
       const expectedDate = mockDate.add(3, 'months').startOf('day');
-      component.onDateInput({ target: { value: mockDate.add(3, 'months') } } as MatDatepickerInputEvent<Moment>, 'dateFrom');
-      expect(component.filterForm.get('dateFrom').value).toEqual(expectedDate);
+      component.onDateInput(
+        { target: { value: mockDate.add(3, 'months') }, targetElement: { value: '2025-05-05' } } as MatDatepickerInputEvent<Moment>,
+        'dateFrom'
+      );
+      expect(component.filterForm.get('dates.dateFrom').value).toEqual(expectedDate);
     });
 
     it('should format date', () => {
-      component.filterForm.get('dateFrom').setValue(mockDate);
-      component.filterForm.get('dateTo').setValue(mockDate);
+      component.filterForm.get('dates.dateFrom').setValue(mockDate);
+      component.filterForm.get('dates.dateTo').setValue(mockDate);
       component.setDateForFilters();
       expect(component.subjectParameters.dateFrom).toEqual(mockDate.format('YYYY-MM-DD'));
       expect(component.subjectParameters.dateTo).toEqual(mockDate.format('YYYY-MM-DD'));
