@@ -141,18 +141,16 @@ table {
   padding: 0;
 }
 
-.reset {
-  &:hover {
-    opacity: 0.5;
-  }
+.reset-icon {
+  transform: rotateY(180deg) rotate(45deg);
+  overflow: visible;
+  font-size: 24px;
+  line-height: 19px;
+  color: var(--cancel-text-color);
+}
 
-  &__icon {
-    transform: rotateY(180deg) rotate(45deg);
-    overflow: visible;
-    font-size: 24px;
-    line-height: 19px;
-    color: var(--cancel-text-color);
-  }
+.error {
+  color: var(--error-color);
 }
 
 @media (max-width: 1300px) {

@@ -17,10 +17,16 @@
     <div class="flex justify-end items-center gap-1">
       <div class="flex items-center">
         <span class="filters-period">{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
-        <mat-form-field appPlaceholderStyling class="date">
-          <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
-          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+        <mat-form-field appPlaceholderStyling class="date relative">
+          <mat-label class="text-[13px]" [class.error]="filterForm.get('dates').invalid">{{
+            'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate
+          }}</mat-label>
+          <mat-date-range-input
+            [rangePicker]="picker"
+            [min]="filterForm.get('dates.dateFrom').value ? filterForm.get('dates.dateFrom').value : undefined"
+            [max]="maxDate">
             <input
+              #DateFromInput
               matInput
               matStartDate
               placeholder="{{ 'FROM' | translate }}"
@@ -28,6 +34,7 @@
               (dateInput)="onDateInput($event, 'dateFrom')"
               appDateInput />
             <input
+              #DateToInput
               matInput
               matEndDate
               placeholder="{{ 'TO' | translate }}"
@@ -48,6 +55,10 @@
               </div>
             </mat-date-range-picker-actions>
           </mat-date-range-picker>
+          <app-validation-hint
+            class="absolute top-full left-0 mt-1"
+            [validationFormControl]="filterForm.get('dates')"
+            [formLevelValidation]="true"></app-validation-hint>
         </mat-form-field>
       </div>
     </div>
@@ -58,7 +69,7 @@
       tabindex="0"
       (keydown.enter)="onResetFilters()"
       [matTooltip]="'HISTORY_LOG.RESET_FILTERS' | translate">
-      <mat-icon class="!flex items-center reset__icon">refresh</mat-icon>
+      <mat-icon class="!flex items-center reset-icon">refresh</mat-icon>
     </div>
 
     <a [routerLink]="['/create-study-subject', ModeConstants.NEW]">
