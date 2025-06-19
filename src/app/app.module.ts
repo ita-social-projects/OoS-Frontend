@@ -83,7 +83,7 @@ registerLocaleData(localeUk);
       disabled: environment.production
     }),
     NgxsLoggerPluginModule.forRoot({
-      disabled: true
+      disabled: environment.production
     }),
     ShellModule,
     RegistrationModule,
