@@ -17,7 +17,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
-import { Workshop } from 'shared/models/workshop.model';
+import { Contacts, Workshop } from 'shared/models/workshop.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
@@ -425,6 +425,33 @@ export class Util {
 
   public static isEmptyUUID(id: string): boolean {
     return this.isEmpty(id) || id === '00000000-0000-0000-0000-000000000000';
+  }
+
+  /**
+   * map and rename key in contacts[].address.codeficatorAddressDto -> codeficatorAddress
+   * @param value
+   */
+  public static mapAddress<T extends { contacts: Contacts[] }>(response: T): T {
+    return {
+      ...response,
+      contacts: response.contacts.map((contact) => {
+        if (!contact.address) {
+          return contact;
+        }
+        if ('codeficatorAddress' in contact.address) {
+          return contact;
+        } else {
+          const { codeficatorAddressDto, ...rest } = contact.address;
+          return {
+            ...contact,
+            address: {
+              ...rest,
+              codeficatorAddress: codeficatorAddressDto
+            }
+          };
+        }
+      })
+    };
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

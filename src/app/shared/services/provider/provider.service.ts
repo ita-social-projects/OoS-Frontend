@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { DataItem } from 'shared/models/item.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
+import { Util } from 'shared/utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class ProviderService {
    * This method get Provider by id
    * @param id string
    */
+
   public getProviderById(id: string): Observable<Provider> {
-    return this.http.get<Provider>(`/api/v1/Provider/GetById/${id}`);
+    return this.http.get<Provider>(`/api/v1/Provider/GetById/${id}`).pipe(map(Util.mapAddress));
   }
 
   /**

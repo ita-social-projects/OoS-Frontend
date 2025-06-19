@@ -96,6 +96,7 @@ import { WorkshopListComponent } from './components/workshop-list/workshop-list.
 import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
+import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 
 @NgModule({
   declarations: [
@@ -184,7 +185,8 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
     CookiePreferencesComponent,
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
-    DecimalNumberPipe
+    DecimalNumberPipe,
+    ContactsCardComponent
   ],
 
   imports: [
@@ -281,7 +283,8 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
     CookiesBannerComponent,
     ProfileWaitingPageComponent,
     ProfileWaitingPageComponent,
-    DecimalNumberPipe
+    DecimalNumberPipe,
+    ContactsCardComponent
   ]
 })
 export class SharedModule {}

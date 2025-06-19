@@ -56,12 +56,8 @@
       <p>{{ provider.contacts?.[0]?.emails?.[0]?.address }}</p>
       <h5>{{ 'FORMS.LABELS.FOUNDER' | translate }}</h5>
     </mat-tab>
-
-    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
-      <div class="legal-address-wrapper">
-        <h3>{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h3>
-      </div>
-      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
+    <mat-tab class="label" label="{{ 'TITLES.CONTACTS' | translate }}">
+      <app-contacts-card [provider]="provider"></app-contacts-card>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">
