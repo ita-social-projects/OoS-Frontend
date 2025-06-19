@@ -9,7 +9,7 @@ export function AgeRangeValidator(startCtrlName: string = 'startAge', endCtrlNam
       return null;
     }
 
-    if (startCtrl.value !== null && endCtrl.value !== null && startCtrl.value > endCtrl.value) {
+    if (startCtrl.value !== null && endCtrl.value !== null && startCtrl.value >= endCtrl.value) {
       const newGroupErrors = { invalidAgeRange: true };
 
       startCtrl.setErrors({ ...startCtrl.errors, invalidAgeRange: true });

@@ -644,7 +644,7 @@
       "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "INVALID_TIME_FORMAT": "Please use the time format \"09:59\"",
       "INVALID_TIME_RANGE": "\"To\" cannot be earlier than or equal \"From\"",
-      "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than \"To\"",
+      "INVALID_AGE_RANGE": "The age \"From\" cannot be greater than or equal to \"To\"",
       "INVALID_VALUE": "The number can be from {{minValue}} to {{maxValue}}",
       "INVALID_PRICE": "The price can range from {{minValue}} to {{maxValue}}",
       "INVALID_SECTION_NAME": "Check your data, please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
@@ -680,6 +680,7 @@
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
+    "UNLIMITED_COMPETITION": "By selecting the \"Unlimited\" option, the competition has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
     "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
     "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account.",
     "REGISTRATION_DATE_RANGE": "The start date of registration will be automatically set after entering the event date (these dates can be changed if needed).",
