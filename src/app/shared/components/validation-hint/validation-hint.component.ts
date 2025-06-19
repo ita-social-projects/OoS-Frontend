@@ -233,7 +233,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       {
         condition: (): boolean => this.isCompetitionDate && (errors?.matDatepickerMin || errors?.matDatepickerMax),
-        message: ValidationMessages.INVALID_START_END_DATE
+        message: ValidationMessages.INVALID_REGISTRATION_START_END_DATE
       },
       // Validation by RegExp
       {
@@ -309,6 +309,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: (): boolean => errors?.invalidTimeRange,
         message: ValidationMessages.INVALID_TIME_RANGE
+      },
+      {
+        condition: (): boolean => errors?.invalidDateRange,
+        message: ValidationMessages.INVALID_START_END_DATE
       }
     ];
 
@@ -318,6 +322,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
 
+    this.cdr.detectChanges();
     this.cdr.markForCheck();
   }
 

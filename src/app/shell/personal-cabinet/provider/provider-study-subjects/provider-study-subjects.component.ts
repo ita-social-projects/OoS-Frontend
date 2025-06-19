@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,7 +7,7 @@ import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/d
 import { Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 
 import { ProviderState } from 'shared/store/provider.state';
 import { PushNavPath } from 'shared/store/navigation.actions';
@@ -32,6 +32,8 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderStudySubjectsComponent extends ProviderComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) public sort: MatSort;
   @ViewChild(MatDateRangePicker) public picker: MatDateRangePicker<Date>;
+  @ViewChild('DateFromInput') public dateFromInput: ElementRef;
+  @ViewChild('DateToInput') public dateToInput: ElementRef;
 
   public readonly Constants = Constants;
   public readonly ModeConstants = ModeConstants;
@@ -50,7 +52,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   public isLoaded: boolean = false;
   public totalElements = 0;
   public maxDate = new Date();
-  public notAllowedToPickByTabButton = -1;
   public dataSource: MatTableDataSource<StudySubject> = new MatTableDataSource<StudySubject>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public subjectParameters: StudySubjectParameters = {
@@ -63,7 +64,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog
+    protected matDialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
     super(store, matDialog);
   }
@@ -73,8 +75,10 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
 
     this.filterForm = new FormGroup({
       filterFormControl: new FormControl(''),
-      dateFrom: new FormControl<Moment | null>(null, Validators.max(this.filterForm.get('dateTo')?.value)),
-      dateTo: new FormControl<Moment | null>(null, Validators.min(this.filterForm.get('dateFrom')?.value))
+      dates: this.formBuilder.group({
+        dateFrom: new FormControl<Moment | null>(null),
+        dateTo: new FormControl<Moment | null>(null)
+      })
     });
 
     this.filterForm
@@ -151,10 +155,14 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public onResetFilters(): void {
-    this.filterForm.patchValue({
-      dateFrom: '',
-      dateTo: ''
+    this.filterForm.get('dates').patchValue({
+      dateFrom: null,
+      dateTo: null
     });
+    this.tempDateFrom = null;
+    this.tempDateTo = null;
+    this.dateFromInput.nativeElement.value = '';
+    this.dateToInput.nativeElement.value = '';
     this.subjectParameters.dateFrom = '';
     this.subjectParameters.dateTo = '';
     this.closeDatePicker();
@@ -167,9 +175,11 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.setDateForFilters();
   }
 
-  public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
-    this.filterForm.get(controlName)?.patchValue(event.target.value);
-    console.log(this.filterForm.get(controlName));
+  public onDateInput(event: MatDatepickerInputEvent<string>, controlName: 'dateFrom' | 'dateTo'): void {
+    const raw = (event.targetElement as HTMLInputElement).value;
+    this.filterForm.get('dates').get(controlName)?.patchValue(event.target.value);
+    this.filterForm.get('dates').get(controlName)?.markAsTouched();
+    this.validateDate(raw, controlName);
     this.setDateForFilters();
   }
 
@@ -201,13 +211,30 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   private setTimeFormat(): void {
-    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.format('YYYY-MM-DD') ?? '';
-    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateFrom = this.filterForm.value.dates.dateFrom?.format('YYYY-MM-DD') ?? '';
+    this.subjectParameters.dateTo = this.filterForm.value.dates.dateTo?.format('YYYY-MM-DD') ?? '';
   }
 
   private getStudySubjects(): void {
     this.subjectParameters.providerId = this.provider.id;
     Util.setFromPaginationParam(this.subjectParameters, this.currentPage, this.totalElements);
     this.store.dispatch(new GetStudySubjects(this.subjectParameters));
+  }
+
+  private validateDate(raw: string, controlName: string): void {
+    const date = moment(raw, 'DD/MM/YYYY', true);
+
+    if (!date.isValid()) {
+      this.filterForm.get('dates').setErrors(null);
+      return;
+    }
+
+    if (controlName === 'dateFrom' && date.isAfter(this.filterForm.get('dates.dateTo')?.value, 'day')) {
+      this.filterForm.get('dates').setErrors({ invalidDateRange: true });
+    } else if (controlName === 'dateTo' && date.isBefore(this.filterForm.get('dates.dateFrom')?.value, 'day')) {
+      this.filterForm.get('dates').setErrors({ invalidDateRange: true });
+    } else {
+      this.filterForm.get('dates').setErrors(null);
+    }
   }
 }

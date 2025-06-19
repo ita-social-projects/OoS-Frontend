@@ -106,7 +106,7 @@
     <mat-datepicker-toggle matSuffix [for]="competitionPicker"></mat-datepicker-toggle>
     <mat-date-range-picker #competitionPicker></mat-date-range-picker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')"></app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
