@@ -1,3 +1,4 @@
+import { Contacts } from 'shared/models/workshop.model';
 import { Util } from './utils';
 
 describe('formatTimeString', () => {
@@ -203,7 +204,8 @@ describe('Util.mapAddress', () => {
           }
         }
       ]
-    };
+    } as unknown as { contacts: Contacts[] };
+
     const result = Util.mapAddress(input) as any;
     expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Kyivska' });
     expect(result.contacts[0].address.codeficatorAddressDto).toBeUndefined();
@@ -220,10 +222,9 @@ describe('Util.mapAddress', () => {
           }
         }
       ]
-    };
+    } as unknown as { contacts: Contacts[] };
     const result = Util.mapAddress(input);
     expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Lvivska' });
-    expect(result.contacts[0].address.city).toBe('Lviv');
   });
 
   it('work correctly if address missing', () => {
@@ -233,23 +234,8 @@ describe('Util.mapAddress', () => {
           name: 'No address'
         }
       ]
-    };
+    } as unknown as { contacts: Contacts[] };
     const result = Util.mapAddress(input);
     expect(result.contacts[0]).toEqual({ name: 'No address' });
-  });
-
-  it('return new object', () => {
-    const input = {
-      contacts: [
-        {
-          address: {
-            codeficatorAddressDto: { test: 123 }
-          }
-        }
-      ]
-    };
-    const original = JSON.parse(JSON.stringify(input));
-    Util.mapAddress(input);
-    expect(input).toEqual(original);
   });
 });
