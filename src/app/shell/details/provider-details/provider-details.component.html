@@ -20,6 +20,9 @@
       <mat-tab class="label" label="{{ tabTitles.Workshops | translate }}">
         <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
+      <mat-tab class="label" label="{{ tabTitles.Contacts | translate }}">
+        <app-contacts-card [provider]="provider"></app-contacts-card>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>
