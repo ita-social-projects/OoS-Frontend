@@ -1,6 +1,12 @@
 <div class="flex justify-start max-h-10 relative">
   <div class="search-bar flex flex-row justify-start items-center" matAutocompleteOrigin #origin="matAutocompleteOrigin">
-    <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)" (keydown.enter)="onValueEnter()" (click)="onValueEnter()"
+    <mat-icon
+      class="search-icon mt-2"
+      role="button"
+      tabindex="0"
+      style="transform: rotate(90deg)"
+      (keydown.enter)="onValueEnter()"
+      (click)="onValueEnter()"
       >search
     </mat-icon>
     <input
