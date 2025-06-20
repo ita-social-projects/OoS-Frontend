@@ -470,3 +470,15 @@ export class Util {
     }
   }
 }
+
+export function addBeforeUnloadProtection(shouldBlock: () => boolean): () => void {
+  const handler = (event: BeforeUnloadEvent): void => {
+    if (shouldBlock()) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  };
+
+  window.addEventListener('beforeunload', handler);
+  return (): void => window.removeEventListener('beforeunload', handler);
+}

@@ -22,6 +22,7 @@ export class WorkshopMainRequiredProperties extends BaseWorkshop {
   maxAge: number;
   dateTimeRanges: DateTimeRanges[];
   studyPeriodDates: StudyPeriodDates;
+  languageOfEducationId: number;
   formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;
