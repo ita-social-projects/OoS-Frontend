@@ -1,10 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 
 import { Role } from 'shared/enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from 'shared/models/chat.model';
 import { SearchResponse } from 'shared/models/search.model';
+import { Store } from '@ngxs/store';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,40 +15,43 @@ import { SearchResponse } from 'shared/models/search.model';
 export class ChatService {
   private readonly baseApiUrl = '/api/v1/ChatWorkshop';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   public getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
     const params = this.setChatRoomParams(parameters);
 
-    return this.http.get<SearchResponse<ChatRoom[]>>(`${this.baseApiUrl}/${parameters.role}/chatrooms`, { params });
+    return this.canRequest(this.http.get<SearchResponse<ChatRoom[]>>(`${this.baseApiUrl}/${parameters.role}/chatrooms`, { params }));
   }
 
   public getChatRoomById(role: Role, chatRoomId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}`);
+    return this.canRequest(this.http.get<ChatRoom>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}`));
   }
 
   public getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatrooms/workshop/${workshopId}`);
+    return this.canRequest(this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatrooms/workshop/${workshopId}`));
   }
 
   public getChatRoomByApplicationId(applicationId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`${this.baseApiUrl}/chatrooms/applications/${applicationId}`);
+    return this.canRequest(this.http.get<ChatRoom>(`${this.baseApiUrl}/chatrooms/applications/${applicationId}`));
   }
 
   public getChatRoomMessagesById(role: Role, chatRoomId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     const params = this.setMessagesParams(parameters);
 
-    return this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}/messages`, { params });
+    return this.canRequest(this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}/messages`, { params }));
   }
 
   public getChatRoomMessagesForParentByWorkshopId(workshopId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     const params = this.setMessagesParams(parameters);
 
-    return this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/parent/workshops/${workshopId}/messages`, { params });
+    return this.canRequest(this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/parent/workshops/${workshopId}/messages`, { params }));
   }
 
   public getUnreadMessagesCount(): Observable<number> {
-    return this.http.get<number>(`${this.baseApiUrl}/user/unreadMessagesCount`);
+    return this.canRequest(this.http.get<number>(`${this.baseApiUrl}/user/unreadMessagesCount`));
   }
 
   private setChatRoomParams(parameters: ChatRoomsParameters): HttpParams {
@@ -63,5 +69,10 @@ export class ChatService {
 
   private setMessagesParams(parameters: MessagesParameters): HttpParams {
     return new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+  }
+
+  private canRequest<T>(obs$: Observable<T>): Observable<T> {
+    const isMessagingFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).messagingFeature;
+    return isMessagingFeature ? obs$ : EMPTY;
   }
 }
