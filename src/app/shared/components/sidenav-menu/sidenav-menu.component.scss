@@ -1,13 +1,7 @@
-.app-wrapper {
-  min-height: 100%;
-  position: relative;
-  box-sizing: border-box;
-}
-
 ::ng-deep .lang-option .mat-select-value {
   color: var(--primary-light-text-color) !important;
   overflow: visible;
-  padding-right: 0px !important;
+  padding-right: 0 !important;
   font-family: 'Innerspace', sans-serif;
 }
 
