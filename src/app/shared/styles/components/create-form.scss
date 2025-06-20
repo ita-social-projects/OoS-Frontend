@@ -129,6 +129,7 @@ button:focus {
     text-overflow: ellipsis;
     max-width: 210px;
   }
+
   .mat-icon {
     overflow: visible;
   }
@@ -199,8 +200,9 @@ button:focus {
 
 ::ng-deep .mat-mdc-select {
   height: 36px;
-  display: flex;
+  display: flex !important;
   align-items: center;
+
   .mat-mdc-select-trigger {
     font-size: 13px !important;
   }
