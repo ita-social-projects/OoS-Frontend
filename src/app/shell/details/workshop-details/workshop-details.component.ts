@@ -73,6 +73,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public selectedIndex: number;
   public tabIndex: number;
   public coverImage: string;
+  public isAgeRestricted: boolean;
 
   protected readonly Util = Util;
   protected readonly ModalConfirmationType = ModalConfirmationType;
@@ -103,6 +104,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params.status);
       this.selectedIndex = this.tabIndex;
     });
+
+    this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
   }
 
   public onTabChange(event: MatTabChangeEvent): void {

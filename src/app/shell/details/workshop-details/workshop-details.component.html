@@ -103,10 +103,14 @@
             <mat-icon class="icon">school</mat-icon>
             {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
           </span>
-          <span class="icon-text">
+          <span *ngIf="isAgeRestricted" class="icon-text">
             <mat-icon class="icon">person</mat-icon>
             {{ workshop.minAge }} - {{ workshop.maxAge }}
             {{ 'YEARS' | translate }}
+          </span>
+          <span *ngIf="!isAgeRestricted" class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ 'UNLIMITED' | translate }}
           </span>
           <span class="icon-text">
             <mat-icon class="icon">language</mat-icon>
