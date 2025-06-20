@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import localeUk from '@angular/common/locales/uk';
-import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, inject, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,7 +12,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsStoragePluginModule, LOCAL_STORAGE_ENGINE, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { ErrorHandleInterceptor } from 'shared/interceptors/error-handle.interceptor';
 import { RegistrationModule } from 'shared/modules/registration.module';
@@ -30,6 +30,9 @@ import { ProviderState } from 'shared/store/provider.state';
 import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -101,8 +104,28 @@ registerLocaleData(localeUk);
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: (store: Store) => (): Observable<unknown> => store.dispatch(new CheckAuth()),
-      deps: [Store],
+      useFactory: () => {
+        const store = inject(Store);
+        const router = inject(Router);
+
+        return (): Observable<unknown> => {
+          const queryParams = new URLSearchParams(window.location.search);
+          const error = queryParams.get('error');
+
+          if (error === 'access_denied') {
+            router.navigate(['']);
+            store.dispatch(
+              new ShowMessageBar({
+                message: SnackbarText.accessIsDenied,
+                type: 'warningYellow'
+              })
+            );
+            return of(null);
+          }
+
+          return store.dispatch(new CheckAuth());
+        };
+      },
       multi: true
     },
     {
