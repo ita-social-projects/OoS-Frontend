@@ -169,8 +169,9 @@ describe('ChatService', () => {
   it('should not send any request if isMessagingFeature is false', () => {
     store.selectSnapshot = jest.fn().mockReturnValue({ messagingFeature: false });
 
-    jest.spyOn(service, 'getUnreadMessagesCount');
-    service.getUnreadMessagesCount().subscribe();
+    service.getUnreadMessagesCount().subscribe().unsubscribe();
     httpTestingController.expectNone(`${baseApiUrl}/user/unreadMessagesCount`);
+
+    store.selectSnapshot = jest.fn().mockReturnValue({ messagingFeature: true });
   });
 });
