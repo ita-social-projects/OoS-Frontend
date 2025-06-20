@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { Role } from 'shared/enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from 'shared/models/chat.model';
@@ -9,6 +9,9 @@ import { ChatService } from './chat.service';
 describe('ChatService', () => {
   const baseApiUrl = '/api/v1/ChatWorkshop';
   let service: ChatService;
+  const store = {
+    selectSnapshot: jest.fn().mockReturnValue({ messagingFeature: true })
+  };
   let httpTestingController: HttpTestingController;
   const mockChatRooms: ChatRoom[] = [
     {
@@ -40,7 +43,8 @@ describe('ChatService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([])]
+      imports: [HttpClientTestingModule, NgxsModule.forRoot([])],
+      providers: [{ provide: Store, useValue: store }]
     });
     service = TestBed.inject(ChatService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -160,5 +164,14 @@ describe('ChatService', () => {
     req.flush(mockIncomingMessages.length);
 
     expect(req.request.method).toEqual('GET');
+  });
+
+  it('should not send any request if isMessagingFeature is false', () => {
+    store.selectSnapshot = jest.fn().mockReturnValue({ messagingFeature: false });
+
+    service.getUnreadMessagesCount().subscribe().unsubscribe();
+    httpTestingController.expectNone(`${baseApiUrl}/user/unreadMessagesCount`);
+
+    store.selectSnapshot = jest.fn().mockReturnValue({ messagingFeature: true });
   });
 });
