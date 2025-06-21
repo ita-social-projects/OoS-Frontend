@@ -39,7 +39,7 @@ table {
 }
 
 .mat-mdc-table-sticky-border-elem-left {
-  border-right: 1px solid var(--input-light-color);
+  //border-right: 1px solid var(--input-light-color);
 }
 
 .icons {
@@ -55,8 +55,26 @@ table {
   }
 }
 
+.action-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: fit-content;
+
+  .icon-button {
+    height: 40px;
+    width: 40px;
+    font-size: 16px;
+  }
+}
+
 .fas {
   margin-right: 5px;
+}
+
+tr {
+  height: 40px;
 }
 
 th {
@@ -67,6 +85,7 @@ th,
 td {
   box-sizing: border-box;
   overflow: hidden;
+  height: 100%;
 }
 
 th.mat-mdc-header-cell,
