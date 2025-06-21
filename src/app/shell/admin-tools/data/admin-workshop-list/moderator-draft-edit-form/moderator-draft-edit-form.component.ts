@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -21,12 +21,20 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-moderator-draft-edit-form',
   templateUrl: './moderator-draft-edit-form.component.html',
-  styleUrls: ['./moderator-draft-edit-form.component.scss']
+  styleUrls: ['./moderator-draft-edit-form.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class ModeratorDraftEditFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(SharedUserState.selectedWorkshop)
@@ -34,12 +42,14 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   @Select(RegistrationState.user)
   public currentUser$: Observable<User>;
 
+  @ViewChild('stepper') public stepper: MatStepper;
   public selectedWorkshop: WorkshopDraft;
   public currentUser: User;
   public activatedRoute: ActivatedRoute;
   public form: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
   public EditFormGroup: FormGroup;
+  public WorkshopContactsFormArray: FormArray;
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
 
@@ -130,14 +140,24 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     }
   }
 
-  public onSubmit(): void {
+  public onNext(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+    } else {
+      this.stepper.next();
+    }
+  }
+
+  public onSubmit(): void {
+    if (this.form.invalid || this.WorkshopContactsFormArray.invalid) {
+      this.form.markAllAsTouched();
+      this.WorkshopContactsFormArray.markAllAsTouched();
       return;
     }
 
     const formData = this.form.getRawValue();
     formData.workshopDescriptionItems = this.SectionItemsFormArray.getRawValue();
+    formData.contacts = this.WorkshopContactsFormArray.getRawValue();
     this.store.dispatch(new EditWorkshopDraftByModerator(formData, this.selectedWorkshop.workshopDraftId));
   }
 
@@ -227,6 +247,11 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         coverImageIdFormControl.setValue(ids);
         coverImageFormControl.setValue(files);
       });
+  }
+
+  public onReceiveWorkshopContactsFormArray(array: FormArray): void {
+    this.WorkshopContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   public ngOnDestroy(): void {

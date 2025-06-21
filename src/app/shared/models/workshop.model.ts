@@ -264,6 +264,7 @@ export interface AdditionalAbout {
 export interface WorkshopFilterAdministration extends PaginationParameters {
   searchString?: string;
   institutionId?: string;
+  workshopDraftStatuses?: string;
   catottgId?: number;
 }
 

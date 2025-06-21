@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { Role } from 'shared/enum/role';
@@ -13,6 +13,8 @@ import { GetDirectionById } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { Direction } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DeleteWorkshopDraftCoverImage, DeleteWorkshopDraftImage } from 'shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-workshop-info',
@@ -47,13 +49,34 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
+  public form: FormGroup;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      coverImageId: new FormControl(''),
+      coverImage: new FormControl(''),
+      imageFiles: new FormControl(''),
+      imageIds: new FormControl('')
+    });
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     const newDirectionId = changes.workshop?.currentValue?.directionIds?.[0];
     if (newDirectionId) {
       this.store.dispatch(new GetDirectionById(newDirectionId));
+    }
+    if (changes.workshop.currentValue) {
+      console.log(changes.workshop.currentValue);
+      if (changes.workshop.currentValue.coverImageId?.length) {
+        this.form.get('coverImageId').setValue([changes.workshop.currentValue.coverImageId]);
+      } else {
+        this.form.get('coverImageId').setValue([]);
+      }
+
+      this.form.get('imageIds').setValue(changes.workshop.currentValue.imageIds);
     }
   }
 
@@ -71,7 +94,52 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
     this.closeInfo.emit();
   }
 
-  public hasSocialNetworks(): boolean {
-    return this.workshop?.contacts?.some((contact) => contact.socialNetworks?.length);
+  public onDeleteImage(imageId: string): void {
+    this.store
+      .dispatch(new DeleteWorkshopDraftImage(this.workshopDraftId, imageId))
+      .pipe(
+        filter((actionResult) => !actionResult.error),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const filesFormControl = this.form.get('imageFiles');
+        const imageIdsFormControl = this.form.get('imageIds');
+
+        const imageIds = [...imageIdsFormControl.value];
+        const files = [...filesFormControl.value];
+
+        const indexToDelete = imageIds.findIndex((value) => value === imageId);
+        if (indexToDelete !== -1) {
+          imageIds.splice(indexToDelete, 1);
+          files.splice(indexToDelete, 1);
+        }
+
+        this.form.patchValue({
+          imageFiles: files,
+          imageIds: imageIds
+        });
+      });
+  }
+
+  public onDeleteCoverImage(): void {
+    this.store
+      .dispatch(new DeleteWorkshopDraftCoverImage(this.workshopDraftId))
+      .pipe(
+        filter((actionResult) => !actionResult.error),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const coverImageIdFormControl = this.form.get('coverImageId');
+        const coverImageFormControl = this.form.get('coverImage');
+
+        const ids = [...coverImageIdFormControl.value];
+        const files = [...coverImageFormControl.value];
+
+        ids.pop();
+        files.pop();
+
+        coverImageIdFormControl.setValue(ids);
+        coverImageFormControl.setValue(files);
+      });
   }
 }

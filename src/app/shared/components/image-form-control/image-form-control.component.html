@@ -19,8 +19,8 @@
         <div class="logo_images">
           <img
             *ngIf="!img.isBroken"
-            (keydown.enter)="displayFullImage(img.image)"
-            (click)="displayFullImage(img.image)"
+            (keydown.enter)="displayFullImage(img?.image)"
+            (click)="displayFullImage(img?.image)"
             [src]="img.image"
             (error)="img.isBroken = true"
             alt="broken" />

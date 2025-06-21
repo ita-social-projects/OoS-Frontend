@@ -569,7 +569,8 @@
       "COST": "Cost",
       "EMAILS": "Emails",
       "PHONE_NUMBERS": "Phone numbers",
-      "LINK": "Link"
+      "LINK": "Link",
+      "CONTACTS": "Contacts"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -613,7 +614,8 @@
       "WITHOUT_SORT": "Without sorting",
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
-      "SEARCH_BY_TITLE": "Search by full title"
+      "SEARCH_BY_TITLE": "Search by full title",
+      "SELECT_STATUS": "Select status"
     },
     "TOOLTIP": {
       "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"

@@ -171,6 +171,7 @@
             <div class="map">
               <app-map
                 [mapId]="index"
+                [disabled]="moderatorFlow"
                 [settelmentFormGroup]="addressForm.get('searchGroup').get('settlement')"
                 [addressFormGroup]="addressForm"
                 (addressSelect)="onAddressSelect($event, addressForm)">

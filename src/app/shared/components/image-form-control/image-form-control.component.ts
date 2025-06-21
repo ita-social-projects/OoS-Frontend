@@ -50,6 +50,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
   public decodedImages: DecodedImage[] = [];
   public destroy$: Subject<void> = new Subject();
   protected readonly InfoMenuType = InfoMenuType;
+  private editMode: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -111,6 +112,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
   }
 
   public activateEditMode(): void {
+    this.editMode = true;
     if (this.imageIdsFormControl?.value?.length) {
       this.imageIdsFormControl.value.forEach((imageId) => {
         this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
@@ -183,8 +185,11 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
     myReader.readAsDataURL(file);
   }
 
+  // It should be used only in edit because in create mode we have image only in our memory
   public displayFullImage(src: string): void {
-    window.open(src, '_blank');
+    if (this.editMode) {
+      window.open(src, '_blank');
+    }
   }
 
   private removeImage(img: DecodedImage): void {

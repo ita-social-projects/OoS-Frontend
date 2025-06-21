@@ -89,6 +89,10 @@ export class AdminService {
       params = params.set('CATOTTGId', parameters.catottgId);
     }
 
+    if ('workshopDraftStatuses' in parameters && parameters.workshopDraftStatuses) {
+      params = params.set('WorkshopDraftStatuses', parameters.workshopDraftStatuses);
+    }
+
     return params;
   }
 
