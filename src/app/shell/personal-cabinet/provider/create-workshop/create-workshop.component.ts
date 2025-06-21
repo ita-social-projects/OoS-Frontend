@@ -121,6 +121,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public onSubordinationChange(institutionTitle: string): void {
     this.isMinSportSelected = institutionTitle === 'Мінспорт';
+
+    if (!this.isMinSportSelected) {
+      this.DescriptionFormGroup.get('championsPath')?.setValue(false);
+    }
   }
 
   public ngOnInit(): void {
@@ -248,6 +252,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (teachers.length > 1 && !teachers.some((teacher) => teacher.defaultTeacher)) {
       return this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorDefaultTeacher, type: 'error' }));
+    }
+
+    if (!this.isMinSportSelected) {
+      descInfo.championsPath = false;
     }
 
     let workshop: Workshop;

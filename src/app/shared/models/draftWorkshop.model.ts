@@ -50,6 +50,7 @@ export class WorkshopDescription extends WorkshopOtherRequiredProperties {
   workshopDescriptionItems: WorkshopDescriptionItem[];
   institutionId: string;
   institutionHierarchyId: string;
+  championPath?: boolean;
   directionIds: number[];
   keywords: string[];
   additionalDescription: string;

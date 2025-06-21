@@ -193,4 +193,10 @@
     [provider]="provider"
     (subordinationChange)="onInstitutionSubordinationChange($event)">
   </app-institution-hierarchy>
+
+  <div class="champions-path-wrapper" *ngIf="showChampionsPathCheckbox">
+    <mat-checkbox [formControl]="DescriptionFormGroup.get('championsPath')" class="step-label" color="primary">
+      {{ 'FORMS.LABELS.CHAMPION_PATH' | translate }}
+    </mat-checkbox>
+  </div>
 </form>

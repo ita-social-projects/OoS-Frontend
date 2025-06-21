@@ -47,6 +47,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
 
+  public showChampionsPathCheckbox = false;
   public readonly validationConstants = ValidationConstants;
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
@@ -73,7 +74,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public keyWords: string[] = [];
   public tags: Tag[] = [];
-
   public separatorKeysCodes = [ENTER];
 
   public tagsControl: FormControl = new FormControl<Tag[]>(
@@ -114,7 +114,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       ]),
       coverage: new FormControl(this.Coverage.School),
       institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required)
+      institutionId: new FormControl('', Validators.required),
+      championsPath: new FormControl(false)
     });
   }
 
@@ -123,6 +124,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   }
 
   public onInstitutionSubordinationChange(institutionTitle: string): void {
+    const isMinSport = institutionTitle === 'Мінспорт';
+    this.showChampionsPathCheckbox = isMinSport;
+
+    const championsPathControl = this.DescriptionFormGroup.get('championsPath');
+    if (!isMinSport) {
+      championsPathControl.setValue(false);
+    }
     this.subordinationChange.emit(institutionTitle);
   }
 
@@ -247,6 +255,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
+
+    this.onInstitutionSubordinationChange(this.workshop.institutionHierarchy);
+    this.DescriptionFormGroup.get('championsPath').setValue(!!this.workshop.isChampionPath, { emitEvent: false });
 
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {

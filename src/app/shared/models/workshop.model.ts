@@ -32,6 +32,7 @@ export abstract class WorkshopBase {
   institution: string;
   institutionHierarchyId: string;
   institutionHierarchy: string;
+  isChampionPath?: boolean = false;
   directionIds: number[];
   keywords: string[];
   contacts: Contacts[];
@@ -73,6 +74,7 @@ export abstract class WorkshopBase {
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
     this.institutionId = description?.institutionId;
     this.institutionHierarchyId = description?.institutionHierarchyId;
+    this.isChampionPath = description?.isChampionPath;
     this.keywords = description?.keyWords;
     this.competitiveSelection = description?.competitiveSelection;
     this.competitiveSelectionDescription = description?.competitiveSelectionDescription;
@@ -278,6 +280,7 @@ export interface Description {
   coverage: string;
   institutionId: string;
   institutionHierarchyId: string;
+  isChampionPath?: boolean;
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
 }
