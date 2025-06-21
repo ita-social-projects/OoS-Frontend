@@ -75,6 +75,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public WorkshopContactsFormArray: FormArray;
 
   protected readonly WorkshopType = WorkshopType;
+  public isMinSportSelected = false;
 
   private readonly unfinishedWorkshopTypeMap = {
     1: WorkshopTypeUnfinished.WithMainProperties,
@@ -116,6 +117,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.WorkshopContactsFormArray.invalid
       // || this.TeacherFormArray?.invalid
     );
+  }
+
+  public onSubordinationChange(institutionTitle: string): void {
+    this.isMinSportSelected = institutionTitle === 'Мінспорт';
   }
 
   public ngOnInit(): void {

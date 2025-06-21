@@ -3,7 +3,14 @@
     <div class="wrapper">
       <div class="create-form-header flex flex-col justify-center items-center">
         <h3 class="wrapper-title">
-          {{ (editMode ? (entity === WorkshopType.Workshop ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.EDIT_DRAFT') : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
+          {{
+            (editMode
+              ? entity === WorkshopType.Workshop
+                ? 'FORMS.HEADERS.EDIT_WORKSHOP'
+                : 'FORMS.HEADERS.EDIT_DRAFT'
+              : 'FORMS.HEADERS.NEW_WORKSHOP'
+            ) | translate
+          }}
         </h3>
         <p class="wrapper-text">
           {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
@@ -39,8 +46,7 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="AdditionalAboutGroup"
-                  [completed]="!AboutFormGroup.invalid && !AdditionalAboutGroup.invalid">
+        <mat-step [stepControl]="AdditionalAboutGroup" [completed]="!AboutFormGroup.invalid && !AdditionalAboutGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}</p>
           </ng-template>
@@ -48,7 +54,8 @@
             class="flex flex-row justify-center items-center"
             [workshop]="workshop"
             [provider]="provider"
-            (passAdditionalAboutGroup)="onReceiveAdditionalAboutGroup($event)">
+            (passAdditionalAboutGroup)="onReceiveAdditionalAboutGroup($event)"
+            [isMinSportSelected]="isMinSportSelected">
           </app-create-additional-about-form>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -69,8 +76,7 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="DescriptionFormGroup"
-                  [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
@@ -79,7 +85,8 @@
             [workshop]="workshop"
             [provider]="provider"
             [isImagesFeature]="isImagesFeature"
-            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)"
+            (subordinationChange)="onSubordinationChange($event)">
           </app-create-description-form>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -106,8 +113,7 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-contacts [contacts]="workshop?.contacts"
-                               (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
+          <app-create-contacts [contacts]="workshop?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
           </app-create-contacts>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>

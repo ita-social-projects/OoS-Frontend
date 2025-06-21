@@ -190,6 +190,7 @@
   <app-institution-hierarchy
     [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
     [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider">
+    [provider]="provider"
+    (subordinationChange)="onInstitutionSubordinationChange($event)">
   </app-institution-hierarchy>
 </form>

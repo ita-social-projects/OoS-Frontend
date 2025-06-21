@@ -43,6 +43,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   @Input() public provider: Provider;
 
   @Output() public passDescriptionFormGroup = new EventEmitter();
+  @Output() public subordinationChange = new EventEmitter<string>();
 
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
 
@@ -119,6 +120,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public compareItems(item1: Direction, item2: Direction): boolean {
     return item1.id === item2.id;
+  }
+
+  public onInstitutionSubordinationChange(institutionTitle: string): void {
+    this.subordinationChange.emit(institutionTitle);
   }
 
   public ngOnInit(): void {
