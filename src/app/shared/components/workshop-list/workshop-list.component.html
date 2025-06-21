@@ -16,6 +16,20 @@
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
+      <mat-form-field appearance="fill">
+        <mat-select
+          disableOptionCentering
+          formControlName="workshopDraftStatuses"
+          panelClass="dropdown-panel select-with-form-field"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_STATUS' | translate }}"
+          class="select">
+          <mat-option *ngFor="let status of workshopStatusesToFilter" [value]="status" class="dropdown-option">
+            {{ workshopDraftStatusTitles[status] | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="filter-dropdown">
       <mat-form-field *ngIf="isTechAdmin || isModerator" appearance="fill">
         <mat-select
           disableOptionCentering
@@ -198,14 +212,12 @@
                 </div>
 
                 <mat-menu #actions="matMenu" class="header_menu">
-                  <ng-container *ngIf="element.workshopDetails.ownership !== ownershipTypes.Private">
-                    <button *ngIf="element.draftStatus !== workshopDraftStatus.Rejected" mat-menu-item (click)="onRejectDraft(element)">
+                    <button mat-menu-item (click)="onRejectDraft(element)">
                       {{ 'BUTTONS.REQUEST_CHANGES' | translate }}
                     </button>
                     <button mat-menu-item (click)="onApproveDraft(element)">
                       {{ 'BUTTONS.CONFIRM' | translate }}
                     </button>
-                  </ng-container>
                 </mat-menu>
               </td>
             </ng-container>

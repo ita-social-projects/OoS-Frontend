@@ -81,7 +81,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly workshopDraftStatusTitles = DraftStatusEnum;
-
+  public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
   public selectedAdmin: BaseAdmin;
   public role: Role;
   public workshop: Workshop;
@@ -150,6 +150,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     return this.filterGroup.get('area') as FormControl;
   }
 
+  private get statusFormControl(): FormControl {
+    return this.filterGroup.get('workshopDraftStatuses') as FormControl;
+  }
+
   @Input()
   public set workshops(value: SearchResponse<WorkshopDraft[]>) {
     this.dataSource.data = value?.entities;
@@ -203,7 +207,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       searchBarFilter: new FormControl(''),
       institution: new FormControl(''),
       region: new FormControl(''),
-      area: new FormControl('')
+      area: new FormControl(''),
+      workshopDraftStatuses: new FormControl('')
     });
 
     this.setInformationDependingOnRole();
@@ -358,6 +363,12 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
       });
+
+    this.statusFormControl.valueChanges.pipe(distinctUntilChanged(), debounceTime(1000), takeUntil(this.destroy$)).subscribe(() => {
+      this.workshopParameters.workshopDraftStatuses = this.statusFormControl.value;
+      this.currentPage = PaginationConstants.firstPage;
+      this.getWorkshops();
+    });
   }
 
   private setInitialWorkshopFilterByDefault(): void {
