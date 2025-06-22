@@ -40,6 +40,10 @@ describe('CreateDescriptionFormComponent', () => {
   let fixture: ComponentFixture<CreateDescriptionFormComponent>;
 
   beforeEach(async () => {
+    const tagServiceSpy = {
+      getTags: jest.fn().mockReturnValue(of([]))
+    };
+
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -66,10 +70,15 @@ describe('CreateDescriptionFormComponent', () => {
               params: {},
               data: {}
             }
-          }
+          },
+        {
+          provide: TagService,
+          useValue: tagServiceSpy
         }
       ]
     }).compileComponents();
+
+    tagService = TestBed.inject(TagService);
   });
 
   beforeEach(() => {
