@@ -115,3 +115,14 @@ h3 {
 .add-wrapper {
   justify-content: center;
 }
+
+.image-form-control {
+  ::ng-deep .form-wrapper {
+    margin-bottom: 13px;
+    .step-label {
+      font-weight: 700;
+      font-family: "Innerspace", sans-serif;
+      color: var(--primary-dark-text-color)
+    }
+  }
+}

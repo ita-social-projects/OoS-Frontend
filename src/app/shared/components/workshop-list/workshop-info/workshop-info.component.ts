@@ -15,6 +15,7 @@ import { Direction } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DeleteWorkshopDraftCoverImage, DeleteWorkshopDraftImage } from 'shared/store/shared-user.actions';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-workshop-info',
@@ -35,6 +36,8 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   public workshopCodeficator$: Observable<Codeficator>;
   @Select(AdminState.direction)
   public workshopDirection$: Observable<Direction>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
 
   public readonly Role = Role;
   public readonly workingDays = WorkingDays;
@@ -46,6 +49,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
 
   public workshopDirection: Direction;
   public role: Role;
+  public isImagesFeature: boolean;
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
@@ -69,7 +73,6 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
       this.store.dispatch(new GetDirectionById(newDirectionId));
     }
     if (changes.workshop.currentValue) {
-      console.log(changes.workshop.currentValue);
       if (changes.workshop.currentValue.coverImageId?.length) {
         this.form.get('coverImageId').setValue([changes.workshop.currentValue.coverImageId]);
       } else {
@@ -83,6 +86,9 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   public ngOnInit(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
     this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
+    this.featuresList$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
   public ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NgxsModule, Store } from '@ngxs/store/';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgxsModule, Store } from '@ngxs/store/';
 import { of } from 'rxjs';
 import { EditWorkshopDraftByModerator } from 'shared/store/shared-user.actions';
 import { ModeratorDraftEditFormComponent } from './moderator-draft-edit-form.component';
@@ -90,12 +90,29 @@ describe('ModeratorDraftEditFormComponent', () => {
       sectionName: 'Section 1',
       description: 'Description 1'
     });
+    component.WorkshopContactsFormArray.push(
+      new FormGroup({
+        contactType: new FormControl('Email'),
+        value: new FormControl('example@example.com')
+      })
+    );
+    component.WorkshopContactsFormArray.at(0).patchValue({
+      contactType: 'Email',
+      value: 'example@example.com'
+    });
     component.selectedWorkshop = { workshopDraftId: 'draft-id' } as any;
+
     const dispatchSpy = jest.spyOn(storeMock, 'dispatch');
 
     component.onSubmit();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(new EditWorkshopDraftByModerator(component.form.getRawValue(), 'draft-id'));
+    const expectedPayload = {
+      ...component.form.getRawValue(),
+      workshopDescriptionItems: component.SectionItemsFormArray.getRawValue(),
+      contacts: component.WorkshopContactsFormArray.getRawValue()
+    };
+
+    expect(dispatchSpy).toHaveBeenCalledWith(new EditWorkshopDraftByModerator(expectedPayload, 'draft-id'));
   });
 
   it('should remove imageId and imageFile from form controls on image deletion', () => {
