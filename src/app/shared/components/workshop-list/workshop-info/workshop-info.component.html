@@ -8,7 +8,8 @@
   <mat-tab-group [mat-stretch-tabs]="false">
     <mat-tab [formGroup]="form" label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
       <app-image-form-control
-        *ngIf="form.get('coverImageId').value?.length"
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('coverImageId').value?.length"
         [imgMaxAmount]="1"
         [cropperConfig]="cropperConfig"
         [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
@@ -85,7 +86,8 @@
 
     <mat-tab [formGroup]="form" label="{{ 'TITLES.DESCRIPTION' | translate }}">
       <app-image-form-control
-        *ngIf="form.get('imageIds').value?.length"
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('imageIds').value?.length"
         [imgMaxAmount]="10"
         [cropperConfig]="cropperConfig"
         [label]="'Фото'"
@@ -171,7 +173,9 @@
 
           <div>
             <h5>{{ 'FORMS.LABELS.ADDRESS' | translate }}</h5>
-            <p>{{ contact.address.codeficatorAddressDto.fullName + ', ' + contact.address.street + ' ' + contact.address.buildingNumber}}</p>
+            <p>
+              {{ contact.address.codeficatorAddressDto.fullName + ', ' + contact.address.street + ' ' + contact.address.buildingNumber }}
+            </p>
           </div>
 
           <h3>{{ 'FORMS.LABELS.EMAILS' | translate }}</h3>

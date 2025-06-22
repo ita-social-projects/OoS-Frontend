@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
+
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -21,8 +24,6 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepper } from '@angular/material/stepper';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -49,7 +50,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   public form: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
   public EditFormGroup: FormGroup;
-  public WorkshopContactsFormArray: FormArray;
+  public WorkshopContactsFormArray: FormArray = new FormArray([]);
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
 

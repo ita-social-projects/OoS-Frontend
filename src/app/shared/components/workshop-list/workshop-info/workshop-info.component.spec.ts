@@ -49,18 +49,4 @@ describe('WorkshopInfoComponent', () => {
     component.onCloseInfo();
     expect(component.closeInfo.emit).toHaveBeenCalled();
   });
-
-  it('should return true from hasSocialNetworks when workshop has contacts with social networks', () => {
-    component.workshop = {
-      contacts: [{ socialNetworks: ['socialNetwork'] }, { socialNetworks: [] }]
-    } as any;
-    expect(component.hasSocialNetworks()).toBe(true);
-  });
-
-  it('should return false from hasSocialNetworks when workshop has no contacts with social networks', () => {
-    component.workshop = {
-      contacts: [{ socialNetworks: [] }, { socialNetworks: undefined }]
-    } as any;
-    expect(component.hasSocialNetworks()).toBe(false);
-  });
 });

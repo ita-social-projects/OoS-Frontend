@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule, Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
@@ -8,8 +11,6 @@ import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
 import { WorkshopListComponent } from 'shared/components/workshop-list/workshop-list.component';
-import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'shared/shared.module';
 import { BaseAdmin } from 'shared/models/admin.model';
 import { AdminWorkshopListComponent } from './admin-workshop-list.component';
@@ -21,7 +22,7 @@ describe('AdminWorkshopListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), SharedModule, TranslateModule.forRoot()],
+      imports: [NgxsModule.forRoot([]), SharedModule, TranslateModule.forRoot(), BrowserAnimationsModule],
       declarations: [AdminWorkshopListComponent, WorkshopListComponent],
       providers: [
         {

@@ -1270,6 +1270,7 @@
   },
   "IMAGE": {
     "ERROR": "Error",
-    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition",
+    "DELETE_IMAGE": "This image is no longer available. Please remove it"
   }
 }

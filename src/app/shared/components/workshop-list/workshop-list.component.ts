@@ -82,12 +82,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly workshopDraftStatusTitles = DraftStatusEnum;
   public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
-  public selectedAdmin: BaseAdmin;
-  public role: Role;
-  public workshop: Workshop;
-  public selectedWorkshopDraftId: string;
-  public isInfoDisplayed: boolean;
-  public displayedColumns: string[] = [
+  public readonly displayedColumns: string[] = [
     'title',
     'providerTitle',
     'providerOwnership',
@@ -97,12 +92,17 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'status',
     'rating'
   ];
-
-  public filterGroup: FormGroup;
+  public workshopParameters: WorkshopFilterAdministration = {};
   public dataSource = new MatTableDataSource<WorkshopDraft>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
+
+  public selectedAdmin: BaseAdmin;
+  public role: Role;
+  public workshop: Workshop;
+  public selectedWorkshopDraftId: string;
+  public isInfoDisplayed: boolean;
+  public filterGroup: FormGroup;
   public totalEntities: number;
-  public workshopParameters: WorkshopFilterAdministration = {};
   public regions$: Observable<Codeficator[]>;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
@@ -252,6 +252,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       this.institutionFormControl.reset('');
       this.regionFormControl.reset('');
       this.areaFormControl.reset('');
+      this.statusFormControl.reset('');
 
       if (!this.isRegionAdmin) {
         this.areaFormControl.disable();

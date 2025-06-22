@@ -3,6 +3,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { GetAllInstitutions, GetCodeficatorSearch, GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { Role } from 'shared/enum/role';
@@ -29,7 +30,7 @@ describe('WorkshopInfoComponent', () => {
     } as unknown as jest.Mocked<Store>;
 
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(), SharedModule],
+      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(), SharedModule, BrowserAnimationsModule],
       declarations: [WorkshopListComponent],
       providers: [{ provide: Store, useValue: storeMock }]
     });
