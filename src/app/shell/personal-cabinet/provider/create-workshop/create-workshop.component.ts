@@ -74,8 +74,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
 
-  protected readonly WorkshopType = WorkshopType;
   public isMinSportSelected = false;
+  protected readonly WorkshopType = WorkshopType;
 
   private readonly unfinishedWorkshopTypeMap = {
     1: WorkshopTypeUnfinished.WithMainProperties,
