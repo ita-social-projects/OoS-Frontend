@@ -114,7 +114,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       coverage: new FormControl(this.Coverage.School),
       institutionHierarchyId: new FormControl('', Validators.required),

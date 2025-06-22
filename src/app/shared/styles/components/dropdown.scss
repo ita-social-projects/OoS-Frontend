@@ -2,6 +2,7 @@
   min-height: 39px;
   width: calc(100% - 32px);
   overflow: hidden;
+
   .mdc-list-item__primary-text {
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
@@ -27,7 +28,8 @@
   cursor: default;
 }
 
-::ng-deep .mat-mdc-select-panel {
+::ng-deep .mat-mdc-select-panel,
+::ng-deep .mat-mdc-autocomplete-panel {
   .mat-mdc-option.mdc-list-item--selected {
     background-color: var(--mat-option-focus-state-layer-color) !important;
 
@@ -49,7 +51,6 @@
   overflow-x: hidden !important;
   box-shadow: 0 7px 19px rgba(0, 0, 0, 0.11) !important;
   border-radius: 10px !important;
-  position: relative !important;
   height: fit-content;
   top: -25px;
   max-height: 172px !important;

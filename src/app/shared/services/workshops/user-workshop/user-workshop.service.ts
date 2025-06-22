@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { FeaturesList } from 'shared/models/features-list.model';
 import { TruncatedItem } from 'shared/models/item.model';
@@ -19,6 +19,7 @@ import {
 } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { BaseWorkshop } from 'shared/models/draftWorkshop.model';
+import { Util } from 'shared/utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -97,8 +98,9 @@ export class UserWorkshopService {
    * This method get workshops by Workshop id
    * @param id string
    */
+
   public getWorkshopById(id: string): Observable<Workshop> {
-    return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
+    return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`).pipe(map(Util.mapAddress));
   }
 
   public getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {

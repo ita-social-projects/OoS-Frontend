@@ -15,6 +15,10 @@
   .mat-datepicker-actions {
     box-sizing: border-box;
     padding: 0 8px 8px 8px;
+
+    .btn {
+      min-width: 130px;
+    }
   }
 }
 

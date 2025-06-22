@@ -6,7 +6,16 @@
   margin-left: 1rem;
   display: inline-block;
 }
+
 .hidden {
   visibility: hidden;
   height: 0;
+}
+
+.addChild {
+  margin-bottom: 1rem;
+}
+
+.removeChild {
+  margin: 1rem 0;
 }

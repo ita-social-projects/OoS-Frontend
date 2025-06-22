@@ -129,6 +129,7 @@ button:focus {
     text-overflow: ellipsis;
     max-width: 210px;
   }
+
   .mat-icon {
     overflow: visible;
   }
@@ -172,14 +173,6 @@ button:focus {
   display: none;
 }
 
-:host ::ng-deep .mat-mdc-checkbox .mdc-label {
-  font-family:
-    Open Sans,
-    sans-serif;
-  font-weight: 400;
-  color: var(--cancel-text-color);
-}
-
 .btn {
   min-width: 150px;
 }
@@ -205,18 +198,11 @@ button:focus {
   }
 }
 
-.addChild {
-  margin-bottom: 1rem;
-}
-
-.removeChild {
-  margin: 1rem 0;
-}
-
 ::ng-deep .mat-mdc-select {
   height: 36px;
-  display: flex;
+  display: flex !important;
   align-items: center;
+
   .mat-mdc-select-trigger {
     font-size: 13px !important;
   }
@@ -225,10 +211,4 @@ button:focus {
 ::ng-deep .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
 ::ng-deep .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
   color: var(--mat-option-selected-state-label-text-color) !important;
-}
-
-::ng-deep .select-with-form-field {
-  position: absolute !important;
-  top: -37px !important;
-  left: 15px;
 }

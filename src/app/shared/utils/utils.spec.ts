@@ -1,4 +1,5 @@
-import { Util } from './utils';
+import { Contacts } from 'shared/models/workshop.model';
+import { addBeforeUnloadProtection, Util } from './utils';
 
 describe('formatTimeString', () => {
   it('should clean input value by removing non-numeric and non-colon characters', () => {
@@ -189,5 +190,108 @@ describe('isEmptyUUID', () => {
   it('should return true for undefined | null', () => {
     expect(Util.isEmptyUUID(null)).toBe(true);
     expect(Util.isEmptyUUID(undefined)).toBe(true);
+  });
+});
+
+describe('Util.mapAddress', () => {
+  it('rename codeficatorAddressDto to codeficatorAddress', () => {
+    const input = {
+      contacts: [
+        {
+          address: {
+            city: 'Kyiv',
+            codeficatorAddressDto: { region: 'Kyivska' }
+          }
+        }
+      ]
+    } as unknown as { contacts: Contacts[] };
+
+    const result = Util.mapAddress(input) as any;
+    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Kyivska' });
+    expect(result.contacts[0].address.codeficatorAddressDto).toBeUndefined();
+    expect(result.contacts[0].address.city).toBe('Kyiv');
+  });
+
+  it('transfers the original response if codeficatorAddress already exist', () => {
+    const input = {
+      contacts: [
+        {
+          address: {
+            city: 'Lviv',
+            codeficatorAddress: { region: 'Lvivska' }
+          }
+        }
+      ]
+    } as unknown as { contacts: Contacts[] };
+    const result = Util.mapAddress(input);
+    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Lvivska' });
+  });
+
+  it('work correctly if address missing', () => {
+    const input = {
+      contacts: [
+        {
+          name: 'No address'
+        }
+      ]
+    } as unknown as { contacts: Contacts[] };
+    const result = Util.mapAddress(input);
+    expect(result.contacts[0]).toEqual({ name: 'No address' });
+  });
+});
+
+describe('addBeforeUnloadProtection', () => {
+  let addEventListenerSpy: jest.SpyInstance;
+  let removeEventListenerSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+    removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('should add beforeunload listener', () => {
+    const shouldBlock = jest.fn().mockReturnValue(false);
+    const remove = addBeforeUnloadProtection(shouldBlock);
+
+    expect(addEventListenerSpy).toHaveBeenCalledWith('beforeunload', expect.any(Function));
+    remove();
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('beforeunload', expect.any(Function));
+  });
+
+  it('should block reload if shouldBlock is true', () => {
+    const shouldBlock = jest.fn().mockReturnValue(true);
+    const event = {
+      preventDefault: jest.fn(),
+      returnValue: ''
+    } as unknown as BeforeUnloadEvent;
+
+    addBeforeUnloadProtection(shouldBlock);
+    const handler = addEventListenerSpy.mock.calls[0][1] as (e: BeforeUnloadEvent) => void;
+    handler(event);
+
+    expect(shouldBlock).toHaveBeenCalled();
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(event.returnValue).toBe('');
+  });
+
+  it('should not block if shouldBlock is false', () => {
+    const shouldBlock = jest.fn().mockReturnValue(false);
+    const event = {
+      preventDefault: jest.fn(),
+      returnValue: ''
+    } as unknown as BeforeUnloadEvent;
+
+    addBeforeUnloadProtection(shouldBlock);
+
+    const handler = addEventListenerSpy.mock.calls[0][1] as (e: BeforeUnloadEvent) => void;
+    handler(event);
+
+    expect(shouldBlock).toHaveBeenCalled();
+    expect(event.preventDefault).not.toHaveBeenCalled();
+    expect(event.returnValue).toBe('');
   });
 });

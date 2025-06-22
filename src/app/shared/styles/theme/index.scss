@@ -187,6 +187,11 @@ a {
     padding: 0;
     margin-left: 8px;
     font-size: 13px;
+    font-family:
+      Open Sans,
+      sans-serif;
+    font-weight: 400;
+    color: var(--cancel-text-color);
   }
 
   .mdc-checkbox {

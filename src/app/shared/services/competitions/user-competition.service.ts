@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCardParameters } from 'shared/models/competition.model';
+import { Util } from 'shared/utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class UserCompetitionService {
    * @param id string
    */
   public getCompetitionById(id: string): Observable<Competition> {
-    return this.http.get<Competition>(`/api/v1/CompetitiveEvent/${id}`);
+    return this.http.get<Competition>(`/api/v1/CompetitiveEvent/${id}`).pipe(map(Util.mapAddress));
   }
 
   /**

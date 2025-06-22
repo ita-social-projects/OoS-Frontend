@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ContactsCardComponent } from '../../shared/components/contacts-card/contacts.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { WorkshopAboutComponent } from './details-tabs/workshop-about/workshop-about.component';
@@ -31,7 +30,6 @@ import { JudgeCardComponent } from './details-tabs/competition-judges/judge-card
     WorkshopTeachersComponent,
     ReviewsComponent,
     ActionsComponent,
-    ContactsCardComponent,
     AllProviderWorkshopsComponent,
     WorkshopDetailsComponent,
     ProviderDetailsComponent,
