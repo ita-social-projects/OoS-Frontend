@@ -97,6 +97,7 @@ import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
+import { IntegerOnlyDirective } from './directives/integer-only.directive';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     WorkshopSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
+    IntegerOnlyDirective,
     WorkshopCardComponent,
     CategoryCardComponent,
     MinMaxDirective,
@@ -212,6 +214,7 @@ import { ContactsCardComponent } from './components/contacts-card/contacts.compo
     WorkshopSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
+    IntegerOnlyDirective,
     WorkshopCardComponent,
     MaterialModule,
     CategoryCardComponent,
