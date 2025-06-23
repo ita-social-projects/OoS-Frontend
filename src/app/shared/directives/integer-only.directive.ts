@@ -6,7 +6,7 @@ import { Directive, HostListener } from '@angular/core';
 export class IntegerOnlyDirective {
   @HostListener('beforeinput', ['$event'])
   public onInputChange(event: InputEvent): void {
-    if (event.data && !/^-?\d+$/.test(event.data)) {
+    if (event.data && !/^\d+$/.test(event.data)) {
       event.preventDefault();
     }
   }
