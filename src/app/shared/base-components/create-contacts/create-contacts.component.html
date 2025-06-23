@@ -182,7 +182,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     <div class="flex flex-row justify-start items-center content-center">
-      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid">
+      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid || moderatorFlow">
         <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_ADDRESS' | translate }}
       </button>
     </div>
