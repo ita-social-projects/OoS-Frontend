@@ -35,7 +35,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState)
   protected filterState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
-  private isMobileView$: Observable<boolean>;
+  protected isMobileView$: Observable<boolean>;
   @Select(RegistrationState.role)
   private role$: Observable<string>;
   @Select(FilterState.isMapView)

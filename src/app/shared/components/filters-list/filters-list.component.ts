@@ -59,7 +59,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   public LanguageOfEducationControl = new FormControl(null);
 
   public filterList: FilterList;
-  private visibleFiltersSidenav: boolean;
+  private isFiltersSidenavOpen: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -69,6 +69,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.setFiltersValue();
 
     this.store.dispatch(new GetLanguageList());
+
+    this.filtersSidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((filtersSidenavState: boolean) => {
+      this.isFiltersSidenavOpen = filtersSidenavState;
+    });
 
     combineLatest(
       Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
@@ -111,7 +115,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   public changeView(): void {
-    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
+    this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
   }
 
   public onFilterReset(): void {
@@ -125,18 +129,15 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   private setFiltersValue(): void {
-    combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
-      .pipe(first())
-      .subscribe(([visibleFiltersSidenav, filterList]) => {
-        this.visibleFiltersSidenav = visibleFiltersSidenav;
-        this.filterList = filterList;
-        Object.keys(this.formOfLearningControls).forEach((key) => {
-          const formKey = key as FormOfLearning;
-          this.formOfLearningControls[key].setValue(filterList.formsOfLearning.includes(formKey));
-        });
-        this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
-        this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });
-        this.WithDisabilityOptionControl.setValue(this.filterList.withDisabilityOption, { emitEvent: false });
+    this.filterList$.pipe(first()).subscribe((filterList) => {
+      this.filterList = filterList;
+      Object.keys(this.formOfLearningControls).forEach((key) => {
+        const formKey = key as FormOfLearning;
+        this.formOfLearningControls[key].setValue(filterList.formsOfLearning.includes(formKey));
       });
+      this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
+      this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });
+      this.WithDisabilityOptionControl.setValue(this.filterList.withDisabilityOption, { emitEvent: false });
+    });
   }
 }
