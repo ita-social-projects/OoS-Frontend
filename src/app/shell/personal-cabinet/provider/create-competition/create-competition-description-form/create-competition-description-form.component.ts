@@ -303,9 +303,11 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.store.dispatch(new GetSubDirections(directionId));
     });
 
-    this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections) => {
-      const value = subDirections.filter((subDirection) => this.competition?.subDirectionIds.includes(subDirection.id));
-      asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
-    });
+    if (this.competition) {
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+        const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
+        asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
+      });
+    }
   }
 }

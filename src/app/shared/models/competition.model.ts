@@ -20,7 +20,7 @@ export abstract class CompetitionBase {
   registrationEndTime?: string;
   parentCompetition?: string;
   numberOfSeats: number;
-  directionSubDirectionIds: { directionId: string; subDirectionId: string }[];
+  directionSubDirectionIds: { directionId: number; subDirectionId: number }[];
   subDirectionIds: number[];
   description?: string;
   coverageId: number;

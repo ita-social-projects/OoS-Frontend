@@ -38,7 +38,7 @@
 
       <div class="flex flex-row">
         <div class="flex flex-col">
-          <div class="flex flex-row gap-2 my-2">
+          <div *ngIf="competitionSubdirections.length" class="flex flex-row gap-2 my-2">
             <div *ngFor="let subDirection of competitionSubdirections" class="chip chip-color-tag">
               {{ subDirection }}
             </div>

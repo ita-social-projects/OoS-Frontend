@@ -200,7 +200,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   private createDescription(): Description {
     const description = this.DescriptionFormGroup.getRawValue();
-    description.subDirectionIds = description.subDirectionIds.map((subDirection: SubDirection) => subDirection.id) ?? undefined;
+    description.subDirectionIds = description.subDirectionIds.map((subDirection: SubDirection) => subDirection.id);
     return description;
   }
 

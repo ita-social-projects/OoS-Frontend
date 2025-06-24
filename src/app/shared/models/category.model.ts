@@ -11,7 +11,7 @@ export class Direction {
       this.id = info.id;
     }
     this.title = info.title;
-    this.description = info.title;
+    this.description = info.description;
     this.workshopsCount = info.workshopsCount;
   }
 }
