@@ -25,7 +25,7 @@ export class ProviderService {
    * This method get Provider by User id
    */
   public getProfile(): Observable<Provider> {
-    return this.http.get<Provider>('/api/v1/Provider/GetProfile');
+    return this.http.get<Provider>('/api/v1/Provider/GetProfile').pipe(map(Util.mapAddress));
   }
 
   /**

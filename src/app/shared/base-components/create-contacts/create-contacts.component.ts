@@ -114,7 +114,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         ]
       ],
       isDefault: false,
-      searchGroup: this.createSearchFormGroup(address?.address?.codeficatorAddressDto),
+      searchGroup: this.createSearchFormGroup(address?.address?.codeficatorAddress),
       address: this.createAddressForm(),
       phones: this.formBuilder.array([this.createPhoneFormGroup()]),
       emails: this.formBuilder.array([this.createEmailFormGroup()]),
@@ -138,11 +138,11 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
     this.updateFormArray('emails', contact.emails, () => this.createEmailFormGroup(), contactsFormGroup);
     this.updateFormArray('socialNetworks', contact.socialNetworks, () => this.createSocialNetworksFormGroup(), contactsFormGroup);
     if (contactsFormGroup.get('searchGroup') && contact.address) {
-      contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddressDto, { emitEvent: false });
+      contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddress, { emitEvent: false });
       contactsFormGroup
         .get('searchGroup')
         .get('settlementSearch')
-        .setValue(contact.address.codeficatorAddressDto.settlement, { emitEvent: false });
+        .setValue(contact.address.codeficatorAddress.settlement, { emitEvent: false });
     }
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
