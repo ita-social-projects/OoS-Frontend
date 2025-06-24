@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { SharedModule } from 'shared/shared.module';
 import { IntegerOnlyDirective } from './integer-only.directive';
 
 describe('IntegerOnlyDirective', () => {
@@ -17,7 +18,7 @@ describe('IntegerOnlyDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [IntegerOnlyDirective]
+      imports: [SharedModule]
     });
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
