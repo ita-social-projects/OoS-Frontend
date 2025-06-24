@@ -12,9 +12,11 @@
     &-draft,
     &-pending,
     &-rejected,
-    &-edited {
-      color: var(--specific-light-text-color);
+    &-edited,
+    &-tag {
+      font-family: Innerspace, sans-serif;
       font-weight: bold;
+      color: var(--specific-light-text-color);
       padding: 7px;
       border-radius: 16px;
     }
@@ -39,6 +41,11 @@
 
     &-edited {
       background-color: rgba(208, 141, 8, 1);
+    }
+
+    &-tag {
+      color: black;
+      background-color: var(--chip-color);
     }
   }
 }

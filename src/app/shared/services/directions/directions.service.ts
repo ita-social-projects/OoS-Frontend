@@ -38,7 +38,7 @@ export class DirectionsService {
     return this.http.get<Direction[]>('/api/v1/popular/directions', { params });
   }
 
-  public getSubDirections(directionId: number): Observable<SearchResponse<SubDirection[]>> {
+  public getSubDirections(directionId: string): Observable<SearchResponse<SubDirection[]>> {
     return this.http.get<SearchResponse<SubDirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
   }
 

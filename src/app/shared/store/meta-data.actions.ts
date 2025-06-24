@@ -8,7 +8,7 @@ export class GetDirections {
 
 export class GetSubDirections {
   static readonly type = '[meta-data] Get SubDirections by DirectionId';
-  constructor(public directionId: number) {}
+  constructor(public directionId: string) {}
 }
 
 export class GetSocialGroup {

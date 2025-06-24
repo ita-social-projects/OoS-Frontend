@@ -298,13 +298,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   private directionControlListener(): void {
-    this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: number) => {
+    this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: string) => {
       this.subDirectionControl.reset(null, { emitEvent: false });
       this.store.dispatch(new GetSubDirections(directionId));
     });
 
     this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections) => {
-      const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
+      const value = subDirections.filter((subDirection) => this.competition?.subDirectionIds.includes(subDirection.id));
       asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
     });
   }
