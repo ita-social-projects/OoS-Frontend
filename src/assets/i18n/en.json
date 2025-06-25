@@ -618,7 +618,8 @@
       "SELECT_STATUS": "Select status"
     },
     "TOOLTIP": {
-      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"
+      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features",
+      "GROUP_TYPE_IS_DISABLED": "The workshop type is automatically set as \"Section\" to report to the Ministry of Sports. To change the type, select a different subordination."
     },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",

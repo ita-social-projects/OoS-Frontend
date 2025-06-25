@@ -146,7 +146,10 @@
   <!--    </mat-select>-->
   <!--  </mat-form-field>-->
   <label class="step-label">{{ 'FORMS.LABELS.GROUP_TYPE' | translate }}<span class="step-required">*</span></label>
-  <mat-form-field appearance="fill">
+  <mat-form-field
+    appearance="fill"
+    [matTooltip]="'FORMS.TOOLTIP.GROUP_TYPE_IS_DISABLED' | translate"
+    [matTooltipDisabled]="!isMinSportSelected">
     <mat-select
       formControlName="groupType"
       panelClass="dropdown-panel select-with-form-field"
