@@ -68,10 +68,12 @@ export class AppWorkshopsService {
       params = params.set('IsFree', 'true');
     }
     if (filters.isPaid) {
+      params = params.set('IsPaid', 'true');
       params = this.setIsPaid(filters, params);
     }
     if ((filters.isFree && filters.isPaid) || (!filters.isFree && !filters.isPaid)) {
       params = params.set('IsFree', 'true');
+      params = params.set('IsPaid', 'true');
       params = this.setIsPaid(filters, params);
     }
     if (filters.searchQuery) {
