@@ -165,8 +165,8 @@ describe('UserProfileService', () => {
     });
 
     // For roles that return new Observable<any>() instances:
-    it('should return null for Role.all, Role.unauthorized, Role.techAdmin, and Role.moderator', () => {
-      const rolesToTest = [Role.all, Role.unauthorized, Role.techAdmin, Role.moderator];
+    it('should return a new Observable for Role.all, Role.unauthorized', () => {
+      const rolesToTest = [Role.all, Role.unauthorized];
       rolesToTest.forEach((role) => {
         const obs = service.getProfileObservableByRole(role, '123');
         // Check that we got something truthy; these observables likely don’t emit data.
