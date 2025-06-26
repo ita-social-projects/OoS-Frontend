@@ -155,7 +155,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     const errorConditions = [
       // Number validation
-      // typesc
       {
         condition: (): boolean => this.isNumberValue && (errors.max || errors.min),
         message: ValidationMessages.INVALID_VALUE

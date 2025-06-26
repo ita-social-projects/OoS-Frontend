@@ -151,6 +151,7 @@ table {
 
 .error {
   color: var(--error-color);
+  caret-color: var(--error-color);
 }
 
 @media (max-width: 1300px) {
@@ -165,6 +166,13 @@ table {
   .filters-wrapper {
     justify-content: center;
   }
+
+  .search-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
 }
 
 @media (max-width: 440px) {

@@ -1,9 +1,8 @@
-<div class="flex flex-row flex-wrap justify-between items-center mb-4" [formGroup]="filterForm">
-  <div class="flex justify-start static max-h-10">
+<div class="filters-wrapper flex flex-row flex-wrap justify-between items-center mb-6" [formGroup]="filterForm">
+  <div class="search-wrapper flex justify-start static max-h-10">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        #input
         formControlName="filterFormControl"
         matInput
         type="text"
@@ -13,53 +12,45 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-x-4">
+  <div class="flex flex-row gap-x-4 flex-wrap gap-y-2.5">
     <div class="flex justify-end items-center gap-1">
       <div class="flex items-center">
         <span class="filters-period">{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
-        <mat-form-field appPlaceholderStyling class="date relative">
-          <mat-label class="text-[13px]" [class.error]="filterForm.get('dates').invalid">{{
-            'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate
-          }}</mat-label>
-          <mat-date-range-input
-            [rangePicker]="picker"
-            [min]="filterForm.get('dates.dateFrom').value ? filterForm.get('dates.dateFrom').value : undefined"
-            [max]="maxDate">
-            <input
-              #DateFromInput
-              matInput
-              matStartDate
-              placeholder="{{ 'FROM' | translate }}"
-              [value]="tempDateFrom"
-              (dateInput)="onDateInput($event, 'dateFrom')"
-              appDateInput />
-            <input
-              #DateToInput
-              matInput
-              matEndDate
-              placeholder="{{ 'TO' | translate }}"
-              [value]="tempDateTo"
-              (dateInput)="onDateInput($event, 'dateTo')"
-              appDateInput />
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker>
-            <mat-date-range-picker-actions>
-              <div class="flex justify-between w-full">
-                <button class="btn" mat-raised-button matDatepickerApply (click)="onDateApply()">
-                  {{ 'HISTORY_LOG.SHOW' | translate }}
-                </button>
-                <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
-                  {{ 'BUTTONS.CANCEL' | translate }}
-                </button>
-              </div>
-            </mat-date-range-picker-actions>
-          </mat-date-range-picker>
+        <div class="relative">
+          <mat-form-field appPlaceholderStyling class="date">
+            <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
+            <mat-date-range-input
+              [formGroup]="datesGroup"
+              [rangePicker]="picker"
+              [comparisonStart]="datesGroup.get('dateFrom').value"
+              [comparisonEnd]="datesGroup.get('dateTo').value">
+              <input
+                matStartDate
+                [errorStateMatcher]="matcher"
+                placeholder="{{ 'FROM' | translate }}"
+                formControlName="dateFrom"
+                appDateInput />
+              <input matEndDate [errorStateMatcher]="matcher" placeholder="{{ 'TO' | translate }}" formControlName="dateTo" appDateInput />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-date-range-picker-actions>
+                <div class="flex justify-between w-full">
+                  <button class="btn" mat-raised-button matDatepickerApply (click)="getStudySubjects()">
+                    {{ 'HISTORY_LOG.SHOW' | translate }}
+                  </button>
+                  <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
+                    {{ 'BUTTONS.CANCEL' | translate }}
+                  </button>
+                </div>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
           <app-validation-hint
             class="absolute top-full left-0 mt-1"
-            [validationFormControl]="filterForm.get('dates')"
+            [validationFormControl]="datesGroup"
             [formLevelValidation]="true"></app-validation-hint>
-        </mat-form-field>
+        </div>
       </div>
     </div>
 

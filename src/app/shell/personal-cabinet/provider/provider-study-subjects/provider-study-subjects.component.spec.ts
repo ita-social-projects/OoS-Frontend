@@ -1,7 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
+import { MatDatepickerModule, MatDateRangePicker } from '@angular/material/datepicker';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -55,14 +55,15 @@ describe('ProviderStudySubjectsComponent', () => {
         TranslateModule.forRoot(),
         MatSelectModule,
         MatFormFieldModule,
-        RouterTestingModule,
+        MatDatepickerModule,
         MatInputModule,
         ReactiveFormsModule,
         MatTooltipModule,
         MatIconModule,
         BrowserAnimationsModule
       ],
-      declarations: [ProviderStudySubjectsComponent, PaginatorComponent]
+      declarations: [ProviderStudySubjectsComponent, PaginatorComponent],
+      providers: [provideMomentDateAdapter()]
     }).compileComponents();
   });
 
@@ -146,53 +147,34 @@ describe('ProviderStudySubjectsComponent', () => {
       });
     });
 
-    it('should set tempDateFrom', fakeAsync(() => {
+    it('should set dateFrom', fakeAsync(() => {
       component.ngAfterViewInit();
       component.picker.open();
       tick();
-      expect(component.tempDateFrom).toEqual(mockDate);
+      expect(component.datesGroup.value.dateFrom).toEqual(mockDate);
     }));
 
-    it('should set tempDateTo', fakeAsync(() => {
+    it('should set dateTo', fakeAsync(() => {
       component.ngAfterViewInit();
-      component.tempDateFrom = mockDate.subtract(1, 'days');
+      component.datesGroup.get('dateFrom').patchValue(mockDate.subtract(1, 'days'));
       component.picker.open();
       tick();
-      expect(component.tempDateTo).toEqual(mockDate);
+      expect(component.datesGroup.value.dateTo).toEqual(mockDate);
     }));
 
-    it('should update tempDateFrom', fakeAsync(() => {
+    it('should update dateFrom', fakeAsync(() => {
       component.ngAfterViewInit();
-      component.tempDateFrom = mockDate.add(10, 'days');
-      component.tempDateTo = mockDate;
+      component.datesGroup.get('dateFrom').patchValue(mockDate.add(10, 'days'));
+      component.datesGroup.get('dateTo').patchValue(mockDate);
       component.picker.open();
       tick();
-      expect(component.tempDateFrom).toEqual(mockDate);
+      expect(component.datesGroup.value.dateFrom).toEqual(mockDate);
     }));
-
-    it('should update form fields and set filters on apply button push', () => {
-      component.tempDateFrom = mockDate;
-      component.tempDateTo = mockDate;
-      jest.spyOn(component, 'setDateForFilters');
-      component.onDateApply();
-      expect(component.filterForm.get('dates.dateFrom').value).toEqual(component.tempDateFrom);
-      expect(component.filterForm.get('dates.dateTo').value).toEqual(component.tempDateTo);
-      expect(component.setDateForFilters).toHaveBeenCalled();
-    });
-
-    it('should update form fields and set filters on keyboard input', () => {
-      const expectedDate = mockDate.add(3, 'months').startOf('day');
-      component.onDateInput(
-        { target: { value: mockDate.add(3, 'months') }, targetElement: { value: '2025-05-05' } } as MatDatepickerInputEvent<Moment>,
-        'dateFrom'
-      );
-      expect(component.filterForm.get('dates.dateFrom').value).toEqual(expectedDate);
-    });
 
     it('should format date', () => {
       component.filterForm.get('dates.dateFrom').setValue(mockDate);
       component.filterForm.get('dates.dateTo').setValue(mockDate);
-      component.setDateForFilters();
+      component.getStudySubjects();
       expect(component.subjectParameters.dateFrom).toEqual(mockDate.format('YYYY-MM-DD'));
       expect(component.subjectParameters.dateTo).toEqual(mockDate.format('YYYY-MM-DD'));
     });
@@ -201,7 +183,7 @@ describe('ProviderStudySubjectsComponent', () => {
       const mockSubjectParameters = { dateFrom: mockDate.toISOString(), dateTo: mockDate.toISOString() };
       component.subjectParameters = mockSubjectParameters;
       jest.spyOn(store, 'dispatch');
-      component.setDateForFilters();
+      component.getStudySubjects();
       expect(store.dispatch).toHaveBeenCalledWith(new GetStudySubjects(mockSubjectParameters));
     });
   });
