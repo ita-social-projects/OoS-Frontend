@@ -149,11 +149,6 @@ table {
   color: var(--cancel-text-color);
 }
 
-.error {
-  color: var(--error-color);
-  caret-color: var(--error-color);
-}
-
 @media (max-width: 1300px) {
   .filters-wrapper {
     justify-content: flex-end;
@@ -170,9 +165,6 @@ table {
   .search-wrapper {
     width: 100%;
   }
-}
-
-@media (max-width: 650px) {
 }
 
 @media (max-width: 440px) {

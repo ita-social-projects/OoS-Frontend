@@ -195,7 +195,6 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         filter(() => this.datesGroup.valid)
       )
       .subscribe(() => {
-        console.log(this.datesGroup);
         this.getStudySubjects();
       });
   }
