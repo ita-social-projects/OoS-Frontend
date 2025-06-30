@@ -81,9 +81,9 @@
 
 <ng-template #LegalAddress>
   <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-  <p>{{ provider.legalAddress.codeficatorAddressDto.fullName }}</p>
-  <h5 *ngIf="provider.legalAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
-  <p>{{ provider.legalAddress.codeficatorAddressDto.cityDistrict }}</p>
+  <p>{{ provider.legalAddress.codeficatorAddress.fullName }}</p>
+  <h5 *ngIf="provider.legalAddress.codeficatorAddress.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
+  <p>{{ provider.legalAddress.codeficatorAddress.cityDistrict }}</p>
   <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
   <p>{{ provider.legalAddress.street }}</p>
   <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>

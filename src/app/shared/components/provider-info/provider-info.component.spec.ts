@@ -43,10 +43,10 @@ describe('ProviderInfoComponent', () => {
     component = fixture.componentInstance;
     component.provider = {} as Provider;
     component.provider.actualAddress = {
-      codeficatorAddressDto: {}
+      codeficatorAddress: {}
     } as Address;
     component.provider.legalAddress = {
-      codeficatorAddressDto: {}
+      codeficatorAddress: {}
     } as Address;
     component.provider.institution = {} as Institution;
 
