@@ -63,40 +63,10 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   ) {
     super(store, activatedRoute, navBarService);
     this.activatedRoute = activatedRoute;
-
-    this.form = formBuilder.group({
-      coverImageId: new FormControl(''),
-      coverImage: new FormControl(''),
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
-      ]),
-      competitiveSelectionDescription: new FormControl('', [Validators.pattern(MUST_CONTAIN_LETTERS)]),
-      enrollmentProcedureDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
-      ]),
-      imageFiles: new FormControl(''),
-      imageIds: new FormControl(''),
-      workshopDescriptionItems: this.SectionItemsFormArray,
-      preferentialTermsOfParticipation: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
-      ]),
-      institutionHierarchyId: new FormControl(''),
-      institutionId: new FormControl('')
-    });
   }
 
   public ngOnInit(): void {
+    this.initForm();
     this.subscribeOnDirtyForm(this.form);
     this.determineRelease();
     this.determineEditMode();
@@ -108,7 +78,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
-            name: 'Чернетки гуртків',
+            name: NavBarName.WorkshopDrafts,
             path: '/admin-tools/data/workshop-list',
             isActive: false,
             disable: false
@@ -173,32 +143,27 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       this.currentUser = currentUser;
     });
 
-    this.selectedWorkshop$
-      .pipe(
-        filter((workshopDraft) => Boolean(workshopDraft)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((workshopDraft) => {
-        this.form.patchValue(workshopDraft.workshopDetails);
+    this.selectedWorkshop$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((workshopDraft) => {
+      this.form.patchValue(workshopDraft.workshopDetails);
 
-        if (workshopDraft.workshopDetails.coverImageId) {
-          this.form.get('coverImageId').setValue([workshopDraft.workshopDetails.coverImageId], { emitEvent: false });
-        }
+      if (workshopDraft.workshopDetails.coverImageId) {
+        this.form.get('coverImageId').setValue([workshopDraft.workshopDetails.coverImageId], { emitEvent: false });
+      }
 
-        this.selectedWorkshop = workshopDraft;
+      this.selectedWorkshop = workshopDraft;
 
-        if (this.selectedWorkshop.workshopDetails.workshopDescriptionItems?.length) {
-          this.SectionItemsFormArray = new FormArray([]);
-          this.selectedWorkshop.workshopDetails.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
-            const itemFrom = this.newForm(item);
-            this.SectionItemsFormArray.controls.push(itemFrom);
-            // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
-            this.SectionItemsFormArray['_registerControl'](itemFrom);
-          });
-        } else {
-          this.onAddForm();
-        }
-      });
+      if (this.selectedWorkshop.workshopDetails.workshopDescriptionItems?.length) {
+        this.SectionItemsFormArray = new FormArray([]);
+        this.selectedWorkshop.workshopDetails.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
+          const itemFrom = this.newForm(item);
+          this.SectionItemsFormArray.controls.push(itemFrom);
+          // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
+          this.SectionItemsFormArray['_registerControl'](itemFrom);
+        });
+      } else {
+        this.onAddForm();
+      }
+    });
   }
 
   public onDeleteImage(imageId: string): void {
@@ -258,6 +223,39 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch(new ResetWorkshop());
+  }
+
+  public initForm(): void {
+    this.form = this.formBuilder.group({
+      coverImageId: new FormControl(''),
+      coverImage: new FormControl(''),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
+      ]),
+      shortTitle: new FormControl('', [
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.required,
+        Validators.pattern(MUST_CONTAIN_LETTERS),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+      ]),
+      competitiveSelectionDescription: new FormControl('', [Validators.pattern(MUST_CONTAIN_LETTERS)]),
+      enrollmentProcedureDescription: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+      ]),
+      imageFiles: new FormControl(''),
+      imageIds: new FormControl(''),
+      workshopDescriptionItems: this.SectionItemsFormArray,
+      preferentialTermsOfParticipation: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+      ]),
+      institutionHierarchyId: new FormControl(''),
+      institutionId: new FormControl('')
+    });
   }
 
   /**

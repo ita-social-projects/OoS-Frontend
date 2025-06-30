@@ -22,8 +22,7 @@ import { FeaturesList } from 'shared/models/features-list.model';
   templateUrl: './workshop-info.component.html',
   styleUrls: ['./workshop-info.component.scss']
 })
-export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
-  @Input() public workshop: Workshop;
+export class WorkshopInfoComponent implements OnDestroy, OnInit {
   @Input() public workshopDraftId: string;
   @Input() public isWorkshopView: boolean;
 
@@ -46,7 +45,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   public readonly unlimitedSeats = Constants.UNLIMITED_SEATS;
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
   public readonly coverageEnum = CoverageEnum;
-
+  public workshop: Workshop;
   public workshopDirection: Direction;
   public role: Role;
   public isImagesFeature: boolean;
@@ -58,37 +57,29 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
   constructor(
     private readonly store: Store,
     private readonly fb: FormBuilder
-  ) {
-    this.form = this.fb.group({
-      coverImageId: new FormControl(''),
-      coverImage: new FormControl(''),
-      imageFiles: new FormControl(''),
-      imageIds: new FormControl('')
-    });
-  }
+  ) {}
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    const newDirectionId = changes.workshop?.currentValue?.directionIds?.[0];
+  @Input()
+  public set setWorkshop(workshop: Workshop) {
+    this.workshop = workshop;
+    const newDirectionId = workshop?.directionIds?.[0];
     if (newDirectionId) {
       this.store.dispatch(new GetDirectionById(newDirectionId));
     }
-    if (changes.workshop.currentValue) {
-      if (changes.workshop.currentValue.coverImageId?.length) {
-        this.form.get('coverImageId').setValue([changes.workshop.currentValue.coverImageId]);
+    if (workshop) {
+      if (workshop.coverImageId?.length) {
+        this.form.get('coverImageId').setValue([workshop.coverImageId]);
       } else {
         this.form.get('coverImageId').setValue([]);
       }
 
-      this.form.get('imageIds').setValue(changes.workshop.currentValue.imageIds);
+      this.form.get('imageIds').setValue(workshop.imageIds);
     }
   }
 
   public ngOnInit(): void {
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
-    this.featuresList$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
+    this.initForm();
+    this.initListeners();
   }
 
   public ngOnDestroy(): void {
@@ -147,5 +138,22 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit, OnChanges {
         coverImageIdFormControl.setValue(ids);
         coverImageFormControl.setValue(files);
       });
+  }
+
+  public initForm(): void {
+    this.form = this.fb.group({
+      coverImageId: new FormControl(''),
+      coverImage: new FormControl(''),
+      imageFiles: new FormControl(''),
+      imageIds: new FormControl('')
+    });
+  }
+
+  public initListeners(): void {
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
+    this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
+    this.featuresList$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 }

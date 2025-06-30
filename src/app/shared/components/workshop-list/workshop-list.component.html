@@ -228,7 +228,7 @@
         </div>
         <div *ngIf="isInfoDisplayed" class="container">
           <app-workshop-info
-            [workshop]="workshop"
+            [setWorkshop]="workshop"
             [workshopDraftId]="selectedWorkshopDraftId"
             [isWorkshopView]="isInfoDisplayed"
             (closeInfo)="closeInfo()"></app-workshop-info>

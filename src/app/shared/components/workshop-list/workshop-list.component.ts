@@ -308,10 +308,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
           }
         });
       this.selectedAdmin$
-        .pipe(
-          filter((admin: RegionAdmin) => Boolean(admin)),
-          takeUntil(this.destroy$)
-        )
+        .pipe(filter(Boolean), takeUntil(this.destroy$))
         .subscribe((admin: RegionAdmin) =>
           this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
         );

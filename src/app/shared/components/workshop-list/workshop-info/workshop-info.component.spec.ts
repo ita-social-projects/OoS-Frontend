@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { SimpleChange } from '@angular/core';
+import { Workshop } from 'shared/models/workshop.model';
 import { GetDirectionById } from 'shared/store/admin.actions';
 import { of } from 'rxjs';
 import { WorkshopInfoComponent } from './workshop-info.component';
@@ -20,9 +19,9 @@ describe('WorkshopInfoComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot()],
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot()],
       declarations: [WorkshopInfoComponent],
-      providers: [{ provide: Store, useValue: storeMock }]
+      providers: [{ provide: Store, useValue: storeMock }, provideRouter([])]
     });
     fixture = TestBed.createComponent(WorkshopInfoComponent);
     component = fixture.componentInstance;
@@ -36,10 +35,8 @@ describe('WorkshopInfoComponent', () => {
 
   it('should dispatch GetDirectionById when workshop input changes with a new directionId', () => {
     const directionId = 123;
-    const workshop = { directionIds: [directionId] };
-    component.ngOnChanges({
-      workshop: new SimpleChange(null, workshop, true)
-    });
+    const workshop = { directionIds: [directionId] } as Workshop;
+    component.setWorkshop = workshop;
 
     expect(store.dispatch).toHaveBeenCalledWith(new GetDirectionById(directionId));
   });

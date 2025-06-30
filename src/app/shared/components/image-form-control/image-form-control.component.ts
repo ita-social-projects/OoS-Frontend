@@ -101,10 +101,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
           data: { type: deleteImageType }
         })
         .afterClosed()
-        .pipe(
-          first(),
-          filter((value) => Boolean(value))
-        )
+        .pipe(first(), filter(Boolean))
         .subscribe(() => this.removeImage(img));
     } else {
       this.removeImage(img);
