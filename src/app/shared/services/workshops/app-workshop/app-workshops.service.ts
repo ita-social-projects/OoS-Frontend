@@ -8,6 +8,7 @@ import { Ordering } from 'shared/enum/ordering';
 import { FormOfLearning } from 'shared/enum/workshop';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MinMaxPriceFilter } from 'shared/models/filter-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { FilterState } from 'shared/store/filter.state';
@@ -28,6 +29,14 @@ export class AppWorkshopsService {
     const options = { params: this.setParams(filters, isMapView) };
 
     return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
+  }
+
+  /**
+   * This method retrieves the minimum and maximum price for workshops using filter options
+   */
+  public getLimitMinMaxPriceFilter(filters: FilterStateModel, isMapView: boolean): Observable<MinMaxPriceFilter> {
+    const options = { params: this.setParams(filters, isMapView) };
+    return this.http.get<MinMaxPriceFilter>('/api/v1/Workshop/price-range', options);
   }
 
   /**
@@ -70,6 +79,9 @@ export class AppWorkshopsService {
     if (filters.isPaid) {
       params = params.set('IsPaid', 'true');
       params = this.setIsPaid(filters, params);
+      if (filters.payRate) {
+        params = params.set('PayRate', filters.payRate.toString());
+      }
     }
     if ((filters.isFree && filters.isPaid) || (!filters.isFree && !filters.isPaid)) {
       params = params.set('IsFree', 'true');

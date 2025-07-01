@@ -35,6 +35,7 @@ import {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
   @Input() public validationFormControl: AbstractControl; // required for validation
+
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
@@ -171,6 +172,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: (): boolean => errors.blacklistedDomain,
         message: ValidationMessages.INVALID_EMAIL_TYPE
+      },
+      // min, max price in the filter Validation
+      {
+        condition: (): boolean => errors.minPriceFilterError,
+        message: ValidationMessages.INVALID_MINIMUM_FILTER_PRICE
+      },
+      {
+        condition: (): boolean => errors.maxPriceFilterError,
+        message: ValidationMessages.INVALID_MAXIMUM_FILTER_PRICE
       },
       // Phone number validation
       {

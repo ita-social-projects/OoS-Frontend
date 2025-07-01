@@ -1,4 +1,5 @@
-import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus, PayRateType } from 'shared/enum/workshop';
+import { MinMaxPriceFilter } from 'shared/models/filter-list.model';
 import { Codeficator } from './codeficator.model';
 import { Coords } from './coords.model';
 import { SearchResponse } from './search.model';
@@ -15,8 +16,10 @@ export interface FilterStateModel {
   formsOfLearning: FormOfLearning[];
   isFree: boolean;
   isPaid: boolean;
+  payRate: PayRateType;
   maxPrice: number;
   minPrice: number;
+  limitMinMaxPrice: MinMaxPriceFilter;
   settlement: Codeficator;
   searchQuery: string;
   order: string;

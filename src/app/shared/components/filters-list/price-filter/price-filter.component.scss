@@ -125,3 +125,22 @@
     padding: 0px;
   }
 }
+
+.clear-pay-rate {
+  margin: 10px;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 18px;
+  color: #adadad;
+}
+
+.disabled-pay-rate {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+
+.price-input.ng-invalid.ng-touched {
+  outline: none;
+  border: 1px solid #c72a21;
+}

@@ -530,7 +530,6 @@
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
       "IS_SPECIAL": "Is special",
       "IS_INCLUSIVE": "Is inclusive",
-      "COMPETITIVE_SELECTION": "Competitive selection",
       "SPECIAL_NEEDS_TYPE": "Special needs type",
       "ARE_THERE_BENEFITS": "Benefits",
       "BENEFITS_POSITIVE": "With benefits",
@@ -560,6 +559,7 @@
       "LAST_REFERRED": "Date of the last reference",
       "USED_IN": "Times used in workshops",
       "SUBJECT_NAME": "Study subject name",
+      "PAYMENT_UNIT": "Payment unit",
       "INFORMATION_ABOUT_WORKSHOP": "About",
       "INSTITUTION_HIERARCHY": "Profile/scientific department",
       "INSTITUTION": "Institution",
@@ -574,7 +574,7 @@
       "KEYWORDS_END": "words)",
       "KEYWORDS_START": "Enter keywords by which users can search for your workshop and press Enter to add a tag (max",
       "MAXIMUM": "Maximum",
-      "PAYMENT_TYPE": "Choose the type of payment for the workshop",
+      "PAYMENT_TYPE": "Choose the unit of payment for the workshop",
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
       "STUDY_PERIOD_DATE_FORMAT": "DD/MM",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
@@ -668,7 +668,9 @@
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
       "CURRENT_COUNT": "Current count:",
-      "INVALID_STUDY_PERIOD_RANGE": "Check your entries. Use the date format DD/MM. For example: \"20/10"
+      "INVALID_STUDY_PERIOD_RANGE": "Check your entries. Use the date format DD/MM. For example: \"20/10",
+      "INVALID_MINIMUM_FILTER_PRICE": "The price From can range from {{minValue}} to {{maxValue}}",
+      "INVALID_MAXIMUM_FILTER_PRICE": "The price To can range from {{minValue}} to {{maxValue}}"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
