@@ -175,11 +175,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       // min, max price in the filter Validation
       {
-        condition: () => errors.minPriceFilterError,
+        condition: (): boolean => errors.minPriceFilterError,
         message: ValidationMessages.INVALID_MINIMUM_FILTER_PRICE
       },
       {
-        condition: () => errors.maxPriceFilterError,
+        condition: (): boolean => errors.maxPriceFilterError,
         message: ValidationMessages.INVALID_MAXIMUM_FILTER_PRICE
       },
       // Phone number validation
