@@ -73,8 +73,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public keyWords: string[] = [];
   public tags: Tag[] = [];
 
-  public disabilityOptionRadioBtn: FormControl = new FormControl(false);
-
   public separatorKeysCodes = [ENTER];
 
   public tagsControl: FormControl = new FormControl<Tag[]>(
@@ -96,10 +94,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
       keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
@@ -128,7 +122,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   }
 
   public ngOnInit(): void {
-    this.onDisabilityOptionCtrlInit();
     this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
       this.updateTagIds(selectedTags || []);
     });
@@ -203,22 +196,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
-   */
-  public onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-    this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      if (isDisabilityOptionsDesc) {
-        setAction('enable');
-      } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
-      }
-      this.markFormAsDirtyOnUserInteraction();
-    });
-  }
-
-  /**
    * This method listens for changes in the 'keyWords' control and marks
    * the form as 'dirty' whenever there are changes in the key words.
    */
@@ -265,11 +242,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
-
-    if (this.workshop.withDisabilityOptions) {
-      this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
-      this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
-    }
 
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
@@ -370,14 +342,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private listenToChanges(): void {
     merge(
-      ...[
-        'imageFiles',
-        'workshopDescriptionItems',
-        'disabilityOptionsDesc',
-        'competitiveSelectionDescription',
-        'keyWords',
-        'enrollmentProcedureDescription'
-      ].map(
+      ...['imageFiles', 'workshopDescriptionItems', 'competitiveSelectionDescription', 'keyWords', 'enrollmentProcedureDescription'].map(
         (controlName) =>
           this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
             throttleTime(5000, undefined, {

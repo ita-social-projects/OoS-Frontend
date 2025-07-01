@@ -44,7 +44,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public readonly cropperConfig = CopperConfig;
 
   public DescriptionFormGroup: FormGroup;
-  public disabilityOptionRadioBtn: FormControl = new FormControl(false);
   public selectionOptionRadioBtn: FormControl = new FormControl(false);
   public benefitsOptionRadioBtn: FormControl = new FormControl(false);
   public priceRadioBtn: FormControl = new FormControl(false);
@@ -122,7 +121,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
    */
   public initializeFormControls(): void {
     const controls = [
-      { name: 'disabilityOptionsDesc', radioBtn: this.disabilityOptionRadioBtn },
       { name: 'descriptionOfTheEnrollmentProcedure', radioBtn: this.selectionOptionRadioBtn },
       { name: 'benefitsOptionsDesc', radioBtn: this.benefitsOptionRadioBtn },
       { name: 'price', radioBtn: this.priceRadioBtn }
@@ -145,11 +143,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
    */
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
-
-    if (this.competition.optionsForPeopleWithDisabilities) {
-      this.disabilityOptionRadioBtn.setValue(this.competition.optionsForPeopleWithDisabilities, { emitEvent: false });
-      this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
-    }
 
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
@@ -213,7 +206,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       ]),
       coverageId: new FormControl(null, Validators.required),
       formOfLearning: new FormControl(FormOfLearning.Offline),
-      optionsForPeopleWithDisabilities: this.disabilityOptionRadioBtn,
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)

@@ -463,7 +463,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       'imageFiles',
       'competitiveSelectionDescription',
       'workshopDescriptionItems',
-      'disabilityOptionsDesc',
       'keywords',
       'enrollmentProcedureDescription',
       'preferentialTermsOfParticipation'
