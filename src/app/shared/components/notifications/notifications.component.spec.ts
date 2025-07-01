@@ -10,6 +10,7 @@ import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { ChatStateModel } from 'shared/store/chat.state';
 import { NotificationStateModel } from 'shared/store/notification.state';
 import { RegistrationStateModel } from 'shared/store/registration.state';
+import { MetaDataStateModel } from 'shared/store/meta-data.state';
 import { MockOidcSecurityService } from '../../mocks/mock-services';
 import { NotificationsComponent } from './notifications.component';
 
@@ -19,7 +20,11 @@ describe('NotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([MockNotificationState, MockChatState, MockRegistrationState]), MatMenuModule, MatIconModule],
+      imports: [
+        NgxsModule.forRoot([MockNotificationState, MockChatState, MockRegistrationState, MockMetaDataState]),
+        MatMenuModule,
+        MatIconModule
+      ],
       declarations: [NotificationsComponent, MockNotificationsListComponent],
       providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }, SignalRService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
@@ -74,3 +79,41 @@ class MockChatState {}
 })
 @Injectable()
 class MockRegistrationState {}
+
+@State<MetaDataStateModel>({
+  name: 'metaDataState',
+  defaults: {
+    directions: null,
+    socialGroups: [],
+    institutionStatuses: null,
+    providerTypes: null,
+    achievementsTypes: null,
+    rating: null,
+    isLoading: false,
+    featuresList: {
+      release1: true,
+      release2: true,
+      release3: true,
+      images: true,
+      showForProduction: true,
+      onlyUkrainianLanguage: false,
+      directionManagement: true,
+      achievementManagement: true,
+      messagingFeature: true,
+      adminsChildrenParentsManagement: true,
+      emailConfirmation: true,
+      emailManagement: true,
+      passwordManagement: true
+    },
+    institutions: null,
+    institutionFieldDesc: null,
+    instituitionsHierarchyAll: null,
+    instituitionsHierarchy: null,
+    editInstituitionsHierarchy: null,
+    codeficatorSearch: [],
+    codeficator: null,
+    languageList: null
+  }
+})
+@Injectable()
+class MockMetaDataState {}
