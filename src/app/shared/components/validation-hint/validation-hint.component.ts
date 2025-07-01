@@ -34,7 +34,7 @@ import {
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
-  @Input() public validationFormControl: FormControl | FormGroup; // required for validation
+  @Input() public validationFormControl: AbstractControl; // required for validation
 
   // for Length Validation
   @Input() public minCharacters: number;
