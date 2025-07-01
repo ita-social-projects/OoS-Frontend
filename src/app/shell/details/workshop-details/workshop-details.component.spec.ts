@@ -8,7 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule, Store, Actions } from '@ngxs/store';
 import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
@@ -20,6 +20,8 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
 import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -37,7 +39,18 @@ describe('WorkshopDetailsComponent', () => {
     queryParams: of({ status: '111' })
   };
   const mockStore = {
-    dispatch: jest.fn()
+    dispatch: jest.fn(),
+    select: jest.fn().mockReturnValue(of({}))
+  };
+  const mockActions = {
+    pipe: jest.fn().mockReturnValue(of({}))
+  };
+  const mockImagesService = {
+    getCoverImage: jest.fn().mockReturnValue('test-image.jpg'),
+    getDefaultCoverImage: jest.fn().mockReturnValue('default-image.jpg')
+  };
+  const mockNavigationBarService = {
+    createNavPaths: jest.fn().mockReturnValue([])
   };
   const mockRouter = {
     navigate: jest.fn()
@@ -68,6 +81,9 @@ describe('WorkshopDetailsComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
+        { provide: Actions, useValue: mockActions },
+        { provide: ImagesService, useValue: mockImagesService },
+        { provide: NavigationBarService, useValue: mockNavigationBarService },
         { provide: Router, useValue: mockRouter }
       ],
       schemas: [NO_ERRORS_SCHEMA]
