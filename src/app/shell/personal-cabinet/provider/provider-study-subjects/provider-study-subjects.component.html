@@ -71,10 +71,10 @@
 
 <div class="table-wrapper">
   <ng-container *ngIf="dataSource.data.length; else isEmptyList">
-    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container mat-elevation-z8">
+    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container resizable-table mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="subjects-table" appStretchTable>
-        <ng-container matColumnDef="nameInUkrainian">
-          <th mat-header-cell class="w-auto" *matHeaderCellDef mat-sort-header>
+        <ng-container matColumnDef="nameInUkrainian" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'FORMS.LABELS.SUBJECT_NAME' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">{{ element.nameInUkrainian }}</td>
@@ -117,7 +117,7 @@
           <td mat-cell *matCellDef="let element">{{ '0' }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
+        <ng-container matColumnDef="actions" stickyEnd>
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell class="action-row" *matCellDef="let element">
             <button mat-icon-button class="icon-button" [routerLink]="['/create-study-subject', element.id]">

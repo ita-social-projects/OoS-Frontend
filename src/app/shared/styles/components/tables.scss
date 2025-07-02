@@ -39,7 +39,7 @@ table {
 }
 
 .mat-mdc-table-sticky-border-elem-left {
-  //border-right: 1px solid var(--input-light-color);
+  border-right: 1px solid var(--input-light-color);
 }
 
 .icons {
@@ -60,7 +60,7 @@ table {
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  width: fit-content;
+  padding: 0 10px;
 
   .icon-button {
     height: 40px;
@@ -120,4 +120,8 @@ td.mat-mdc-footer-cell {
 
 .material-icons {
   font-size: 16px;
+}
+
+::ng-deep .mat-sort-header-content {
+  width: 100% !important;
 }

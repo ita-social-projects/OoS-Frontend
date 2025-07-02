@@ -44,6 +44,7 @@ import { CreateJudgeComponent } from './create-competition/create-judge/create-j
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
 import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.component';
+import { ResizableTableDirective } from 'shared/directives/table/resizable-table';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.compo
     SharedCabinetModule,
     RouterModule,
     FormsModule,
-    TranslateModule
+    TranslateModule,
+    ResizableTableDirective
   ],
   providers: [
     DatePipe,
