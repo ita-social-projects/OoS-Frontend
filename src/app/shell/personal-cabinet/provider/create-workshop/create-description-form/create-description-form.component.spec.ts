@@ -85,7 +85,6 @@ describe('CreateDescriptionFormComponent', () => {
       imageFiles: new FormControl(''),
       imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
-      disabilityOptionsDesc: new FormControl(''),
       keyWords: new FormControl(''),
       formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
@@ -153,7 +152,6 @@ describe('CreateDescriptionFormComponent', () => {
     component.workshop = {
       id: 1,
       keywords: ['test'],
-      withDisabilityOptions: true,
       workshopDescriptionItems: [
         {
           sectionName: 'test section',
@@ -164,7 +162,6 @@ describe('CreateDescriptionFormComponent', () => {
 
     component.activateEditMode();
     expect(component.keyWords).toContain('test');
-    expect(component.disabilityOptionRadioBtn.value).toBe(true);
   });
 
   it('should set tags for workshop and form field', fakeAsync(() => {

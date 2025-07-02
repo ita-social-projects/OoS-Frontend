@@ -26,8 +26,6 @@ export abstract class WorkshopBase {
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  withDisabilityOptions: boolean;
-  disabilityOptionsDesc: string;
   languageOfEducationId: number;
   languageOfEducationName: string;
   institutionId: string;
@@ -73,7 +71,6 @@ export abstract class WorkshopBase {
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
-    this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
     this.institutionId = description?.institutionId;
     this.institutionHierarchyId = description?.institutionHierarchyId;
     this.keywords = description?.keyWords;
@@ -100,9 +97,6 @@ export abstract class WorkshopBase {
 
     if (id) {
       this.id = id;
-    }
-    if (description?.disabilityOptionsDesc) {
-      this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
   }
 }
@@ -187,7 +181,6 @@ export interface WorkshopBaseCard {
   directionIds: number[];
   providerId: string;
   address: Address;
-  withDisabilityOptions: boolean;
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
@@ -276,7 +269,6 @@ export interface WorkshopFilterAdministration extends PaginationParameters {
 
 export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  disabilityOptionsDesc?: string;
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];

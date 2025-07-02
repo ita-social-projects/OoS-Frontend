@@ -48,8 +48,6 @@ export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredPropert
 export class WorkshopDescription extends WorkshopOtherRequiredProperties {
   $type?: WorkshopType = WorkshopType.WithDescription;
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  withDisabilityOptions: boolean;
-  disabilityOptionsDesc: string;
   institutionId: string;
   institutionHierarchyId: string;
   directionIds: number[];

@@ -79,15 +79,6 @@
         </div>
       </ng-container>
 
-      <h5>{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-      <ng-container *ngIf="workshop.withDisabilityOptions; else disabilityNotAvailable">
-        <p>{{ 'AVAILABLE' | translate }}</p>
-        <p>{{ workshop.withDisabilityOptionsDesc }}</p>
-      </ng-container>
-      <ng-template #disabilityNotAvailable>
-        <p>{{ 'NOT_AVAILABLE' | translate }}</p>
-      </ng-template>
-
       <ng-container *ngIf="workshop.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
         <div *ngFor="let item of workshop.keywords">

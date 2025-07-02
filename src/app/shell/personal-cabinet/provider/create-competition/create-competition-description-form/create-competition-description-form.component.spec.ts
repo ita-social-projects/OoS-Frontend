@@ -78,7 +78,6 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       imageFiles: new FormControl(''),
       imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
-      disabilityOptionsDesc: new FormControl(''),
       formOfLearning: new FormControl(''),
       competitiveSelection: new FormControl(''),
       tagIds: new FormControl([]),
