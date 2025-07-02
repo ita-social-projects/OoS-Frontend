@@ -22,7 +22,7 @@ import { StudySubject, StudySubjectParameters } from 'shared/models/study-subjec
 import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DateRangeValidator } from 'shared/validators/date-range-validator';
+import { DateRangeValidator } from 'shared/validators/date-range/date-range-validator';
 import { InstantErrorStateMatcher } from 'shared/validators/instant-error-matcher';
 import { ProviderComponent } from '../provider.component';
 
@@ -138,7 +138,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public onResetFilters(): void {
-    this.datesGroup.reset();
+    this.filterForm.reset();
     this.subjectParameters.dateFrom = '';
     this.subjectParameters.dateTo = '';
     this.closeDatePicker();
@@ -150,8 +150,8 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     const from = this.datesGroup?.get('dateFrom')?.value;
     const to = this.datesGroup?.get('dateTo')?.value;
 
-    this.subjectParameters.dateFrom = from && from.isValid() ? from?.format('YYYY-MM-DD') : '';
-    this.subjectParameters.dateTo = to && to?.isValid() ? to?.format('YYYY-MM-DD') : '';
+    this.subjectParameters.dateFrom = from?.isValid() ? from.format('YYYY-MM-DD') : '';
+    this.subjectParameters.dateTo = to?.isValid() ? to.format('YYYY-MM-DD') : '';
 
     Util.setFromPaginationParam(this.subjectParameters, this.currentPage, this.totalElements);
 
