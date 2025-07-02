@@ -90,7 +90,7 @@
         *ngIf="isImagesFeature && form.get('imageIds').value?.length"
         [imgMaxAmount]="10"
         [cropperConfig]="cropperConfig"
-        [label]="'Фото'"
+        [label]="'Фотографії'"
         [deleteMode]="true"
         formControlName="imageFiles"
         (deleteImage)="onDeleteImage($event)"
