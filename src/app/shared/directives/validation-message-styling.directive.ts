@@ -14,5 +14,6 @@ export class ValidationMessageStylingDirective {
     this.r.setStyle(this.el.nativeElement, 'display', 'block');
     this.r.setStyle(this.el.nativeElement, 'color', 'var(--error-color)');
     this.r.setStyle(this.el.nativeElement, 'font-size', '10px');
+    this.r.setStyle(this.el.nativeElement, 'font-family', 'Innerspace, sans-serif');
   }
 }

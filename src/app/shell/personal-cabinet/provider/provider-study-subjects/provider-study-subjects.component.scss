@@ -141,18 +141,12 @@ table {
   padding: 0;
 }
 
-.reset {
-  &:hover {
-    opacity: 0.5;
-  }
-
-  &__icon {
-    transform: rotateY(180deg) rotate(45deg);
-    overflow: visible;
-    font-size: 24px;
-    line-height: 19px;
-    color: var(--cancel-text-color);
-  }
+.reset-icon {
+  transform: rotateY(180deg) rotate(45deg);
+  overflow: visible;
+  font-size: 24px;
+  line-height: 19px;
+  color: var(--cancel-text-color);
 }
 
 @media (max-width: 1300px) {
@@ -166,6 +160,10 @@ table {
 @media (max-width: 1000px) {
   .filters-wrapper {
     justify-content: center;
+  }
+
+  .search-wrapper {
+    width: 100%;
   }
 }
 

@@ -95,7 +95,7 @@ import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.compo
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, strict: true } }
   ]
 })
 export class ProviderModule {}

@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDatepickerInputEvent, MatDateRangePicker } from '@angular/material/datepicker';
+import { MatDateRangePicker } from '@angular/material/datepicker';
 import { Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, EMPTY, filter, map, skip, startWith, takeUntil } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
@@ -22,6 +22,8 @@ import { StudySubject, StudySubjectParameters } from 'shared/models/study-subjec
 import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DateRangeValidator } from 'shared/validators/date-range/date-range-validator';
+import { InstantErrorStateMatcher } from 'shared/validators/instant-error-matcher';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -49,50 +51,35 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   ];
   public isLoaded: boolean = false;
   public totalElements = 0;
-  public maxDate = new Date();
-  public notAllowedToPickByTabButton = -1;
   public dataSource: MatTableDataSource<StudySubject> = new MatTableDataSource<StudySubject>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public subjectParameters: StudySubjectParameters = {
     providerId: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  public matcher = new InstantErrorStateMatcher();
   public filterForm: FormGroup;
-  public tempDateFrom: Moment | null = null;
-  public tempDateTo: Moment | null = null;
 
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog
+    protected matDialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
     super(store, matDialog);
   }
 
+  public get datesGroup(): FormGroup {
+    return this.filterForm?.get('dates') as FormGroup;
+  }
+
   public ngOnInit(): void {
     super.ngOnInit();
+    this.initForm();
 
-    this.filterForm = new FormGroup({
-      filterFormControl: new FormControl(''),
-      dateFrom: new FormControl<Moment | null>(null),
-      dateTo: new FormControl<Moment | null>(null)
-    });
+    this.subjectParameters.providerId = this.provider.id;
+    this.getStudySubjects();
 
-    this.filterForm
-      .get('filterFormControl')
-      ?.valueChanges.pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(this.debounceInputTime),
-        takeUntil(this.destroy$),
-        map((searchedText: string) => searchedText.trim())
-      )
-      .subscribe((searchedText: string) => {
-        this.subjectParameters.searchString = searchedText;
-
-        this.currentPage = PaginationConstants.firstPage;
-        this.getStudySubjects();
-      });
+    this.listenToSearchInput();
   }
 
   public ngAfterViewInit(): void {
@@ -151,10 +138,7 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
   }
 
   public onResetFilters(): void {
-    this.filterForm.patchValue({
-      dateFrom: '',
-      dateTo: ''
-    });
+    this.filterForm.reset();
     this.subjectParameters.dateFrom = '';
     this.subjectParameters.dateTo = '';
     this.closeDatePicker();
@@ -162,17 +146,60 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
     this.getStudySubjects();
   }
 
-  public onDateApply(): void {
-    this.filterForm.patchValue({ dateFrom: this.tempDateFrom, dateTo: this.tempDateTo });
-    this.setDateForFilters();
+  public getStudySubjects(): void {
+    const from = this.datesGroup?.get('dateFrom')?.value;
+    const to = this.datesGroup?.get('dateTo')?.value;
+
+    this.subjectParameters.dateFrom = from?.isValid() ? from.format('YYYY-MM-DD') : '';
+    this.subjectParameters.dateTo = to?.isValid() ? to.format('YYYY-MM-DD') : '';
+
+    Util.setFromPaginationParam(this.subjectParameters, this.currentPage, this.totalElements);
+
+    this.store.dispatch(new GetStudySubjects(this.subjectParameters));
   }
 
-  public onDateInput(event: MatDatepickerInputEvent<Moment>, controlName: 'dateFrom' | 'dateTo'): void {
-    this.filterForm.get(controlName)?.patchValue(event.target.value);
-    this.setDateForFilters();
+  private initForm(): void {
+    this.filterForm = new FormGroup({
+      filterFormControl: new FormControl(''),
+      dates: this.formBuilder.group(
+        {
+          dateFrom: new FormControl<Moment | null>(null),
+          dateTo: new FormControl<Moment | null>(null)
+        },
+        { validators: DateRangeValidator('dateFrom', 'dateTo') }
+      )
+    });
   }
 
-  public listenToDateOnPickerOpened(): void {
+  private listenToSearchInput(): void {
+    this.filterForm
+      .get('filterFormControl')
+      ?.valueChanges.pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(this.debounceInputTime),
+        takeUntil(this.destroy$),
+        map((searchedText: string) => searchedText.trim())
+      )
+      .subscribe((searchedText: string) => {
+        this.subjectParameters.searchString = searchedText;
+
+        this.currentPage = PaginationConstants.firstPage;
+        this.getStudySubjects();
+      });
+
+    this.datesGroup.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(() => this.datesGroup.valid)
+      )
+      .subscribe(() => {
+        this.getStudySubjects();
+      });
+  }
+
+  private listenToDateOnPickerOpened(): void {
     this.picker?.openedStream
       .pipe(
         takeUntil(this.destroy$),
@@ -183,30 +210,15 @@ export class ProviderStudySubjectsComponent extends ProviderComponent implements
         })
       )
       .subscribe((date: Moment) => {
-        if (!this.tempDateFrom || (date < this.tempDateFrom && !this.tempDateTo)) {
-          this.tempDateFrom = date;
-        } else if (!this.tempDateTo) {
-          this.tempDateTo = date;
+        const from = this.datesGroup.get('dateFrom').value;
+        const to = this.datesGroup.get('dateTo').value;
+        if (!from || (date.isBefore(from) && !to)) {
+          this.datesGroup.patchValue({ dateFrom: date });
+        } else if (!to) {
+          this.datesGroup.patchValue({ dateTo: date });
         } else {
-          this.tempDateFrom = date;
-          this.tempDateTo = null;
+          this.datesGroup.patchValue({ dateFrom: date, dateTo: null });
         }
       });
-  }
-
-  public setDateForFilters(): void {
-    this.setTimeFormat();
-    this.getStudySubjects();
-  }
-
-  private setTimeFormat(): void {
-    this.subjectParameters.dateFrom = this.filterForm.value.dateFrom?.format('YYYY-MM-DD') ?? '';
-    this.subjectParameters.dateTo = this.filterForm.value.dateTo?.format('YYYY-MM-DD') ?? '';
-  }
-
-  private getStudySubjects(): void {
-    this.subjectParameters.providerId = this.provider.id;
-    Util.setFromPaginationParam(this.subjectParameters, this.currentPage, this.totalElements);
-    this.store.dispatch(new GetStudySubjects(this.subjectParameters));
   }
 }
