@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NgxsModule } from '@ngxs/store';
 import { WorkshopType } from 'shared/models/draftWorkshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
-import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { EditDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { UserWorkshopService } from './user-workshop.service';
 
 describe('UserWorkshopService', () => {
@@ -171,6 +171,66 @@ describe('UserWorkshopService', () => {
 
     const req = http.expectOne('/api/v2/WorkshopDraft/SendForModeration/123');
     expect(req.request.method).toBe('PUT');
+    req.flush(null);
+  });
+
+  it('should delete cover image by workshop draft ID and moderator ID', (done) => {
+    const draftId = 'draft-id';
+
+    service.deleteCoverImageByWorkshopDraftId(draftId).subscribe({
+      next: () => done(),
+      error: done.fail
+    });
+
+    const req = http.expectOne((r) => r.method === 'DELETE' && r.url === `/api/v2/workshop-drafts/${draftId}/moderator/cover-image`);
+
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
+
+  it('should delete image by workshop draft ID, image ID, and moderator ID', (done) => {
+    const draftId = 'draft-id';
+    const imageId = 'some/image id with special&chars';
+
+    service.deleteImageByWorkshopDraftId(draftId, imageId).subscribe({
+      next: () => done(),
+      error: done.fail
+    });
+
+    const expectedUrl = `/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`;
+    const req = http.expectOne((r) => r.method === 'DELETE' && r.url === expectedUrl);
+
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
+
+  it('should update workshop draft by moderator', (done) => {
+    const draftId = 'draft-id';
+    const moderatorId = 'moderator-id';
+    const formData: EditDraft = {
+      title: 'Updated Workshop Title',
+      shortTitle: 'Updated Short',
+      institutionHierarchyId: 'institution-id-001',
+      workshopDescriptionItems: [
+        {
+          sectionName: 'Description Title',
+          description: 'Some description here'
+        }
+      ],
+      competitiveSelectionDescription: 'Only best kids allowed',
+      preferentialTermsOfParticipation: 'Free for orphans',
+      enrollmentProcedureDescription: 'Online form + in-person visit'
+    };
+
+    service.editWorkshopDraftByModerator(formData, draftId).subscribe({
+      next: () => done(),
+      error: done.fail
+    });
+
+    const req = http.expectOne((r) => r.method === 'PUT' && r.url === `/api/v2/workshop-drafts/${draftId}/moderator-edit`);
+
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(formData);
     req.flush(null);
   });
 });

@@ -4,6 +4,7 @@
 @use 'buttons';
 @use 'search';
 @use 'dropdown';
+@use 'create-form';
 
 .workshop-list-status {
   font-family: 'Open Sans', sans-serif;
@@ -20,7 +21,7 @@
   color: #ffbd00;
 }
 
-.Editing,
+.EditedByModerator,
 .Recheck {
   color: #ff8000;
 }
@@ -146,7 +147,7 @@
   }
 }
 
-@media (max-width: 1185px) {
+@media (max-width: 1415px) {
   .wrapper-header {
     flex-direction: column;
   }
@@ -162,7 +163,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 925px) {
   .filters-area {
     display: flex;
     flex-direction: column;

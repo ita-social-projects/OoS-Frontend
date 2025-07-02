@@ -116,6 +116,11 @@
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
   </a>
+  <a *ngIf="user.role === Role.moderator" [routerLink]="'./admin-tools/data/workshop-list'">
+    <button mat-menu-item>
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+    </button>
+  </a>
 </ng-template>
 
 <ng-template #userView>

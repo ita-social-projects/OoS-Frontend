@@ -31,7 +31,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public addressFormGroup: FormGroup;
   @Input() public settelmentFormGroup: FormGroup;
   @Input() public mapId: string = 'default';
-
+  @Input() public disabled: boolean = false;
   @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
   @Output() public addressSelect = new EventEmitter<Geocoder>();
@@ -194,14 +194,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
-    this.map.on('click', (L: Layer.LeafletMouseEvent) => {
-      if (this.workshops) {
-        this.unselectMarkers();
-        this.selectedWorkshopAddress.emit(null);
-      } else {
-        this.setMapLocation(L.latlng);
-      }
-    });
+    if (!this.disabled) {
+      this.map.on('click', (L: Layer.LeafletMouseEvent) => {
+        if (this.workshops) {
+          this.unselectMarkers();
+          this.selectedWorkshopAddress.emit(null);
+        } else {
+          this.setMapLocation(L.latlng);
+        }
+      });
+    }
   }
 
   private setGeolocationMarkerOnMap(coords: Coords): void {
@@ -351,7 +353,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, {
-      draggable,
+      draggable: draggable && !this.disabled,
       icon: this.unselectedMarkerIcon,
       riseOnHover: true,
       zIndexOffset: 3

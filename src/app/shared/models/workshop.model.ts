@@ -264,6 +264,7 @@ export interface AdditionalAbout {
 export interface WorkshopFilterAdministration extends PaginationParameters {
   searchString?: string;
   institutionId?: string;
+  workshopDraftStatuses?: string;
   catottgId?: number;
 }
 
@@ -299,6 +300,16 @@ export class Contacts {
       this.socialNetworks = info.socialNetworks;
     }
   }
+}
+
+export class EditDraft {
+  title: string;
+  shortTitle: string;
+  competitiveSelectionDescription?: string;
+  preferentialTermsOfParticipation?: string;
+  enrollmentProcedureDescription?: string;
+  institutionHierarchyId: string;
+  workshopDescriptionItems: WorkshopDescriptionItem[];
 }
 
 interface PhoneType {

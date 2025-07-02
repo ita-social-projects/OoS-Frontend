@@ -168,7 +168,8 @@
       "STATUS": {
         "DRAFT": "Draft",
         "PENDING": "Pending for moderation",
-        "REJECTED": "Rejected"
+        "REJECTED": "Rejected",
+        "EDITED_BY_MODERATOR": "Edited by moderator"
       }
     },
     "INSTITUTION_TYPE": {
@@ -389,7 +390,8 @@
   "MODERATOR_MESSAGE": "Moderator's response",
   "DRAFT_CARD_HINT": {
     "PUBLISH": "Click \"Publish\" to submit your draft for moderation.",
-    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear."
+    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear.",
+    "EDITED_BY_MODERATOR": "The draft has been edited by a moderator. You can review it and make changes and send it for moderation again."
   },
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
@@ -566,7 +568,8 @@
       "COST": "Cost",
       "EMAILS": "Emails",
       "PHONE_NUMBERS": "Phone numbers",
-      "LINK": "Link"
+      "LINK": "Link",
+      "CONTACTS": "Contacts"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -610,7 +613,8 @@
       "WITHOUT_SORT": "Without sorting",
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
-      "SEARCH_BY_TITLE": "Search by full title"
+      "SEARCH_BY_TITLE": "Search by full title",
+      "SELECT_STATUS": "Select status"
     },
     "TOOLTIP": {
       "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"
@@ -1051,6 +1055,9 @@
       "POSITION_NOT_FOUND": "Position not found",
       "DRAFT_REJECTED_SUCCESS": "Changes requested successfully!",
       "DRAFT_APPROVED_SUCCESS": "Workshop approved!",
+      "COVER_IMAGE_DELETED": "Cover image deleted!",
+      "IMAGE_DELETED": "Image deleted",
+      "DRAFT_EDITED": "Draft successfully edited!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
@@ -1095,6 +1102,7 @@
       "DELETE_JUDGE": "Are you sure you want to delete judge's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider",
       "DELETE_EMPLOYEE": "Are you sure you want to delete the employee",
+      "DELETE_IMAGE": "Are you sure you want to delete the image?",
       "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy",
       "BLOCK_EMPLOYEE": "Are you sure you want to block the employee",
       "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy",
@@ -1153,6 +1161,7 @@
         "DELETE_PROVIDER": "Delete provider?",
         "DELETE_EMPLOYEE": "Delete employee?",
         "DELETE_PROVIDER_DEPUTY": "Delete provider deputy?",
+        "DELETE_IMAGE": "Delete image?",
         "BLOCK_EMPLOYEE": "Block employee?",
         "BLOCK_PROVIDER_DEPUTY": "Block provider deputy?",
         "BLOCK_PROVIDER": "Block provider?",
@@ -1267,7 +1276,8 @@
   },
   "IMAGE": {
     "ERROR": "Error",
-    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition",
+    "DELETE_IMAGE": "This image is no longer available. Please remove it"
   },
   "COOKIES": {
     "COOKIE_DESCRIPTION": "Cookies help the website function properly. Below you can review what data we and our partners collect and for what purpose. You have the option to specify the conditions for their storage or access. You can withdraw your consent at any time by deleting cookies from your browser. More information can be found in the privacy policy.",

@@ -84,7 +84,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.store.dispatch(new ResetInstitutionHierarchy());
     this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 
   private setInitialInstitution(): void {
@@ -99,15 +99,15 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setHierarchySubscribes(): void {
-    this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
+    this.instituitionIdFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
       this.changeDetectorRef.markForCheck();
     });
 
     this.instituitionsHierarchy$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy)
+        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy),
+        takeUntil(this.destroy$)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         if (instituitionsHierarchy.length) {
@@ -174,9 +174,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setEditModeSubscribes(): void {
     this.editInstituitionsHierarchy$
       .pipe(
-        takeUntil(this.destroy$),
         filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy),
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) => instituitionsHierarchy.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel))
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+          instituitionsHierarchy.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel)
+        ),
+        takeUntil(this.destroy$)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         this.editInstituitionsHierarchy = instituitionsHierarchy;
@@ -195,11 +197,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setFieldsDescriptionSubscribe(): void {
     this.institutionFieldDesc$
       .pipe(
-        takeUntil(this.destroy$),
         filter((institutionFieldDesc: InstitutionFieldDescription[]) => !!institutionFieldDesc),
         tap((institutionFieldDesc: InstitutionFieldDescription[]) =>
           institutionFieldDesc.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel)
-        )
+        ),
+        takeUntil(this.destroy$)
       )
       .subscribe((institutionFieldDesc: InstitutionFieldDescription[]) => {
         this.hierarchyArray = [];
