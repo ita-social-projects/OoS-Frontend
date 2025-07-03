@@ -1,6 +1,7 @@
 table {
   width: 100%;
-  table-layout: fixed !important;
+  table-layout: fixed;
+  height: 20px;
 }
 
 .wrapper {
@@ -16,6 +17,7 @@ table {
     }
   }
 }
+
 .table-container {
   align-items: baseline;
   overflow: auto;
@@ -55,17 +57,23 @@ table {
   }
 }
 
-.action-row {
+td.mat-column-actions {
+  width: fit-content;
+  padding: 0 10px !important;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  padding: 0 10px;
 
   .icon-button {
+    color: var(--secondary-light-text-color);
     height: 40px;
     width: 40px;
-    font-size: 16px;
+    font-size: 1.2rem;
+
+    .mat-icon {
+      font-size: 1.2rem;
+    }
   }
 }
 

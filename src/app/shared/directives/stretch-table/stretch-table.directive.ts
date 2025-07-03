@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, HostListener, Inject, Renderer2, ViewContainerRef } from '@angular/core';
-import { StretchCellComponent } from '../../components/stretch-cell/stretch-cell/stretch-cell.component';
 import { DOCUMENT } from '@angular/common';
-import { ResizeEvent } from 'leaflet';
+import { asyncScheduler } from 'rxjs';
+import { StretchCellComponent } from '../../components/stretch-cell/stretch-cell/stretch-cell.component';
 
 @Directive({
   selector: '[appStretchTable]'
@@ -9,7 +9,6 @@ import { ResizeEvent } from 'leaflet';
 export class StretchTableDirective implements AfterViewInit {
   private selectedTh!: HTMLElement;
   private tableContainerWidth!: number;
-  private minWidth: number = 50;
   private maxWidth: number;
   private mouseMoveFunc!: (event: MouseEvent) => void;
 
@@ -18,10 +17,12 @@ export class StretchTableDirective implements AfterViewInit {
     private el: ElementRef,
     private renderer: Renderer2,
     private viewContainerRef: ViewContainerRef
-  ) {}
+  ) {
+    this.el.nativeElement.style.visibility = 'hidden';
+  }
 
   @HostListener('window:resize', ['$event'])
-  public onResize(event: ResizeEvent): void {
+  public onResize(): void {
     this.tableContainerWidth = (this.selectedTh.closest('.table-container') as HTMLElement).offsetWidth;
     this.maxWidth = this.getMaxWidth();
     (
@@ -29,16 +30,10 @@ export class StretchTableDirective implements AfterViewInit {
         (th: HTMLElement) => getComputedStyle(th).position === 'sticky'
       ) as HTMLElement[]
     )
-      .filter((th: HTMLElement) => th.offsetWidth >= this.tableContainerWidth - this.maxWidth)
+      .filter((th: HTMLElement) => th.offsetWidth >= this.maxWidth)
       .forEach((th: HTMLElement) => {
-        this.renderer.setStyle(th, 'width', this.tableContainerWidth - this.maxWidth + 'px');
+        this.renderer.setStyle(th, 'width', this.maxWidth + 'px');
       });
-    // if (stickyTh.offsetWidth >= this.tableContainerWidth - this.maxWidth) {
-    //   this.renderer.setStyle(this.selectedTh, 'width', this.tableContainerWidth - this.maxWidth + 'px');
-    //   this.selectedTh.style.width = this.tableContainerWidth - this.maxWidth + 'px';
-    //   console.log(this.selectedTh.offsetWidth);
-    // }
-    console.log('exit');
   }
 
   @HostListener('mousedown', ['$event'])
@@ -47,7 +42,7 @@ export class StretchTableDirective implements AfterViewInit {
       return;
     }
 
-    const body = document.querySelector('body');
+    const body = this.document.querySelector('body');
 
     this.selectedTh = (event.target as HTMLElement).closest('th');
     this.maxWidth = this.getMaxWidth();
@@ -61,7 +56,7 @@ export class StretchTableDirective implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => this.addResizeStructure(), 100);
+    asyncScheduler.schedule(() => this.addResizeStructure());
   }
 
   private onUpMouse(): void {
@@ -78,38 +73,24 @@ export class StretchTableDirective implements AfterViewInit {
 
     if (this.selectedTh.offsetWidth > this.maxWidth) {
       this.selectedTh.style.width = this.maxWidth + 'px';
-      console.log('cond1')
       return;
-    }
-
-    if (this.selectedTh.offsetWidth < this.minWidth) {
-      this.selectedTh.style.width = `${this.minWidth}px`;
-      console.log('cond2')
-      return;
-    }
-
-    if (this.selectedTh.offsetWidth + event.movementX < this.minWidth) {
-      console.log('cond3')
-      this.selectedTh.style.width = `${this.minWidth}px`;
     }
 
     if (this.selectedTh.offsetWidth + event.movementX > this.maxWidth) {
-      console.log('cond4')
       return;
     }
 
     const cur = this.selectedTh.offsetWidth + event.movementX;
-    this.selectedTh.style.width = `${cur}px`;
+    this.selectedTh.style.width = cur + 'px';
   }
 
+  /**
+   * This method inserts content with resize borders and changes width of actions to fit content
+   */
   private addResizeStructure(): void {
     const THs = this.el.nativeElement.getElementsByTagName('th');
 
     for (let i = 0; i < THs.length - 1; i++) {
-      if (THs[i + 1].classList.contains('actions-row')) {
-        break;
-      }
-
       const componentRef = this.viewContainerRef.createComponent(StretchCellComponent);
       const content = THs[i].childNodes[0];
 
@@ -120,10 +101,22 @@ export class StretchTableDirective implements AfterViewInit {
     }
 
     for (let i = 0; i < THs.length; i++) {
+      if (THs[i].classList.contains('mat-column-actions')) {
+        const actionTd = this.document.querySelector('td.mat-column-actions') as HTMLElement;
+        THs[i].style.width = actionTd.offsetWidth + 'px'; // th for actions has no content, and it's width won't be reduced to td's value
+        THs[i].style.padding = getComputedStyle(actionTd).padding;
+
+        THs[0].style.width = 'auto'; // to fill free space
+      }
       THs[i].style.width = `${THs[i].offsetWidth}px`;
     }
+
+    this.el.nativeElement.style.visibility = 'visible';
   }
 
+  /**
+   * This method calculates max width of th with width of visible table container minus sum of width of all sticky headers ahead
+   */
   private getMaxWidth(): number {
     this.tableContainerWidth = (this.selectedTh.closest('.table-container') as HTMLElement).offsetWidth;
     const row = this.selectedTh.closest('tr');
@@ -134,15 +127,15 @@ export class StretchTableDirective implements AfterViewInit {
 
     const allThs = Array.from(row.querySelectorAll('th')) as HTMLElement[];
     const selectedIndex = allThs.indexOf(this.selectedTh);
-    let widthOfStickyAhead = 0;
+    let widthOfStickyElsAhead = 0;
 
     allThs
       .slice(selectedIndex + 1)
       .filter((th: HTMLElement) => getComputedStyle(th).position === 'sticky')
       .forEach((th: HTMLElement) => {
-        widthOfStickyAhead += th.offsetWidth;
+        widthOfStickyElsAhead += th.offsetWidth;
       });
 
-    return this.tableContainerWidth - widthOfStickyAhead;
+    return this.tableContainerWidth - widthOfStickyElsAhead;
   }
 }

@@ -119,7 +119,7 @@
 
         <ng-container matColumnDef="actions" stickyEnd>
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell class="action-row" *matCellDef="let element">
+          <td mat-cell *matCellDef="let element">
             <button mat-icon-button class="icon-button" [routerLink]="['/create-study-subject', element.id]">
               <mat-icon>edit</mat-icon>
             </button>

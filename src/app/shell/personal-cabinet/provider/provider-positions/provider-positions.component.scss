@@ -9,9 +9,7 @@
   font-size: 1.2em;
   height: 13px;
 }
-.paginator {
-  margin-top: 2rem;
-}
+
 .search-area {
   display: flex;
   justify-content: flex-end;
@@ -74,10 +72,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.action-button-icon {
-  font-size: inherit;
 }
 
 @media (max-width: 968px) {
