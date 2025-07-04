@@ -25,6 +25,7 @@ import { ValidationMessages } from 'shared/enum/validation-messages';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { GetLanguageList } from 'shared/store/meta-data.actions';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -207,7 +208,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         dateTimeRanges: this.dateTimeRangesArray,
         languageOfEducationId: new FormControl(null, Validators.required),
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-        coverImage: new FormControl(''),
+        coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
         coverImageId: new FormControl(''),
         availableSeats: new FormControl(
           {
@@ -233,6 +234,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.validateAgeControls();
     this.showHintAboutClosingWorkshop();
     this.noAgeRestrictionsControlListener();
+    this.AboutFormGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      console.log(this.AboutFormGroup);
+    });
   }
 
   /**

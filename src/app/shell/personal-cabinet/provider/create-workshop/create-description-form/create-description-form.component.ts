@@ -92,7 +92,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     private readonly route: ActivatedRoute
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl(''),
+      imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
       keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,

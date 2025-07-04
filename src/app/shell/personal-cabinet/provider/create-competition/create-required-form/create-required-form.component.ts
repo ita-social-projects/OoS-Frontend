@@ -14,6 +14,7 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 
 @Component({
   selector: 'app-create-required-form',
@@ -153,7 +154,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     this.RequiredFormGroup = this.formBuilder.group(
       {
         image: new FormControl(''),
-        coverImage: new FormControl(''),
+        coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
         coverImageId: new FormControl(''),
         title: new FormControl('', [
           Validators.required,

@@ -64,6 +64,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // For specific study period range validation
   @Input() public errorMessagesMap: Map<string, string> = new Map<string, string>();
 
+  // For images form controls
+  @Input() public isImage: boolean;
+  @Input() public minImages: number;
+  @Input() public maxImages: number;
+
   @Input() public displayToolTip: boolean;
   public tooltipText: string[] = [];
   public errors: string[] = [];
@@ -287,12 +292,20 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_TIME_FORMAT
       },
       {
-        condition: (): boolean => errors?.minArrayLength || errors?.maxArrayLength,
+        condition: (): boolean => (errors?.minArrayLength || errors?.maxArrayLength) && !this.isImage,
         message: ValidationMessages.INVALID_TAGS_LENGTH
       },
       {
         condition: (): boolean => this.isEdrpou && errors.minlength && !errors.maxlength,
         message: ValidationMessages.INVALID_EDRPOU
+      },
+      {
+        condition: (): boolean => this.isImage && this.minImages < this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE_FROM_TO
+      },
+      {
+        condition: (): boolean => this.isImage && this.minImages === this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE
       }
     ];
 
@@ -340,6 +353,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       maxCharacters: String(this.maxCharacters ?? ''),
       minValue: String(this.minValue ?? ''),
       maxValue: String(this.maxValue ?? ''),
+      minImages: String(this.minImages ?? ''),
+      maxImages: String(this.maxImages ?? ''),
       currentCharactersCount: String(this.validationFormControl.value?.length ?? '')
     };
   }
