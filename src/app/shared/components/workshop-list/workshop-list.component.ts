@@ -90,7 +90,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'seats',
     'isPaid',
     'status',
-    'rating'
+    'actions'
   ];
   public workshopParameters: WorkshopFilterAdministration = {};
   public dataSource = new MatTableDataSource<WorkshopDraft>();

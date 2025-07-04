@@ -96,7 +96,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'email',
     'phoneNumber',
     'status',
-    'star'
+    'actions'
   ];
   public filterGroup: FormGroup;
   public dataSource = new MatTableDataSource([{}]);

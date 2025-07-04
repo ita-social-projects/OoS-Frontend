@@ -69,9 +69,9 @@
   </div>
 </div>
 
-<div class="table-wrapper">
+<div class="wrapper">
   <ng-container *ngIf="dataSource.data.length; else isEmptyList">
-    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container resizable-table mat-elevation-z8">
+    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="subjects-table" appStretchTable>
         <ng-container matColumnDef="nameInUkrainian" sticky>
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -133,15 +133,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-    <ng-container *ngIf="totalElements">
-      <app-paginator
-        [totalEntities]="totalElements"
-        [currentPage]="currentPage"
-        [itemsPerPage]="subjectParameters.size"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
-      </app-paginator>
-    </ng-container>
   </ng-container>
 
   <ng-template #isEmptyList>
@@ -150,3 +141,12 @@
     </div>
   </ng-template>
 </div>
+<ng-container *ngIf="totalElements">
+  <app-paginator
+    [totalEntities]="totalElements"
+    [currentPage]="currentPage"
+    [itemsPerPage]="subjectParameters.size"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
+</ng-container>

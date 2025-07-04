@@ -399,23 +399,3 @@ input {
 .mat-mdc-select-panel {
   pointer-events: auto !important;
 }
-
-.mat-elevation-z8 {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-
-  .mat-mdc-table {
-    *:not(mat-icon, i) {
-      font-family: 'Open Sans', sans-serif;
-
-      .mat-mdc-header-cell {
-        font-size: 14px;
-        font-weight: 700;
-        color: #888888;
-      }
-
-      .mat-mdc-cell {
-        font-size: 13px;
-      }
-    }
-  }
-}

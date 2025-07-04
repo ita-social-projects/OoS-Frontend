@@ -36,6 +36,13 @@
   margin-top: 2rem;
 }
 
+.container {
+  margin-left: 1rem;
+  @media (max-width: 676px) {
+    margin-left: 0;
+  }
+}
+
 .search {
   padding-left: 10px;
 }
