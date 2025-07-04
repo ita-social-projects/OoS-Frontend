@@ -234,9 +234,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.validateAgeControls();
     this.showHintAboutClosingWorkshop();
     this.noAgeRestrictionsControlListener();
-    this.AboutFormGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      console.log(this.AboutFormGroup);
-    });
   }
 
   /**
