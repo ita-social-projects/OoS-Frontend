@@ -1,7 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { NavigationState } from '../../store/navigation.state';
 
 @Component({
@@ -14,6 +13,4 @@ export class SidenavFiltersComponent {
   public isFiltersSidenavOpen$: Observable<boolean>;
 
   @Input() public isMobileView: boolean;
-
-  public destroy$: Subject<boolean> = new Subject<boolean>();
 }

@@ -70,7 +70,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new GetLanguageList());
 
-    this.filtersSidenavOpenTrue$.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe((filtersSidenavState: boolean) => {
+    this.filtersSidenavOpenTrue$.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((filtersSidenavState: boolean) => {
       this.isFiltersSidenavOpen = filtersSidenavState;
     });
 

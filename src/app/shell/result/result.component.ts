@@ -146,7 +146,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe((filtersSidenavState: boolean) => {
+    this.isFiltersSidenavOpen$.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((filtersSidenavState: boolean) => {
       this.isFiltersSidenavOpen = filtersSidenavState;
       this.calculateMarginLeft();
     });
