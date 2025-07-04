@@ -107,12 +107,11 @@ export class StretchTableDirective implements AfterViewInit {
       THs[i].style.width = `${THs[i].offsetWidth}px`;
 
       if (THs[i].classList.contains('mat-column-actions')) {
-        const actionTd = TDs[i];
         const prevValH0 = THs[0].offsetWidth;
         const prevValHL = THs[i].offsetWidth;
-        THs[i].style.width = `${actionTd.offsetWidth}px`; // th for actions has no content, and it's width won't be reduced to td's value
+        THs[i].style.width = `${TDs[i].offsetWidth}px`; // th for actions has no content, and it's width won't be reduced to td's value
         const dif = Math.abs(prevValHL - THs[i].offsetWidth);
-        THs[i].style.padding = getComputedStyle(actionTd).padding;
+        THs[i].style.padding = getComputedStyle(TDs[i]).padding;
 
         THs[0].style.width = `${prevValH0 + dif}px`;
       }
@@ -129,7 +128,7 @@ export class StretchTableDirective implements AfterViewInit {
     const row = this.selectedTh.closest('tr');
 
     if (!row) {
-      return;
+      return this.tableContainerWidth;
     }
 
     const allThs = Array.from(row.querySelectorAll('th')) as HTMLElement[];
