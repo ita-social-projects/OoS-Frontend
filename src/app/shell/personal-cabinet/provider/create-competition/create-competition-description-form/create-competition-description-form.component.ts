@@ -17,6 +17,7 @@ import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/me
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -195,7 +196,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl(''),
+      imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
       institutionHierarchyId: new FormControl(null),
       subcategory: new FormControl(null),

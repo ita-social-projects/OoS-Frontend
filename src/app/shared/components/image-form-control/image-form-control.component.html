@@ -1,7 +1,7 @@
 <form>
   <div class="form-wrapper">
     <div class="container flex flex-row justify-between items-center">
-      <div class="step-label">{{ label }}</div>
+      <div class="step-label">{{ label }}<span class="step-required">*</span></div>
       <app-info-menu [type]="InfoMenuType.Text">
         <div [innerHTML]="'INFO_MENU.IMAGES_RECOMMENDATION' | translate"></div>
       </app-info-menu>

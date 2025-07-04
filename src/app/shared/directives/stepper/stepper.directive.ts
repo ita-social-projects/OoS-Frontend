@@ -51,7 +51,7 @@ export class StepperDirective {
 
     requestAnimationFrame(() => {
       const invalidFields = this.stepElement.querySelectorAll(
-        'input.ng-invalid, select.ng-invalid, textarea.ng-invalid, .days-toggle-invalid, mat-select.ng-invalid'
+        'input.ng-invalid, select.ng-invalid, textarea.ng-invalid, .days-toggle-invalid, mat-select.ng-invalid, app-image-form-control.ng-invalid'
       ); // add a selector for a specific non-input type element
 
       if (invalidFields.length) {

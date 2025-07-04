@@ -7,6 +7,8 @@
     formControlName="imageFiles"
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
+  <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" minImages="1" maxImages="10">
+  </app-validation-hint>
 
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
