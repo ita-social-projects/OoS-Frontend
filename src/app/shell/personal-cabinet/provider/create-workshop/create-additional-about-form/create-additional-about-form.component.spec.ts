@@ -57,7 +57,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(SpecialNeedsType.None);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(EducationalShift.First);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(AgeComposition.SameAge);
-    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(GroupType.Workshop);
+    expect(component.AdditionalAboutGroup.get('workshopType').value).toBe(GroupType.Workshop);
   });
 
   it('should update form in edit mode', () => {
@@ -67,7 +67,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       specialNeedsType: SpecialNeedsType.Hearing,
       educationalShift: EducationalShift.Second,
       ageComposition: AgeComposition.SameAge,
-      groupType: GroupType.Workshop
+      workshopType: GroupType.Workshop
     } as unknown as Workshop;
 
     component.workshop = mockWorkshop;
@@ -78,7 +78,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('specialNeedsType').value).toBe(mockWorkshop.specialNeedsType);
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(mockWorkshop.educationalShift);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(mockWorkshop.ageComposition);
-    expect(component.AdditionalAboutGroup.get('groupType').value).toBe(mockWorkshop.groupType);
+    expect(component.AdditionalAboutGroup.get('workshopType').value).toBe(mockWorkshop.workshopType);
   });
 
   describe('price listener', () => {
