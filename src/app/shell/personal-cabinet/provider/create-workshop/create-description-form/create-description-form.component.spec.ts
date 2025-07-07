@@ -38,9 +38,10 @@ class MockInfoFormComponent {
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
   let fixture: ComponentFixture<CreateDescriptionFormComponent>;
+  let tagServiceSpy: jest.Mocked<TagService>;
 
   beforeEach(async () => {
-    const tagServiceSpy = {
+    const tagServiceMock = {
       getTags: jest.fn().mockReturnValue(of([]))
     };
 
@@ -70,15 +71,16 @@ describe('CreateDescriptionFormComponent', () => {
               params: {},
               data: {}
             }
-          },
+          }
+        },
         {
           provide: TagService,
-          useValue: tagServiceSpy
+          useValue: tagServiceMock
         }
       ]
     }).compileComponents();
 
-    tagService = TestBed.inject(TagService);
+    tagServiceSpy = TestBed.inject(TagService) as jest.Mocked<TagService>;
   });
 
   beforeEach(() => {
@@ -185,8 +187,7 @@ describe('CreateDescriptionFormComponent', () => {
       competitiveSelection: true
     };
 
-    const tagService = TestBed.inject(TagService);
-    jest.spyOn(tagService, 'getTags').mockReturnValue(of(mockTags));
+    tagServiceSpy.getTags.mockReturnValue(of(mockTags));
 
     component.workshop = mockWorkshop as Workshop;
 
@@ -205,7 +206,7 @@ describe('CreateDescriptionFormComponent', () => {
 
     (component as any).updateTagIds(mockTags);
 
-    expect(component.DescriptionFormGroup.get('tagIds').value).toEqual([1, 2]);
+    expect(component.DescriptionFormGroup.get('tagIds')?.value).toEqual([1, 2]);
   });
 
   it('should mark form as dirty after deletion', () => {
@@ -217,7 +218,7 @@ describe('CreateDescriptionFormComponent', () => {
   });
 
   it('should mark tagsControl as touched on tagIds touch', () => {
-    component.DescriptionFormGroup.get('tagIds').markAsTouched();
+    component.DescriptionFormGroup.get('tagIds')?.markAsTouched();
     expect(component.tagsControl.touched).toEqual(true);
   });
 });

@@ -315,7 +315,6 @@ export class EditDraft {
   workshopDescriptionItems: WorkshopDescriptionItem[];
 }
 
-
 interface PhoneType {
   type: string;
   number: string;
