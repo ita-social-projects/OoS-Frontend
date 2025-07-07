@@ -54,8 +54,7 @@
             class="flex flex-row justify-center items-center"
             [workshop]="workshop"
             [provider]="provider"
-            (passAdditionalAboutGroup)="onReceiveAdditionalAboutGroup($event)"
-            [isMinSportSelected]="isMinSportSelected">
+            (passAdditionalAboutGroup)="onReceiveAdditionalAboutGroup($event)">
           </app-create-additional-about-form>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -85,8 +84,7 @@
             [workshop]="workshop"
             [provider]="provider"
             [isImagesFeature]="isImagesFeature"
-            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)"
-            (subordinationChange)="onSubordinationChange($event)">
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
           <div class="footer flex flex-row justify-center items-center">
             <button class="btn" mat-raised-button matStepperPrevious>

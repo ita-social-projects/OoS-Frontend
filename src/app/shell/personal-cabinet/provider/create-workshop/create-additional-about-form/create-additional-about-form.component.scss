@@ -32,6 +32,10 @@
   color: var(--primary-dark-text-color);
 }
 
+.champions-path-wrapper {
+  margin-top: 10px;
+}
+
 @media (max-width: 750px) {
   .price::after {
     font-weight: 700;

@@ -43,14 +43,14 @@ export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredPropert
   isPaid?: boolean;
   price: number;
   payRate: PayRateType;
+  institutionId: string;
+  institutionHierarchyId: string;
+  isChampionPath?: boolean;
 }
 
 export class WorkshopDescription extends WorkshopOtherRequiredProperties {
   $type?: WorkshopType = WorkshopType.WithDescription;
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  institutionId: string;
-  institutionHierarchyId: string;
-  championPath?: boolean;
   directionIds: number[];
   keywords: string[];
   additionalDescription: string;

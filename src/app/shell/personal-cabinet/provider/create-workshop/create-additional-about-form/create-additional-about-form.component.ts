@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,14 +22,15 @@ import { ShowMessageBar } from 'shared/store/app.actions';
   templateUrl: './create-additional-about-form.component.html',
   styleUrls: ['./create-additional-about-form.component.scss']
 })
-export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, OnDestroy {
+export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
-  @Input() public isMinSportSelected = false;
-
+  public showChampionsPathCheckbox = false;
   public AdditionalAboutGroup: FormGroup;
   public priceRadioBtn: FormControl = new FormControl(false);
+
+  public isMinSportSelected = false;
 
   protected readonly SpecialNeedsType = SpecialNeedsType;
   protected readonly SpecialNeedsTypeEnum = SpecialNeedsTypeEnum;
@@ -73,6 +74,18 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
     return this.workshop?.price ? this.workshop.price : null;
   }
 
+  public onInstitutionSubordinationChange(institutionTitle: string): void {
+    const isMinSport = institutionTitle === 'Мінспорт';
+    this.isMinSportSelected = isMinSport;
+    this.showChampionsPathCheckbox = isMinSport;
+
+    const championsPathControl = this.AdditionalAboutGroup.get('championsPath');
+    if (!isMinSport) {
+      championsPathControl?.setValue(false);
+    }
+    this.handleMinSportChange(isMinSport);
+  }
+
   public ngOnInit(): void {
     if (this.workshop) {
       this.activateEditMode();
@@ -83,12 +96,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
     this.listenToChanges();
     this.listenToBenefitsChanges();
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isMinSportSelected && this.AdditionalAboutGroup) {
-      this.handleMinSportChange(changes.isMinSportSelected.currentValue);
-    }
   }
 
   public ngOnDestroy(): void {
@@ -108,10 +115,17 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
         payRate: this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
-        preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation
+        preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation,
+        institutionHierarchyId: this.workshop.institutionHierarchyId || '',
+        institutionId: this.workshop.institutionId || '',
+        championsPath: this.workshop.isChampionPath || false
       },
       { emitEvent: false }
     );
+
+    if (this.workshop.institutionHierarchy) {
+      this.onInstitutionSubordinationChange(this.workshop.institutionHierarchy);
+    }
 
     if (this.workshop.price) {
       this.setPriceControlValue(this.workshop.price, 'enable', false);
@@ -138,7 +152,10 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       ]),
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl('')
+      preferentialTermsOfParticipation: new FormControl(''),
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
+      championsPath: new FormControl(false)
     });
   }
 

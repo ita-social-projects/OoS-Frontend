@@ -72,9 +72,9 @@ export abstract class WorkshopBase {
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
-    this.institutionId = description?.institutionId;
-    this.institutionHierarchyId = description?.institutionHierarchyId;
-    this.isChampionPath = description?.isChampionPath;
+    this.institutionId = additionalAbout?.institutionId;
+    this.institutionHierarchyId = additionalAbout?.institutionHierarchyId;
+    this.isChampionPath = additionalAbout?.isChampionPath;
     this.keywords = description?.keyWords;
     this.competitiveSelection = description?.competitiveSelection;
     this.competitiveSelectionDescription = description?.competitiveSelectionDescription;
@@ -261,6 +261,9 @@ export interface AdditionalAbout {
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
+  institutionId: string;
+  institutionHierarchyId: string;
+  isChampionPath?: boolean;
 }
 
 export interface WorkshopFilterAdministration extends PaginationParameters {
@@ -278,9 +281,6 @@ export interface Description {
   tagIds: number[];
   enrollmentProcedureDescription: string;
   coverage: string;
-  institutionId: string;
-  institutionHierarchyId: string;
-  isChampionPath?: boolean;
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
 }
@@ -314,6 +314,7 @@ export class EditDraft {
   institutionHierarchyId: string;
   workshopDescriptionItems: WorkshopDescriptionItem[];
 }
+
 
 interface PhoneType {
   type: string;

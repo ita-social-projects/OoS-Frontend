@@ -149,7 +149,8 @@
   <mat-form-field
     appearance="fill"
     [matTooltip]="'FORMS.TOOLTIP.GROUP_TYPE_IS_DISABLED' | translate"
-    [matTooltipDisabled]="!isMinSportSelected">
+    [matTooltipDisabled]="!isMinSportSelected"
+    >>
     <mat-select
       formControlName="groupType"
       panelClass="dropdown-panel select-with-form-field"
@@ -162,4 +163,17 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+
+  <app-institution-hierarchy
+    [instituitionHierarchyIdFormControl]="AdditionalAboutGroup.get('institutionHierarchyId')"
+    [instituitionIdFormControl]="AdditionalAboutGroup.get('institutionId')"
+    [provider]="provider"
+    (subordinationChange)="onInstitutionSubordinationChange($event)">
+  </app-institution-hierarchy>
+
+  <div class="champions-path-wrapper" *ngIf="showChampionsPathCheckbox">
+    <mat-checkbox [formControl]="AdditionalAboutGroup.get('championsPath')" class="step-label" color="primary">
+      {{ 'FORMS.LABELS.CHAMPION_PATH' | translate }}
+    </mat-checkbox>
+  </div>
 </form>

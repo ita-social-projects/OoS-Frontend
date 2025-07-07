@@ -43,11 +43,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   @Input() public provider: Provider;
 
   @Output() public passDescriptionFormGroup = new EventEmitter();
-  @Output() public subordinationChange = new EventEmitter<string>();
 
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
-
-  public showChampionsPathCheckbox = false;
   public readonly validationConstants = ValidationConstants;
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
@@ -112,28 +109,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      coverage: new FormControl(this.Coverage.School),
-      institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required),
-      championsPath: new FormControl(false)
+      coverage: new FormControl(this.Coverage.School)
     });
   }
 
   public compareItems(item1: Direction, item2: Direction): boolean {
     return item1.id === item2.id;
   }
-
-  public onInstitutionSubordinationChange(institutionTitle: string): void {
-    const isMinSport = institutionTitle === 'Мінспорт';
-    this.showChampionsPathCheckbox = isMinSport;
-
-    const championsPathControl = this.DescriptionFormGroup.get('championsPath');
-    if (!isMinSport) {
-      championsPathControl.setValue(false);
-    }
-    this.subordinationChange.emit(institutionTitle);
-  }
-
   public ngOnInit(): void {
     this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
       this.updateTagIds(selectedTags || []);
@@ -255,9 +237,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
-
-    this.onInstitutionSubordinationChange(this.workshop.institutionHierarchy);
-    this.DescriptionFormGroup.get('championsPath').setValue(!!this.workshop.isChampionPath, { emitEvent: false });
 
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
