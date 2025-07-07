@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, throttleTime } from 'rxjs';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
@@ -17,6 +17,7 @@ import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { GetAllInstitutions } from 'shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -105,7 +106,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
   }
 
   public activateEditMode(): void {
-    this.checkIfMinSport();
     this.AdditionalAboutGroup.patchValue(
       {
         isSelfFinanced: this.workshop.isSelfFinanced || false,
@@ -124,14 +124,8 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       },
       { emitEvent: false }
     );
-    if (this.workshop.price) {
-      this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
-      this.priceRadioBtn.setValue(true);
-    } else {
-      this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(PayRateType.None, 'disable', false);
-    }
+    this.checkIfMinSport();
+    this.handlePriceChange();
   }
 
   private initializeForm(): void {
@@ -199,8 +193,18 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       if (!this.workshop) {
         workshopTypeControl.setValue(GroupType.Workshop, { emitEvent: false });
       }
-
       championsPathControl.setValue(false, { emitEvent: false });
+    }
+  }
+
+  private handlePriceChange(): void {
+    if (this.workshop.price) {
+      this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
+      this.priceRadioBtn.setValue(true);
+    } else {
+      this.setPriceControlValue(null, 'disable', false);
+      this.setPayRateControlValue(PayRateType.None, 'disable', false);
     }
   }
 
@@ -272,11 +276,15 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       return;
     }
 
-    const matchedInstitution = this.store
-      .selectSnapshot(MetaDataState.institutions)
-      ?.find((institution) => institution.id === institutionId);
+    this.store.dispatch(new GetAllInstitutions(false));
 
-    const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === 'мінспорт';
-    this.onInstitutionSubordinationChange(isMinSport);
+    this.store
+      .select(MetaDataState.institutions)
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((institutions) => {
+        const matchedInstitution = institutions.find((institution) => institution.id === institutionId);
+        const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === 'мінспорт';
+        this.onInstitutionSubordinationChange(isMinSport);
+      });
   }
 }
