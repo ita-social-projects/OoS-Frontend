@@ -23,7 +23,7 @@ table {
 
 .search {
   padding-left: 1rem;
-  background-color: transparent;
+  background-color: var(--bg-light-additional) !important;
   color: var(--primary-dark-text-color);
 }
 
@@ -57,7 +57,7 @@ table {
   font-size: 14px;
   align-self: center;
   line-height: 14.6px;
-  color: var(--cancel-text-color);
+  color: var(--input-light-color);
   font-weight: 700;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 
@@ -68,7 +68,6 @@ table {
 
 ::ng-deep .mat-datepicker-actions {
   justify-content: center !important;
-  background: var(--primary-light-bg-color) !important;
   border-radius: 0 0 24px 24px;
 }
 
@@ -93,7 +92,8 @@ table {
   line-height: 18px;
   height: 40px;
   min-width: 100px;
-  background: var(--primary-light-bg-color);
+  background-color: var(--bg-light-additional) !important;
+  color: var(--primary-dark-text-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;

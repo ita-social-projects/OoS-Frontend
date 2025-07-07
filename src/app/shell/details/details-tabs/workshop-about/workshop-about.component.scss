@@ -17,6 +17,7 @@
 
 .section-title {
   margin: 1.5rem 0 1rem 0;
+  color: var(--primary-dark-text-color);
 }
 
 .txt {
@@ -38,7 +39,6 @@
   flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid var(--input-light-color);
-  background: var(--primary-light-bg-color);
   color: var(--secondary-light-text-color);
   &-selected {
     color: var(--cancel-text-color);

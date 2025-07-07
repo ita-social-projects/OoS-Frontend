@@ -1,7 +1,7 @@
 .btn {
-  color: var(--specific-light-text-color) !important;
-  background-color: var(--primary-accent-color);
-  border: 1px solid var(--primary-accent-color);
+  color: var(--specific-text-color) !important;
+  background-color: var(--bg-button) !important;
+  border: 1px solid var(--bg-button) !important;
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
@@ -13,17 +13,17 @@
 
   &-reset,
   &-add {
-    color: var(--primary-accent-color);
+    color: var(--specific-text-color);
     padding: 2px 30px;
     border-radius: 20px;
   }
 
   .btn-add {
-    color: var(--primary-accent-color);
+    color: var(--specific-text-color);
     .mat-icon-add {
       vertical-align: middle;
       height: 26px;
-      color: var(--primary-accent-color);
+      color: var(--specific-text-color);
     }
   }
 
@@ -66,9 +66,9 @@
   border-radius: 20px;
 
   &-application {
-    background: var(--primary-accent-color);
-    border: 1px solid var(--primary-accent-color);
-    color: var(--primary-light-text-color);
+    background: var(--bg-button);
+    border: 1px solid var(--bg-button);
+    color: var(--specific-text-color);
   }
 
   &:hover {

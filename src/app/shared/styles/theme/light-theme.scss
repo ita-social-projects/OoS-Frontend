@@ -54,4 +54,14 @@ $light-theme: mat.define-light-theme(
 @include mat.all-component-themes($light-theme);
 .light-theme {
   --mat-datepicker-calendar-date-in-range-state-background-color: rgba(0, 0, 255, 0.2) !important;
+  --mat-sidenav-content-background-color: var(--primary-light-bg-color) !important;
+  --mdc-elevated-card-container-color: var(--secondary-light-bg-color) !important;
+  --mat-tab-header-pagination-icon-color: var(--primary-light-text-color) !important;
+
+  --mat-table-background-color: var(--secondary-light-bg-color) !important;
+  --mat-table-row-item-label-text-color: var(--specific-light-text-color) !important;
+
+  //.mat-stepper-vertical, .mat-stepper-horizontal {
+  //  background-color: rgba(255, 255, 255, 0.2) !important;
+  //}
 }

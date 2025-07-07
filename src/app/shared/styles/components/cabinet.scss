@@ -1,9 +1,9 @@
 .cabinet-container {
-  background: var(--primary-light-bg-color);
+  background: var(--secondary-light-bg-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   padding: 1.5rem 1.5rem 0 1.5rem;
-  border-radius: 5px;
+  border-radius: 10px;
 
   .nav {
     border-bottom: none;
@@ -46,7 +46,7 @@
 .nav a {
   font-weight: 700;
   font-family: 'Innerspace', sans-serif;
-  color: var(--cancel-text-color);
+  color: var(--specific-light-text-color);
 }
 
 .title {
@@ -58,12 +58,13 @@
 ::ng-deep .mat-mdc-tab-link {
   .mdc-tab__text-label {
     line-height: 1.125rem;
+    color: var(--specific-light-text-color) !important;
   }
 }
 
 ::ng-deep .mat-mdc-tab-link.active {
   .mdc-tab__text-label {
-    color: var(--primary-accent-color) !important;
+    color: var(--specific-light-text-color) !important;
   }
 
   &:hover {

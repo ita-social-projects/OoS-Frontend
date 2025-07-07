@@ -52,7 +52,7 @@ h4,
 h5,
 h6 {
   font-family: 'Innerspace', sans-serif;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
   margin: 0;
 }
 
@@ -95,9 +95,9 @@ a {
 .mat-horizontal-stepper-header-container {
   .mat-step-header {
     .mat-step-icon {
-      border: 2px solid var(--secondary-light-text-color);
+      border: 2px solid var(--primary-accent-color);
       box-sizing: border-box;
-      color: var(--secondary-light-text-color);
+      color: var(--primary-accent-color);
       font-weight: bold;
       background-color: transparent;
 
@@ -124,10 +124,10 @@ a {
       min-width: unset;
 
       &-active {
-        color: var(--primary-dark-text-color);
+        color: var(--specific-light-text-color);
 
         &.mat-step-label-selected {
-          color: var(--primary-accent-color);
+          color: var(--specific-light-text-color);
         }
       }
     }
@@ -324,7 +324,7 @@ input:-webkit-autofill:active {
   .mdc-radio:hover .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
   .mdc-radio:not(:disabled):active .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
     .mdc-radio__outer-circle {
-      border-color: var(--primary-accent-color);
+      border-color: var(--specific-text-color);
       border-width: 5px;
     }
 
@@ -382,7 +382,7 @@ input:focus {
 }
 
 input:disabled {
-  background-color: var(--primary-light-bg-color);
+  background-color: var(--bg-disabled);
 }
 
 input {

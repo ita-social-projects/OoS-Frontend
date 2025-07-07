@@ -16,13 +16,14 @@
 
     li {
       list-style: none;
-      color: var(--disabled-text-color);
+      color: var(--additional-light-text-color);
     }
   }
 
   .is_active {
-    color: var(--cancel-text-color);
+    color: var(--specific-light-text-color);
     pointer-events: none;
+    font-weight: bolder;
   }
 
   .hide {

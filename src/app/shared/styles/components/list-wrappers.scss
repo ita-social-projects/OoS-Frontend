@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: normal;
   line-height: 25px;
-  color: var(--list-text-color);
+  color: var(--primary-light-text-color);
   opacity: 1;
   margin: 0 2rem;
 }
@@ -24,9 +24,10 @@
   justify-content: space-between;
   align-items: center;
   min-height: 66px;
-  background: var(--banner-color);
-  color: var(--secondary-dark-text-color);
-  border-radius: 5px;
+  background: var(--secondary-light-bg-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: var(--specific-light-text-color);
+  border-radius: 10px;
   padding: 20px 24px;
   margin-bottom: 2rem;
 

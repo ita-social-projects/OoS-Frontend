@@ -1,8 +1,14 @@
 @use 'config';
 
 .config {
+  background-color: var(--bg-light-additional);
+
+  h4 {
+    color: var(--primary-dark-text-color);
+  }
+
   .edit-button {
-    color: var(--primary-accent-color);
+    color: var(--primary-dark-text-color);
     padding: 0 16px;
     line-height: normal;
 
@@ -27,6 +33,7 @@
       }
     }
     &.disabled {
+      color: var(--disabled-text-color);
       pointer-events: none;
       opacity: 0.5;
       cursor: not-allowed;
