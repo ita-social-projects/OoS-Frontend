@@ -28,7 +28,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: AbstractControl;
 
-  @Output() public subordinationChange = new EventEmitter<string>();
+  @Output() public subordinationChange = new EventEmitter<boolean>();
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
@@ -110,7 +110,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((institution: Institution) => {
-        this.subordinationChange.emit(institution.title);
+        const isMinSport = institution.title?.trim().toLowerCase() === 'мінспорт';
+        this.subordinationChange.emit(isMinSport);
         this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
         this.changeDetectorRef.markForCheck();
       });

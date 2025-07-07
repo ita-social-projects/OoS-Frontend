@@ -16,6 +16,7 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -74,15 +75,10 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
     return this.workshop?.price ? this.workshop.price : null;
   }
 
-  public onInstitutionSubordinationChange(institutionTitle: string): void {
-    this.isMinSportSelected = institutionTitle === 'Мінспорт';
-    this.showChampionsPathCheckbox = this.isMinSportSelected;
-    this.handleMinSportChange(this.isMinSportSelected);
-
-    const championsPathControl = this.AdditionalAboutGroup.get('championsPath');
-    if (!this.isMinSportSelected) {
-      championsPathControl?.setValue(false);
-    }
+  public onInstitutionSubordinationChange(isMinSport: boolean): void {
+    this.isMinSportSelected = isMinSport;
+    this.showChampionsPathCheckbox = isMinSport;
+    this.handleMinSportChange(isMinSport);
   }
 
   public ngOnInit(): void {
@@ -109,10 +105,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
   }
 
   public activateEditMode(): void {
-    if (this.workshop.institution) {
-      this.isMinSportSelected = this.workshop.institution === 'Мінспорт';
-      this.onInstitutionSubordinationChange(this.workshop.institution);
-    }
+    this.checkIfMinSport();
     this.AdditionalAboutGroup.patchValue(
       {
         isSelfFinanced: this.workshop.isSelfFinanced || false,
@@ -194,16 +187,20 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
   }
 
   private handleMinSportChange(isMinSport: boolean): void {
-    const groupTypeControl = this.AdditionalAboutGroup.get('workshopType');
+    const workshopTypeControl = this.AdditionalAboutGroup.get('workshopType');
+    const championsPathControl = this.AdditionalAboutGroup.get('championsPath');
 
     if (isMinSport) {
-      groupTypeControl.setValue(GroupType.Section);
-      groupTypeControl.disable();
+      workshopTypeControl.setValue(GroupType.Section, { emitEvent: false });
+      workshopTypeControl.disable({ emitEvent: false });
     } else {
-      groupTypeControl.enable();
+      workshopTypeControl.enable({ emitEvent: false });
+
       if (!this.workshop) {
-        groupTypeControl.setValue(GroupType.Workshop);
+        workshopTypeControl.setValue(GroupType.Workshop, { emitEvent: false });
       }
+
+      championsPathControl.setValue(false, { emitEvent: false });
     }
   }
 
@@ -266,5 +263,20 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       this.preferentialTermsOfParticipationControl.updateValueAndValidity();
       this.preferentialTermsOfParticipationControl.markAsUntouched();
     });
+  }
+
+  private checkIfMinSport(): void {
+    const institutionId = this.AdditionalAboutGroup.get('institutionId')?.value;
+
+    if (!institutionId) {
+      return;
+    }
+
+    const matchedInstitution = this.store
+      .selectSnapshot(MetaDataState.institutions)
+      ?.find((institution) => institution.id === institutionId);
+
+    const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === 'мінспорт';
+    this.onInstitutionSubordinationChange(isMinSport);
   }
 }
