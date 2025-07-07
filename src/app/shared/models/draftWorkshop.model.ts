@@ -37,7 +37,7 @@ export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredPropert
   isInclusive: boolean;
   educationalShift: string;
   ageComposition: string;
-  groupType: string;
+  workshopType: string;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
   isPaid?: boolean;

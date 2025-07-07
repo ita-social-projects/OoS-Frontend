@@ -118,7 +118,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.instituitionsHierarchy$
       .pipe(
         filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy),
-        takeUntil(this.destroy$),
+        takeUntil(this.destroy$)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         if (instituitionsHierarchy.length) {
