@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, throttleTime } from 'rxjs';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
@@ -16,6 +16,9 @@ import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { GetAllInstitutions } from 'shared/store/meta-data.actions';
+import { Constants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -26,9 +29,11 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
-
+  public showChampionsPathCheckbox = false;
   public AdditionalAboutGroup: FormGroup;
   public priceRadioBtn: FormControl = new FormControl(false);
+
+  public isMinSportSelected = false;
 
   protected readonly SpecialNeedsType = SpecialNeedsType;
   protected readonly SpecialNeedsTypeEnum = SpecialNeedsTypeEnum;
@@ -72,6 +77,12 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     return this.workshop?.price ? this.workshop.price : null;
   }
 
+  public onInstitutionSubordinationChange(isMinSport: boolean): void {
+    this.isMinSportSelected = isMinSport;
+    this.showChampionsPathCheckbox = isMinSport;
+    this.handleMinSportChange(isMinSport);
+  }
+
   public ngOnInit(): void {
     if (this.workshop) {
       this.activateEditMode();
@@ -97,23 +108,19 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
         ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
-        groupType: this.workshop.groupType || GroupType.Workshop,
         payRate: this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
-        preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation
+        preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation,
+        institutionHierarchyId: this.workshop.institutionHierarchyId || '',
+        institutionId: this.workshop.institutionId || '',
+        championsPath: this.workshop.isChampionPath || false,
+        workshopType: this.workshop.workshopType || GroupType.Workshop
       },
       { emitEvent: false }
     );
-
-    if (this.workshop.price) {
-      this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
-      this.priceRadioBtn.setValue(true);
-    } else {
-      this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(PayRateType.None, 'disable', false);
-    }
+    this.checkIfMinSport();
+    this.handlePriceChange();
   }
 
   private initializeForm(): void {
@@ -123,7 +130,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       specialNeedsType: new FormControl(this.SpecialNeedsType.None),
       educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
       ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
-      groupType: new FormControl(this.GroupType.Workshop, Validators.required),
+      workshopType: new FormControl(this.GroupType.Workshop, Validators.required),
       price: new FormControl({ value: null, disabled: true }, [
         Validators.required,
         Validators.min(ValidationConstants.MIN_PRICE),
@@ -131,7 +138,10 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       ]),
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl('')
+      preferentialTermsOfParticipation: new FormControl(''),
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
+      championsPath: new FormControl(false)
     });
   }
 
@@ -162,6 +172,34 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   private markFormAsDirtyOnUserInteraction(): void {
     if (!this.AdditionalAboutGroup.dirty) {
       this.AdditionalAboutGroup.markAsDirty({ onlySelf: true });
+    }
+  }
+
+  private handleMinSportChange(isMinSport: boolean): void {
+    const workshopTypeControl = this.AdditionalAboutGroup.get('workshopType');
+    const championsPathControl = this.AdditionalAboutGroup.get('championsPath');
+
+    if (isMinSport) {
+      workshopTypeControl.setValue(GroupType.Section, { emitEvent: false });
+      workshopTypeControl.disable({ emitEvent: false });
+    } else {
+      workshopTypeControl.enable({ emitEvent: false });
+
+      if (!this.workshop) {
+        workshopTypeControl.setValue(GroupType.Workshop, { emitEvent: false });
+      }
+      championsPathControl.setValue(false, { emitEvent: false });
+    }
+  }
+
+  private handlePriceChange(): void {
+    if (this.workshop.price) {
+      this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
+      this.priceRadioBtn.setValue(true);
+    } else {
+      this.setPriceControlValue(null, 'disable', false);
+      this.setPayRateControlValue(PayRateType.None, 'disable', false);
     }
   }
 
@@ -224,5 +262,24 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       this.preferentialTermsOfParticipationControl.updateValueAndValidity();
       this.preferentialTermsOfParticipationControl.markAsUntouched();
     });
+  }
+
+  private checkIfMinSport(): void {
+    const institutionId = this.AdditionalAboutGroup.get('institutionId')?.value;
+
+    if (!institutionId) {
+      return;
+    }
+
+    this.store.dispatch(new GetAllInstitutions(false));
+
+    this.store
+      .select(MetaDataState.institutions)
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((institutions) => {
+        const matchedInstitution = institutions.find((institution) => institution.id === institutionId);
+        const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === Constants.MIN_SPORT;
+        this.onInstitutionSubordinationChange(isMinSport);
+      });
   }
 }

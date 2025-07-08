@@ -37,19 +37,20 @@ export class WorkshopOtherRequiredProperties extends WorkshopMainRequiredPropert
   isInclusive: boolean;
   educationalShift: string;
   ageComposition: string;
-  groupType: string;
+  workshopType: string;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
   isPaid?: boolean;
   price: number;
   payRate: PayRateType;
+  institutionId: string;
+  institutionHierarchyId: string;
+  isChampionPath?: boolean;
 }
 
 export class WorkshopDescription extends WorkshopOtherRequiredProperties {
   $type?: WorkshopType = WorkshopType.WithDescription;
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  institutionId: string;
-  institutionHierarchyId: string;
   directionIds: number[];
   keywords: string[];
   additionalDescription: string;

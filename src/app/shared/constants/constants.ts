@@ -40,6 +40,7 @@ export class Constants {
 
   static readonly NO_SETTLEMENT = 'EMPTY_BANNERS.NO_SETTLEMENT';
   static readonly NO_TERRITORIAL_COMMUNITY = 'EMPTY_BANNERS.NO_TERRITORIAL_COMMUNITY';
+  static readonly MIN_SPORT = 'мінспорт';
   static readonly KYIV: Codeficator = {
     id: 31737,
     region: null,

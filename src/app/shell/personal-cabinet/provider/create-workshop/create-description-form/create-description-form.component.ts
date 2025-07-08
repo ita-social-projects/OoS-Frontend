@@ -45,7 +45,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   @Output() public passDescriptionFormGroup = new EventEmitter();
 
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
-
   public readonly validationConstants = ValidationConstants;
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
@@ -72,7 +71,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   public keyWords: string[] = [];
   public tags: Tag[] = [];
-
   public separatorKeysCodes = [ENTER];
 
   public tagsControl: FormControl = new FormControl<Tag[]>(
@@ -111,16 +109,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      coverage: new FormControl(this.Coverage.School),
-      institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required)
+      coverage: new FormControl(this.Coverage.School)
     });
   }
 
   public compareItems(item1: Direction, item2: Direction): boolean {
     return item1.id === item2.id;
   }
-
   public ngOnInit(): void {
     this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
       this.updateTagIds(selectedTags || []);

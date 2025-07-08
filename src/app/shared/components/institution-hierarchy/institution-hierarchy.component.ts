@@ -1,10 +1,11 @@
 import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
+import { Constants } from 'shared/constants/constants';
 import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 import { Provider } from '../../models/provider.model';
 import {
@@ -27,6 +28,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() public instituitionHierarchyIdFormControl: AbstractControl;
   @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: AbstractControl;
+
+  @Output() public subordinationChange = new EventEmitter<boolean>();
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
@@ -99,10 +102,20 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setHierarchySubscribes(): void {
-    this.instituitionIdFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((institutionId: string) => {
-      this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
-      this.changeDetectorRef.markForCheck();
-    });
+    this.instituitionIdFormControl.valueChanges
+      .pipe(
+        switchMap((institutionId) =>
+          this.institutions$.pipe(map((institutions) => institutions.find((inst) => inst.id === institutionId)))
+        ),
+        filter(Boolean),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((institution: Institution) => {
+        const isMinSport = institution.title?.trim().toLowerCase() === Constants.MIN_SPORT;
+        this.subordinationChange.emit(isMinSport);
+        this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
+        this.changeDetectorRef.markForCheck();
+      });
 
     this.instituitionsHierarchy$
       .pipe(
