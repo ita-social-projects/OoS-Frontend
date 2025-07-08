@@ -1,14 +1,11 @@
 @use 'config';
 
 .config {
-  background-color: var(--bg-light-additional);
-
-  h4 {
-    color: var(--primary-dark-text-color);
-  }
+  background-color: var(--secondary-light-bg-color);
+  color: var(--primary-light-text-color);
 
   .edit-button {
-    color: var(--primary-dark-text-color);
+    color: var(--primary-light-text-color);
     padding: 0 16px;
     line-height: normal;
 

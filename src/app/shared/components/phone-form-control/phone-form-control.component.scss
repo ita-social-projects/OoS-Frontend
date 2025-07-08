@@ -16,7 +16,7 @@
     }
 
     .country-selector-code {
-      color: var(--primary-dark-text-color);
+      color: var(--primary-light-text-color);
     }
 
     .phone-number-input {
@@ -67,7 +67,7 @@
 
 :host ::ng-deep .mat-mdc-input-element {
   margin-left: 0 !important;
-  color: var(--primary-dark-text-color) !important;
+  color: var(--primary-light-text-color) !important;
 }
 
 .phone-invalid {

@@ -42,7 +42,7 @@ body {
   font-size: 0.8125rem;
   line-height: 1.125rem;
   background-color: var(--body-color);
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color);
 }
 
 h1,
@@ -90,6 +90,10 @@ a {
   text-decoration: none;
   color: inherit;
   vertical-align: middle;
+}
+
+.mat-mdc-tab-header-pagination-chevron {
+  border-color: var(--primary-light-text-color) !important;
 }
 
 .mat-horizontal-stepper-header-container {
@@ -191,7 +195,7 @@ a {
       Open Sans,
       sans-serif;
     font-weight: 400;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
   }
 
   .mdc-checkbox {
@@ -208,8 +212,8 @@ a {
     }
 
     .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
-      background-color: var(--primary-accent-color) !important;
-      border-color: var(--primary-accent-color) !important;
+      background-color: var(--primary-light-bg-color) !important;
+      border-color: var(--primary-light-bg-color) !important;
     }
 
     .mdc-checkbox__background {
@@ -267,7 +271,7 @@ mat-card.mat-mdc-card {
       font-family: 'Open Sans', sans-serif !important;
       font-weight: 700;
       font-size: 13px;
-      color: var(--primary-dark-text-color) !important;
+      color: var(--primary-light-text-color) !important;
       line-height: 18px;
     }
 
@@ -398,4 +402,9 @@ input {
 
 .mat-mdc-select-panel {
   pointer-events: auto !important;
+}
+
+.mat-expansion-panel-header,
+.mat-expansion-panel {
+  background-color: var(--bg-light-additional) !important;
 }

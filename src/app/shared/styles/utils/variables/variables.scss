@@ -6,7 +6,7 @@
   --primary-accent-color: #ffffff;
 
   // Error color for validation messages, etc. – doesn't change in dark theme
-  --error-color: #fc3434;
+  --error-color: #d41414;
 
   // Background color for the body – changes in dark theme
   --body-color: #1a69f3;
@@ -36,7 +36,7 @@
   --secondary-cancel-text-color: #494545b9;
 
   // Disabled grey color for text/buttons – doesn't change in dark theme
-  --disabled-text-color: #888888;
+  --disabled-text-color: #131313;
 
   // Background color autofilled inputs – changes in dark theme
   --autofill-text-color: #e8f0fe;
@@ -66,13 +66,15 @@
   --banner-color: #e5e6f1;
 
   // Background for disabled components – doesn't change in dark theme
-  --bg-disabled: #888888;
+  --bg-disabled: #c1c1c1;
 
   // Background for cancel buttons/texts – doesn't change in dark theme
   --bg-cancel-color: #444444;
 
   // Additional light background – changes in dark theme
-  --bg-light-additional: #ffffff;
+  --bg-light-additional: #228bff;
+
+  --bg-specific-light: #ffffff;
 
   // Background for primary buttons
   --bg-button: #ffffff;

@@ -18,7 +18,7 @@ mat-button-toggle {
 
 .mat-button-toggle-group {
   align-items: center;
-  background: var(--primary-light-bg-color);
+  background: var(--bg-light-additional) !important;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   font-weight: bold;
