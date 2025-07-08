@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
+import { Constants } from 'shared/constants/constants';
 import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 import { Provider } from '../../models/provider.model';
 import {
@@ -106,11 +107,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         switchMap((institutionId) =>
           this.institutions$.pipe(map((institutions) => institutions.find((inst) => inst.id === institutionId)))
         ),
-        filter((institution) => !!institution),
+        filter(Boolean),
         takeUntil(this.destroy$)
       )
       .subscribe((institution: Institution) => {
-        const isMinSport = institution.title?.trim().toLowerCase() === 'мінспорт';
+        const isMinSport = institution.title?.trim().toLowerCase() === Constants.MIN_SPORT;
         this.subordinationChange.emit(isMinSport);
         this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
         this.changeDetectorRef.markForCheck();

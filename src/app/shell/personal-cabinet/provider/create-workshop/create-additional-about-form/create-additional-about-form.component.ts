@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,13 +18,14 @@ import { ValidationConstants } from 'shared/constants/validation';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
+import { Constants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-create-additional-about-form',
   templateUrl: './create-additional-about-form.component.html',
   styleUrls: ['./create-additional-about-form.component.scss']
 })
-export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, OnDestroy {
+export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
@@ -97,12 +98,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isMinSportSelected && this.AdditionalAboutGroup) {
-      this.handleMinSportChange(changes.isMinSportSelected.currentValue);
-    }
   }
 
   public activateEditMode(): void {
@@ -283,7 +278,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnChanges, On
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((institutions) => {
         const matchedInstitution = institutions.find((institution) => institution.id === institutionId);
-        const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === 'мінспорт';
+        const isMinSport = matchedInstitution?.title?.trim().toLowerCase() === Constants.MIN_SPORT;
         this.onInstitutionSubordinationChange(isMinSport);
       });
   }
