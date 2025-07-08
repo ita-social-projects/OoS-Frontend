@@ -10,24 +10,28 @@
   <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" minImages="1" maxImages="10">
   </app-validation-hint>
 
-  <app-info-form
-    *ngFor="let form of SectionItemsFormArray.controls"
-    [infoEditFormGroup]="form"
-    [index]="SectionItemsFormArray.controls.indexOf(form)"
-    [formAmount]="SectionItemsFormArray.controls.length"
-    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
-    (deleteForm)="onDeleteForm($event)">
-  </app-info-form>
-
-  <button
-    *ngIf="SectionItemsFormArray.controls.length < 10"
-    [disabled]="SectionItemsFormArray.invalid"
-    class="btn-add"
-    mat-button
-    (click)="onAddForm()">
-    <mat-icon class="mat-icon-add">add</mat-icon>
-    {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
-  </button>
+  <span class="font-semibold inline-block mt-2">
+    {{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}<span class="step-required">*</span>
+  </span>
+  <fieldset class="fieldset-additional-desc flex flex-col justify-center">
+    <app-info-form
+      *ngFor="let form of SectionItemsFormArray.controls"
+      [infoEditFormGroup]="form"
+      [index]="SectionItemsFormArray.controls.indexOf(form)"
+      [formAmount]="SectionItemsFormArray.controls.length"
+      [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
+      (deleteForm)="onDeleteForm($event)">
+    </app-info-form>
+    <button
+      *ngIf="SectionItemsFormArray.controls.length < 10"
+      [disabled]="SectionItemsFormArray.invalid"
+      class="btn-add"
+      mat-button
+      (click)="onAddForm()">
+      <mat-icon class="mat-icon-add">add</mat-icon>
+      {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
+    </button>
+  </fieldset>
 
   <label class="step-label">{{ 'FORMS.LABELS.COVERAGE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appearance="fill">

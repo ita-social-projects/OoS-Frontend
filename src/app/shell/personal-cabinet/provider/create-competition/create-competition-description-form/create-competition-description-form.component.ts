@@ -90,6 +90,8 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     if (this.competition) {
       this.activateEditMode();
+    } else {
+      this.onAddForm();
     }
 
     this.initializeFormControls();
