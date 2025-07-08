@@ -26,7 +26,7 @@ jobs:
         if: ${{ success() }}
         run: yarn run lint
       - name: Run build
-        run: yarn run build
+        run: yarn run build:qa
       - name: Run tests
         if: ${{ success() }}
         run: yarn run test
