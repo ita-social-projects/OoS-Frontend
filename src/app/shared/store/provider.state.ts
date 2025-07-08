@@ -328,7 +328,7 @@ export class ProviderState {
       new MarkFormDirty(false)
     ]);
     this.router.navigate([`/details/workshop/${payload.workshopId}`], {
-      queryParams: { status: 'Achievements' }
+      queryParams: { tab: 'Achievements' }
     });
   }
 

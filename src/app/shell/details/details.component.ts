@@ -68,6 +68,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.store.dispatch([new ResetProvider(), new ResetWorkshop(), new ResetCompetition()]);
       this.workshopType = params.entity;
       this.getEntity(params.id);
 

@@ -40,7 +40,8 @@ describe('WorkshopDetailsComponent', () => {
   };
   const mockStore = {
     dispatch: jest.fn(),
-    select: jest.fn().mockReturnValue(of({}))
+    select: jest.fn().mockReturnValue(of({})),
+    selectSnapshot: jest.fn().mockReturnValue(true)
   };
   const mockActions = {
     pipe: jest.fn().mockReturnValue(of({}))

@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store, Select } from '@ngxs/store';
-import { of, Subject, Observable } from 'rxjs';
+import { Actions, ofAction, Store } from '@ngxs/store';
+import { of, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -11,7 +11,7 @@ import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
+import { WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
@@ -30,7 +30,6 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { isRoleProvider } from 'shared/utils/provider.utils';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-workshop-details',
@@ -38,9 +37,6 @@ import { FeaturesList } from 'shared/models/features-list.model';
   styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
-  @ViewChild(MatTabGroup)
-  public tabGroup: MatTabGroup;
-
   @Input()
   public role: Role;
   @Input()
@@ -53,9 +49,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public displayActionCard: boolean;
   @Input()
   public currentProvider: Provider;
-
-  @Select(MetaDataState.featuresList)
-  public featuresList$: Observable<FeaturesList>;
 
   public readonly categoryIcons = CategoryIcons;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
@@ -80,6 +73,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public coverImage: string;
   public isAgeRestricted: boolean;
 
+  protected tabs: { alias: string; labelKey: string; visible: boolean }[];
   protected readonly Util = Util;
   protected readonly ModalConfirmationType = ModalConfirmationType;
   protected readonly isRoleProvider = isRoleProvider;
@@ -106,17 +100,19 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params.status);
-      this.selectedIndex = this.tabIndex;
+      this.tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
+      this.selectedIndex = this.tabIndex ?? 0;
     });
 
     this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
+
+    this.initTabs();
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesParams[event.index] }
+    const alias = this.tabs[event.index]?.alias;
+    this.router.navigate([], {
+      queryParams: { tab: alias }
     });
   }
 
@@ -186,5 +182,45 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         )
       )
     ]);
+  }
+
+  private initTabs(): void {
+    this.tabs = [
+      {
+        alias: 'AboutWorkshop',
+        labelKey: this.workshopTitles.AboutWorkshop,
+        visible: true
+      },
+      {
+        alias: 'AboutProvider',
+        labelKey: this.workshopTitles.AboutProvider,
+        visible: true
+      },
+      {
+        alias: 'Teachers',
+        labelKey: this.workshopTitles.Teachers,
+        visible: true
+      },
+      {
+        alias: 'OtherWorkshops',
+        labelKey: this.workshopTitles.OtherWorkshops,
+        visible: true
+      },
+      {
+        alias: 'Reviews',
+        labelKey: this.workshopTitles.Reviews,
+        visible: this.role !== Role.unauthorized
+      },
+      {
+        alias: 'Achievements',
+        labelKey: this.workshopTitles.Achievements,
+        visible: this.store.selectSnapshot(MetaDataState.featuresList).achievementManagement
+      },
+      {
+        alias: 'Contacts',
+        labelKey: this.workshopTitles.Contacts,
+        visible: true
+      }
+    ].filter((tab) => tab.visible);
   }
 }
