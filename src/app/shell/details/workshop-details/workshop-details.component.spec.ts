@@ -8,7 +8,7 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, Store, Actions } from '@ngxs/store';
+import { Actions, NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
@@ -158,17 +158,36 @@ describe('WorkshopDetailsComponent', () => {
     });
   });
 
-  it('should change tab and update query params', () => {
-    jest.spyOn(mockRouter, 'navigate');
+  describe('Tabs', () => {
+    it('should change tab and update query params', () => {
+      jest.spyOn(mockRouter, 'navigate');
 
-    const mockEvent: Partial<MatTabChangeEvent> = {
-      index: 1
-    };
+      const mockEvent: Partial<MatTabChangeEvent> = {
+        index: 1
+      };
 
-    component.onTabChange(mockEvent as MatTabChangeEvent);
+      component.onTabChange(mockEvent as MatTabChangeEvent);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith([], {
-      queryParams: { tab: 'AboutProvider' }
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], {
+        queryParams: { tab: 'AboutProvider' }
+      });
+    });
+
+    it('should change tab according to initial query params', () => {
+      mockActivatedRoute.queryParams = of({ tab: 'Teachers' });
+
+      component.ngOnInit();
+
+      expect(component.selectedIndex).toEqual(2);
+    });
+
+    it('should change tab to 0 and update query params if initial params arent correct', () => {
+      mockActivatedRoute.queryParams = of({ tab: 'UnexistingTab' });
+      component.selectedIndex = 1;
+
+      component.ngOnInit();
+
+      expect(component.selectedIndex).toEqual(0);
     });
   });
 });

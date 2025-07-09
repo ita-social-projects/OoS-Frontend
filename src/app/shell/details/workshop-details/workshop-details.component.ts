@@ -69,7 +69,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public isImageBroken: boolean = false;
   public workshopStatusOpen: boolean;
   public selectedIndex: number;
-  public tabIndex: number;
   public coverImage: string;
   public isAgeRestricted: boolean;
 
@@ -99,14 +98,14 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
+    this.initTabs();
+
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
-      this.selectedIndex = this.tabIndex ?? 0;
+      const tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
+      this.selectedIndex = tabIndex !== -1 ? tabIndex : 0;
     });
 
     this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
-
-    this.initTabs();
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
