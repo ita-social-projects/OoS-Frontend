@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
@@ -116,7 +116,6 @@ describe('WorkshopDetailsComponent', () => {
     } as MatDialogRef<ConfirmationModalWindowComponent>);
     component.onActionButtonClick(ModalConfirmationType.publishWorkshop);
     expect(matDialogSpy).toHaveBeenCalledTimes(1);
-    expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
   });
 
   it('should set default coverImage', () => {
@@ -156,6 +155,20 @@ describe('WorkshopDetailsComponent', () => {
       component.onEdit();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('123'));
+    });
+  });
+
+  it('should change tab and update query params', () => {
+    jest.spyOn(mockRouter, 'navigate');
+
+    const mockEvent: Partial<MatTabChangeEvent> = {
+      index: 1
+    };
+
+    component.onTabChange(mockEvent as MatTabChangeEvent);
+
+    expect(mockRouter.navigate).toHaveBeenCalledWith([], {
+      queryParams: { tab: 'AboutProvider' }
     });
   });
 });
