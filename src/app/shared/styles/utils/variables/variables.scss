@@ -5,7 +5,7 @@
   // Primary accent color for buttons, links, etc. – changes
   --primary-accent-color: #ffffff;
 
-  // Error color for validation messages, etc. – doesn't change in dark theme
+  // Error color for validation messages, etc. – changes
   --error-color: #d70000;
 
   // Background color for the body – changes in dark theme
@@ -17,11 +17,8 @@
   // Secondary text color – doesn't change in dark theme
   --secondary-light-text-color: #aaaaaa;
 
-  // Secondary text color – doesn't change in dark theme
+  // Secondary text color – changes
   --specific-text-color: #1a69f3;
-
-  // grey text color for contact details – changes in dark theme
-  --contacts-light-text-color: #aaaaaa;
 
   // Additional lighter text color – doesn't change in dark theme
   --additional-light-text-color: #d5d5d5;
@@ -29,10 +26,10 @@
   // Static light text color - doesn’t change in dark theme
   --specific-light-text-color: #ffffff;
 
-  // Primary grey color for text/buttons – changes in dark theme
+  // Primary grey color for text/buttons – doesn't change in dark theme
   --cancel-text-color: #444444;
 
-  // Secondary grey color for text/buttons  – changes in dark theme
+  // Secondary grey color for text/buttons  – doesn't change in dark theme
   --secondary-cancel-text-color: #494545b9;
 
   // Disabled grey color for text/buttons – doesn't change in dark theme
@@ -74,13 +71,16 @@
   // Additional light background – changes in dark theme
   --bg-light-additional: #228bff;
 
+  // Specific white background – changes in dark theme
   --bg-specific-light: #ffffff;
 
-  // Background for primary buttons
+  // Background for primary buttons - doesn't change in dark theme
   --bg-button: #ffffff;
 
+  // White text color for spesific buttons – changes
   --light-text-button: #ffffff;
 
+  // Text color for specific buttons – doesn't change in dark theme
   --specific-text-button: #1a69f3;
 
   // Background for disabled buttons – doesn't change in dark theme
