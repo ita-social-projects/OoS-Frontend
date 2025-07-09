@@ -72,6 +72,7 @@ $dark-theme: mat.define-dark-theme(
   --secondary-light-text-color: #ece5e5;
   --primary-dark-text-color: #ffffff;
   --contacts-light-text-color: #ffffff;
+  --light-text-button: #1a69f3;
   --list-text-color: #494545;
   --body-color: #02164e;
   --primary-accent-color: #4786f5;
@@ -98,9 +99,5 @@ $dark-theme: mat.define-dark-theme(
         color: var(--specific-light-text-color) !important;
       }
     }
-  }
-
-  .competition-card {
-    background-color: lighten(#02164e, 7%);
   }
 }

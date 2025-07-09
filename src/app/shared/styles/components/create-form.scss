@@ -72,6 +72,10 @@
       resize: vertical;
     }
 
+    &::placeholder {
+      color: var(--primary-light-text-color);
+    }
+
     textarea::-webkit-scrollbar {
       width: 10px;
     }

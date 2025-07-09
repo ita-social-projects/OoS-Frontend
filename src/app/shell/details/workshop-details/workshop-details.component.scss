@@ -40,7 +40,7 @@
     padding: 0 30px;
     transition:
       background-color 0.3s ease,
-      color 0.3s ease; /* Плавний ефект */
+      color 0.3s ease;
 
     &-moderator-message {
       font-family: Innerspace, sans-serif;
@@ -54,9 +54,6 @@
   &-block:hover {
     background-color: #ece8e8;
   }
-}
-
-.reject-block:hover {
 }
 
 .details-link {

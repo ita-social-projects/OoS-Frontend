@@ -30,7 +30,7 @@
   text-overflow: ellipsis;
 
   &::placeholder {
-    color: var(--cancel-text-color) !important;
+    color: var(--primary-dark-text-color) !important;
     font-family: 'Open Sans', sans-serif;
   }
 }

@@ -11,3 +11,14 @@ small.warning {
 .image-cropper-wrapper {
   min-height: 50vh;
 }
+
+.btn-wrapper .btn {
+  background-color: var(--body-color) !important;
+  color: var(--primary-light-text-color) !important;
+}
+
+.btn-wrapper .btn:last-child {
+  border: 1px solid var(--primary-dark-text-color) !important;
+  color: var(--primary-dark-text-color) !important;
+  background-color: transparent !important;
+}

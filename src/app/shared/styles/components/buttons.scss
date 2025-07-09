@@ -13,13 +13,12 @@
 
   &-reset,
   &-add {
-    color: var(--specific-text-color);
     padding: 2px 30px;
     border-radius: 20px;
   }
 
   .btn-add {
-    color: var(--specific-text-color);
+    color: var(--specific-text-button);
     .mat-icon-add {
       vertical-align: middle;
       height: 26px;
