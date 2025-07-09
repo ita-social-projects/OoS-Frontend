@@ -27,7 +27,6 @@ import { WorkshopDetailsComponent } from './workshop-details.component';
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
-  let expectingMatDialogData: object;
   let matDialog: MatDialog;
   let matDialogSpy: jest.SpyInstance;
   const mockActivatedRoute = {
