@@ -93,7 +93,7 @@
         <app-competition-judges [teachers]="competition.judges"></app-competition-judges>
       </mat-tab>
       <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Contacts | translate | uppercase }}">
-        <app-contacts-card [provider]="provider" [competition]="competition"></app-contacts-card>
+        <app-contacts-card [entity]="competition"></app-contacts-card>
       </mat-tab>
     </mat-tab-group>
   </div>

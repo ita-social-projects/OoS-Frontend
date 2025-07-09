@@ -6,7 +6,6 @@ import { Store } from '@ngxs/store';
 import { MaterialModule } from 'shared/modules/material.module';
 import { Address } from 'shared/models/address.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { Provider } from 'shared/models/provider.model';
 import { WINDOW } from 'ngx-window-token';
 import { Platform } from '@angular/cdk/platform';
 import { ActivatedRoute } from '@angular/router';
@@ -62,19 +61,12 @@ describe('ContactsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactsCardComponent);
     component = fixture.componentInstance;
-    component.workshop = {} as Workshop;
-    component.provider = {} as Provider;
+    component.entity = {} as Workshop;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call getContactsData on init', () => {
-    jest.spyOn(component, 'getContactsData');
-    component.ngOnInit();
-    expect(component.getContactsData).toHaveBeenCalled();
   });
 
   it('should get full address correctly', () => {
@@ -86,31 +78,6 @@ describe('ContactsComponent', () => {
     expect(component.getFullAddress(address)).toBe('City, Main St, 123');
   });
 
-  describe('getContactsData', () => {
-    it('should get contacts from provider if route is "info"', () => {
-      routeMock.snapshot.routeConfig.path = 'info';
-      component.provider = { contacts: [{ name: 'John Doe', phone: '123456789' }] } as unknown as Provider;
-      component.getContactsData();
-      expect(component.contacts).toEqual([{ name: 'John Doe', phone: '123456789' }]);
-    });
-
-    it('should get contacts from store for valid entities', () => {
-      const entities = ['workshop', 'competition', 'provider'];
-      entities.forEach((entity) => {
-        routeMock.snapshot.paramMap.get.mockReturnValue(entity);
-        component.getContactsData();
-        expect(storeMock.selectSnapshot).toHaveBeenCalledWith(expect.any(Function));
-      });
-    });
-
-    it('should log warning for unknown entity type', () => {
-      const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
-      routeMock.snapshot.paramMap.get.mockReturnValue('unknownEntity');
-      component.getContactsData();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Unknown entity type: unknownEntity');
-      consoleWarnSpy.mockRestore();
-    });
-  });
   describe('mapLink', () => {
     const originalUserAgent = navigator.userAgent;
 

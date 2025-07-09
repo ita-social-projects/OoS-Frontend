@@ -209,7 +209,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   public onCancel(): void {
-    this.router.navigate(['/details/workshop', this.workshopId], { queryParams: { status: 'Achievements' } });
+    this.router.navigate(['/details/workshop', this.workshopId], { queryParams: { tab: 'Achievements' } });
   }
 
   public onRemoveItem(item: string, control: string): void {

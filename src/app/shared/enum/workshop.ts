@@ -34,16 +34,6 @@ export enum WorkshopModerationDraftStatus {
   EditedByModerator = 'EditedByModerator'
 }
 
-export enum DetailsTabTitlesParams {
-  'AboutWorkshop',
-  'AboutProvider',
-  'Teachers',
-  'OtherWorkshops',
-  'Reviews',
-  'Achievements',
-  'Contacts'
-}
-
 export enum FormOfLearning {
   Offline = 'Offline',
   Online = 'Online',

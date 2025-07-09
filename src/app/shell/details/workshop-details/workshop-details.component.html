@@ -135,30 +135,21 @@
       </div>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
-        <app-workshop-about [workshop]="workshop"></app-workshop-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate | uppercase }}">
-        <app-provider-about [provider]="provider"></app-provider-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
-        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
-      </mat-tab>
-      <mat-tab *ngIf="role !== Role.unauthorized" class="label" [label]="workshopTitles.Reviews | translate | uppercase">
-        <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
-      </mat-tab>
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
       <mat-tab
-        *ngIf="(featuresList$ | async)?.achievementManagement"
+        *ngFor="let tab of tabs"
         class="label"
-        label="{{ workshopTitles.Achievements | translate | uppercase }}">
-        <app-achievements [workshop]="workshop"></app-achievements>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Contacts | translate | uppercase }}">
-        <app-contacts-card [workshop]="workshop" [provider]="provider"></app-contacts-card>
+        [label]="tab.labelKey | translate | uppercase"
+      >
+        <ng-container [ngSwitch]="tab.alias">
+          <app-workshop-about *ngSwitchCase="'AboutWorkshop'" [workshop]="workshop"></app-workshop-about>
+          <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
+          <app-workshop-teachers *ngSwitchCase="'AboutTeachers'" [teachers]="workshop.teachers"></app-workshop-teachers>
+          <app-all-provider-workshops *ngSwitchCase="'OtherWorkshops'" [providerParameters]="providerParameters"></app-all-provider-workshops>
+          <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
+          <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="workshop"></app-contacts-card>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
