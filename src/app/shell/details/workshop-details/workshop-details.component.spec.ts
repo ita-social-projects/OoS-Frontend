@@ -36,7 +36,7 @@ describe('WorkshopDetailsComponent', () => {
         get: jest.fn()
       }
     },
-    queryParams: of({ status: '111' })
+    queryParams: of({ tab: '111' })
   };
   const mockStore = {
     dispatch: jest.fn(),

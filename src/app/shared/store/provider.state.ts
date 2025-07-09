@@ -392,7 +392,7 @@ export class ProviderState {
     ]);
     this.router
       .navigate([`/details/workshop/${payload.workshopId}`], {
-        queryParams: { status: 'Achievements' }
+        queryParams: { tab: 'Achievements' }
       })
       .then(() => {
         window.location.reload();
