@@ -3,7 +3,7 @@
 }
 
 .search-bar {
-  background: var(--bg-light-additional);
+  background: var(--bg-specific-light);
   border: 1px solid var(--bg-light-additional);
   box-sizing: border-box;
   border-radius: 60px;
@@ -34,7 +34,7 @@
   font-family: Innerspace, sans-serif;
   font-weight: 700;
   line-height: 14.6px;
-  color: var(--bg-light-additional);
+  color: var(--primary-light-text-color);
 }
 
 button {

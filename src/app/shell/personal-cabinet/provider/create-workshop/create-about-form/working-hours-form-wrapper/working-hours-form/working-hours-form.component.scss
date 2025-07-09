@@ -45,7 +45,7 @@
 }
 
 .mat-icon-delete {
-  color: var(--primary-accent-color);
+  color: var(--primary-light-text-color);
   &:hover {
     opacity: 0.5;
     cursor: pointer;
@@ -105,5 +105,5 @@ button {
 
 .start-time-input {
   background-color: transparent;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }

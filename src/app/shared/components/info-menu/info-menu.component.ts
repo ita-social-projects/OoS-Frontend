@@ -9,7 +9,6 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 })
 export class InfoMenuComponent implements AfterViewInit {
   @Input() public isBigIcon: boolean;
-  @Input() public isDarkIcon: boolean;
   @Input() public type: InfoMenuType = InfoMenuType.Text;
   @Input() public isOpenByDefault: boolean;
 

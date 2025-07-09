@@ -25,10 +25,10 @@
     height: 18px;
     padding: 0 0 0 10px;
     background: transparent;
-    color: var(--primary-dark-text-color);
+    color: var(--primary-light-text-color);
 
     &::placeholder {
-      color: var(--primary-dark-text-color);
+      color: var(--primary-light-text-color);
     }
   }
 }

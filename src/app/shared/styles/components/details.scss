@@ -13,7 +13,7 @@
 }
 
 .container {
-  background: var(--bg-light-additional);
+  background: var(--bg-specific-light);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   padding: 0;
@@ -170,7 +170,7 @@
   align-items: center;
   font-size: 0.813rem;
   line-height: 1.125rem;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   padding: 0;
   margin-bottom: 1rem;
 }

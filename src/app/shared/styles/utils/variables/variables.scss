@@ -6,7 +6,7 @@
   --primary-accent-color: #ffffff;
 
   // Error color for validation messages, etc. – doesn't change in dark theme
-  --error-color: #d41414;
+  --error-color: #d70000;
 
   // Background color for the body – changes in dark theme
   --body-color: #1a69f3;
@@ -78,6 +78,8 @@
 
   // Background for primary buttons
   --bg-button: #ffffff;
+
+  --specific-text-button: #1a69f3;
 
   // Background for disabled buttons – doesn't change in dark theme
   --bg-disabled-button: #dddcdc;

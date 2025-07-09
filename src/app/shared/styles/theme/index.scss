@@ -110,10 +110,10 @@ a {
         color: var(--primary-accent-color);
       }
 
-      &-state-done {
-        color: var(--primary-dark-text-color);
-        border: 2px solid var(--primary-dark-text-color);
-      }
+      //&-state-done {
+      //  color: var(--primary-dark-text-color);
+      //  border: 2px solid var(--primary-dark-text-color);
+      //}
 
       .mat-icon {
         font-weight: inherit;
@@ -203,7 +203,7 @@ a {
     position: relative;
 
     .mdc-checkbox__checkmark-path {
-      stroke: white;
+      stroke: var(--specific-text-color);
     }
 
     .mdc-checkbox__native-control {
@@ -212,13 +212,15 @@ a {
     }
 
     .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
-      background-color: var(--primary-light-bg-color) !important;
-      border-color: var(--primary-light-bg-color) !important;
+      background-color: var(--bg-specific-light) !important;
+      border-color: var(--bg-specific-light) !important;
+      color: var(--specific-text-color) !important;
     }
 
     .mdc-checkbox__background {
       top: 0;
       left: 0;
+      border-color: var(--primary-light-text-color) !important;
     }
 
     .mdc-checkbox__ripple {
@@ -322,6 +324,11 @@ input:-webkit-autofill:active {
   .mdc-label {
     padding: 0.8rem 0 0.8rem 8px;
     font-size: 13px;
+    color: var(--primary-light-text-color);
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+    border-color: var(--primary-light-text-color) !important;
   }
 
   .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
@@ -333,7 +340,7 @@ input:-webkit-autofill:active {
     }
 
     .mdc-radio__inner-circle {
-      border-color: var(--primary-light-text-color);
+      border-color: var(--primary-light-bg-color);
     }
   }
 }

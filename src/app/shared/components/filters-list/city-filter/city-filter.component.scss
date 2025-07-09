@@ -28,7 +28,7 @@
 .input-filter {
   text-transform: capitalize;
   font-family: 'Innerspace', sans-serif;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-dark-text-color) !important;
   font-size: 1.125rem !important;
   line-height: 1.25rem;
   font-weight: 500 !important;
@@ -77,7 +77,7 @@ h4 {
 
 .city-confirmation {
   position: absolute;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   width: 300px;
   min-height: 130px;
   border-radius: 10px;
@@ -120,9 +120,9 @@ h4 {
       margin: 0 auto;
 
       &-change {
-        color: var(--cancel-text-color) !important;
+        color: var(--primary-dark-text-color) !important;
         background-color: transparent !important;
-        border-color: var(--cancel-text-color) !important;
+        border-color: var(--primary-dark-text-color) !important;
       }
     }
   }

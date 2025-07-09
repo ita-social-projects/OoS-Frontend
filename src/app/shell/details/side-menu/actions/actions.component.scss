@@ -10,12 +10,10 @@
 
 .button-msg {
   background-color: var(--primary-light-bg-color);
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .button-application {
-  color: var(--specific-light-text-color);
-
   &:disabled {
     color: var(--secondary-dark-text-color);
   }

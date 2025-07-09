@@ -24,7 +24,7 @@ table {
 .search {
   padding-left: 1rem;
   background-color: var(--bg-light-additional) !important;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 @media (max-width: 1200px) {
@@ -120,6 +120,7 @@ table {
   .mat-mdc-form-field-infix .mdc-floating-label {
     top: 18px;
     width: 100%;
+    color: var(--primary-light-text-color);
 
     &--float-above {
       transform: translateY(-90%) scale(0.75);

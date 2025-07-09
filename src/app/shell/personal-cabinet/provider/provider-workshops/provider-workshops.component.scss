@@ -8,6 +8,10 @@
   justify-content: flex-end;
 }
 
+.unfinished-banner {
+  background-color: var(--bg-specific-light);
+}
+
 @media (max-width: 800px) {
   .searchbar {
     justify-content: center;

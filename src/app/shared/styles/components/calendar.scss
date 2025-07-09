@@ -8,13 +8,14 @@
   .mat-calendar {
     max-width: 320px;
     max-height: fit-content;
-    background: var(--bg-light-additional);
+    background: var(--bg-specific-light);
     border-radius: 24px;
   }
 
   .mat-datepicker-actions {
     box-sizing: border-box;
     padding: 0 8px 8px 8px;
+    background-color: var(--bg-specific-light);
 
     .btn {
       min-width: 130px;

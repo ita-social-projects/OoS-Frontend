@@ -1,4 +1,4 @@
-<mat-card *ngIf="competitionData">
+<mat-card *ngIf="competitionData" class="competition-card">
   <ng-container *ngIf="role === Role.parent; then UserWorkshopView; else ProviderActions"></ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">

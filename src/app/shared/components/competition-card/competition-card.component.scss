@@ -2,6 +2,10 @@
 @use 'application-statuses';
 @use 'workshop-status';
 
+.competition-card {
+  //background-color: lighten(#3178F4FF ,10%);
+}
+
 .error-message {
   color: orange;
 

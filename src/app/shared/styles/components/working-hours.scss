@@ -8,7 +8,7 @@
   border: 1px solid var(--input-light-color);
   background: var(--primary-light-bg-color);
   &-selected {
-    background: rgba(56, 73, 249, 0.07);
+    background: rgba(64, 70, 133, 0.7);
     border: 1px solid var(--input-light-color);
   }
   &:first-child {
@@ -26,7 +26,7 @@
     Open Sans,
     sans-serif;
   font-weight: 700;
-  color: var(--secondary-light-text-color);
+  color: var(--primary-light-text-color);
   margin: 0;
   padding: 5px;
 }
