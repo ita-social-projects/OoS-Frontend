@@ -87,4 +87,26 @@ describe('StretchTableDirective', () => {
     const maxWidth = directive.getMaxWidth();
     expect(maxWidth).toEqual(150);
   });
+
+  it('should not resize if selectedTh is undefined', () => {
+    directive.onResize();
+    expect(mockRenderer.setStyle).not.toHaveBeenCalled();
+  });
+
+  it('should resize if selectedTh is defined', () => {
+    directive = new StretchTableDirective(document, new ElementRef(element), mockRenderer, mockViewContainerRef);
+    const th = document.querySelector('th.mat-column-main') as HTMLElement;
+    const div = document.createElement('div');
+    div.classList.add('resize-border');
+    th.appendChild(div);
+    th.style.position = 'sticky';
+    Object.defineProperty(th, 'offsetWidth', { value: 400 });
+    jest.spyOn(document, 'querySelectorAll');
+    directive.onMouseDown({ target: div } as unknown as MouseEvent);
+    directive.onResize();
+    expect(directive.selectedTh).toBeTruthy();
+    expect(th.offsetWidth).toBeGreaterThanOrEqual(directive.maxWidth);
+    expect(document.querySelectorAll).toHaveBeenCalled();
+    expect(mockRenderer.setStyle).toHaveBeenCalled();
+  });
 });
