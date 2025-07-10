@@ -21,6 +21,10 @@ export class StretchTableDirective implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   public onResize(): void {
+    if (!this.selectedTh) {
+      return;
+    }
+
     this.tableContainerWidth = (this.selectedTh.closest('.table-container') as HTMLElement).offsetWidth;
     this.maxWidth = this.getMaxWidth();
     (
