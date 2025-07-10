@@ -109,4 +109,19 @@ describe('StretchTableDirective', () => {
     expect(document.querySelectorAll).toHaveBeenCalled();
     expect(mockRenderer.setStyle).toHaveBeenCalled();
   });
+
+  it('should remove event listeners on mouse up', () => {
+    directive = new StretchTableDirective(document, new ElementRef(element), mockRenderer, mockViewContainerRef);
+    const th = document.querySelector('th.mat-column-main') as HTMLElement;
+    const div = document.createElement('div');
+    div.classList.add('resize-border');
+    th.appendChild(div);
+    jest.spyOn(document, 'addEventListener');
+    jest.spyOn(document, 'removeEventListener');
+    directive.onMouseDown({ target: div } as unknown as MouseEvent);
+    expect(document.addEventListener).toHaveBeenCalledTimes(2);
+    const mouseUpEvent = new MouseEvent('mouseup', { bubbles: true });
+    document.dispatchEvent(mouseUpEvent);
+    expect(document.removeEventListener).toHaveBeenCalled();
+  });
 });
