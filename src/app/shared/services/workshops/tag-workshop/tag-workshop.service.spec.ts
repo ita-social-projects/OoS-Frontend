@@ -49,7 +49,7 @@ describe('TagService', () => {
     });
   });
 
-  it('should NOT send request if tag feature is enabled', (done) => {
+  it('should NOT send request if tag feature is disabled', (done) => {
     store.selectSnapshot = jest.fn().mockReturnValue({ enableWorkshopTags: false });
 
     service.getTags().subscribe({
