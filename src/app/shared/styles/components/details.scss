@@ -132,23 +132,13 @@
   margin-bottom: 0;
 }
 
-:host ::ng-deep .mat-mdc-tab {
-  .mdc-tab-indicator__content--underline {
-    border-color: var(--primary-dark-text-color);
-  }
-
-  .mdc-tab--active .mdc-tab__text-label {
-    color: var(--primary-dark-text-color);
-  }
-}
-
 :host ::ng-deep mat-tab-label.mat-tab-label-active {
-  color: var(--primary-accent-color);
+  color: var(--specific-text-color);
   opacity: 1;
 }
 
 :host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
-  background-color: var(--primary-accent-color);
+  background-color: var(--specific-text-color);
   height: 2px;
 }
 
