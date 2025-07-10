@@ -54,24 +54,25 @@ describe('StretchTableDirective', () => {
     mockRenderer = {
       removeChild: jest.fn(),
       appendChild: jest.fn(),
-      setStyle: jest.fn((el, style, value) => {
-        el.style[style] = value;
-      })
+      setStyle: jest.fn()
     } as unknown as Renderer2;
 
     element = container.querySelector('table');
+  });
 
-    directive = new StretchTableDirective(document, new ElementRef(element), mockRenderer, mockViewContainerRef);
-    directive.ngAfterViewInit();
-    jest.spyOn(Math, 'abs').mockReturnValue(20);
-    expect(mockRenderer.setStyle).toHaveBeenCalledWith(element, 'visibility', 'hidden');
+  afterEach(() => {
+    document.body.innerHTML = '';
   });
 
   it('should create an instance', () => {
+    directive = new StretchTableDirective(document, new ElementRef(element), mockRenderer, mockViewContainerRef);
     expect(directive).toBeTruthy();
   });
 
   it('should add resize structure', () => {
+    directive = new StretchTableDirective(document, new ElementRef(element), mockRenderer, mockViewContainerRef);
+    directive.ngAfterViewInit();
+    expect(mockRenderer.setStyle).toHaveBeenCalledWith(element, 'visibility', 'hidden');
     directive.addResizeStructure();
     expect(mockRenderer.removeChild).toHaveBeenCalledTimes(2);
     expect(mockViewContainerRef.createComponent).toHaveBeenCalledTimes(2);
