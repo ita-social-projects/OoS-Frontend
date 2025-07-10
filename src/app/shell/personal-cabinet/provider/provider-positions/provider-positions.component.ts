@@ -32,7 +32,7 @@ export class ProviderPositionsComponent extends ProviderComponent implements OnI
   public readonly ModeConstants = ModeConstants;
   public readonly validationConstants = ValidationConstants;
   public readonly NoResultsTitle = NoResultsTitle;
-  public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'action'];
+  public displayedColumns: string[] = ['fullName', 'shortName', 'description', 'rate', 'tariff', 'seatsAmount', 'createdAt', 'actions'];
   public dataSource: MatTableDataSource<Position> = new MatTableDataSource<Position>();
   public totalElements = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;

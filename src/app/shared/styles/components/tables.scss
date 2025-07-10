@@ -1,33 +1,62 @@
 table {
+  height: 100%;
   width: 100%;
   table-layout: fixed;
+  padding-left: 5px;
+
+  *:not(mat-icon, i) {
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+tr {
+  height: 40px;
+}
+
+th {
+  font-size: 14px;
+  font-weight: 700;
+  color: #888888;
+  height: inherit;
+}
+
+td {
+  font-size: 13px;
+  padding-right: 0;
+}
+
+th,
+td {
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
+  padding-left: 10px;
+
+  &:first-of-type {
+    padding-left: 24px;
+  }
 }
 
 .wrapper {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   &-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
     align-items: center;
+
     @media (max-width: 767px) {
       flex-direction: column;
     }
   }
 }
+
 .table-container {
   align-items: baseline;
   overflow: auto;
   border-radius: 5px;
-
-  table {
-    padding-left: 5px;
-  }
-
-  @media (max-width: 763px) {
-    flex-direction: column;
-  }
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 ::ng-deep .mat-sort-header-content {
@@ -42,63 +71,33 @@ table {
   border-right: 1px solid var(--input-light-color);
 }
 
-.icons {
+td.mat-column-actions, .actions {
+  width: fit-content;
+  padding: 0 10px !important;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-  .action-icon {
-    font-size: var(--mdc-icon-button-icon-size);
+  button {
+    color: var(--secondary-light-text-color);
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:hover {
-      opacity: 0.5;
-      color: var(--primary-accent-color);
+    .mat-icon {
+      font-size: 25px;
     }
   }
-}
-
-.fas {
-  margin-right: 5px;
-}
-
-th {
-  height: inherit;
-}
-
-th,
-td {
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-th.mat-mdc-header-cell,
-td.mat-mdc-cell,
-td.mat-mdc-footer-cell {
-  padding-left: 10px;
-
-  &:first-of-type {
-    padding-left: 24px;
-  }
-}
-
-td.mat-mdc-cell,
-td.mat-mdc-footer-cell {
-  padding-right: 0;
 }
 
 ::-webkit-scrollbar {
   height: 12px;
 }
 
-.container {
-  margin-left: 1rem;
-  @media (max-width: 676px) {
-    margin-left: 0;
-  }
-}
-
-.star-column {
-  padding: 0 !important;
-}
-
-.material-icons {
-  font-size: 16px;
+.fas {
+  margin-right: 5px;
 }
