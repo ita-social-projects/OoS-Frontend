@@ -9,7 +9,7 @@ mat-button-toggle {
 }
 
 .mat-button-toggle-checked {
-  background-color: lighten(#1a69f3, 25%);
+  background-color: var(--button-toggle-checked);
   color: var(--primary-accent-color);
   border-top-left-radius: 1.2rem;
   border-bottom-left-radius: 1.2rem;

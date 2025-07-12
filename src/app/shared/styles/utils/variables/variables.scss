@@ -86,6 +86,10 @@
   // Background for disabled buttons – doesn't change in dark theme
   --bg-disabled-button: #dddcdc;
 
+  --selected-working-hours-toggle: rgba(64, 70, 133, 0.7);
+
+  --button-toggle-checked: lighten(#1a69f3, 25%);
+
   // upload-excel.component styles
   --duplicated-value: #fd0707b3;
   --empty-field: #fd07071a;
@@ -93,4 +97,12 @@
   --wrong-language: #22b01280;
   --wrong-format: #ffff0080;
   --length-warning-message: #ff0000;
+
+  // applications statuses colors
+  --approved: #2aff8a;
+  --pending: #ffd048;
+  --recheck: #ff8000;
+  --blocked: #ff3125;
+  --notProvided: #2a2525;
+  --acceptedForSelection: #ffffff;
 }

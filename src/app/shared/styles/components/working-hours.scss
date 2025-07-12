@@ -8,7 +8,7 @@
   border: 1px solid var(--input-light-color);
   background: var(--primary-light-bg-color);
   &-selected {
-    background: rgba(64, 70, 133, 0.7);
+    background: var(--selected-working-hours-toggle);
     border: 1px solid var(--input-light-color);
   }
   &:first-child {

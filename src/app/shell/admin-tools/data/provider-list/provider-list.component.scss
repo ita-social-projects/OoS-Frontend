@@ -10,24 +10,24 @@
 }
 
 .Approved {
-  color: #2aff8a;
+  color: var(--approved);
 }
 
 .Pending {
-  color: #ffd048;
+  color: var(--pending);
 }
 
 .Editing,
 .Recheck {
-  color: #ff8000;
+  color: var(--recheck);
 }
 
 .Blocked {
-  color: #ff3125;
+  color: var(--blocked);
 }
 
 .NotProvided {
-  color: #2a2525;
+  color: var(--notProvided);
 }
 
 .wrapper-provider-list {
