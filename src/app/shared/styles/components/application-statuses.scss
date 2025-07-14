@@ -1,20 +1,20 @@
 .Approved,
 .StudyingForYears {
-  color: var(--approved);
+  color: var(--status-approved);
 }
 .Pending {
-  color: var(--pending);
+  color: var(--status-pending);
 }
 .AcceptedForSelection {
-  color: var(--acceptedForSelection);
+  color: var(--status-accepted-for-selection);
   max-width: 201px !important;
 }
 .Rejected,
 .Blocked,
 .Banned {
-  color: var(--blocked);
+  color: var(--status-blocked);
 }
 .Completed,
 .Left {
-  color: var(--notProvided);
+  color: var(--status-not-provided);
 }

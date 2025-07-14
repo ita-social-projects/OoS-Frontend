@@ -10,24 +10,24 @@
 }
 
 .Approved {
-  color: var(--approved);
+  color: var(--status-approved);
 }
 
 .Pending {
-  color: var(--pending);
+  color: var(--status-pending);
 }
 
 .Editing,
 .Recheck {
-  color: var(--recheck);
+  color: var(--status-recheck);
 }
 
 .Blocked {
-  color: var(--blocked);
+  color: var(--status-blocked);
 }
 
 .NotProvided {
-  color: var(--notProvided);
+  color: var(--status-not-provided);
 }
 
 .wrapper-provider-list {

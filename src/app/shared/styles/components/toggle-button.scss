@@ -9,7 +9,7 @@ mat-button-toggle {
 }
 
 .mat-button-toggle-checked {
-  background-color: var(--button-toggle-checked);
+  background-color: var(--button-toggle-color);
   color: var(--primary-accent-color);
   border-top-left-radius: 1.2rem;
   border-bottom-left-radius: 1.2rem;
@@ -18,7 +18,7 @@ mat-button-toggle {
 
 .mat-button-toggle-group {
   align-items: center;
-  background: lighten(#1a69f3, 25%) !important;
+  background: var(--button-toggle-color) !important;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   font-weight: bold;
@@ -26,7 +26,7 @@ mat-button-toggle {
 
 .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
   border-radius: 0 1.2rem 1.2rem 0;
-  background-color: lighten(#1a69f3, 25%);
+  background-color: var(--button-toggle-color);
 }
 
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
