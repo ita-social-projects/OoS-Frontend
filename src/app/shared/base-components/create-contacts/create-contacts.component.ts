@@ -143,7 +143,9 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
       contactsFormGroup
         .get('searchGroup')
         .get('settlementSearch')
-        .setValue(contact.address.codeficatorAddress.settlement, { emitEvent: false });
+        .setValue(contact.address.codeficatorAddress?.settlement ?? contact.address.codeficatorAddressDto?.settlement ?? '', {
+          emitEvent: false
+        });
     }
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
@@ -246,7 +248,13 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
     return this.overrideTouch(
       this.formBuilder.group({
         street: new FormControl({ value: '', disabled: this.moderatorFlow }, FormValidators.defaultStreetValidators),
-        buildingNumber: new FormControl({ value: '', disabled: this.moderatorFlow }, FormValidators.defaultHouseValidators),
+        buildingNumber: new FormControl(
+          {
+            value: '',
+            disabled: this.moderatorFlow
+          },
+          FormValidators.defaultHouseValidators
+        ),
         catottgId: new FormControl({ value: '', disabled: this.moderatorFlow }, Validators.required),
         latitude: new FormControl({ value: '', disabled: this.moderatorFlow }),
         longitude: new FormControl({ value: '', disabled: this.moderatorFlow })
@@ -257,7 +265,13 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createSearchFormGroup(codeficator?: Codeficator): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        settlementSearch: [{ value: codeficator?.settlement || '', disabled: this.moderatorFlow }, FormValidators.defaultSearchValidators],
+        settlementSearch: [
+          {
+            value: codeficator?.settlement || '',
+            disabled: this.moderatorFlow
+          },
+          FormValidators.defaultSearchValidators
+        ],
         settlement: [{ value: codeficator || '', disabled: this.moderatorFlow }]
       })
     );

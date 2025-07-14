@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { merge, of, Subject, throttleTime } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { Tag } from 'shared/models/tag.model';
@@ -30,6 +30,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-description-form',
@@ -45,6 +46,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   @Output() public passDescriptionFormGroup = new EventEmitter();
 
   @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
+
   public readonly validationConstants = ValidationConstants;
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
@@ -69,14 +71,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public SectionItemsFormArray = new FormArray([]);
   public keyWordsCtrl: FormControl = new FormControl('');
 
+  public isTagsFeatureEnabled: boolean = false;
   public keyWords: string[] = [];
   public tags: Tag[] = [];
   public separatorKeysCodes = [ENTER];
 
-  public tagsControl: FormControl = new FormControl<Tag[]>(
-    [],
-    [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
-  );
+  public tagsControl: FormControl;
 
   protected readonly ValidationConstants = ValidationConstants;
 
@@ -99,11 +99,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         Validators.required,
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      tagIds: new FormControl<number[]>(null, [
-        Validators.required,
-        minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
-        maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
-      ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
@@ -116,28 +111,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public compareItems(item1: Direction, item2: Direction): boolean {
     return item1.id === item2.id;
   }
+
   public ngOnInit(): void {
-    this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
-      this.updateTagIds(selectedTags || []);
-    });
+    this.initTags();
 
     if (this.workshop) {
       this.activateEditMode();
     } else {
       this.onAddForm();
     }
-
-    this.overrideTouchForForm(this.DescriptionFormGroup.get('tagIds') as FormControl);
-
-    this.tagService
-      .getTags()
-      .pipe(take(1))
-      .subscribe((tags) => {
-        this.tags = tags;
-        if (this.workshop?.tagIds) {
-          this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
-        }
-      });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
@@ -299,6 +281,47 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     return this.EditFormGroup;
+  }
+
+  private initTags(): void {
+    this.store
+      .select(MetaDataState.featuresList)
+      .pipe(
+        take(1),
+        map((fl) => fl.enableWorkshopTags),
+        filter(Boolean)
+      )
+      .subscribe(() => {
+        this.isTagsFeatureEnabled = true;
+
+        this.DescriptionFormGroup.addControl(
+          'tagIds',
+          new FormControl<number[]>(null, [
+            Validators.required,
+            minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
+            maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
+          ])
+        );
+
+        this.tagsControl = new FormControl<Tag[]>(
+          [],
+          [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
+        );
+
+        this.overrideTouchForForm(this.DescriptionFormGroup.get('tagIds') as FormControl);
+
+        this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
+          this.updateTagIds(selectedTags || []);
+        });
+
+        this.tagService
+          .getTags()
+          .pipe(take(1))
+          .subscribe((tags) => {
+            this.tags = tags;
+            this.tagsControl.setValue(this.tags.filter((tag) => (this.workshop?.tagIds ?? []).includes(tag.id)));
+          });
+      });
   }
 
   /**

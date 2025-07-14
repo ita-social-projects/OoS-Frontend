@@ -5,7 +5,7 @@ import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsMo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { of } from 'rxjs';
@@ -39,6 +39,9 @@ describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
   let fixture: ComponentFixture<CreateDescriptionFormComponent>;
   let tagServiceSpy: jest.Mocked<TagService>;
+  const store: Store = {
+    select: jest.fn().mockReturnValue(of({ enableWorkshopTags: true }))
+  } as unknown as Store;
 
   beforeEach(async () => {
     const tagServiceMock = {
@@ -76,6 +79,10 @@ describe('CreateDescriptionFormComponent', () => {
         {
           provide: TagService,
           useValue: tagServiceMock
+        },
+        {
+          provide: Store,
+          useValue: store
         }
       ]
     }).compileComponents();
@@ -152,11 +159,58 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component.keyWords.length).toBe(3);
   });
 
-  it('should remove tag from selection', () => {
-    const mockTag = { id: 1, name: 'TestTag' };
-    component.tagsControl.setValue([mockTag]);
-    component.onRemoveItem(mockTag);
-    expect(component.tagsControl.value).toEqual([]);
+  describe('Tags', () => {
+    it('should add tags control to the FromGroup', () => {
+      expect(component.isTagsFeatureEnabled).toBe(true);
+      expect(component.tagsControl).toBeTruthy();
+      expect(component.DescriptionFormGroup.get('tagIds')).toBeTruthy();
+    });
+
+    it('should update tagIds in form group', () => {
+      const mockTags = [
+        { id: 1, name: 'tag1' },
+        { id: 2, name: 'tag2' }
+      ];
+
+      (component as any).updateTagIds(mockTags);
+
+      expect(component.DescriptionFormGroup.get('tagIds')?.value).toEqual([1, 2]);
+    });
+
+    it('should remove tag from selection', () => {
+      const mockTag = { id: 1, name: 'TestTag' };
+      component.tagsControl.setValue([mockTag]);
+      component.onRemoveItem(mockTag);
+      expect(component.tagsControl.value).toEqual([]);
+    });
+
+    it('should set tags for workshop and form field', fakeAsync(() => {
+      const mockTags = [
+        { id: 1, name: 'Tag 1' },
+        { id: 2, name: 'Tag 2' },
+        { id: 3, name: 'Tag 3' }
+      ];
+
+      const mockWorkshop: Partial<Workshop> = {
+        tagIds: [1],
+        competitiveSelection: true
+      };
+
+      tagServiceSpy.getTags.mockReturnValue(of(mockTags));
+
+      component.workshop = mockWorkshop as Workshop;
+
+      component.ngOnInit();
+      tick();
+
+      expect(component.tags).toEqual(mockTags);
+      expect(component.tagsControl.value).toEqual([mockTags[0]]);
+    }));
+
+    it('should mark tagsControl as touched on tagIds touch', () => {
+      component.DescriptionFormGroup.get('tagIds')?.markAsTouched();
+      expect(component.tagsControl.touched).toEqual(true);
+    });
   });
 
   it('should activate edit mode with workshop data', () => {
@@ -175,50 +229,11 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component.keyWords).toContain('test');
   });
 
-  it('should set tags for workshop and form field', fakeAsync(() => {
-    const mockTags = [
-      { id: 1, name: 'Tag 1' },
-      { id: 2, name: 'Tag 2' },
-      { id: 3, name: 'Tag 3' }
-    ];
-
-    const mockWorkshop: Partial<Workshop> = {
-      tagIds: [1],
-      competitiveSelection: true
-    };
-
-    tagServiceSpy.getTags.mockReturnValue(of(mockTags));
-
-    component.workshop = mockWorkshop as Workshop;
-
-    component.ngOnInit();
-    tick();
-
-    expect(component.tags).toEqual(mockTags);
-    expect(component.tagsControl.value).toEqual([mockTags[0]]);
-  }));
-
-  it('should update tagIds in form group', () => {
-    const mockTags = [
-      { id: 1, name: 'tag1' },
-      { id: 2, name: 'tag2' }
-    ];
-
-    (component as any).updateTagIds(mockTags);
-
-    expect(component.DescriptionFormGroup.get('tagIds')?.value).toEqual([1, 2]);
-  });
-
   it('should mark form as dirty after deletion', () => {
     component.onAddForm();
     component.DescriptionFormGroup.markAsPristine();
     component.onDeleteForm(0);
 
     expect(component.DescriptionFormGroup.dirty).toBe(true);
-  });
-
-  it('should mark tagsControl as touched on tagIds touch', () => {
-    component.DescriptionFormGroup.get('tagIds')?.markAsTouched();
-    expect(component.tagsControl.touched).toEqual(true);
   });
 });
