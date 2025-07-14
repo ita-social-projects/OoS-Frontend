@@ -1290,5 +1290,8 @@
     "COOKIE_ANALYTICS_DESCRIPTION": "Cookies that consider your preferences",
     "COOKIE_ADVERTISING_DESCRIPTION": "Cookies that provide personalized content",
     "COOKIES_ESSENTIAL_DESCRIPTION": "Cookies that ensure the website's functionality"
+  },
+  "LOADING": {
+    "FETCHING_SUBDIRECTIONS": "Loading subdirections..."
   }
 }

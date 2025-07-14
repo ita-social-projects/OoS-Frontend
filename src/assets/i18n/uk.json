@@ -1278,5 +1278,8 @@
     "COOKIE_ANALYTICS_DESCRIPTION": "Cookies, які враховують ваші вподобання",
     "COOKIE_ADVERTISING_DESCRIPTION": "Cookies, які надають персоналізований контент",
     "COOKIES_ESSENTIAL_DESCRIPTION": "Cookies, які надають персоналізований контент"
+  },
+  "LOADING": {
+    "FETCHING_SUBDIRECTIONS": "Отримуємо піднапрямки..."
   }
 }
