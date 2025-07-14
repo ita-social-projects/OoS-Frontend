@@ -17,6 +17,7 @@
 
 .section-title {
   margin: 1.5rem 0 1rem 0;
+  color: var(--primary-dark-text-color);
 }
 
 .txt {
@@ -24,7 +25,7 @@
   font-size: 13px;
   line-height: 17.7px;
   font-weight: 400;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   overflow-wrap: break-word;
 }
 
@@ -38,10 +39,8 @@
   flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid var(--input-light-color);
-  background: var(--primary-light-bg-color);
   color: var(--secondary-light-text-color);
   &-selected {
-    color: var(--cancel-text-color);
     background: rgba(56, 73, 249, 0.07);
     border: 1px solid rgb(170, 170, 170, 0.1);
   }

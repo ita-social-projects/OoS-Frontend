@@ -42,7 +42,7 @@ body {
   font-size: 0.8125rem;
   line-height: 1.125rem;
   background-color: var(--body-color);
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color);
 }
 
 h1,
@@ -52,7 +52,7 @@ h4,
 h5,
 h6 {
   font-family: 'Innerspace', sans-serif;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
   margin: 0;
 }
 
@@ -92,23 +92,22 @@ a {
   vertical-align: middle;
 }
 
+.mat-mdc-tab-header-pagination-chevron {
+  border-color: var(--primary-light-text-color) !important;
+}
+
 .mat-horizontal-stepper-header-container {
   .mat-step-header {
     .mat-step-icon {
-      border: 2px solid var(--secondary-light-text-color);
+      border: 2px solid var(--primary-accent-color);
       box-sizing: border-box;
-      color: var(--secondary-light-text-color);
+      color: var(--primary-accent-color);
       font-weight: bold;
       background-color: transparent;
 
       &-selected {
         border: 2px solid var(--primary-accent-color);
         color: var(--primary-accent-color);
-      }
-
-      &-state-done {
-        color: var(--primary-dark-text-color);
-        border: 2px solid var(--primary-dark-text-color);
       }
 
       .mat-icon {
@@ -124,10 +123,10 @@ a {
       min-width: unset;
 
       &-active {
-        color: var(--primary-dark-text-color);
+        color: var(--specific-light-text-color);
 
         &.mat-step-label-selected {
-          color: var(--primary-accent-color);
+          color: var(--specific-light-text-color);
         }
       }
     }
@@ -191,7 +190,7 @@ a {
       Open Sans,
       sans-serif;
     font-weight: 400;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
   }
 
   .mdc-checkbox {
@@ -199,7 +198,7 @@ a {
     position: relative;
 
     .mdc-checkbox__checkmark-path {
-      stroke: white;
+      stroke: var(--specific-text-color);
     }
 
     .mdc-checkbox__native-control {
@@ -208,13 +207,15 @@ a {
     }
 
     .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
-      background-color: var(--primary-accent-color) !important;
-      border-color: var(--primary-accent-color) !important;
+      background-color: var(--bg-specific-light) !important;
+      border-color: var(--bg-specific-light) !important;
+      color: var(--specific-text-color) !important;
     }
 
     .mdc-checkbox__background {
       top: 0;
       left: 0;
+      border-color: var(--primary-light-text-color) !important;
     }
 
     .mdc-checkbox__ripple {
@@ -267,7 +268,7 @@ mat-card.mat-mdc-card {
       font-family: 'Open Sans', sans-serif !important;
       font-weight: 700;
       font-size: 13px;
-      color: var(--primary-dark-text-color) !important;
+      color: var(--primary-light-text-color) !important;
       line-height: 18px;
     }
 
@@ -287,10 +288,10 @@ mat-card.mat-mdc-card {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px var(--autofill-text-color) inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--primary-light-text-color) inset !important;
   line-height: initial;
   font-family: 'Open Sans', sans-serif !important;
-  -webkit-text-fill-color: var(--primary-dark-text-color) !important;
+  -webkit-text-fill-color: var(--primary-light-text-color) !important;
 }
 
 .mat-menu-panel {
@@ -318,18 +319,23 @@ input:-webkit-autofill:active {
   .mdc-label {
     padding: 0.8rem 0 0.8rem 8px;
     font-size: 13px;
+    color: var(--primary-light-text-color);
+  }
+
+  .mdc-radio .mdc-radio__native-control:enabled:not(:checked) + .mdc-radio__background .mdc-radio__outer-circle {
+    border-color: var(--primary-light-text-color) !important;
   }
 
   .mdc-radio .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
   .mdc-radio:hover .mdc-radio__native-control:enabled:checked + .mdc-radio__background,
   .mdc-radio:not(:disabled):active .mdc-radio__native-control:enabled:checked + .mdc-radio__background {
     .mdc-radio__outer-circle {
-      border-color: var(--primary-accent-color);
+      border-color: var(--specific-text-color);
       border-width: 5px;
     }
 
     .mdc-radio__inner-circle {
-      border-color: var(--primary-light-text-color);
+      border-color: var(--primary-light-bg-color);
     }
   }
 }
@@ -382,7 +388,7 @@ input:focus {
 }
 
 input:disabled {
-  background-color: var(--primary-light-bg-color);
+  background-color: var(--bg-disabled);
 }
 
 input {
@@ -390,6 +396,10 @@ input {
   font-weight: 300;
   font-size: 13px;
   line-height: 18px;
+
+  &::placeholder {
+    color: var(--primary-light-text-color) !important;
+  }
 }
 
 .cdk-overlay-pane:has(.mat-mdc-select-panel) {
@@ -398,4 +408,9 @@ input {
 
 .mat-mdc-select-panel {
   pointer-events: auto !important;
+}
+
+.mat-expansion-panel-header,
+.mat-expansion-panel {
+  background-color: var(--bg-light-additional) !important;
 }

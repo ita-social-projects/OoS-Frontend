@@ -8,16 +8,22 @@
   .mat-calendar {
     max-width: 320px;
     max-height: fit-content;
-    background: var(--primary-light-bg-color);
+    background: var(--bg-specific-light);
     border-radius: 24px;
   }
 
   .mat-datepicker-actions {
     box-sizing: border-box;
     padding: 0 8px 8px 8px;
+    background-color: var(--bg-specific-light);
 
     .btn {
       min-width: 130px;
+    }
+
+    .btn:not(.btn-cancel) {
+      background-color: var(--primary-light-bg-color) !important;
+      color: var(--primary-light-text-color) !important;
     }
   }
 }
@@ -41,18 +47,18 @@
 }
 
 ::ng-deep .mat-calendar-body-selected {
-  background-color: var(--primary-accent-color) !important;
+  background-color: var(--primary-light-bg-color) !important;
 }
 
 ::ng-deep .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-  border-color: var(--primary-accent-color) !important;
+  border-color: var(--primary-light-bg-color) !important;
   background-color: transparent;
 }
 
 ::ng-deep .mat-datepicker-toggle-default-icon:hover {
-  color: var(--primary-accent-color) !important;
+  color: var(--primary-light-bg-color) !important;
 }
 
 ::ng-deep .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
-  color: var(--specific-light-text-color) !important;
+  color: var(--primary-light-bg-color) !important;
 }

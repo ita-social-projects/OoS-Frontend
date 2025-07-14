@@ -9,7 +9,7 @@
   }
 
   &-secondary {
-    background: var(--primary-accent-color);
+    background: var(--primary-light-bg-color);
     max-height: 92px;
     box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
   }
@@ -235,6 +235,7 @@
   font-family: 'Innerspace', sans-serif;
   font-weight: 700 !important;
   line-height: 16px !important;
+  color: var(--primary-light-text-color);
 }
 
 ::ng-deep .mat-menu-content {
@@ -303,4 +304,14 @@
   -webkit-mask: url('./../../assets/icons/Support.svg') no-repeat center;
   mask-size: contain;
   -webkit-mask-size: contain;
+}
+
+.header-hero {
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.header-nav {
+  background: var(--secondary-light-bg-color) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

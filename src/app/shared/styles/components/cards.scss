@@ -14,6 +14,7 @@
     font-weight: bold;
     font-size: 18px;
     line-height: 20px;
+    color: var(--specific-light-text-color);
   }
 
   &_category {
@@ -27,7 +28,7 @@
   }
 
   &_link {
-    color: var(--primary-accent-color);
+    color: var(--specific-light-text-color);
     font-family: Innerspace, sans-serif;
     font-weight: 700;
     font-style: normal;
@@ -51,7 +52,7 @@
     font-weight: normal;
     font-size: 13px;
     line-height: 18px;
-    color: var(--cancel-text-color);
+    color: var(--specific-light-text-color);
     margin: 0.3rem 0;
     padding: 0;
     min-width: 0;
@@ -68,7 +69,7 @@
     }
 
     &_blue {
-      color: var(--primary-accent-color);
+      color: var(--specific-light-text-color);
     }
   }
 
@@ -77,18 +78,19 @@
     justify-content: center;
     align-items: center;
 
-    color: var(--secondary-light-text-color);
+    color: var(--specific-light-text-color);
     margin-right: 0.2rem;
     font-size: 16px;
 
     &_blue {
-      color: var(--primary-accent-color);
+      color: var(--specific-light-text-color);
     }
   }
 }
 
 .wrap-for-details {
   padding: 0.8rem 1rem;
+  color: var(--specific-light-text-color);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -111,7 +113,7 @@
     font-size: 16px;
     width: 16px;
     height: 16px;
-    color: var(--primary-accent-color);
+    color: var(--specific-light-text-color);
     font-weight: 700;
   }
 

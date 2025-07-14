@@ -13,11 +13,16 @@
 }
 
 .container {
-  background: var(--primary-light-bg-color);
+  background: var(--bg-specific-light);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   padding: 0;
   margin-bottom: 2rem;
+
+  h1,
+  h5 {
+    color: var(--primary-dark-text-color) !important;
+  }
 
   .icon-text {
     font-style: normal;
@@ -56,10 +61,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      color: var(--primary-accent-color);
       &:hover {
         opacity: 0.5;
-        color: var(--primary-accent-color);
       }
     }
   }
@@ -94,9 +97,10 @@
     0 1px 5px 0px rgba(0, 0, 0, 0.12);
 
   &-draft {
+    margin: 0px 10px;
     color: var(--specific-light-text-color);
-    border: 1px solid var(--primary-accent-color);
-    background-color: var(--primary-accent-color);
+    border: 1px solid var(--primary-light-bg-color);
+    background-color: var(--primary-light-bg-color);
   }
 
   &-pending {
@@ -128,13 +132,13 @@
   margin-bottom: 0;
 }
 
-:host ::ng-deep .mat-tab-label-active {
-  color: var(--primary-accent-color);
+:host ::ng-deep mat-tab-label.mat-tab-label-active {
+  color: var(--specific-text-color);
   opacity: 1;
 }
 
 :host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
-  background-color: var(--primary-accent-color);
+  background-color: var(--specific-text-color);
   height: 2px;
 }
 
@@ -166,7 +170,7 @@
   align-items: center;
   font-size: 0.813rem;
   line-height: 1.125rem;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   padding: 0;
   margin-bottom: 1rem;
 }

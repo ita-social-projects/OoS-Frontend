@@ -1,6 +1,12 @@
-<div class="header" [ngClass]="{ 'header-secondary': !isRouter('/'), 'header-disabled': isRouter('/server-error') }">
+<div
+  class="header"
+  [ngClass]="{
+    'header-hero': isRouter('/'),
+    'header-nav': !isRouter('/'),
+    'header-disabled': isRouter('/server-error')
+  }">
   <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
-    <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between header-actions">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">

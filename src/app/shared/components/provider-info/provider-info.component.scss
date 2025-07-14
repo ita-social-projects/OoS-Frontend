@@ -3,7 +3,8 @@
 @use 'buttons';
 
 .wrapper {
-  background: var(--primary-light-bg-color);
+  background: var(--bg-light-additional);
+  color: var(--primary-light-text-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 2rem;

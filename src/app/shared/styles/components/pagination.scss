@@ -7,10 +7,10 @@ pagination-controls {
   display: flex;
   align-items: center;
   li {
-    color: var(--cancel-text-color);
+    color: var(--primary-dark-text-color);
   }
   li.current {
-    color: var(--cancel-text-color);
+    color: var(--primary-dark-text-color);
     background-color: inherit;
   }
 }
@@ -24,7 +24,7 @@ pagination-controls {
 }
 
 .pagination ::ng-deep .ngx-pagination a {
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   line-height: 15px;
   outline: none;
 }

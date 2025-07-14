@@ -36,7 +36,7 @@
 
   overflow: visible;
 
-  color: var(--disabled-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .accordions-wrapper {
@@ -101,7 +101,7 @@
     font-size: inherit;
     font-weight: 400;
     line-height: 1.125rem;
-    color: var(--secondary-light-text-color);
+    color: var(--primary-light-text-color);
   }
 
   &__link {
@@ -181,5 +181,5 @@
 
 .read-all-btn,
 .read-all-btn:disabled {
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color) !important;
 }

@@ -6,12 +6,13 @@
 
 .expansion {
   padding: 50px 0;
+  background-color: var(--secondary-light-bg-color) !important;
 }
 
 a {
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--primary-accent-color);
+  color: var(--primary-light-text-color);
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -25,7 +26,7 @@ a {
   width: 60%;
   .contact-info {
     font-family: 'Open Sans', sans-serif;
-    color: var(--contacts-light-text-color);
+    color: var(--primary-light-text-color);
     max-width: 100%;
     span {
       display: block;
@@ -62,7 +63,7 @@ a {
       align-items: center;
       .contact-title {
         font-family: 'Open Sans', sans-serif;
-        color: var(--contacts-light-text-color) !important;
+        color: var(--primary-light-text-color) !important;
         width: 100px;
       }
     }
@@ -95,7 +96,7 @@ a {
 }
 
 .card_icon {
-  color: var(--contacts-light-text-color);
+  color: var(--primary-light-text-color);
   font-size: 16px;
 }
 

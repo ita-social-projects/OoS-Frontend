@@ -30,7 +30,7 @@
 .application-info-title {
   max-width: max-content;
   line-height: 17px;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 
   span {
     padding: 8px;
@@ -48,7 +48,7 @@
   .Completed,
   .Left,
   .Blocked {
-    color: var(--primary-dark-text-color);
+    color: var(--primary-light-text-color);
   }
   max-width: 70%;
 }

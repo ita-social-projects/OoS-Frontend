@@ -2,7 +2,7 @@
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
       <button mat-button class="edit-button">
-        <mat-icon style="color: #3849f9">edit</mat-icon>
+        <mat-icon>edit</mat-icon>
         {{ 'BUTTONS.EDIT' | translate }}
       </button>
     </a>
@@ -28,7 +28,9 @@
     <p [ngClass]="{ important: !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
 
     <ng-container *ngIf="user.emailConfirmed; else confirmEmailTmpl">
-      <p class="link" [class.disabled]="!featuresList?.emailManagement" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
+      <p class="link" [class.disabled]="!featuresList?.emailManagement" (click)="onRedirect('/Account/ChangeEmail')">
+        {{ 'CHANGE_EMAIL' | translate }}
+      </p>
     </ng-container>
 
     <ng-template #confirmEmailTmpl>
@@ -36,12 +38,17 @@
         <mat-icon>report</mat-icon>
         <span>{{ 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED' | translate }}</span>
       </p>
-      <p class="link important" [class.disabled]="!featuresList?.emailConfirmation" (click)="onRedirect('/Account/ReSendEmailConfirmation')">
-        {{ 'CONFIRM_EMAIL' | translate }} 
+      <p
+        class="link important"
+        [class.disabled]="!featuresList?.emailConfirmation"
+        (click)="onRedirect('/Account/ReSendEmailConfirmation')">
+        {{ 'CONFIRM_EMAIL' | translate }}
       </p>
     </ng-template>
 
     <h4>{{ 'PASSWORD' | translate }}</h4>
-    <p class="link" [class.disabled]="!featuresList?.passwordManagement" (click)="onRedirect('/Account/ChangePassword')">{{ 'CHANGE_PASSWORD' | translate }}</p>
+    <p class="link" [class.disabled]="!featuresList?.passwordManagement" (click)="onRedirect('/Account/ChangePassword')">
+      {{ 'CHANGE_PASSWORD' | translate }}
+    </p>
   </div>
 </div>

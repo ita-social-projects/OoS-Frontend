@@ -7,7 +7,7 @@
   font-family: Innerspace, sans-serif;
   font-weight: 700;
   line-height: 14.6px;
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color);
 }
 .title {
   margin-top: 24px;
@@ -34,7 +34,7 @@
 .time-input {
   border: 1px solid var(--input-light-color);
   background-color: var(--primary-light-bg-color);
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
   box-sizing: border-box;
   position: relative;
   border-radius: 21px;
@@ -66,10 +66,10 @@
   flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid var(--input-light-color);
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
   background: var(--primary-light-bg-color);
   &-selected {
-    background: rgba(56, 73, 249, 0.07);
+    background: rgba(162, 169, 195, 0.7);
     border: 1px solid var(--primary-accent-color);
   }
   &:first-child {
@@ -162,5 +162,5 @@ mat-error {
 }
 
 .datepicker-icon {
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
