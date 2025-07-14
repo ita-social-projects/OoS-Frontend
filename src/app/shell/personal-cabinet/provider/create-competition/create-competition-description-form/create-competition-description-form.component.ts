@@ -144,7 +144,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
 
-    if (this.competition.directionSubDirectionIds) {
+    if (this.competition.directionSubDirectionIds?.length) {
       this.directionControl.patchValue(this.competition.directionSubDirectionIds[0].directionId);
     }
 
@@ -176,6 +176,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     if (this.competition.areThereBenefits) {
       this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
       this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
+    }
+
+    if (this.competition.subDirectionIds) {
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+        const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
+        asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
+      });
     }
   }
 
@@ -302,12 +309,5 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.subDirectionControl.reset(null, { emitEvent: false });
       this.store.dispatch(new GetSubDirections(directionId));
     });
-
-    if (this.competition) {
-      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
-        const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
-        asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
-      });
-    }
   }
 }

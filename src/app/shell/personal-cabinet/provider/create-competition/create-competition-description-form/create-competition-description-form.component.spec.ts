@@ -3,12 +3,14 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
-import { Competition } from 'shared/models/competition.model';
+import { GetSubDirections } from 'shared/store/meta-data.actions';
+import { SubDirection } from 'shared/models/category.model';
 import { CreateCompetitionDescriptionFormComponent } from './create-competition-description-form.component';
 
 @Component({
@@ -36,7 +38,7 @@ class MockInfoFormComponent {
 describe('CreateCompetitionDescriptionFormComponent', () => {
   let component: CreateCompetitionDescriptionFormComponent;
   let fixture: ComponentFixture<CreateCompetitionDescriptionFormComponent>;
-
+  let store: Store;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -60,9 +62,12 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
           // eslint-disable-next-line @angular-eslint/no-forward-ref
           useExisting: forwardRef(() => ImageFormControlComponent),
           multi: true
-        }
+        },
+        Store
       ]
     }).compileComponents();
+
+    store = TestBed.inject(Store);
   });
 
   beforeEach(() => {
@@ -72,14 +77,15 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
     component.competition = {
       competitiveSelection: false,
       competitiveSelectionDescription: '',
-      keywords: []
+      keywords: [],
+      subDirectionIds: []
     } as any;
     component.DescriptionFormGroup = new FormGroup({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(['id1', 'id2', 'id3']),
       description: new FormControl(''),
       formOfLearning: new FormControl(''),
-      competitiveSelection: new FormControl(''),
+      competitiveSelection: new FormControl(true),
       tagIds: new FormControl([]),
       isSelfFinanced: new FormControl(false),
       enrollmentProcedureDescription: new FormControl(''),
@@ -88,7 +94,9 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       preferentialTermsOfParticipation: new FormControl(''),
       educationalShift: new FormControl('First'),
       ageComposition: new FormControl('SameAge'),
-      coverage: new FormControl('School')
+      coverage: new FormControl('School'),
+      directionId: new FormControl(null),
+      subDirectionIds: new FormControl(null)
     });
     fixture.detectChanges();
   });
@@ -96,16 +104,6 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should set tags for competition and form field', fakeAsync(() => {
-    const mockCompetition: Partial<Competition> = {
-      competitiveSelection: true
-    };
-    component.competition = mockCompetition as Competition;
-
-    component.ngOnInit();
-    tick();
-  }));
 
   it('should mark form as dirty after deletion', () => {
     component.onAddForm();
@@ -137,5 +135,38 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       expect(component.benefitsOptionRadioBtn.value).toBe(true);
       expect(component.DescriptionFormGroup.get('benefitsOptionsDesc').value).toEqual('some val');
     });
+  });
+
+  describe('directions control listener', () => {
+    beforeEach(() => {});
+
+    it('should reset subDirections control and dispatch GetSubDirections when direction has changed', () => {
+      const direction = component.DescriptionFormGroup.get('directionId');
+      const subDirection = component.DescriptionFormGroup.get('subDirectionIds');
+      jest.spyOn(subDirection, 'reset');
+      jest.spyOn(store, 'dispatch');
+      direction.setValue('1');
+      expect(subDirection.reset).toHaveBeenCalled();
+      expect(subDirection.value).toBeNull();
+      expect(store.dispatch).toHaveBeenCalledWith(new GetSubDirections('1'));
+    });
+
+    it('should set subDirection value if competition has property', fakeAsync(() => {
+      const subDirection = component.DescriptionFormGroup.get('subDirectionIds');
+
+      Object.defineProperty(component, 'subDirections$', { writable: true });
+      component.subDirections$ = of([
+        { id: 1, title: 'A' },
+        { id: 2, title: 'B' }
+      ] as SubDirection[]);
+
+      component.competition.subDirectionIds = [2];
+
+      component.activateEditMode();
+
+      tick();
+
+      expect(subDirection.value).toEqual([{ id: 2, title: 'B' }]);
+    }));
   });
 });
