@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { MinMaxDirective } from '../../../directives/min-max.directive';
@@ -24,6 +25,7 @@ describe('PriceFilterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatInputModule,
+        MatSelectModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
         MatIconModule,

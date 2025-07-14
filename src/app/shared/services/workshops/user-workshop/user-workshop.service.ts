@@ -9,6 +9,7 @@ import { ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import {
+  EditDraft,
   Workshop,
   WorkshopCard,
   WorkshopCardParameters,
@@ -109,6 +110,38 @@ export class UserWorkshopService {
 
   public sendDraftForModeration(id: string): Observable<void> {
     return this.http.put<void>(`/api/v2/WorkshopDraft/SendForModeration/${id}`, {});
+  }
+
+  /**
+   * This method delete cover image by WorkshopDraft id and moderator id
+   * Used in moderator flow
+   * @param draftId string
+   * @param moderatorId string
+   */
+  public deleteCoverImageByWorkshopDraftId(draftId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/cover-image`);
+  }
+
+  /**
+   * This method delete image by WorkshopDraft id, image id and moderator id
+   * Used in moderator flow
+   * @param draftId string
+   * @param imageId string
+   * @param moderatorId string
+   */
+  public deleteImageByWorkshopDraftId(draftId: string, imageId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`);
+  }
+
+  /**
+   * This method update WorkshopDraft
+   * Used in moderator flow
+   * @param draftId string
+   * @param moderatorId string
+   * @param formData EditDraft - contains data for editing workshop draft
+   */
+  public editWorkshopDraftByModerator(formData: EditDraft, draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/workshop-drafts/${draftId}/moderator-edit`, formData);
   }
 
   public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {

@@ -32,6 +32,15 @@ describe('DateInputDirective', () => {
 
       expect(mockElementRef.nativeElement.value).toBe('12/');
     });
+
+    it('should not add "/" if its a first symbol', () => {
+      mockElementRef.nativeElement.value = '/';
+      const event = { inputType: 'insertText' } as InputEvent;
+
+      directive.onInput(event);
+
+      expect(mockElementRef.nativeElement.value).toBe('');
+    });
   });
 
   describe('onPaste()', () => {

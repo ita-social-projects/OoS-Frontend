@@ -12,7 +12,7 @@ import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { DraftStatusEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
@@ -28,7 +28,6 @@ import {
   ApproveWorkshopDraft,
   GetAreaAdminProfile,
   GetMinistryAdminProfile,
-  GetModeratorProfile,
   GetRegionAdminProfile,
   RejectWorkshopDraft
 } from 'shared/store/admin.actions';
@@ -81,18 +80,9 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public readonly statusIcons = UserStatusIcons;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
-  public readonly workshopDraftStatusTitles = {
-    Draft: 'FORMS.LABELS.DRAFT',
-    Rejected: 'FORMS.LABELS.REJECTED',
-    PendingModeration: 'FORMS.LABELS.WORKSHOP_PENDING_MODERATION'
-  };
-
-  public selectedAdmin: BaseAdmin;
-  public role: Role;
-  public workshop: Workshop;
-  public selectedWorkshopDraftId: string;
-  public isInfoDisplayed: boolean;
-  public displayedColumns: string[] = [
+  public readonly workshopDraftStatusTitles = DraftStatusEnum;
+  public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
+  public readonly displayedColumns: string[] = [
     'title',
     'providerTitle',
     'providerOwnership',
@@ -100,14 +90,19 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'seats',
     'isPaid',
     'status',
-    'rating'
+    'actions'
   ];
-
-  public filterGroup: FormGroup;
+  public workshopParameters: WorkshopFilterAdministration = {};
   public dataSource = new MatTableDataSource<WorkshopDraft>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
+
+  public selectedAdmin: BaseAdmin;
+  public role: Role;
+  public workshop: Workshop;
+  public selectedWorkshopDraftId: string;
+  public isInfoDisplayed: boolean;
+  public filterGroup: FormGroup;
   public totalEntities: number;
-  public workshopParameters: WorkshopFilterAdministration = {};
   public regions$: Observable<Codeficator[]>;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
@@ -155,6 +150,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     return this.filterGroup.get('area') as FormControl;
   }
 
+  private get statusFormControl(): FormControl {
+    return this.filterGroup.get('workshopDraftStatuses') as FormControl;
+  }
+
   @Input()
   public set workshops(value: SearchResponse<WorkshopDraft[]>) {
     this.dataSource.data = value?.entities;
@@ -182,9 +181,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
             case Role.areaAdmin:
               return this.store.dispatch(new GetAreaAdminProfile());
             case Role.moderator:
-              return this.store.dispatch(new GetModeratorProfile());
+              return of(null);
             case Role.provider:
-              // TODO: Add moderator profile fetch
               return this.store.dispatch(new GetProfile());
           }
         }),
@@ -209,7 +207,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       searchBarFilter: new FormControl(''),
       institution: new FormControl(''),
       region: new FormControl(''),
-      area: new FormControl('')
+      area: new FormControl(''),
+      workshopDraftStatuses: new FormControl('')
     });
 
     this.setInformationDependingOnRole();
@@ -253,6 +252,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       this.institutionFormControl.reset('');
       this.regionFormControl.reset('');
       this.areaFormControl.reset('');
+      this.statusFormControl.reset('');
 
       if (!this.isRegionAdmin) {
         this.areaFormControl.disable();
@@ -276,10 +276,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   }
 
   private setInformationDependingOnRole(): void {
-    if (this.isTechAdmin) {
+    if (this.isTechAdmin || this.isModerator) {
       this.store.dispatch(new GetAllInstitutions(true));
     }
-    if (this.isTechAdmin || this.isMinistryAdmin) {
+    if (this.isTechAdmin || this.isMinistryAdmin || this.isModerator) {
       this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
         map((state) => [...state.metaDataState.codeficatorSearch]),
         takeUntil(this.destroy$)
@@ -308,10 +308,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
           }
         });
       this.selectedAdmin$
-        .pipe(
-          filter((admin: RegionAdmin) => Boolean(admin)),
-          takeUntil(this.destroy$)
-        )
+        .pipe(filter(Boolean), takeUntil(this.destroy$))
         .subscribe((admin: RegionAdmin) =>
           this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
         );
@@ -364,6 +361,12 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
       });
+
+    this.statusFormControl.valueChanges.pipe(distinctUntilChanged(), debounceTime(1000), takeUntil(this.destroy$)).subscribe(() => {
+      this.workshopParameters.workshopDraftStatuses = this.statusFormControl.value;
+      this.currentPage = PaginationConstants.firstPage;
+      this.getWorkshops();
+    });
   }
 
   private setInitialWorkshopFilterByDefault(): void {

@@ -25,17 +25,13 @@ export enum WorkshopDraftStatus {
   Draft = 'Draft',
   PendingModeration = 'PendingModeration',
   Rejected = 'Rejected',
+  EditedByModerator = 'EditedByModerator',
   Approved = 'Approved'
 }
 
-export enum DetailsTabTitlesParams {
-  'AboutWorkshop',
-  'AboutProvider',
-  'Teachers',
-  'OtherWorkshops',
-  'Reviews',
-  'Achievements',
-  'Contacts'
+export enum WorkshopModerationDraftStatus {
+  PendingModeration = 'PendingModeration',
+  EditedByModerator = 'EditedByModerator'
 }
 
 export enum FormOfLearning {

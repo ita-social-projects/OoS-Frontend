@@ -26,14 +26,13 @@ export abstract class WorkshopBase {
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  withDisabilityOptions: boolean;
-  disabilityOptionsDesc: string;
   languageOfEducationId: number;
   languageOfEducationName: string;
   institutionId: string;
   institution: string;
   institutionHierarchyId: string;
   institutionHierarchy: string;
+  isChampionPath?: boolean = false;
   directionIds: number[];
   keywords: string[];
   contacts: Contacts[];
@@ -51,7 +50,7 @@ export abstract class WorkshopBase {
   educationalShift: string;
   ageComposition: string;
   coverage: string;
-  groupType: string;
+  workshopType: string;
 
   constructor(
     about: WorkshopAbout,
@@ -73,9 +72,9 @@ export abstract class WorkshopBase {
     this.formOfLearning = about?.formOfLearning;
     this.availableSeats = about?.availableSeats;
     this.workshopDescriptionItems = description?.workshopDescriptionItems;
-    this.withDisabilityOptions = Boolean(description?.disabilityOptionsDesc);
-    this.institutionId = description?.institutionId;
-    this.institutionHierarchyId = description?.institutionHierarchyId;
+    this.institutionId = additionalAbout?.institutionId;
+    this.institutionHierarchyId = additionalAbout?.institutionHierarchyId;
+    this.isChampionPath = additionalAbout?.isChampionPath;
     this.keywords = description?.keyWords;
     this.competitiveSelection = description?.competitiveSelection;
     this.competitiveSelectionDescription = description?.competitiveSelectionDescription;
@@ -91,7 +90,7 @@ export abstract class WorkshopBase {
     this.preferentialTermsOfParticipation = additionalAbout?.preferentialTermsOfParticipation;
     this.educationalShift = additionalAbout?.educationalShift;
     this.ageComposition = additionalAbout?.ageComposition;
-    this.groupType = additionalAbout?.groupType;
+    this.workshopType = additionalAbout?.workshopType;
     this.isPaid = additionalAbout?.isPaid;
     this.price = additionalAbout?.price;
     this.payRate = additionalAbout?.payRate;
@@ -100,9 +99,6 @@ export abstract class WorkshopBase {
 
     if (id) {
       this.id = id;
-    }
-    if (description?.disabilityOptionsDesc) {
-      this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
   }
 }
@@ -187,7 +183,6 @@ export interface WorkshopBaseCard {
   directionIds: number[];
   providerId: string;
   address: Address;
-  withDisabilityOptions: boolean;
   rating: number;
   numberOfRatings: number;
   providerLicenseStatus: LicenseStatuses;
@@ -261,30 +256,31 @@ export interface AdditionalAbout {
   specialNeedsType: string;
   educationalShift: string;
   ageComposition: string;
-  groupType: string;
+  workshopType: string;
   price: number;
   payRate: PayRateType;
   areThereBenefits: boolean;
   preferentialTermsOfParticipation: string;
+  institutionId: string;
+  institutionHierarchyId: string;
+  isChampionPath?: boolean;
 }
 
 export interface WorkshopFilterAdministration extends PaginationParameters {
   searchString?: string;
   institutionId?: string;
+  workshopDraftStatuses?: string;
   catottgId?: number;
 }
 
 export interface Description {
   workshopDescriptionItems: WorkshopDescriptionItem[];
-  disabilityOptionsDesc?: string;
   keyWords: string[];
   imageIds?: string[];
   imageFiles?: File[];
   tagIds: number[];
   enrollmentProcedureDescription: string;
   coverage: string;
-  institutionId: string;
-  institutionHierarchyId: string;
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
 }
@@ -307,6 +303,16 @@ export class Contacts {
       this.socialNetworks = info.socialNetworks;
     }
   }
+}
+
+export class EditDraft {
+  title: string;
+  shortTitle: string;
+  competitiveSelectionDescription?: string;
+  preferentialTermsOfParticipation?: string;
+  enrollmentProcedureDescription?: string;
+  institutionHierarchyId: string;
+  workshopDescriptionItems: WorkshopDescriptionItem[];
 }
 
 interface PhoneType {

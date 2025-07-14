@@ -11,11 +11,13 @@
   </div>
 </div>
 
+<app-sidenav-filters *ngIf="isMobileView$ | async" [isMobileView]="isMobileView"></app-sidenav-filters>
+
 <mat-drawer-container>
-  <mat-drawer mode="side" [opened]="isFiltersSidenavOpen$ | async">
-    <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
+  <mat-drawer mode="side" *ngIf="!(isMobileView$ | async)" [opened]="isFiltersSidenavOpen$ | async">
+    <app-filters-list [isMobileView]="isMobileView$ | async"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="marginLeft" [style.marginTop]="isMapView ? '0' : '2rem'">
+  <mat-drawer-content [style.margin-left]="marginLeft" [style.margin-top]="isMapView ? '0' : '2rem'">
     <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" class="flex flex-row justify-start">
       <app-workshop-map-view-list
         [role]="role"

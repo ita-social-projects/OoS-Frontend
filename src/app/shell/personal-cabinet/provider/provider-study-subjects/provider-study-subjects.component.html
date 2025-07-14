@@ -1,9 +1,8 @@
-<div class="flex flex-row flex-wrap justify-between items-center mb-4" [formGroup]="filterForm">
-  <div class="flex justify-start static max-h-10">
+<div class="filters-wrapper flex flex-row flex-wrap justify-between items-center mb-6" [formGroup]="filterForm">
+  <div class="search-wrapper flex justify-start static max-h-10">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        #input
         formControlName="filterFormControl"
         matInput
         type="text"
@@ -13,43 +12,45 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-x-4">
+  <div class="flex flex-row gap-x-4 flex-wrap gap-y-2.5">
     <div class="flex justify-end items-center gap-1">
       <div class="flex items-center">
         <span class="filters-period">{{ 'HISTORY_LOG.CREATION_PERIOD' | translate }}</span>
-        <mat-form-field appPlaceholderStyling class="date">
-          <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
-          <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
-            <input
-              matInput
-              matStartDate
-              placeholder="{{ 'FROM' | translate }}"
-              [value]="tempDateFrom"
-              (dateInput)="onDateInput($event, 'dateFrom')"
-              appDateInput />
-            <input
-              matInput
-              matEndDate
-              placeholder="{{ 'TO' | translate }}"
-              [value]="tempDateTo"
-              (dateInput)="onDateInput($event, 'dateTo')"
-              [min]="filterForm.get('dateFrom').value"
-              appDateInput />
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker>
-            <mat-date-range-picker-actions>
-              <div class="flex justify-between w-full">
-                <button class="btn" mat-raised-button matDatepickerApply (click)="onDateApply()">
-                  {{ 'HISTORY_LOG.SHOW' | translate }}
-                </button>
-                <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
-                  {{ 'BUTTONS.CANCEL' | translate }}
-                </button>
-              </div>
-            </mat-date-range-picker-actions>
-          </mat-date-range-picker>
-        </mat-form-field>
+        <div class="relative">
+          <mat-form-field appPlaceholderStyling class="date">
+            <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
+            <mat-date-range-input
+              [formGroup]="datesGroup"
+              [rangePicker]="picker"
+              [comparisonStart]="datesGroup.get('dateFrom').value"
+              [comparisonEnd]="datesGroup.get('dateTo').value">
+              <input
+                matStartDate
+                [errorStateMatcher]="matcher"
+                placeholder="{{ 'FROM' | translate }}"
+                formControlName="dateFrom"
+                appDateInput />
+              <input matEndDate [errorStateMatcher]="matcher" placeholder="{{ 'TO' | translate }}" formControlName="dateTo" appDateInput />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-date-range-picker-actions>
+                <div class="flex justify-between w-full">
+                  <button class="btn" mat-raised-button matDatepickerApply (click)="getStudySubjects()">
+                    {{ 'HISTORY_LOG.SHOW' | translate }}
+                  </button>
+                  <button class="btn btn-cancel" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
+                    {{ 'BUTTONS.CANCEL' | translate }}
+                  </button>
+                </div>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+          <app-validation-hint
+            class="absolute top-full left-0 mt-1"
+            [validationFormControl]="datesGroup"
+            [formLevelValidation]="true"></app-validation-hint>
+        </div>
       </div>
     </div>
 
@@ -59,7 +60,7 @@
       tabindex="0"
       (keydown.enter)="onResetFilters()"
       [matTooltip]="'HISTORY_LOG.RESET_FILTERS' | translate">
-      <mat-icon class="!flex items-center reset__icon">refresh</mat-icon>
+      <mat-icon class="!flex items-center reset-icon">refresh</mat-icon>
     </div>
 
     <a [routerLink]="['/create-study-subject', ModeConstants.NEW]">
@@ -68,9 +69,9 @@
   </div>
 </div>
 
-<div class="table-wrapper">
+<div class="wrapper">
   <ng-container *ngIf="dataSource.data.length; else isEmptyList">
-    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container mat-elevation-z8">
+    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="subjects-table" appStretchTable>
         <ng-container matColumnDef="nameInUkrainian" sticky>
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -116,13 +117,13 @@
           <td mat-cell *matCellDef="let element">{{ '0' }}</td>
         </ng-container>
 
-        <ng-container class="actions-column" matColumnDef="actions" stickyEnd>
-          <th mat-header-cell *matHeaderCellDef style="width: 5%"></th>
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-button [routerLink]="['/create-study-subject', element.id]">
+            <button mat-icon-button class="icon-button" [routerLink]="['/create-study-subject', element.id]">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-button (click)="onDelete(element)">
+            <button mat-icon-button class="icon-button" (click)="onDelete(element)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -132,15 +133,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-    <ng-container *ngIf="totalElements">
-      <app-paginator
-        [totalEntities]="totalElements"
-        [currentPage]="currentPage"
-        [itemsPerPage]="subjectParameters.size"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
-      </app-paginator>
-    </ng-container>
   </ng-container>
 
   <ng-template #isEmptyList>
@@ -149,3 +141,12 @@
     </div>
   </ng-template>
 </div>
+<ng-container *ngIf="totalElements">
+  <app-paginator
+    [totalEntities]="totalElements"
+    [currentPage]="currentPage"
+    [itemsPerPage]="subjectParameters.size"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
+</ng-container>

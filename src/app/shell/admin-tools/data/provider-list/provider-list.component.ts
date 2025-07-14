@@ -96,7 +96,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'email',
     'phoneNumber',
     'status',
-    'star'
+    'actions'
   ];
   public filterGroup: FormGroup;
   public dataSource = new MatTableDataSource([{}]);
@@ -165,6 +165,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
           switch (role) {
             case Role.techAdmin:
+              return of(null);
+            case Role.moderator:
               return of(null);
             case Role.ministryAdmin:
               return this.store.dispatch(new GetMinistryAdminProfile());

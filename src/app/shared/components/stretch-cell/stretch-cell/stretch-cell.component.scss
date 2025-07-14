@@ -6,19 +6,19 @@
     opacity: 1;
   }
 }
+
 .resize-border {
   position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 20;
-  align-self: stretch;
+  display: flex;
+  justify-content: center;
 
+  width: 20px; // touch-target
   height: 100%;
-  width: 2px;
-  padding: 0 0 0 10px;
 
-  border-right: 2px solid silver;
+  top: 0;
+  right: -24px;
 
+  align-self: stretch;
   cursor: col-resize;
 
   opacity: 0;
@@ -26,5 +26,10 @@
 
   &:active {
     opacity: 1;
+  }
+
+  .border {
+    width: 0;
+    border-right: 3px solid silver;
   }
 }

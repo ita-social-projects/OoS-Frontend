@@ -35,6 +35,7 @@ import {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('validationHint', { read: ElementRef }) public validationHint: ElementRef;
   @Input() public validationFormControl: AbstractControl; // required for validation
+
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
@@ -62,6 +63,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   // For specific study period range validation
   @Input() public errorMessagesMap: Map<string, string> = new Map<string, string>();
+
+  // For images form controls
+  @Input() public isImage: boolean;
+  @Input() public minImages: number;
+  @Input() public maxImages: number;
 
   @Input() public displayToolTip: boolean;
   public tooltipText: string[] = [];
@@ -154,7 +160,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
     const errorConditions = [
       // Number validation
-      // typesc
       {
         condition: (): boolean => this.isNumberValue && (errors.max || errors.min),
         message: ValidationMessages.INVALID_VALUE
@@ -171,6 +176,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: (): boolean => errors.blacklistedDomain,
         message: ValidationMessages.INVALID_EMAIL_TYPE
+      },
+      // min, max price in the filter Validation
+      {
+        condition: (): boolean => errors.minPriceFilterError,
+        message: ValidationMessages.INVALID_MINIMUM_FILTER_PRICE
+      },
+      {
+        condition: (): boolean => errors.maxPriceFilterError,
+        message: ValidationMessages.INVALID_MAXIMUM_FILTER_PRICE
       },
       // Phone number validation
       {
@@ -233,7 +247,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       },
       {
         condition: (): boolean => this.isCompetitionDate && (errors?.matDatepickerMin || errors?.matDatepickerMax),
-        message: ValidationMessages.INVALID_START_END_DATE
+        message: ValidationMessages.INVALID_REGISTRATION_START_END_DATE
       },
       // Validation by RegExp
       {
@@ -278,12 +292,20 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
         message: ValidationMessages.INVALID_TIME_FORMAT
       },
       {
-        condition: (): boolean => errors?.minArrayLength || errors?.maxArrayLength,
+        condition: (): boolean => (errors?.minArrayLength || errors?.maxArrayLength) && !this.isImage,
         message: ValidationMessages.INVALID_TAGS_LENGTH
       },
       {
         condition: (): boolean => this.isEdrpou && errors.minlength && !errors.maxlength,
         message: ValidationMessages.INVALID_EDRPOU
+      },
+      {
+        condition: (): boolean => this.isImage && this.minImages < this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE_FROM_TO
+      },
+      {
+        condition: (): boolean => this.isImage && this.minImages === this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE
       }
     ];
 
@@ -309,6 +331,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: (): boolean => errors?.invalidTimeRange,
         message: ValidationMessages.INVALID_TIME_RANGE
+      },
+      {
+        condition: (): boolean => errors?.invalidDateRange,
+        message: ValidationMessages.INVALID_START_END_DATE
       }
     ];
 
@@ -327,6 +353,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       maxCharacters: String(this.maxCharacters ?? ''),
       minValue: String(this.minValue ?? ''),
       maxValue: String(this.maxValue ?? ''),
+      minImages: String(this.minImages ?? ''),
+      maxImages: String(this.maxImages ?? ''),
       currentCharactersCount: String(this.validationFormControl.value?.length ?? '')
     };
   }

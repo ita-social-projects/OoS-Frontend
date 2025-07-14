@@ -50,5 +50,6 @@ export enum UserStatusIcons {
   Blocked = 'fas fa-user-times',
   Editing = 'fas fa-user-edit',
   Recheck = 'fas fa-user-edit',
-  PendingModeration = 'fas fa-user-clock'
+  PendingModeration = 'fas fa-user-clock',
+  EditedByModerator = 'fas fa-user-edit'
 }

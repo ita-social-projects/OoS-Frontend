@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { merge, of, Subject, throttleTime } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { Tag } from 'shared/models/tag.model';
@@ -30,6 +30,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-description-form',
@@ -70,17 +71,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public SectionItemsFormArray = new FormArray([]);
   public keyWordsCtrl: FormControl = new FormControl('');
 
+  public isTagsFeatureEnabled: boolean = false;
   public keyWords: string[] = [];
   public tags: Tag[] = [];
-
-  public disabilityOptionRadioBtn: FormControl = new FormControl(false);
-
   public separatorKeysCodes = [ENTER];
 
-  public tagsControl: FormControl = new FormControl<Tag[]>(
-    [],
-    [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
-  );
+  public tagsControl: FormControl;
 
   protected readonly ValidationConstants = ValidationConstants;
 
@@ -94,12 +90,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     private readonly route: ActivatedRoute
   ) {
     this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl(''),
+      imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
       keyWords: new FormControl(null),
       workshopDescriptionItems: this.SectionItemsFormArray,
       competitiveSelection: new FormControl(false),
@@ -107,19 +99,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
         Validators.required,
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      tagIds: new FormControl<number[]>(null, [
-        Validators.required,
-        minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
-        maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
-      ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      coverage: new FormControl(this.Coverage.School),
-      institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required)
+      coverage: new FormControl(this.Coverage.School)
     });
   }
 
@@ -128,28 +113,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   }
 
   public ngOnInit(): void {
-    this.onDisabilityOptionCtrlInit();
-    this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
-      this.updateTagIds(selectedTags || []);
-    });
+    this.initTags();
 
     if (this.workshop) {
       this.activateEditMode();
     } else {
       this.onAddForm();
     }
-
-    this.overrideTouchForForm(this.DescriptionFormGroup.get('tagIds') as FormControl);
-
-    this.tagService
-      .getTags()
-      .pipe(take(1))
-      .subscribe((tags) => {
-        this.tags = tags;
-        if (this.workshop?.tagIds) {
-          this.tagsControl.setValue(this.tags.filter((tag) => this.workshop.tagIds.includes(tag.id)));
-        }
-      });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
@@ -203,22 +173,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
-   */
-  public onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string): void => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-    this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      if (isDisabilityOptionsDesc) {
-        setAction('enable');
-      } else {
-        setAction('disable');
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
-      }
-      this.markFormAsDirtyOnUserInteraction();
-    });
-  }
-
-  /**
    * This method listens for changes in the 'keyWords' control and marks
    * the form as 'dirty' whenever there are changes in the key words.
    */
@@ -265,11 +219,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.keyWordsCtrl.setValue(keyWord);
       this.onKeyWordsInput(false);
     });
-
-    if (this.workshop.withDisabilityOptions) {
-      this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
-      this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
-    }
 
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
@@ -334,6 +283,47 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     return this.EditFormGroup;
   }
 
+  private initTags(): void {
+    this.store
+      .select(MetaDataState.featuresList)
+      .pipe(
+        take(1),
+        map((fl) => fl.enableWorkshopTags),
+        filter(Boolean)
+      )
+      .subscribe(() => {
+        this.isTagsFeatureEnabled = true;
+
+        this.DescriptionFormGroup.addControl(
+          'tagIds',
+          new FormControl<number[]>(null, [
+            Validators.required,
+            minArrayLength(ValidationConstants.MIN_TAGS_LENGTH),
+            maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)
+          ])
+        );
+
+        this.tagsControl = new FormControl<Tag[]>(
+          [],
+          [Validators.required, minArrayLength(ValidationConstants.MIN_TAGS_LENGTH), maxArrayLength(ValidationConstants.MAX_TAGS_LENGTH)]
+        );
+
+        this.overrideTouchForForm(this.DescriptionFormGroup.get('tagIds') as FormControl);
+
+        this.tagsControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((selectedTags: Tag[]) => {
+          this.updateTagIds(selectedTags || []);
+        });
+
+        this.tagService
+          .getTags()
+          .pipe(take(1))
+          .subscribe((tags) => {
+            this.tags = tags;
+            this.tagsControl.setValue(this.tags.filter((tag) => (this.workshop?.tagIds ?? []).includes(tag.id)));
+          });
+      });
+  }
+
   /**
    * This method makes DescriptionFormGroup dirty
    */
@@ -370,14 +360,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
   private listenToChanges(): void {
     merge(
-      ...[
-        'imageFiles',
-        'workshopDescriptionItems',
-        'disabilityOptionsDesc',
-        'competitiveSelectionDescription',
-        'keyWords',
-        'enrollmentProcedureDescription'
-      ].map(
+      ...['imageFiles', 'workshopDescriptionItems', 'competitiveSelectionDescription', 'keyWords', 'enrollmentProcedureDescription'].map(
         (controlName) =>
           this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
             throttleTime(5000, undefined, {

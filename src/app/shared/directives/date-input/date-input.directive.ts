@@ -33,6 +33,10 @@ export class DateInputDirective implements OnInit {
   }
 
   private formatDate(value: string): string {
+    if (value.length === 1 && value === '/') {
+      return '';
+    }
+
     let formattedDate = this.indexesToInsert.reduce((acc, index) => {
       if (value.length >= index && acc.at(index) !== '/' && acc.at(index - 1) !== '/' && acc.at(index + 1) !== '/') {
         return acc.slice(0, index) + '/' + acc.slice(index);

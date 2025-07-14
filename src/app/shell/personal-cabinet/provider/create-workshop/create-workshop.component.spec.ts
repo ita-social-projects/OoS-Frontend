@@ -208,7 +208,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
           { sectionName: 'hel2', description: 'hel2' },
           { sectionName: 'hel2', description: 'hel2' }
         ],
-        disabilityOptionsDesc: 'Option',
         keywords: ['a', 'b'],
         enrollmentProcedureDescription: 'enroll',
         preferentialTermsOfParticipation: 'terms'
@@ -224,7 +223,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
           { sectionName: 'hel2', description: 'hel2' },
           { sectionName: 'hel2', description: 'hel2' }
         ],
-        disabilityOptionsDesc: 'Option',
         keywords: ['a', 'b'],
         enrollmentProcedureDescription: 'enroll',
         preferentialTermsOfParticipation: 'terms'

@@ -25,8 +25,6 @@ export abstract class CompetitionBase {
   description?: string;
   coverageId: number;
   plannedFormatOfClasses?: FormOfLearning;
-  optionsForPeopleWithDisabilities?: boolean;
-  descriptionOfOptionsForPeopleWithDisabilities?: string;
   minimumAge?: number;
   maximumAge?: number;
   competitiveSelection?: boolean;
@@ -66,10 +64,8 @@ export abstract class CompetitionBase {
     this.contacts = contacts;
     this.coverageId = description.coverageId;
 
-    this.optionsForPeopleWithDisabilities = Boolean(description.disabilityOptionsDesc);
     this.competitiveSelection = Boolean(description.descriptionOfTheEnrollmentProcedure);
     this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
-    this.optionsForPeopleWithDisabilities = description.optionsForPeopleWithDisabilities;
 
     if (id) {
       this.id = id;
@@ -101,9 +97,7 @@ export abstract class CompetitionBase {
     if (description.formOfLearning) {
       this.plannedFormatOfClasses = description.formOfLearning;
     }
-    if (description.disabilityOptionsDesc) {
-      this.descriptionOfOptionsForPeopleWithDisabilities = description.disabilityOptionsDesc;
-    }
+
     if (description.additionalDescription) {
       this.additionalDescription = description.additionalDescription;
     }
@@ -184,7 +178,6 @@ export interface CompetitionBaseCard {
   competitiveSelection: boolean;
   price: number;
   address?: Address;
-  withDisabilityOptions: boolean;
   rating: number;
   numberOfRatings: number;
   directionIds: number[];
@@ -221,11 +214,9 @@ interface Description {
   description?: string;
   coverageId: CompetitionCoverage;
   formOfLearning?: FormOfLearning;
-  disabilityOptionsDesc?: string;
   additionalDescription?: string;
   descriptionOfTheEnrollmentProcedure?: string;
   price?: number;
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
-  optionsForPeopleWithDisabilities: boolean;
 }

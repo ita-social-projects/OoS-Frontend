@@ -1,6 +1,5 @@
 @use 'tables';
 @use 'search';
-@use 'buttons';
 @use 'dropdown';
 
 .provider-list-status {
@@ -55,10 +54,6 @@
 
 .status-title {
   padding-left: 7px;
-}
-
-.paginator {
-  margin-top: 2rem;
 }
 
 .true {

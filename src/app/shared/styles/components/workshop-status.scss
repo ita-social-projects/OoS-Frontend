@@ -11,7 +11,8 @@
     &-close,
     &-draft,
     &-pending,
-    &-rejected {
+    &-rejected,
+    &-edited {
       color: var(--specific-light-text-color);
       font-weight: bold;
       padding: 7px;
@@ -34,6 +35,10 @@
 
     &-pending {
       background-color: orange;
+    }
+
+    &-edited {
+      background-color: rgba(208, 141, 8, 1);
     }
   }
 }

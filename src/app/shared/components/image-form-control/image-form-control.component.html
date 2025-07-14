@@ -1,16 +1,15 @@
 <form>
   <div class="form-wrapper">
     <div class="container flex flex-row justify-between items-center">
-      <div class="step-label">{{ label }}</div>
+      <div class="step-label">{{ label }}<span class="step-required">*</span></div>
       <app-info-menu [type]="InfoMenuType.Text">
         <div [innerHTML]="'INFO_MENU.IMAGES_RECOMMENDATION' | translate"></div>
       </app-info-menu>
     </div>
-    <div class="photo-subheader">{{ 'BANNERS.ADD_IMG_SUBHEADER' | translate }} {{ imgMaxAmount }}</div>
+    <div class="photo-subheader" *ngIf="!deleteMode">{{ 'BANNERS.ADD_IMG_SUBHEADER' | translate }} {{ imgMaxAmount }}</div>
     <div class="photo-subheader">{{ 'BANNERS.ADD_IMG_SUBHEADER_DESC' | translate }}</div>
-    <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px"
-                   (window:resize)="onResize($event.target)">
-      <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount">
+    <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
+      <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount && !deleteMode">
         <label>
           <input type="file" (input)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png" #inputImage />
           <mat-icon class="card_icon">add</mat-icon>
@@ -18,11 +17,20 @@
       </mat-grid-tile>
       <mat-grid-tile *ngFor="let img of decodedImages" class="logo_button">
         <div class="logo_images">
-          <img *ngIf="!img.isBroken" [src]="img.image" (error)="img.isBroken=true" alt="image" />
-          <div *ngIf="img.isBroken" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}" class="fallback flex items-center justify-center">
+          <img
+            *ngIf="!img.isBroken"
+            (keydown.enter)="displayFullImage(img?.image)"
+            (click)="displayFullImage(img?.image)"
+            [src]="img.image"
+            (error)="img.isBroken = true"
+            alt="broken" />
+          <div
+            *ngIf="img.isBroken"
+            matTooltip="{{ (deleteMode ? 'IMAGE.DELETE_IMAGE' : 'IMAGE.CHANGE_IMAGE') | translate }}"
+            class="fallback flex items-center justify-center">
             {{ 'IMAGE.ERROR' | translate | lowercase }}
           </div>
-          <mat-icon class="logo_cancel" (click)="onRemoveImg(img)">clear</mat-icon>
+          <mat-icon class="logo_cancel" (keydown.enter)="onRemoveImg(img)" (click)="onRemoveImg(img)">clear</mat-icon>
         </div>
       </mat-grid-tile>
     </mat-grid-list>

@@ -12,4 +12,5 @@ export interface FeaturesList {
   emailConfirmation: boolean;
   emailManagement: boolean;
   passwordManagement: boolean;
+  enableWorkshopTags: boolean;
 }

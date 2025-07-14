@@ -168,7 +168,8 @@
       "STATUS": {
         "DRAFT": "Draft",
         "PENDING": "Pending for moderation",
-        "REJECTED": "Rejected"
+        "REJECTED": "Rejected",
+        "EDITED_BY_MODERATOR": "Edited by moderator"
       }
     },
     "INSTITUTION_TYPE": {
@@ -389,7 +390,8 @@
   "MODERATOR_MESSAGE": "Moderator's response",
   "DRAFT_CARD_HINT": {
     "PUBLISH": "Click \"Publish\" to submit your draft for moderation.",
-    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear."
+    "PENDING_MODERATION": "Here, if the draft is rejected, a moderator's response will appear.",
+    "EDITED_BY_MODERATOR": "The draft has been edited by a moderator. You can review it and make changes and send it for moderation again."
   },
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
@@ -466,7 +468,6 @@
       "STREET": "Street",
       "VENUE": "Venue",
       "SUBORDINATION": "Subordination",
-      "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for persons with disabilities",
       "COMPETITIVE_SELECTION": "Competitive selection",
       "DESCRIPTION_SELECTION": "Description of enrolment procedure",
       "DESCRIPTION_BENEFITS": "Description of benefits",
@@ -530,7 +531,6 @@
       "ENROLLMENT_PROCEDURE_DESCRIPTION": "Description of the enrollment procedure",
       "IS_SPECIAL": "Is special",
       "IS_INCLUSIVE": "Is inclusive",
-      "COMPETITIVE_SELECTION": "Competitive selection",
       "SPECIAL_NEEDS_TYPE": "Special needs type",
       "ARE_THERE_BENEFITS": "Benefits",
       "BENEFITS_POSITIVE": "With benefits",
@@ -560,21 +560,24 @@
       "LAST_REFERRED": "Date of the last reference",
       "USED_IN": "Times used in workshops",
       "SUBJECT_NAME": "Study subject name",
+      "PAYMENT_UNIT": "Payment unit",
       "INFORMATION_ABOUT_WORKSHOP": "About",
       "INSTITUTION_HIERARCHY": "Profile/scientific department",
       "INSTITUTION": "Institution",
+      "CHAMPION_PATH": "Champion path",
       "DIRECTION": "Direction name",
       "COST": "Cost",
       "EMAILS": "Emails",
       "PHONE_NUMBERS": "Phone numbers",
-      "LINK": "Link"
+      "LINK": "Link",
+      "CONTACTS": "Contacts"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
       "KEYWORDS_END": "words)",
       "KEYWORDS_START": "Enter keywords by which users can search for your workshop and press Enter to add a tag (max",
       "MAXIMUM": "Maximum",
-      "PAYMENT_TYPE": "Choose the type of payment for the workshop",
+      "PAYMENT_TYPE": "Choose the unit of payment for the workshop",
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
       "STUDY_PERIOD_DATE_FORMAT": "DD/MM",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
@@ -611,10 +614,12 @@
       "WITHOUT_SORT": "Without sorting",
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
-      "SEARCH_BY_TITLE": "Search by full title"
+      "SEARCH_BY_TITLE": "Search by full title",
+      "SELECT_STATUS": "Select status"
     },
     "TOOLTIP": {
-      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features"
+      "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features",
+      "GROUP_TYPE_IS_DISABLED": "The workshop type is automatically set as \"Section\" to report to the Ministry of Sports. To change the type, select a different subordination."
     },
     "UAH_FOR": "UAH for",
     "UAH": "UAH",
@@ -624,8 +629,6 @@
       "INVALID_CHARACTERS": ", please use only cyrillic",
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
-      "INVALID_START_END_DATES": "The registration end date cannot be later than the event date.",
-      "INVALID_EMAIL": "Enter the email address in the format name@example.com",
       "INVALID_EDRPOU_END": " digit number.",
       "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_INPUT": "Check your data",
@@ -638,6 +641,9 @@
       "INVALID_PHONE_LENGTH": "This field must contain minimum {{minCharacters}} symbols.",
       "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_DATE_RANGE": "Check your data </br> Date is out of range.",
+      "INVALID_START_END_DATE": "Incorrect date range",
+      "INVALID_REGISTRATION_START_END_DATES": "The registration end date cannot be later than the event date.",
+      "INVALID_EMAIL": "Enter the email address in the format name@example.com",
       "INVALID_EDRPOU": "This field must contain {{minCharacters}} digit number.",
       "INVALID_STREET": "Check your data, please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_HOUSE": "Check your data, please use only numbers, cyrillic and symbols ( / - . )",
@@ -668,7 +674,11 @@
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
       "CURRENT_COUNT": "Current count:",
-      "INVALID_STUDY_PERIOD_RANGE": "Check your entries. Use the date format DD/MM. For example: \"20/10"
+      "INVALID_STUDY_PERIOD_RANGE": "Check your entries. Use the date format DD/MM. For example: \"20/10",
+      "INVALID_MINIMUM_FILTER_PRICE": "The price From can range from {{minValue}} to {{maxValue}}",
+      "INVALID_MAXIMUM_FILTER_PRICE": "The price To can range from {{minValue}} to {{maxValue}}",
+      "IMAGE_AMOUNT_SHOULD_BE": "Image amount should be {{minImages}}",
+      "IMAGE_AMOUNT_SHOULD_BE_FROM_TO" : "Image amount should be {{minImages}} to {{maxImages}}"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
@@ -1049,6 +1059,9 @@
       "POSITION_NOT_FOUND": "Position not found",
       "DRAFT_REJECTED_SUCCESS": "Changes requested successfully!",
       "DRAFT_APPROVED_SUCCESS": "Workshop approved!",
+      "COVER_IMAGE_DELETED": "Cover image deleted!",
+      "IMAGE_DELETED": "Image deleted",
+      "DRAFT_EDITED": "Draft successfully edited!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
@@ -1093,6 +1106,7 @@
       "DELETE_JUDGE": "Are you sure you want to delete judge's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider",
       "DELETE_EMPLOYEE": "Are you sure you want to delete the employee",
+      "DELETE_IMAGE": "Are you sure you want to delete the image?",
       "DELETE_PROVIDER_DEPUTY": "Are you sure you want to delete the provider deputy",
       "BLOCK_EMPLOYEE": "Are you sure you want to block the employee",
       "BLOCK_PROVIDER_DEPUTY": "Are you sure you want to block the provider deputy",
@@ -1151,6 +1165,7 @@
         "DELETE_PROVIDER": "Delete provider?",
         "DELETE_EMPLOYEE": "Delete employee?",
         "DELETE_PROVIDER_DEPUTY": "Delete provider deputy?",
+        "DELETE_IMAGE": "Delete image?",
         "BLOCK_EMPLOYEE": "Block employee?",
         "BLOCK_PROVIDER_DEPUTY": "Block provider deputy?",
         "BLOCK_PROVIDER": "Block provider?",
@@ -1265,7 +1280,8 @@
   },
   "IMAGE": {
     "ERROR": "Error",
-    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition"
+    "CHANGE_IMAGE": "The photo is no longer available. You can change it by editing the workshop/competition",
+    "DELETE_IMAGE": "This image is no longer available. Please remove it"
   },
   "COOKIES": {
     "COOKIE_DESCRIPTION": "Cookies help the website function properly. Below you can review what data we and our partners collect and for what purpose. You have the option to specify the conditions for their storage or access. You can withdraw your consent at any time by deleting cookies from your browser. More information can be found in the privacy policy.",

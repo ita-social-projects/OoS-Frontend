@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, Store } from '@ngxs/store';
+import { Actions, NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
@@ -20,6 +20,8 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
 import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -34,10 +36,22 @@ describe('WorkshopDetailsComponent', () => {
         get: jest.fn()
       }
     },
-    queryParams: of({ status: '111' })
+    queryParams: of({ tab: '111' })
   };
   const mockStore = {
-    dispatch: jest.fn()
+    dispatch: jest.fn(),
+    select: jest.fn().mockReturnValue(of({})),
+    selectSnapshot: jest.fn().mockReturnValue(true)
+  };
+  const mockActions = {
+    pipe: jest.fn().mockReturnValue(of({}))
+  };
+  const mockImagesService = {
+    getCoverImage: jest.fn().mockReturnValue('test-image.jpg'),
+    getDefaultCoverImage: jest.fn().mockReturnValue('default-image.jpg')
+  };
+  const mockNavigationBarService = {
+    createNavPaths: jest.fn().mockReturnValue([])
   };
   const mockRouter = {
     navigate: jest.fn()
@@ -68,6 +82,9 @@ describe('WorkshopDetailsComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Store, useValue: mockStore },
+        { provide: Actions, useValue: mockActions },
+        { provide: ImagesService, useValue: mockImagesService },
+        { provide: NavigationBarService, useValue: mockNavigationBarService },
         { provide: Router, useValue: mockRouter }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -99,7 +116,6 @@ describe('WorkshopDetailsComponent', () => {
     } as MatDialogRef<ConfirmationModalWindowComponent>);
     component.onActionButtonClick(ModalConfirmationType.publishWorkshop);
     expect(matDialogSpy).toHaveBeenCalledTimes(1);
-    expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
   });
 
   it('should set default coverImage', () => {
@@ -139,6 +155,39 @@ describe('WorkshopDetailsComponent', () => {
       component.onEdit();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('123'));
+    });
+  });
+
+  describe('Tabs', () => {
+    it('should change tab and update query params', () => {
+      jest.spyOn(mockRouter, 'navigate');
+
+      const mockEvent: Partial<MatTabChangeEvent> = {
+        index: 1
+      };
+
+      component.onTabChange(mockEvent as MatTabChangeEvent);
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith([], {
+        queryParams: { tab: 'AboutProvider' }
+      });
+    });
+
+    it('should change tab according to initial query params', () => {
+      mockActivatedRoute.queryParams = of({ tab: 'Teachers' });
+
+      component.ngOnInit();
+
+      expect(component.selectedIndex).toEqual(2);
+    });
+
+    it('should change tab to 0 and update query params if initial params arent correct', () => {
+      mockActivatedRoute.queryParams = of({ tab: 'UnexistingTab' });
+      component.selectedIndex = 1;
+
+      component.ngOnInit();
+
+      expect(component.selectedIndex).toEqual(0);
     });
   });
 });

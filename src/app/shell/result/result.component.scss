@@ -295,3 +295,14 @@
     display: none;
   }
 }
+
+@media (max-width: 800px) {
+  .mobile-sidenav {
+    width: 100%;
+    padding: 2rem 1rem;
+    position: fixed;
+    z-index: 10001;
+    top: 0;
+    left: 0;
+  }
+}

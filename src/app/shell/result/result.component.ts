@@ -2,7 +2,7 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, pairwise, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
@@ -35,7 +35,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState)
   protected filterState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
-  private isMobileView$: Observable<boolean>;
+  protected isMobileView$: Observable<boolean>;
   @Select(RegistrationState.role)
   private role$: Observable<string>;
   @Select(FilterState.isMapView)
@@ -146,8 +146,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.isFiltersSidenavOpen = val;
+    this.isFiltersSidenavOpen$.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((filtersSidenavState: boolean) => {
+      this.isFiltersSidenavOpen = filtersSidenavState;
       this.calculateMarginLeft();
     });
 

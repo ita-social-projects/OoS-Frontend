@@ -1,5 +1,5 @@
 <div class="step">
-  <div class="accordion-wrapper" class="flex flex-col">
+  <div class="accordion-wrapper flex flex-col">
     <mat-accordion>
       <mat-expansion-panel
         *ngFor="let addressForm of addressesFormArray.controls; let index = index"
@@ -171,6 +171,7 @@
             <div class="map">
               <app-map
                 [mapId]="index"
+                [disabled]="moderatorFlow"
                 [settelmentFormGroup]="addressForm.get('searchGroup').get('settlement')"
                 [addressFormGroup]="addressForm"
                 (addressSelect)="onAddressSelect($event, addressForm)">
@@ -181,7 +182,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     <div class="flex flex-row justify-start items-center content-center">
-      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid">
+      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid || moderatorFlow">
         <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_ADDRESS' | translate }}
       </button>
     </div>

@@ -9,14 +9,6 @@
   <h5 class="title">{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
   <p *ngIf="!competition.price" class="txt">{{ 'FOR_FREE' | translate }}</p>
   <p *ngIf="competition.price" class="txt">{{ competition.price }} {{ 'UAH' | translate }}</p>
-  <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-  <p class="txt">
-    {{
-      competition.optionsForPeopleWithDisabilities
-        ? competition.descriptionOfOptionsForPeopleWithDisabilities
-        : ('NOT_AVAILABLE' | translate)
-    }}
-  </p>
 
   <h5 class="title">{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}</h5>
   <span class="txt">{{ competition.scheduledStartTime | date }}</span>

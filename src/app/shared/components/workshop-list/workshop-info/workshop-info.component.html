@@ -1,12 +1,26 @@
 <div class="wrapper" *ngIf="workshop">
-  <div class="justify-end flex">
-    <a (click)="onCloseInfo()" class="close-icon">
+  <div class="justify-end mb-[10px] items-center flex">
+    <a (click)="onCloseInfo()" class="close-icon h-[24px]">
       <mat-icon>close</mat-icon>
     </a>
   </div>
 
   <mat-tab-group [mat-stretch-tabs]="false">
-    <mat-tab label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
+    <mat-tab [formGroup]="form" label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
+      <app-image-form-control
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('coverImageId').value?.length"
+        [imgMaxAmount]="1"
+        [cropperConfig]="cropperConfig"
+        [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
+        formControlName="coverImage"
+        [deleteMode]="true"
+        (deleteImage)="onDeleteCoverImage($event)"
+        [moderatorDeleteFlow]="true"
+        [imageIdsFormControl]="form.get('coverImageId')"
+        [showConfirmationWindow]="true">
+      </app-image-form-control>
+
       <h5>{{ 'FORMS.LABELS.WORKSHOP_FULL_TITLE' | translate }}</h5>
       <p>{{ workshop.title }}</p>
 
@@ -70,7 +84,20 @@
       <p>{{ specialNeedsType[workshop.specialNeedsType] | translate }}</p>
     </mat-tab>
 
-    <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">
+    <mat-tab [formGroup]="form" label="{{ 'TITLES.DESCRIPTION' | translate }}">
+      <app-image-form-control
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('imageIds').value?.length"
+        [imgMaxAmount]="10"
+        [cropperConfig]="cropperConfig"
+        [label]="'Фотографії'"
+        [deleteMode]="true"
+        formControlName="imageFiles"
+        (deleteImage)="onDeleteImage($event)"
+        [imageIdsFormControl]="form.get('imageIds')"
+        [moderatorDeleteFlow]="true"
+        [showConfirmationWindow]="true">
+      </app-image-form-control>
       <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
         <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
         <div *ngFor="let item of workshop.workshopDescriptionItems">
@@ -78,15 +105,6 @@
           <p class="line-break">{{ item.description }}</p>
         </div>
       </ng-container>
-
-      <h5>{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-      <ng-container *ngIf="workshop.withDisabilityOptions; else disabilityNotAvailable">
-        <p>{{ 'AVAILABLE' | translate }}</p>
-        <p>{{ workshop.withDisabilityOptionsDesc }}</p>
-      </ng-container>
-      <ng-template #disabilityNotAvailable>
-        <p>{{ 'NOT_AVAILABLE' | translate }}</p>
-      </ng-template>
 
       <ng-container *ngIf="workshop.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
@@ -139,10 +157,32 @@
       </ng-container>
     </mat-tab>
 
-    <mat-tab label="{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}">
+    <mat-tab label="{{ 'FORMS.LABELS.CONTACTS' | translate }}">
       <div class="max-w-[579px] overflow-hidden">
         <div *ngFor="let contact of workshop.contacts" class="gap-4 flex flex-col">
+          <h3>{{ contact.title }}</h3>
+
+          <div>
+            <h5>{{ 'FORMS.LABELS.ADDRESS' | translate }}</h5>
+            <p>
+              {{ contact.address.codeficatorAddressDto.fullName + ', ' + contact.address.street + ' ' + contact.address.buildingNumber }}
+            </p>
+          </div>
+
+          <h3>{{ 'FORMS.LABELS.EMAILS' | translate }}</h3>
+          <div *ngFor="let email of contact.emails">
+            <h5>{{ email.type }}</h5>
+            <p>{{ email.address }}</p>
+          </div>
+
+          <h3>{{ 'FORMS.LABELS.PHONE_NUMBERS' | translate }}</h3>
+          <div *ngFor="let phone of contact.phones">
+            <h5>{{ phone.type }}</h5>
+            <p>{{ phone.number }}</p>
+          </div>
+
           <div *ngFor="let socialNetwork of contact.socialNetworks">
+            <h3>{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}</h3>
             <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
             <p>{{ socialNetwork.type }}</p>
             <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
@@ -150,12 +190,9 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!hasSocialNetworks()" class="add-wrapper flex flex-row">
+      <div *ngIf="!workshop.contacts.length" class="add-wrapper flex flex-row">
         <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
       </div>
-      <a [routerLink]="['/details/draft/', workshopDraftId]" class="add-wrapper flex flex-row">
-        <p>{{ 'SERVICE_MESSAGES.FULL_CONTACTS_INFO' | translate }}</p>
-      </a>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.TEACHERS' | translate }}">

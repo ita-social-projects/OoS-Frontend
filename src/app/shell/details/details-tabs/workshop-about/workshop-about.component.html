@@ -11,8 +11,6 @@
   <p *ngIf="workshop.price" class="txt">
     {{ workshop.price }} {{ 'UAH' | translate }}/ {{ PayRateTypeEnum[workshop.payRate] | translate }}
   </p>
-  <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-  <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : ('NOT_AVAILABLE' | translate) }}</p>
 
   <h5 class="title">{{ 'FORMS.LABELS.STUDY_PERIOD' | translate }}</h5>
   <p class="txt">

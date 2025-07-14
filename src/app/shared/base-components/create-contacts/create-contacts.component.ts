@@ -19,7 +19,8 @@ import { Codeficator } from 'shared/models/codeficator.model';
 export class CreateContactsComponent implements OnInit, OnDestroy {
   @Input() public address: Address;
   @Input() public contacts: Contacts[];
-
+  // Forbid address editing
+  @Input() public moderatorFlow: boolean = false;
   @Output() public passContactsFormArray = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
@@ -105,7 +106,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   public createAddressFormGroup(address?: Contacts): FormGroup {
     const contactFormGroup = this.formBuilder.group({
       title: [
-        '',
+        { value: '', disabled: this.moderatorFlow },
         [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
@@ -114,7 +115,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         ]
       ],
       isDefault: false,
-      searchGroup: this.createSearchFormGroup(address?.address?.codeficatorAddressDto),
+      searchGroup: this.createSearchFormGroup(address?.address?.codeficatorAddress),
       address: this.createAddressForm(),
       phones: this.formBuilder.array([this.createPhoneFormGroup()]),
       emails: this.formBuilder.array([this.createEmailFormGroup()]),
@@ -138,11 +139,13 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
     this.updateFormArray('emails', contact.emails, () => this.createEmailFormGroup(), contactsFormGroup);
     this.updateFormArray('socialNetworks', contact.socialNetworks, () => this.createSocialNetworksFormGroup(), contactsFormGroup);
     if (contactsFormGroup.get('searchGroup') && contact.address) {
-      contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddressDto, { emitEvent: false });
+      contactsFormGroup.get('searchGroup').get('settlement').setValue(contact.address.codeficatorAddress, { emitEvent: false });
       contactsFormGroup
         .get('searchGroup')
         .get('settlementSearch')
-        .setValue(contact.address.codeficatorAddressDto.settlement, { emitEvent: false });
+        .setValue(contact.address.codeficatorAddress?.settlement ?? contact.address.codeficatorAddressDto?.settlement ?? '', {
+          emitEvent: false
+        });
     }
     contactsFormGroup.patchValue(contact, { emitEvent: false });
   }
@@ -244,11 +247,17 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createAddressForm(): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        street: new FormControl('', FormValidators.defaultStreetValidators),
-        buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
-        catottgId: new FormControl('', Validators.required),
-        latitude: new FormControl(''),
-        longitude: new FormControl('')
+        street: new FormControl({ value: '', disabled: this.moderatorFlow }, FormValidators.defaultStreetValidators),
+        buildingNumber: new FormControl(
+          {
+            value: '',
+            disabled: this.moderatorFlow
+          },
+          FormValidators.defaultHouseValidators
+        ),
+        catottgId: new FormControl({ value: '', disabled: this.moderatorFlow }, Validators.required),
+        latitude: new FormControl({ value: '', disabled: this.moderatorFlow }),
+        longitude: new FormControl({ value: '', disabled: this.moderatorFlow })
       })
     );
   }
@@ -256,8 +265,14 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createSearchFormGroup(codeficator?: Codeficator): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        settlementSearch: [codeficator?.settlement || '', FormValidators.defaultSearchValidators],
-        settlement: [codeficator || '']
+        settlementSearch: [
+          {
+            value: codeficator?.settlement || '',
+            disabled: this.moderatorFlow
+          },
+          FormValidators.defaultSearchValidators
+        ],
+        settlement: [{ value: codeficator || '', disabled: this.moderatorFlow }]
       })
     );
   }

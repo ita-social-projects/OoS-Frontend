@@ -1,7 +1,5 @@
 @use 'tables';
 @use 'list-wrappers';
-@use 'card-wrapper';
-@use 'buttons';
 @use 'search';
 @use 'dropdown';
 
@@ -20,7 +18,7 @@
   color: #ffbd00;
 }
 
-.Editing,
+.EditedByModerator,
 .Recheck {
   color: #ff8000;
 }
@@ -36,6 +34,13 @@
 .wrapper-workshop-list {
   position: relative;
   margin-top: 2rem;
+}
+
+.container {
+  margin-left: 1rem;
+  @media (max-width: 676px) {
+    margin-left: 0;
+  }
 }
 
 .search {
@@ -59,10 +64,6 @@
 
 .status-title {
   padding-left: 7px;
-}
-
-.paginator {
-  margin-top: 2rem;
 }
 
 .true {
@@ -146,7 +147,7 @@
   }
 }
 
-@media (max-width: 1185px) {
+@media (max-width: 1415px) {
   .wrapper-header {
     flex-direction: column;
   }
@@ -162,7 +163,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 925px) {
   .filters-area {
     display: flex;
     flex-direction: column;
