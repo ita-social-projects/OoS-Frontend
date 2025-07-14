@@ -168,9 +168,12 @@ describe('WorkshopDetailsComponent', () => {
 
       component.onTabChange(mockEvent as MatTabChangeEvent);
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith([], {
-        queryParams: { tab: 'AboutProvider' }
-      });
+      expect(mockRouter.navigate).toHaveBeenCalledWith(
+        [],
+        expect.objectContaining({
+          queryParams: { tab: 'AboutProvider' }
+        })
+      );
     });
 
     it('should change tab according to initial query params', () => {

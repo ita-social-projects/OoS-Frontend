@@ -88,7 +88,7 @@
 
       <div class="flex flex-row">
         <div class="flex flex-col">
-          <span class="icon-text">
+          <span *ngIf="!workshop.workshopDraftId" class="icon-text">
             <mat-icon class="icon">star</mat-icon>
             {{ workshop.rating }}&nbsp;
             <span class="rating-number">({{ workshop.numberOfRatings }})</span>
@@ -144,7 +144,7 @@
         <ng-container [ngSwitch]="tab.alias">
           <app-workshop-about *ngSwitchCase="'AboutWorkshop'" [workshop]="workshop"></app-workshop-about>
           <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
-          <app-workshop-teachers *ngSwitchCase="'AboutTeachers'" [teachers]="workshop.teachers"></app-workshop-teachers>
+          <app-workshop-teachers *ngSwitchCase="'Teachers'" [teachers]="workshop.teachers"></app-workshop-teachers>
           <app-all-provider-workshops *ngSwitchCase="'OtherWorkshops'" [providerParameters]="providerParameters"></app-all-provider-workshops>
           <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
           <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
