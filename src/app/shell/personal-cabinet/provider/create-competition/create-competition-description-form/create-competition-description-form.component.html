@@ -79,7 +79,7 @@
         <mat-select-trigger>
           <mat-chip-set>
             <mat-chip class="flex items-center" *ngFor="let subDirection of subDirectionControl.value" (removed)="onRemove(subDirection)">
-              <img class="min-logo" height="20" width="20" src="../../assets/icons/hashtag.svg" alt="tag" />
+              <mat-icon>tag</mat-icon>
               <span>{{ subDirection.title }}</span>
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
