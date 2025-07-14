@@ -211,6 +211,12 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     return item1.id === item2.id;
   }
 
+  public onRemove(item: SubDirection): void {
+    const currentValue = this.subDirectionControl.value;
+    const newValue = currentValue.filter((subDirection: SubDirection) => subDirection.id !== item.id);
+    this.subDirectionControl.patchValue(newValue);
+  }
+
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
@@ -307,6 +313,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   private directionControlListener(): void {
     this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: string) => {
       this.subDirectionControl.reset(null, { emitEvent: false });
+      this.subDirectionControl.setErrors(null);
       this.store.dispatch(new GetSubDirections(directionId));
     });
   }
