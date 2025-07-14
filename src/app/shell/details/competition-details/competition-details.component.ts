@@ -129,10 +129,14 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   private getSubDirections(): void {
-    this.store.dispatch(new GetSubDirections(this.competition.directionSubDirectionIds.at(0).directionId));
+    if (this.competition.directionSubDirectionIds?.at(0)) {
+      this.store.dispatch(new GetSubDirections(String(this.competition.directionSubDirectionIds.at(0).directionId)));
 
-    this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
-      this.competitionSubdirections = subDirections.filter((sd) => this.competition?.subDirectionIds.includes(sd.id)).map((sd) => sd.title);
-    });
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+        this.competitionSubdirections = subDirections
+          .filter((sd) => this.competition?.subDirectionIds.includes(sd.id))
+          .map((sd) => sd.title);
+      });
+    }
   }
 }
