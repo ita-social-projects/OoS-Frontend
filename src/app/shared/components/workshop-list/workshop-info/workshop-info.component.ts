@@ -53,6 +53,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public form: FormGroup;
+  private pendingWorkshop: Workshop;
 
   constructor(
     private readonly store: Store,
@@ -67,19 +68,21 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
       this.store.dispatch(new GetDirectionById(newDirectionId));
     }
     if (workshop) {
-      if (workshop.coverImageId?.length) {
-        this.form.get('coverImageId').setValue([workshop.coverImageId]);
+      if (this.form) {
+        this.applyWorkshopToForm(workshop);
       } else {
-        this.form.get('coverImageId').setValue([]);
+        this.pendingWorkshop = workshop;
       }
-
-      this.form.get('imageIds').setValue(workshop.imageIds);
     }
   }
 
   public ngOnInit(): void {
     this.initForm();
     this.initListeners();
+    if (this.pendingWorkshop) {
+      this.applyWorkshopToForm(this.pendingWorkshop);
+      this.pendingWorkshop = null;
+    }
   }
 
   public ngOnDestroy(): void {
@@ -155,5 +158,15 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
     this.featuresList$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
+  }
+
+  private applyWorkshopToForm(workshop: Workshop): void {
+    if (workshop.coverImageId?.length) {
+      this.form.get('coverImageId').setValue([workshop.coverImageId]);
+    } else {
+      this.form.get('coverImageId').setValue([]);
+    }
+
+    this.form.get('imageIds').setValue(workshop.imageIds);
   }
 }
