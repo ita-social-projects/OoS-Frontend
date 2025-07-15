@@ -151,22 +151,43 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(new GetSubDirections('1'));
     });
 
-    it('should set subDirection value if competition has property', fakeAsync(() => {
+    it('should set direction and subDirection value if competition has property', fakeAsync(() => {
+      const direction = component.DescriptionFormGroup.get('directionId');
       const subDirection = component.DescriptionFormGroup.get('subDirectionIds');
 
       Object.defineProperty(component, 'subDirections$', { writable: true });
       component.subDirections$ = of([
-        { id: 1, title: 'A' },
-        { id: 2, title: 'B' }
+        { id: 1, title: 'Sub1' },
+        { id: 2, title: 'Sub2' }
       ] as SubDirection[]);
 
       component.competition.subDirectionIds = [2];
+      component.competition.directionSubDirectionIds = [{ directionId: 1, subDirectionId: 2 }];
 
       component.activateEditMode();
 
       tick();
 
-      expect(subDirection.value).toEqual([{ id: 2, title: 'B' }]);
+      expect(direction.value).toEqual(1);
+      expect(subDirection.value).toEqual([{ id: 2, title: 'Sub2' }]);
     }));
+
+    it('should remove the given item from subDirectionControl and patch the new value', () => {
+      const subDirection = component.DescriptionFormGroup.get('subDirectionIds');
+      subDirection.setValue([
+        { id: 1, title: 'Sub1' },
+        { id: 2, title: 'Sub2' },
+        { id: 3, title: 'Sub3' }
+      ]);
+
+      const itemToRemove = { id: 2, title: 'Sub2' } as SubDirection;
+
+      component.onRemove(itemToRemove);
+
+      expect(subDirection.value).toEqual([
+        { id: 1, title: 'Sub1' },
+        { id: 3, title: 'Sub3' }
+      ]);
+    });
   });
 });
