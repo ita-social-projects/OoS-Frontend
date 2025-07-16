@@ -1,22 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, NgxsModule } from '@ngxs/store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Role } from 'shared/enum/role';
-import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
-import { GetCompetitionById } from 'shared/store/shared-user.actions';
-import { Competition } from 'shared/models/competition.model';
-import { Judge } from 'shared/models/judge.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'shared/models/provider.model';
-import { FormOfLearning } from 'shared/enum/workshop';
 import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { Institution } from 'shared/models/institution.model';
 import { Address } from 'shared/models/address.model';
-import { Observable, of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CreateCompetitionComponent } from './create-competition.component';
 
 describe('CreateCompetitionComponent', () => {
@@ -160,5 +155,20 @@ describe('CreateCompetitionComponent', () => {
     component.onCancel();
 
     expect(cancelSpy).toHaveBeenCalledWith(['/personal-cabinet/provider/competitions']);
+  });
+
+  describe('pre-submit methods', () => {
+    it('should create description correctly', () => {
+      component.DescriptionFormGroup = new FormGroup({
+        subDirectionIds: new FormControl([
+          { id: 1, title: 'Sub1' },
+          { id: 2, title: 'Sub2' }
+        ])
+      });
+
+      const description = component.createDescription();
+
+      expect(description.subDirectionIds).toEqual([1, 2]);
+    });
   });
 });

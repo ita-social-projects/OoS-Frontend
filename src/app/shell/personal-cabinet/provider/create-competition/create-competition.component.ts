@@ -72,7 +72,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public ngOnInit(): void {
-    this.provider$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((provider: Provider) => (this.provider = provider));
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => (this.provider = provider));
 
     this.determineEditMode();
     this.determineRelease();
@@ -114,7 +114,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetCompetitionById(competitionId));
-    this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition) => {
+    this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition) => {
       this.competition = competition;
     });
   }
