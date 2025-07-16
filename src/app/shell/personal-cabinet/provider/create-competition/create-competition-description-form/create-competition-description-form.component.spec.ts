@@ -137,9 +137,7 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
     });
   });
 
-  describe('directions control listener', () => {
-    beforeEach(() => {});
-
+  describe('directions', () => {
     it('should reset subDirections control and dispatch GetSubDirections when direction has changed', () => {
       const direction = component.DescriptionFormGroup.get('directionId');
       const subDirection = component.DescriptionFormGroup.get('subDirectionIds');
@@ -188,6 +186,22 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
         { id: 1, title: 'Sub1' },
         { id: 3, title: 'Sub3' }
       ]);
+    });
+
+    it('should compare subDirections correctly', () => {
+      const sub1 = { id: 1, title: 'Sub1' } as SubDirection;
+      let sub2 = { id: 2, title: 'Sub2' } as SubDirection;
+
+      expect(component.compareItems(sub1, sub2)).toBe(false);
+
+      sub2.id = 1;
+      expect(component.compareItems(sub1, sub2)).toBe(true);
+
+      sub2.id = null;
+      expect(component.compareItems(sub1, sub2)).toBe(false);
+
+      sub2 = undefined;
+      expect(component.compareItems(sub1, sub2)).toBe(false);
     });
   });
 });
