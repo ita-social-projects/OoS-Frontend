@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { Direction, DirectionParameters, SubDirection } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { FilterState } from 'shared/store/filter.state';
@@ -23,9 +23,8 @@ export class DirectionsService {
     return this.http.get<SearchResponse<Direction[]>>('/api/v1/directions', options);
   }
 
-  public getDirections(): Observable<Direction[]> {
-    // TODO: Deprecated method on backend, usage should be refactored
-    return this.http.get<Direction[]>('/api/v1/directions/Get');
+  public getDirections(): Observable<SearchResponse<Direction[]>> {
+    return this.http.get<SearchResponse<Direction[]>>('/api/v1/directions');
   }
 
   public getTopDirections(): Observable<Direction[]> {
@@ -37,6 +36,10 @@ export class DirectionsService {
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString()).set('limit', size.toString());
 
     return this.http.get<Direction[]>('/api/v1/popular/directions', { params });
+  }
+
+  public getSubDirections(directionId: string): Observable<SearchResponse<SubDirection[]>> {
+    return this.http.get<SearchResponse<SubDirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
   }
 
   public createDirection(direction: Direction): Observable<Direction> {

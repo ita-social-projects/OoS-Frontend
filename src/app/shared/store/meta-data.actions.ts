@@ -6,6 +6,11 @@ export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
 }
 
+export class GetSubDirections {
+  static readonly type = '[meta-data] Get SubDirections by DirectionId';
+  constructor(public directionId: string) {}
+}
+
 export class GetSocialGroup {
   static readonly type = '[meta-data] Get get social groups';
   constructor(public locale?: string) {}

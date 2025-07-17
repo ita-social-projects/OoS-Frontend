@@ -76,3 +76,7 @@
     }
   }
 }
+
+::ng-deep .mat-mdc-option.spinner .mat-pseudo-checkbox {
+  display: none !important;
+}

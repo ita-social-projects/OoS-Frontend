@@ -211,6 +211,14 @@ button:focus {
 
   .mat-mdc-select-trigger {
     font-size: 13px !important;
+
+    .mat-mdc-select-arrow-wrapper {
+      height: 18px;
+    }
+  }
+
+  &.chips {
+    height: auto;
   }
 }
 

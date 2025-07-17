@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -12,12 +12,12 @@ import { FormOfLearning } from 'shared/enum/workshop';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { Util } from 'shared/utils/utils';
 import { CompetitionCoverageEnum } from 'shared/enum/enumUA/competition';
-import { InstituitionHierarchy, Institution } from 'shared/models/institution.model';
-import { GetAllByInstitutionAndLevel, GetAllInstitutions } from 'shared/store/meta-data.actions';
+import { GetDirections, GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { Direction, SubDirection } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -26,10 +26,10 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
-  @Select(MetaDataState.institutions)
-  public institutions$: Observable<Institution[]>;
-  @Select(MetaDataState.instituitionsHierarchy)
-  public instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.directions)
+  public directions$: Observable<Direction[]>;
+  @Select(MetaDataState.subDirections)
+  public subDirections$: Observable<SubDirection[]>;
 
   @Input() public competition: Competition;
   @Input() public isImagesFeature: boolean;
@@ -53,8 +53,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public SectionItemsFormArray: FormArray = new FormArray([]);
   public filteredCompetitionCoverage: { key: string; value: string }[] = [];
 
-  protected readonly CompetitionCoverage = CompetitionCoverage;
-
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -62,8 +60,12 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     private readonly store: Store
   ) {}
 
-  public get categoryControl(): FormControl {
-    return this.DescriptionFormGroup.get('institutionHierarchyId') as FormControl;
+  public get directionControl(): FormControl {
+    return this.DescriptionFormGroup.get('directionId') as FormControl;
+  }
+
+  public get subDirectionControl(): FormControl {
+    return this.DescriptionFormGroup.get('subDirectionIds') as FormControl;
   }
 
   public get coverageControl(): FormControl {
@@ -75,18 +77,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new GetAllInstitutions(false));
-    this.institutions$.pipe(takeUntil(this.destroy$)).forEach((institutions: Institution[]) => {
-      if (institutions) {
-        const nonGovernmentInstitution: Institution = institutions.filter((institution) => !institution.isGovernment)[0];
-        this.store.dispatch(new GetAllByInstitutionAndLevel(nonGovernmentInstitution.id, nonGovernmentInstitution.numberOfHierarchyLevels));
-      }
-    });
+    this.store.dispatch(new GetDirections());
 
     this.initForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
 
     this.getFilterCompetitionCoverage();
+    this.directionControlListener();
 
     if (this.competition) {
       this.activateEditMode();
@@ -147,6 +144,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
 
+    if (this.competition.directionSubDirectionIds?.length) {
+      this.directionControl.patchValue(this.competition.directionSubDirectionIds[0].directionId);
+    }
+
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
       this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').enable({ emitEvent: false });
@@ -176,6 +177,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
       this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
     }
+
+    if (this.competition.subDirectionIds) {
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+        const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
+        asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
+      });
+    }
   }
 
   /**
@@ -196,12 +204,25 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     this.markFormAsDirtyOnUserInteraction();
   }
 
+  public compareItems(item1: SubDirection, item2: SubDirection): boolean {
+    if (!item1 || !item2) {
+      return false;
+    }
+    return item1.id === item2.id;
+  }
+
+  public onRemove(item: SubDirection): void {
+    const currentValue = this.subDirectionControl.value;
+    const newValue = currentValue.filter((subDirection: SubDirection) => subDirection.id !== item.id);
+    this.subDirectionControl.patchValue(newValue);
+  }
+
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
       imageIds: new FormControl(''),
-      institutionHierarchyId: new FormControl(null),
-      subcategory: new FormControl(null),
+      directionId: new FormControl(null, Validators.required),
+      subDirectionIds: new FormControl(null, Validators.required),
       description: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
@@ -287,5 +308,13 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       .subscribe(() => {
         this.benefitsOptionRadioBtn.setValue(false);
       });
+  }
+
+  private directionControlListener(): void {
+    this.directionControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((directionId: string) => {
+      this.subDirectionControl.reset(null, { emitEvent: false });
+      this.subDirectionControl.setErrors(null);
+      this.store.dispatch(new GetSubDirections(directionId));
+    });
   }
 }

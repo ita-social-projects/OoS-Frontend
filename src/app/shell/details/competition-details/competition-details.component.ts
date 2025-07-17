@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { filter } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { filter, Observable } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -22,6 +22,9 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
 import { take } from 'rxjs/operators';
+import { GetSubDirections } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { SubDirection } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-competition-details',
@@ -36,6 +39,8 @@ export class CompetitionDetailsComponent implements OnInit {
   @Input() public currentProvider: Provider;
   @Input() public displayActionCard: boolean;
 
+  @Select(MetaDataState.subDirections) public subDirections$: Observable<SubDirection[]>;
+
   public readonly CategoryIcons = CategoryIcons;
   public readonly ModalType = ModalConfirmationType;
   public readonly CompetitionStatus = CompetitionStatus;
@@ -48,6 +53,7 @@ export class CompetitionDetailsComponent implements OnInit {
   public images: ImgPath[] = [];
   public coverImage: string;
   public selectedIndex: number;
+  public competitionSubdirections: string[];
   public providerParameters: ProviderParameters = {
     providerId: '',
     excludedCompetitionId: '',
@@ -67,6 +73,7 @@ export class CompetitionDetailsComponent implements OnInit {
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
+    this.getSubDirections();
     this.images = this.imageService.getCarouselImages(Object.setPrototypeOf(this.competition, Competition.prototype));
   }
 
@@ -119,5 +126,17 @@ export class CompetitionDetailsComponent implements OnInit {
         )
       )
     ]);
+  }
+
+  private getSubDirections(): void {
+    if (this.competition.directionSubDirectionIds?.at(0)) {
+      this.store.dispatch(new GetSubDirections(String(this.competition.directionSubDirectionIds.at(0).directionId)));
+
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+        this.competitionSubdirections = subDirections
+          .filter((sd) => this.competition?.subDirectionIds.includes(sd.id))
+          .map((sd) => sd.title);
+      });
+    }
   }
 }
