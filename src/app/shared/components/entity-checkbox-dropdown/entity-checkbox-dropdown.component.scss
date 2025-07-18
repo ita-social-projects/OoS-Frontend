@@ -53,7 +53,7 @@ mat-form-field mat-label {
 ::ng-deep {
   .cdk-overlay-container {
     .checkbox-dropdown-panel.application-dropdown {
-      left: calc(100% - 330px);
+      left: calc(100% - 330px) !important;
     }
   }
 }
