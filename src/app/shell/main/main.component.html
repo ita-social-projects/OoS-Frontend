@@ -39,14 +39,28 @@
         {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-
     <ng-container *ngIf="(topWorkshops$ | async)?.length; then topWorkshops; else emptyData"></ng-container>
+
+    <div class="main-header">
+      <h3>{{ 'TOP_COMPETITIONS' | translate }}</h3>
+      <a routerLink="/result" class="main-link">
+        {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span class="material-icons arrow">arrow_forward</span>
+      </a>
+    </div>
+    <ng-container *ngIf="(topCompetitions$ | async)?.length; then topCompetitions; else emptyData"></ng-container>
   </ng-container>
 
   <ng-template #topWorkshops>
     <div class="card-wrapper workshops-container">
       <app-workshop-card class="card workshop-card" *ngFor="let workshop of topWorkshopsLimited$ | async" [workshop]="workshop">
       </app-workshop-card>
+    </div>
+  </ng-template>
+
+  <ng-template #topCompetitions>
+    <div class="card-wrapper workshops-container">
+      <app-competition-card class="card workshop-card" *ngFor="let competition of topCompetitionsLimited$ | async" [competition]="competition">
+      </app-competition-card>
     </div>
   </ng-template>
 

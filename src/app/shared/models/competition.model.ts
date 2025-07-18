@@ -215,3 +215,9 @@ export interface Description {
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
 }
+
+export interface CompetitionCard {
+  id: string;
+  title: string;
+  shortTitle: string;
+}

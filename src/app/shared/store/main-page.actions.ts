@@ -12,6 +12,11 @@ export class GetTopWorkshops {
   constructor() {}
 }
 
+export class GetTopCompetitions {
+  static readonly type = '[mainPage] Get Most Popular Competition Cards';
+  constructor() {}
+}
+
 export class ResetMainPageResult {
   static readonly type = '[mainPage] reset main page result';
   constructor() {}

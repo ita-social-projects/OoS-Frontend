@@ -14,7 +14,7 @@ import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard, WorkshopDraft, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
-import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition/user-competition.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { Router } from '@angular/router';

@@ -10,7 +10,7 @@ import { Favorite } from 'shared/models/favorite.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { AppState } from 'shared/store/app.state';
 import { FilterState } from 'shared/store/filter.state';
-import { GetTopDirections, GetTopWorkshops } from 'shared/store/main-page.actions';
+import { GetTopCompetitions, GetTopDirections, GetTopWorkshops } from 'shared/store/main-page.actions';
 import { MainPageState } from 'shared/store/main-page.state';
 import { ParentState } from 'shared/store/parent.state';
 import { Login } from 'shared/store/registration.actions';
@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GetUnfinishedWorkshop, OnDeleteUnfinishedWorkshop, SetDraftModalShown } from 'shared/store/provider.actions';
 import { Router } from '@angular/router';
 import { ProviderState } from 'shared/store/provider.state';
+import { Competition, CompetitionCard } from 'shared/models/competition.model';
 
 @Component({
   selector: 'app-main',
@@ -33,6 +34,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public topWorkshops$: Observable<WorkshopCard[]>;
   @Select(MainPageState.topDirections)
   public topDirections$: Observable<Direction[]>;
+  @Select(MainPageState.topCompetitions)
+  public topCompetitions$: Observable<CompetitionCard[]>;
   @Select(MainPageState.isLoadingData)
   public isLoadingData$: Observable<boolean>;
   @Select(RegistrationState.role)
@@ -49,6 +52,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public isModalShown$: Observable<boolean>;
   public topDirectionsLimited$: Observable<Direction[]>;
   public topWorkshopsLimited$: Observable<WorkshopCard[]>;
+  public topCompetitionsLimited$: Observable<CompetitionCard[]>;
 
   public readonly Role = Role;
 
@@ -69,6 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.topDirectionsLimited$ = this.topDirections$.pipe(map((directions) => directions?.slice(0, 6)));
     this.topWorkshopsLimited$ = this.topWorkshops$.pipe(map((workshops) => workshops?.slice(0, 4)));
+    this.topCompetitionsLimited$ = this.topCompetitions$.pipe(map((competitions) => competitions?.slice(0, 4)));
 
     combineLatest([this.role$, this.settlement$])
       .pipe(
@@ -148,6 +153,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   private getMainPageData(): void {
-    this.store.dispatch([new GetTopWorkshops(), new GetTopDirections()]);
+    this.store.dispatch([new GetTopWorkshops(), new GetTopDirections(), new GetTopCompetitions()]);
   }
 }

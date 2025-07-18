@@ -10,13 +10,16 @@ import { WorkshopCard } from 'shared/models/workshop.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
 import { PlatformService } from 'shared/services/platform/platform.service';
 import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
-import { GetMainPageInfo, GetTopDirections, GetTopWorkshops } from './main-page.actions';
+import { GetMainPageInfo, GetTopCompetitions, GetTopDirections, GetTopWorkshops } from './main-page.actions';
+import { Competition, CompetitionCard } from 'shared/models/competition.model';
+import { AppCompetitionsService } from 'shared/services/competitions/app-competitions/app-competitions.service';
 
 export interface MainPageStateModel {
   isLoadingData: boolean;
   headerInfo: CompanyInformation;
   topWorkshops: WorkshopCard[];
   topDirections: Direction[];
+  topCompetitions: CompetitionCard[];
 }
 
 @State<MainPageStateModel>({
@@ -25,7 +28,8 @@ export interface MainPageStateModel {
     isLoadingData: false,
     headerInfo: null,
     topWorkshops: null,
-    topDirections: null
+    topDirections: null,
+    topCompetitions: null
   }
 })
 @Injectable()
@@ -33,6 +37,7 @@ export class MainPageState {
   constructor(
     private categoriesService: DirectionsService,
     private appWorkshopsService: AppWorkshopsService,
+    private appCompetitionsService: AppCompetitionsService,
     private platformService: PlatformService
   ) {}
 
@@ -54,6 +59,11 @@ export class MainPageState {
   @Selector()
   static topWorkshops(state: MainPageStateModel): WorkshopCard[] {
     return state.topWorkshops;
+  }
+
+  @Selector()
+  static topCompetitions(state: MainPageStateModel): CompetitionCard[] {
+    return state.topCompetitions;
   }
 
   @Action(GetMainPageInfo)
@@ -78,5 +88,13 @@ export class MainPageState {
     return this.appWorkshopsService
       .getTopWorkshops()
       .pipe(tap((topWorkshops: WorkshopCard[]) => patchState({ topWorkshops, isLoadingData: false })));
+  }
+
+  @Action(GetTopCompetitions)
+  getTopCompetitions({ patchState }: StateContext<MainPageStateModel>, {}: GetTopCompetitions): Observable<CompetitionCard[]> {
+    patchState({ isLoadingData: true });
+    return this.appCompetitionsService
+      .getTopCompetitions()
+      .pipe(tap((topCompetitions: CompetitionCard[]) => patchState({ topCompetitions, isLoadingData: false })));
   }
 }

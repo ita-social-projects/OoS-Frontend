@@ -29,7 +29,7 @@ import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { PositionService } from 'shared/services/position/position.service';
 import { StudySubjectService } from 'shared/services/study-subjects/study-subjects.service';
-import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition/user-competition.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';

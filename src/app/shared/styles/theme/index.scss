@@ -30,6 +30,7 @@ $config: mat.define-typography-config(
 @include mat.fab-typography($config);
 @include mat.icon-button-typography($config);
 @include mat-form-typography($config);
+@include mat.tabs-typography($config);
 
 html,
 body {
@@ -413,4 +414,12 @@ input {
 .mat-expansion-panel-header,
 .mat-expansion-panel {
   background-color: var(--bg-light-additional) !important;
+}
+
+.mat-mdc-tab-labels, .mat-mdc-tab {
+  height: 26px !important;
+}
+
+.mdc-tab-indicator__content {
+  width: 54px !important;
 }
