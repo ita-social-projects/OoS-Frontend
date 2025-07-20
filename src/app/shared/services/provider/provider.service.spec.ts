@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 
 import { Provider } from 'shared/models/provider.model';
-import { Util } from 'shared/utils/utils';
 import { ProviderService } from './provider.service';
 
 describe('ProviderService', () => {
@@ -23,7 +22,6 @@ describe('ProviderService', () => {
     });
     service = TestBed.inject(ProviderService);
     httpTestingController = TestBed.inject(HttpTestingController);
-    jest.spyOn(Util, 'mapAddress').mockImplementation((data) => data);
   });
 
   it('should be created', () => {
