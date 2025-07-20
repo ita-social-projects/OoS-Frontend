@@ -15,7 +15,7 @@ export interface ContactAddress {
   catottgId: number;
   latitude: number;
   longitude: number;
-  codeficatorAddressDto: Codeficator;
+  codeficatorAddress: Codeficator;
 }
 
 export interface ContactEmails {

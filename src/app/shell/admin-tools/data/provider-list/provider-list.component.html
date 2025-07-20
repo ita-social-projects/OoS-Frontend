@@ -53,8 +53,7 @@
             panelClass="dropdown-panel select-with-form-field"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
             class="select">
-            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator"
-                        class="dropdown-option">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">
               {{ codeficator.territorialCommunity }}
             </mat-option>
           </mat-select>
@@ -69,8 +68,7 @@
     <div class="wrapper-provider-list">
       <div class="wrapper-provider-list-container">
         <div class="table-container mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-                 appStretchTable>
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
             <ng-container matColumnDef="fullTitle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
                 {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
@@ -106,7 +104,7 @@
                 {{ 'FORMS.LABELS.SETTLEMENT' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform | translate }}
+                {{ element.legalAddress?.codeficatorAddress?.settlement | emptyValueTransform | translate }}
               </td>
             </ng-container>
 
@@ -134,8 +132,7 @@
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
-              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header
-                  sortActionDescription="Sort by status">
+              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">

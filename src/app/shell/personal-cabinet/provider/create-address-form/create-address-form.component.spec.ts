@@ -53,7 +53,7 @@ describe('CreateAddressFormComponent', () => {
       catottgId: 1,
       latitude: 50,
       longitude: 30,
-      codeficatorAddressDto: {
+      codeficatorAddress: {
         category: CodeficatorCategories.City,
         cityDistrict: 'district',
         id: 0,

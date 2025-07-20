@@ -193,53 +193,6 @@ describe('isEmptyUUID', () => {
   });
 });
 
-describe('Util.mapAddress', () => {
-  it('rename codeficatorAddressDto to codeficatorAddress', () => {
-    const input = {
-      contacts: [
-        {
-          address: {
-            city: 'Kyiv',
-            codeficatorAddressDto: { region: 'Kyivska' }
-          }
-        }
-      ]
-    } as unknown as { contacts: Contacts[] };
-
-    const result = Util.mapAddress(input) as any;
-    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Kyivska' });
-    expect(result.contacts[0].address.codeficatorAddressDto).toBeUndefined();
-    expect(result.contacts[0].address.city).toBe('Kyiv');
-  });
-
-  it('transfers the original response if codeficatorAddress already exist', () => {
-    const input = {
-      contacts: [
-        {
-          address: {
-            city: 'Lviv',
-            codeficatorAddress: { region: 'Lvivska' }
-          }
-        }
-      ]
-    } as unknown as { contacts: Contacts[] };
-    const result = Util.mapAddress(input);
-    expect(result.contacts[0].address.codeficatorAddress).toEqual({ region: 'Lvivska' });
-  });
-
-  it('work correctly if address missing', () => {
-    const input = {
-      contacts: [
-        {
-          name: 'No address'
-        }
-      ]
-    } as unknown as { contacts: Contacts[] };
-    const result = Util.mapAddress(input);
-    expect(result.contacts[0]).toEqual({ name: 'No address' });
-  });
-});
-
 describe('addBeforeUnloadProtection', () => {
   let addEventListenerSpy: jest.SpyInstance;
   let removeEventListenerSpy: jest.SpyInstance;

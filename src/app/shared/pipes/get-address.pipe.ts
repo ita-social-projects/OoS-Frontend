@@ -15,7 +15,7 @@ export class GetAddressPipe implements PipeTransform {
       case ModeConstants.SHORT:
         return `${address.street}, ${address.buildingNumber}`;
       case ModeConstants.FULL:
-        return `${address.codeficatorAddressDto.settlement}, ${address.street}, ${address.buildingNumber}`;
+        return `${address.codeficatorAddress.settlement}, ${address.street}, ${address.buildingNumber}`;
       default:
         return '';
     }
