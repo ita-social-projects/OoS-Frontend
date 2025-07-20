@@ -1,5 +1,5 @@
 .container {
-  background: var(--primary-light-bg-color);
+  background: var(--bg-specific-light);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   width: 300px;
@@ -18,7 +18,7 @@
     font-size: 18px;
     line-height: 20px;
 
-    color: var(--cancel-text-color);
+    color: var(--primary-dark-text-color);
   }
 
   .contact-info {

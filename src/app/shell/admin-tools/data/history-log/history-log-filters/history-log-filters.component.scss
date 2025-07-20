@@ -26,13 +26,14 @@
     font-size: 14px;
     align-self: center;
     line-height: 14.6px;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
     font-weight: 700;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
 
   mat-datepicker-toggle {
     pointer-events: all;
+    color: var(--primary-dark-text-color);
   }
 }
 
@@ -44,7 +45,8 @@
 .select,
 .date {
   min-width: 100px;
-  background: var(--primary-light-bg-color);
+  background: var(--bg-specific-light);
+  color: var(--primary-dark-text-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
@@ -146,12 +148,13 @@
   &__icon {
     transform: rotateY(180deg) rotate(45deg);
     overflow: visible;
+    color: var(--primary-light-text-color);
   }
 
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
   }
 }
 

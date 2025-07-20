@@ -1,7 +1,7 @@
 .btn {
-  color: var(--specific-light-text-color) !important;
-  background-color: var(--primary-accent-color);
-  border: 1px solid var(--primary-accent-color);
+  color: var(--specific-text-button) !important;
+  background-color: var(--bg-button) !important;
+  border: 1px solid var(--bg-button) !important;
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
@@ -13,24 +13,23 @@
 
   &-reset,
   &-add {
-    color: var(--primary-accent-color);
     padding: 2px 30px;
     border-radius: 20px;
   }
 
   .btn-add {
-    color: var(--primary-accent-color);
+    color: var(--specific-text-button);
     .mat-icon-add {
       vertical-align: middle;
       height: 26px;
-      color: var(--primary-accent-color);
+      color: var(--specific-text-color);
     }
   }
 
   &-cancel {
-    color: var(--cancel-text-color) !important;
+    color: var(--primary-light-text-color) !important;
     background-color: transparent !important;
-    border-color: var(--cancel-text-color) !important;
+    border-color: var(--primary-light-text-color) !important;
   }
 
   &-rejected {
@@ -66,9 +65,9 @@
   border-radius: 20px;
 
   &-application {
-    background: var(--primary-accent-color);
-    border: 1px solid var(--primary-accent-color);
-    color: var(--primary-light-text-color);
+    background: var(--bg-button);
+    border: 1px solid var(--bg-button);
+    color: var(--specific-text-color);
   }
 
   &:hover {
@@ -81,7 +80,6 @@ button:disabled,
 button[disabled] {
   border: 1px solid var(--bg-disabled-button);
   background-color: var(--bg-disabled-button);
-  color: var(--disabled-text-color);
   pointer-events: none;
 }
 

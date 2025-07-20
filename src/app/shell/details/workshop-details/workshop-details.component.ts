@@ -111,7 +111,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public onTabChange(event: MatTabChangeEvent): void {
     const alias = this.tabs[event.index]?.alias;
     this.router.navigate([], {
-      queryParams: { tab: alias }
+      queryParams: { tab: alias },
+      replaceUrl: true
     });
   }
 
@@ -208,7 +209,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       {
         alias: 'Reviews',
         labelKey: this.workshopTitles.Reviews,
-        visible: this.role !== Role.unauthorized
+        visible: this.role !== Role.unauthorized && this.workshop instanceof Workshop
       },
       {
         alias: 'Achievements',

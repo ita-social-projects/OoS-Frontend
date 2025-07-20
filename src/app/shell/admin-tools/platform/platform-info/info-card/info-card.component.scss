@@ -1,8 +1,10 @@
 @use 'config';
 
 .config {
+  color: var(--primary-light-text-color);
+  background-color: var(--secondary-light-bg-color);
   .edit-button {
-    color: var(--primary-accent-color);
+    color: var(--primary-light-text-color);
     padding: 0 16px;
     line-height: normal;
 

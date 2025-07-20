@@ -15,6 +15,7 @@
   &-label {
     font-weight: 600;
     margin: 5px 0;
+    color: var(--primary-light-text-color);
   }
 
   &-required {
@@ -29,6 +30,7 @@
     line-height: initial;
     font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
+    color: var(--primary-light-text-color);
 
     &-field {
       margin-bottom: -1.34em;
@@ -70,6 +72,10 @@
       resize: vertical;
     }
 
+    &::placeholder {
+      color: var(--primary-light-text-color);
+    }
+
     textarea::-webkit-scrollbar {
       width: 10px;
     }
@@ -81,7 +87,7 @@
 
   &-text {
     font-weight: 700;
-    color: var(--secondary-light-text-color);
+    color: var(--primary-light-text-color);
     padding: 5px;
     line-height: initial;
   }
@@ -97,7 +103,7 @@
     display: flex;
     align-items: center;
     font-family: 'Open Sans', sans-serif;
-    color: var(--secondary-light-text-color);
+    color: var(--primary-light-text-color);
   }
 
   &-border {
@@ -112,7 +118,7 @@ textarea:focus,
 select:focus,
 button:focus {
   outline: none;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .step-input ::ng-deep .mat-select-trigger {
@@ -136,7 +142,7 @@ button:focus {
 }
 
 ::ng-deep .placeholder {
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color);
   font-family:
     Open Sans,
     sans-serif;
@@ -205,6 +211,14 @@ button:focus {
 
   .mat-mdc-select-trigger {
     font-size: 13px !important;
+
+    .mat-mdc-select-arrow-wrapper {
+      height: 18px;
+    }
+  }
+
+  &.chips {
+    height: auto;
   }
 }
 

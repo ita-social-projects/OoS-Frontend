@@ -1,31 +1,27 @@
 import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { of } from 'rxjs';
-
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { of } from 'rxjs';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-
 import { Role } from 'shared/enum/role';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-
 import { Provider } from 'shared/models/provider.model';
 import { Competition } from 'shared/models/competition.model';
 import { Judge } from 'shared/models/judge.model';
-
 import { Constants } from 'shared/constants/constants';
-
 import { ImagesService } from 'shared/services/images/images.service';
 import { CompetitionDetailsTabTitlesParams } from 'shared/enum/competition';
-import { ActivatedRoute, Router } from '@angular/router';
+import { SubDirection } from 'shared/models/category.model';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
 describe('CompetitionDetailsComponent', () => {
@@ -98,7 +94,6 @@ describe('CompetitionDetailsComponent', () => {
   });
 
   it('should load images for carousel and cover image on ngOnInit', () => {
-    // Mock the return value for image service
     jest.spyOn(imageService, 'getCarouselImages').mockReturnValue([{ path: 'test/path' }]);
     jest.spyOn(imageService, 'getCoverImage').mockReturnValue('test/coverImage.png');
 
@@ -109,18 +104,36 @@ describe('CompetitionDetailsComponent', () => {
   });
 
   it('should call onTabChange and update queryParams', () => {
-    const routerNavigateSpy = jest.spyOn(router, 'navigate'); // Spy on navigate
+    const routerNavigateSpy = jest.spyOn(router, 'navigate');
     const event: MatTabChangeEvent = { index: 0, tab: { textLabel: 'Tab 1' } } as any;
 
-    component.onTabChange(event); // Call the method
+    component.onTabChange(event);
 
-    // Assert that router.navigate was called with the expected arguments
     expect(routerNavigateSpy).toHaveBeenCalledWith(['./'], {
       relativeTo: route,
       queryParams: { status: CompetitionDetailsTabTitlesParams[0] }
     });
   });
+
+  it('should get subDirections and save titles for chips', fakeAsync(() => {
+    Object.defineProperty(component, 'subDirections$', { writable: true });
+    component.subDirections$ = of([
+      { id: 1, title: 'Sub1' },
+      { id: 2, title: 'Sub2' }
+    ] as SubDirection[]);
+
+    component.competition = {
+      directionSubDirectionIds: [{ directionId: 1, subDirectionId: 1 }],
+      subDirectionIds: [1]
+    } as unknown as Competition;
+
+    component.ngOnInit();
+    tick();
+
+    expect(component.competitionSubdirections).toEqual(['Sub1']);
+  }));
 });
+
 @Component({
   selector: 'app-competition-about',
   template: ''

@@ -54,18 +54,30 @@ $dark-theme: mat.define-dark-theme(
 
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
+  --mat-sidenav-content-background-color: var(--primary-light-bg-color) !important;
+  --mdc-elevated-card-container-color: var(--secondary-light-bg-color) !important;
+  --mat-standard-button-toggle-background-color: var(--bg-light-additional) !important;
+  --mat-table-background-color: var(--secondary-light-bg-color) !important;
+  --mat-table-row-item-label-text-color: var(--specific-light-text-color) !important;
+  --mat-menu-container-color: var(--bg-light-additional) !important;
+  --mat-stepper-container-color: var(--secondary-light-bg-color) !important;
+  --mdc-dialog-container-color: var(--bg-specific-light) !important;
+  --mat-select-panel-background-color: var(--bg-specific-light) !important;
 
-  --primary-light-bg-color: #404040;
-  --cancel-text-color: #e8e3e3;
-  --secondary-cancel-text-color: #ece5e5;
+  --primary-light-bg-color: #02164e;
+  --secondary-light-bg-color: #032480;
+  --bg-specific-light: #244a99;
+  --bg-light-additional: #244a99;
+  --specific-text-color: #ffffff;
+  --secondary-light-text-color: #ece5e5;
   --primary-dark-text-color: #ffffff;
-  --primary-light-text-color: #1b1a1a;
-  --contacts-light-text-color: #ffffff;
+  --light-text-button: #1a69f3;
   --list-text-color: #494545;
-  --body-color: #2e2d2d;
+  --body-color: #02164e;
   --primary-accent-color: #4786f5;
   --autofill-text-color: #5f5f61;
   --bg-disabled-button: #7e7b7b;
+  --error-color: #ff3125;
 
   h1,
   h2,

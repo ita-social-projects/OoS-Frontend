@@ -79,10 +79,15 @@ p {
 }
 
 .draft-content p {
-  color: var(--secondary-dark-text-color);
+  color: var(--primary-dark-text-color);
+}
+
+.btn {
+  background-color: var(--primary-light-bg-color);
+  color: var(--primary-light-text-color);
 }
 
 .btn-container button:nth-child(2) {
-  color: var(--secondary-dark-text-color) !important;
-  border-color: var(--secondary-dark-text-color) !important;
+  color: var(--primary-dark-text-color) !important;
+  border-color: var(--primary-dark-text-color) !important;
 }

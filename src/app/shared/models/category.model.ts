@@ -11,11 +11,25 @@ export class Direction {
       this.id = info.id;
     }
     this.title = info.title;
-    this.description = info.title;
+    this.description = info.description;
     this.workshopsCount = info.workshopsCount;
   }
 }
 
 export interface DirectionParameters extends PaginationParameters {
   searchString: string;
+}
+
+export class SubDirection {
+  id: number;
+  title: string;
+  description: string;
+
+  constructor(info: SubDirection) {
+    if (info.id) {
+      this.id = info.id;
+    }
+    this.title = info.title;
+    this.description = info.title;
+  }
 }

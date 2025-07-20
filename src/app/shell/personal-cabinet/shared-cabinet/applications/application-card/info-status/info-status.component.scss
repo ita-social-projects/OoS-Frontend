@@ -20,7 +20,7 @@
   font-size: 13px;
 }
 .application-info-description-card {
-  color: var(--secondary-light-text-color);
+  color: var(--primary-light-text-color);
 }
 .application-info-menu {
   width: 90vw;
@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
+  color: var(--primary-light-text-color);
 }
 
 .menu-wrapper {
@@ -60,7 +61,7 @@
 .material-icons {
   font-size: 16px;
   line-height: 14.6px;
-  color: var(--disabled-text-color);
+  color: var(--primary-light-text-color);
   cursor: pointer;
 }
 

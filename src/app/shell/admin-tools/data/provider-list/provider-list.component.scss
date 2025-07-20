@@ -10,24 +10,24 @@
 }
 
 .Approved {
-  color: #199953;
+  color: var(--status-approved);
 }
 
 .Pending {
-  color: #ffbd00;
+  color: var(--status-pending);
 }
 
 .Editing,
 .Recheck {
-  color: #ff8000;
+  color: var(--status-recheck);
 }
 
 .Blocked {
-  color: #c72a21;
+  color: var(--status-blocked);
 }
 
 .NotProvided {
-  color: #888888;
+  color: var(--status-not-provided);
 }
 
 .wrapper-provider-list {
@@ -126,7 +126,7 @@
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
   }
 }
 

@@ -26,6 +26,7 @@ import {
   SOCIAL_NETWORK_LINK_REGEX,
   STREET_REGEX
 } from 'shared/constants/regex-constants';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-validation-hint',
@@ -120,7 +121,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // Check is the field required and empty
-    if (errors?.required && !control?.value && !this.errors.includes(ValidationMessages.REQUIRED_INPUT)) {
+    if (errors?.required && Util.isEmpty(control?.value) && !this.errors.includes(ValidationMessages.REQUIRED_INPUT)) {
       this.errors.push(ValidationMessages.REQUIRED_INPUT);
     }
 

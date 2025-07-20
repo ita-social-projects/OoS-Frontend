@@ -28,7 +28,7 @@
 .input-filter {
   text-transform: capitalize;
   font-family: 'Innerspace', sans-serif;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-dark-text-color) !important;
   font-size: 1.125rem !important;
   line-height: 1.25rem;
   font-weight: 500 !important;
@@ -77,12 +77,12 @@ h4 {
 
 .city-confirmation {
   position: absolute;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   width: 300px;
   min-height: 130px;
   border-radius: 10px;
   box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
-  background: var(--primary-light-bg-color);
+  background: var(--bg-specific-light);
   padding: 10px;
   z-index: 1000;
   top: 20px;
@@ -112,17 +112,17 @@ h4 {
 
     .button {
       color: var(--specific-light-text-color);
-      background-color: var(--primary-accent-color);
-      border: 1px solid var(--primary-accent-color);
+      background-color: var(--primary-light-bg-color);
+      border: 1px solid var(--primary-light-bg-color);
       box-sizing: border-box;
       border-radius: 20px;
       padding: 0 30px;
       margin: 0 auto;
 
       &-change {
-        color: var(--cancel-text-color) !important;
+        color: var(--primary-dark-text-color) !important;
         background-color: transparent !important;
-        border-color: var(--cancel-text-color) !important;
+        border-color: var(--primary-dark-text-color) !important;
       }
     }
   }

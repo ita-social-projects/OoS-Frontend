@@ -566,6 +566,7 @@
       "INSTITUTION": "Підпорядкування",
       "CHAMPION_PATH": "Шлях чемпіонів",
       "DIRECTION": "Назва напрямку",
+      "SUB_DIRECTION": "Піднапрямок",
       "COST": "Ціна",
       "EMAILS": "Електронні адреси",
       "PHONE_NUMBERS": "Номери телефонів",
@@ -1277,5 +1278,8 @@
     "COOKIE_ANALYTICS_DESCRIPTION": "Cookies, які враховують ваші вподобання",
     "COOKIE_ADVERTISING_DESCRIPTION": "Cookies, які надають персоналізований контент",
     "COOKIES_ESSENTIAL_DESCRIPTION": "Cookies, які надають персоналізований контент"
+  },
+  "LOADING": {
+    "FETCHING_SUBDIRECTIONS": "Отримуємо піднапрямки..."
   }
 }

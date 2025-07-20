@@ -5,7 +5,6 @@ p {
 }
 
 .card {
-  background: var(--primary-light-bg-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   width: inherit;
   border-radius: 5px;
@@ -18,7 +17,7 @@ p {
   align-items: stretch;
 
   &-new {
-    border-left: 5px solid var(--primary-accent-color);
+    border-left: 5px solid var(--primary-light-text-color);
   }
   &-blocked {
     border-left: 5px solid var(--error-color);
@@ -31,7 +30,7 @@ p {
   font-weight: bold;
   font-size: 18px;
   line-height: 20px;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .text {
@@ -40,19 +39,20 @@ p {
   font-size: 13px;
   line-height: 18px;
   padding: 0px;
+  color: var(--primary-light-text-color);
 
   &-bold {
     font-weight: 700;
   }
   &-link {
     &:hover {
-      color: var(--primary-accent-color);
+      color: var(--primary-light-text-color);
       cursor: pointer;
       opacity: 0.5;
     }
   }
   &_icon {
-    color: var(--secondary-light-text-color);
+    color: var(--primary-light-text-color);
     width: 16px;
     height: 16px;
     padding-right: 10px;
@@ -76,7 +76,7 @@ p {
 
 .material-icons {
   font-size: 16px;
-  color: var(--disabled-text-color);
+  color: var(--primary-light-text-color);
   height: 16px;
   width: 16px;
   overflow: visible;

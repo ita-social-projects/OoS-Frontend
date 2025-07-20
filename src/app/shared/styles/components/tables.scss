@@ -16,7 +16,7 @@ tr {
 th {
   font-size: 14px;
   font-weight: 700;
-  color: #888888;
+  color: var(--primary-light-text-color);
   height: inherit;
 }
 
@@ -71,7 +71,8 @@ td {
   border-right: 1px solid var(--input-light-color);
 }
 
-td.mat-column-actions, .actions {
+td.mat-column-actions,
+.actions {
   width: fit-content;
   padding: 0 10px !important;
   display: flex;
@@ -100,4 +101,8 @@ td.mat-column-actions, .actions {
 
 .fas {
   margin-right: 5px;
+}
+
+.mat-icon {
+  color: var(--primary-light-text-color) !important;
 }

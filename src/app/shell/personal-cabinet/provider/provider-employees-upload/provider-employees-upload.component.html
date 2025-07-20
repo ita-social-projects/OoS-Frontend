@@ -6,7 +6,7 @@
         <button mat-raised-button class="btn" type="button" (click)="triggerFileInput(fileInput)">
           {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
         </button>
-        <app-info-menu [isBigIcon]="true" [isDarkIcon]="true">
+        <app-info-menu [isBigIcon]="true">
           <p>
             <b> {{ 'IMPORT/EXPORT.FILE_EXTENSION' | translate }} <i>.xlsx</i></b>
           </p>

@@ -20,7 +20,7 @@
     font-family: Innerspace, sans-serif;
     font-weight: 700;
     line-height: 14.6px;
-    color: var(--cancel-text-color);
+    color: var(--primary-light-text-color);
   }
   &-slider {
     .ngx-slider {
@@ -31,7 +31,7 @@
       }
       .ngx-slider-bar {
         bottom: 1px;
-        background: var(--cancel-text-color);
+        background: var(--primary-light-text-color);
         height: 2px;
       }
       .ngx-slider-selection {
@@ -58,7 +58,7 @@
 .price-input {
   border: 1px solid var(--input-light-color);
   background-color: var(--primary-light-bg-color);
-  color: var(--primary-dark-text-color) !important;
+  color: var(--primary-light-text-color) !important;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
