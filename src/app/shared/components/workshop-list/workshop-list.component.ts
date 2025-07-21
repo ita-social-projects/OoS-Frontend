@@ -86,8 +86,11 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     'title',
     'providerTitle',
     'providerOwnership',
-    'formOfLearning',
-    'seats',
+    // 'formOfLearning',
+    // 'seats',
+    'providerEdrpou',
+    'directorPosition',
+    'directorFullName',
     'isPaid',
     'status',
     'actions'
@@ -213,6 +216,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
     this.setInformationDependingOnRole();
     this.subscribeFormControls();
+    console.log(this.dataSource);
   }
 
   public onViewWorkshopInfo(workshop: WorkshopDraft): void {

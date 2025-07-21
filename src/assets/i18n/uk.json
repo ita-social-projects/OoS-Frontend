@@ -494,6 +494,7 @@
       "RNOKPP": "РНОКПП",
       "FOUNDER": "Засновник",
       "DIRECTOR_NAME": "ПІБ керівника",
+      "DIRECTOR_POSITION": "Посада керівника",
       "DIRECTOR_BIRTHDAY": "Дата народження керівника",
       "SELECT_WORKSHOPS": "Позначте гуртки до яких співробітник матиме доступ",
       "CHECK_WORKSHOPS": "Обрати гуртки",

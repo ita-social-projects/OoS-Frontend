@@ -67,8 +67,7 @@
             panelClass="dropdown-panel select-with-form-field"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
             class="select">
-            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator"
-                        class="dropdown-option">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator" class="dropdown-option">
               {{ codeficator.territorialCommunity }}
             </mat-option>
           </mat-select>
@@ -88,8 +87,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
                 {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <div
                   [matTooltip]="element.workshopDetails.title"
                   showTooltipIfTruncated
@@ -105,8 +103,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider title">
                 {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <div
                   [matTooltip]="element.workshopDetails.providerTitle"
                   showTooltipIfTruncated
@@ -122,8 +119,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider ownership">
                 {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <div
                   [matTooltip]="element.workshopDetails.providerOwnership"
                   showTooltipIfTruncated
@@ -135,35 +131,35 @@
               </td>
             </ng-container>
 
-            <ng-container matColumnDef="formOfLearning">
-              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by form of learning">
-                {{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}
+            <ng-container matColumnDef="directorPosition">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorPosition">
+                {{ 'FORMS.LABELS.DIRECTOR_POSITION' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
-                <div
-                  [matTooltip]="element.workshopDetails.formOfLearning"
-                  showTooltipIfTruncated
-                  matTooltipClass="tooltip"
-                  [matTooltipPosition]="tooltipPosition"
-                  class="tab-text">
-                  {{ formOfLearningEnum[element.workshopDetails.formOfLearning] | emptyValueTransform | translate }}
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.directorPosition }}
                 </div>
               </td>
             </ng-container>
 
-            <ng-container matColumnDef="seats">
-              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by seats">
-                {{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}
+            <ng-container matColumnDef="directorFullName">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorFullName">
+                {{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <div class="tab-text">
-                  {{
-                    element.workshopDetails.availableSeats !== UNLIMITED_SEATS
-                      ? element.workshopDetails.availableSeats
-                      : ('UNLIMITED' | translate)
-                  }}
+                  {{ element.directorFullName }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerEdrpou">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by providerEdrpou">
+                {{ 'FORMS.LABELS.EDRPO' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.providerEdrpou }}
                 </div>
               </td>
             </ng-container>
@@ -172,8 +168,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by isPaid">
                 {{ 'FORMS.LABELS.COST' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <div
                   [matTooltip]="(element.workshopDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
                   showTooltipIfTruncated
@@ -189,8 +184,7 @@
               <th class="status-title" mat-header-cell *matHeaderCellDef sortActionDescription="Sort by status">
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell
-                  *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
                 <ng-container
                   *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: element.draftStatus, titles: workshopDraftStatusTitles }">
                 </ng-container>
