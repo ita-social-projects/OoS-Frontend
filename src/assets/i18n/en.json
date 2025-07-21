@@ -494,6 +494,7 @@
       "RNOKPP": "RNOKPP",
       "FOUNDER": "Founder",
       "DIRECTOR_NAME": "Director's full name",
+      "DIRECTOR_POSITION": "Director's position",
       "DIRECTOR_BIRTHDAY": "Date of birth of the director",
       "SELECT_WORKSHOPS": "Check the workshops to which the employee will have access",
       "CHECK_WORKSHOPS": "Check workshops",

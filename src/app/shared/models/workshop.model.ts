@@ -147,6 +147,9 @@ export class WorkshopDraft extends Workshop {
   rejectionMessage?: string;
   draftStatus: WorkshopDraftStatus;
   workshopDetails: Workshop;
+  providerEdrpou: string;
+  directorFullName: string;
+  directorPosition: string;
 }
 
 export interface WorkshopTruncated {
