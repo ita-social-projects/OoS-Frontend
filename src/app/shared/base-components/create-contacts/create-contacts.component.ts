@@ -143,7 +143,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
       contactsFormGroup
         .get('searchGroup')
         .get('settlementSearch')
-        .setValue(contact.address.codeficatorAddress?.settlement ?? contact.address.codeficatorAddressDto?.settlement ?? '', {
+        .setValue(contact.address.codeficatorAddress?.settlement ?? '', {
           emitEvent: false
         });
     }

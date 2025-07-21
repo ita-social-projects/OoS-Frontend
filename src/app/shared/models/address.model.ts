@@ -8,7 +8,6 @@ export class Address {
   latitude: number;
   longitude: number;
   catottgId: number;
-  codeficatorAddressDto?: Codeficator;
   codeficatorAddress?: Codeficator;
 
   constructor(info?: Address, address?: Address) {
@@ -18,7 +17,6 @@ export class Address {
     this.latitude = info?.latitude;
     this.longitude = info?.longitude;
     this.catottgId = info?.catottgId ?? address?.catottgId;
-    this.codeficatorAddressDto = info?.codeficatorAddressDto;
     this.codeficatorAddress = info?.codeficatorAddress;
 
     if (address) {

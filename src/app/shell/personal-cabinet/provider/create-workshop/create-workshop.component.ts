@@ -369,7 +369,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             ...contact,
             address: new Address({
               ...contact.address,
-              codeficatorAddressDto: codeficatorData
+              codeficatorAddress: codeficatorData
             })
           }))
         );

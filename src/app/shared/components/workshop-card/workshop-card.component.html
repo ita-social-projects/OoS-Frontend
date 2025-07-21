@@ -251,16 +251,12 @@
     <p
       class="card_text_label"
       [matTooltip]="
-        workshopData.address.codeficatorAddressDto.settlement +
-        ', ' +
-        workshopData.address.street +
-        ', ' +
-        workshopData.address.buildingNumber
+        workshopData.address.codeficatorAddress.settlement + ', ' + workshopData.address.street + ', ' + workshopData.address.buildingNumber
       "
       showTooltipIfTruncated
       matTooltipClass="tooltip"
       [matTooltipPosition]="tooltipPositionAbove">
-      {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
+      {{ workshopData.address.codeficatorAddress.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>
   </div>
