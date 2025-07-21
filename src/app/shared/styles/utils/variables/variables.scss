@@ -59,6 +59,9 @@
   // Secondary background color in light theme – doesn't change in dark theme
   --secondary-light-bg-color: rgba(49, 120, 244, 1);
 
+  // Additional light background – changes in dark theme
+  --bg-light-additional: #228bff;
+
   // Color used for info banners – doesn't change in dark theme
   --banner-color: #e5e6f1;
 
@@ -68,14 +71,14 @@
   // Background for cancel buttons/texts – doesn't change in dark theme
   --bg-cancel-color: #444444;
 
-  // Additional light background – changes in dark theme
-  --bg-light-additional: #228bff;
-
   // Specific white background – changes in dark theme
   --bg-specific-light: #ffffff;
 
   // Background for primary buttons - doesn't change in dark theme
   --bg-button: #ffffff;
+
+  // Background for specific buttons – changes in dark theme
+  --specific-bg-button: #1a69f3;
 
   // White text color for spesific buttons – changes
   --light-text-button: #ffffff;

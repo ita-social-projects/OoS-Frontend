@@ -67,6 +67,6 @@ $light-theme: mat.define-light-theme(
   --mdc-dialog-container-color: var(--bg-specific-light) !important;
   --mdc-filled-text-field-input-text-color: var(--primary-light-text-color) !important;
   --mdc-checkbox-unselected-icon-color: var(--primary-light-text-color) !important;
-  --mat-option-selected-state-label-text-color: var(--primary-dark-text-color) !important;
+  --mat-option-selected-state-label-text-color: var(--specific-light-text-color) !important;
   --mdc-chip-elevated-container-color: var(--bg-specific-light) !important;
 }

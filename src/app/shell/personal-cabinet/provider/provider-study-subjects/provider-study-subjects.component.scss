@@ -21,6 +21,12 @@ table {
   height: 40px;
 }
 
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color) !important;
+  color: var(--specific-text-color) !important;
+}
+
 .search {
   padding-left: 1rem;
   background-color: var(--bg-light-additional) !important;
