@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Workshop } from 'shared/models/workshop.model';
-import { GetDirectionById } from 'shared/store/admin.actions';
+import { GetInstitutionHierarchyParentsById } from 'shared/store/meta-data.actions';
 import { of } from 'rxjs';
 import { WorkshopInfoComponent } from './workshop-info.component';
 
@@ -33,12 +33,12 @@ describe('WorkshopInfoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch GetDirectionById when workshop input changes with a new directionId', () => {
-    const directionId = 123;
-    const workshop = { directionIds: [directionId] } as Workshop;
+  it('should dispatch GetInstitutionHierarchyParentsById when workshop input changes', () => {
+    const institutionHierarchyId = '123';
+    const workshop = { institutionHierarchyId: institutionHierarchyId } as Workshop;
     component.setWorkshop = workshop;
 
-    expect(store.dispatch).toHaveBeenCalledWith(new GetDirectionById(directionId));
+    expect(store.dispatch).toHaveBeenCalledWith(new GetInstitutionHierarchyParentsById(institutionHierarchyId));
   });
 
   it('should emit closeInfo event on onCloseInfo call', () => {

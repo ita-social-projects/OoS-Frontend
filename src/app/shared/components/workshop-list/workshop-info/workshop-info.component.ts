@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { Role } from 'shared/enum/role';
@@ -9,13 +9,16 @@ import { Workshop } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CoverageEnum, FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
-import { GetDirectionById } from 'shared/store/admin.actions';
-import { AdminState } from 'shared/store/admin.state';
-import { Direction } from 'shared/models/category.model';
-import { Codeficator } from 'shared/models/codeficator.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DeleteWorkshopDraftCoverImage, DeleteWorkshopDraftImage } from 'shared/store/shared-user.actions';
 import { FeaturesList } from 'shared/models/features-list.model';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
+import {
+  GetAllInstitutions,
+  GetFieldDescriptionByInstitutionId,
+  GetInstitutionHierarchyParentsById,
+  ResetInstitutionHierarchy
+} from 'shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-workshop-info',
@@ -31,12 +34,14 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
-  @Select(MetaDataState.codeficator)
-  public workshopCodeficator$: Observable<Codeficator>;
-  @Select(AdminState.direction)
-  public workshopDirection$: Observable<Direction>;
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
+  @Select(MetaDataState.institutions)
+  public institutions$: Observable<Institution[]>;
+  @Select(MetaDataState.editInstituitionsHierarchy)
+  private readonly editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  @Select(MetaDataState.institutionFieldDesc)
+  private readonly institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
   public readonly Role = Role;
   public readonly workingDays = WorkingDays;
@@ -46,10 +51,9 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
   public readonly coverageEnum = CoverageEnum;
   public workshop: Workshop;
-  public workshopDirection: Direction;
   public role: Role;
   public isImagesFeature: boolean;
-
+  public hierarchyElements: { filedTitle: string; title: string; hierarchyLevel: number }[] = [];
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public form: FormGroup;
@@ -63,10 +67,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   @Input()
   public set setWorkshop(workshop: Workshop) {
     this.workshop = workshop;
-    const newDirectionId = workshop?.directionIds?.[0];
-    if (newDirectionId) {
-      this.store.dispatch(new GetDirectionById(newDirectionId));
-    }
+    this.loadHierarchyElements();
     if (workshop) {
       if (this.form) {
         this.applyWorkshopToForm(workshop);
@@ -78,6 +79,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.store.dispatch(new GetAllInstitutions(false));
     this.initListeners();
     if (this.pendingWorkshop) {
       this.applyWorkshopToForm(this.pendingWorkshop);
@@ -86,6 +88,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
+    this.store.dispatch(new ResetInstitutionHierarchy());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -154,10 +157,30 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   public initListeners(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
     this.featuresList$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
+  }
+
+  private loadHierarchyElements(): void {
+    this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.workshop.institutionId));
+    this.store.dispatch(new GetInstitutionHierarchyParentsById(this.workshop.institutionHierarchyId));
+
+    combineLatest([this.institutionFieldDesc$.pipe(filter(Boolean)), this.editInstituitionsHierarchy$.pipe(filter(Boolean))])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([descriptions, hierarchy]) => {
+        const newHierarchyElements = hierarchy.map((hItem) => ({
+          filedTitle: descriptions.find((desc) => desc.hierarchyLevel === hItem.hierarchyLevel)?.title ?? '',
+          hierarchyLevel: hItem.hierarchyLevel,
+          title: hItem.title
+        }));
+
+        this.hierarchyElements = newHierarchyElements.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel);
+      });
+
+    this.institutions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((institutions) => {
+      this.workshop.institution = institutions.find((item) => item.id === this.workshop.institutionId)?.title || null;
+    });
   }
 
   private applyWorkshopToForm(workshop: Workshop): void {

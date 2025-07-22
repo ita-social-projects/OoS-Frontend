@@ -98,16 +98,17 @@
         [moderatorDeleteFlow]="true"
         [showConfirmationWindow]="true">
       </app-image-form-control>
-      <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
-        <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
+
+      <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
+      <ng-container *ngIf="workshop.workshopDescriptionItems?.length; else notSpecified">
         <div *ngFor="let item of workshop.workshopDescriptionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
           <p class="line-break">{{ item.description }}</p>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="workshop.keywords?.length">
-        <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
+      <ng-container *ngIf="workshop.keywords?.length; else notSpecified">
         <div *ngFor="let item of workshop.keywords">
           <p>{{ item }}</p>
         </div>
@@ -115,45 +116,32 @@
 
       <h5>{{ 'COMPETITIVE_SELECTION' | translate }}</h5>
       <ng-container *ngIf="workshop.competitiveSelection; else withoutCompetitiveSelection">
-        <p>{{ 'WITH_COMPETITIVE_SELECTION' | translate }}</p>
+        <p>{{ 'AGREEMENT' | translate }}</p>
         <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
         <p>{{ workshop.competitiveSelectionDescription }}</p>
       </ng-container>
       <ng-template #withoutCompetitiveSelection>
-        <p>{{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}</p>
+        <p>{{ 'DISAGREEMENT' | translate }}</p>
       </ng-template>
 
-      <ng-container *ngIf="workshop.enrollmentProcedureDescription">
-        <h5>{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</h5>
-        <p>{{ workshop.enrollmentProcedureDescription }}</p>
-      </ng-container>
+      <h5>{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</h5>
+      <p *ngIf="workshop.enrollmentProcedureDescription; else notSpecified">{{ workshop.enrollmentProcedureDescription }}</p>
 
       <h5>{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</h5>
       <p>{{ workshop.areThereBenefits ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
-      <ng-container *ngIf="workshop.preferentialTermsOfParticipation">
-        <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
-        <p>{{ workshop.preferentialTermsOfParticipation }}</p>
-      </ng-container>
+      <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
+      <p *ngIf="workshop.preferentialTermsOfParticipation; else notSpecified">{{ workshop.preferentialTermsOfParticipation }}</p>
 
-      <ng-container *ngIf="workshop.coverage">
-        <h5>{{ 'FORMS.LABELS.COVERAGE' | translate }}</h5>
-        <p>{{ coverageEnum[workshop.coverage] | translate }}</p>
-      </ng-container>
+      <h5>{{ 'FORMS.LABELS.COVERAGE' | translate }}</h5>
+      <p *ngIf="workshop.coverage; else notSpecified">{{ coverageEnum[workshop.coverage] | translate }}</p>
 
-      <ng-container *ngIf="workshop.institution">
-        <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
-        <p>{{ workshop.institution }}</p>
-      </ng-container>
+      <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
+      <p *ngIf="workshop.institution; else notSpecified">{{ workshop.institution }}</p>
 
-      <ng-container *ngIf="workshopDirection">
-        <h5>{{ 'FORMS.LABELS.DIRECTION' | translate }}</h5>
-        <p>{{ workshopDirection.title }}</p>
-      </ng-container>
-
-      <ng-container *ngIf="workshop.institutionHierarchy">
-        <h5>{{ 'FORMS.LABELS.INSTITUTION_HIERARCHY' | translate }}</h5>
-        <p>{{ workshop.institutionHierarchy }}</p>
+      <ng-container *ngFor="let element of hierarchyElements">
+        <h5>{{ element.filedTitle }}</h5>
+        <p>{{ element.title }}</p>
       </ng-container>
     </mat-tab>
 
@@ -202,3 +190,7 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+
+<ng-template #notSpecified>
+  <p>{{ 'NOT_SPECIFIED' | translate }}</p>
+</ng-template>

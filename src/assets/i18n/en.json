@@ -25,6 +25,7 @@
   "AGREEMENT": "Yes",
   "DISAGREEMENT": "No",
   "NO_MORE_THAN": "no more than",
+  "NOT_SPECIFIED": "Not specified",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -680,7 +681,7 @@
       "INVALID_MINIMUM_FILTER_PRICE": "The price From can range from {{minValue}} to {{maxValue}}",
       "INVALID_MAXIMUM_FILTER_PRICE": "The price To can range from {{minValue}} to {{maxValue}}",
       "IMAGE_AMOUNT_SHOULD_BE": "Image amount should be {{minImages}}",
-      "IMAGE_AMOUNT_SHOULD_BE_FROM_TO" : "Image amount should be {{minImages}} to {{maxImages}}"
+      "IMAGE_AMOUNT_SHOULD_BE_FROM_TO": "Image amount should be {{minImages}} to {{maxImages}}"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"

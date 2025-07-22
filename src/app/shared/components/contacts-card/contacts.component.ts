@@ -13,15 +13,18 @@ import { Provider } from 'shared/models/provider.model';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
-export class ContactsCardComponent implements OnInit {
-  @Input() public entity: Workshop | WorkshopDraft | Provider | Competition;
-
+export class ContactsCardComponent {
   public contacts: Contact[] = [];
 
   constructor(
-    @Inject(WINDOW) private window: Window,
-    private platform: Platform
+    @Inject(WINDOW) private readonly window: Window,
+    private readonly platform: Platform
   ) {}
+
+  @Input()
+  public set entity(value: Workshop | WorkshopDraft | Provider | Competition) {
+    this.contacts = (value?.contacts as Contact[]) ?? [];
+  }
 
   public getFullAddress(address: Address): string {
     if (!address) {
@@ -30,10 +33,6 @@ export class ContactsCardComponent implements OnInit {
     const { street, buildingNumber, codeficatorAddress } = address;
     const settlement = codeficatorAddress?.settlement ?? '';
     return `${settlement}, ${street ?? ''}, ${buildingNumber ?? ''}`.trim();
-  }
-
-  public ngOnInit(): void {
-    this.contacts = (this.entity?.contacts as Contact[]) ?? [];
   }
 
   public mapLink(address: Address): void {
