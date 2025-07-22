@@ -1,0 +1,5 @@
+<app-competition-list
+  [workshops]="workshops$ | async"
+  [setWorkshopFiltersByDefault]="setWorkshopsFiltersByDefault"
+  (getWorkshopsByFilter)="onGetWorkshopsByFilter($event)">
+</app-competition-list>

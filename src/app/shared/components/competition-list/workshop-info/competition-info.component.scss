@@ -1,0 +1,128 @@
+@use 'navigation-tabs';
+@use 'info-hint';
+@use 'buttons';
+@use 'list-wrappers';
+
+.wrapper {
+  background: var(--primary-light-bg-color);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  p {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+.line-break {
+  white-space: pre-line;
+}
+.edit-icon {
+  position: relative;
+  color: var(--primary-accent-color);
+}
+.legal-address-wrapper {
+  border-bottom: 2px solid var(--input-light-color);
+  margin-bottom: 1rem;
+}
+.description {
+  max-width: 35rem;
+}
+h3 {
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 750px) {
+  .wrapper {
+    width: 100%;
+    padding: 1rem 0;
+    p,
+    h5,
+    h3 {
+      padding: 0 1rem;
+    }
+  }
+}
+
+.close-icon {
+  color: var(--additional-light-text-color);
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+    color: var(--primary-accent-color);
+  }
+}
+
+.section-title {
+  font-weight: 400;
+  margin-top: 1rem;
+}
+
+.license-status {
+  .Approved {
+    color: #199953;
+  }
+  .Pending {
+    color: #ffbd00;
+  }
+  .NotProvided {
+    color: #888888;
+  }
+}
+
+.toggle {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  height: 40px;
+  padding: 5px;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid var(--input-light-color);
+  background: var(--primary-light-bg-color);
+  color: var(--secondary-light-text-color);
+  &-selected {
+    color: var(--secondary-cancel-text-color);
+    background: rgba(56, 73, 249, 0.07);
+    border: 1px solid rgb(170, 170, 170, 0.1);
+  }
+  &:first-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  &:last-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+}
+
+.text {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  color: var(--secondary-light-text-color);
+  padding: 5px;
+  &:last-child {
+    padding: 5px 5px 5px 0px;
+  }
+}
+
+.mat-expansion-panel {
+  box-shadow: none !important;
+}
+
+.add-wrapper {
+  justify-content: center;
+}
+
+.image-form-control {
+  ::ng-deep .form-wrapper {
+    margin-bottom: 13px;
+    .step-label {
+      font-weight: 700;
+      font-family: "Innerspace", sans-serif;
+      color: var(--primary-dark-text-color)
+    }
+  }
+}

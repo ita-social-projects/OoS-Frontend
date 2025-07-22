@@ -163,7 +163,8 @@
       "EMPLOYEES": "Employees",
       "NEW_COMPETITION": "Add new competition event",
       "EDIT_COMPETITION": "Edit competition event",
-      "WORKSHOP_DRAFTS": "Workshop drafts"
+      "WORKSHOP_DRAFTS": "Workshop drafts",
+      "COMPETITION_DRAFTS": "Competition drafts"
     },
     "WORKSHOP_DRAFT": {
       "STATUS": {

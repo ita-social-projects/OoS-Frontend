@@ -12,12 +12,14 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { UsersComponent } from './users/users.component';
 import { UsersGuard } from './users/users.guard';
 import { AdminWorkshopListComponent } from './admin-workshop-list/admin-workshop-list.component';
+import { AdminCompetitionListComponent } from './admin-competition-list/admin-competition-list.component';
 
 const routes: Routes = [
   { path: 'admins', component: AdminsComponent, canLoad: [AdminsGuard] },
   { path: 'directions', component: DirectionsWrapperComponent, canLoad: [DirectionsWrapperGuard] },
   { path: 'provider-list', component: ProviderListComponent },
   { path: 'workshop-list', component: AdminWorkshopListComponent },
+  { path: 'competition-list', component: AdminCompetitionListComponent },
   { path: 'users', component: UsersComponent, canLoad: [UsersGuard] },
   { path: 'applications', component: AdminApplicationsComponent },
   { path: 'history-log', component: HistoryLogComponent },

@@ -164,7 +164,8 @@
       "EMPLOYEES": "Співробітники",
       "NEW_COMPETITION": "Реєстрація конкурсу",
       "EDIT_COMPETITION": "Редагування конкурсу",
-      "WORKSHOP_DRAFTS": "Чернетки гуртків"
+      "WORKSHOP_DRAFTS": "Чернетки гуртків",
+      "COMPETITION_DRAFTS": "Чернетки конкурсів"
     },
     "WORKSHOP_DRAFT": {
       "STATUS": {
