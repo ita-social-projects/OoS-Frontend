@@ -26,6 +26,7 @@
   "AGREEMENT": "Так",
   "DISAGREEMENT": "Ні",
   "NO_MORE_THAN": "не більше ніж",
+  "NOT_SPECIFIED": "Не вказано",
   "ALT": {
     "CAROUSEL_IMG": "Фотографії",
     "IMG_COVER": "Обкладинка"
@@ -670,7 +671,7 @@
       "INVALID_MINIMUM_FILTER_PRICE": "Ціна Від може варіюватися від {{minValue}} до {{maxValue}}",
       "INVALID_MAXIMUM_FILTER_PRICE": "Ціна До може варіюватися від {{minValue}} до {{maxValue}}",
       "IMAGE_AMOUNT_SHOULD_BE": "Кількість фото повинна бути {{minImages}}",
-      "IMAGE_AMOUNT_SHOULD_BE_FROM_TO" : "Кількість фото повинна бути від {{minImages}} до {{maxImages}}"
+      "IMAGE_AMOUNT_SHOULD_BE_FROM_TO": "Кількість фото повинна бути від {{minImages}} до {{maxImages}}"
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Зверніть увагу, що після зміни назви напрямку для всіх \n інших залежних профілів також поміняється назва. ",
     "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Зверніть увагу, що зараз загальна кількість місць в групі збігається з кількістю зайнятих місць. \n Тому набір у гурток буде автоматично закрито!"
@@ -1055,7 +1056,7 @@
       "DRAFT_APPROVED_SUCCESS": "Гурток підтверджено!",
       "COVER_IMAGE_DELETED": "Обкладинку видалено!",
       "IMAGE_DELETED": "Зображення видалено",
-      "DRAFT_EDITED":"Гурток успішно відредаговано",
+      "DRAFT_EDITED": "Гурток успішно відредаговано",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",

@@ -1,13 +1,15 @@
 <div class="wrapper">
-  <div  class="flex flex-row justify-end">
-    <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
-      <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
-    </a>
-  </div>
-  <div *ngIf="!isProviderView" class="justify-end flex">
-    <a (click)="onCloseInfo()" class="close-icon">
-      <mat-icon>close</mat-icon>
-    </a>
+  <div class="flex flex-row justify-between items-center">
+    <div>
+      <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
+        <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
+      </a>
+    </div>
+    <div *ngIf="!isProviderView">
+      <a (click)="onCloseInfo()" class="close-icon">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
   </div>
 
   <mat-tab-group [mat-stretch-tabs]="false" (selectedTabChange)="onTabChanged($event)">
@@ -54,8 +56,8 @@
       </p>
       <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
       <p>{{ provider.contacts?.[0]?.emails?.[0]?.address }}</p>
-      <h5>{{ 'FORMS.LABELS.FOUNDER' | translate }}</h5>
     </mat-tab>
+
     <mat-tab class="label" label="{{ 'TITLES.CONTACTS' | translate }}">
       <app-contacts-card [entity]="provider"></app-contacts-card>
     </mat-tab>

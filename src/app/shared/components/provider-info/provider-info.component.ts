@@ -22,7 +22,6 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
-  @Input() public provider: Provider;
   @Input() public isProviderView: boolean;
 
   @Output() public tabChanged = new EventEmitter();
@@ -46,18 +45,28 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   public institutionStatusName: string;
   public editLink: string = CreateProviderSteps[0];
   public destroy$: Subject<boolean> = new Subject<boolean>();
+  public _provider: Provider;
+  private lastInstitutionStatuses: DataItem[] = [];
 
-  constructor(private store: Store) {}
+  constructor(private readonly store: Store) {}
+
+  public get provider(): Provider {
+    return this._provider;
+  }
+
+  @Input()
+  public set provider(value: Provider) {
+    this._provider = value;
+    this.updateInstitutionStatusName();
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatuses());
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.institutionStatuses$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(
-        (institutionStatuses: DataItem[]) =>
-          (this.institutionStatusName = institutionStatuses.find((item: DataItem) => item.id === this.provider.institutionStatusId).name)
-      );
+    this.institutionStatuses$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((statuses) => {
+      this.lastInstitutionStatuses = statuses;
+      this.updateInstitutionStatusName();
+    });
   }
 
   public ngOnDestroy(): void {
@@ -76,5 +85,13 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
+  }
+
+  private updateInstitutionStatusName(): void {
+    if (!this._provider || !this.lastInstitutionStatuses?.length) {
+      return;
+    }
+    const status = this.lastInstitutionStatuses.find((s) => s.id === this._provider.institutionStatusId);
+    this.institutionStatusName = status?.name ?? '';
   }
 }
