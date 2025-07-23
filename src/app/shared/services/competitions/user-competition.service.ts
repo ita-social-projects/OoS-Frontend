@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -38,6 +38,25 @@ export class UserCompetitionService {
       .set('Size', competitionCardParameters.size.toString());
     return this.http.get<SearchResponse<CompetitionProviderViewCard[]>>(
       `/api/v1/provider/${competitionCardParameters?.providerId}/competitiveevents`,
+      {
+        params
+      }
+    );
+  }
+
+  /**
+   * This method get related competition drafts for provider personal cabinet
+   */
+  // eslint-disable-next-line max-len
+  public getProviderViewCompetitionDrafts(
+    competitionCardParameters: CompetitionCardParameters
+  ): Observable<SearchResponse<CompetitionDraftCard[]>> {
+    const params = new HttpParams()
+      .set('From', competitionCardParameters.from.toString())
+      .set('Size', competitionCardParameters.size.toString());
+
+    return this.http.get<SearchResponse<CompetitionDraftCard[]>>(
+      `/api/v2/provider/${competitionCardParameters.providerId}/competitions-drafts`,
       {
         params
       }

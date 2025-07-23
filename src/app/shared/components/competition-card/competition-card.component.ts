@@ -8,7 +8,11 @@ import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
-import { CompetitionBaseCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import {
+  CompetitionBaseCard,
+  CompetitionDraftCard,
+  CompetitionProviderViewCard
+} from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
@@ -41,7 +45,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly CompetitionStatus = CompetitionStatus;
   public readonly ModalConfirmationType = ModalConfirmationType;
-  public competitionData: CompetitionProviderViewCard;
+  public competitionData: CompetitionProviderViewCard | CompetitionDraftCard;
 
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
@@ -52,15 +56,11 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     private store: Store
   ) {}
 
-  @Input() public set competition(competition: CompetitionProviderViewCard) {
+  @Input() public set competition(competition: CompetitionProviderViewCard | CompetitionDraftCard) {
     this.competitionData = competition;
   }
 
   public ngOnInit(): void {
-    // this code is a stub, so when the logic appears on the backend, it will need to be removed
-    this.competitionData.amountOfPendingApplications = 0;
-    this.competitionData.unreadMessages = 0;
-
     this.Role$.pipe(takeUntil(this.destroy$))
       .pipe(filter((role: Role) => role === Role.parent))
       .subscribe((role: Role) => {

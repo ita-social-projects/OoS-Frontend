@@ -18,7 +18,7 @@ import {
   UnfinishedWorkshopContacts
 } from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
-import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
+import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -105,13 +105,19 @@ export class GetProviderViewWorkshops {
 }
 
 export class GetProviderViewWorkshopDrafts {
-  static readonly type = '[provider] get Workshops Drafts for provider cabinet';
+  static readonly type = '[provider] get Workshop Drafts for provider cabinet';
 
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
 export class GetProviderViewCompetitions {
   static readonly type = '[provider] get Competitions for provider cabinet';
+
+  constructor(public competitionCardParameters: CompetitionCardParameters) {}
+}
+
+export class GetProviderViewCompetitionDrafts {
+  static readonly type = '[provider] get Competition Drafts for provider cabinet';
 
   constructor(public competitionCardParameters: CompetitionCardParameters) {}
 }
@@ -855,4 +861,13 @@ export class OnArchiveCompetitionFail {
   static readonly type = '[provider] archive Competition by id fail';
 
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class DeleteCompetitionDraftById {
+  static readonly type = '[provider] delete Competition draft';
+
+  constructor(
+    public payload: CompetitionDraftCard,
+    public parameters: CompetitionCardParameters
+  ) {}
 }

@@ -45,7 +45,7 @@ import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
-import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetFilteredProviders } from './admin.actions';
@@ -69,7 +69,8 @@ export interface ProviderStateModel {
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
-  providerDrafts: SearchResponse<WorkshopDraftCard[]>;
+  providerWorkshopDrafts: SearchResponse<WorkshopDraftCard[]>;
+  providerCompetitionDrafts: SearchResponse<CompetitionDraftCard[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -93,7 +94,8 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerCompetition: null,
     officialEmployees: null,
-    providerDrafts: null,
+    providerWorkshopDrafts: null,
+    providerCompetitionDrafts: null,
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
@@ -149,8 +151,13 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
-    return state.providerDrafts;
+  static providerWorkshopDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
+    return state.providerWorkshopDrafts;
+  }
+
+  @Selector()
+  static providerCompetitionDrafts(state: ProviderStateModel): SearchResponse<CompetitionDraftCard[]> {
+    return state.providerCompetitionDrafts;
   }
 
   @Selector()
@@ -449,8 +456,8 @@ export class ProviderState {
     return this.userWorkshopService
       .getProviderViewWorkshopDrafts(workshopCardParameters)
       .pipe(
-        tap((providerDrafts: SearchResponse<WorkshopDraftCard[]>) =>
-          patchState({ providerDrafts: providerDrafts ?? EMPTY_RESULT, isLoading: false })
+        tap((providerWorkshopDrafts: SearchResponse<WorkshopDraftCard[]>) =>
+          patchState({ providerWorkshopDrafts: providerWorkshopDrafts ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -466,6 +473,21 @@ export class ProviderState {
       .pipe(
         tap((providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>) =>
           patchState({ providerCompetition: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
+  @Action(providerActions.GetProviderViewCompetitionDrafts)
+  getProviderViewCompetitionDrafts(
+    { patchState }: StateContext<ProviderStateModel>,
+    { competitionCardParameters }: providerActions.GetProviderViewCompetitionDrafts
+  ): Observable<SearchResponse<CompetitionDraftCard[]>> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService
+      .getProviderViewCompetitionDrafts(competitionCardParameters)
+      .pipe(
+        tap((providerCompetitionDrafts: SearchResponse<CompetitionDraftCard[]>) =>
+          patchState({ providerCompetitionDrafts: providerCompetitionDrafts ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }

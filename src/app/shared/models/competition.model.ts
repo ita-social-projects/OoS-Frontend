@@ -2,6 +2,7 @@ import { CompetitionCoverage, CompetitionStatus, FormOfLearning } from 'shared/e
 import { Address } from 'shared/models/address.model';
 import { Judge } from 'shared/models/judge.model';
 import { Provider } from 'shared/models/provider.model';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
 import { PaginationParameters } from './query-parameters.model';
 import { SectionItem } from './section-item.model';
 import { Contacts } from './workshop.model';
@@ -214,4 +215,11 @@ export interface Description {
   price?: number;
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
+}
+
+export interface CompetitionDraftCard extends CompetitionBaseCard {
+  competitiveEventDraftId: string;
+  draftStatus: WorkshopDraftStatus;
+  rejectionMessage?: string;
+  coverImageId?: string;
 }

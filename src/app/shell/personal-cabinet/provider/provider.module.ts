@@ -44,6 +44,8 @@ import { CreateJudgeComponent } from './create-competition/create-judge/create-j
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
 import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
 import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.component';
+import { WorkshopDraftsComponent } from './provider-drafts/workshop-drafts/workshop-drafts.component';
+import { CompetitionDraftsComponent } from './provider-drafts/competition-drafts/competition-drafts.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.compo
     ProviderApplicationsComponent,
     ProviderWorkshopsComponent,
     ProviderDraftsComponent,
+    WorkshopDraftsComponent,
+    CompetitionDraftsComponent,
     WorkingHoursFormWrapperComponent,
     ProviderEmployeesUploadComponent,
     ProviderStudySubjectsComponent,
