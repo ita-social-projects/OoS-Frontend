@@ -17,14 +17,15 @@
 
 .section-title {
   margin: 1.5rem 0 1rem 0;
+  color: var(--primary-dark-text-color);
 }
 
 .txt {
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
-  line-height: 17, 7px;
+  line-height: 17.7px;
   font-weight: 400;
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   overflow-wrap: break-word;
 }
 
@@ -60,7 +61,7 @@
     Open Sans,
     sans-serif;
   font-weight: 700;
-  color: var(--secondary-light-text-color);
+  color: var(--primary-dark-text-color);
   padding: 5px;
   &:last-child {
     padding: 5px 5px 5px 0px;

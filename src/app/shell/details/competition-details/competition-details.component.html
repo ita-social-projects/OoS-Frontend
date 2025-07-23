@@ -6,18 +6,18 @@
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button (click)="onActionButtonClick(ModalType.archiveCompetition)" class="btn btn-cancel" mat-button>
-      {{ 'BUTTONS.ARCHIVE' | translate | uppercase }}
+      {{ 'BUTTONS.ARCHIVE' | translate }}
     </button>
     <div class="flex">
       <a [routerLink]="['/create-competition', competition.id]" class="btn btn-cancel" mat-button>
-        {{ 'BUTTONS.EDIT' | translate | uppercase }}
+        {{ 'BUTTONS.EDIT' | translate }}
       </a>
       <button
-        class="btn"
+        class="btn btn-publish"
         [disabled]="competition.state !== CompetitionStatus.Draft"
         (click)="onActionButtonClick(ModalType.publishCompetition)"
         mat-button>
-        {{ 'BUTTONS.PUBLISH' | translate | uppercase }}
+        {{ 'BUTTONS.PUBLISH' | translate }}
       </button>
     </div>
   </div>

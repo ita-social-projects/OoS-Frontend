@@ -22,8 +22,8 @@
     }
 
     .btn:not(.btn-cancel) {
-      background-color: var(--primary-light-bg-color) !important;
-      color: var(--primary-light-text-color) !important;
+      background-color: var(--specific-bg-button) !important;
+      color: var(--light-text-button) !important;
     }
   }
 }

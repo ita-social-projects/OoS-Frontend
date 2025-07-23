@@ -4,7 +4,7 @@
       <span>{{ 'HISTORY_LOG.PERIOD' | translate }}</span>
       <mat-form-field appPlaceholderStyling class="date" appearance="fill">
         <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
-        <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
+        <mat-date-range-input [rangePicker]="picker" [max]="maxDate" class="date-range">
           <input
             matStartDate
             placeholder="{{ 'FROM' | translate }}"

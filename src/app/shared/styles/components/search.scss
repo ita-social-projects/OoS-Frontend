@@ -34,7 +34,7 @@
 }
 
 .search-icon {
-  color: var(--primary-light-text-color);
+  color: var(--primary-light-text-color) !important;
   display: flex;
   align-items: center;
   justify-content: center;

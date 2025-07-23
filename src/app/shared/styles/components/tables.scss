@@ -16,7 +16,7 @@ tr {
 th {
   font-size: 14px;
   font-weight: 700;
-  color: var(--primary-light-text-color);
+  color: var(--primary-dark-text-color);
   height: inherit;
 }
 
@@ -104,5 +104,5 @@ td.mat-column-actions,
 }
 
 .mat-icon {
-  color: var(--primary-light-text-color) !important;
+  color: var(--primary-dark-text-color) !important;
 }

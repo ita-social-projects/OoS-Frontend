@@ -12,8 +12,25 @@ form.reject-form {
 
 .step-label {
   margin-top: 15px;
+  color: var(--primary-dark-text-color);
+}
+
+.step-textarea {
+  color: var(--primary-dark-text-color) !important;
+}
+
+.confirmation {
+  color: var(--primary-dark-text-color) !important;
 }
 
 .btn-cancel {
   margin-left: 16px !important;
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color) !important;
+  color: var(--specific-text-color) !important;
+}
+
+.btn:not(.btn-cancel) {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
 }
