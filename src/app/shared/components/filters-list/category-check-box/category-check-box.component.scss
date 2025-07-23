@@ -11,6 +11,14 @@
   margin: 1rem 0.5rem;
 }
 
+.search {
+  color: var(--primary-dark-text-color) !important;
+
+  &::placeholder {
+    color: var(--primary-dark-text-color) !important;
+  }
+}
+
 :host ::ng-deep .mat-form-field-infix {
   padding: 0;
 }

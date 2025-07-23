@@ -26,7 +26,7 @@
 .search-input {
   font-weight: normal;
   line-height: 22px;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-dark-text-color) !important;
   text-overflow: ellipsis;
 
   &::placeholder {

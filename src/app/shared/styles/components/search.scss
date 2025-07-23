@@ -25,16 +25,16 @@
     height: 18px;
     padding: 0 0 0 10px;
     background: transparent;
-    color: var(--primary-light-text-color);
+    color: var(--primary-light-text-color) !important;
 
     &::placeholder {
-      color: var(--primary-light-text-color);
+      color: var(--primary-light-text-color) !important;
     }
   }
 }
 
 .search-icon {
-  color: var(--primary-light-text-color);
+  color: var(--primary-light-text-color) !important;
   display: flex;
   align-items: center;
   justify-content: center;

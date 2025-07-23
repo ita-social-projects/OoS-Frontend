@@ -6,6 +6,7 @@
 .form-wrapper {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   row-gap: 10px;
   flex-wrap: wrap;
 }
@@ -95,6 +96,10 @@
   font-size: 13px;
   line-height: 22px;
   height: 40px;
+}
+
+.date-range {
+  color: var(--primary-dark-text-color) !important;
 }
 
 .select,

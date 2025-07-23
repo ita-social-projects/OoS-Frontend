@@ -24,6 +24,17 @@
   margin-bottom: 1rem;
 }
 
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color) !important;
+  color: var(--specific-text-color) !important;
+}
+
+.btn-publish {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+}
+
 .action-buttons-wrapper {
   padding: 2.4rem 0;
 

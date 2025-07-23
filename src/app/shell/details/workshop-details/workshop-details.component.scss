@@ -11,6 +11,17 @@
   min-width: 24px;
 }
 
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color) !important;
+  color: var(--specific-text-color) !important;
+}
+
+.btn-publish {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+}
+
 .error-message {
   color: red;
   height: 40px;

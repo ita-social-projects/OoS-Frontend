@@ -7,7 +7,7 @@
     font-family: 'Open Sans', sans-serif !important;
     font-style: normal;
     font-weight: normal;
-    color: var(--primary-dark-text-color);
+    color: var(--specific-light-text-color);
     background-color: transparent;
     padding-left: 10px;
     font-size: 13px !important;
@@ -30,9 +30,10 @@
 
 ::ng-deep .mat-mdc-select-panel,
 ::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: var(--bg-light-additional) !important;
   .mat-mdc-option.mdc-list-item--selected {
     background-color: var(--mat-option-focus-state-layer-color) !important;
-    color: var(--primary-dark-text-color) !important;
+    color: var(--specific-light-text-color) !important;
 
     &:hover {
       background-color: var(--mat-option-focus-state-layer-color) !important;

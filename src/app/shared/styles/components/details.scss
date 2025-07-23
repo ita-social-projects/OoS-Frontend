@@ -142,6 +142,24 @@
   height: 2px;
 }
 
+:host ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: var(--specific-text-color) !important;
+}
+
+:host ::ng-deep .mat-tab-group.nav.mat-primary .mat-ink-bar {
+  background-color: var(--specific-text-color) !important;
+}
+
+:host ::ng-deep .mat-mdc-tab-header .mat-mdc-tab-header-pagination-after,
+:host ::ng-deep .mat-mdc-tab-header .mat-mdc-tab-header-pagination-before {
+  border-color: var(--specific-text-color) !important;
+}
+
+:host ::ng-deep .mdc-tab-indicator__content--underline {
+  border-color: var(--specific-text-color) !important;
+  background-color: var(--specific-text-color) !important;
+}
+
 :host ::ng-deep .mat-tab-link {
   min-width: 0 !important;
   padding: inherit !important;

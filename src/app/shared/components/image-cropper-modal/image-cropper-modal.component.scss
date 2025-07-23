@@ -13,8 +13,9 @@ small.warning {
 }
 
 .btn-wrapper .btn {
-  background-color: var(--body-color) !important;
-  color: var(--primary-light-text-color) !important;
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08) !important;
 }
 
 .btn-wrapper .btn:last-child {

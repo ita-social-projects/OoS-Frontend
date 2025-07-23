@@ -31,7 +31,7 @@
       </span>
       <button
         *ngIf="workshop.workshopDraftId"
-        class="btn"
+        class="btn btn-publish"
         [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
         (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
         mat-button>
@@ -136,16 +136,14 @@
     </div>
 
     <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab
-        *ngFor="let tab of tabs"
-        class="label"
-        [label]="tab.labelKey | translate | uppercase"
-      >
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
         <ng-container [ngSwitch]="tab.alias">
           <app-workshop-about *ngSwitchCase="'AboutWorkshop'" [workshop]="workshop"></app-workshop-about>
           <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
           <app-workshop-teachers *ngSwitchCase="'Teachers'" [teachers]="workshop.teachers"></app-workshop-teachers>
-          <app-all-provider-workshops *ngSwitchCase="'OtherWorkshops'" [providerParameters]="providerParameters"></app-all-provider-workshops>
+          <app-all-provider-workshops
+            *ngSwitchCase="'OtherWorkshops'"
+            [providerParameters]="providerParameters"></app-all-provider-workshops>
           <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
           <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
           <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="workshop"></app-contacts-card>
