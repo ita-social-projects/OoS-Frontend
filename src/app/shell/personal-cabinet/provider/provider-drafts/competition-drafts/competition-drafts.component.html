@@ -1,0 +1,26 @@
+<div class="add-wrapper">
+  <p class="text">{{ 'BANNERS.ADD_COMPETITION' | translate }}</p>
+  <a [routerLink]="['/create', ModeConstants.NEW]">
+    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_COMPETITION' | translate }}</button>
+  </a>
+</div>
+<ng-container *ngIf="!isLoading && !!competitionDrafts">
+  <div class="card-wrapper" *ngIf="competitionDrafts?.totalAmount">
+    <app-competition-card
+      class="card"
+      *ngFor="let competitionDraft of competitionDrafts.entities; trackBy: trackByDraft"
+      [competition]="competitionDraft"
+      (deleteCompetition)="onDelete($event)">
+    </app-competition-card>
+  </div>
+  <ng-container *ngIf="competitionDrafts.totalAmount">
+    <app-paginator
+      [totalEntities]="competitionDrafts.totalAmount"
+      [currentPage]="currentPage"
+      [itemsPerPage]="competitionCardParameters.size"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-paginator>
+  </ng-container>
+</ng-container>
+
