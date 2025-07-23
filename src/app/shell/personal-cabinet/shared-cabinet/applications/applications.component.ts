@@ -66,7 +66,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public isActiveInfoButton = false;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public isMobileView: boolean;
-  public shouldRemoveApplicationDropdown: boolean;
   public searchFormControl: FormControl = new FormControl('');
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -81,7 +80,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
     this.isMobileView = event.outerWidth < 530;
-    this.shouldRemoveApplicationDropdown = event.outerWidth <= 1500;
   }
 
   public onEntitiesSelect(IDs: string[]): void {

@@ -28,7 +28,9 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   constructor(private translateCases: TranslateCasesPipe) {}
 
   public get panelClasses(): string[] {
-    return this.shouldRemoveApplicationDropdown ? ['checkbox-dropdown-panel'] : ['checkbox-dropdown-panel', 'application-dropdown'];
+    return this.shouldRemoveApplicationDropdown
+      ? ['checkbox-dropdown-panel', 'select-with-form-field']
+      : ['checkbox-dropdown-panel', 'application-dropdown', 'select-with-form-field'];
   }
 
   public ngOnInit(): void {
