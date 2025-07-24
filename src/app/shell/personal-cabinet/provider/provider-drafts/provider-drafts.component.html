@@ -1,9 +1,9 @@
 <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)">
   <mat-tab label="Гуртки">
-    <app-workshop-drafts [role]="role" [isLoading]="isLoading$ | async"></app-workshop-drafts>
+    <app-workshop-drafts [role]="role" [provider]="provider" [isLoading$]="isLoading$"></app-workshop-drafts>
   </mat-tab>
   <mat-tab label="Конкурси">
-    <app-competition-drafts [role]="role" [isLoading]="isLoading$ | async"></app-competition-drafts>
+    <app-competition-drafts [role]="role" [provider]="provider" [isLoading$]="isLoading$"></app-competition-drafts>
   </mat-tab>
 </mat-tab-group>
 

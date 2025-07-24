@@ -4,7 +4,7 @@
     <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_WORKSHOP' | translate }}</button>
   </a>
 </div>
-<ng-container *ngIf="!isLoading && !!workshopDrafts">
+<ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">
   <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount">
     <app-workshop-card
       class="card"

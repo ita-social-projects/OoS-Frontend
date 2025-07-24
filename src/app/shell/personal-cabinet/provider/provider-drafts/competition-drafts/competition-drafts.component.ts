@@ -1,28 +1,35 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
-import { filter, Observable } from 'rxjs';
+import { filter, Observable, Subject } from 'rxjs';
 import { SearchResponse } from 'shared/models/search.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatDialog } from '@angular/material/dialog';
 import { WINDOW } from 'ngx-window-token';
-import { DeleteCompetitionDraftById, GetProviderViewCompetitionDrafts } from 'shared/store/provider.actions';
+import {
+  DeleteCompetitionDraftById,
+  GetProviderViewCompetitionDrafts,
+  OnDraftSendForModerationSuccess
+} from 'shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Role } from 'shared/enum/role';
 import { CompetitionCardParameters, CompetitionDraftCard } from 'shared/models/competition.model';
+import { Provider } from 'shared/models/provider.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-competition-drafts',
   templateUrl: './competition-drafts.component.html',
   styleUrl: './competition-drafts.component.scss'
 })
-export class CompetitionDraftsComponent {
+export class CompetitionDraftsComponent implements OnInit {
   @Input() public role: Role;
-  @Input() public isLoading: boolean;
+  @Input() public isLoading$: Observable<boolean>;
+  @Input() public provider: Provider;
   @Select(ProviderState.providerCompetitionDrafts)
   public competitionDrafts$: Observable<SearchResponse<CompetitionDraftCard[]>>;
 
@@ -36,12 +43,23 @@ export class CompetitionDraftsComponent {
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions,
     @Inject(WINDOW) private window: Window
   ) {}
+
+  public ngOnInit(): void {
+    this.competitionCardParameters.providerId = this.provider.id;
+    this.getProviderDrafts();
+    this.competitionDrafts$.pipe(takeUntil(this.destroy$)).subscribe((competitionDrafts: SearchResponse<CompetitionDraftCard[]>) => {
+      this.competitionDrafts = competitionDrafts;
+    });
+    this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
+  }
 
   /**
    * This method delete workshop By Workshop Id

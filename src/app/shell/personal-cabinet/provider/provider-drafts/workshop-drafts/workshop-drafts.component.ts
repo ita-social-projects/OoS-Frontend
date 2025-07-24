@@ -1,28 +1,35 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
-import { filter, Observable } from 'rxjs';
+import { filter, Observable, Subject } from 'rxjs';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatDialog } from '@angular/material/dialog';
 import { WINDOW } from 'ngx-window-token';
-import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts } from 'shared/store/provider.actions';
+import {
+  DeleteWorkshopDraftById,
+  GetProviderViewWorkshopDrafts,
+  OnDraftSendForModerationSuccess
+} from 'shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Role } from 'shared/enum/role';
+import { Provider } from 'shared/models/provider.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-workshop-drafts',
   templateUrl: './workshop-drafts.component.html',
   styleUrl: './workshop-drafts.component.scss'
 })
-export class WorkshopDraftsComponent {
+export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   @Input() public role: Role;
-  @Input() public isLoading: boolean;
+  @Input() public isLoading$: Observable<boolean>;
+  @Input() public provider: Provider;
   @Select(ProviderState.providerWorkshopDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
 
@@ -36,12 +43,28 @@ export class WorkshopDraftsComponent {
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions,
     @Inject(WINDOW) private window: Window
   ) {}
+
+  public ngOnInit(): void {
+    this.workshopCardParameters.providerId = this.provider.id;
+    this.getProviderDrafts();
+    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopDraftCard[]>) => {
+      this.workshopDrafts = workshopDrafts;
+    });
+    this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 
   /**
    * This method delete workshop By Workshop Id

@@ -4,7 +4,7 @@
     <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_COMPETITION' | translate }}</button>
   </a>
 </div>
-<ng-container *ngIf="!isLoading && !!competitionDrafts">
+<ng-container *ngIf="!(isLoading$ | async) && !!competitionDrafts">
   <div class="card-wrapper" *ngIf="competitionDrafts?.totalAmount">
     <app-competition-card
       class="card"
