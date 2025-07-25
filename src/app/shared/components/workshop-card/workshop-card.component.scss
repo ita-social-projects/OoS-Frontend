@@ -119,32 +119,6 @@
   }
 }
 
-.admin-response {
-  padding: 10px 0;
-  font-size: 13px;
-  font-weight: bold;
-  font-family: Innerspace, sans-serif;
-}
-
-.rejection-message {
-  background: #ff000077;
-
-  box-sizing: border-box;
-  padding: 10px;
-  border-radius: 4px;
-
-  &-wrapper {
-    font-family: Innerspace, sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-  }
-}
-
 ::ng-deep .mat-mdc-card-header .mat-mdc-card-title {
   height: 30px !important;
 }

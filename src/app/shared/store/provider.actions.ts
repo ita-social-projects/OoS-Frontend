@@ -155,7 +155,13 @@ export class OnGetWorkshopDraftIdByWorkshopIdSuccess {
   ) {}
 }
 
-export class DraftSendForModeration {
+export class WorkshopDraftSendForModeration {
+  static readonly type = '[provider] send Workshop Draft for Moderation';
+
+  constructor(public id: string) {}
+}
+
+export class CompetitionDraftSendForModeration {
   static readonly type = '[provider] send Draft for Moderation';
 
   constructor(public id: string) {}
@@ -870,4 +876,10 @@ export class DeleteCompetitionDraftById {
     public payload: CompetitionDraftCard,
     public parameters: CompetitionCardParameters
   ) {}
+}
+
+export class GetCompetitionDraftIdByWorkshopId {
+  static readonly type = '[provider] get Competition Draft ID by Competition Id';
+
+  constructor(public id: string) {}
 }

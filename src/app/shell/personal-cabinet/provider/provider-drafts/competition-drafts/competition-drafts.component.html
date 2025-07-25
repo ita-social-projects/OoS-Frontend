@@ -9,6 +9,7 @@
     <app-competition-card
       class="card"
       *ngFor="let competitionDraft of competitionDrafts.entities; trackBy: trackByDraft"
+      [isCabinet]="true"
       [competition]="competitionDraft"
       (deleteCompetition)="onDelete($event)">
     </app-competition-card>

@@ -24,16 +24,16 @@
             *ngIf="isCabinet"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             [matTooltipPosition]="Constants.MAT_TOOL_TIP_POSITION_ABOVE"
-            [routerLink]="['/details/competition', competitionData.id]">
+            [routerLink]="[
+              competitionData.id ? '/details/competition' : '/details/draft',
+              competitionData.id ? competitionData.id : competitionData.workshopDraftId
+            ]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           <div class="workshop-title-container">
             <span [matTooltip]="competitionData.title" showTooltipIfTruncated>{{ competitionData.title }}</span>
           </div>
         </mat-card-title>
-        <ng-container *ngFor="let id of competitionData.directionIds">
-          <img class="img" mat-card-image [src]="CategoryIcons[id]" />
-        </ng-container>
       </mat-card-header>
 
       <mat-card-content class="flex flex-col justify-between">
@@ -81,42 +81,93 @@
 </ng-template>
 
 <ng-template #ProviderCompetitionView>
-  <ng-container
-    *ngIf="
+  <ng-container *ngIf="!!!competitionData.draftStatus; else ProviderDraftView">
+    <ng-container
+      *ngIf="
       competitionData.state === CompetitionStatus.Open || competitionData.availableSeats === Constants.UNLIMITED_SEATS;
       else WorkshopStatusClosed
     ">
-    <div class="flex justify-between">
-      <div class="chip-color-open">
-        {{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}
+      <div class="flex justify-between">
+        <div class="chip-color-open">
+          {{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}
+        </div>
+        <a
+          *ngIf="canChangeWorkshopStatus"
+          class="more-details"
+          (click)="onChangeWorkshopStatus(CompetitionStatus.Closed, ModalConfirmationType.closeSet)">
+          <span class="card_link">{{ RecruitmentStatusEnum.Stop | translate }}</span>
+        </a>
       </div>
-      <a
-        *ngIf="canChangeWorkshopStatus"
-        class="more-details"
-        (click)="onChangeWorkshopStatus(CompetitionStatus.Closed, ModalConfirmationType.closeSet)">
-        <span class="card_link">{{ RecruitmentStatusEnum.Stop | translate }}</span>
-      </a>
+    </ng-container>
+    <div *ngIf="competitionData.competitiveSelection" class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
     </div>
-  </ng-container>
-  <div *ngIf="competitionData.competitiveSelection" class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
-  </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
-    <span class="card_text card_text_blue">
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
+      <span class="card_text card_text_blue">
       {{ competitionData.numberOfOccupiedSeats }}
-      <ng-container *ngIf="competitionData.numberOfSeats !== Constants.UNLIMITED_SEATS">
+        <ng-container *ngIf="competitionData.numberOfSeats !== Constants.UNLIMITED_SEATS">
         / {{ competitionData.numberOfSeats }}
       </ng-container>
     </span>
+    </div>
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
+      <span class="card_text card_text_blue"> {{ competitionData.amountOfPendingApplications }}</span>
+    </div>
+    <div class="provider-content flex justify-between items-center">
+      <p class="card_text"><i
+        class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+      <span class="card_text card_text_blue"> {{ competitionData.unreadMessages }}</span>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #ProviderDraftView>
+  <div class="flex justify-between">
+    <ng-container [ngSwitch]="competitionData.draftStatus">
+      <div *ngSwitchCase="workshopDraftStatus.Draft" class="chip-color-draft">
+        {{ draftStatusEnum.Draft | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.PendingModeration" class="chip-color-pending">
+        {{ draftStatusEnum.PendingModeration | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.Rejected" class="chip-color-rejected">
+        {{ draftStatusEnum.Rejected | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.EditedByModerator" class="chip-color-edited">
+        {{ draftStatusEnum.EditedByModerator | translate }}
+      </div>
+    </ng-container>
+    <a
+      *ngIf="competitionData.draftStatus !== workshopDraftStatus.PendingModeration"
+      class="more-details"
+      (click)="onSendForModeration(competitionData.competitiveEventDraftId, ModalConfirmationType.draftSet)">
+      <span class="card_link">{{ 'BUTTONS.PUBLISH' | translate }}</span>
+    </a>
   </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
-    <span class="card_text card_text_blue"> {{ competitionData.amountOfPendingApplications }}</span>
-  </div>
-  <div class="provider-content flex justify-between items-center">
-    <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
-    <span class="card_text card_text_blue"> {{ competitionData.unreadMessages }}</span>
+  <div class="flex flex-col flex-grow">
+    <ng-container [ngSwitch]="competitionData.draftStatus">
+      <div *ngSwitchCase="workshopDraftStatus.Draft" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.PUBLISH' | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.PendingModeration" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.PENDING_MODERATION' | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.EditedByModerator" class="text-center admin-response">
+        {{ 'DRAFT_CARD_HINT.EDITED_BY_MODERATOR' | translate }}
+      </div>
+      <div *ngSwitchCase="workshopDraftStatus.Rejected">
+        <div class="flex flex-row justify-start">
+          <div class="admin-response flex items-center">{{ 'MODERATOR_MESSAGE' | translate }}</div>
+        </div>
+        <div class="rejection-message">
+          <div class="rejection-message-wrapper" [matTooltip]="competitionData.rejectionMessage">
+            {{ competitionData.rejectionMessage }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </ng-template>
 

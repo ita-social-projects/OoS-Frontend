@@ -210,7 +210,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       }
 
       this.selectedWorkshop$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((workshop: Workshop | WorkshopDraft) => {
-        this.workshop = Util.containsWorkshopDetails(workshop) ? workshop.workshopDetails : workshop;
+        this.workshop = Util.containsWorkshopOrCompetitionDetails(workshop) ? workshop.workshopDetails : workshop;
       });
     }
   }

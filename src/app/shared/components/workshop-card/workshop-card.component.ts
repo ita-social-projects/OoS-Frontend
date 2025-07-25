@@ -23,7 +23,7 @@ import { WorkshopBaseCard, WorkshopDraft, WorkshopDraftCard, WorkshopProviderVie
 import { ImagesService } from 'shared/services/images/images.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
-import { DraftSendForModeration, GetWorkshopDraftIdByWorkshopId, UpdateWorkshopStatus } from 'shared/store/provider.actions';
+import { GetWorkshopDraftIdByWorkshopId, UpdateWorkshopStatus, WorkshopDraftSendForModeration } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -224,7 +224,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
-        this.store.dispatch(new DraftSendForModeration(id));
+        this.store.dispatch(new WorkshopDraftSendForModeration(id));
       }
     });
   }

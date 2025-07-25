@@ -1,22 +1,21 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants } from 'shared/constants/constants';
-import { CategoryIcons } from 'shared/enum/category-icons';
 import { CompetitionStatus } from 'shared/enum/competition';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
-import {
-  CompetitionBaseCard,
-  CompetitionDraftCard,
-  CompetitionProviderViewCard
-} from 'shared/models/competition.model';
+import { CompetitionBaseCard, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
-import { ENTER, SPACE } from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { CompetitionDraftSendForModeration, GetCompetitionDraftIdByWorkshopId } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-competition-card',
@@ -40,11 +39,12 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
   public readonly Constants = Constants;
-  public readonly CategoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly CompetitionStatus = CompetitionStatus;
   public readonly ModalConfirmationType = ModalConfirmationType;
+  public readonly draftStatusEnum = DraftStatusEnum;
+  public readonly workshopDraftStatus = WorkshopDraftStatus;
   public competitionData: CompetitionProviderViewCard | CompetitionDraftCard;
 
   public role: Role;
@@ -52,6 +52,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private imageService: ImagesService,
+    private dialog: MatDialog,
     private router: Router,
     private store: Store
   ) {}
@@ -76,6 +77,21 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public onImageError(): void {
     this.isImageBroken = true;
     this.competitionData._meta = this.imageService.getDefaultCoverImage();
+  }
+
+  public onSendForModeration(id: string, type: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: type
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res) {
+        this.store.dispatch(new CompetitionDraftSendForModeration(id));
+      }
+    });
   }
 
   public onKeydown(event: KeyboardEvent, action: () => void): void {

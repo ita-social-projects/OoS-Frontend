@@ -90,7 +90,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       .subscribe(([isMobileScreen, role, workshop, provider, competition]) => {
         this.isMobileScreen = isMobileScreen;
         this.role = role;
-        this.workshop = Util.containsWorkshopDetails(workshop)
+        this.workshop = Util.containsWorkshopOrCompetitionDetails(workshop)
           ? {
               draftStatus: workshop.draftStatus,
               rejectionMessage: workshop.rejectionMessage,

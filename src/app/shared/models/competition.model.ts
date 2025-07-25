@@ -139,7 +139,23 @@ export class Competition extends CompetitionBase {
     if (required.coverImage) {
       this.coverImage = required.coverImage;
     }
+    if (description.imageIds) {
+      this.imageIds = description.imageIds;
+    }
+    if (description.imageFiles) {
+      this.imageFiles = description.imageFiles;
+    }
   }
+}
+
+export class CompetitionDraft {
+  competitiveEventDraftId: string;
+  draftStatus: WorkshopDraftStatus;
+  rejectionMessage?: string;
+  competitiveEventDetails: Competition;
+  providerEdrpou: string;
+  directorFullName: string;
+  directorPosition: string;
 }
 
 export interface CompetitionRequired {
@@ -215,6 +231,8 @@ export interface Description {
   price?: number;
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
+  imageIds?: string[];
+  imageFiles?: File[];
 }
 
 export interface CompetitionDraftCard extends CompetitionBaseCard {

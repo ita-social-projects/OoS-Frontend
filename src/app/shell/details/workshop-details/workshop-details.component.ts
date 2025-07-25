@@ -19,7 +19,7 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
   ArchiveWorkshopById,
-  DraftSendForModeration,
+  WorkshopDraftSendForModeration,
   GetWorkshopDraftIdByWorkshopId,
   OnArchiveWorkshopFail,
   OnArchiveWorkshopSuccess,
@@ -96,7 +96,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
     this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
-    this.providerParameters.providerId = Util.containsWorkshopDetails(this.workshop)
+    this.providerParameters.providerId = Util.containsWorkshopOrCompetitionDetails(this.workshop)
       ? this.workshop.workshopDetails.providerId
       : this.workshop.providerId;
     this.getWorkshopData();
@@ -130,7 +130,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
         filter(Boolean),
         switchMap(() => {
           if (type === ModalConfirmationType.draftSet) {
-            this.store.dispatch(new DraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
+            this.store.dispatch(new WorkshopDraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
 
             return this.actions$.pipe(
               ofAction(OnDraftSendForModerationSuccess),
@@ -163,6 +163,26 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
     } else {
       this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
     }
+  }
+
+  private getWorkshopData(): void {
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
+    this.store.dispatch([
+      new GetProviderById(
+        Util.containsWorkshopOrCompetitionDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: NavBarName.WorkshopResult,
+            path: '/result',
+            isActive: false,
+            disable: false
+          },
+          { name: this.workshop.title, isActive: false, disable: true }
+        )
+      )
+    ]);
   }
 
   protected initTabs(): void {
@@ -209,24 +229,5 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
       }
     ].filter((tab) => tab.visible);
   }
-
-  private getWorkshopData(): void {
-    this.coverImage = this.imagesService.getCoverImage(this.workshop);
-    this.store.dispatch([
-      new GetProviderById(
-        Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
-      ),
-      new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: NavBarName.WorkshopResult,
-            path: '/result',
-            isActive: false,
-            disable: false
-          },
-          { name: this.workshop.title, isActive: false, disable: true }
-        )
-      )
-    ]);
-  }
 }
+

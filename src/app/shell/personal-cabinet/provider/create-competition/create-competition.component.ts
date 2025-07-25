@@ -8,7 +8,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Competition, CompetitionRequired, Description } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft, CompetitionRequired, Description } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -21,6 +21,8 @@ import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.acti
 import { Contacts } from 'shared/models/workshop.model';
 import { SubDirection } from 'shared/models/category.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
+import { WorkshopType } from 'shared/enum/workshop';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-competition',
@@ -50,6 +52,8 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
 
+  private entity: string;
+
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
@@ -77,6 +81,8 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
+
+    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Competition;
 
     const id = Boolean(this.route.snapshot.paramMap.get('id'));
     const param = Boolean(this.route.snapshot.paramMap.get('param'));
@@ -114,8 +120,8 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetCompetitionById(competitionId));
-    this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition) => {
-      this.competition = competition;
+    this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition | CompetitionDraft) => {
+      this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
     });
   }
 

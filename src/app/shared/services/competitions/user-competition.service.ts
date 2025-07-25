@@ -63,28 +63,20 @@ export class UserCompetitionService {
     );
   }
 
+  public sendDraftForModeration(id: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/competitions-drafts/${id}/send-for-moderation`, {});
+  }
+
   /**
    * This method create competition
    * @param competition Competition
    */
-  /**
-   / * This method creates a competition.
-   * todo: Update logic to use `createCompetitionV2` when the new version is available.
-   */
   public createCompetition(competition: Competition): Observable<Competition> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    // this code return when v2 for competition will be
-    // return this.isImagesFeature ? this.createCompetitionV2(competition) : this.createCompetitionV1(competition);
-    return this.createCompetitionV1(competition);
-  }
-
-  public createCompetitionV1(competition: Competition): Observable<Competition> {
-    return this.http.post<Competition>('/api/v1/CompetitiveEvent', competition);
+    return this.createCompetitionV2(competition);
   }
 
   public createCompetitionV2(competition: Competition): Observable<Competition> {
-    const formData = this.createFormData(competition);
-    return this.http.post<Competition>('/api/v2/CompetitiveEvent', formData);
+    return this.http.post<Competition>('/api/v2/competitions-drafts', this.createFormData(competition));
   }
 
   /**
@@ -117,8 +109,10 @@ export class UserCompetitionService {
 
   private createFormData(competition: Competition): FormData {
     const formData = new FormData();
-    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges'];
+    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds'];
     const imageFiles = ['imageFiles', 'coverImage'];
+
+    console.log(competition)
 
     Object.keys(competition).forEach((key: string) => {
       if (competition[key]) {

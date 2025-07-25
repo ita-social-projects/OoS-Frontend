@@ -282,10 +282,10 @@ export class ProviderState {
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
-  @Action(providerActions.DraftSendForModeration)
+  @Action(providerActions.WorkshopDraftSendForModeration)
   sendDraftForModeration(
     { dispatch, patchState }: StateContext<ProviderStateModel>,
-    { id }: providerActions.DraftSendForModeration
+    { id }: providerActions.WorkshopDraftSendForModeration
   ): Observable<void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.sendDraftForModeration(id).pipe(
@@ -1311,6 +1311,18 @@ export class ProviderState {
   @Action(providerActions.OnArchiveCompetitionFail)
   archiveCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.CompetitionDraftSendForModeration)
+  sendCompetitionDraftForModeration(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { id }: providerActions.CompetitionDraftSendForModeration
+  ): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.sendDraftForModeration(id).pipe(
+      tap(() => dispatch(new providerActions.OnDraftSendForModerationSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDraftSendForModerationFail(error)))
+    );
   }
 
   @Action(OnSaveWorkshopStep)
