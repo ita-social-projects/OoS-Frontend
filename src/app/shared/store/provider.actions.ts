@@ -242,8 +242,8 @@ export class CreateWorkshopDraft {
   constructor(public payload: Workshop) {}
 }
 
-export class UpdateDraft {
-  static readonly type = '[provider] update Draft';
+export class UpdateWorkshopDraft {
+  static readonly type = '[provider] update Workshop Draft';
 
   constructor(
     public draftId: string,
@@ -254,7 +254,7 @@ export class UpdateDraft {
 export class OnUpdateDraftSuccess {
   static readonly type = '[provider] update Draft success';
 
-  constructor(public payload: Workshop) {}
+  constructor(public payload: Workshop | Competition) {}
 }
 
 export class DeleteWorkshopDraftById {
@@ -867,6 +867,15 @@ export class OnArchiveCompetitionFail {
   static readonly type = '[provider] archive Competition by id fail';
 
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class UpdateCompetitionDraft {
+  static readonly type = '[provider] update Competition Draft';
+
+  constructor(
+    public draftId: string,
+    public payload: Competition
+  ) {}
 }
 
 export class DeleteCompetitionDraftById {

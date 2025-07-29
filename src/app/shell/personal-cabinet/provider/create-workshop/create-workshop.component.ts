@@ -29,8 +29,8 @@ import {
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,
-  UpdateDraft,
-  UpdateWorkshop
+  UpdateWorkshop,
+  UpdateWorkshopDraft
 } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, GetWorkshopDraftById, ResetProvider, ResetWorkshop } from 'shared/store/shared-user.actions';
@@ -271,7 +271,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
-      if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Workshop) {
+      if (this.entity === WorkshopType.Workshop) {
         if (this.shouldBeDraft(workshop)) {
           this.dialog
             .open(ConfirmationModalWindowComponent, {
@@ -281,7 +281,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
               }
             })
             .afterClosed()
-            .pipe(take(1), filter(Boolean))
+            .pipe(filter(Boolean))
             .subscribe(() => {
               this.store.dispatch(new UpdateWorkshop(workshop));
             });
@@ -290,7 +290,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         }
       } else {
         const draftId = this.getRouteParam();
-        this.store.dispatch(new UpdateDraft(draftId, workshop));
+        this.store.dispatch(new UpdateWorkshopDraft(draftId, workshop));
       }
     } else {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);

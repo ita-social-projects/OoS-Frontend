@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -15,6 +18,7 @@ import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-create-required-form',
@@ -51,7 +55,12 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly minimumSeats: number = 1;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private store: Store,
+    private route: ActivatedRoute,
+    private translateService: TranslateService
+  ) {}
 
   public get availableSeatsControl(): FormControl {
     return this.RequiredFormGroup.get('numberOfSeats') as FormControl;
@@ -89,6 +98,10 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
+
+    if (this.route.snapshot.paramMap.get('entity') === 'competition') {
+      this.listenToChanges();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -241,5 +254,28 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
       .filter(([key, value]) => !isNaN(Number(key)) && (stage || value !== 'CompetitionStage'))
       .map(([key, value]) => ({ key, value: value as string }));
+  }
+
+  private listenToChanges(): void {
+    merge(
+      ...['coverImage', 'title', 'shortTitle'].map(
+        (controlName) =>
+          this.RequiredFormGroup.get(controlName)?.valueChanges.pipe(
+            throttleTime(5000, undefined, {
+              leading: true,
+              trailing: false
+            })
+          ) ?? of()
+      )
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

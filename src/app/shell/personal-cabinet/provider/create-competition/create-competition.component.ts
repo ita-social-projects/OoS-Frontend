@@ -2,6 +2,7 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } 
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -17,12 +18,14 @@ import { GetCompetitionById, ResetCompetition } from 'shared/store/shared-user.a
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
-import { CreateCompetition, UpdateCompetition } from 'shared/store/provider.actions';
+import { CreateCompetition, UpdateCompetition, UpdateCompetitionDraft } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
 import { SubDirection } from 'shared/models/category.model';
-import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-competition',
@@ -59,7 +62,8 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     super(store, route, navigationBarService);
   }
@@ -140,7 +144,27 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
       if (this.editMode) {
         competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
-        this.store.dispatch(new UpdateCompetition(competition));
+        if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Competition) {
+          if (this.shouldBeDraft(competition)) {
+            this.dialog
+              .open(ConfirmationModalWindowComponent, {
+                width: Constants.MODAL_SMALL,
+                data: {
+                  type: ModalConfirmationType.draftEditSet
+                }
+              })
+              .afterClosed()
+              .pipe(filter(Boolean))
+              .subscribe(() => {
+                this.store.dispatch(new UpdateCompetition(competition));
+              });
+          } else {
+            this.store.dispatch(new UpdateCompetition(competition));
+          }
+        } else {
+          const draftId = this.route.snapshot.paramMap.get('param');
+          this.store.dispatch(new UpdateCompetitionDraft(draftId, competition));
+        }
       } else {
         competition = new Competition(requiredInfo, descInfo, contacts, judges, provider);
         this.store.dispatch(new CreateCompetition(competition));
@@ -226,5 +250,31 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   private createContacts(): Contacts[] {
     return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private shouldBeDraft(competition: Competition): boolean {
+    const fieldsToCheck = [
+      'title',
+      'shortTitle',
+      'coverImage',
+      'imageFiles',
+      'description',
+      'disabilityOptionsDesc',
+      'additionalDescription',
+      'descriptionOfTheEnrollmentProcedure',
+      'competitiveEventDescriptionItems',
+      'benefitsOptionsDesc'
+    ];
+
+    return fieldsToCheck.some((fieldName) => {
+      if (typeof competition[fieldName] === 'object' && typeof this.competition[fieldName] === 'object') {
+        return !Util.deepEqual(competition[fieldName], this.competition[fieldName]);
+      }
+
+      return (
+        competition[fieldName] !== this.competition[fieldName] &&
+        (!Util.isEmpty(competition[fieldName]) || !Util.isEmpty(this.competition[fieldName]))
+      );
+    });
   }
 }

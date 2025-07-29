@@ -46,7 +46,9 @@ import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -617,10 +619,10 @@ export class ProviderState {
     }
   }
 
-  @Action(providerActions.UpdateDraft)
+  @Action(providerActions.UpdateWorkshopDraft)
   updateDraft(
     { dispatch }: StateContext<ProviderStateModel>,
-    { draftId, payload }: providerActions.UpdateDraft
+    { draftId, payload }: providerActions.UpdateWorkshopDraft
   ): Observable<WorkshopDraft | void> {
     return this.userWorkshopService.updateDraft(draftId, payload).pipe(
       tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
@@ -1311,6 +1313,17 @@ export class ProviderState {
   @Action(providerActions.OnArchiveCompetitionFail)
   archiveCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.UpdateCompetitionDraft)
+  updateCompetitionDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, payload }: providerActions.UpdateCompetitionDraft
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.updateDraft(draftId, payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
+    );
   }
 
   @Action(providerActions.CompetitionDraftSendForModeration)

@@ -2,11 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { CompetitionCardParameters } from 'shared/models/competition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +66,11 @@ export class UserCompetitionService {
     return this.http.put<void>(`/api/v2/competitions-drafts/${id}/send-for-moderation`, {});
   }
 
+  public updateDraft(draftId: string, draft: Competition): Observable<Competition> {
+    const formData = this.createFormData(draft, draftId);
+    return this.http.put<Competition>(`/api/v2/competitions-drafts/${draftId}`, formData);
+  }
+
   /**
    * This method create competition
    * @param competition Competition
@@ -83,15 +87,10 @@ export class UserCompetitionService {
    * This method update competition
    * @param competition Competition
    */
-  /**
-   / * This method creates a competition.
-   * todo: Update logic to use `createCompetitionV2` when the new version is available.
-   */
+
   public updateCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    // this code return when v2 for competition will be
-    // return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
-    return this.updateCompetitionV1(competition);
+    return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
   }
 
   public updateCompetitionV1(competition: Competition): Observable<Competition> {
@@ -107,24 +106,27 @@ export class UserCompetitionService {
     return this.http.delete<void>(`/api/v2/CompetitiveEvent/Delete/${id}`);
   }
 
-  private createFormData(competition: Competition): FormData {
+  private createFormData(competition: Competition, draftId?: string): FormData {
+    const preKey = draftId ? 'CompetitiveEventV2Dto.' : '';
     const formData = new FormData();
     const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
-    console.log(competition)
-
     Object.keys(competition).forEach((key: string) => {
       if (competition[key]) {
         if (imageFiles.includes(key)) {
-          competition[key].forEach((file: File) => formData.append(key, file));
+          competition[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {
-          formData.append(key, JSON.stringify(competition[key]));
+          formData.append(`${preKey}${key}`, JSON.stringify(competition[key]));
         } else {
-          formData.append(key, competition[key]);
+          formData.append(`${preKey}${key}`, competition[key]);
         }
       }
     });
+
+    if (draftId) {
+      formData.append('id', draftId);
+    }
 
     return formData;
   }
