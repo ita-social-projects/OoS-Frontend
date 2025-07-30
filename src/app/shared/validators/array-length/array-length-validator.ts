@@ -3,6 +3,11 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export function minArrayLength(minLength: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
     if (!Array.isArray(value)) {
       return { notArray: true };
     }
@@ -21,6 +26,11 @@ export function minArrayLength(minLength: number): ValidatorFn {
 export function maxArrayLength(maxLength: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
     if (!Array.isArray(value)) {
       return { notArray: true };
     }
