@@ -279,7 +279,7 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'workingDays', 'formsOfLearning', 'statuses'];
+      const arrayKeys = ['directionIds', 'subdirectionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
         filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);

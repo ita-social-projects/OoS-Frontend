@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
 import { Direction, DirectionNode, Subdirection } from 'shared/models/category.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
+import { SetSubdirections, SetDirections } from 'shared/store/filter.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
@@ -17,7 +18,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   @Input()
   public filteredDirections: Direction[];
   @Input()
-  public selectedDirectionIds: number[];
+  public initialDirectionIds: number[];
 
   @Select(MetaDataState.directions)
   private directions$: Observable<Direction[]>;
@@ -26,6 +27,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   public dataSource = new MatTreeNestedDataSource<DirectionNode>();
 
   private allDirections: DirectionNode[] = [];
+  private selectedDirectionIds: number[] = [];
   private indeterminateDirectionIds: number[] = [];
   private selectedSubdirectionIds: number[] = [];
 
@@ -42,6 +44,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       this.allDirections = this.transformDirections(directions);
       this.dataSource.data = this.allDirections;
     });
+    // set initial selected direction ids
+    this.selectedDirectionIds = this.initialDirectionIds.slice() || [];
   }
 
   public ngOnDestroy(): void {
@@ -74,6 +78,9 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   public onToggle(node: DirectionNode): void {
     if (node?.children.length === 0) {
       this.loadChildren(node);
+    } else {
+      this.dataSource.data = [];
+      this.dataSource.data = this.allDirections;
     }
   }
 
@@ -81,6 +88,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (event.checked) {
       // checked
       this.selectedDirectionIds.push(direction.id);
+      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+
       this.loadChildrenAndPush(direction);
     } else {
       // unchecked
@@ -92,9 +101,11 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (event.checked) {
       // checked
       this.selectedSubdirectionIds.push(subdirection.id);
+      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     } else {
       // unchecked
       this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== subdirection.id);
+      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     }
   }
 
@@ -104,8 +115,10 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       direction.children.length > 0 && direction.children.every((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id));
     if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds.push(direction.id);
+      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
+      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     }
     return allChildrenSelected;
   }
@@ -153,6 +166,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       node.children.forEach((sub) => {
         this.selectedSubdirectionIds.push(sub.id);
       });
+      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     } else {
       // fetch subdirections from backend
       this.directionsService
@@ -166,6 +180,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
           subs.forEach((sub) => {
             this.selectedSubdirectionIds.push(sub.id);
           });
+          this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
         });
     }
   }
@@ -173,11 +188,13 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   private removeDirectionAndChildren(direction: DirectionNode): void {
     // remove parent's id
     this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
+    // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     // remove all children ids
     if (direction.children && direction.children.length > 0) {
       direction.children.forEach((sub: Subdirection) => {
         this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== sub.id);
       });
+      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     }
   }
 }

@@ -28,6 +28,7 @@ import {
   SetClosedRecruitment,
   SetCoordsByMap,
   SetDirections,
+  SetSubdirections,
   SetEndTime,
   SetFilterFromURL,
   SetFilterPagination,
@@ -89,6 +90,11 @@ export class FilterState {
   @Selector()
   static directions(state: FilterStateModel): number[] {
     return state.directionIds;
+  }
+
+  @Selector()
+  static subdirections(state: FilterStateModel): number[] {
+    return state.subdirectionIds;
   }
 
   @Selector()
@@ -233,6 +239,11 @@ export class FilterState {
   @Action(SetDirections)
   setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
     patchState({ directionIds: payload, from: 0 });
+  }
+
+  @Action(SetSubdirections)
+  setSubdirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetSubdirections): void {
+    patchState({ subdirectionIds: payload, from: 0 });
   }
 
   @Action(SetWorkingDays)

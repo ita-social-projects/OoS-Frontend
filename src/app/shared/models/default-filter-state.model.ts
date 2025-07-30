@@ -7,6 +7,7 @@ import { MinMaxPriceFilter } from 'shared/models/filter-list.model';
  */
 export class DefaultFilterState {
   directionIds: number[] = [];
+  subdirectionIds: number[] = [];
   maxAge: number = null;
   minAge: number = null;
   isAppropriateAge = false;

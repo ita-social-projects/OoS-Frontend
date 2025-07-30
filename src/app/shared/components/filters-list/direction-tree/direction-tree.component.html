@@ -1,4 +1,4 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="directions-tree">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li>
       <mat-checkbox
@@ -27,7 +27,7 @@
           </mat-icon>
         </button>
       </div>
-      <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+      <ul [class.directions-tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
       </ul>
     </li>
