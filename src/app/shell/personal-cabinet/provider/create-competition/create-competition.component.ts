@@ -141,7 +141,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     }
     this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition | CompetitionDraft) => {
       this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
-      console.log(this.competition)
     });
   }
 

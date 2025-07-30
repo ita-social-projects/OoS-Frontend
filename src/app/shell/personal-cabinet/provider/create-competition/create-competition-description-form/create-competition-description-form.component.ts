@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, merge, Observable, of, Subject, throttleTime } from 'rxjs';
+import { asyncScheduler, first, merge, Observable, of, Subject, throttleTime } from 'rxjs';
 import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -152,6 +152,16 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
    */
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.imageIds) {
+      this.DescriptionFormGroup.get('imageFiles').removeValidators(Validators.required);
+      this.DescriptionFormGroup.get('imageIds')
+        .valueChanges.pipe(
+          filter((value) => !value),
+          first()
+        )
+        .subscribe(() => this.DescriptionFormGroup.get('imageFiles').addValidators(Validators.required));
+    }
 
     if (this.competition.directionSubDirectionIds?.length) {
       this.directionControl.patchValue(this.competition.directionSubDirectionIds[0].directionId);

@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { takeUntil } from 'rxjs/operators';
-import { merge, of, Subject, throttleTime } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { first, merge, of, Subject, throttleTime } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -17,7 +17,6 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({
@@ -123,6 +122,17 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
    */
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.coverImageId) {
+      this.RequiredFormGroup.get('coverImage').removeValidators(Validators.required);
+      this.RequiredFormGroup.get('coverImageId')
+        .valueChanges.pipe(
+          filter((value) => !value),
+          first()
+        )
+        .subscribe(() => this.RequiredFormGroup.get('coverImage').addValidators(Validators.required));
+    }
+
     if (this.competition.scheduledStartTime) {
       this.minDate = new Date(
         new Date(this.competition.scheduledStartTime).setMonth(new Date(this.competition.scheduledStartTime).getMonth() - 1)
@@ -167,7 +177,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     this.RequiredFormGroup = this.formBuilder.group(
       {
         image: new FormControl(''),
-        coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
+        coverImage: new FormControl('', Validators.required),
         coverImageId: new FormControl(''),
         title: new FormControl('', [
           Validators.required,

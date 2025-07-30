@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -37,7 +38,9 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
 
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog
+    protected matDialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     super(store, matDialog);
   }
@@ -60,6 +63,10 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
-    return;
+    const t = event.index === 0 ? 'workshops' : 'competitions';
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { t }
+    });
   }
 }
