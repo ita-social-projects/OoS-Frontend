@@ -1,7 +1,7 @@
 <form [formGroup]="RequiredFormGroup" class="step flex flex-col justify-center items-between">
   <app-image-form-control
     *ngIf="isImagesFeature"
-    [imgMaxAmount]="10"
+    [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
     [label]="'Фонове зображення'"
     formControlName="coverImage"

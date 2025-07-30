@@ -205,14 +205,14 @@ const routes: Routes = [
   },
   { path: 'server-error', component: ServerErrorPageComponent },
   {
-    path: 'create-competition/:param',
+    path: 'create-competition/:entity/:param',
     component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-competition/:id/:param',
+    path: 'create-competition/:entity/:id/:param',
     component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],

@@ -2,7 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import {
+  Competition,
+  CompetitionCardParameters,
+  CompetitionDraft,
+  CompetitionDraftCard,
+  CompetitionProviderViewCard
+} from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -24,6 +30,10 @@ export class UserCompetitionService {
    */
   public getCompetitionById(id: string): Observable<Competition> {
     return this.http.get<Competition>(`/api/v1/CompetitiveEvent/${id}`);
+  }
+
+  public getCompetitionDraftById(id: string): Observable<CompetitionDraft> {
+    return this.http.get<CompetitionDraft>(`/api/v2/competitions-drafts/${id}`);
   }
 
   /**

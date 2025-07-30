@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { EditDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
+import { CompetitionDraft } from 'shared/models/competition.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -34,13 +35,23 @@ export class OnGetWorkshopDraftByIdSuccess {
   constructor(public payload: WorkshopDraft) {}
 }
 
-export class OnGetWorkshopDraftByIdFail {
-  static readonly type = '[user] get Workshop Draft By Draft Id fail';
+export class OnGetCompetitionDraftByIdSuccess {
+  static readonly type = '[user] get Competition Draft By Draft Id success';
+  constructor(public payload: CompetitionDraft) {}
+}
+
+export class OnGetDraftByIdFail {
+  static readonly type = '[user] get Draft By Draft Id fail';
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetCompetitionById {
   static readonly type = '[user] get Competition By Competition Id';
+  constructor(public payload: string) {}
+}
+
+export class GetCompetitionDraftById {
+  static readonly type = '[user] get Competition Draft By Competition Id';
   constructor(public payload: string) {}
 }
 

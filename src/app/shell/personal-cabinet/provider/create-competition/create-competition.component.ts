@@ -14,7 +14,12 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetCompetitionById, ResetCompetition } from 'shared/store/shared-user.actions';
+import {
+  GetCompetitionById, GetCompetitionDraftById,
+  GetWorkshopById,
+  GetWorkshopDraftById,
+  ResetCompetition
+} from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
@@ -123,9 +128,20 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetCompetitionById(competitionId));
+    switch (this.route.snapshot.paramMap.get('entity')) {
+      case WorkshopType.Competition:
+        this.store.dispatch(new GetCompetitionById(competitionId));
+        break;
+      case WorkshopType.Draft:
+        this.store.dispatch(new GetCompetitionDraftById(competitionId));
+        break;
+      default:
+        this.editMode = false;
+        return;
+    }
     this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition | CompetitionDraft) => {
       this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
+      console.log(this.competition)
     });
   }
 

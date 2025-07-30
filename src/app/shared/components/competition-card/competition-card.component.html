@@ -41,7 +41,12 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateForm" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/competition', competitionData.id]">
+        <a
+          class="more-details"
+          [routerLink]="[
+            competitionData.id ? '/details/workshop' : '/details/draft',
+            competitionData.id ? competitionData.id : competitionData.workshopDraftId
+          ]">
           <span class="card_link">
             {{ 'MORE_DETAILS' | translate }}
           </span>
