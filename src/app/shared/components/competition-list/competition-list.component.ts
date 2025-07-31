@@ -23,13 +23,12 @@ import { Institution } from 'shared/models/institution.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
 import {
-  ApproveWorkshopDraft,
+  ApproveCompetitionDraft,
   GetAreaAdminProfile,
   GetMinistryAdminProfile,
   GetRegionAdminProfile,
-  RejectWorkshopDraft
+  RejectCompetitionDraft
 } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { FilterState } from 'shared/store/filter.state';
@@ -40,6 +39,7 @@ import { GetProfile } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 import { WorkshopDraftStatus } from 'shared/enum/workshop';
+import { Competition, CompetitionDraft, CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
@@ -50,13 +50,13 @@ import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-
 export class CompetitionListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) public sort: MatSort;
 
-  @Input() public setWorkshopFiltersByDefault: (
-    workshopParameters: WorkshopFilterAdministration,
+  @Input() public setCompetitionFiltersByDefault: (
+    competitionParameters: CompetitionFilterAdministration,
     role: Role,
     selectedAdmin: BaseAdmin
   ) => void;
 
-  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration> = new EventEmitter();
+  @Output() public getWorkshopsByFilter: EventEmitter<CompetitionFilterAdministration> = new EventEmitter();
 
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
@@ -84,8 +84,6 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
   public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
   public readonly displayedColumns: string[] = [
     'title',
-    'providerTitle',
-    'providerOwnership',
     // 'formOfLearning',
     // 'seats',
     'providerEdrpou',
@@ -95,14 +93,14 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
     'status',
     'actions'
   ];
-  public workshopParameters: WorkshopFilterAdministration = {};
-  public dataSource = new MatTableDataSource<WorkshopDraft>();
+  public competitionParameters: CompetitionFilterAdministration = {};
+  public dataSource = new MatTableDataSource<CompetitionDraft>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
 
   public selectedAdmin: BaseAdmin;
   public role: Role;
-  public workshop: Workshop;
-  public selectedWorkshopDraftId: string;
+  public competition: Competition;
+  public selectedCompetitionDraftId: string;
   public isInfoDisplayed: boolean;
   public filterGroup: FormGroup;
   public totalEntities: number;
@@ -158,7 +156,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  public set workshops(value: SearchResponse<WorkshopDraft[]>) {
+  public set competitions(value: SearchResponse<CompetitionDraft[]>) {
     this.dataSource.data = value?.entities;
     this.totalEntities = value?.totalAmount;
   }
@@ -198,7 +196,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(
       new PushNavPath({
-        name: NavBarName.WorkshopDrafts,
+        name: NavBarName.CompetitionDrafts,
         isActive: false,
         disable: true
       })
@@ -216,27 +214,28 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
 
     this.setInformationDependingOnRole();
     this.subscribeFormControls();
-    console.log(this.dataSource);
   }
 
-  public onViewWorkshopInfo(workshop: WorkshopDraft): void {
-    this.selectedWorkshopDraftId = workshop.workshopDraftId;
-    this.workshop = workshop.workshopDetails;
+  public onViewCompetitionInfo(competition: CompetitionDraft): void {
+    this.selectedCompetitionDraftId = competition.competitiveEventDraftId;
+    this.competition = competition.competitiveEventDetails;
     this.isInfoDisplayed = true;
   }
 
-  public onRejectDraft(workshop: WorkshopDraft): void {
+  public onRejectDraft(competition: CompetitionDraft): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
       data: { type: ModalConfirmationType.editingWorkshop }
     });
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((statusReason: string) => this.store.dispatch(new RejectWorkshopDraft(workshop.workshopDraftId, statusReason)));
+      .subscribe((statusReason: string) =>
+        this.store.dispatch(new RejectCompetitionDraft(competition.competitiveEventDraftId, statusReason))
+      );
   }
 
-  public onApproveDraft(workshop: WorkshopDraft): void {
-    this.store.dispatch(new ApproveWorkshopDraft(workshop.workshopDraftId));
+  public onApproveDraft(competition: CompetitionDraft): void {
+    this.store.dispatch(new ApproveCompetitionDraft(competition.competitiveEventDraftId));
   }
 
   public onPageChange(page: PaginationElement): void {
@@ -245,7 +244,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
-    this.workshopParameters.size = itemsPerPage;
+    this.competitionParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
@@ -270,7 +269,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
 
   public closeInfo(): void {
     this.isInfoDisplayed = false;
-    this.selectedWorkshopDraftId = null;
+    this.selectedCompetitionDraftId = null;
   }
 
   public ngOnDestroy(): void {
@@ -330,7 +329,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((searchValue: string) => {
-        this.workshopParameters.searchString = searchValue;
+        this.competitionParameters.searchString = searchValue;
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
       });
@@ -338,7 +337,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
     this.institutionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
-        this.workshopParameters.institutionId = this.institutionFormControl.value.id;
+        this.competitionParameters.institutionId = this.institutionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
       });
@@ -346,7 +345,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
     this.regionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((value: Codeficator) => {
-        this.workshopParameters.catottgId = this.regionFormControl.value.id;
+        this.competitionParameters.catottgId = this.regionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
         if (value.category === CodeficatorCategories.Region) {
@@ -361,26 +360,26 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
     this.areaFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
-        this.workshopParameters.catottgId = this.areaFormControl.value.id;
+        this.competitionParameters.catottgId = this.areaFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
         this.getWorkshops();
       });
 
     this.statusFormControl.valueChanges.pipe(distinctUntilChanged(), debounceTime(1000), takeUntil(this.destroy$)).subscribe(() => {
-      this.workshopParameters.workshopDraftStatuses = this.statusFormControl.value;
+      this.competitionParameters.competitiveEventDraftStatuses = this.statusFormControl.value;
       this.currentPage = PaginationConstants.firstPage;
       this.getWorkshops();
     });
   }
 
   private setInitialWorkshopFilterByDefault(): void {
-    this.workshopParameters.searchString = '';
-    this.workshopParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    this.setWorkshopFiltersByDefault(this.workshopParameters, this.role, this.selectedAdmin);
+    this.competitionParameters.searchString = '';
+    this.competitionParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
+    this.setCompetitionFiltersByDefault(this.competitionParameters, this.role, this.selectedAdmin);
   }
 
   private getWorkshops(): void {
-    Util.setFromPaginationParam(this.workshopParameters, this.currentPage, this.totalEntities);
-    this.getWorkshopsByFilter.emit(this.workshopParameters);
+    Util.setFromPaginationParam(this.competitionParameters, this.currentPage, this.totalEntities);
+    this.getWorkshopsByFilter.emit(this.competitionParameters);
   }
 }

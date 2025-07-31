@@ -124,6 +124,24 @@ export class UserCompetitionService {
     return this.http.delete<void>(`/api/v2/CompetitiveEvent/Delete/${id}`);
   }
 
+  public rejectCompetitionDraft(draftId: string, rejectReason: string): Observable<void> {
+    draftId = encodeURIComponent(draftId);
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/reject`, { rejectionMessage: rejectReason });
+  }
+
+  public approveCompetitionDraft(draftId: string): Observable<void> {
+    draftId = encodeURIComponent(draftId);
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/approve`, null);
+  }
+
+  public deleteCoverImageByCompetitionDraftId(draftId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${draftId}/cover-image`);
+  }
+
+  public deleteImageByCompetitionDraftId(draftId: string, imageId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${draftId}/images`, { body: [imageId] });
+  }
+
   private createFormData(competition: Competition, draftId?: string): FormData {
     const preKey = draftId ? 'CompetitiveEventV2Dto.' : '';
     const formData = new FormData();

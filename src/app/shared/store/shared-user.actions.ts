@@ -199,3 +199,34 @@ export class EditWorkshopDraftByModeratorFail {
 
   constructor(public error: HttpErrorResponse) {}
 }
+
+export class DeleteCompetitionDraftCoverImage {
+  static readonly type = '[user] Delete Competition Draft Cover Image';
+  constructor(public draftId: string) {}
+}
+
+export class DeleteCompetitionDraftCoverImageSuccess {
+  static readonly type = '[user] Delete Competition Draft Cover Image Success';
+}
+
+export class DeleteCompetitionDraftCoverImageFail {
+  static readonly type = '[user] Delete Competition Draft Cover Image Fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class DeleteCompetitionDraftImage {
+  static readonly type = '[user] Delete Competition Draft Image';
+  constructor(
+    public draftId: string,
+    public imageId: string
+  ) {}
+}
+
+export class DeleteCompetitionDraftImageSuccess {
+  static readonly type = '[user] Delete Competition Draft Image Success';
+}
+
+export class DeleteCompetitionDraftImageFail {
+  static readonly type = '[user] Delete Competition Draft Image Fail';
+  constructor(public error: HttpErrorResponse) {}
+}

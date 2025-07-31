@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters } from 'shared/models/application.model';
 import { Direction } from 'shared/models/category.model';
+import { CompetitionDraft, CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
 import { Provider, ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -60,6 +61,12 @@ export class AdminService {
     return this.http.get<SearchResponse<WorkshopDraft[]>>(`${this.baseApiUrl}/GetWorkshopDraftsByFilter`, options);
   }
 
+  public getCompetitionDrafts(parameters: CompetitionFilterAdministration): Observable<SearchResponse<CompetitionDraft[]>> {
+    const options = { params: this.setProviderWorkshopParams(parameters) };
+
+    return this.http.get<SearchResponse<CompetitionDraft[]>>(`${this.baseApiUrl}/GetCompetitiveEventDraftsByFilter`, options);
+  }
+
   private setMinistryAdminParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {
     return this.setDefaultParams(parameters);
   }
@@ -84,7 +91,9 @@ export class AdminService {
     return params;
   }
 
-  private setProviderWorkshopParams(parameters: ProviderParameters | WorkshopFilterAdministration): HttpParams {
+  private setProviderWorkshopParams(
+    parameters: ProviderParameters | WorkshopFilterAdministration | CompetitionFilterAdministration
+  ): HttpParams {
     let params = this.setDefaultParams(parameters);
 
     if (parameters.institutionId) {
@@ -96,6 +105,10 @@ export class AdminService {
 
     if ('workshopDraftStatuses' in parameters && parameters.workshopDraftStatuses) {
       params = params.set('WorkshopDraftStatuses', parameters.workshopDraftStatuses);
+    }
+
+    if ('competitiveEventDraftStatuses' in parameters && parameters.competitiveEventDraftStatuses) {
+      params = params.set('CompetitiveEventDraftStatuses', parameters.competitiveEventDraftStatuses);
     }
 
     return params;

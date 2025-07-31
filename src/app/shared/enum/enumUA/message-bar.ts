@@ -119,7 +119,9 @@ export enum SnackbarText {
   accessIsDenied = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ACCESS_DENIED',
   workshopCoverImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COVER_IMAGE_DELETED',
   workshopImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.IMAGE_DELETED',
-  editDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_EDITED'
+  editDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_EDITED',
+  competitionCoverImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COMPETITION_COVER_IMAGE_DELETED',
+  competitionImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COMPETITION_IMAGE_DELETED'
 }
 
 export function showHttpErrorMessage(dispatch: Function, status?: number, defaultError: SnackbarText = SnackbarText.error): void {

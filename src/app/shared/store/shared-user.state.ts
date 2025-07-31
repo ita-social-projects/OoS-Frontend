@@ -22,6 +22,12 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetPendingApplicationsByProviderId } from './provider.actions';
 import { RegistrationState } from './registration.state';
 import {
+  DeleteCompetitionDraftCoverImage,
+  DeleteCompetitionDraftCoverImageFail,
+  DeleteCompetitionDraftCoverImageSuccess,
+  DeleteCompetitionDraftImage,
+  DeleteCompetitionDraftImageFail,
+  DeleteCompetitionDraftImageSuccess,
   DeleteWorkshopDraftCoverImage,
   DeleteWorkshopDraftCoverImageFail,
   DeleteWorkshopDraftCoverImageSuccess,
@@ -355,6 +361,57 @@ export class SharedUserState {
 
   @Action(DeleteWorkshopDraftImageFail)
   onDeleteWorkshopDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: DeleteWorkshopDraftImageFail): void {
+    showHttpErrorMessage(dispatch, error.status);
+  }
+
+  @Action(DeleteCompetitionDraftCoverImage)
+  onDeleteCompetitionDraftCoverImage(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId }: DeleteCompetitionDraftCoverImage
+  ): Observable<void> {
+    return this.userCompetitionService.deleteCoverImageByCompetitionDraftId(draftId).pipe(
+      tap(() => dispatch(new DeleteCompetitionDraftCoverImageSuccess())),
+      catchError((error) => {
+        dispatch(new DeleteCompetitionDraftCoverImageFail(error));
+        throw error;
+      })
+    );
+  }
+
+  @Action(DeleteCompetitionDraftCoverImageSuccess)
+  onDeleteCompetitionDraftCoverImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.competitionCoverImageDeleted, type: 'success' }));
+  }
+
+  @Action(DeleteCompetitionDraftCoverImageFail)
+  onDeleteCompetitionDraftCoverImageFail(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { error }: DeleteCompetitionDraftCoverImageFail
+  ): void {
+    showHttpErrorMessage(dispatch, error.status);
+  }
+
+  @Action(DeleteCompetitionDraftImage)
+  onDeleteCompetitionDraftImage(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId, imageId }: DeleteWorkshopDraftImage
+  ): Observable<void> {
+    return this.userCompetitionService.deleteImageByCompetitionDraftId(draftId, imageId).pipe(
+      tap(() => dispatch(new DeleteCompetitionDraftImageSuccess())),
+      catchError((error) => {
+        dispatch(new DeleteCompetitionDraftImageFail(error));
+        throw error;
+      })
+    );
+  }
+
+  @Action(DeleteCompetitionDraftImageSuccess)
+  onDeleteCompetitionDraftImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.competitionImageDeleted, type: 'success' }));
+  }
+
+  @Action(DeleteCompetitionDraftImageFail)
+  onDeleteCompetitionDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: DeleteWorkshopDraftImageFail): void {
     showHttpErrorMessage(dispatch, error.status);
   }
 

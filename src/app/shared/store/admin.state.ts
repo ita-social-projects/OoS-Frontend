@@ -32,6 +32,8 @@ import { PlatformService } from 'shared/services/platform/platform.service';
 import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
 import { StatisticReportsService } from 'shared/services/statistics-reports/statistic-reports.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
+import { CompetitionDraft } from 'shared/models/competition.model';
+import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import {
   BlockAdminById,
   BlockAreaAdminById,
@@ -126,7 +128,16 @@ import {
   OnRejectDraftFail,
   OnRejectDraftSuccess,
   RejectWorkshopDraft,
-  OnGetFilteredWorkshopDraftsSuccess
+  OnGetFilteredWorkshopDraftsSuccess,
+  OnGetFilteredCompetitionDraftsSuccess,
+  GetFilteredCompetitionDrafts,
+  OnGetFilteredCompetitionDraftsFail,
+  ApproveCompetitionDraft,
+  OnApproveCompetitionDraftSuccess,
+  OnApproveCompetitionDraftFail,
+  RejectCompetitionDraft,
+  OnRejectCompetitionDraftSuccess,
+  OnRejectCompetitionDraftFail
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -147,6 +158,7 @@ export interface AdminStateModel {
   providerHistory: SearchResponse<ProviderHistory[]>;
   employeeHistory: SearchResponse<EmployeeHistory[]>;
   workshopDrafts: SearchResponse<WorkshopDraft[]>;
+  competitionDrafts: SearchResponse<CompetitionDraft[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
@@ -172,6 +184,7 @@ export interface AdminStateModel {
     providerHistory: null,
     employeeHistory: null,
     workshopDrafts: null,
+    competitionDrafts: null,
     applicationHistory: null,
     parentsBlockingByAdminHistory: null,
     admins: null,
@@ -192,6 +205,7 @@ export class AdminState {
     private readonly regionAdminService: RegionAdminService,
     private readonly areaAdminService: AreaAdminService,
     private readonly userWorkshopService: UserWorkshopService,
+    private readonly userCompetitionService: UserCompetitionService,
     private readonly router: Router,
     private readonly location: Location,
     private readonly store: Store
@@ -265,6 +279,11 @@ export class AdminState {
   @Selector()
   static workshopDrafts(state: AdminStateModel): SearchResponse<WorkshopDraft[]> {
     return state.workshopDrafts;
+  }
+
+  @Selector()
+  static competitionDrafts(state: AdminStateModel): SearchResponse<CompetitionDraft[]> {
+    return state.competitionDrafts;
   }
 
   @Selector()
@@ -561,6 +580,108 @@ export class AdminState {
         })
       )
     );
+  }
+
+  @Action(GetFilteredCompetitionDrafts)
+  getFilteredCompetitionDrafts(
+    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { competitionParameters }: GetFilteredCompetitionDrafts
+  ): Observable<SearchResponse<CompetitionDraft[]> | void> {
+    patchState({ isLoading: true });
+    return this.adminService.getCompetitionDrafts(competitionParameters).pipe(
+      tap((competitions) => dispatch(new OnGetFilteredCompetitionDraftsSuccess(competitions))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetFilteredCompetitionDraftsFail(error)))
+    );
+  }
+
+  @Action(OnGetFilteredCompetitionDraftsSuccess)
+  getFilteredCompetitionDraftsSuccess(
+    { patchState }: StateContext<AdminStateModel>,
+    { competitions }: OnGetFilteredCompetitionDraftsSuccess
+  ): void {
+    patchState({ isLoading: false, competitionDrafts: competitions });
+  }
+
+  @Action(OnGetFilteredCompetitionDraftsFail)
+  getFilteredCompetitionDraftsFail(
+    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { error }: OnGetFilteredCompetitionDraftsFail
+  ): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(ApproveCompetitionDraft)
+  approveCompetitionDraft({ patchState, dispatch }: StateContext<AdminStateModel>, { draftId }: ApproveCompetitionDraft): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.approveCompetitionDraft(draftId).pipe(
+      tap(() => dispatch(new OnApproveCompetitionDraftSuccess(draftId))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnApproveCompetitionDraftFail(error)))
+    );
+  }
+
+  @Action(OnApproveCompetitionDraftSuccess)
+  onApproveCompetitionDraftSuccess(ctx: StateContext<AdminStateModel>, { draftId }: OnApproveCompetitionDraftSuccess): void {
+    const currentCompetitionDrafts = ctx.getState().competitionDrafts;
+
+    ctx.patchState({
+      isLoading: false,
+      competitionDrafts: {
+        totalAmount: currentCompetitionDrafts.totalAmount - 1,
+        entities: currentCompetitionDrafts.entities.filter((competition) => competition.competitiveEventDraftId !== draftId)
+      }
+    });
+
+    ctx.dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.approveDraftSuccess,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(OnApproveCompetitionDraftFail)
+  onApproveCompetitionDraftFail({ dispatch, patchState }: StateContext<AdminStateModel>, { error }: OnApproveCompetitionDraftFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(RejectCompetitionDraft)
+  rejectCompetitionDraft(
+    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { draftId, rejectReason }: RejectCompetitionDraft
+  ): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.rejectCompetitionDraft(draftId, rejectReason).pipe(
+      tap(() => dispatch(new OnRejectCompetitionDraftSuccess(draftId))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnRejectCompetitionDraftFail(error)))
+    );
+  }
+
+  @Action(OnRejectCompetitionDraftSuccess)
+  onRejectCompetitionDraftSuccess(ctx: StateContext<AdminStateModel>, { draftId }: OnRejectCompetitionDraftSuccess): void {
+    const currentCompetitionDrafts = ctx.getState().competitionDrafts;
+
+    ctx.patchState({
+      isLoading: false,
+      competitionDrafts: {
+        totalAmount: currentCompetitionDrafts.totalAmount - 1,
+        entities: currentCompetitionDrafts.entities.filter((workshop) => workshop.competitiveEventDraftId !== draftId)
+      }
+    });
+
+    ctx.dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.rejectDraftSuccess,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(OnRejectCompetitionDraftFail)
+  onRejectCompetitionDraftFail({ dispatch, patchState }: StateContext<AdminStateModel>, { error }: OnRejectCompetitionDraftFail): void {
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetFilteredWorkshopDrafts)

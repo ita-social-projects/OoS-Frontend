@@ -87,46 +87,14 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
                 {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div
-                  [matTooltip]="element.workshopDetails.title"
+                  [matTooltip]="element.competitiveEventDetails.title"
                   showTooltipIfTruncated
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ element.workshopDetails.title | emptyValueTransform | translate }}
-                </div>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="providerTitle">
-              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider title">
-                {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
-              </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
-                <div
-                  [matTooltip]="element.workshopDetails.providerTitle"
-                  showTooltipIfTruncated
-                  matTooltipClass="tooltip"
-                  [matTooltipPosition]="tooltipPosition"
-                  class="tab-text">
-                  {{ element.workshopDetails.providerTitle | emptyValueTransform | translate }}
-                </div>
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="providerOwnership">
-              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider ownership">
-                {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
-              </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
-                <div
-                  [matTooltip]="element.workshopDetails.providerOwnership"
-                  showTooltipIfTruncated
-                  matTooltipClass="tooltip"
-                  [matTooltipPosition]="tooltipPosition"
-                  class="tab-text">
-                  {{ ownershipTypeEnum[element.workshopDetails.providerOwnership] | emptyValueTransform | translate }}
+                  {{ element.competitiveEventDetails.title | emptyValueTransform | translate }}
                 </div>
               </td>
             </ng-container>
@@ -135,7 +103,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorPosition">
                 {{ 'FORMS.LABELS.DIRECTOR_POSITION' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div class="tab-text">
                   {{ element.directorPosition }}
                 </div>
@@ -146,7 +114,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorFullName">
                 {{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div class="tab-text">
                   {{ element.directorFullName }}
                 </div>
@@ -157,7 +125,7 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by providerEdrpou">
                 {{ 'FORMS.LABELS.EDRPO' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div class="tab-text">
                   {{ element.providerEdrpou }}
                 </div>
@@ -168,14 +136,14 @@
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by isPaid">
                 {{ 'FORMS.LABELS.COST' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div
-                  [matTooltip]="(element.workshopDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
+                  [matTooltip]="(element.competitiveEventDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
                   showTooltipIfTruncated
                   matTooltipClass="tooltip"
                   [matTooltipPosition]="tooltipPosition"
                   class="tab-text">
-                  {{ (element.workshopDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate }}
+                  {{ (element.competitiveEventDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate }}
                 </div>
               </td>
             </ng-container>
@@ -184,7 +152,7 @@
               <th class="status-title" mat-header-cell *matHeaderCellDef sortActionDescription="Sort by status">
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
-              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+              <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <ng-container
                   *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: element.draftStatus, titles: workshopDraftStatusTitles }">
                 </ng-container>
@@ -194,23 +162,22 @@
             <ng-container matColumnDef="actions" stickyEnd>
               <th mat-header-cell *matHeaderCellDef></th>
               <td
-                [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId"
+                [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId"
                 class="p-0"
                 mat-cell
                 *matCellDef="let element">
                 <button mat-icon-button [matMenuTriggerFor]="actions">
                   <mat-icon>more_vert</mat-icon>
                 </button>
-                <button mat-icon-button (click)="onViewWorkshopInfo(element)">
+                <button mat-icon-button (click)="onViewCompetitionInfo(element)">
                   <mat-icon>remove_red_eye</mat-icon>
                 </button>
-                <button mat-icon-button [routerLink]="['/details/draft/', element.workshopDraftId]">
+                <button mat-icon-button [routerLink]="['/details/competition-draft/', element.competitiveEventDraftId]">
                   <mat-icon>arrow_forward</mat-icon>
                 </button>
-                <button mat-icon-button [routerLink]="['../moderate/draft', element.workshopDraftId]">
+                <!-- <button mat-icon-button [routerLink]="['../moderate/draft', element.competitiveEventDraftId]">
                   <mat-icon>edit</mat-icon>
-                </button>
-
+                </button> -->
                 <mat-menu #actions="matMenu" class="header_menu">
                   <button mat-menu-item (click)="onRejectDraft(element)">
                     {{ 'BUTTONS.REQUEST_CHANGES' | translate }}
@@ -227,11 +194,10 @@
           </table>
         </div>
         <div *ngIf="isInfoDisplayed" class="container">
-          <app-workshop-info
-            [setWorkshop]="workshop"
-            [workshopDraftId]="selectedWorkshopDraftId"
-            [isWorkshopView]="isInfoDisplayed"
-            (closeInfo)="closeInfo()"></app-workshop-info>
+          <app-competition-info
+            [setCompetition]="competition"
+            [competitionDraftId]="selectedCompetitionDraftId"
+            (closeInfo)="closeInfo()"></app-competition-info>
         </div>
       </div>
     </div>
@@ -239,7 +205,7 @@
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="workshopParameters.size"
+        [itemsPerPage]="competitionParameters.size"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>

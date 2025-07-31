@@ -100,6 +100,7 @@ import { CookiePreferencesComponent } from './components/cookies-banner/cookie-p
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
 import { CompetitionListComponent } from './components/competition-list/competition-list.component';
+import { CompetitionInfoComponent } from './components/competition-list/competition-info/competition-info.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { CompetitionListComponent } from './components/competition-list/competit
     WorkshopCardComponent,
     CategoryCardComponent,
     CompetitionListComponent,
+    CompetitionInfoComponent,
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
@@ -217,6 +219,7 @@ import { CompetitionListComponent } from './components/competition-list/competit
     SearchbarComponent,
     WorkshopSearchbarComponent,
     CompetitionListComponent,
+    CompetitionInfoComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     IntegerOnlyDirective,

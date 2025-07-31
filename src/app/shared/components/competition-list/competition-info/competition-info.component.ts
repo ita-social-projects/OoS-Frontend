@@ -1,30 +1,28 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { Role } from 'shared/enum/role';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
-import { Workshop } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CoverageEnum, FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
-import { GetDirectionById } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { Direction } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DeleteWorkshopDraftCoverImage, DeleteWorkshopDraftImage } from 'shared/store/shared-user.actions';
+import { DeleteCompetitionDraftCoverImage, DeleteCompetitionDraftImage } from 'shared/store/shared-user.actions';
 import { FeaturesList } from 'shared/models/features-list.model';
+import { Competition } from 'shared/models/competition.model';
 
 @Component({
   selector: 'app-competition-info',
   templateUrl: './competition-info.component.html',
   styleUrls: ['./competition-info.component.scss']
 })
-export class WorkshopInfoComponent implements OnDestroy, OnInit {
-  @Input() public workshopDraftId: string;
-  @Input() public isWorkshopView: boolean;
+export class CompetitionInfoComponent implements OnDestroy, OnInit {
+  @Input() public competitionDraftId: string;
 
   @Output() public tabChanged = new EventEmitter();
   @Output() public closeInfo = new EventEmitter();
@@ -45,7 +43,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public readonly unlimitedSeats = Constants.UNLIMITED_SEATS;
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
   public readonly coverageEnum = CoverageEnum;
-  public workshop: Workshop;
+  public competition: Competition;
   public workshopDirection: Direction;
   public role: Role;
   public isImagesFeature: boolean;
@@ -53,7 +51,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public form: FormGroup;
-  private pendingWorkshop: Workshop;
+  private pendingCompetition: Competition;
 
   constructor(
     private readonly store: Store,
@@ -61,17 +59,13 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   ) {}
 
   @Input()
-  public set setWorkshop(workshop: Workshop) {
-    this.workshop = workshop;
-    const newDirectionId = workshop?.directionIds?.[0];
-    if (newDirectionId) {
-      this.store.dispatch(new GetDirectionById(newDirectionId));
-    }
-    if (workshop) {
+  public set setCompetition(competition: Competition) {
+    this.competition = competition;
+    if (competition) {
       if (this.form) {
-        this.applyWorkshopToForm(workshop);
+        this.applyWorkshopToForm(competition);
       } else {
-        this.pendingWorkshop = workshop;
+        this.pendingCompetition = competition;
       }
     }
   }
@@ -79,9 +73,9 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public ngOnInit(): void {
     this.initForm();
     this.initListeners();
-    if (this.pendingWorkshop) {
-      this.applyWorkshopToForm(this.pendingWorkshop);
-      this.pendingWorkshop = null;
+    if (this.pendingCompetition) {
+      this.applyWorkshopToForm(this.pendingCompetition);
+      this.pendingCompetition = null;
     }
   }
 
@@ -96,7 +90,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   public onDeleteImage(imageId: string): void {
     this.store
-      .dispatch(new DeleteWorkshopDraftImage(this.workshopDraftId, imageId))
+      .dispatch(new DeleteCompetitionDraftImage(this.competitionDraftId, imageId))
       .pipe(
         filter((actionResult) => !actionResult.error),
         takeUntil(this.destroy$)
@@ -123,7 +117,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   public onDeleteCoverImage(): void {
     this.store
-      .dispatch(new DeleteWorkshopDraftCoverImage(this.workshopDraftId))
+      .dispatch(new DeleteCompetitionDraftCoverImage(this.competitionDraftId))
       .pipe(
         filter((actionResult) => !actionResult.error),
         takeUntil(this.destroy$)
@@ -160,7 +154,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
-  private applyWorkshopToForm(workshop: Workshop): void {
+  private applyWorkshopToForm(workshop: Competition): void {
     if (workshop.coverImageId?.length) {
       this.form.get('coverImageId').setValue([workshop.coverImageId]);
     } else {

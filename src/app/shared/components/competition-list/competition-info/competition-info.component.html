@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="workshop">
+<div class="wrapper" *ngIf="competition">
   <div class="justify-end mb-[10px] items-center flex">
     <a (click)="onCloseInfo()" class="close-icon h-[24px]">
       <mat-icon>close</mat-icon>
@@ -22,16 +22,16 @@
       </app-image-form-control>
 
       <h5>{{ 'FORMS.LABELS.WORKSHOP_FULL_TITLE' | translate }}</h5>
-      <p>{{ workshop.title }}</p>
+      <p>{{ competition.title }}</p>
 
       <h5>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</h5>
-      <p>{{ workshop.shortTitle }}</p>
+      <p>{{ competition.shortTitle }}</p>
 
       <h5>{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</h5>
-      <p>{{ ('FROM' | translate) + ' ' + workshop.minAge + ' ' + ('TO' | translate) + ' ' + workshop.maxAge }}</p>
+      <p>{{ ('FROM' | translate) + ' ' + competition.minAge + ' ' + ('TO' | translate) + ' ' + competition.maxAge }}</p>
 
       <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
-      <div *ngFor="let timeRange of workshop.dateTimeRanges">
+      <div *ngFor="let timeRange of competition.dateTimeRanges">
         <div class="flex flex-row justify-start items-center gap-4 my-[13px] xs:flex-col xs:justify-center xs:items-start">
           <div class="flex flex-row justify-between">
             <div
@@ -49,39 +49,39 @@
       </div>
 
       <h5>{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</h5>
-      <p class="description">{{ formOfLearningEnum[workshop.formOfLearning] | translate }}</p>
+      <p class="description">{{ formOfLearningEnum[competition.formOfLearning] | translate }}</p>
 
       <h5>{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
-      <p *ngIf="workshop.price; else isFree">{{ workshop.price }}</p>
+      <p *ngIf="competition.price; else isFree">{{ competition.price }}</p>
       <ng-template #isFree>
         <p>{{ 'IS_FREE' | translate }}</p>
       </ng-template>
 
       <h5>{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</h5>
-      <p *ngIf="workshop.availableSeats === unlimitedSeats; else limitedSeats">{{ 'UNLIMITED' | translate }}</p>
+      <p *ngIf="competition.availableSeats === unlimitedSeats; else limitedSeats">{{ 'UNLIMITED' | translate }}</p>
       <ng-template #limitedSeats>
-        <p>{{ workshop.availableSeats }}</p>
+        <p>{{ competition.availableSeats }}</p>
       </ng-template>
 
       <h5>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</h5>
-      <p>{{ workshop.providerTitle }}</p>
+      <p>{{ competition.providerTitle }}</p>
     </mat-tab>
 
     <mat-tab label="{{ 'TITLES.ADDITIONAL_ABOUT' | translate }}">
       <h5>{{ 'FORMS.LABELS.SHORT_STAY' | translate }}</h5>
-      <p>{{ workshop.shortStay ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+      <p>{{ competition.shortStay ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_SELF_FINANCED' | translate }}</h5>
-      <p>{{ workshop.isSelfFinanced ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+      <p>{{ competition.isSelfFinanced ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_SPECIAL' | translate }}</h5>
-      <p>{{ workshop.isSpecial ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+      <p>{{ competition.isSpecial ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.IS_INCLUSIVE' | translate }}</h5>
-      <p>{{ workshop.isInclusive ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+      <p>{{ competition.isInclusive ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
       <h5>{{ 'FORMS.LABELS.SPECIAL_NEEDS_TYPE' | translate }}</h5>
-      <p>{{ specialNeedsType[workshop.specialNeedsType] | translate }}</p>
+      <p>{{ specialNeedsType[competition.specialNeedsType] | translate }}</p>
     </mat-tab>
 
     <mat-tab [formGroup]="form" label="{{ 'TITLES.DESCRIPTION' | translate }}">
@@ -98,52 +98,52 @@
         [moderatorDeleteFlow]="true"
         [showConfirmationWindow]="true">
       </app-image-form-control>
-      <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
+      <ng-container *ngIf="competition.workshopDescriptionItems?.length">
         <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
-        <div *ngFor="let item of workshop.workshopDescriptionItems">
+        <div *ngFor="let item of competition.workshopDescriptionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
           <p class="line-break">{{ item.description }}</p>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="workshop.keywords?.length">
+      <ng-container *ngIf="competition.keywords?.length">
         <h5>{{ 'FORMS.LABELS.KEYWORDS' | translate }}</h5>
-        <div *ngFor="let item of workshop.keywords">
+        <div *ngFor="let item of competition.keywords">
           <p>{{ item }}</p>
         </div>
       </ng-container>
 
       <h5>{{ 'COMPETITIVE_SELECTION' | translate }}</h5>
-      <ng-container *ngIf="workshop.competitiveSelection; else withoutCompetitiveSelection">
+      <ng-container *ngIf="competition.competitiveSelection; else withoutCompetitiveSelection">
         <p>{{ 'WITH_COMPETITIVE_SELECTION' | translate }}</p>
         <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
-        <p>{{ workshop.competitiveSelectionDescription }}</p>
+        <p>{{ competition.competitiveSelectionDescription }}</p>
       </ng-container>
       <ng-template #withoutCompetitiveSelection>
         <p>{{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}</p>
       </ng-template>
 
-      <ng-container *ngIf="workshop.enrollmentProcedureDescription">
+      <ng-container *ngIf="competition.enrollmentProcedureDescription">
         <h5>{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</h5>
-        <p>{{ workshop.enrollmentProcedureDescription }}</p>
+        <p>{{ competition.enrollmentProcedureDescription }}</p>
       </ng-container>
 
       <h5>{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</h5>
-      <p>{{ workshop.areThereBenefits ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+      <p>{{ competition.areThereBenefits ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
 
-      <ng-container *ngIf="workshop.preferentialTermsOfParticipation">
+      <ng-container *ngIf="competition.preferentialTermsOfParticipation">
         <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
-        <p>{{ workshop.preferentialTermsOfParticipation }}</p>
+        <p>{{ competition.preferentialTermsOfParticipation }}</p>
       </ng-container>
 
-      <ng-container *ngIf="workshop.coverage">
+      <ng-container *ngIf="competition.coverage">
         <h5>{{ 'FORMS.LABELS.COVERAGE' | translate }}</h5>
-        <p>{{ coverageEnum[workshop.coverage] | translate }}</p>
+        <p>{{ coverageEnum[competition.coverage] | translate }}</p>
       </ng-container>
 
-      <ng-container *ngIf="workshop.institution">
+      <ng-container *ngIf="competition.institution">
         <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
-        <p>{{ workshop.institution }}</p>
+        <p>{{ competition.institution }}</p>
       </ng-container>
 
       <ng-container *ngIf="workshopDirection">
@@ -151,15 +151,15 @@
         <p>{{ workshopDirection.title }}</p>
       </ng-container>
 
-      <ng-container *ngIf="workshop.institutionHierarchy">
+      <ng-container *ngIf="competition.institutionHierarchy">
         <h5>{{ 'FORMS.LABELS.INSTITUTION_HIERARCHY' | translate }}</h5>
-        <p>{{ workshop.institutionHierarchy }}</p>
+        <p>{{ competition.institutionHierarchy }}</p>
       </ng-container>
     </mat-tab>
 
     <mat-tab label="{{ 'FORMS.LABELS.CONTACTS' | translate }}">
       <div class="max-w-[579px] overflow-hidden">
-        <div *ngFor="let contact of workshop.contacts" class="gap-4 flex flex-col">
+        <div *ngFor="let contact of competition.contacts" class="gap-4 flex flex-col">
           <h3>{{ contact.title }}</h3>
 
           <div>
@@ -190,7 +190,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!workshop.contacts.length" class="add-wrapper flex flex-row">
+      <div *ngIf="!competition.contacts.length" class="add-wrapper flex flex-row">
         <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
       </div>
     </mat-tab>
