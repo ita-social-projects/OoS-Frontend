@@ -260,7 +260,7 @@ export class OnUpdateDraftSuccess {
 }
 
 export class DeleteWorkshopDraftById {
-  static readonly type = '[provider] delete Draft';
+  static readonly type = '[provider] delete Workshop Draft';
 
   constructor(
     public payload: WorkshopDraftCard,
@@ -268,7 +268,7 @@ export class DeleteWorkshopDraftById {
   ) {}
 }
 
-export class OnDeleteDraftSuccess {
+export class OnDeleteWorkshopDraftSuccess {
   static readonly type = '[provider] delete Draft success';
 
   constructor(public parameters: WorkshopCardParameters) {}
@@ -887,6 +887,12 @@ export class DeleteCompetitionDraftById {
     public payload: CompetitionDraftCard,
     public parameters: CompetitionCardParameters
   ) {}
+}
+
+export class OnDeleteCompetitionDraftSuccess {
+  static readonly type = '[provider] delete Competition draft success';
+
+  constructor(public parameters: CompetitionCardParameters) {}
 }
 
 export class GetCompetitionDraftIdByCompetitionId {

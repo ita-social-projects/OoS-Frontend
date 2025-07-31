@@ -639,18 +639,21 @@ export class ProviderState {
   }
 
   @Action(providerActions.DeleteWorkshopDraftById)
-  deleteDraft(
+  deleteWorkshopDraft(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, parameters }: providerActions.DeleteWorkshopDraftById
   ): Observable<void> {
     return this.userWorkshopService.deleteWorkshopDraft(payload.workshopDraftId).pipe(
-      tap(() => dispatch(new providerActions.OnDeleteDraftSuccess(parameters))),
+      tap(() => dispatch(new providerActions.OnDeleteWorkshopDraftSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
     );
   }
 
-  @Action(providerActions.OnDeleteDraftSuccess)
-  onDeleteDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteDraftSuccess): void {
+  @Action(providerActions.OnDeleteWorkshopDraftSuccess)
+  onDeleteWorkshopDraftSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { parameters }: providerActions.OnDeleteWorkshopDraftSuccess
+  ): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteDraft,
@@ -1325,6 +1328,31 @@ export class ProviderState {
       tap((res: Competition) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
     );
+  }
+
+  @Action(providerActions.DeleteCompetitionDraftById)
+  deleteCompetitionDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload, parameters }: providerActions.DeleteCompetitionDraftById
+  ): Observable<void> {
+    return this.userCompetitionService.deleteCompetitionDraft(payload.competitiveEventDraftId).pipe(
+      tap(() => dispatch(new providerActions.OnDeleteCompetitionDraftSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteCompetitionDraftSuccess)
+  onDeleteCompetitionDraftSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { parameters }: providerActions.OnDeleteCompetitionDraftSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteDraft,
+        type: 'success'
+      }),
+      new providerActions.GetProviderViewCompetitionDrafts(parameters)
+    ]);
   }
 
   @Action(providerActions.CompetitionDraftSendForModeration)

@@ -85,6 +85,10 @@ export class UserCompetitionService {
     return this.http.put<Competition>(`/api/v2/competitions-drafts/${draftId}`, formData);
   }
 
+  public deleteCompetitionDraft(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${id}`);
+  }
+
   /**
    * This method create competition
    * @param competition Competition
