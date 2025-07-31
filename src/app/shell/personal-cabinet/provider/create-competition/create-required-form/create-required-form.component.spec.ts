@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -16,13 +17,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { Provider } from 'shared/models/provider.model';
 
+import { Provider } from 'shared/models/provider.model';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { CreateRequiredFormComponent } from './create-required-form.component';
-import { ActivatedRoute } from '@angular/router';
 
 describe('CreateRequiredFormComponent', () => {
   let component: CreateRequiredFormComponent;
