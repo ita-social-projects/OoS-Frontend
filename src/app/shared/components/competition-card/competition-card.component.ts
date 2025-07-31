@@ -87,11 +87,10 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        this.store.dispatch(new CompetitionDraftSendForModeration(id));
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new CompetitionDraftSendForModeration(id)));
   }
 
   public onKeydown(event: KeyboardEvent, action: () => void): void {

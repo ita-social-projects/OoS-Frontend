@@ -1,82 +1,97 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { EditDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { CompetitionDraft } from 'shared/models/competition.model';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
-import { CompetitionDraft } from 'shared/models/competition.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
+
   constructor(public providerParameters: ProviderParameters) {}
 }
 
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Workshop Id';
+
   constructor(public payload: string) {}
 }
 
 export class OnGetWorkshopByIdSuccess {
   static readonly type = '[user] get Workshop By Workshop Id success';
+
   constructor(public workshop: Workshop) {}
 }
 
 export class OnGetWorkshopByIdFail {
   static readonly type = '[user] get Workshop By Workshop Id fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetWorkshopDraftById {
   static readonly type = '[user] get Workshop Draft By Draft Id';
+
   constructor(public payload: string) {}
 }
 
 export class OnGetWorkshopDraftByIdSuccess {
   static readonly type = '[user] get Workshop Draft By Draft Id success';
+
   constructor(public payload: WorkshopDraft) {}
 }
 
 export class OnGetCompetitionDraftByIdSuccess {
   static readonly type = '[user] get Competition Draft By Draft Id success';
+
   constructor(public payload: CompetitionDraft) {}
 }
 
 export class OnGetDraftByIdFail {
   static readonly type = '[user] get Draft By Draft Id fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetCompetitionById {
   static readonly type = '[user] get Competition By Competition Id';
+
   constructor(public payload: string) {}
 }
 
 export class GetCompetitionDraftById {
-  static readonly type = '[user] get Competition Draft By Competition Id';
+  static readonly type = '[user] get Competition Draft By Id';
+
   constructor(public payload: string) {}
 }
 
 export class GetAllApplications {
   static readonly type = '[admin] Get All Applications';
+
   constructor(public params: ApplicationFilterParameters) {}
 }
 
 export class OnGetCompetitionByIdFail {
   static readonly type = '[user] get Competition by Competition Id fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetProviderById {
   static readonly type = '[user] get Provider By Provider Id';
+
   constructor(public payload: string) {}
 }
 
 export class OnGetProviderByIdFail {
   static readonly type = '[user] get Provider By Id fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetApplicationsByPropertyId {
   static readonly type = '[user] get Applications By Property Id';
+
   constructor(
     public id: string,
     public parameters: ApplicationFilterParameters
@@ -85,46 +100,55 @@ export class GetApplicationsByPropertyId {
 
 export class GetApplicationsByStatus {
   static readonly type = '[user] get Applications By Status';
+
   constructor(public payload: number) {}
 }
 
 export class UpdateApplication {
   static readonly type = '[user] update Application';
+
   constructor(public payload: ApplicationUpdate) {}
 }
 
 export class OnUpdateApplicationFail {
   static readonly type = '[user] update Application fail';
+
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';
+
   constructor(public payload: Application) {}
 }
 
 export class GetFilteredChildren {
   static readonly type = '[user] get Filtered Children';
+
   constructor() {}
 }
 
 export class ResetProvider {
   static readonly type = '[user] clear Provider';
+
   constructor() {}
 }
 
 export class ResetWorkshop {
   static readonly type = '[user] clear Workshop';
+
   constructor() {}
 }
 
 export class ResetCompetition {
   static readonly type = '[user] clear Competition';
+
   constructor() {}
 }
 
 export class DeleteWorkshopDraftCoverImage {
   static readonly type = '[user] Delete Workshop Draft Cover Image';
+
   constructor(public draftId: string) {}
 }
 
@@ -134,11 +158,13 @@ export class DeleteWorkshopDraftCoverImageSuccess {
 
 export class DeleteWorkshopDraftCoverImageFail {
   static readonly type = '[user] Delete Workshop Draft Cover Image Fail';
+
   constructor(public error: HttpErrorResponse) {}
 }
 
 export class DeleteWorkshopDraftImage {
   static readonly type = '[user] Delete Workshop Draft Image';
+
   constructor(
     public draftId: string,
     public imageId: string
@@ -151,11 +177,13 @@ export class DeleteWorkshopDraftImageSuccess {
 
 export class DeleteWorkshopDraftImageFail {
   static readonly type = '[user] Delete Workshop Draft Image Fail';
+
   constructor(public error: HttpErrorResponse) {}
 }
 
 export class EditWorkshopDraftByModerator {
   static readonly type = '[user] Edit Workshop Draft By Moderator';
+
   constructor(
     public formData: EditDraft,
     public draftId: string
@@ -168,5 +196,6 @@ export class EditWorkshopDraftByModeratorSuccess {
 
 export class EditWorkshopDraftByModeratorFail {
   static readonly type = '[user] Edit Workshop Draft By Moderator Fail';
+
   constructor(public error: HttpErrorResponse) {}
 }

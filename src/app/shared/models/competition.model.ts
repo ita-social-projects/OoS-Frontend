@@ -148,7 +148,7 @@ export class Competition extends CompetitionBase {
   }
 }
 
-export class CompetitionDraft {
+export class CompetitionDraft extends Competition {
   competitiveEventDraftId: string;
   draftStatus: WorkshopDraftStatus;
   rejectionMessage?: string;

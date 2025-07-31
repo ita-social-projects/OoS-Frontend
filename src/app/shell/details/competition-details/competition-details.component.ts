@@ -5,26 +5,33 @@ import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
 import { EMPTY, filter, Observable } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
-
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { CompetitionStatus } from 'shared/enum/competition';
+import { CompetitionDetailsTabTitlesParams, CompetitionStatus } from 'shared/enum/competition';
 import { CompetitionDetailsTabTitlesEnum } from 'shared/enum/enumUA/competition';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft } from 'shared/models/competition.model';
+import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { GetCompetitionById, GetProviderById } from 'shared/store/shared-user.actions';
+import { GetCompetitionById, GetCompetitionDraftById, GetProviderById } from 'shared/store/shared-user.actions';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
-import { ArchiveCompetitionById, OnArchiveCompetitionFail, OnArchiveCompetitionSuccess } from 'shared/store/provider.actions';
+import {
+  ArchiveCompetitionById,
+  CompetitionDraftSendForModeration,
+  GetCompetitionDraftIdByCompetitionId,
+  OnArchiveCompetitionFail,
+  OnArchiveCompetitionSuccess
+} from 'shared/store/provider.actions';
+import { WorkshopType } from 'shared/enum/workshop';
 import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
@@ -33,7 +40,7 @@ import { TabParamsComponent } from '../details-tabs/tab-params.component';
   styleUrls: ['./competition-details.component.scss']
 })
 export class CompetitionDetailsComponent extends TabParamsComponent implements OnInit {
-  @Input() public competition: Competition;
+  @Input() public competition: Competition | CompetitionDraft;
   @Input() public provider: Provider;
   @Input() public role: Role;
   @Input() public isMobileScreen: boolean;
@@ -51,6 +58,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
 
   public isImageBroken: boolean = false;
   public competitionStatusOpen: boolean;
+  public images: ImgPath[] = [];
   public coverImage: string;
   public competitionSubdirections: string[];
   public providerParameters: ProviderParameters = {
@@ -74,8 +82,8 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
 
   public ngOnInit(): void {
     super.ngOnInit();
-    this.providerParameters.excludedCompetitionId = this.competition.id;
-    this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
+    this.providerParameters.excludedCompetitionId = this.competition.id ? this.competition.id : '';
+    this.providerParameters.providerId = this.competition.organizerOfTheEventId;
     this.getCompetitionData();
     this.getSubDirections();
   }
@@ -84,7 +92,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: type
+        type
       }
     });
 
@@ -92,18 +100,18 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
       .afterClosed()
       .pipe(
         filter(Boolean),
+        filter(Boolean),
         switchMap(() => {
-          // TODO: uncomment once provider competition draft PR will be merged
-          // if (type === ModalConfirmationType.draftSet) {
-          //   this.store.dispatch(new CompetitionDraftSendForModeration((this.competition as CompetitionDraft).competitiveEventDraftId));
-          //
-          //   return this.actions$.pipe(
-          //     ofAction(OnCompetitionDraftSendForModerationSuccess),
-          //     take(1),
-          //     takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
-          //     tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
-          //   );
-          // }
+          if (type === ModalConfirmationType.draftSet) {
+            this.store.dispatch(new CompetitionDraftSendForModeration((this.competition as CompetitionDraft).competitiveEventDraftId));
+
+            return this.actions$.pipe(
+              ofAction(OnCompetitionDraftSendForModerationSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
+              tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
+            );
+          }
 
           if (type === ModalConfirmationType.archiveCompetition) {
             this.store.dispatch(new ArchiveCompetitionById(this.competition.id));
@@ -119,6 +127,15 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
         })
       )
       .subscribe();
+  }
+
+  public onEdit(): void {
+    const competitionId = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.paramMap.get('entity') === WorkshopType.CompetitionDraft) {
+      this.router.navigate(['/create/competition/draft', competitionId]);
+    } else {
+      this.store.dispatch(new GetCompetitionDraftIdByCompetitionId(competitionId));
+    }
   }
 
   public onImageError(): void {

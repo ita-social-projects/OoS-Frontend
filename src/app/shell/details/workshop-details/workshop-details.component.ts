@@ -96,9 +96,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
     this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
-    this.providerParameters.providerId = Util.containsWorkshopOrCompetitionDetails(this.workshop)
-      ? this.workshop.workshopDetails.providerId
-      : this.workshop.providerId;
+    this.providerParameters.providerId = this.workshop.providerId;
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -158,8 +156,8 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
 
   public onEdit(): void {
     const workshopId = this.route.snapshot.paramMap.get('id');
-    if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Draft) {
-      this.router.navigate(['/create/draft', workshopId]);
+    if (this.route.snapshot.paramMap.get('entity') === WorkshopType.WorkshopDraft) {
+      this.router.navigate(['/create/workshop/draft', workshopId]);
     } else {
       this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
     }

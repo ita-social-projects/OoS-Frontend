@@ -103,7 +103,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.competition = Util.containsWorkshopOrCompetitionDetails(competition)
           ? {
               draftStatus: competition.draftStatus,
-              rejectionMessage: competition.draftStatus,
+              rejectionMessage: competition.rejectionMessage,
               competitiveEventDraftId: competition.competitiveEventDraftId,
               ...competition.competitiveEventDetails
             }
@@ -113,7 +113,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method get Workshop or Provider by id;
+   * This method gets Entity by id;
    */
   private getEntity(id: string): void {
     switch (this.workshopType) {
