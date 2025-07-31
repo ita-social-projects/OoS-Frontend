@@ -9,9 +9,8 @@ describe('WorkshopDraftsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WorkshopDraftsComponent]
-    })
-    .compileComponents();
-    
+    }).compileComponents();
+
     fixture = TestBed.createComponent(WorkshopDraftsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -9,9 +9,8 @@ describe('CompetitionDraftsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CompetitionDraftsComponent]
-    })
-    .compileComponents();
-    
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CompetitionDraftsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

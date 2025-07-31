@@ -8,11 +8,7 @@ import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/worksho
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatDialog } from '@angular/material/dialog';
 import { WINDOW } from 'ngx-window-token';
-import {
-  DeleteWorkshopDraftById,
-  GetProviderViewWorkshopDrafts,
-  OnDraftSendForModerationSuccess
-} from 'shared/store/provider.actions';
+import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';

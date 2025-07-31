@@ -47,7 +47,7 @@ export class StepperDirective {
     if (!this.stepElement) {
       return;
     }
-    console.log(this.form)
+
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
 
