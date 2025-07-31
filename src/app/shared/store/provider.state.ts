@@ -46,14 +46,17 @@ import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { WorkshopType } from 'shared/enum/workshop';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
 import {
   GetProviderViewCompetitions,
-  OnGetWorkshopDraftIdByWorkshopIdSuccess,
+  OnGetDraftIdByEntityIdSuccess,
   OnSaveWorkshopStep,
   OnSaveWorkshopStepFail,
   OnSaveWorkshopStepSuccess
@@ -578,7 +581,7 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
       take(1),
-      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId, id))),
+      tap((draftId: string) => dispatch(new OnGetDraftIdByEntityIdSuccess(draftId, id, WorkshopType.Workshop))),
       catchError(() => {
         dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
         return EMPTY;
@@ -587,13 +590,13 @@ export class ProviderState {
     );
   }
 
-  @Action(providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess)
-  onGetWorkshopDraftIdByWorkshopIdSuccess(
+  @Action(providerActions.OnGetDraftIdByEntityIdSuccess)
+  onGetDraftIdByEntityIdSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { draftId, workshopId }: providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess
+    { draftId, entityId, entityType }: providerActions.OnGetDraftIdByEntityIdSuccess
   ): void {
     if (!draftId) {
-      this.router.navigate(['/create/workshop', workshopId]);
+      this.router.navigate(['create', entityType, entityId]);
     } else {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {
@@ -605,7 +608,7 @@ export class ProviderState {
         .afterClosed()
         .pipe(filter(Boolean))
         .subscribe(() => {
-          this.router.navigate(['/create/draft', draftId]).then(() => {
+          this.router.navigate(['create', entityType, draftId]).then(() => {
             dispatch(
               new ShowMessageBar({
                 type: 'warningBlue',
@@ -1333,6 +1336,23 @@ export class ProviderState {
     return this.userCompetitionService.sendDraftForModeration(id).pipe(
       tap(() => dispatch(new providerActions.OnDraftSendForModerationSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDraftSendForModerationFail(error)))
+    );
+  }
+
+  @Action(providerActions.GetCompetitionDraftIdByCompetitionId)
+  getCompetitionDraftIdByCompetitionId(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { id }: providerActions.GetWorkshopDraftIdByWorkshopId
+  ): Observable<string> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.getCompetitionDraftIdByCompetitionId(id).pipe(
+      take(1),
+      tap((draftId: string) => dispatch(new OnGetDraftIdByEntityIdSuccess(draftId, id, WorkshopType.Competition))),
+      catchError(() => {
+        dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+        return EMPTY;
+      }),
+      finalize(() => patchState({ isLoading: false }))
     );
   }
 

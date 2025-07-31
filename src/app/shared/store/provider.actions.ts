@@ -19,6 +19,7 @@ import {
 } from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { WorkshopType } from 'shared/enum/workshop';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -146,12 +147,13 @@ export class GetWorkshopDraftIdByWorkshopId {
   constructor(public id: string) {}
 }
 
-export class OnGetWorkshopDraftIdByWorkshopIdSuccess {
-  static readonly type = '[provider] get Workshop DraftId by Workshop Id Success';
+export class OnGetDraftIdByEntityIdSuccess {
+  static readonly type = '[provider] get DraftId by Entity Id Success';
 
   constructor(
     public draftId: string,
-    public workshopId: string
+    public entityId: string,
+    public entityType: WorkshopType
   ) {}
 }
 
@@ -887,7 +889,7 @@ export class DeleteCompetitionDraftById {
   ) {}
 }
 
-export class GetCompetitionDraftIdByWorkshopId {
+export class GetCompetitionDraftIdByCompetitionId {
   static readonly type = '[provider] get Competition Draft ID by Competition Id';
 
   constructor(public id: string) {}

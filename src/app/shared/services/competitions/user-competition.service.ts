@@ -36,6 +36,10 @@ export class UserCompetitionService {
     return this.http.get<CompetitionDraft>(`/api/v2/competitions-drafts/${id}`);
   }
 
+  public getCompetitionDraftIdByCompetitionId(competitionId: string): Observable<string> {
+    return this.http.get<string>(`/api/v2/competitions-drafts/event/${competitionId}/draft-id`);
+  }
+
   /**
    * This method get related competitions for provider personal cabinet
    */

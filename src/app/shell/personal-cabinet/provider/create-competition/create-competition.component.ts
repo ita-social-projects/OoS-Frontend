@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { first, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -15,7 +15,8 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import {
-  GetCompetitionById, GetCompetitionDraftById,
+  GetCompetitionById,
+  GetCompetitionDraftById,
   GetWorkshopById,
   GetWorkshopDraftById,
   ResetCompetition
@@ -128,18 +129,12 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
-    switch (this.route.snapshot.paramMap.get('entity')) {
-      case WorkshopType.Competition:
-        this.store.dispatch(new GetCompetitionById(competitionId));
-        break;
-      case WorkshopType.Draft:
-        this.store.dispatch(new GetCompetitionDraftById(competitionId));
-        break;
-      default:
-        this.editMode = false;
-        return;
+    if (!this.route.snapshot.paramMap.get('entity')) {
+      this.store.dispatch(new GetCompetitionById(competitionId));
+    } else {
+      this.store.dispatch(new GetCompetitionDraftById(competitionId));
     }
-    this.selectedCompetition$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competition: Competition | CompetitionDraft) => {
+    this.selectedCompetition$.pipe(filter(Boolean), first()).subscribe((competition: Competition | CompetitionDraft) => {
       this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
     });
   }

@@ -15,7 +15,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
 import { WorkshopDraftStatus } from 'shared/enum/workshop';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { CompetitionDraftSendForModeration, GetCompetitionDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { CompetitionDraftSendForModeration, GetCompetitionDraftIdByCompetitionId } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-competition-card',
@@ -111,6 +111,14 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public onDeleteKeydown(event: KeyboardEvent): void {
     this.onKeydown(event, () => this.onDelete());
+  }
+
+  public onEdit(competitiveEventDraftId: string | undefined): void {
+    if (competitiveEventDraftId) {
+      this.router.navigate(['create/competition/draft', competitiveEventDraftId]);
+    } else {
+      this.store.dispatch(new GetCompetitionDraftIdByCompetitionId(this.competitionData?.id));
+    }
   }
 
   public onDelete(): void {
