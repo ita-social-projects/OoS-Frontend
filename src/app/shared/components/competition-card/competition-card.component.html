@@ -44,8 +44,8 @@
         <a
           class="more-details"
           [routerLink]="[
-            competitionData.id ? '/details/workshop' : '/details/draft',
-            competitionData.id ? competitionData.id : competitionData.workshopDraftId
+            competitionData.id ? '/details/competition' : '/details/competition-draft',
+            competitionData.id ? competitionData.id : competitionData.competitiveEventDraftId
           ]">
           <span class="card_link">
             {{ 'MORE_DETAILS' | translate }}

@@ -7,7 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
 
 import { Provider } from 'shared/models/provider.model';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft } from 'shared/models/competition.model';
 import { Role } from 'shared/enum/role';
 import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
@@ -16,6 +16,7 @@ import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import {
   GetCompetitionById,
+  GetCompetitionDraftById,
   GetProviderById,
   GetWorkshopById,
   GetWorkshopDraftById,
@@ -42,14 +43,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(SharedUserState.selectedProvider)
   private provider$: Observable<Provider>;
   @Select(SharedUserState.selectedCompetition)
-  private competition$: Observable<Competition>;
+  private competition$: Observable<Competition | CompetitionDraft>;
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
 
   public isMobileScreen: boolean;
   public workshop: Workshop | WorkshopDraft;
   public provider: Provider;
-  public competition: Competition;
+  public competition: Competition | CompetitionDraft;
   public role: Role;
 
   public displayActionCard: boolean;
@@ -99,7 +100,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
           : workshop;
         this.provider = provider;
-        this.competition = competition;
+        this.competition = Util.containsWorkshopOrCompetitionDetails(competition)
+          ? {
+              draftStatus: competition.draftStatus,
+              rejectionMessage: competition.draftStatus,
+              competitiveEventDraftId: competition.competitiveEventDraftId,
+              ...competition.competitiveEventDetails
+            }
+          : competition;
         this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
       });
   }
@@ -112,11 +120,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
       case WorkshopType.Workshop:
         this.store.dispatch(new GetWorkshopById(id));
         break;
-      case WorkshopType.Draft:
+      case WorkshopType.WorkshopDraft:
         this.store.dispatch(new GetWorkshopDraftById(id));
         break;
       case WorkshopType.Competition:
         this.store.dispatch(new GetCompetitionById(id));
+        break;
+      case WorkshopType.CompetitionDraft:
+        this.store.dispatch(new GetCompetitionDraftById(id));
         break;
       default:
         this.store.dispatch(new GetProviderById(id));
