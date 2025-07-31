@@ -98,10 +98,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     this.initializeFormControls();
     this.priceControlListener();
-
-    if (this.route.snapshot.paramMap.get('entity') === 'competition') {
-      this.listenToChanges();
-    }
   }
 
   public ngOnDestroy(): void {
@@ -202,6 +198,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
         asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
       });
+    }
+
+    if (!this.route.snapshot.paramMap.get('entity')) {
+      this.listenToChanges();
     }
   }
 

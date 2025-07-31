@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, throttleTime } from 'rxjs';
@@ -53,7 +54,8 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: Store,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute
   ) {
     this.initializeForm();
   }
@@ -91,7 +93,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
     this.priceControlListener();
     this.priceValueListener();
-    this.listenToChanges();
     this.listenToBenefitsChanges();
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
   }
@@ -122,6 +123,9 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     );
     this.checkIfMinSport();
     this.handlePriceChange();
+    if (!this.route.snapshot.paramMap.get('entity')) {
+      this.listenToChanges();
+    }
   }
 
   private initializeForm(): void {

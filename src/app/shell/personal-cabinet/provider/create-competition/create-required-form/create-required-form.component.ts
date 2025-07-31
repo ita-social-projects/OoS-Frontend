@@ -97,10 +97,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
-
-    if (this.route.snapshot.paramMap.get('entity') === 'competition') {
-      this.listenToChanges();
-    }
   }
 
   public ngOnDestroy(): void {
@@ -170,6 +166,10 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     } else {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
+    }
+
+    if (!this.route.snapshot.paramMap.get('entity')) {
+      this.listenToChanges();
     }
   }
 

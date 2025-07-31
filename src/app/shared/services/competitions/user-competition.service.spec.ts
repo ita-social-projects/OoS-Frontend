@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Store } from '@ngxs/store';
+
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -60,15 +61,14 @@ describe('UserCompetitionService', () => {
     req.flush(mockResponse);
   });
 
-  it('should create competition using v1', () => {
-    storeMock.selectSnapshot.mockReturnValue({ images: false } as FeaturesList);
+  it('should create competition', () => {
     const mockCompetition: Competition = { id: '123' } as Competition;
 
     service.createCompetition(mockCompetition).subscribe((data) => {
       expect(data).toEqual(mockCompetition);
     });
 
-    const req = httpMock.expectOne('/api/v1/CompetitiveEvent');
+    const req = httpMock.expectOne('/api/v2/competitions-drafts');
     expect(req.request.method).toBe('POST');
     req.flush(mockCompetition);
   });

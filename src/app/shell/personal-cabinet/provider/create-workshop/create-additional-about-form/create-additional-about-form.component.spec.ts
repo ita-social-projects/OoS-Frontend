@@ -1,14 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Workshop } from 'shared/models/workshop.model';
-import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import { TranslateModule } from '@ngx-translate/core';
-import { MaterialModule } from 'shared/modules/material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+
+import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
+import { MaterialModule } from 'shared/modules/material.module';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { Constants } from 'shared/constants/constants';
-import { of } from 'rxjs';
 import { CreateAdditionalAboutFormComponent } from './create-additional-about-form.component';
 
 describe('CreateAdditionalAboutFormComponent', () => {
@@ -27,7 +29,19 @@ describe('CreateAdditionalAboutFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateAdditionalAboutFormComponent],
       imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule, TranslateModule.forRoot(), NgxsModule.forRoot([])],
-      providers: [FormBuilder]
+      providers: [
+        FormBuilder,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => null
+              }
+            }
+          }
+        }
+      ]
     }).compileComponents();
 
     store = TestBed.inject(Store);

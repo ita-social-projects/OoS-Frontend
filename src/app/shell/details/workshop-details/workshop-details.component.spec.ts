@@ -160,13 +160,13 @@ describe('WorkshopDetailsComponent', () => {
           return '123';
         }
         if (key === 'entity') {
-          return 'draft';
+          return 'workshop-draft';
         }
       });
 
       component.onEdit();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/draft', '123']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/workshop/draft', '123']);
     });
 
     it('should dispatch GetWorkshopDraftIdByWorkshopId if workshop', () => {

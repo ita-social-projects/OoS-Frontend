@@ -3,6 +3,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -62,6 +63,16 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
           // eslint-disable-next-line @angular-eslint/no-forward-ref
           useExisting: forwardRef(() => ImageFormControlComponent),
           multi: true
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => '123'
+              }
+            }
+          }
         },
         Store
       ]

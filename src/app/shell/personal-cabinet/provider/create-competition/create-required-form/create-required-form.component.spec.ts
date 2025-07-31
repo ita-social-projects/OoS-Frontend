@@ -22,6 +22,7 @@ import { ImageFormControlComponent } from 'shared/components/image-form-control/
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { CreateRequiredFormComponent } from './create-required-form.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CreateRequiredFormComponent', () => {
   let component: CreateRequiredFormComponent;
@@ -55,6 +56,18 @@ describe('CreateRequiredFormComponent', () => {
         MinMaxDirective,
         MockInfoMenuComponent,
         MockInstitutionHierarchyComponent
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => null
+              }
+            }
+          }
+        }
       ]
     }).compileComponents();
   });
