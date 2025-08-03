@@ -31,6 +31,7 @@ import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { ImageControlValidator } from 'shared/validators/image-control-validator';
 
 @Component({
   selector: 'app-create-description-form',
@@ -70,6 +71,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
   public keyWordsCtrl: FormControl = new FormControl('');
+  public imageFilesControl: FormControl = new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]);
 
   public isTagsFeatureEnabled: boolean = false;
   public keyWords: string[] = [];
@@ -89,23 +91,28 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     private readonly translateService: TranslateService,
     private readonly route: ActivatedRoute
   ) {
-    this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
-      imageIds: new FormControl(''),
-      keyWords: new FormControl(null),
-      workshopDescriptionItems: this.SectionItemsFormArray,
-      competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      enrollmentProcedureDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      coverage: new FormControl(this.Coverage.School)
-    });
+    this.DescriptionFormGroup = this.formBuilder.group(
+      {
+        imageFiles: this.imageFilesControl,
+        imageIds: new FormControl(''),
+        keyWords: new FormControl(null),
+        workshopDescriptionItems: this.SectionItemsFormArray,
+        competitiveSelection: new FormControl(false),
+        competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
+          Validators.required,
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
+        enrollmentProcedureDescription: new FormControl('', [
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
+        coverage: new FormControl(this.Coverage.School)
+      },
+      {
+        validators: [ImageControlValidator('imageFiles', 'imageIds')]
+      }
+    );
   }
 
   public compareItems(item1: Direction, item2: Direction): boolean {
@@ -237,6 +244,18 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
       this.listenToChanges();
+    }
+
+    this.DescriptionFormGroup.updateValueAndValidity();
+
+    this.imageFilesControl.clearValidators();
+  }
+
+  public onImageDelete(): void {
+    if (this.workshop) {
+      this.imageFilesControl.addValidators([Validators.required, minArrayLength(1), maxArrayLength(10)]);
+      this.imageFilesControl.markAsTouched();
+      this.imageFilesControl.updateValueAndValidity();
     }
   }
 

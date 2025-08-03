@@ -5,9 +5,15 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фотографії'"
     formControlName="imageFiles"
-    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
+    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"
+    (deleteImage)="onImageDelete()">
   </app-image-form-control>
-  <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" minImages="1" maxImages="10">
+  <app-validation-hint
+    formLevelValidation="true"
+    [validationFormControl]="DescriptionFormGroup"
+    [isImage]="true"
+    minImages="1"
+    maxImages="10">
   </app-validation-hint>
 
   <span class="font-semibold inline-block mt-2">

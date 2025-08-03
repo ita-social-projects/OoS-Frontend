@@ -74,7 +74,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private get workshopPrice(): number {
-    return this.workshop?.price ? this.workshop.price : null;
+    return this.workshop?.price ? (this.workshop.price as number) : null;
   }
 
   public onInstitutionSubordinationChange(isMinSport: boolean): void {
@@ -194,7 +194,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
   private handlePriceChange(): void {
     if (this.workshop.price) {
-      this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.setPriceControlValue(this.workshop.price as number, 'enable', false);
       this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
       this.priceRadioBtn.setValue(true);
     } else {

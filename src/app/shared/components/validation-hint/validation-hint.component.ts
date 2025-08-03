@@ -55,6 +55,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public isNumberValue: boolean;
   @Input() public minValue: number;
   @Input() public maxValue: number;
+  @Input() public isAge: boolean;
 
   // For price validation
   @Input() public isPrice: boolean;
@@ -326,7 +327,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkFormLevelValidationErrors(errors: ValidationErrors): void {
     const errorConditions = [
       {
-        condition: (): boolean => errors?.invalidAgeRange,
+        condition: (): boolean => this.isAge && errors?.invalidAgeRange,
         message: ValidationMessages.INVALID_AGE_RANGE
       },
       {
@@ -336,6 +337,14 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       {
         condition: (): boolean => errors?.invalidDateRange,
         message: ValidationMessages.INVALID_START_END_DATE
+      },
+      {
+        condition: (): boolean => this.isImage && errors?.imageControlError && this.minImages === this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE
+      },
+      {
+        condition: (): boolean => this.isImage && errors?.imageControlError && this.minImages < this.maxImages,
+        message: ValidationMessages.IMAGE_AMOUNT_SHOULD_BE_FROM_TO
       }
     ];
 

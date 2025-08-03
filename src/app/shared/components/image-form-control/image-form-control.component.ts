@@ -191,7 +191,6 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
 
   private removeImage(img: DecodedImage): void {
     const imageIndex = this.decodedImages.indexOf(img);
-
     if (this.moderatorDeleteFlow) {
       const indexOfDivider = this.decodedImages[imageIndex].image.split('/').indexOf('outofschool');
       const imageToDelete = this.decodedImages[imageIndex].image
@@ -213,6 +212,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
 
       this.onChange(this.selectedImages);
       this.updateImageIdsFormControl(imageIdToRemove);
+      this.deleteImage.emit();
       this.markAsTouched();
     }
   }

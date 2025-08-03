@@ -19,7 +19,7 @@ export abstract class WorkshopBase {
   studyPeriodDates: StudyPeriodDates;
   dateTimeRanges: DateTimeRanges[];
   isPaid: boolean;
-  price: number;
+  price: number | string;
   payRate: PayRateType;
   formOfLearning: FormOfLearning;
   availableSeats: number;
