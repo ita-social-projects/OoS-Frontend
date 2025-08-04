@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { map, takeUntil } from 'rxjs/operators';
+
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
@@ -22,6 +24,9 @@ import { ProviderComponent } from '../provider.component';
   styleUrls: ['./provider-drafts.component.scss']
 })
 export class ProviderDraftsComponent extends ProviderComponent implements OnInit, OnDestroy {
+  public selectedTab: number;
+  private readonly tabs: string[] = ['workshops', 'competitions'];
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
@@ -29,6 +34,18 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     private route: ActivatedRoute
   ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.route.queryParams
+      .pipe(
+        map((params) => params.t),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((t: string | undefined) => {
+        this.updateTab(t);
+      });
   }
 
   /**
@@ -48,8 +65,17 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     return;
   }
 
+  public updateTab(param: string): void {
+    const t = this.tabs.includes(param) ? param : this.tabs[0];
+    this.selectedTab = this.tabs.indexOf(t);
+    this.updateQueryParams(t);
+  }
+
   public onTabChange(event: MatTabChangeEvent): void {
-    const t = event.index === 0 ? 'workshops' : 'competitions';
+    this.updateQueryParams(this.tabs[event.index]);
+  }
+
+  private updateQueryParams(t: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { t }

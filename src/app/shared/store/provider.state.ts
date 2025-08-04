@@ -1326,7 +1326,7 @@ export class ProviderState {
   ): Observable<Competition | void> {
     return this.userCompetitionService.updateDraft(draftId, payload).pipe(
       tap((res: Competition) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateWorkshopFail(error)))
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateCompetitionFail(error)))
     );
   }
 
@@ -1370,7 +1370,7 @@ export class ProviderState {
   @Action(providerActions.GetCompetitionDraftIdByCompetitionId)
   getCompetitionDraftIdByCompetitionId(
     { patchState, dispatch }: StateContext<ProviderStateModel>,
-    { id }: providerActions.GetWorkshopDraftIdByWorkshopId
+    { id }: providerActions.GetCompetitionDraftIdByCompetitionId
   ): Observable<string> {
     patchState({ isLoading: true });
     return this.userCompetitionService.getCompetitionDraftIdByCompetitionId(id).pipe(

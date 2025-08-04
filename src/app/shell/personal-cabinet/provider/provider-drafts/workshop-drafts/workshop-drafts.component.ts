@@ -98,10 +98,6 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
     return item.workshopDraftId;
   }
 
-  public onTabChange(event: MatTabChangeEvent): void {
-    return;
-  }
-
   private getProviderDrafts(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshopDrafts?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {

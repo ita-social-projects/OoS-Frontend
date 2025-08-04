@@ -184,7 +184,7 @@ export class SharedUserState {
   @Action(GetCompetitionDraftById)
   getCompetitionDraftById(
     { patchState, dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: GetCompetitionById
+    { payload }: GetCompetitionDraftById
   ): Observable<CompetitionDraft | void> {
     patchState({ isLoading: true });
     return this.userCompetitionService.getCompetitionDraftById(payload).pipe(

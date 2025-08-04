@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" (selectedTabChange)="onTabChange($event)">
+<mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" [selectedIndex]="selectedTab" (selectedTabChange)="onTabChange($event)">
   <mat-tab label="Гуртки">
     <app-workshop-drafts [role]="role" [provider]="provider" [isLoading$]="isLoading$"></app-workshop-drafts>
   </mat-tab>

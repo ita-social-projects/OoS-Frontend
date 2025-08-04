@@ -100,7 +100,6 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
       .afterClosed()
       .pipe(
         filter(Boolean),
-        filter(Boolean),
         switchMap(() => {
           if (type === ModalConfirmationType.draftSet) {
             this.store.dispatch(new CompetitionDraftSendForModeration((this.competition as CompetitionDraft).competitiveEventDraftId));
