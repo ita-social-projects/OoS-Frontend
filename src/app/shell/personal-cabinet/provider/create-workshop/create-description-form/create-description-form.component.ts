@@ -97,11 +97,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
         Validators.required,
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       enrollmentProcedureDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       coverage: new FormControl(this.Coverage.School)
@@ -266,7 +268,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       ]),
       description: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
