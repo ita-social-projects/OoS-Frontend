@@ -98,6 +98,7 @@ import { CookiesBannerComponent } from './components/cookies-banner/cookies-bann
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
+import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
 
 @NgModule({
   declarations: [
@@ -188,7 +189,8 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
     DecimalNumberPipe,
-    ContactsCardComponent
+    ContactsCardComponent,
+    NumberArrowsDirective
   ],
 
   imports: [
@@ -287,7 +289,8 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     ProfileWaitingPageComponent,
     ProfileWaitingPageComponent,
     DecimalNumberPipe,
-    ContactsCardComponent
+    ContactsCardComponent,
+    NumberArrowsDirective
   ]
 })
 export class SharedModule {}
