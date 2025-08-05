@@ -1,6 +1,6 @@
 <div class="wrapper">
   <ng-container *ngIf="competition.competitiveEventDescriptionItems?.length">
-    <h5 class="title">{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
+    <h5 class="title">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</h5>
     <div *ngFor="let item of competition.competitiveEventDescriptionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
       <p class="line-break">{{ item.description }}</p>
