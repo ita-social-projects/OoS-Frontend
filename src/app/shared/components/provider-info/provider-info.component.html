@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="flex flex-row justify-between items-center">
-    <div>
+    <div [ngClass]="{ 'ml-auto': isProviderView }">
       <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
         <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
       </a>

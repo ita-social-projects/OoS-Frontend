@@ -19,6 +19,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { Constants } from 'shared/constants/constants';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -138,7 +139,11 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       ]),
       payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
-      preferentialTermsOfParticipation: new FormControl(''),
+      preferentialTermsOfParticipation: new FormControl('', [
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
+      ]),
       institutionHierarchyId: new FormControl('', Validators.required),
       institutionId: new FormControl('', Validators.required),
       championsPath: new FormControl(false)
