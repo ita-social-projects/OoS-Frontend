@@ -224,30 +224,34 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       directionId: new FormControl(null, Validators.required),
       subDirectionIds: new FormControl(null, Validators.required),
       description: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       coverageId: new FormControl(null, Validators.required),
       formOfLearning: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       additionalDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       descriptionOfTheEnrollmentProcedure: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray,
       price: new FormControl({ value: 0, disabled: true }),
       areThereBenefits: this.benefitsOptionRadioBtn,
       benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
   }
