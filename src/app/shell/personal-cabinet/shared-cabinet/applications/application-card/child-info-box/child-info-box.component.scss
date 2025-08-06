@@ -10,17 +10,17 @@
   width: 400px;
   border-radius: 5px;
   padding: 1.5rem;
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .title {
   margin-bottom: 15px;
-  color: var(--cancel-text-color);
+  color: var(--primary-light-text-color);
   text-transform: uppercase;
 }
 
 .text {
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
 }
 
 .card.isMobile {

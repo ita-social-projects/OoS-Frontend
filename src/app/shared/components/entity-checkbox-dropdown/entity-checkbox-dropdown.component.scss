@@ -48,6 +48,7 @@ mat-form-field mat-label {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--primary-light-text-color);
 }
 
 ::ng-deep {

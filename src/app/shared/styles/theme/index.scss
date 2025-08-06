@@ -241,6 +241,14 @@ a {
   }
 }
 
+.mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background-color: var(--bg-specific-light) !important;
+}
+
+.mat-pseudo-checkbox.mat-pseudo-checkbox-checked::after {
+  color: var(--specific-text-color) !important;
+}
+
 mat-card.mat-mdc-card {
   box-shadow: none;
 }
