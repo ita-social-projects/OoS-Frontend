@@ -13,6 +13,7 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--primary-light-text-color);
+  word-break: break-all;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -60,11 +61,18 @@ a {
     .contact-info-extended {
       display: flex;
       margin: 10px 0 0 5px;
-      align-items: center;
+      align-items: flex-start;
+
       .contact-title {
         font-family: 'Open Sans', sans-serif;
         color: var(--primary-light-text-color) !important;
         width: 100px;
+      }
+      a {
+        flex: 1;
+        min-width: 0;
+        word-break: break-all;
+        overflow-wrap: break-word;
       }
     }
   }

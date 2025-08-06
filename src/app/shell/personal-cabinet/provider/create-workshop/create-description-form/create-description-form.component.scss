@@ -32,6 +32,10 @@
   color: var(--primary-light-text-color);
 }
 
+input:disabled {
+  background: transparent !important;
+}
+
 .expanded-field {
   height: auto !important;
 }
@@ -52,7 +56,7 @@
 
 .step-textarea,
 .step-textarea-short {
-  background-color: transparent;
+  background-color: transparent !important;
   color: var(--primary-light-text-color);
 }
 
