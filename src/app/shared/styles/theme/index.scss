@@ -193,9 +193,19 @@ a {
     color: var(--primary-light-text-color);
   }
 
+  .mdc-checkbox:hover .mdc-checkbox__native-control ~ .mdc-checkbox__ripple {
+    opacity: 0.2 !important;
+  }
+
   .mdc-checkbox {
     padding: 0;
     position: relative;
+    transition: opacity 0.3s ease-in-out;
+
+    .mdc-checkbox__native-control ~ .mdc-checkbox__ripple {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
 
     .mdc-checkbox__checkmark-path {
       stroke: var(--specific-text-color);
@@ -229,6 +239,14 @@ a {
       z-index: 1000 !important;
     }
   }
+}
+
+.mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background-color: var(--bg-specific-light) !important;
+}
+
+.mat-pseudo-checkbox.mat-pseudo-checkbox-checked::after {
+  color: var(--specific-text-color) !important;
 }
 
 mat-card.mat-mdc-card {
