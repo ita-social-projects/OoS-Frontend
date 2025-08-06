@@ -4,9 +4,9 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
-import { Direction, DirectionNode, Subdirection } from 'shared/models/category.model';
+import { Direction, DirectionNode, DirectionsSelected, Subdirection } from 'shared/models/category.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
-import { SetSubdirections, SetDirections } from 'shared/store/filter.actions';
+import { SetSubdirections, SetDirections, SetIndeterminates } from 'shared/store/filter.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
@@ -16,9 +16,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 })
 export class DirectionTreeComponent implements OnDestroy, OnInit {
   @Input()
-  public filteredDirections: Direction[];
-  @Input()
-  public initialDirectionIds: number[];
+  public initialDirectionIds: DirectionsSelected;
 
   @Select(MetaDataState.directions)
   private directions$: Observable<Direction[]>;
@@ -43,9 +41,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       // update data source when directions are received
       this.allDirections = this.transformDirections(directions);
       this.dataSource.data = this.allDirections;
+      this.selectInitialIds(this.initialDirectionIds);
     });
-    // set initial selected direction ids
-    this.selectedDirectionIds = this.initialDirectionIds.slice() || [];
   }
 
   public ngOnDestroy(): void {
@@ -88,7 +85,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (event.checked) {
       // checked
       this.selectedDirectionIds.push(direction.id);
-      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+      this.store.dispatch(new SetDirections(this.selectedDirectionIds));
 
       this.loadChildrenAndPush(direction);
     } else {
@@ -101,24 +98,27 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (event.checked) {
       // checked
       this.selectedSubdirectionIds.push(subdirection.id);
-      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     } else {
       // unchecked
       this.selectedSubdirectionIds = this.selectedSubdirectionIds.filter((id: number) => id !== subdirection.id);
-      this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     }
+    this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
   }
 
   public directionChecked(direction: DirectionNode): boolean {
+    if (this.initialDirectionIds.selectedDirectionIds?.includes(direction.id)) {
+      return true;
+    }
+
     // check if all children are selected
     const allChildrenSelected: boolean =
       direction.children.length > 0 && direction.children.every((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id));
     if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds.push(direction.id);
-      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+      this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
-      // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+      this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     }
     return allChildrenSelected;
   }
@@ -128,6 +128,10 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   }
 
   public isDirectionIndeterminate(direction: DirectionNode): boolean {
+    if (this.initialDirectionIds.indeterminateDirectionIds?.includes(direction.id)) {
+      return true;
+    }
+
     // has no children
     if (!direction.children || direction.children.length === 0) {
       this.indeterminateDirectionIds = this.indeterminateDirectionIds.filter((id: number) => id !== direction.id);
@@ -143,6 +147,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (!isIndeterminate) {
       this.indeterminateDirectionIds = this.indeterminateDirectionIds.filter((id: number) => id !== direction.id);
     }
+    this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
     return isIndeterminate;
   }
 
@@ -188,7 +193,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   private removeDirectionAndChildren(direction: DirectionNode): void {
     // remove parent's id
     this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
-    // this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+    this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     // remove all children ids
     if (direction.children && direction.children.length > 0) {
       direction.children.forEach((sub: Subdirection) => {
@@ -196,5 +201,11 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       });
       this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     }
+  }
+
+  private selectInitialIds(initials: DirectionsSelected): void {
+    this.selectedDirectionIds = initials.selectedDirectionIds || [];
+    this.selectedSubdirectionIds = initials.selectedSubdirectionIds || [];
+    this.indeterminateDirectionIds = initials.indeterminateDirectionIds || [];
   }
 }

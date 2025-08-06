@@ -6,7 +6,7 @@ import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { AchievementType } from 'shared/models/achievement.model';
-import { Direction, SubDirection } from 'shared/models/category.model';
+import { Direction, Subdirection } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
@@ -49,7 +49,7 @@ import {
 
 export interface MetaDataStateModel {
   directions: Direction[];
-  subDirections: SubDirection[];
+  subDirections: Subdirection[];
   socialGroups: DataItem[];
   institutionStatuses: DataItem[];
   providerTypes: DataItem[];
@@ -109,7 +109,7 @@ export class MetaDataState {
   }
 
   @Selector()
-  static subDirections(state: MetaDataStateModel): SubDirection[] {
+  static subDirections(state: MetaDataStateModel): Subdirection[] {
     return state.subDirections;
   }
 
@@ -203,11 +203,11 @@ export class MetaDataState {
   }
 
   @Action(GetSubDirections)
-  getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<SubDirection[]> {
+  getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<Subdirection[]> {
     patchState({ subDirections: null, isLoading: true });
     return this.categoriesService.getSubDirections(directionId).pipe(
       map((searchResponse) => searchResponse.entities),
-      tap((subDirections: SubDirection[]) => {
+      tap((subDirections: Subdirection[]) => {
         patchState({ subDirections, isLoading: false });
       })
     );

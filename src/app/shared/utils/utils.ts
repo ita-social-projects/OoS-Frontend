@@ -279,10 +279,13 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'subdirectionIds', 'workingDays', 'formsOfLearning', 'statuses'];
+      const arrayKeys = ['directionIds', 'subdirectionIds', 'indeterminateDirectionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
-        filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
+        filterState[key] =
+          key !== 'directionIds' && key !== 'subdirectionIds' && key !== 'indeterminateDirectionIds'
+            ? value.split(',')
+            : value.split(',').map(Number);
       } else {
         filterState[key] = this.parseToPrimitive(value);
       }

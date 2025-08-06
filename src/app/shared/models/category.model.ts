@@ -40,3 +40,9 @@ export interface DirectionNode {
   children?: DirectionNode[];
   workshopsCount?: number;
 }
+
+export interface DirectionsSelected {
+  selectedDirectionIds: number[];
+  selectedSubdirectionIds: number[];
+  indeterminateDirectionIds: number[];
+}

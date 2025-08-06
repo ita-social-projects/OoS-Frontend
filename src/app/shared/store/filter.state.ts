@@ -52,7 +52,8 @@ import {
   SetWithDisabilityOption,
   SetWorkingDays,
   SetEntitySearchQueryValue,
-  SetPayRate
+  SetPayRate,
+  SetIndeterminates
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -95,6 +96,11 @@ export class FilterState {
   @Selector()
   static subdirections(state: FilterStateModel): number[] {
     return state.subdirectionIds;
+  }
+
+  @Selector()
+  static indeterminateDirections(state: FilterStateModel): number[] {
+    return state.indeterminateDirectionIds;
   }
 
   @Selector()
@@ -173,6 +179,8 @@ export class FilterState {
       minAge,
       maxAge,
       directionIds,
+      subdirectionIds,
+      indeterminateDirectionIds,
       minPrice,
       maxPrice,
       limitMinMaxPrice,
@@ -192,6 +200,8 @@ export class FilterState {
       statuses,
       formsOfLearning,
       directionIds,
+      subdirectionIds,
+      indeterminateDirectionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
@@ -244,6 +254,11 @@ export class FilterState {
   @Action(SetSubdirections)
   setSubdirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetSubdirections): void {
     patchState({ subdirectionIds: payload, from: 0 });
+  }
+
+  @Action(SetIndeterminates)
+  setIndeterminates({ patchState }: StateContext<FilterStateModel>, { payload }: SetIndeterminates): void {
+    patchState({ indeterminateDirectionIds: payload });
   }
 
   @Action(SetWorkingDays)

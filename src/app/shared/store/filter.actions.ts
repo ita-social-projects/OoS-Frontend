@@ -37,6 +37,11 @@ export class SetSubdirections {
   constructor(public payload: number[]) {}
 }
 
+export class SetIndeterminates {
+  static readonly type = '[filter] Set Indeterminate Directions';
+  constructor(public payload: number[]) {}
+}
+
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
   constructor(public payload: string[]) {}

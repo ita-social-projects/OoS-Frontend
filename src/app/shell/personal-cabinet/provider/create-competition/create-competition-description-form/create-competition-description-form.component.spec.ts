@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { MaterialModule } from 'shared/modules/material.module';
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
-import { SubDirection } from 'shared/models/category.model';
+import { Subdirection } from 'shared/models/category.model';
 import { CreateCompetitionDescriptionFormComponent } from './create-competition-description-form.component';
 
 @Component({
@@ -168,7 +168,7 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       component.subDirections$ = of([
         { id: 1, title: 'Sub1' },
         { id: 2, title: 'Sub2' }
-      ] as SubDirection[]);
+      ] as Subdirection[]);
 
       component.competition.subDirectionIds = [2];
       component.competition.directionSubDirectionIds = [{ directionId: 1, subDirectionId: 2 }];
@@ -189,7 +189,7 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
         { id: 3, title: 'Sub3' }
       ]);
 
-      const itemToRemove = { id: 2, title: 'Sub2' } as SubDirection;
+      const itemToRemove = { id: 2, title: 'Sub2' } as Subdirection;
 
       component.onRemove(itemToRemove);
 
@@ -200,8 +200,8 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
     });
 
     it('should compare subDirections correctly', () => {
-      const sub1 = { id: 1, title: 'Sub1' } as SubDirection;
-      let sub2 = { id: 2, title: 'Sub2' } as SubDirection;
+      const sub1 = { id: 1, title: 'Sub1' } as Subdirection;
+      let sub2 = { id: 2, title: 'Sub2' } as Subdirection;
 
       expect(component.compareItems(sub1, sub2)).toBe(false);
 

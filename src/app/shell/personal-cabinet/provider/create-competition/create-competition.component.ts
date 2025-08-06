@@ -20,7 +20,7 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition, UpdateCompetitionDraft } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
-import { SubDirection } from 'shared/models/category.model';
+import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
 import { shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
@@ -250,7 +250,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   private createDescription(): Description {
     const description = this.DescriptionFormGroup.getRawValue();
-    description.subDirectionIds = description.subDirectionIds.map((subDirection: SubDirection) => subDirection.id);
+    description.subDirectionIds = description.subDirectionIds.map((subDirection: Subdirection) => subDirection.id);
     return description;
   }
 

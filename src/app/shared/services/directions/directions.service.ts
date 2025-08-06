@@ -38,8 +38,8 @@ export class DirectionsService {
     return this.http.get<Direction[]>('/api/v1/popular/directions', { params });
   }
 
-  public getSubDirections(directionId: string): Observable<SearchResponse<SubDirection[]>> {
-    return this.http.get<SearchResponse<SubDirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
+  public getSubDirections(directionId: string): Observable<SearchResponse<Subdirection[]>> {
+    return this.http.get<SearchResponse<Subdirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
   }
 
   public createDirection(direction: Direction): Observable<Direction> {

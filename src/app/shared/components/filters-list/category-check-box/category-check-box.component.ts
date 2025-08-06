@@ -5,7 +5,7 @@ import { Observable, Subject, map } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 
-import { Direction } from 'shared/models/category.model';
+import { Direction, DirectionsSelected } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
 import { GetDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -17,7 +17,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 })
 export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
-  public selectedDirectionIds: number[];
+  public directionsSelected: DirectionsSelected;
 
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
@@ -27,7 +27,6 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   @ViewChild('listWrapper')
   private filterContainer: ElementRef;
 
-  public filteredDirections: Direction[] = [];
   public directionSearchFormControl = new FormControl('');
   private allDirections: Direction[] = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -41,19 +40,17 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     this.store.dispatch(new GetDirections());
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
       this.allDirections = directions;
-      this.filteredDirections = directions;
       this.cdr.markForCheck();
     });
     this.directionSearchFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: string) => {
-        this.filterDirections(value);
         this.cdr.markForCheck();
       });
   }
 
   public ngAfterViewInit(): void {
-    if (this.selectedDirectionIds?.length) {
+    if (this.directionsSelected.selectedDirectionIds?.length) {
       this.scrollToSelectedDirection();
     }
   }
@@ -102,14 +99,14 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * This method filter directions according to the input value
    * @param value string
    */
-  private filterDirections(value: string): void {
-    this.filteredDirections = this.allDirections.filter((direction: Direction) =>
-      direction.title
-        .toLowerCase()
-        .split(WORD_SPLIT_REGEX)
-        .some((word) => word.startsWith(value.toLowerCase()))
-    );
-  }
+  // private filterDirections(value: string): void {
+  //   this.filteredDirections = this.allDirections.filter((direction: Direction) =>
+  //     direction.title
+  //       .toLowerCase()
+  //       .split(WORD_SPLIT_REGEX)
+  //       .some((word) => word.startsWith(value.toLowerCase()))
+  //   );
+  // }
 
   private scrollToSelectedDirection(): void {
     setTimeout(() => {
