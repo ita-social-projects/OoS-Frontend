@@ -26,6 +26,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { ImageControlValidator } from 'shared/validators/image-control-validator';
 
 @Component({
   selector: 'app-create-about-form',
@@ -66,6 +67,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   public AboutFormGroup: FormGroup;
   public dateTimeRangesArray: FormArray = new FormArray([], [Validators.required]);
+  public coverImageControl: FormControl = new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
@@ -168,6 +170,16 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.paramMap.get('entity') === 'workshop') {
       this.listenToChanges();
     }
+
+    this.coverImageControl.clearValidators();
+  }
+
+  public onDeleteImage(): void {
+    if (this.workshop) {
+      this.coverImageControl.addValidators([Validators.required, minArrayLength(1), maxArrayLength(1)]);
+      this.coverImageControl.markAsTouched();
+      this.coverImageControl.updateValueAndValidity();
+    }
   }
 
   private initForm(): void {
@@ -208,7 +220,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         dateTimeRanges: this.dateTimeRangesArray,
         languageOfEducationId: new FormControl(null, Validators.required),
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
-        coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
+        coverImage: this.coverImageControl,
         coverImageId: new FormControl(''),
         availableSeats: new FormControl(
           {
@@ -219,7 +231,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         )
       },
       {
-        validators: [AgeRangeValidator('minAge', 'maxAge')]
+        validators: [AgeRangeValidator('minAge', 'maxAge'), ImageControlValidator('coverImage', 'coverImageId')]
       }
     );
   }

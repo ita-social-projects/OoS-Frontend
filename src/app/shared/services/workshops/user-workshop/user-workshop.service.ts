@@ -250,6 +250,10 @@ export class UserWorkshopService {
     const imageFiles = ['imageFiles', 'coverImage'];
     const skipNullKeys = ['maxAge', 'minAge'];
 
+    if (workshop.price) {
+      workshop.price = workshop.price.toString().replace('.', ',');
+    }
+
     Object.keys(workshop).forEach((key: string) => {
       if (workshop[key]) {
         if (imageFiles.includes(key)) {
