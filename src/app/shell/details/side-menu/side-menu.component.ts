@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Competition } from 'shared/models/competition.model';
-import { Role } from '../../../shared/enum/role';
-import { Address } from '../../../shared/models/address.model';
-import { Provider } from '../../../shared/models/provider.model';
-import { Workshop, WorkshopDraft } from '../../../shared/models/workshop.model';
+import { Role } from 'shared/enum/role';
+import { Address } from 'shared/models/address.model';
+import { Provider } from 'shared/models/provider.model';
+import { Socials, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
@@ -30,19 +30,4 @@ export class SideMenuComponent implements OnInit {
   };
 
   constructor() {}
-
-  public ngOnInit(): void {
-    this.getContactsData(this.workshop ?? this.competition);
-  }
-
-  private getContactsData(contactsParent: Competition | Workshop | WorkshopDraft): void {
-    this.contactsData = {
-      phone: contactsParent?.contacts?.[0]?.phones?.[0]?.number ?? this.provider?.contacts?.[0]?.phones?.[0]?.number,
-      email: contactsParent?.contacts?.[0]?.emails?.[0]?.address ?? this.provider?.contacts?.[0]?.emails?.[0]?.address,
-      facebook: contactsParent?.contacts?.[0]?.socialNetworks?.[0]?.url ?? this.provider.facebook,
-      instagram: contactsParent?.contacts?.[0]?.socialNetworks?.[1]?.url ?? this.provider.instagram,
-      website: contactsParent?.contacts?.[0]?.socialNetworks?.[2]?.url ?? this.provider.website
-    };
-    this.address = { ...contactsParent?.contacts?.[0]?.address };
-  }
 }

@@ -333,7 +333,7 @@ interface SocialNetworks {
   url: string;
 }
 
-enum Socials {
+export enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
