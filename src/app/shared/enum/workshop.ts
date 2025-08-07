@@ -6,7 +6,7 @@ export enum WorkshopType {
 
 export enum PayRateType {
   None = 0,
-  Classes,
+  Class,
   Month,
   Day,
   Year,
