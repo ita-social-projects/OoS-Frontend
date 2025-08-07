@@ -617,7 +617,7 @@
       "WITHOUT_SORT": "Without sorting",
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
-      "SEARCH_BY_TITLE": "Search by full title",
+      "SEARCH_BY_TITLE": "Search by full title and registration code",
       "SELECT_STATUS": "Select status"
     },
     "TOOLTIP": {
@@ -1235,6 +1235,7 @@
   },
   "MORE": "...More",
   "LESS": "...Less",
+  "TOTAL_DRAFTS": "Total drafts: {{ count }}",
   "PROVIDER_DRAFT": {
     "TITLE": "Unfinished Workshop Creation",
     "DETAILS": "You have an unfinished workshop creation process. Please complete it or cancel the current process to start a new one.",

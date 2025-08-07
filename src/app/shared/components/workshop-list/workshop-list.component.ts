@@ -105,6 +105,7 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public selectedWorkshopDraftId: string;
   public isInfoDisplayed: boolean;
   public filterGroup: FormGroup;
+  public isLoading: boolean;
   public totalEntities: number;
   public regions$: Observable<Codeficator[]>;
 
@@ -196,6 +197,10 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         this.getWorkshops();
       });
 
+    this.isLoadingCabinet$.pipe(takeUntil(this.destroy$)).subscribe((isLoadingCabinet) => {
+      this.isLoading = isLoadingCabinet;
+    });
+
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.WorkshopDrafts,
@@ -216,7 +221,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
 
     this.setInformationDependingOnRole();
     this.subscribeFormControls();
-    console.log(this.dataSource);
   }
 
   public onViewWorkshopInfo(workshop: WorkshopDraft): void {
