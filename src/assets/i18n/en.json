@@ -1235,6 +1235,7 @@
   },
   "MORE": "...More",
   "LESS": "...Less",
+  "TOTAL_DRAFTS": "Total drafts: {{ count }}",
   "PROVIDER_DRAFT": {
     "TITLE": "Unfinished Workshop Creation",
     "DETAILS": "You have an unfinished workshop creation process. Please complete it or cancel the current process to start a new one.",
