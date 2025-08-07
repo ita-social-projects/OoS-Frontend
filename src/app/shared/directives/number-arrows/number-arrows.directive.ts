@@ -13,8 +13,6 @@ export class NumberArrowsDirective implements AfterViewInit {
   public ngAfterViewInit(): void {
     const input = this.el.nativeElement;
 
-    this.removeDefaultArrows(input);
-
     const wrapper = this.renderer.createElement('div');
     this.renderer.setStyle(wrapper, 'position', 'relative');
     this.renderer.setStyle(wrapper, 'display', 'inline-block');
@@ -107,11 +105,5 @@ export class NumberArrowsDirective implements AfterViewInit {
 
     input.dispatchEvent(new Event('input', { bubbles: true }));
     input.dispatchEvent(new Event('change', { bubbles: true }));
-  }
-
-  private removeDefaultArrows(input: HTMLInputElement): void {
-    this.renderer.setStyle(input, '-moz-appearance', 'textfield');
-    this.renderer.setStyle(input, '-webkit-appearance', 'none');
-    this.renderer.setStyle(input, 'appearance', 'textfield');
   }
 }
