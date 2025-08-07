@@ -197,7 +197,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
 
     it('should enable price and payRate controls when workshop has price', () => {
       component.workshop.price = 150;
-      component.workshop.payRate = PayRateType.Classes;
+      component.workshop.payRate = PayRateType.Class;
 
       const setPriceControlValueSpy = jest.spyOn(component as any, 'setPriceControlValue');
       const setPayRateControlValueSpy = jest.spyOn(component as any, 'setPayRateControlValue');
@@ -205,7 +205,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       (component as any).handlePriceChange();
 
       expect(setPriceControlValueSpy).toHaveBeenCalledWith(150, 'enable', false);
-      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(PayRateType.Classes, 'enable', false);
+      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(PayRateType.Class, 'enable', false);
       expect(component.priceRadioBtn.value).toBe(true);
     });
 

@@ -53,7 +53,7 @@ describe('MapComponent', () => {
           providerTitle: '',
           providerOwnership: OwnershipTypes.State,
           title: '',
-          payRate: PayRateType.Classes,
+          payRate: PayRateType.Class,
           formOfLearning: FormOfLearning.Offline,
           minAge: 0,
           maxAge: 0,
