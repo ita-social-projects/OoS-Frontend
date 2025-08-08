@@ -8,36 +8,6 @@
     [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('website')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Facebook</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('facebook')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Instagram</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('instagram')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
     [infoEditFormGroup]="form"

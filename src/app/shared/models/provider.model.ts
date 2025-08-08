@@ -11,9 +11,6 @@ export abstract class ProviderBase {
   id?: string;
   fullTitle: string;
   shortTitle: string;
-  website?: string;
-  facebook?: string;
-  instagram?: string;
   edrpou: string;
   typeId?: number;
   type?: DataItem;
@@ -36,9 +33,6 @@ export abstract class ProviderBase {
   constructor(info: Partial<ProviderBase>, contacts: Contacts[], description: Partial<ProviderBase>, user: User, provider?: Provider) {
     this.fullTitle = info.fullTitle;
     this.shortTitle = info.shortTitle;
-    this.website = description.website;
-    this.facebook = description.facebook;
-    this.instagram = description.instagram;
     this.edrpou = info.edrpou;
     this.typeId = info.typeId;
     this.userId = user.id;

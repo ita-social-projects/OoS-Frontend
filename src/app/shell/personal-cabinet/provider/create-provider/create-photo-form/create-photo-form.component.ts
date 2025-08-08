@@ -42,10 +42,7 @@ export class CreatePhotoFormComponent implements OnInit {
     this.PhotoFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
-      providerSectionItems: this.SectionItemsFormArray,
-      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)])
+      providerSectionItems: this.SectionItemsFormArray
     });
   }
 
