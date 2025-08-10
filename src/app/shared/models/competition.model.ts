@@ -258,3 +258,14 @@ export class CompetitionDraft {
   directorFullName: string;
   directorPosition: string;
 }
+
+export class EditCompetitionDraft {
+  title: string;
+  shortTitle: string;
+  descriptionOfTheEnrollmentProcedure?: string;
+  additionalDescription?: string;
+  venueName?: string;
+  termsOfParticipation?: string;
+  preferentialTermsOfParticipation?: string;
+  benefits?: string;
+}

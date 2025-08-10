@@ -85,7 +85,7 @@
           <table mat-table [dataSource]="dataSource" appStretchTable>
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
-                {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
+                {{ 'FORMS.LABELS.COMPETITION_TITLE' | translate }}
               </th>
               <td [class.!bg-slate-300]="selectedCompetitionDraftId === element.competitiveEventDraftId" mat-cell *matCellDef="let element">
                 <div
@@ -175,9 +175,9 @@
                 <button mat-icon-button [routerLink]="['/details/competition-draft/', element.competitiveEventDraftId]">
                   <mat-icon>arrow_forward</mat-icon>
                 </button>
-                <!-- <button mat-icon-button [routerLink]="['../moderate/draft', element.competitiveEventDraftId]">
+                <button mat-icon-button [routerLink]="['../moderate/competition-draft', element.competitiveEventDraftId]">
                   <mat-icon>edit</mat-icon>
-                </button> -->
+                </button>
                 <mat-menu #actions="matMenu" class="header_menu">
                   <button mat-menu-item (click)="onRejectDraft(element)">
                     {{ 'BUTTONS.REQUEST_CHANGES' | translate }}

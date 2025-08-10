@@ -7,7 +7,7 @@ import { Role } from 'shared/enum/role';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { CoverageEnum, FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
 import { AdminState } from 'shared/store/admin.state';
 import { Direction } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
@@ -15,6 +15,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DeleteCompetitionDraftCoverImage, DeleteCompetitionDraftImage } from 'shared/store/shared-user.actions';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Competition } from 'shared/models/competition.model';
+import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 
 @Component({
   selector: 'app-competition-info',
@@ -29,10 +30,7 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
 
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
-  @Select(MetaDataState.codeficator)
-  public workshopCodeficator$: Observable<Codeficator>;
-  @Select(AdminState.direction)
-  public workshopDirection$: Observable<Direction>;
+
   @Select(MetaDataState.featuresList)
   public featuresList$: Observable<FeaturesList>;
 
@@ -42,9 +40,13 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
   public readonly formOfLearningEnum = FormOfLearningEnum;
   public readonly unlimitedSeats = Constants.UNLIMITED_SEATS;
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
-  public readonly coverageEnum = CoverageEnum;
+  public readonly typeOfCompetitionMap: Record<number, TypeOfCompetitionEnum> = {
+    1: TypeOfCompetitionEnum.EducationalProject,
+    2: TypeOfCompetitionEnum.Competition,
+    3: TypeOfCompetitionEnum.ParentCompetition,
+    4: TypeOfCompetitionEnum.CompetitionStage
+  };
   public competition: Competition;
-  public workshopDirection: Direction;
   public role: Role;
   public isImagesFeature: boolean;
 
@@ -148,7 +150,6 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
 
   public initListeners(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.workshopDirection$.pipe(takeUntil(this.destroy$)).subscribe((direction) => (this.workshopDirection = direction));
     this.featuresList$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));

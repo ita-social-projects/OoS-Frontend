@@ -34,6 +34,9 @@ import {
   DeleteWorkshopDraftImage,
   DeleteWorkshopDraftImageFail,
   DeleteWorkshopDraftImageSuccess,
+  EditCompetitionDraftByModerator,
+  EditCompetitionDraftByModeratorFail,
+  EditCompetitionDraftByModeratorSuccess,
   EditWorkshopDraftByModerator,
   EditWorkshopDraftByModeratorFail,
   EditWorkshopDraftByModeratorSuccess,
@@ -46,6 +49,7 @@ import {
   GetWorkshopDraftById,
   GetWorkshopsByProviderId,
   OnGetCompetitionByIdFail,
+  OnGetCompetitionDraftByIdFail,
   OnGetCompetitionDraftByIdSuccess,
   OnGetDraftByIdFail,
   OnGetProviderByIdFail,
@@ -187,26 +191,6 @@ export class SharedUserState {
     );
   }
 
-  @Action(GetCompetitionDraftById)
-  getCompetitionDraftById(
-    { patchState, dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: GetCompetitionDraftById
-  ): Observable<CompetitionDraft | void> {
-    patchState({ isLoading: true });
-    return this.userCompetitionService.getCompetitionDraftById(payload).pipe(
-      tap((competition: CompetitionDraft) => dispatch(new OnGetCompetitionDraftByIdSuccess(competition))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnGetDraftByIdFail(error)))
-    );
-  }
-
-  @Action(OnGetCompetitionDraftByIdSuccess)
-  onGetCompetitionDraftByIdSuccess(
-    { patchState }: StateContext<SharedUserStateModel>,
-    { payload }: OnGetCompetitionDraftByIdSuccess
-  ): void {
-    patchState({ selectedCompetition: payload, isLoading: false });
-  }
-
   @Action(GetAllApplications)
   getAllApplications(
     { patchState }: StateContext<SharedUserStateModel>,
@@ -329,7 +313,7 @@ export class SharedUserState {
 
   @Action(DeleteWorkshopDraftCoverImageSuccess)
   onDeleteWorkshopDraftCoverImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.workshopCoverImageDeleted, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.coverImageDeleted, type: 'success' }));
   }
 
   @Action(DeleteWorkshopDraftCoverImageFail)
@@ -356,7 +340,7 @@ export class SharedUserState {
 
   @Action(DeleteWorkshopDraftImageSuccess)
   onDeleteWorkshopDraftImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.workshopImageDeleted, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.imageDeleted, type: 'success' }));
   }
 
   @Action(DeleteWorkshopDraftImageFail)
@@ -380,7 +364,7 @@ export class SharedUserState {
 
   @Action(DeleteCompetitionDraftCoverImageSuccess)
   onDeleteCompetitionDraftCoverImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.competitionCoverImageDeleted, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.coverImageDeleted, type: 'success' }));
   }
 
   @Action(DeleteCompetitionDraftCoverImageFail)
@@ -407,7 +391,7 @@ export class SharedUserState {
 
   @Action(DeleteCompetitionDraftImageSuccess)
   onDeleteCompetitionDraftImageSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.competitionImageDeleted, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.imageDeleted, type: 'success' }));
   }
 
   @Action(DeleteCompetitionDraftImageFail)
@@ -435,5 +419,64 @@ export class SharedUserState {
   @Action(EditWorkshopDraftByModeratorFail)
   onEditWorkshopDraftByModeratorFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: EditWorkshopDraftByModeratorFail): void {
     showHttpErrorMessage(dispatch, error.status);
+  }
+
+  @Action(EditCompetitionDraftByModerator)
+  onEditCompetitionDraftByModerator(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { draftId, formData }: EditCompetitionDraftByModerator
+  ): Observable<void> {
+    return this.userCompetitionService.editCompetitionDraftByModerator(formData, draftId).pipe(
+      tap(() => dispatch(new EditCompetitionDraftByModeratorSuccess())),
+      catchError((error) => dispatch(new EditCompetitionDraftByModeratorFail(error)))
+    );
+  }
+
+  @Action(EditCompetitionDraftByModeratorSuccess)
+  onEditCompetitionDraftByModeratorSuccess({ dispatch }: StateContext<SharedUserStateModel>): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.editCompetitionDraft, type: 'success' })]);
+    this.router.navigate(['/admin-tools/data/competition-list']);
+  }
+
+  @Action(EditCompetitionDraftByModeratorFail)
+  onEditCompetitionDraftByModeratorFail(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { error }: EditCompetitionDraftByModeratorFail
+  ): void {
+    showHttpErrorMessage(dispatch, error.status);
+  }
+
+  @Action(GetCompetitionDraftById)
+  getCompetitionDraftById(
+    { patchState, dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: GetCompetitionDraftById
+  ): Observable<CompetitionDraft | void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.getCompetitionDraftById(payload).pipe(
+      tap((competition: CompetitionDraft) => dispatch(new OnGetCompetitionDraftByIdSuccess(competition))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetCompetitionDraftByIdFail(error)))
+    );
+  }
+
+  @Action(OnGetCompetitionDraftByIdSuccess)
+  onGetCompetitionDraftByIdSuccess(
+    { patchState }: StateContext<SharedUserStateModel>,
+    { payload }: OnGetCompetitionDraftByIdSuccess
+  ): void {
+    patchState({ selectedCompetition: payload, isLoading: false });
+  }
+
+  @Action(OnGetCompetitionDraftByIdFail)
+  onGetCompetitionDraftByIdFail(
+    { dispatch, patchState }: StateContext<SharedUserStateModel>,
+    { payload }: OnGetCompetitionDraftByIdFail
+  ): void {
+    patchState({ selectedCompetition: null, isLoading: false });
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedDraft,
+        type: 'error'
+      })
+    );
   }
 }

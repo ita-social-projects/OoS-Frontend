@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NgxsModule } from '@ngxs/store';
 import { UnfinishedWorkshopType } from 'shared/models/workshop.model';
 import { FormOfLearning } from 'shared/enum/workshop';
-import { EditDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { EditWorkshopDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { UserWorkshopService } from './user-workshop.service';
 
 describe('UserWorkshopService', () => {
@@ -206,8 +206,7 @@ describe('UserWorkshopService', () => {
 
   it('should update workshop draft by moderator', (done) => {
     const draftId = 'draft-id';
-    const moderatorId = 'moderator-id';
-    const formData: EditDraft = {
+    const formData: EditWorkshopDraft = {
       title: 'Updated Workshop Title',
       shortTitle: 'Updated Short',
       institutionHierarchyId: 'institution-id-001',

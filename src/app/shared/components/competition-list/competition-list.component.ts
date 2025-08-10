@@ -224,7 +224,7 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
 
   public onRejectDraft(competition: CompetitionDraft): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.editingWorkshop }
+      data: { type: ModalConfirmationType.editingCompetition }
     });
     dialogRef
       .afterClosed()

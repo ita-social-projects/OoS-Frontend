@@ -7,7 +7,7 @@ import {
   CompetitionCardParameters,
   CompetitionDraft,
   CompetitionDraftCard,
-  CompetitionProviderViewCard
+  CompetitionProviderViewCard, EditCompetitionDraft
 } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -140,6 +140,10 @@ export class UserCompetitionService {
 
   public deleteImageByCompetitionDraftId(draftId: string, imageId: string): Observable<void> {
     return this.http.delete<void>(`/api/v2/competitions-drafts/${draftId}/images`, { body: [imageId] });
+  }
+
+  public editCompetitionDraftByModerator(formData: EditCompetitionDraft, draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/moderator-edit`, formData);
   }
 
   private createFormData(competition: Competition, draftId?: string): FormData {

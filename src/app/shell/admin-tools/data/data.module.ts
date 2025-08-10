@@ -25,6 +25,7 @@ import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-
 import { AdminWorkshopListComponent } from './admin-workshop-list/admin-workshop-list.component';
 import { ModeratorDraftEditFormComponent } from './admin-workshop-list/moderator-draft-edit-form/moderator-draft-edit-form.component';
 import { AdminCompetitionListComponent } from './admin-competition-list/admin-competition-list.component';
+import { ModeratorDraftCompetitionFormComponent } from './admin-competition-list/moderator-draft-competition-form/moderator-draft-competition-form.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AdminCompetitionListComponent } from './admin-competition-list/admin-co
     DirectionsInstitutionHierarchiesEditFormComponent,
     AdminWorkshopListComponent,
     AdminCompetitionListComponent,
-    ModeratorDraftEditFormComponent
+    ModeratorDraftEditFormComponent,
+    ModeratorDraftCompetitionFormComponent
   ],
   imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, TranslateModule, SharedCabinetModule],
   exports: [DataComponent]
