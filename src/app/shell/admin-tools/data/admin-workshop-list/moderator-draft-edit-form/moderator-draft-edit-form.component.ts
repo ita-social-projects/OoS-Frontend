@@ -150,6 +150,10 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         this.form.get('coverImageId').setValue([workshopDraft.workshopDetails.coverImageId], { emitEvent: false });
       }
 
+      if (workshopDraft.workshopDetails.imageIds?.length) {
+        this.form.get('imageIds').setValue([...workshopDraft.workshopDetails.imageIds], { emitEvent: false });
+      }
+
       this.selectedWorkshop = workshopDraft;
 
       if (this.selectedWorkshop.workshopDetails.workshopDescriptionItems?.length) {
