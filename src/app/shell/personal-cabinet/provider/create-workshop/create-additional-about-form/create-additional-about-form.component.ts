@@ -115,7 +115,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation,
         institutionHierarchyId: this.workshop.institutionHierarchyId || '',
         institutionId: this.workshop.institutionId || '',
-        championsPath: this.workshop.isChampionPath || false,
+        isChampionPath: this.workshop.isChampionPath || false,
         workshopType: this.workshop.workshopType || GroupType.Workshop
       },
       { emitEvent: false }
@@ -146,7 +146,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
       ]),
       institutionHierarchyId: new FormControl('', Validators.required),
       institutionId: new FormControl('', Validators.required),
-      championsPath: new FormControl(false)
+      isChampionPath: new FormControl(false)
     });
   }
 
@@ -182,7 +182,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
 
   private handleMinSportChange(isMinSport: boolean): void {
     const workshopTypeControl = this.AdditionalAboutGroup.get('workshopType');
-    const championsPathControl = this.AdditionalAboutGroup.get('championsPath');
+    const championsPathControl = this.AdditionalAboutGroup.get('isChampionPath');
 
     if (isMinSport) {
       workshopTypeControl.setValue(GroupType.Section, { emitEvent: false });

@@ -1,5 +1,5 @@
 import { Role } from 'shared/enum/role';
-import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
+import { WorkshopDraftState } from 'shared/models/workshop.model';
 import { Workshop } from 'shared/models/workshop.model';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];

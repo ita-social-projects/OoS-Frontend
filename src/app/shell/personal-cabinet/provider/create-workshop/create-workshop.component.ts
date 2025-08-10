@@ -12,7 +12,14 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { AdditionalAbout, Contacts, Workshop, WorkshopAbout, WorkshopDraft } from 'shared/models/workshop.model';
+import {
+  AdditionalAbout,
+  Contacts,
+  Workshop,
+  WorkshopAbout,
+  WorkshopDraft,
+  UnfinishedWorkshopType as WorkshopTypeUnfinished
+} from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -28,7 +35,6 @@ import { GetWorkshopById, GetWorkshopDraftById, ResetProvider, ResetWorkshop } f
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { WorkshopType as WorkshopTypeUnfinished } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';

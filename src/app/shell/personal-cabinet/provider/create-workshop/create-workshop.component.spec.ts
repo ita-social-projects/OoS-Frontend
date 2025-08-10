@@ -12,9 +12,9 @@ import { of } from 'rxjs';
 
 import { GetUnfinishedWorkshop, OnSaveWorkshopStep } from 'shared/store/provider.actions';
 import { FormOfLearning, WorkshopType } from 'shared/enum/workshop';
-import { WorkshopMainRequiredProperties } from 'shared/models/draftWorkshop.model';
+import { UnfinishedWorkshopAbout } from 'shared/models/workshop.model';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, UnfinishedWorkshopType } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateWorkshopComponent } from './create-workshop.component';
@@ -28,17 +28,23 @@ describe('CreateWorkshopComponent (Jest)', () => {
   let activatedRouteMock: any;
 
   const mockProvider = { id: '08da842d-12fc-4865-85c5-ec6e6142abad' };
-  const mockWorkshop: WorkshopMainRequiredProperties = {
-    availableSeats: 4294967295,
-    competitiveSelection: false,
-    competitiveSelectionDescription: null,
-    dateTimeRanges: [{ workdays: ['friday'], startTime: '12:22', endTime: '13:33' }],
-    formOfLearning: FormOfLearning.Offline,
-    maxAge: 5,
-    minAge: 2,
-    providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
+  const mockWorkshop: UnfinishedWorkshopAbout = {
+    title: 'fkfkkff',
     shortTitle: 'fghjhgf',
-    title: 'fkfkkff'
+    noAgeRestrictions: false,
+    minAge: 2,
+    maxAge: 5,
+    studyPeriodDates: {
+      startDate: '2024-01-01',
+      endDate: '2024-12-31'
+    },
+    dateTimeRanges: [{ workdays: ['friday'], startTime: '12:22', endTime: '13:33' }],
+    languageOfEducationId: 1,
+    formOfLearning: FormOfLearning.Offline,
+    availableSeats: 4294967295,
+    base64CoverImage: 'image',
+    providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
+    $type: UnfinishedWorkshopType.WithMainProperties
   };
 
   beforeEach(async () => {
@@ -110,8 +116,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
     component = fixture.componentInstance;
     component.AboutFormGroup = new FormGroup({
       availableSeats: new FormControl(mockWorkshop.availableSeats),
-      competitiveSelection: new FormControl(mockWorkshop.competitiveSelection),
-      competitiveSelectionDescription: new FormControl(mockWorkshop.competitiveSelectionDescription),
       dateTimeRanges: new FormControl(mockWorkshop.dateTimeRanges),
       formOfLearning: new FormControl(mockWorkshop.formOfLearning),
       maxAge: new FormControl(mockWorkshop.maxAge),
@@ -173,9 +177,9 @@ describe('CreateWorkshopComponent (Jest)', () => {
       mock: new FormControl(null)
     });
     form.setErrors({ invalid: true });
-    component.getRouteParam = jest.fn();
+    (component as any).getRouteParam = jest.fn();
     component.saveUnfinishedData(form);
-    expect(component.getRouteParam).not.toHaveBeenCalled();
+    expect((component as any).getRouteParam).not.toHaveBeenCalled();
   });
 
   it('should dispatch unfinished data correctly', () => {
@@ -230,30 +234,30 @@ describe('CreateWorkshopComponent (Jest)', () => {
     });
 
     it('should NOT be draft', () => {
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
     });
 
     it('should be draft if primitives changed', () => {
       anotherWorkshop.title = 'Another Title';
 
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
     });
 
     it('arrays changed', () => {
       anotherWorkshop.keywords = ['a', 'c'];
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
       anotherWorkshop.keywords = ['a', 'b', 'c'];
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
       anotherWorkshop.keywords = ['b', 'a'];
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
     });
 
     it('should be draft if coverImage changed', () => {
       anotherWorkshop.coverImage = new File([''], 'filename1.jpg', { type: 'image/png' });
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
 
       anotherWorkshop.coverImage = null;
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
     });
 
     it('should be draft if files changed', () => {
@@ -261,26 +265,26 @@ describe('CreateWorkshopComponent (Jest)', () => {
         new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename3.jpg', { type: 'image/jpeg' })
       ];
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
 
       anotherWorkshop.imageFiles = [
         new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename2.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename3.jpg', { type: 'image/jpeg' })
       ];
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
     });
 
     it('should be draft if keyword are falsy', () => {
       anotherWorkshop.keywords = null;
       component.workshop.keywords = [''];
 
-      expect(component.shouldBeDraft(anotherWorkshop)).toBe(false);
+      expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
     });
 
     describe('should be draft if workshopDescriptionItems changed', () => {
       afterEach(() => {
-        expect(component.shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
       });
 
       it('length changed', () => {

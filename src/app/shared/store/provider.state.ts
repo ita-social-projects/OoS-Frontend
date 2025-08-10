@@ -20,7 +20,18 @@ import { Employee } from 'shared/models/employee.model';
 import { OfficialEmployee } from 'shared/models/official-employee.model';
 import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopDraftCard, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import {
+  Workshop,
+  WorkshopDraft,
+  WorkshopDraftCard,
+  WorkshopProviderViewCard,
+  WorkshopStatus,
+  WorkshopDraftState,
+  UnfinishedWorkshopAbout,
+  UnfinishedWorkshopAdditionalAbout,
+  UnfinishedWorkshopDescription,
+  UnfinishedWorkshopContacts
+} from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
@@ -32,7 +43,6 @@ import { StudySubjectService } from 'shared/services/study-subjects/study-subjec
 import { UserCompetitionService } from 'shared/services/competitions/user-competition.service';
 import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
-import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
@@ -1281,24 +1291,7 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnSaveWorkshopStep)
-  onSaveWorkshopStep(ctx: StateContext<ProviderStateModel>, action: OnSaveWorkshopStep): Observable<string | void> {
-    ctx.patchState({ isLoading: true });
-    const currentState = ctx.getState().unfinishedWorkshop || {};
-    const { step, data } = action.payload;
-    const combinedPayload = {
-      ...currentState.step1,
-      ...currentState.step2,
-      ...currentState.step3,
-      ...currentState.step4,
-      ...data
-    };
-
-    return this.userWorkshopService.saveWorkshopStep(combinedPayload).pipe(
-      tap(() => ctx.dispatch(new OnSaveWorkshopStepSuccess({ step, data }))),
-      catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveWorkshopStepFail(error)))
-    );
-  }
+  q;
 
   @Action(OnSaveWorkshopStepSuccess)
   onSaveWorkshopStepSuccess(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepSuccess): void {
