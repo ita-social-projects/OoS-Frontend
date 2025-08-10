@@ -470,7 +470,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
-
   private createUnfinishedAbout(): Observable<UnfinishedWorkshopAbout> {
     const aboutInfo = this.createAbout();
 

@@ -1291,24 +1291,7 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnSaveWorkshopStep)
-  onSaveWorkshopStep(ctx: StateContext<ProviderStateModel>, action: OnSaveWorkshopStep): Observable<string | void> {
-    ctx.patchState({ isLoading: true });
-    const currentState = ctx.getState().unfinishedWorkshop || {};
-    const { step, data } = action.payload;
-    const combinedPayload = {
-      ...currentState.step1,
-      ...currentState.step2,
-      ...currentState.step3,
-      ...currentState.step4,
-      ...data
-    };
-
-    return this.userWorkshopService.saveWorkshopStep(combinedPayload).pipe(
-      tap(() => ctx.dispatch(new OnSaveWorkshopStepSuccess({ step, data }))),
-      catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveWorkshopStepFail(error)))
-    );
-  }
+  q;
 
   @Action(OnSaveWorkshopStepSuccess)
   onSaveWorkshopStepSuccess(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepSuccess): void {
