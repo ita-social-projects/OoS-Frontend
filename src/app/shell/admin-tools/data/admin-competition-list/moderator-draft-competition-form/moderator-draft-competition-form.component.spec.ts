@@ -3,12 +3,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store/';
 import { of } from 'rxjs';
-import { EditWorkshopDraftByModerator } from 'shared/store/shared-user.actions';
-import { ModeratorDraftEditFormComponent } from './moderator-draft-competition-form.component';
+import { EditCompetitionDraftByModerator, EditWorkshopDraftByModerator } from 'shared/store/shared-user.actions';
+import { ModeratorDraftCompetitionFormComponent } from './moderator-draft-competition-form.component';
 
-describe('ModeratorDraftEditFormComponent', () => {
-  let component: ModeratorDraftEditFormComponent;
-  let fixture: ComponentFixture<ModeratorDraftEditFormComponent>;
+describe('ModeratorDraftCompetitionFormComponent', () => {
+  let component: ModeratorDraftCompetitionFormComponent;
+  let fixture: ComponentFixture<ModeratorDraftCompetitionFormComponent>;
 
   let activatedRouteMock: any;
   let storeMock: any;
@@ -29,7 +29,7 @@ describe('ModeratorDraftEditFormComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([])],
-      declarations: [ModeratorDraftEditFormComponent],
+      declarations: [ModeratorDraftCompetitionFormComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -41,7 +41,7 @@ describe('ModeratorDraftEditFormComponent', () => {
         }
       ]
     });
-    fixture = TestBed.createComponent(ModeratorDraftEditFormComponent);
+    fixture = TestBed.createComponent(ModeratorDraftCompetitionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -75,50 +75,45 @@ describe('ModeratorDraftEditFormComponent', () => {
     expect(dispatchSpy).not.toHaveBeenCalledWith(new EditWorkshopDraftByModerator(expect.anything(), expect.anything()));
   });
 
-  it('should dispatch EditWorkshopDraftByModerator with correct data when form is valid', () => {
+  it('should dispatch EditCompetitionDraftByModerator with correct data when form is valid', () => {
     component.form.patchValue({
       title: 'Valid Title',
       shortTitle: 'Short Title',
-      competitiveSelectionDescription: 'Description',
-      enrollmentProcedureDescription: 'Procedure',
-      preferentialTermsOfParticipation: 'Terms',
-      institutionHierarchyId: '1',
-      institutionId: '1'
+      descriptionOfTheEnrollmentProcedure: 'Procedure description',
+      additionalDescription: 'Additional info',
+      venueName: 'Venue name',
+      termsOfParticipation: 'Terms',
+      benefits: 'Benefits'
     });
     component.onAddForm();
     component.SectionItemsFormArray.at(0).patchValue({
       sectionName: 'Section 1',
       description: 'Description 1'
     });
-    component.WorkshopContactsFormArray.push(
+    component.CompetitionContactsFormArray.push(
       new FormGroup({
         contactType: new FormControl('Email'),
         value: new FormControl('example@example.com')
       })
     );
-    component.WorkshopContactsFormArray.at(0).patchValue({
-      contactType: 'Email',
-      value: 'example@example.com'
-    });
-    component.selectedWorkshop = { workshopDraftId: 'draft-id' } as any;
-
+    component.selectedCompetition = { competitiveEventDraftId: 'draft-id' } as any;
     const dispatchSpy = jest.spyOn(storeMock, 'dispatch');
 
     component.onSubmit();
 
     const expectedPayload = {
       ...component.form.getRawValue(),
-      workshopDescriptionItems: component.SectionItemsFormArray.getRawValue(),
-      contacts: component.WorkshopContactsFormArray.getRawValue()
+      competitionDescriptionItems: component.SectionItemsFormArray.getRawValue(),
+      contacts: component.CompetitionContactsFormArray.getRawValue()
     };
 
-    expect(dispatchSpy).toHaveBeenCalledWith(new EditWorkshopDraftByModerator(expectedPayload, 'draft-id'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new EditCompetitionDraftByModerator(expectedPayload, 'draft-id'));
   });
 
   it('should remove imageId and imageFile from form controls on image deletion', () => {
     component.form.get('imageIds').setValue(['img1', 'img2']);
     component.form.get('imageFiles').setValue(['file1', 'file2']);
-    component.selectedWorkshop = { workshopDraftId: 'draft-id' } as any;
+    component.selectedCompetition = { competitiveEventDraftId: 'draft-id' } as any;
     component.currentUser = { id: 'user-id' } as any;
 
     jest.spyOn(storeMock, 'dispatch').mockReturnValue({
@@ -136,7 +131,7 @@ describe('ModeratorDraftEditFormComponent', () => {
   it('should remove coverImage and coverImageId from form controls on cover image deletion', () => {
     component.form.get('coverImageId').setValue(['img1']);
     component.form.get('coverImage').setValue(['file1']);
-    component.selectedWorkshop = { workshopDraftId: 'draft-id' } as any;
+    component.selectedCompetition = { competitiveEventDraftId: 'draft-id' } as any;
     component.currentUser = { id: 'user-id' } as any;
     jest.spyOn(storeMock, 'dispatch').mockReturnValue({
       pipe: () => ({

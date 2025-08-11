@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
@@ -9,11 +9,11 @@ import { GetAllInstitutions, GetCodeficatorSearch, GetCodeficatorById } from 'sh
 import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SharedModule } from 'shared/shared.module';
-import { WorkshopListComponent } from './competition-list.component';
+import { CompetitionListComponent } from './competition-list.component';
 
-describe('WorkshopInfoComponent', () => {
-  let component: WorkshopListComponent;
-  let fixture: ComponentFixture<WorkshopListComponent>;
+describe('CompetitionListComponent', () => {
+  let component: CompetitionListComponent;
+  let fixture: ComponentFixture<CompetitionListComponent>;
   let storeMock: jest.Mocked<Store>;
 
   beforeEach(() => {
@@ -30,12 +30,12 @@ describe('WorkshopInfoComponent', () => {
     } as unknown as jest.Mocked<Store>;
 
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(), SharedModule, BrowserAnimationsModule],
-      declarations: [WorkshopListComponent],
-      providers: [{ provide: Store, useValue: storeMock }]
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), SharedModule, BrowserAnimationsModule],
+      declarations: [CompetitionListComponent],
+      providers: [{ provide: Store, useValue: storeMock }, provideRouter([])]
     });
 
-    fixture = TestBed.createComponent(WorkshopListComponent);
+    fixture = TestBed.createComponent(CompetitionListComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();

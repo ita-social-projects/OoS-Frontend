@@ -9,21 +9,21 @@ import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
 import { PaginationConstants } from 'shared/constants/constants';
 import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/region-admin.model';
-import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
+import { GetFilteredCompetitionDrafts } from 'shared/store/admin.actions';
 import { WorkshopListComponent } from 'shared/components/workshop-list/workshop-list.component';
 import { SharedModule } from 'shared/shared.module';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AdminWorkshopListComponent } from './admin-competition-list.component';
+import { AdminCompetitionListComponent } from './admin-competition-list.component';
 
-describe('AdminWorkshopListComponent', () => {
-  let component: AdminWorkshopListComponent;
-  let fixture: ComponentFixture<AdminWorkshopListComponent>;
+describe('AdminCompetitionListComponent', () => {
+  let component: AdminCompetitionListComponent;
+  let fixture: ComponentFixture<AdminCompetitionListComponent>;
   let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), SharedModule, TranslateModule.forRoot(), BrowserAnimationsModule],
-      declarations: [AdminWorkshopListComponent, WorkshopListComponent],
+      declarations: [AdminCompetitionListComponent, WorkshopListComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -32,7 +32,7 @@ describe('AdminWorkshopListComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminWorkshopListComponent);
+    fixture = TestBed.createComponent(AdminCompetitionListComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
 
@@ -49,7 +49,7 @@ describe('AdminWorkshopListComponent', () => {
     const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
     const selectedAdmin = { institutionId: 123 } as any;
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.ministryAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.ministryAdmin, selectedAdmin);
 
     expect(workshopParameters.searchString).toBe('');
     expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
@@ -69,7 +69,7 @@ describe('AdminWorkshopListComponent', () => {
       firstName: 'Test'
     };
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.regionAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.regionAdmin, selectedAdmin);
 
     expect(workshopParameters.searchString).toBe('');
     expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
@@ -81,7 +81,7 @@ describe('AdminWorkshopListComponent', () => {
     const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
     const selectedAdmin: BaseAdmin = {} as BaseAdmin;
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.techAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.techAdmin, selectedAdmin);
 
     expect(workshopParameters.searchString).toBe('');
     expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
@@ -99,8 +99,8 @@ describe('AdminWorkshopListComponent', () => {
 
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    component.onGetWorkshopsByFilter(workshopParameters);
+    component.onGetCompetitionEventsByFilter(workshopParameters);
 
-    expect(dispatchSpy).toHaveBeenCalledWith(new GetFilteredWorkshopDrafts(workshopParameters));
+    expect(dispatchSpy).toHaveBeenCalledWith(new GetFilteredCompetitionDrafts(workshopParameters));
   });
 });

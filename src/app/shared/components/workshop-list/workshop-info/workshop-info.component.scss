@@ -4,18 +4,20 @@
 @use 'list-wrappers';
 
 .wrapper {
-  background: var(--secondary-light-bg-color);
+  background: var(--bg-light-additional);
+  color: var(--primary-light-text-color);
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 2rem;
   margin-bottom: 2rem;
   p {
-    font-family: 'Open Sans', sans-serif;
+    font-family:
+      Open Sans,
+      sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
     line-height: 18px;
-    color: var(--primary-light-text-color);
   }
 }
 .line-break {
@@ -86,8 +88,7 @@ h3 {
   background: var(--primary-light-bg-color);
   color: var(--primary-light-text-color);
   &-selected {
-    background: rgba(181, 192, 230, 0.6);
-    border: 1px solid var(--primary-light-text-color);
+    background: rgba(56, 73, 249, 0.07);
   }
   &:first-child {
     border-top-left-radius: 25px;

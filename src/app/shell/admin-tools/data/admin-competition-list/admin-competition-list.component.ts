@@ -9,7 +9,6 @@ import { AreaAdmin } from 'shared/models/area-admin.model';
 import { CompetitionDraft, CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
 import { GetFilteredCompetitionDrafts } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 
