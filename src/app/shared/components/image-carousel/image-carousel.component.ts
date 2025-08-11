@@ -25,10 +25,11 @@ export class ImageCarouselComponent implements OnInit {
     if (this.images.length <= 1) {
       this.customOptions = {
         ...this.customOptions,
-        loop: false,
-        autoplay: false,
+        loop: true,
+        autoplay: true,
         nav: false,
-        dots: false
+        dots: false,
+        center: true
       };
     }
   }

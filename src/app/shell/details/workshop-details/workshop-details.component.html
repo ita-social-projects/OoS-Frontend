@@ -147,6 +147,7 @@
           <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
           <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
           <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="workshop"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="workshop"></app-workshop-images>
         </ng-container>
       </mat-tab>
     </mat-tab-group>

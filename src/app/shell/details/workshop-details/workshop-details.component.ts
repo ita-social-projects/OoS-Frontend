@@ -220,6 +220,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         alias: 'Contacts',
         labelKey: this.workshopTitles.Contacts,
         visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.workshopTitles.Images,
+        visible: true
       }
     ].filter((tab) => tab.visible);
   }

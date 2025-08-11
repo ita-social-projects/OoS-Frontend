@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <ng-container *ngIf="images; else emptyTmpl">
+    <h5 class="title">{{ 'FORMS.LABELS.WORKSHOP_IMAGES' | translate }}</h5>
+    <app-image-carousel [images]="images"></app-image-carousel>
+  </ng-container>
+  <ng-template #emptyTmpl>
+    <app-no-result-card [title]="NoResultsTitle.noImages"></app-no-result-card>
+  </ng-template>
+</div>
