@@ -94,11 +94,7 @@
               'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate
             }}</label>
             <label for="descriptionOfTheEnrollmentProcedure" class="step-characters-count">
-              <ng-container *ngIf="form.get('descriptionOfTheEnrollmentProcedure').value; else emptyState">
-                {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length }}
-                /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
-              </ng-container>
-              <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}</ng-template>
+              {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
             </label>
           </div>
           <mat-form-field appearance="fill">
@@ -121,11 +117,7 @@
           <div class="step-label-combined">
             <label for="additionalDescription" class="step-label">{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</label>
             <label for="additionalDescription" class="step-characters-count">
-              <ng-container *ngIf="form.get('additionalDescription').value; else emptyState">
-                {{ form.get('additionalDescription').value?.length }}
-                /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
-              </ng-container>
-              <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}</ng-template>
+              {{ form.get('additionalDescription').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
             </label>
           </div>
 
@@ -133,17 +125,17 @@
             <textarea
               matInput
               class="step-textarea"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
+              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="additionalDescription"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
             </textarea>
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('additionalDescription')"
             [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
           </app-validation-hint>
 
           <div class="step-label-combined">
@@ -161,7 +153,7 @@
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="venueName"
-              maxlength="{{ validationConstants.INPUT_LENGTH_60 }}"
+              [maxlength]="validationConstants.INPUT_LENGTH_60"
               appTrimValue></textarea>
           </mat-form-field>
           <app-validation-hint
@@ -184,7 +176,7 @@
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="termsOfParticipation"
-              maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
               appTrimValue></textarea>
           </mat-form-field>
           <app-validation-hint
@@ -206,16 +198,18 @@
                 <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
               </label>
             </div>
-            <textarea
-              matInput
-              required
-              class="step-textarea step-textarea-short"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-                'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-              }}"
-              formControlName="benefits"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-            </textarea>
+            <mat-form-field appearance="fill">
+              <textarea
+                matInput
+                required
+                class="step-textarea step-textarea-short"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+                  'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+                }}"
+                formControlName="benefits"
+                [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+              </textarea>
+            </mat-form-field>
             <app-validation-hint
               [validationFormControl]="form.get('benefits')"
               [minCharacters]="validationConstants.INPUT_LENGTH_1"

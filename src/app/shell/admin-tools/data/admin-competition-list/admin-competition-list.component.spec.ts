@@ -4,15 +4,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-
-import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
 import { PaginationConstants } from 'shared/constants/constants';
 import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { GetFilteredCompetitionDrafts } from 'shared/store/admin.actions';
-import { WorkshopListComponent } from 'shared/components/workshop-list/workshop-list.component';
 import { SharedModule } from 'shared/shared.module';
 import { BaseAdmin } from 'shared/models/admin.model';
+import { CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { AdminCompetitionListComponent } from './admin-competition-list.component';
 
 describe('AdminCompetitionListComponent', () => {
@@ -23,7 +21,7 @@ describe('AdminCompetitionListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), SharedModule, TranslateModule.forRoot(), BrowserAnimationsModule],
-      declarations: [AdminCompetitionListComponent, WorkshopListComponent],
+      declarations: [AdminCompetitionListComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -46,19 +44,19 @@ describe('AdminCompetitionListComponent', () => {
   });
 
   it('should set default filters for MinistryAdmin', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
+    const competitionParameters: CompetitionFilterAdministration = {} as CompetitionFilterAdministration;
     const selectedAdmin = { institutionId: 123 } as any;
 
-    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.ministryAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(competitionParameters, Role.ministryAdmin, selectedAdmin);
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe(123);
-    expect(workshopParameters.catottgId).toBe(0);
+    expect(competitionParameters.searchString).toBe('');
+    expect(competitionParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
+    expect(competitionParameters.institutionId).toBe(123);
+    expect(competitionParameters.catottgId).toBe(0);
   });
 
   it('should set default filters for Region and Area Admins', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
+    const competitionParameters: CompetitionFilterAdministration = {} as CompetitionFilterAdministration;
     const selectedAdmin: RegionAdmin = {
       institutionId: '456',
       catottgId: 789,
@@ -69,28 +67,28 @@ describe('AdminCompetitionListComponent', () => {
       firstName: 'Test'
     };
 
-    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.regionAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(competitionParameters, Role.regionAdmin, selectedAdmin);
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe('456');
-    expect(workshopParameters.catottgId).toBe(789);
+    expect(competitionParameters.searchString).toBe('');
+    expect(competitionParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
+    expect(competitionParameters.institutionId).toBe('456');
+    expect(competitionParameters.catottgId).toBe(789);
   });
 
   it('should set default filters for TechAdmin', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
+    const competitionParameters: CompetitionFilterAdministration = {} as CompetitionFilterAdministration;
     const selectedAdmin: BaseAdmin = {} as BaseAdmin;
 
-    component.setCompetitionEventFiltersByDefault(workshopParameters, Role.techAdmin, selectedAdmin);
+    component.setCompetitionEventFiltersByDefault(competitionParameters, Role.techAdmin, selectedAdmin);
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe('');
-    expect(workshopParameters.catottgId).toBe(0);
+    expect(competitionParameters.searchString).toBe('');
+    expect(competitionParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
+    expect(competitionParameters.institutionId).toBe('');
+    expect(competitionParameters.catottgId).toBe(0);
   });
 
-  it('should call store.dispatch after onGetWorkshopsByFilter', () => {
-    const workshopParameters: WorkshopFilterAdministration = {
+  it('should call store.dispatch after onGetCompetitionEventsByFilter', () => {
+    const competitionParameters: CompetitionFilterAdministration = {
       searchString: 'test',
       size: 10,
       institutionId: '1',
@@ -99,8 +97,8 @@ describe('AdminCompetitionListComponent', () => {
 
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    component.onGetCompetitionEventsByFilter(workshopParameters);
+    component.onGetCompetitionEventsByFilter(competitionParameters);
 
-    expect(dispatchSpy).toHaveBeenCalledWith(new GetFilteredCompetitionDrafts(workshopParameters));
+    expect(dispatchSpy).toHaveBeenCalledWith(new GetFilteredCompetitionDrafts(competitionParameters));
   });
 });

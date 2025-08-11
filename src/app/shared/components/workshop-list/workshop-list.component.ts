@@ -48,8 +48,6 @@ import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-
   styleUrls: ['./workshop-list.component.scss']
 })
 export class WorkshopListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) public sort: MatSort;
-
   @Input() public setWorkshopFiltersByDefault: (
     workshopParameters: WorkshopFilterAdministration,
     role: Role,
@@ -208,8 +206,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         disable: true
       })
     );
-
-    this.dataSource.sort = this.sort;
 
     this.filterGroup = this.formBuilder.group({
       searchBarFilter: new FormControl(''),

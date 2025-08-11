@@ -666,7 +666,7 @@ export class AdminState {
       isLoading: false,
       competitionDrafts: {
         totalAmount: currentCompetitionDrafts.totalAmount - 1,
-        entities: currentCompetitionDrafts.entities.filter((workshop) => workshop.competitiveEventDraftId !== draftId)
+        entities: currentCompetitionDrafts.entities.filter((competition) => competition.competitiveEventDraftId !== draftId)
       }
     });
 

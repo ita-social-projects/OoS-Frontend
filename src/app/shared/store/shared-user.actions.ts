@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { EditWorkshopDraft, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
-import { CompetitionDraft } from 'shared/models/competition.model';
+import { CompetitionDraft, EditCompetitionDraft } from 'shared/models/competition.model';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
 
@@ -222,7 +222,7 @@ export class DeleteCompetitionDraftImageFail {
 export class EditCompetitionDraftByModerator {
   static readonly type = '[user] Edit Competition Draft By Moderator';
   constructor(
-    public formData: EditWorkshopDraft,
+    public formData: EditCompetitionDraft,
     public draftId: string
   ) {}
 }

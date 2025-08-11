@@ -378,7 +378,7 @@ export class SharedUserState {
   @Action(DeleteCompetitionDraftImage)
   onDeleteCompetitionDraftImage(
     { dispatch }: StateContext<SharedUserStateModel>,
-    { draftId, imageId }: DeleteWorkshopDraftImage
+    { draftId, imageId }: DeleteCompetitionDraftImage
   ): Observable<void> {
     return this.userCompetitionService.deleteImageByCompetitionDraftId(draftId, imageId).pipe(
       tap(() => dispatch(new DeleteCompetitionDraftImageSuccess())),
@@ -395,7 +395,7 @@ export class SharedUserState {
   }
 
   @Action(DeleteCompetitionDraftImageFail)
-  onDeleteCompetitionDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: DeleteWorkshopDraftImageFail): void {
+  onDeleteCompetitionDraftImageFail({ dispatch }: StateContext<SharedUserStateModel>, { error }: DeleteCompetitionDraftImageFail): void {
     showHttpErrorMessage(dispatch, error.status);
   }
 

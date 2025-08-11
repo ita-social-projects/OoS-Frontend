@@ -48,8 +48,6 @@ import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-
   styleUrls: ['./competition-list.component.scss']
 })
 export class CompetitionListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) public sort: MatSort;
-
   @Input() public setCompetitionFiltersByDefault: (
     competitionParameters: CompetitionFilterAdministration,
     role: Role,
@@ -201,8 +199,6 @@ export class CompetitionListComponent implements OnInit, OnDestroy {
         disable: true
       })
     );
-
-    this.dataSource.sort = this.sort;
 
     this.filterGroup = this.formBuilder.group({
       searchBarFilter: new FormControl(''),
