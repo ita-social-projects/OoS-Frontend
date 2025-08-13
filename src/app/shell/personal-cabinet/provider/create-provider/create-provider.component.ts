@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Form, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -15,7 +15,6 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateProviderSteps } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
-import { Address } from 'shared/models/address.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';

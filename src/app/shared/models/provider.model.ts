@@ -22,7 +22,6 @@ export abstract class ProviderBase {
   coverImage?: File;
   imageIds?: string[];
   imageFiles?: File[];
-  userId: string; // TODO: Remove as soon as it will be removed from the backend
   contacts: Contacts[];
   institutionStatusId?: number;
   institutionId?: string;
@@ -35,7 +34,6 @@ export abstract class ProviderBase {
     this.shortTitle = info.shortTitle;
     this.edrpou = info.edrpou;
     this.typeId = info.typeId;
-    this.userId = user.id;
     this.contacts = contacts;
     this.institutionId = info.institution.id;
     this.institution = info.institution;

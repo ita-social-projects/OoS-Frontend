@@ -12,7 +12,6 @@ import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForM
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
@@ -20,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-workshop-drafts',
   templateUrl: './workshop-drafts.component.html',
-  styleUrl: './workshop-drafts.component.scss'
+  styleUrls: ['./workshop-drafts.component.scss']
 })
 export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   @Input() public role: Role;

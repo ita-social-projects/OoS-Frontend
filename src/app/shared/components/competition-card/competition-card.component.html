@@ -57,6 +57,14 @@
   </div>
 </mat-card>
 
+<ng-template #WorkshopStatusClosed>
+  <div class="flex justify-between">
+    <div class="chip-color-close">
+      {{ recruitmentStatusEnum.RecruitmentStoped | translate }}
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #ProviderActions>
   <div *ngIf="isCabinet" class="flex flex-row justify-end items-start actions">
     <div
@@ -89,9 +97,9 @@
   <ng-container *ngIf="!!!competitionData.draftStatus; else ProviderDraftView">
     <ng-container
       *ngIf="
-      competitionData.state === CompetitionStatus.Open || competitionData.availableSeats === Constants.UNLIMITED_SEATS;
-      else WorkshopStatusClosed
-    ">
+        competitionData.state === CompetitionStatus.Open || competitionData.availableSeats === Constants.UNLIMITED_SEATS;
+        else WorkshopStatusClosed
+      ">
       <div class="flex justify-between">
         <div class="chip-color-open">
           {{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}
@@ -110,19 +118,18 @@
     <div class="provider-content flex justify-between items-center">
       <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
       <span class="card_text card_text_blue">
-      {{ competitionData.numberOfOccupiedSeats }}
+        {{ competitionData.numberOfOccupiedSeats }}
         <ng-container *ngIf="competitionData.numberOfSeats !== Constants.UNLIMITED_SEATS">
-        / {{ competitionData.numberOfSeats }}
-      </ng-container>
-    </span>
+          / {{ competitionData.numberOfSeats }}
+        </ng-container>
+      </span>
     </div>
     <div class="provider-content flex justify-between items-center">
       <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
       <span class="card_text card_text_blue"> {{ competitionData.amountOfPendingApplications }}</span>
     </div>
     <div class="provider-content flex justify-between items-center">
-      <p class="card_text"><i
-        class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+      <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
       <span class="card_text card_text_blue"> {{ competitionData.unreadMessages }}</span>
     </div>
   </ng-container>

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
@@ -24,9 +24,9 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-competition-drafts',
   templateUrl: './competition-drafts.component.html',
-  styleUrl: './competition-drafts.component.scss'
+  styleUrls: ['./competition-drafts.component.scss']
 })
-export class CompetitionDraftsComponent implements OnInit {
+export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   @Input() public role: Role;
   @Input() public isLoading$: Observable<boolean>;
   @Input() public provider: Provider;
@@ -59,6 +59,11 @@ export class CompetitionDraftsComponent implements OnInit {
       this.competitionDrafts = competitionDrafts;
     });
     this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   /**

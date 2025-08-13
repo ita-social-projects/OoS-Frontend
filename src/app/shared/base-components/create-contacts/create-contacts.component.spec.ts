@@ -97,7 +97,7 @@ describe('CreateContactsComponent', () => {
 
   it('should delete a form field', () => {
     const formArray = new FormArray([new FormControl('test1'), new FormControl('test2')]);
-    const deleteFormFieldSpy = jest.spyOn(component, 'deleteFormField');
+    const deleteFormFieldSpy = jest.spyOn(component as any, 'deleteFormField');
 
     (component as any).deleteFormField(formArray, 0);
 
@@ -247,6 +247,7 @@ class MockMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() settelmentFormGroup: FormGroup;
 }
+
 @Component({
   selector: 'app-create-address-form',
   template: ''

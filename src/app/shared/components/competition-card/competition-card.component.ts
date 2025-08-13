@@ -123,4 +123,6 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public onDelete(): void {
     this.deleteCompetition.emit(this.competitionData);
   }
+
+  protected readonly recruitmentStatusEnum = RecruitmentStatusEnum;
 }

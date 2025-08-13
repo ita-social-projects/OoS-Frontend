@@ -79,7 +79,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AboutFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
   public AdditionalAboutGroup: FormGroup;
-  public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
   public WorkshopContactsFormArray: FormArray;
 
@@ -297,15 +296,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
     this.store.dispatch(new OnDeleteUnfinishedWorkshop());
-  }
-
-  /**
-   * This method receives a form from create-address child component and assigns to the Address FormGroup
-   * @param form
-   */
-  public onReceiveAddressFormGroup(form: FormGroup): void {
-    this.AddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
   }
 
   /**

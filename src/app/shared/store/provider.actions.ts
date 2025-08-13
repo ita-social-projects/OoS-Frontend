@@ -164,7 +164,7 @@ export class WorkshopDraftSendForModeration {
 }
 
 export class CompetitionDraftSendForModeration {
-  static readonly type = '[provider] send Draft for Moderation';
+  static readonly type = '[provider] send Competition Draft for Moderation';
 
   constructor(public id: string) {}
 }
