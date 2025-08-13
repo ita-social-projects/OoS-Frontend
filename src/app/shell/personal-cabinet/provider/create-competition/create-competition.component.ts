@@ -14,13 +14,7 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import {
-  GetCompetitionById,
-  GetCompetitionDraftById,
-  GetWorkshopById,
-  GetWorkshopDraftById,
-  ResetCompetition
-} from 'shared/store/shared-user.actions';
+import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
@@ -61,8 +55,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
 
-  private entity: string;
-
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
@@ -91,8 +83,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
-
-    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Competition;
 
     const id = Boolean(this.route.snapshot.paramMap.get('id'));
     const param = Boolean(this.route.snapshot.paramMap.get('param'));
