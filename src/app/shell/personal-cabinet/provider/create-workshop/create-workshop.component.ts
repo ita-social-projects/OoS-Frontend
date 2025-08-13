@@ -18,7 +18,9 @@ import {
   Workshop,
   WorkshopAbout,
   WorkshopDraft,
-  UnfinishedWorkshopType as WorkshopTypeUnfinished
+  UnfinishedWorkshopType as WorkshopTypeUnfinished,
+  UnfinishedWorkshopAbout,
+  UnfinishedWorkshopDescription
 } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -45,6 +47,7 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderState } from 'shared/store/provider.state';
+import { blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -89,10 +92,17 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     4: WorkshopTypeUnfinished.WithContacts
   };
   private readonly stepActions = {
-    1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
+    1: (): void => {
+      this.createUnfinishedAbout().subscribe((unfinishedAbout) => {
+        this.dispatchUnfinishedData(1, unfinishedAbout);
+      });
+    },
     2: (): void => this.dispatchUnfinishedData(2, this.createAdditionalAbout()),
-    3: (): void =>
-      this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
+    3: (): void => {
+      this.createUnfinishedDescription().subscribe((unfinishedDescription) => {
+        this.dispatchUnfinishedData(3, unfinishedDescription);
+      });
+    },
     4: (): void => {
       this.handleContactsStep();
     }
@@ -346,7 +356,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private createDraftData(step: number, extraData = {}): any {
     const baseData = {
       $type: this.unfinishedWorkshopTypeMap[step],
-      ...this.createAbout(),
+      ...this.createUnfinishedAbout(),
       providerId: this.provider.id
     };
 
@@ -459,6 +469,33 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private createUnfinishedAbout(): Observable<UnfinishedWorkshopAbout> {
+    const aboutInfo = this.createAbout();
+
+    return blobToBase64(aboutInfo.coverImage[0]).pipe(
+      map((base64CoverImage) => ({
+        ...aboutInfo,
+        base64CoverImage
+      }))
+    );
+  }
+
+  private createUnfinishedDescription(): Observable<UnfinishedWorkshopDescription> {
+    const descriptionInfo = {
+      ...this.AdditionalAboutGroup.getRawValue(),
+      ...this.DescriptionFormGroup.getRawValue()
+    };
+
+    const files: Blob[] = descriptionInfo.imageFiles;
+
+    return blobsToBase64(files).pipe(
+      map((base64ImageFiles) => ({
+        ...descriptionInfo,
+        base64ImageFiles
+      }))
+    );
   }
 
   private shouldBeDraft(newWorkshop: Workshop): boolean {

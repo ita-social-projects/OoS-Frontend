@@ -1,6 +1,6 @@
 import { Role } from 'shared/enum/role';
-import { WorkshopDraftState } from 'shared/models/workshop.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
+import { forkJoin, Observable } from 'rxjs';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -26,4 +26,22 @@ export function formatToClientDate(serverDate: string | null): Date | null {
   }
 
   return dateObj;
+}
+
+export function blobToBase64(blob: Blob): Observable<string> {
+  return new Observable<string>((subscriber) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    reader.onloadend = () => {
+      subscriber.next(reader.result as string);
+      subscriber.complete();
+    };
+  });
+}
+
+export function blobsToBase64(blobs: Blob[]): Observable<string[]> {
+  const observables = blobs.map((blob) => blobToBase64(blob));
+  return forkJoin(observables);
 }
