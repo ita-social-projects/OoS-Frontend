@@ -56,7 +56,7 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>
-            <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 
+            <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.MESSAGES' | translate
             }}</a>
             <a
@@ -89,22 +89,22 @@
     </ng-template>
     <hr class="hr-grey" />
 
-    <a [routerLink]="'./info/about'" (click)="changeView()">
+    <a [routerLink]="'./info/about'" (click)="changeView()" class="nav-link">
       <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate }}</button>
     </a>
     <hr class="hr-grey" />
 
-    <a [routerLink]="'./info/rules'" (click)="changeView()">
+    <a [routerLink]="'./info/rules'" (click)="changeView()" class="nav-link">
       <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate }}</button>
     </a>
     <hr class="hr-grey" />
 
-    <a [routerLink]="'./info/support'" (click)="changeView()">
+    <a [routerLink]="'./info/support'" (click)="changeView()" class="nav-link">
       <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate }}</button>
     </a>
     <hr class="hr-grey" />
 
-    <a [routerLink]="''" (click)="changeView()">
+    <a [routerLink]="''" (click)="changeView()" class="nav-link">
       <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.MAIN_PAGE' | translate }}</button>
     </a>
     <hr class="hr-grey" />

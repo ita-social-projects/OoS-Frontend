@@ -573,7 +573,8 @@
       "EMAILS": "Електронні адреси",
       "PHONE_NUMBERS": "Номери телефонів",
       "LINK": "Посилання",
-      "CONTACTS": "Контакти"
+      "CONTACTS": "Контакти",
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Підтримка осіб з інвалідністю"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",

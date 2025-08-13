@@ -56,8 +56,6 @@ $light-theme: mat.define-light-theme(
   --mat-datepicker-calendar-date-in-range-state-background-color: rgba(0, 0, 255, 0.2) !important;
   --mat-sidenav-content-background-color: var(--primary-light-bg-color) !important;
   --mdc-elevated-card-container-color: var(--secondary-light-bg-color) !important;
-  //--mat-table-background-color: var(--secondary-light-bg-color) !important;
-  //--mat-table-row-item-label-text-color: var(--specific-light-text-color) !important;
   --mat-select-placeholder-text-color: var(--primary-light-text-color) !important;
   --mat-menu-container-color: var(--bg-light-additional) !important;
   --mdc-text-button-label-text-color: var(--primary-light-text-color) !important;
@@ -69,4 +67,5 @@ $light-theme: mat.define-light-theme(
   --mdc-checkbox-unselected-icon-color: var(--primary-light-text-color) !important;
   --mat-option-selected-state-label-text-color: var(--specific-light-text-color) !important;
   --mdc-chip-elevated-container-color: var(--bg-specific-light) !important;
+  --mdc-filled-text-field-input-text-placeholder-color: var(--primary-light-text-color) !important;
 }
