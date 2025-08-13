@@ -65,7 +65,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     return;
   }
 
-  public updateTab(param: string): void {
+  public updateTab(param: string | undefined): void {
     const t = this.tabs.includes(param) ? param : this.tabs[0];
     this.selectedTab = this.tabs.indexOf(t);
     this.updateQueryParams(t);
