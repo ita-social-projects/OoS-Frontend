@@ -4,12 +4,20 @@ import { ENTER } from '@angular/cdk/keycodes';
 import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ENTER } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
+import { NgxsModule, Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
 
 import { Role } from 'shared/enum/role';
+import { CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { CompetitionStatus, FormOfLearning } from 'shared/enum/competition';
 import { RegistrationState } from 'shared/store/registration.state';
+import { GetCompetitionDraftIdByCompetitionId } from 'shared/store/provider.actions';
 import { CompetitionCardComponent } from './competition-card.component';
 
 describe('CompetitionCardComponent', () => {
@@ -19,7 +27,8 @@ describe('CompetitionCardComponent', () => {
 
   beforeEach(() => {
     storeMock = {
-      select: jest.fn().mockReturnValue(of(Role.parent))
+      select: jest.fn().mockReturnValue(of(Role.parent)),
+      dispatch: jest.fn()
     };
 
     TestBed.configureTestingModule({
@@ -73,6 +82,24 @@ describe('CompetitionCardComponent', () => {
     expect(component.deleteCompetition.emit).toHaveBeenCalledWith(component.competitionData);
   });
 
+  describe('onEdit', () => {
+    it('should navigate directly if workshopDraftId provided', () => {
+      const mockRouter = TestBed.inject(Router);
+      jest.spyOn(mockRouter, 'navigate');
+      component.onEdit('111');
+      expect(storeMock.dispatch).not.toHaveBeenCalled();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['create/competition/draft', '111']);
+    });
+
+    it('should dispatch check for workshopDraftId if workshopDraftId is not provided', () => {
+      component.competitionData = {
+        id: '111'
+      } as CompetitionDraftCard;
+      component.onEdit(undefined);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(new GetCompetitionDraftIdByCompetitionId('111'));
+    });
+  });
+
   it('keydown', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {
       keyCode: ENTER
@@ -81,9 +108,17 @@ describe('CompetitionCardComponent', () => {
     jest.spyOn(component, 'onEdit');
     jest.spyOn(component, 'onDelete');
 
-    component.onEditKeydown(keyboardEvent);
+    component.onEditKeydown(keyboardEvent, '111');
     expect(component.onEdit).toHaveBeenCalled();
+
     component.onDeleteKeydown(keyboardEvent);
     expect(component.onDelete).toHaveBeenCalled();
+  });
+
+  it('coverImage error', () => {
+    component.onImageError();
+    expect(component.isImageBroken).toBeTruthy();
+
+    expect(component.competitionData._meta).toEqual('assets/images/groupimages/workshop-img.png');
   });
 });
