@@ -1,4 +1,4 @@
-<div class="details-container flex flex-col gap-0 justify-between items-stretch box-border">
+<div class="details-container flex flex-col gap-0 justify-start items-stretch box-border">
   <ng-container *ngIf="workshop; then WorkshopDetails; else CompetitionDetails"></ng-container>
   <app-side-menu
     *ngIf="provider && displayActionCard"
