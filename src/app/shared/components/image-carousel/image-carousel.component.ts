@@ -21,8 +21,8 @@ export class ImageCarouselComponent implements OnInit {
     if (this.images.length <= 1) {
       this.customOptions = {
         ...this.customOptions,
-        loop: true,
-        autoplay: true,
+        loop: false,
+        autoplay: false,
         nav: false,
         dots: false
       };
