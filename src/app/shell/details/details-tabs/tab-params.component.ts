@@ -27,7 +27,6 @@ export abstract class TabParamsComponent implements OnInit, OnDestroy {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       const tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
       this.selectedIndex = tabIndex !== -1 ? tabIndex : 0;
-      this.onTabChange({ index: this.selectedIndex } as MatTabChangeEvent);
     });
   }
 
