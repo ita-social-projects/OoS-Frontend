@@ -14,7 +14,7 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 export class WorkshopImagesComponent {
   public images: ImgPath[];
 
-  protected readonly NoResultsTitle = NoResultsTitle;
+  public readonly NoResultsTitle = NoResultsTitle;
 
   constructor(private imagesService: ImagesService) {}
 

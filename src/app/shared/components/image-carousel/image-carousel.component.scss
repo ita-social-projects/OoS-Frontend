@@ -5,6 +5,11 @@ $button-size: 50px;
 $button-bg-color-hover: #3849f9;
 $button-padding: 50px;
 
+.wrap {
+  min-height: 400px !important;
+  min-width: 600px !important;
+}
+
 .image {
   object-fit: contain;
   width: 100%;

@@ -8,18 +8,6 @@
   .nav {
     border-bottom: none;
 
-    a {
-      font-size: 13px;
-      opacity: 1;
-      min-width: 0 !important;
-      height: inherit !important;
-      padding: 4px 24px 4px 24px !important;
-    }
-
-    a.wide-link {
-      padding: 4px 12px 4px 12px !important;
-    }
-
     .active {
       color: var(--primary-accent-color) !important;
 

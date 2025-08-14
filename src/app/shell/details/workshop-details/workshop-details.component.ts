@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { WINDOW } from 'ngx-window-token';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -86,7 +87,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService,
     private readonly dialog: MatDialog,
-    private readonly actions$: Actions
+    private readonly actions$: Actions,
+    @Inject(WINDOW) private window: Window
   ) {}
 
   public ngOnInit(): void {
@@ -114,6 +116,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       queryParams: { tab: alias },
       replaceUrl: true
     });
+
+    // fixes carousel is not rendering due to tab behaviour
+    if (alias === 'Images') {
+      requestAnimationFrame(() => this.window.dispatchEvent(new Event('resize')));
+    }
   }
 
   public onImageError(): void {
