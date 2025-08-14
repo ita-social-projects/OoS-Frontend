@@ -140,6 +140,7 @@
       dynamicHeight="true"
       [mat-stretch-tabs]="false"
       [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
       (selectedTabChange)="onTabChange($event)">
       <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
         <ng-container [ngSwitch]="tab.alias">

@@ -92,7 +92,12 @@
       </div>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group
+      class="nav"
+      [mat-stretch-tabs]="false"
+      [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
+      (selectedTabChange)="onTabChange($event)">
       <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
         <ng-container [ngSwitch]="tab.alias">
           <app-competition-about *ngSwitchCase="'AboutCompetition'" [competition]="competition"></app-competition-about>
