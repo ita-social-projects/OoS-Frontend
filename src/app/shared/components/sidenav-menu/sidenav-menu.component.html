@@ -56,7 +56,7 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>
-            <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 
+            <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.MESSAGES' | translate
             }}</a>
             <a

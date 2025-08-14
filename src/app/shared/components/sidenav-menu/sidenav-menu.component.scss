@@ -74,7 +74,7 @@
       font-family: Innerspace, sans-serif;
       font-size: 13px;
       font-weight: bold;
-      color: var(--primary-dark-text-color);
+      color: var(--primary-light-text-color);
     }
 
     &-icon {
@@ -94,7 +94,7 @@
 
     &-language {
       ::ng-deep .mat-select-value-text {
-        color: var(--primary-dark-text-color) !important;
+        color: var(--primary-light-text-color) !important;
       }
     }
 
@@ -140,5 +140,10 @@
   width: 100%;
 }
 .lang-option .mat-mdc-select-min-line {
-  color: var(--primary-dark-text-color);
+  color: var(--primary-light-text-color);
+}
+
+.mat-mdc-unelevated-button {
+  background: transparent !important;
+  color: var(--primary-light-text-color) !important;
 }

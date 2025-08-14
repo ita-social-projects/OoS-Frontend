@@ -573,7 +573,8 @@
       "EMAILS": "Emails",
       "PHONE_NUMBERS": "Phone numbers",
       "LINK": "Link",
-      "CONTACTS": "Contacts"
+      "CONTACTS": "Contacts",
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Support for persons with disabilities"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
