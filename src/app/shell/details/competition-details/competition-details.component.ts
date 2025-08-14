@@ -48,6 +48,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   public readonly CompetitionDetailsTabTitlesEnum = CompetitionDetailsTabTitlesEnum;
   public readonly InfoMenuType = InfoMenuType;
 
+  public isImageBroken: boolean = false;
   public tabs: { alias: string; labelKey: string; visible: boolean }[];
   public competitionStatusOpen: boolean;
   public coverImage: string;
@@ -65,7 +66,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
     protected readonly router: Router,
     private readonly store: Store,
     private readonly dialog: MatDialog,
-    private readonly imageService: ImagesService,
+    private readonly imagesService: ImagesService,
     private readonly navigationBarService: NavigationBarService
   ) {
     super(window, route, router);
@@ -106,6 +107,11 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
       .subscribe();
   }
 
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.coverImage = this.imagesService.getDefaultCoverImage();
+  }
+
   protected initTabs(): void {
     this.tabs = [
       {
@@ -132,7 +138,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   }
 
   private getCompetitionData(): void {
-    this.coverImage = this.imageService.getCoverImage(this.competition);
+    this.coverImage = this.imagesService.getCoverImage(this.competition);
     this.store.dispatch([
       new GetProviderById(this.competition.organizerOfTheEventId),
       new AddNavPath(
