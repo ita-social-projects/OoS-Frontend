@@ -87,15 +87,14 @@
       </div>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.AboutCompetition | translate | uppercase }}">
-        <app-competition-about [competition]="competition"></app-competition-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Judges | translate | uppercase }}">
-        <app-competition-judges [teachers]="competition.judges"></app-competition-judges>
-      </mat-tab>
-      <mat-tab class="label" label="{{ CompetitionDetailsTabTitlesEnum.Contacts | translate | uppercase }}">
-        <app-contacts-card [entity]="competition"></app-contacts-card>
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
+        <ng-container [ngSwitch]="tab.alias">
+          <app-competition-about *ngSwitchCase="'AboutCompetition'" [competition]="competition"></app-competition-about>
+          <app-competition-judges *ngSwitchCase="'Judges'" [teachers]="competition.judges"></app-competition-judges>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="competition"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="competition"></app-workshop-images>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>

@@ -13,15 +13,16 @@
       </p>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [(selectedIndex)]="selectedIndex">
-      <mat-tab class="label" label="{{ tabTitles.AboutProvider | translate }}">
-        <app-provider-about [provider]="provider"></app-provider-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ tabTitles.Workshops | translate }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
-      </mat-tab>
-      <mat-tab class="label" label="{{ tabTitles.Contacts | translate }}">
-        <app-contacts-card [entity]="provider"></app-contacts-card>
+    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
+        <ng-container [ngSwitch]="tab.alias">
+          <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
+          <app-all-provider-workshops
+            *ngSwitchCase="'ProviderWorkshops'"
+            [providerParameters]="providerParameters"></app-all-provider-workshops>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="provider"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="provider"></app-workshop-images>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
