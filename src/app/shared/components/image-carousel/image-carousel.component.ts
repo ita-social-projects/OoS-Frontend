@@ -18,7 +18,7 @@ export class ImageCarouselComponent implements OnInit {
   constructor(private imageService: ImagesService) {}
 
   public ngOnInit(): void {
-    if (this.images.length <= 1) {
+    if (this.images && this.images.length <= 1) {
       this.customOptions = {
         ...this.customOptions,
         loop: false,
