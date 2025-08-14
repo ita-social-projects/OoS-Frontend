@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { WINDOW } from 'ngx-window-token';
 
 @Component({
@@ -11,7 +11,7 @@ import { WINDOW } from 'ngx-window-token';
 })
 export abstract class TabParamsComponent implements OnInit, OnDestroy {
   public tabs: { alias: string; labelKey: string; visible: boolean }[];
-  public selectedIndex: number;
+  public selectedIndex: number = 0;
 
   protected destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -24,7 +24,7 @@ export abstract class TabParamsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initTabs();
 
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       const tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
       this.selectedIndex = tabIndex !== -1 ? tabIndex : 0;
     });
@@ -35,7 +35,7 @@ export abstract class TabParamsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  protected onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     const alias = this.tabs[event.index]?.alias;
     this.router.navigate([], {
       queryParams: { tab: alias },

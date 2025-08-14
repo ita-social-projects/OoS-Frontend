@@ -42,6 +42,7 @@ export class ProviderDetailsComponent extends TabParamsComponent implements OnIn
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
     this.providerParameters.providerId = this.provider.id;
     this.getProviderData();
   }

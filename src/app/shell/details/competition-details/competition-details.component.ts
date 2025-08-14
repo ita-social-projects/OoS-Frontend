@@ -49,10 +49,8 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   public readonly InfoMenuType = InfoMenuType;
 
   public isImageBroken: boolean = false;
-  public tabs: { alias: string; labelKey: string; visible: boolean }[];
   public competitionStatusOpen: boolean;
   public coverImage: string;
-  public selectedIndex: number;
   public competitionSubdirections: string[];
   public providerParameters: ProviderParameters = {
     providerId: '',
@@ -73,12 +71,11 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   }
 
   public ngOnInit(): void {
+    super.ngOnInit();
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
     this.getSubDirections();
-
-    super.ngOnInit();
   }
 
   public onActionButtonClick(ModalType: ModalConfirmationType): void {
