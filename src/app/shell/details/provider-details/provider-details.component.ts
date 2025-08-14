@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
@@ -18,7 +18,7 @@ import { TabParamsComponent } from '../details-tabs/tab-params.component';
   templateUrl: './provider-details.component.html',
   styleUrls: ['./provider-details.component.scss']
 })
-export class ProviderDetailsComponent extends TabParamsComponent implements OnInit, OnDestroy {
+export class ProviderDetailsComponent extends TabParamsComponent implements OnInit {
   @Input() public role: Role;
   @Input() public provider: Provider;
 
