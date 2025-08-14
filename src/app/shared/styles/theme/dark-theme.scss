@@ -63,6 +63,7 @@ $dark-theme: mat.define-dark-theme(
   --mat-stepper-container-color: var(--secondary-light-bg-color) !important;
   --mdc-dialog-container-color: var(--bg-specific-light) !important;
   --mat-select-panel-background-color: var(--bg-specific-light) !important;
+  --mdc-filled-text-field-input-text-placeholder-color: var(--primary-light-text-color) !important;
 
   --primary-light-bg-color: #02164e;
   --secondary-light-bg-color: #032480;

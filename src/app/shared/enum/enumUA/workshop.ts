@@ -1,5 +1,5 @@
 export enum PayRateTypeEnum {
-  Classes = 'ENUM.PAY_RATE_TYPE.CLASS',
+  Class = 'ENUM.PAY_RATE_TYPE.CLASS',
   Month = 'ENUM.PAY_RATE_TYPE.MONTH',
   Day = 'ENUM.PAY_RATE_TYPE.DAY',
   Year = 'ENUM.PAY_RATE_TYPE.YEAR',
