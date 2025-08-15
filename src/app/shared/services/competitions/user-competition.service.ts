@@ -92,8 +92,8 @@ export class UserCompetitionService {
     return this.http.put<Competition>('/api/v2/CompetitiveEvent', formData);
   }
 
-  public deleteCompetitionById(id: string): Observable<any> {
-    return this.http.delete(`/api/v1/CompetitiveEvent/${id}`);
+  public archiveCompetitionById(id: string): Observable<any> {
+    return this.http.delete(`/api/v2/CompetitiveEvent/Delete/${id}`);
   }
 
   private createFormData(competition: Competition): FormData {

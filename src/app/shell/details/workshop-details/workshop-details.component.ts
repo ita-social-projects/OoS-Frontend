@@ -125,7 +125,6 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
     dialogRef
       .afterClosed()
       .pipe(
-        take(1),
         filter(Boolean),
         switchMap(() => {
           if (type === ModalConfirmationType.draftSet) {
