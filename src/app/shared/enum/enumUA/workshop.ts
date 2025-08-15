@@ -24,7 +24,8 @@ export enum DetailsTabTitlesEnum {
   Reviews = 'TITLES.REVIEWS',
   Achievements = 'TITLES.ACHIEVEMENTS',
   Workshops = 'TITLES.WORKSHOPS_OF_THE_PROVIDER',
-  Contacts = 'TITLES.CONTACTS'
+  Contacts = 'TITLES.CONTACTS',
+  Images = 'TITLES.IMAGES'
 }
 
 export enum FormOfLearningEnum {

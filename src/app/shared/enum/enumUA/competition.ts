@@ -17,5 +17,6 @@ export enum CompetitionCoverageEnum {
 export enum CompetitionDetailsTabTitlesEnum {
   AboutCompetition = 'TITLES.ABOUT_THE_COMPETITION',
   Contacts = 'TITLES.CONTACTS',
-  Judges = 'TITLES.JUDGES'
+  Judges = 'TITLES.JUDGES',
+  Images = 'TITLES.IMAGES'
 }

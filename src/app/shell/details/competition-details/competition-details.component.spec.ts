@@ -20,7 +20,6 @@ import { Competition } from 'shared/models/competition.model';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { ImagesService } from 'shared/services/images/images.service';
-import { CompetitionDetailsTabTitlesParams } from 'shared/enum/competition';
 import { SubDirection } from 'shared/models/category.model';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
@@ -33,6 +32,15 @@ describe('CompetitionDetailsComponent', () => {
   let imageService: ImagesService;
   let router: Router;
   let route: ActivatedRoute;
+
+  const mockActivatedRoute = {
+    snapshot: {
+      paramMap: {
+        get: jest.fn()
+      }
+    },
+    queryParams: of({ tab: '111' })
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -55,7 +63,7 @@ describe('CompetitionDetailsComponent', () => {
         MockActionsComponent,
         ConfirmationModalWindowComponent
       ],
-      providers: [{ provide: ActivatedRoute, useValue: MockActivatedRoute }],
+      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -99,7 +107,6 @@ describe('CompetitionDetailsComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.images).toEqual([{ path: 'test/path' }]);
     expect(component.coverImage).toBe('test/coverImage.png');
   });
 
@@ -107,11 +114,11 @@ describe('CompetitionDetailsComponent', () => {
     const routerNavigateSpy = jest.spyOn(router, 'navigate');
     const event: MatTabChangeEvent = { index: 0, tab: { textLabel: 'Tab 1' } } as any;
 
-    component.onTabChange(event);
+    (component as any).onTabChange(event);
 
-    expect(routerNavigateSpy).toHaveBeenCalledWith(['./'], {
-      relativeTo: route,
-      queryParams: { status: CompetitionDetailsTabTitlesParams[0] }
+    expect(routerNavigateSpy).toHaveBeenCalledWith([], {
+      queryParams: { tab: 'AboutCompetition' },
+      replaceUrl: true
     });
   });
 
@@ -160,9 +167,4 @@ class MockActionsComponent {
   @Input() provider: Provider;
   @Input() isMobileScreen: boolean;
   @Input() displayActionCard: boolean;
-}
-
-// Mock ActivatedRoute
-class MockActivatedRoute {
-  queryParams = of({}); // Mock queryParams
 }

@@ -725,6 +725,7 @@
     "ABOUT": "Про",
     "ACHIEVEMENTS": "Досягнення",
     "CONTACTS": "Контакти",
+    "IMAGES": "Зображення",
     "DESCRIPTION": "Опис",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "Інші гуртки закладу",
     "WORKSHOPS_OF_THE_PROVIDER": "Гуртки закладу",
@@ -870,7 +871,8 @@
     "NO_CHAT_HISTORY": "У чаті ще немає повідомлень",
     "NO_STUDY_SUBJECTS": "Навчальних предметів поки немає",
     "NO_JUDGES": "Суддів поки немає",
-    "NO_FEATURE": "Цей функціонал поки недоступний"
+    "NO_FEATURE": "Цей функціонал поки недоступний",
+    "NO_IMAGES": "Зображень поки немає"
   },
   "NOTIFICATIONS": "Сповіщення",
   "APPLICATION_STATUSES": "Статуси заявок",
