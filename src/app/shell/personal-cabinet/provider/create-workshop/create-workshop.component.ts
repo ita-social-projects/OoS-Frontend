@@ -234,7 +234,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.store.dispatch(new GetUnfinishedWorkshop());
     this.unfinishedWorkshop$.subscribe((draft: Workshop) => {
       this.workshop = draft;
-
       asyncScheduler.schedule(() => {
         const stepToGo = this.getFirstInvalidStep();
 
@@ -396,7 +395,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     zip(...contactsToUpdate).subscribe((updatedContacts) => {
       this.dispatchUnfinishedData(4, {
         ...this.AdditionalAboutGroup.value,
-        ...this.DescriptionFormGroup.getRawValue(),
+        ...this.createUnfinishedDescription(),
         contacts: updatedContacts
       });
     });

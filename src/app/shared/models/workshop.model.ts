@@ -51,6 +51,8 @@ export abstract class WorkshopBase {
   ageComposition: string;
   coverage: string;
   workshopType: string;
+  base64CoverImage?: string;
+  base64ImageFiles?: string[];
 
   constructor(
     about: WorkshopAbout,
