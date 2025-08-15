@@ -200,23 +200,23 @@ export class OnUpdateWorkshopSuccess {
   constructor(public payload: Workshop) {}
 }
 
-export class DeleteWorkshopById {
-  static readonly type = '[provider] delete Workshop';
+export class ArchiveWorkshopById {
+  static readonly type = '[provider] archive Workshop';
 
   constructor(
     public id: string,
-    public parameters: WorkshopCardParameters
+    public parameters?: WorkshopCardParameters
   ) {}
 }
 
-export class OnDeleteWorkshopSuccess {
-  static readonly type = '[provider] delete Workshop success';
+export class OnArchiveWorkshopSuccess {
+  static readonly type = '[provider] archive Workshop success';
 
   constructor(public parameters: WorkshopCardParameters) {}
 }
 
-export class OnDeleteWorkshopFail {
-  static readonly type = '[provider] delete Workshop fail';
+export class OnArchiveWorkshopFail {
+  static readonly type = '[provider] archive Workshop fail';
 
   constructor(public payload: HttpErrorResponse) {}
 }

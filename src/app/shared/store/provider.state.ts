@@ -526,11 +526,14 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(providerActions.DeleteWorkshopById)
-  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { id, parameters }: providerActions.DeleteWorkshopById): Observable<void> {
-    return this.userWorkshopService.deleteWorkshop(id).pipe(
-      tap(() => dispatch(new providerActions.OnDeleteWorkshopSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteWorkshopFail(error)))
+  @Action(providerActions.ArchiveWorkshopById)
+  deleteWorkshop(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { id, parameters }: providerActions.ArchiveWorkshopById
+  ): Observable<void> {
+    return this.userWorkshopService.archiveWorkshop(id).pipe(
+      tap(() => dispatch(new providerActions.OnArchiveWorkshopSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnArchiveWorkshopFail(error)))
     );
   }
 
@@ -626,19 +629,22 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(providerActions.OnDeleteWorkshopSuccess)
-  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteWorkshopSuccess): void {
-    dispatch([
+  @Action(providerActions.OnArchiveWorkshopSuccess)
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnArchiveWorkshopSuccess): void {
+    dispatch(
       new ShowMessageBar({
         message: SnackbarText.deleteWorkshop,
         type: 'success'
-      }),
-      new providerActions.GetProviderViewWorkshops(parameters)
-    ]);
+      })
+    );
+
+    if (parameters) {
+      dispatch(new providerActions.GetProviderViewWorkshops(parameters));
+    }
   }
 
-  @Action(providerActions.OnDeleteWorkshopFail)
-  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+  @Action(providerActions.OnArchiveWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

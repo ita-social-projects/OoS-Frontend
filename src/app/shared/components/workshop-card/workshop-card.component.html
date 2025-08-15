@@ -86,6 +86,7 @@
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
+      [matTooltip]="'BUTTONS.EDIT' | translate"
       (click)="onEdit(workshopData.workshopDraftId)"
       (keydown)="onEditKeydown($event, workshopData.workshopDraftId)">
       <mat-icon>edit</mat-icon>
@@ -95,9 +96,15 @@
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
+      [matTooltip]="(workshopData.draftStatus ? 'BUTTONS.DELETE' : 'BUTTONS.ARCHIVE') | translate"
       (click)="onDelete()"
       (keydown)="onDeleteKeydown($event)">
-      <mat-icon>delete</mat-icon>
+      <ng-container *ngIf="workshopData.draftStatus; else archive">
+        <mat-icon>delete</mat-icon>
+      </ng-container>
+      <ng-template #archive>
+        <mat-icon>archive</mat-icon>
+      </ng-template>
     </div>
   </div>
 </ng-template>

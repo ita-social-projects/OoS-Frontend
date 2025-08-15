@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { WINDOW } from 'ngx-window-token';
 
@@ -18,12 +18,14 @@ import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
+  ArchiveWorkshopById,
   DraftSendForModeration,
   GetWorkshopDraftIdByWorkshopId,
+  OnArchiveWorkshopSuccess,
   OnDraftSendForModerationSuccess,
   ResetAchievements
 } from 'shared/store/provider.actions';
-import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -119,6 +121,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
         type
       }
     });
+
     dialogRef
       .afterClosed()
       .pipe(
@@ -134,7 +137,17 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
               tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
             );
           }
-          return of([]);
+
+          if (type === ModalConfirmationType.archiveWorkshop) {
+            this.store.dispatch(new ArchiveWorkshopById((this.workshop as Workshop).id));
+            return this.actions$.pipe(
+              ofAction(OnArchiveWorkshopSuccess),
+              take(1),
+              tap(() => this.store.dispatch(new GetWorkshopById((this.workshop as Workshop).id)))
+            );
+          }
+
+          return EMPTY;
         })
       )
       .subscribe();

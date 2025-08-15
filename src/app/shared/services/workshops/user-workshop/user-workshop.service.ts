@@ -202,8 +202,8 @@ export class UserWorkshopService {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
 
-  public deleteWorkshop(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
+  public archiveWorkshop(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/Workshop/${id}`);
   }
 
   public publishWorkshop(id: string): Observable<void> {
