@@ -21,11 +21,11 @@ import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetCompetitionById, GetProviderById } from 'shared/store/shared-user.actions';
-import { switchMap, take, tap } from 'rxjs/operators';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
 import { ArchiveCompetitionById, OnArchiveCompetitionByIdSuccess } from 'shared/store/provider.actions';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-competition-details',
