@@ -11,6 +11,7 @@ import { Role } from 'shared/enum/role';
 import { CompetitionBaseCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
 
 @Component({
   selector: 'app-competition-card',
