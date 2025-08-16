@@ -137,7 +137,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.workshop.base64CoverImage) {
       const file = base64ToFile(this.workshop.base64CoverImage);
-      this.AboutFormGroup.get('coverImage')?.setValue([file], { emitEvent: false });
+      this.AboutFormGroup.get('coverImage')?.setValue([file]);
     }
 
     if (this.workshop.coverImageId) {

@@ -5,7 +5,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { asyncScheduler, Observable, of, zip } from 'rxjs';
-import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil, switchMap } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -91,20 +91,27 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     3: WorkshopTypeUnfinished.WithDescription,
     4: WorkshopTypeUnfinished.WithContacts
   };
+
   private readonly stepActions = {
     1: (): void => {
-      this.createUnfinishedAbout().subscribe((unfinishedAbout) => {
-        this.dispatchUnfinishedData(1, unfinishedAbout);
-      });
+      this.createStepData(1)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(1, stepData));
     },
-    2: (): void => this.dispatchUnfinishedData(2, this.createAdditionalAbout()),
+    2: (): void => {
+      this.createStepData(2)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(2, stepData));
+    },
     3: (): void => {
-      this.createUnfinishedDescription().subscribe((unfinishedDescription) => {
-        this.dispatchUnfinishedData(3, unfinishedDescription);
-      });
+      this.createStepData(3)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(3, stepData));
     },
     4: (): void => {
-      this.handleContactsStep();
+      this.createStepData(4)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(4, stepData));
     }
   };
 
@@ -351,54 +358,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/typedef
-  private createDraftData(step: number, extraData = {}): any {
-    const baseData = {
-      $type: this.unfinishedWorkshopTypeMap[step],
-      ...this.createUnfinishedAbout(),
-      providerId: this.provider.id
-    };
-
-    return {
-      ...baseData,
-      ...extraData
-    };
-  }
-
-  // eslint-disable-next-line @typescript-eslint/typedef
-  private dispatchUnfinishedData(step: number, extraData = {}): void {
-    const data = this.createDraftData(step, extraData);
+  private dispatchUnfinishedData(step: number, data: any): void {
     this.store.dispatch(new OnSaveWorkshopStep({ data, step }));
-  }
-
-  private handleContactsStep(): void {
-    const contacts = this.createContacts();
-    const contactsToUpdate = contacts.map((contact) => {
-      if (contact.address?.catottgId) {
-        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
-
-        return this.codeficator$.pipe(
-          filter((codeficator) => codeficator?.id === contact.address.catottgId),
-          take(1),
-          map((codeficatorData) => ({
-            ...contact,
-            address: new Address({
-              ...contact.address,
-              codeficatorAddress: codeficatorData
-            })
-          }))
-        );
-      }
-      return of(contact);
-    });
-
-    zip(...contactsToUpdate).subscribe((updatedContacts) => {
-      this.dispatchUnfinishedData(4, {
-        ...this.AdditionalAboutGroup.value,
-        ...this.createUnfinishedDescription(),
-        contacts: updatedContacts
-      });
-    });
   }
 
   private getFirstInvalidStep(): number {
@@ -406,8 +367,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.AboutFormGroup,
       this.AdditionalAboutGroup,
       this.DescriptionFormGroup,
-      this.WorkshopContactsFormArray,
-      this.TeacherFormArray
+      this.WorkshopContactsFormArray
+      // this.TeacherFormArray
     ];
 
     return steps.findIndex((step) => !step?.valid && !step?.touched);
@@ -469,6 +430,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
+
   private createUnfinishedAbout(): Observable<UnfinishedWorkshopAbout> {
     const aboutInfo = this.createAbout();
 
@@ -494,6 +456,88 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         base64ImageFiles
       }))
     );
+  }
+
+  private createContactsWithCodeficator(): Observable<any[]> {
+    const contacts = this.createContacts();
+
+    const contactsToUpdate$ = contacts.map((contact) => {
+      if (contact.address?.catottgId) {
+        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+
+        return this.codeficator$.pipe(
+          filter((c) => c?.id === contact.address.catottgId),
+          take(1),
+          map((codeficatorData) => ({
+            ...contact,
+            address: new Address({
+              ...contact.address,
+              codeficatorAddress: codeficatorData
+            })
+          }))
+        );
+      }
+      return of(contact);
+    });
+
+    return zip(...contactsToUpdate$);
+  }
+
+  private createStepData(step: number): Observable<any> {
+    const baseData = {
+      $type: this.unfinishedWorkshopTypeMap[step],
+      providerId: this.provider.id
+    };
+
+    switch (step) {
+      case 1:
+        return this.createUnfinishedAbout().pipe(map((about) => ({ ...baseData, ...about })));
+
+      case 2:
+        return this.createUnfinishedAbout().pipe(
+          map((about) => ({
+            ...baseData,
+            ...about,
+            ...this.createAdditionalAbout()
+          }))
+        );
+
+      case 3:
+        return this.createUnfinishedAbout().pipe(
+          switchMap((about) =>
+            this.createUnfinishedDescription().pipe(
+              map((description) => ({
+                ...baseData,
+                ...about,
+                ...this.createAdditionalAbout(),
+                ...description
+              }))
+            )
+          )
+        );
+
+      case 4:
+        return this.createUnfinishedAbout().pipe(
+          switchMap((about) =>
+            this.createUnfinishedDescription().pipe(
+              switchMap((description) =>
+                this.createContactsWithCodeficator().pipe(
+                  map((contacts) => ({
+                    ...baseData,
+                    ...about,
+                    ...this.createAdditionalAbout(),
+                    ...description,
+                    contacts
+                  }))
+                )
+              )
+            )
+          )
+        );
+
+      default:
+        return of(baseData);
+    }
   }
 
   private shouldBeDraft(newWorkshop: Workshop): boolean {

@@ -225,7 +225,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
 
     if (this.workshop.base64ImageFiles?.length) {
       const files = base64ArrayToFiles(this.workshop.base64ImageFiles);
-      this.DescriptionFormGroup.get('imageFiles')?.setValue(files, { emitEvent: false });
+      this.DescriptionFormGroup.get('imageFiles')?.setValue(files);
     }
 
     this.workshop.keywords?.forEach((keyWord: string) => {
