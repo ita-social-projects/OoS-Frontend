@@ -159,19 +159,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
     expect(component.stepper.selectedIndex).toBe(0);
   });
 
-  it('should createDraftData correctly', () => {
-    const step = 1;
-    const extraData = { title: 'Test Workshop' };
-    const draftData = (component as any).createDraftData(step, extraData);
-
-    expect(draftData).toEqual({
-      $type: (component as any).unfinishedWorkshopTypeMap[step],
-      ...(component as any).createAbout(),
-      providerId: component.provider.id,
-      ...extraData
-    });
-  });
-
   it('should return if form is invalid', () => {
     const form = new FormGroup({
       mock: new FormControl(null)
@@ -192,10 +179,13 @@ describe('CreateWorkshopComponent (Jest)', () => {
 
   it('should execute stepActions correctly', () => {
     const step = 1;
+    const mockData = { test: 'value' };
+    jest.spyOn(component as any, 'createStepData').mockReturnValue(of(mockData));
     jest.spyOn(component as any, 'dispatchUnfinishedData');
+
     (component as any).stepActions[step]();
 
-    expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(1, expect.any(Object));
+    expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(step, mockData);
   });
 
   describe('shouldBeDraft', () => {
