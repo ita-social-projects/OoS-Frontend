@@ -21,18 +21,11 @@ import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetCompetitionById, GetProviderById } from 'shared/store/shared-user.actions';
-import { GetProviderById } from 'shared/store/shared-user.actions';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
-import { TabParamsComponent } from '../details-tabs/tab-params.component';
-import {
-  ArchiveCompetitionById,
-  ArchiveWorkshopById,
-  DraftSendForModeration,
-  OnArchiveWorkshopSuccess
-} from 'shared/store/provider.actions';
-import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { ArchiveCompetitionById, OnArchiveCompetitionByIdSuccess } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-competition-details',
@@ -107,14 +100,14 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
           //   return this.actions$.pipe(
           //     ofAction(OnCompetitionDraftSendForModerationSuccess),
           //     take(1),
-          //     tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as Competition).competitiveEventDraftId)))
+          //     tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
           //   );
           // }
 
           if (type === ModalConfirmationType.archiveCompetition) {
             this.store.dispatch(new ArchiveCompetitionById(this.competition.id));
             return this.actions$.pipe(
-              ofAction(OnArchiveWorkshopSuccess),
+              ofAction(OnArchiveCompetitionByIdSuccess),
               take(1),
               tap(() => this.store.dispatch(new GetCompetitionById((this.competition as Competition).id)))
             );
