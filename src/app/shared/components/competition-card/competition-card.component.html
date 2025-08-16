@@ -54,7 +54,12 @@
 
 <ng-template #ProviderActions>
   <div *ngIf="isCabinet" class="flex flex-row justify-end items-start actions">
-    <div class="actions_btn action-icon" role="button" tabindex="0" [matTooltip]="'BUTTONS.EDIT' | translate">
+    <div
+      class="actions_btn action-icon"
+      role="button"
+      tabindex="0"
+      [matTooltip]="'BUTTONS.EDIT' | translate"
+      [routerLink]="['/create-competition', competitionData.id]">
       <mat-icon>edit</mat-icon>
     </div>
     <div class="actions_btn action-icon" role="button" tabindex="0" [matTooltip]="'BUTTONS.ARCHIVE' | translate" (click)="onDelete()">

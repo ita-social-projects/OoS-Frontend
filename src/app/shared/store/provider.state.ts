@@ -1259,15 +1259,15 @@ export class ProviderState {
     { id, parameters }: providerActions.ArchiveCompetitionById
   ): Observable<Competition | void> {
     return this.userCompetitionService.archiveCompetitionById(id).pipe(
-      tap(() => dispatch(new providerActions.OnArchiveCompetitionByIdSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnArchiveCompetitionByIdFail(error)))
+      tap(() => dispatch(new providerActions.OnArchiveCompetitionSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnArchiveCompetitionFail(error)))
     );
   }
 
-  @Action(providerActions.OnArchiveCompetitionByIdSuccess)
+  @Action(providerActions.OnArchiveCompetitionSuccess)
   archiveCompetitionByIdSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { parameters }: providerActions.OnArchiveCompetitionByIdSuccess
+    { parameters }: providerActions.OnArchiveCompetitionSuccess
   ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.deleteCompetition, type: 'success' }));
 
@@ -1276,7 +1276,7 @@ export class ProviderState {
     }
   }
 
-  @Action(providerActions.OnArchiveCompetitionByIdFail)
+  @Action(providerActions.OnArchiveCompetitionFail)
   archiveCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }

@@ -842,13 +842,13 @@ export class ArchiveCompetitionById {
   ) {}
 }
 
-export class OnArchiveCompetitionByIdFail {
+export class OnArchiveCompetitionFail {
   static readonly type = '[provider] archive Competition by id fail';
 
   constructor(public error: HttpErrorResponse) {}
 }
 
-export class OnArchiveCompetitionByIdSuccess {
+export class OnArchiveCompetitionSuccess {
   static readonly type = '[provider] archive Competition by id success';
 
   constructor(public parameters: CompetitionCardParameters) {}

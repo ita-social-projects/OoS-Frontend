@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
 import { EMPTY, filter, Observable } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -24,7 +24,7 @@ import { GetCompetitionById, GetProviderById } from 'shared/store/shared-user.ac
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
-import { ArchiveCompetitionById, OnArchiveCompetitionByIdSuccess } from 'shared/store/provider.actions';
+import { ArchiveCompetitionById, OnArchiveCompetitionFail, OnArchiveCompetitionSuccess } from 'shared/store/provider.actions';
 import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
@@ -100,6 +100,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
           //   return this.actions$.pipe(
           //     ofAction(OnCompetitionDraftSendForModerationSuccess),
           //     take(1),
+          //     takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
           //     tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
           //   );
           // }
@@ -107,8 +108,9 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
           if (type === ModalConfirmationType.archiveCompetition) {
             this.store.dispatch(new ArchiveCompetitionById(this.competition.id));
             return this.actions$.pipe(
-              ofAction(OnArchiveCompetitionByIdSuccess),
+              ofAction(OnArchiveCompetitionSuccess),
               take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
               tap(() => this.store.dispatch(new GetCompetitionById((this.competition as Competition).id)))
             );
           }

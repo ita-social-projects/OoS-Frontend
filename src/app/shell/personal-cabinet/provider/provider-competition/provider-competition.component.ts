@@ -9,7 +9,8 @@ import { PushNavPath } from 'shared/store/navigation.actions';
 import { Util } from 'shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderState } from 'shared/store/provider.state';
-import { filter, Observable, takeUntil } from 'rxjs';
+import { filter, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ArchiveCompetitionById, GetProviderViewCompetitions } from 'shared/store/provider.actions';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -81,7 +82,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        this.store.dispatch(new ArchiveCompetitionById(competition, this.competitionCardParameters));
+        this.store.dispatch(new ArchiveCompetitionById(competition.id, this.competitionCardParameters));
       });
   }
 

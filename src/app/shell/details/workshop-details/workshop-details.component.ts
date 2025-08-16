@@ -2,8 +2,8 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { EMPTY, of } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { WINDOW } from 'ngx-window-token';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -21,7 +21,9 @@ import {
   ArchiveWorkshopById,
   DraftSendForModeration,
   GetWorkshopDraftIdByWorkshopId,
+  OnArchiveWorkshopFail,
   OnArchiveWorkshopSuccess,
+  OnDraftSendForModerationFail,
   OnDraftSendForModerationSuccess,
   ResetAchievements
 } from 'shared/store/provider.actions';
@@ -133,6 +135,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
             return this.actions$.pipe(
               ofAction(OnDraftSendForModerationSuccess),
               take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnDraftSendForModerationFail))),
               tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
             );
           }
@@ -142,6 +145,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
             return this.actions$.pipe(
               ofAction(OnArchiveWorkshopSuccess),
               take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnArchiveWorkshopFail))),
               tap(() => this.store.dispatch(new GetWorkshopById((this.workshop as Workshop).id)))
             );
           }
