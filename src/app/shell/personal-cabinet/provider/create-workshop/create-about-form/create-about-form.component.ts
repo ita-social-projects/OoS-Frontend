@@ -19,7 +19,7 @@ import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
-import { base64ArrayToFiles, formatToClientDate } from 'shared/utils/provider.utils';
+import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
 import { ValidationMessages } from 'shared/enum/validation-messages';
 import { MetaDataState } from 'shared/store/meta-data.state';

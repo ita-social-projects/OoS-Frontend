@@ -448,8 +448,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       ...this.DescriptionFormGroup.getRawValue()
     };
 
-    const files: Blob[] = descriptionInfo.imageFiles;
-
+    const files: Blob[] = Array.isArray(descriptionInfo.imageFiles) ? descriptionInfo.imageFiles : [];
     return blobsToBase64(files).pipe(
       map((base64ImageFiles) => ({
         ...descriptionInfo,

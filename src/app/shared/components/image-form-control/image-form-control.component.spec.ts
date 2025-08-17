@@ -269,6 +269,44 @@ describe('ImageFormControlComponent', () => {
 
     expect(removeImageSpy).not.toHaveBeenCalled();
   });
+  it('should process files for display and update decodedImages', () => {
+    const mockFile = new File(['image content'], 'test.jpg', { type: 'image/jpeg' });
+    const mockFileReader = {
+      onload: null,
+      readAsDataURL: function () {
+        this.onload({
+          target: { result: 'data:image/jpeg;base64' }
+        });
+      }
+    };
+
+    (window as any).FileReader = jest.fn(() => mockFileReader);
+
+    component.writeValue([mockFile]);
+
+    expect(component.decodedImages.length).toBe(1);
+    expect(component.decodedImages[0].imgFile).toBe(mockFile);
+    expect(component.decodedImages[0].image).toContain('data:image/jpeg;base64');
+  });
+
+  it('should not duplicate decodedImages with imgFile already present', () => {
+    const mockFile = new File(['image content'], 'test.jpg', { type: 'image/jpeg' });
+    component.decodedImages = [{ image: 'some-url', imgFile: null } as any];
+
+    const mockFileReader = {
+      onload: null,
+      readAsDataURL: function () {
+        this.onload({
+          target: { result: 'data:image/jpeg;base64' }
+        });
+      }
+    };
+    (window as any).FileReader = jest.fn(() => mockFileReader);
+
+    component.writeValue([mockFile]);
+    expect(component.decodedImages.length).toBe(2);
+    expect(component.decodedImages.some((img) => img.imgFile === mockFile)).toBeTruthy();
+  });
 });
 
 @State<AppStateModel>({

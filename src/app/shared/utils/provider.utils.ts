@@ -1,6 +1,6 @@
 import { Role } from 'shared/enum/role';
 import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -42,6 +42,9 @@ export function blobToBase64(blob: Blob): Observable<string> {
 }
 
 export function blobsToBase64(blobs: Blob[]): Observable<string[]> {
+  if (!blobs?.length) {
+    return of([]);
+  }
   const observables = blobs.map((blob) => blobToBase64(blob));
   return forkJoin(observables);
 }
