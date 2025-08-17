@@ -86,12 +86,12 @@ describe('UserCompetitionService', () => {
     req.flush(mockCompetition);
   });
 
-  it('should delete competition by ID', () => {
+  it('should archivate competition by ID', () => {
     service.archiveCompetitionById('123').subscribe((response) => {
       expect(response).toBeNull();
     });
 
-    const req = httpMock.expectOne('/api/v1/CompetitiveEvent/123');
+    const req = httpMock.expectOne('/api/v2/CompetitiveEvent/Delete/123');
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });

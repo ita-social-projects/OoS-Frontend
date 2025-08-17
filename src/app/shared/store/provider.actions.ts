@@ -212,7 +212,7 @@ export class ArchiveWorkshopById {
 export class OnArchiveWorkshopSuccess {
   static readonly type = '[provider] archive Workshop success';
 
-  constructor(public parameters: WorkshopCardParameters) {}
+  constructor(public parameters?: WorkshopCardParameters) {}
 }
 
 export class OnArchiveWorkshopFail {
@@ -842,14 +842,14 @@ export class ArchiveCompetitionById {
   ) {}
 }
 
+export class OnArchiveCompetitionSuccess {
+  static readonly type = '[provider] archive Competition by id success';
+
+  constructor(public parameters?: CompetitionCardParameters) {}
+}
+
 export class OnArchiveCompetitionFail {
   static readonly type = '[provider] archive Competition by id fail';
 
   constructor(public error: HttpErrorResponse) {}
-}
-
-export class OnArchiveCompetitionSuccess {
-  static readonly type = '[provider] archive Competition by id success';
-
-  constructor(public parameters: CompetitionCardParameters) {}
 }
