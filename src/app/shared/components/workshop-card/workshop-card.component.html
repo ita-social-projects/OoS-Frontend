@@ -82,7 +82,7 @@
 <ng-template #ProviderActions>
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
     <div
-      *ngIf="workshopData.draftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      *ngIf="workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
@@ -92,7 +92,7 @@
       <mat-icon>edit</mat-icon>
     </div>
     <div
-      *ngIf="workshopData.draftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      *ngIf="workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
