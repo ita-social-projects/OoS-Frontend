@@ -104,18 +104,33 @@ describe('WorkshopDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open confirmation dialog and dispatch PublishWorkshop on confirm', () => {
-    expectingMatDialogData = {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.publishWorkshop
-      }
-    };
-    matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
-      afterClosed: () => of(true)
-    } as MatDialogRef<ConfirmationModalWindowComponent>);
-    component.onActionButtonClick(ModalConfirmationType.publishWorkshop);
-    expect(matDialogSpy).toHaveBeenCalledTimes(1);
+  describe('Action Button', () => {
+    beforeEach(() => {
+      matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<ConfirmationModalWindowComponent>);
+    });
+
+    it('should should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftSet
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.draftSet);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    });
+    it('should should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.archiveWorkshop
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.archiveWorkshop);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should set default coverImage', () => {
