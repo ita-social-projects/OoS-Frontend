@@ -2,11 +2,11 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
 import { Direction, DirectionNode, DirectionsSelected, Subdirection } from 'shared/models/category.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
-import { SetSubdirections, SetDirections, SetIndeterminates } from 'shared/store/filter.actions';
+import { SetSubdirections, SetDirections, SetIndeterminates, FilterClear } from 'shared/store/filter.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
@@ -37,6 +37,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
 
   constructor(
     private readonly directionsService: DirectionsService,
+    private readonly actions$: Actions,
     private readonly store: Store
   ) {}
 
@@ -46,6 +47,15 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       this.allDirections = this.transformDirections(directions);
       this.dataSource.data = this.allDirections;
       this.selectInitialIds(this.initialDirectionIds);
+    });
+
+    this.actions$.pipe(ofActionSuccessful(FilterClear), takeUntil(this.destroy$)).subscribe(() => {
+      this.selectedDirectionIds = [];
+      this.selectedSubdirectionIds = [];
+      this.indeterminateDirectionIds = [];
+      this.initDirectionIds = [];
+      this.initSubdirectionIds = [];
+      this.initIndeterminateIds = [];
     });
 
     setInterval(() => {
@@ -121,6 +131,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     // check if all children are selected
     const allChildrenSelected: boolean =
       direction.children.length > 0 && direction.children.every((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id));
+
     if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds.push(direction.id);
       this.store.dispatch(new SetDirections(this.selectedDirectionIds));
@@ -135,39 +146,13 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     return this.selectedSubdirectionIds.includes(subdirection.id);
   }
 
-  // public isDirectionIndeterminate(direction: DirectionNode): boolean {
-  //   if (this.initIndeterminateIds.includes(direction.id)) {
-  //     return true;
-  //   }
-
-  //   // has no children
-  //   if (!direction.children || direction.children.length === 0) {
-  //     this.indeterminateDirectionIds = this.indeterminateDirectionIds.filter((id: number) => id !== direction.id);
-  //     this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
-  //     return false;
-  //   }
-  //   // count and compare
-  //   const numSelected: number = direction.children.filter((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id)).length;
-  //   const isIndeterminate: boolean = numSelected > 0 && numSelected < direction.children.length;
-
-  //   if (isIndeterminate && !this.indeterminateDirectionIds.includes(direction.id)) {
-  //     this.indeterminateDirectionIds.push(direction.id);
-  //     this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
-  //   }
-  //   if (!isIndeterminate) {
-  //     this.indeterminateDirectionIds = this.indeterminateDirectionIds.filter((id: number) => id !== direction.id);
-  //     this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
-  //   }
-  //   return isIndeterminate;
-  // }
-
   public isDirectionIndeterminate(direction: DirectionNode): boolean {
     // the direction is indeterminate in the initial state
     if (this.initIndeterminateIds.includes(direction.id)) {
       return true;
     }
 
-    let newIndeterminateIds = this.indeterminateDirectionIds;
+    let newIndeterminateIds = [...this.indeterminateDirectionIds];
 
     // the direction has no children
     if (!direction.children || direction.children.length === 0) {
