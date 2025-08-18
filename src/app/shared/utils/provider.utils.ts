@@ -32,9 +32,7 @@ export function blobToBase64(blob: Blob): Observable<string> {
   return new Observable<string>((subscriber) => {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
-
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    reader.onloadend = () => {
+    reader.onloadend = (): void => {
       subscriber.next(reader.result as string);
       subscriber.complete();
     };

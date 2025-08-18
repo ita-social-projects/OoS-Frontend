@@ -183,6 +183,13 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
     myReader.readAsDataURL(file);
   }
 
+  // It should be used only in edit because in create mode we have image only in our memory
+  public displayFullImage(src: string): void {
+    if (this.editMode) {
+      window.open(src, '_blank');
+    }
+  }
+
   private processFilesForDisplay(files: File[]): void {
     this.decodedImages = this.decodedImages.filter((img) => !img.imgFile);
 
@@ -192,13 +199,6 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
         this.changeDetection.markForCheck();
       });
     });
-  }
-
-  // It should be used only in edit because in create mode we have image only in our memory
-  public displayFullImage(src: string): void {
-    if (this.editMode) {
-      window.open(src, '_blank');
-    }
   }
 
   private removeImage(img: DecodedImage): void {

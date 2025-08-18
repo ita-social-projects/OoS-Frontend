@@ -4,8 +4,8 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, V
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, Observable, of, zip } from 'rxjs';
-import { filter, map, take, takeUntil, switchMap } from 'rxjs/operators';
+import { asyncScheduler, forkJoin, Observable, of, zip } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -488,55 +488,23 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       providerId: this.provider.id
     };
 
-    switch (step) {
-      case 1:
-        return this.createUnfinishedAbout().pipe(map((about) => ({ ...baseData, ...about })));
+    const about$ = this.createUnfinishedAbout();
+    const additional$ = of(this.createAdditionalAbout());
+    const description$ = this.createUnfinishedDescription();
+    const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
+    const stepConfig = new Map<number, Observable<any>[]>([
+      [1, [about$]],
+      [2, [about$, additional$]],
+      [3, [about$, additional$, description$]],
+      [4, [about$, additional$, description$, contacts$]]
+    ]);
 
-      case 2:
-        return this.createUnfinishedAbout().pipe(
-          map((about) => ({
-            ...baseData,
-            ...about,
-            ...this.createAdditionalAbout()
-          }))
-        );
+    const observables = stepConfig.get(step);
 
-      case 3:
-        return this.createUnfinishedAbout().pipe(
-          switchMap((about) =>
-            this.createUnfinishedDescription().pipe(
-              map((description) => ({
-                ...baseData,
-                ...about,
-                ...this.createAdditionalAbout(),
-                ...description
-              }))
-            )
-          )
-        );
-
-      case 4:
-        return this.createUnfinishedAbout().pipe(
-          switchMap((about) =>
-            this.createUnfinishedDescription().pipe(
-              switchMap((description) =>
-                this.createContactsWithCodeficator().pipe(
-                  map((contacts) => ({
-                    ...baseData,
-                    ...about,
-                    ...this.createAdditionalAbout(),
-                    ...description,
-                    contacts
-                  }))
-                )
-              )
-            )
-          )
-        );
-
-      default:
-        return of(baseData);
+    if (!observables) {
+      return of(baseData);
     }
+    return forkJoin(observables).pipe(map((results) => ({ ...baseData, ...Object.assign({}, ...results) })));
   }
 
   private shouldBeDraft(newWorkshop: Workshop): boolean {
