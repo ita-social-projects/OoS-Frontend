@@ -111,7 +111,7 @@ describe('WorkshopDetailsComponent', () => {
       } as MatDialogRef<ConfirmationModalWindowComponent>);
     });
 
-    it('should should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+    it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
       expectingMatDialogData = {
         width: Constants.MODAL_SMALL,
         data: {
@@ -121,7 +121,8 @@ describe('WorkshopDetailsComponent', () => {
       component.onActionButtonClick(ModalConfirmationType.draftSet);
       expect(matDialogSpy).toHaveBeenCalledTimes(1);
     });
-    it('should should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
+
+    it('should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
       expectingMatDialogData = {
         width: Constants.MODAL_SMALL,
         data: {

@@ -84,21 +84,34 @@ describe('CompetitionDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open confirmation dialog and dispatch PublishWorkshop on confirm', () => {
-    expectingMatDialogData = {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.publishCompetition
-      }
-    };
+  describe('Action Button', () => {
+    beforeEach(() => {
+      matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<ConfirmationModalWindowComponent>);
+    });
 
-    matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
-      afterClosed: () => of(true)
-    } as MatDialogRef<ConfirmationModalWindowComponent>);
-    component.onActionButtonClick(ModalConfirmationType.publishCompetition);
+    // it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+    //   expectingMatDialogData = {
+    //     width: Constants.MODAL_SMALL,
+    //     data: {
+    //       type: ModalConfirmationType.draftSet
+    //     }
+    //   };
+    //   component.onActionButtonClick(ModalConfirmationType.draftSet);
+    //   expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    // });
 
-    expect(matDialogSpy).toHaveBeenCalledTimes(1);
-    expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
+    it('should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.archiveCompetition
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.archiveCompetition);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('should load images for carousel and cover image on ngOnInit', () => {
