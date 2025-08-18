@@ -11,9 +11,6 @@
     *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
     class="unfinished-banner">
   </app-provider-status-banner>
-  <div class="searchbar">
-    <app-workshop-searchbar (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
-  </div>
   <div>
     <ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">
       <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount">
