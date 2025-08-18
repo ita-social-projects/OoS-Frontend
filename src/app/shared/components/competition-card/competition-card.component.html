@@ -59,17 +59,24 @@
       role="button"
       tabindex="0"
       [matTooltip]="'BUTTONS.EDIT' | translate"
-      [routerLink]="['/create-competition', competitionData.id]">
+      (click)="onEdit()"
+      (keydown)="onEditKeydown($event)">
       <mat-icon>edit</mat-icon>
     </div>
-    <div class="actions_btn action-icon" role="button" tabindex="0" [matTooltip]="'BUTTONS.ARCHIVE' | translate" (click)="onDelete()">
-      <mat-icon>archive</mat-icon>
-      <!--      <ng-container *ngIf="competitionData.draftStatus; else archive">-->
-      <!--        <mat-icon>delete</mat-icon>-->
-      <!--      </ng-container>-->
-      <!--      <ng-template #archive>-->
-      <!--        <mat-icon>archive</mat-icon>-->
-      <!--      </ng-template>-->
+    <div
+      class="actions_btn action-icon"
+      role="button"
+      tabindex="0"
+      [matTooltip]="'BUTTONS.ARCHIVE' | translate"
+      (click)="onDelete()"
+      (keydown)="onDeleteKeydown($event)">
+      >
+      <ng-container *ngIf="competitionData.draftStatus; else archive">
+        <mat-icon>delete</mat-icon>
+      </ng-container>
+      <ng-template #archive>
+        <mat-icon>archive</mat-icon>
+      </ng-template>
     </div>
   </div>
 </ng-template>

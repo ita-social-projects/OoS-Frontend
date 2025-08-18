@@ -571,7 +571,7 @@ export class ProviderState {
           }
         })
         .afterClosed()
-        .pipe(take(1), filter(Boolean))
+        .pipe(filter(Boolean))
         .subscribe(() => {
           this.router.navigate(['/create/draft', draftId]).then(() => {
             dispatch(

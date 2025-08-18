@@ -82,17 +82,17 @@
 <ng-template #ProviderActions>
   <div *ngIf="isCabinetView" class="flex flex-row justify-end items-start actions">
     <div
-      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      *ngIf="workshopData.draftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
       [matTooltip]="'BUTTONS.EDIT' | translate"
-      (click)="onEdit(workshopData.workshopDraftId)"
-      (keydown)="onEditKeydown($event, workshopData.workshopDraftId)">
+      (click)="onEdit()"
+      (keydown)="onEditKeydown($event)">
       <mat-icon>edit</mat-icon>
     </div>
     <div
-      *ngIf="workshopDraftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
+      *ngIf="workshopData.draftStatus && workshopData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
