@@ -17,6 +17,7 @@ import { PushNavPath } from 'shared/store/navigation.actions';
 import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -27,7 +28,9 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderDraftsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
-
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
 
