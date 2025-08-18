@@ -17,7 +17,7 @@ import { Role } from 'shared/enum/role';
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
-import { WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCard, WorkshopDraftCard } from '../../models/workshop.model';
 import { WorkshopCardComponent } from './workshop-card.component';
 
 describe('WorkshopCardComponent', () => {
@@ -85,7 +85,10 @@ describe('WorkshopCardComponent', () => {
 
   describe('onEdit', () => {
     it('should navigate directly if workshopDraftId provided', () => {
-      component.onEdit('111');
+      component.workshopData = {
+        workshopDraftId: '111'
+      } as WorkshopDraftCard;
+      component.onEdit();
       expect(mockStore.dispatch).not.toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['create/draft', '111']);
     });
@@ -94,7 +97,7 @@ describe('WorkshopCardComponent', () => {
       component.workshopData = {
         id: '111'
       } as WorkshopCard;
-      component.onEdit(undefined);
+      component.onEdit();
       expect(mockStore.dispatch).toHaveBeenCalledWith(new GetWorkshopDraftIdByWorkshopId('111'));
     });
   });
@@ -110,7 +113,7 @@ describe('WorkshopCardComponent', () => {
     jest.spyOn(component, 'onDelete');
     jest.spyOn(component, 'onOpenDialog');
 
-    component.onEditKeydown(keyboardEvent, '111');
+    component.onEditKeydown(keyboardEvent);
     expect(component.onEdit).toHaveBeenCalled();
     component.onDeleteKeydown(keyboardEvent);
     expect(component.onDelete).toHaveBeenCalled();
