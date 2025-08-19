@@ -24,6 +24,7 @@ import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { WINDOW } from 'ngx-window-token';
 import { FormControl } from '@angular/forms';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -39,6 +40,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
   public draftLiveTime$: Observable<string>;
 
+  public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
   public isLoaded: boolean = false;

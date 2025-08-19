@@ -72,6 +72,10 @@ describe('ProviderWorkshopsComponent', () => {
       if (selector === RegistrationState.role) {
         return of(Role.provider);
       }
+      // @ts-ignore
+      if (selector === ProviderState.getTimeToLiveUnfinishedWorkshop) {
+        return of('');
+      }
     });
 
     fixture = TestBed.createComponent(ProviderDraftsComponent);

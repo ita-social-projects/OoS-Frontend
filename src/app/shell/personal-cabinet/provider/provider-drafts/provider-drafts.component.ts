@@ -14,9 +14,15 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
+import {
+  DeleteWorkshopDraftById,
+  GetProviderViewWorkshopDrafts,
+  GetUnfinishedWorkshop,
+  OnDraftSendForModerationSuccess
+} from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -27,7 +33,12 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderDraftsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
-
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
+  public draftLiveTime$: Observable<string>;
+  public isLoaded: boolean = false;
+  public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
 
@@ -45,6 +56,14 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     @Inject(WINDOW) private window: Window
   ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.store.dispatch(new GetUnfinishedWorkshop());
+    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isLoaded = true;
+    });
   }
 
   /**
