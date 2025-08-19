@@ -13,6 +13,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
+import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -188,7 +189,8 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     ProfileWaitingPageComponent,
     ForbiddenPageComponent,
     DecimalNumberPipe,
-    ContactsCardComponent
+    ContactsCardComponent,
+    NumberArrowsDirective
   ],
 
   imports: [
@@ -287,7 +289,8 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     ProfileWaitingPageComponent,
     ProfileWaitingPageComponent,
     DecimalNumberPipe,
-    ContactsCardComponent
+    ContactsCardComponent,
+    NumberArrowsDirective
   ]
 })
 export class SharedModule {}
