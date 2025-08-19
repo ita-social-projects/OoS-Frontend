@@ -734,6 +734,7 @@
     "ABOUT": "About",
     "ACHIEVEMENTS": "Achievements",
     "CONTACTS": "Contacts",
+    "IMAGES": "Images",
     "DESCRIPTION": "Description",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops",
     "WORKSHOPS_OF_THE_PROVIDER": "Workshops",
@@ -878,7 +879,8 @@
     "NO_CHAT_HISTORY": "There are no messages in the chat yet",
     "NO_STUDY_SUBJECTS": "There are no study subjects yet",
     "NO_JUDGES": "There are no judges yet",
-    "NO_FEATURE": "This functionality is not available yet"
+    "NO_FEATURE": "This functionality is not available yet",
+    "NO_IMAGES": "There are no images yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",

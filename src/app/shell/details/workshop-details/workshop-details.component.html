@@ -3,7 +3,7 @@
   <div class="img-wrapper relative flex justify-center">
     <img class="coverImage" [src]="coverImage" (error)="onImageError()" [alt]="'ALT.IMG_COVER' | translate" />
     <ng-container *ngIf="isImageBroken && providerParameters?.providerId === currentProvider?.id">
-      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error</mat-icon>
+      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error </mat-icon>
     </ng-container>
   </div>
   <div
@@ -135,7 +135,13 @@
       </div>
     </div>
 
-    <mat-tab-group class="nav" [mat-stretch-tabs]="false" [selectedIndex]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group
+      class="nav"
+      dynamicHeight="true"
+      [mat-stretch-tabs]="false"
+      [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
+      (selectedTabChange)="onTabChange($event)">
       <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
         <ng-container [ngSwitch]="tab.alias">
           <app-workshop-about *ngSwitchCase="'AboutWorkshop'" [workshop]="workshop"></app-workshop-about>
@@ -147,6 +153,7 @@
           <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
           <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
           <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="workshop"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="workshop"></app-workshop-images>
         </ng-container>
       </mat-tab>
     </mat-tab-group>

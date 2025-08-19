@@ -1,0 +1,8 @@
+<div class="wrapper">
+  <ng-container *ngIf="images; else emptyTmpl">
+    <app-image-carousel [images]="images"></app-image-carousel>
+  </ng-container>
+  <ng-template #emptyTmpl>
+    <app-no-result-card [title]="NoResultsTitle.noImages"></app-no-result-card>
+  </ng-template>
+</div>

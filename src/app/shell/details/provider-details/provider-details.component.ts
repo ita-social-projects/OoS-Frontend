@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Subject, takeUntil } from 'rxjs';
+import { WINDOW } from 'ngx-window-token';
 
 import { PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -11,13 +11,14 @@ import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-provider-details',
   templateUrl: './provider-details.component.html',
   styleUrls: ['./provider-details.component.scss']
 })
-export class ProviderDetailsComponent implements OnInit, OnDestroy {
+export class ProviderDetailsComponent extends TabParamsComponent implements OnInit {
   @Input() public role: Role;
   @Input() public provider: Provider;
 
@@ -28,26 +29,47 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   };
 
   public coverImage: string;
-  public selectedIndex: number;
-
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private readonly route: ActivatedRoute,
+    @Inject(WINDOW) protected window: Window,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
     private readonly imagesService: ImagesService,
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService
-  ) {}
-
-  public ngOnInit(): void {
-    this.providerParameters.providerId = this.provider.id;
-    this.getProviderData();
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
+  ) {
+    super(window, route, router);
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.providerParameters.providerId = this.provider.id;
+    this.getProviderData();
+  }
+
+  protected initTabs(): void {
+    this.tabs = [
+      {
+        alias: 'AboutProvider',
+        labelKey: this.tabTitles.AboutProvider,
+        visible: true
+      },
+      {
+        alias: 'ProviderWorkshops',
+        labelKey: this.tabTitles.Workshops,
+        visible: true
+      },
+      {
+        alias: 'Contacts',
+        labelKey: this.tabTitles.Contacts,
+        visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.tabTitles.Images,
+        visible: true
+      }
+    ].filter((tab) => tab.visible);
   }
 
   private getProviderData(): void {

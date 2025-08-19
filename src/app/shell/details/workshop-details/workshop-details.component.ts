@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { of, Subject } from 'rxjs';
-import { debounceTime, filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { WINDOW } from 'ngx-window-token';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -30,13 +30,14 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { isRoleProvider } from 'shared/utils/provider.utils';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
   styleUrls: ['./workshop-details.component.scss']
 })
-export class WorkshopDetailsComponent implements OnInit, OnDestroy {
+export class WorkshopDetailsComponent extends TabParamsComponent implements OnInit, OnDestroy {
   @Input()
   public role: Role;
   @Input()
@@ -68,28 +69,28 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   public isImageBroken: boolean = false;
   public workshopStatusOpen: boolean;
-  public selectedIndex: number;
   public coverImage: string;
   public isAgeRestricted: boolean;
 
-  protected tabs: { alias: string; labelKey: string; visible: boolean }[];
   protected readonly Util = Util;
   protected readonly ModalConfirmationType = ModalConfirmationType;
   protected readonly isRoleProvider = isRoleProvider;
 
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
-
   constructor(
+    @Inject(WINDOW) protected window: Window,
     protected readonly route: ActivatedRoute,
-    private readonly router: Router,
+    protected readonly router: Router,
     private readonly imagesService: ImagesService,
     private readonly store: Store,
     private readonly navigationBarService: NavigationBarService,
     private readonly dialog: MatDialog,
     private readonly actions$: Actions
-  ) {}
+  ) {
+    super(window, route, router);
+  }
 
   public ngOnInit(): void {
+    super.ngOnInit();
     this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
     this.providerParameters.providerId = Util.containsWorkshopDetails(this.workshop)
       ? this.workshop.workshopDetails.providerId
@@ -98,22 +99,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
-    this.initTabs();
-
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      const tabIndex = this.tabs.findIndex((tab) => tab.alias === params.tab);
-      this.selectedIndex = tabIndex !== -1 ? tabIndex : 0;
-    });
-
     this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
-  }
-
-  public onTabChange(event: MatTabChangeEvent): void {
-    const alias = this.tabs[event.index]?.alias;
-    this.router.navigate([], {
-      queryParams: { tab: alias },
-      replaceUrl: true
-    });
   }
 
   public onImageError(): void {
@@ -122,8 +108,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    super.ngOnDestroy();
     this.store.dispatch(new ResetAchievements());
   }
 
@@ -164,27 +149,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getWorkshopData(): void {
-    this.coverImage = this.imagesService.getCoverImage(this.workshop);
-    this.store.dispatch([
-      new GetProviderById(
-        Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
-      ),
-      new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: NavBarName.WorkshopResult,
-            path: '/result',
-            isActive: false,
-            disable: false
-          },
-          { name: this.workshop.title, isActive: false, disable: true }
-        )
-      )
-    ]);
-  }
-
-  private initTabs(): void {
+  protected initTabs(): void {
     this.tabs = [
       {
         alias: 'AboutWorkshop',
@@ -220,7 +185,32 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         alias: 'Contacts',
         labelKey: this.workshopTitles.Contacts,
         visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.workshopTitles.Images,
+        visible: true
       }
     ].filter((tab) => tab.visible);
+  }
+
+  private getWorkshopData(): void {
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
+    this.store.dispatch([
+      new GetProviderById(
+        Util.containsWorkshopDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: NavBarName.WorkshopResult,
+            path: '/result',
+            isActive: false,
+            disable: false
+          },
+          { name: this.workshop.title, isActive: false, disable: true }
+        )
+      )
+    ]);
   }
 }

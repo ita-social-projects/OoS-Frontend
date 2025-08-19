@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MaterialModule } from '../../shared/modules/material.module';
-import { SharedModule } from '../../shared/shared.module';
+import { MaterialModule } from 'shared/modules/material.module';
+import { SharedModule } from 'shared/shared.module';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { WorkshopAboutComponent } from './details-tabs/workshop-about/workshop-about.component';
@@ -20,6 +20,7 @@ import { CompetitionDetailsComponent } from './competition-details/competition-d
 import { CompetitionAboutComponent } from './details-tabs/competition-about/competition-about.component';
 import { CompetitionJudgesComponent } from './details-tabs/competition-judges/competition-judges.component';
 import { JudgeCardComponent } from './details-tabs/competition-judges/judge-card/judge-card.component';
+import { WorkshopImagesComponent } from './details-tabs/workshop-images/workshop-images.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { JudgeCardComponent } from './details-tabs/competition-judges/judge-card
     CompetitionDetailsComponent,
     CompetitionAboutComponent,
     CompetitionJudgesComponent,
-    JudgeCardComponent
+    JudgeCardComponent,
+    WorkshopImagesComponent
   ],
   imports: [CommonModule, SharedModule, MaterialModule, TranslateModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

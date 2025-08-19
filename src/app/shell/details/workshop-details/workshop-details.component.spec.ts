@@ -166,7 +166,7 @@ describe('WorkshopDetailsComponent', () => {
         index: 1
       };
 
-      component.onTabChange(mockEvent as MatTabChangeEvent);
+      (component as any).onTabChange(mockEvent as MatTabChangeEvent);
 
       expect(mockRouter.navigate).toHaveBeenCalledWith(
         [],

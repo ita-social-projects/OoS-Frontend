@@ -1,37 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { WINDOW } from 'ngx-window-token';
 import { filter, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { CategoryIcons } from 'shared/enum/category-icons';
-import { CompetitionDetailsTabTitlesParams, CompetitionStatus } from 'shared/enum/competition';
+import { CompetitionStatus } from 'shared/enum/competition';
 import { CompetitionDetailsTabTitlesEnum } from 'shared/enum/enumUA/competition';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
-import { ImgPath } from 'shared/models/carousel.model';
 import { Competition } from 'shared/models/competition.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
-import { take } from 'rxjs/operators';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-competition-details',
   templateUrl: './competition-details.component.html',
   styleUrls: ['./competition-details.component.scss']
 })
-export class CompetitionDetailsComponent implements OnInit {
+export class CompetitionDetailsComponent extends TabParamsComponent implements OnInit {
   @Input() public competition: Competition;
   @Input() public provider: Provider;
   @Input() public role: Role;
@@ -41,7 +41,6 @@ export class CompetitionDetailsComponent implements OnInit {
 
   @Select(MetaDataState.subDirections) public subDirections$: Observable<SubDirection[]>;
 
-  public readonly CategoryIcons = CategoryIcons;
   public readonly ModalType = ModalConfirmationType;
   public readonly CompetitionStatus = CompetitionStatus;
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
@@ -49,10 +48,9 @@ export class CompetitionDetailsComponent implements OnInit {
   public readonly CompetitionDetailsTabTitlesEnum = CompetitionDetailsTabTitlesEnum;
   public readonly InfoMenuType = InfoMenuType;
 
+  public isImageBroken: boolean = false;
   public competitionStatusOpen: boolean;
-  public images: ImgPath[] = [];
   public coverImage: string;
-  public selectedIndex: number;
   public competitionSubdirections: string[];
   public providerParameters: ProviderParameters = {
     providerId: '',
@@ -61,20 +59,23 @@ export class CompetitionDetailsComponent implements OnInit {
   };
 
   constructor(
+    @Inject(WINDOW) protected window: Window,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
     private readonly store: Store,
     private readonly dialog: MatDialog,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly imageService: ImagesService,
+    private readonly imagesService: ImagesService,
     private readonly navigationBarService: NavigationBarService
-  ) {}
+  ) {
+    super(window, route, router);
+  }
 
   public ngOnInit(): void {
+    super.ngOnInit();
     this.providerParameters.excludedCompetitionId = this.competition.id;
     this.providerParameters.providerId = this.competition?.organizerOfTheEventId;
     this.getCompetitionData();
     this.getSubDirections();
-    this.images = this.imageService.getCarouselImages(Object.setPrototypeOf(this.competition, Competition.prototype));
   }
 
   public onActionButtonClick(ModalType: ModalConfirmationType): void {
@@ -103,15 +104,38 @@ export class CompetitionDetailsComponent implements OnInit {
       .subscribe();
   }
 
-  public onTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { status: CompetitionDetailsTabTitlesParams[event.index] }
-    });
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.coverImage = this.imagesService.getDefaultCoverImage();
+  }
+
+  protected initTabs(): void {
+    this.tabs = [
+      {
+        alias: 'AboutCompetition',
+        labelKey: this.CompetitionDetailsTabTitlesEnum.AboutCompetition,
+        visible: true
+      },
+      {
+        alias: 'Judges',
+        labelKey: this.CompetitionDetailsTabTitlesEnum.Judges,
+        visible: true
+      },
+      {
+        alias: 'Contacts',
+        labelKey: this.CompetitionDetailsTabTitlesEnum.Contacts,
+        visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.CompetitionDetailsTabTitlesEnum.Images,
+        visible: true
+      }
+    ].filter((tab) => tab.visible);
   }
 
   private getCompetitionData(): void {
-    this.coverImage = this.imageService.getCoverImage(this.competition);
+    this.coverImage = this.imagesService.getCoverImage(this.competition);
     this.store.dispatch([
       new GetProviderById(this.competition.organizerOfTheEventId),
       new AddNavPath(
