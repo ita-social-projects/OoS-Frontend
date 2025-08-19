@@ -8,7 +8,12 @@
     [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"
     (deleteImage)="onDeleteImage()">
   </app-image-form-control>
-  <app-validation-hint [validationFormControl]="AboutFormGroup" [formLevelValidation]="true" [isImage]="true" minImages="1" maxImages="1">
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup"
+    [formLevelValidation]="true"
+    [isImage]="true"
+    [minImages]="1"
+    [maxImages]="1">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}<span class="step-required">*</span></label>
@@ -40,22 +45,38 @@
   <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group color="primary" formControlName="noAgeRestrictions" class="flex flex-col justify-between items-stretch">
     <mat-radio-button [value]="true">
-      {{ 'UNLIMITED' | translate }}
+      <span class="step-text">
+        {{ 'UNLIMITED' | translate }}
+      </span>
     </mat-radio-button>
     <div>
       <mat-radio-button [value]="false" class="age-radio-btn">
         <div class="flex flex-row justify-start">
           <div class="flex flex-col justify-start items-start">
             <div class="flex flex-row justify-start items-center">
-              <p class="step-text font-sans">{{ 'FROM' | translate }}</p>
-              <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly />
+              <p class="step-text">{{ 'FROM' | translate }}</p>
+              <input
+                matInput
+                class="step-input step-input-age"
+                type="number"
+                [min]="validationConstants.AGE_MIN"
+                [max]="validationConstants.BIRTH_AGE_MAX"
+                formControlName="minAge"
+                appDigitOnly />
             </div>
           </div>
 
           <div class="flex flex-col justify-start items-start">
             <div class="flex flex-row justify-start items-center">
-              <p class="step-text font-sans">{{ 'TO' | translate }}</p>
-              <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly />
+              <p class="step-text">{{ 'TO' | translate }}</p>
+              <input
+                matInput
+                class="step-input step-input-age"
+                type="number"
+                [min]="validationConstants.AGE_MIN"
+                [max]="validationConstants.BIRTH_AGE_MAX"
+                formControlName="maxAge"
+                appDigitOnly />
             </div>
           </div>
         </div>
@@ -64,15 +85,15 @@
         <div class="w-[300px]">
           <app-validation-hint
             [validationFormControl]="AboutFormGroup.get('minAge')"
-            isNumberValue="true"
+            [isNumberValue]="true"
             [minValue]="validationConstants.AGE_MIN"
             [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
-          <app-validation-hint isAge="true" formLevelValidation="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
+          <app-validation-hint [isAge]="true" [formLevelValidation]="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
         </div>
         <app-validation-hint
           class="w-[300px] ml-4"
           [validationFormControl]="AboutFormGroup.get('maxAge')"
-          isNumberValue="true"
+          [isNumberValue]="true"
           [minValue]="validationConstants.AGE_MIN"
           [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
       </div>
@@ -123,7 +144,7 @@
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
-        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"></app-validation-hint>
       </div>
     </div>
   </div>
@@ -158,7 +179,9 @@
   <mat-radio-group formControlName="formOfLearning" color="primary" class="flex flex-col justify-between items-stretch">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
-        {{ FormOfLearningEnum[formOfLearning.key] | translate }}
+        <span class="step-text">
+          {{ FormOfLearningEnum[formOfLearning.key] | translate }}
+        </span>
       </mat-radio-button>
     </ng-container>
   </mat-radio-group>
@@ -172,7 +195,9 @@
     </div>
     <small>{{ 'FORMS.LABELS.AVAILABLE_PLACES_DESCRIPTION' | translate }}</small>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
-      <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
+      <mat-radio-button [value]="true"
+        ><span class="step-text">{{ 'UNLIMITED' | translate }}</span></mat-radio-button
+      >
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
           <mat-radio-button [value]="false">

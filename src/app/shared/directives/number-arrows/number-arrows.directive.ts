@@ -12,11 +12,14 @@ export class NumberArrowsDirective implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     const input = this.el.nativeElement;
+    const width = `${parseFloat(getComputedStyle(input).width) + 20}px`;
+
+    this.renderer.setStyle(input, 'width', width);
 
     const wrapper = this.renderer.createElement('div');
     this.renderer.setStyle(wrapper, 'position', 'relative');
     this.renderer.setStyle(wrapper, 'display', 'inline-block');
-    this.renderer.setStyle(wrapper, 'width', getComputedStyle(input).width);
+    this.renderer.setStyle(wrapper, 'width', width);
 
     const parent = input.parentNode;
     this.renderer.insertBefore(parent, wrapper, input);
@@ -71,7 +74,7 @@ export class NumberArrowsDirective implements AfterViewInit {
     this.renderer.setStyle(icon, 'line-height', '18px');
 
     this.renderer.setStyle(icon, 'position', 'absolute');
-    this.renderer.setStyle(icon, 'right', getComputedStyle(this.el.nativeElement).borderRadius);
+    this.renderer.setStyle(icon, 'right', `${parseFloat(getComputedStyle(this.el.nativeElement).borderRadius) / 2}px`);
     this.renderer.setStyle(icon, name === 'keyboard_arrow_up' ? 'top' : 'bottom', '0');
 
     this.renderer.setStyle(icon, 'display', 'none');
@@ -97,10 +100,17 @@ export class NumberArrowsDirective implements AfterViewInit {
       return;
     }
 
+    const min = input.min !== '' ? Number(input.min) : -Infinity;
+    const max = input.max !== '' ? Number(input.max) : Infinity;
+
     if (direction === 'up') {
-      input.stepUp();
+      if (input.value === '' || Number(input.value) < max) {
+        input.stepUp();
+      }
     } else {
-      input.stepDown();
+      if (input.value === '' || Number(input.value) > min) {
+        input.stepDown();
+      }
     }
 
     input.dispatchEvent(new Event('input', { bubbles: true }));

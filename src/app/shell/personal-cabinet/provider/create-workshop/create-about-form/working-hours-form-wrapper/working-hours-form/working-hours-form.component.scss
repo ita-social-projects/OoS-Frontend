@@ -3,6 +3,12 @@
 @use 'working-hours';
 @use 'timepicker';
 
+.day,
+.text {
+  font-family: Innerspace, sans-serif;
+  font-weight: bold;
+}
+
 .step {
   gap: 10px;
 }

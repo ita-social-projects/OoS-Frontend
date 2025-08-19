@@ -7,7 +7,7 @@
           [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
           <div
             *ngFor="let day of days"
-            class="flex flex-row justify-center items-center"
+            class="day flex flex-row justify-center items-center"
             (click)="onToggleDays(day)"
             [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'">
             {{ day.value | translate }}
