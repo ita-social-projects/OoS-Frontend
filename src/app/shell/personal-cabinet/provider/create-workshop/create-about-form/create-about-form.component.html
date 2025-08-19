@@ -45,7 +45,7 @@
   <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group color="primary" formControlName="noAgeRestrictions" class="flex flex-col justify-between items-stretch">
     <mat-radio-button [value]="true">
-      <span class="step-text">
+      <span class="font-sans">
         {{ 'UNLIMITED' | translate }}
       </span>
     </mat-radio-button>
@@ -54,7 +54,7 @@
         <div class="flex flex-row justify-start">
           <div class="flex flex-col justify-start items-start">
             <div class="flex flex-row justify-start items-center">
-              <p class="step-text">{{ 'FROM' | translate }}</p>
+              <p class="step-text font-sans !font-normal !pl-0">{{ 'FROM' | translate }}</p>
               <input
                 matInput
                 class="step-input step-input-age"
@@ -68,7 +68,7 @@
 
           <div class="flex flex-col justify-start items-start">
             <div class="flex flex-row justify-start items-center">
-              <p class="step-text">{{ 'TO' | translate }}</p>
+              <p class="step-text font-sans !font-normal">{{ 'TO' | translate }}</p>
               <input
                 matInput
                 class="step-input step-input-age"
@@ -179,9 +179,7 @@
   <mat-radio-group formControlName="formOfLearning" color="primary" class="flex flex-col justify-between items-stretch">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
-        <span class="step-text">
-          {{ FormOfLearningEnum[formOfLearning.key] | translate }}
-        </span>
+        {{ FormOfLearningEnum[formOfLearning.key] | translate }}
       </mat-radio-button>
     </ng-container>
   </mat-radio-group>
@@ -195,9 +193,7 @@
     </div>
     <small>{{ 'FORMS.LABELS.AVAILABLE_PLACES_DESCRIPTION' | translate }}</small>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
-      <mat-radio-button [value]="true"
-        ><span class="step-text">{{ 'UNLIMITED' | translate }}</span></mat-radio-button
-      >
+      <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
           <mat-radio-button [value]="false">
