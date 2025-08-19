@@ -60,54 +60,6 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     this.destroy$.unsubscribe();
   }
 
-  /**
-   * This method add checked direction to the list of selected directions and dispatch filter action
-   * @param direction
-   * @param event
-   */
-  // public onDirectionCheck(direction: Direction, event: MatCheckboxChange): void {
-  //   if (event.checked) {
-  //     this.selectedDirectionIds.push(direction.id);
-  //     this.directionsService
-  //       .getSubdirections(direction.id)
-  //       .pipe(map((response) => response.entities))
-  //       .subscribe((subdirections: Subdirection[]) => {
-  //         direction.subdirections = direction.subdirections || [];
-  //         for (const subdirection of subdirections) {
-  //           direction.subdirections.push(subdirection);
-  //         }
-  //         console.log('direction', direction);
-  //       });
-  //   } else {
-  //     this.selectedDirectionIds.splice(
-  //       this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-  //       1
-  //     );
-  //   }
-  //   this.store.dispatch(new SetDirections(this.selectedDirectionIds));
-  // }
-
-  /**
-   * This method check if value is checked
-   * @returns boolean
-   */
-  // public onSelectCheck(direction: Direction): boolean {
-  //   return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
-  // }
-
-  /**
-   * This method filter directions according to the input value
-   * @param value string
-   */
-  // private filterDirections(value: string): void {
-  //   this.filteredDirections = this.allDirections.filter((direction: Direction) =>
-  //     direction.title
-  //       .toLowerCase()
-  //       .split(WORD_SPLIT_REGEX)
-  //       .some((word) => word.startsWith(value.toLowerCase()))
-  //   );
-  // }
-
   private scrollToSelectedDirection(): void {
     setTimeout(() => {
       const itemsList: HTMLCollection = this.filterContainer.nativeElement.children;

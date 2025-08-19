@@ -1,8 +1,9 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="directions-tree">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle class="mat-tree-node">
     <li>
       <mat-checkbox
         color="primary"
+        class="subdirection-checkbox"
         (change)="onSubdirectionCheck(node, $event)"
         [checked]="subdirectionChecked(node)"
         (click)="$event.stopPropagation()">
@@ -15,6 +16,7 @@
       <div class="mat-tree-node">
         <mat-checkbox
           color="primary"
+          class="direction-checkbox"
           (change)="onDirectionCheck(node, $event)"
           [checked]="directionChecked(node)"
           [indeterminate]="isDirectionIndeterminate(node)"

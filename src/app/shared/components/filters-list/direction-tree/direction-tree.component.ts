@@ -57,10 +57,6 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       this.initSubdirectionIds = [];
       this.initIndeterminateIds = [];
     });
-
-    setInterval(() => {
-      console.log('Selected:', this.selectedDirectionIds, this.selectedSubdirectionIds, this.indeterminateDirectionIds);
-    }, 5000);
   }
 
   public ngOnDestroy(): void {
