@@ -13,6 +13,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { DateInputDirective } from 'shared/directives/date-input/date-input.directive';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
+import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -98,7 +99,6 @@ import { CookiesBannerComponent } from './components/cookies-banner/cookies-bann
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
-import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
 
 @NgModule({
   declarations: [
