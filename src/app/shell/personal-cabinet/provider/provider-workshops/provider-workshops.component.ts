@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store, ofAction } from '@ngxs/store';
-import { Observable, filter } from 'rxjs';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { filter, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -11,14 +11,14 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { WorkshopBaseCard, WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
-  DeleteWorkshopById,
+  ArchiveWorkshopById,
   GetEmployeeWorkshops,
   GetProviderViewWorkshops,
-  OnUpdateWorkshopStatusSuccess,
-  GetUnfinishedWorkshop
+  GetUnfinishedWorkshop,
+  OnUpdateWorkshopStatusSuccess
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
@@ -99,14 +99,14 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   /**
-   * This method delete workshop By Workshop Id
+   * This method deletes (archives) workshop By Workshop Id
    * @param workshop
    */
-  public onDelete(workshop: WorkshopProviderViewCard): void {
+  public onArchive(workshop: WorkshopBaseCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.archiveWorkshop,
         property: workshop.title
       }
     });
@@ -114,10 +114,11 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((result: boolean) => {
-        this.store.dispatch(new DeleteWorkshopById(workshop.id, this.workshopCardParameters));
+      .subscribe(() => {
+        this.store.dispatch(new ArchiveWorkshopById(workshop.id, this.workshopCardParameters));
       });
   }
+
   public onSearch(searchFormControl: FormControl): void {
     const searchText = searchFormControl.value;
 

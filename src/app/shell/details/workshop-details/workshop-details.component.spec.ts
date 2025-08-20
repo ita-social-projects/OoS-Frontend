@@ -15,11 +15,11 @@ import { ImageCarouselComponent } from 'shared/components/image-carousel/image-c
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { ArchiveWorkshopById, DraftSendForModeration, GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { WorkshopDetailsComponent } from './workshop-details.component';
@@ -104,18 +104,45 @@ describe('WorkshopDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open confirmation dialog and dispatch PublishWorkshop on confirm', () => {
-    expectingMatDialogData = {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.publishWorkshop
-      }
-    };
-    matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
-      afterClosed: () => of(true)
-    } as MatDialogRef<ConfirmationModalWindowComponent>);
-    component.onActionButtonClick(ModalConfirmationType.publishWorkshop);
-    expect(matDialogSpy).toHaveBeenCalledTimes(1);
+  describe('Action Button', () => {
+    beforeEach(() => {
+      matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<ConfirmationModalWindowComponent>);
+    });
+
+    it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+      component.workshop = {
+        workshopDraftId: '123'
+      } as WorkshopDraft;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftSet
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.draftSet);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new DraftSendForModeration('123'));
+    });
+
+    it('should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
+      component.workshop = {
+        id: '123'
+      } as Workshop;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.archiveWorkshop
+        }
+      };
+
+      component.onActionButtonClick(ModalConfirmationType.archiveWorkshop);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new ArchiveWorkshopById('123'));
+    });
   });
 
   it('should set default coverImage', () => {

@@ -4,7 +4,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
@@ -21,6 +21,7 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { ImagesService } from 'shared/services/images/images.service';
 import { SubDirection } from 'shared/models/category.model';
+import { ArchiveCompetitionById } from 'shared/store/provider.actions';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
 describe('CompetitionDetailsComponent', () => {
@@ -40,6 +41,12 @@ describe('CompetitionDetailsComponent', () => {
       }
     },
     queryParams: of({ tab: '111' })
+  };
+
+  const mockStore = {
+    dispatch: jest.fn(),
+    select: jest.fn().mockReturnValue(of({})),
+    selectSnapshot: jest.fn().mockReturnValue(true)
   };
 
   beforeEach(async () => {
@@ -63,7 +70,10 @@ describe('CompetitionDetailsComponent', () => {
         MockActionsComponent,
         ConfirmationModalWindowComponent
       ],
-      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
+      providers: [
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Store, useValue: mockStore }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -84,21 +94,40 @@ describe('CompetitionDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open confirmation dialog and dispatch PublishWorkshop on confirm', () => {
-    expectingMatDialogData = {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.publishCompetition
-      }
-    };
+  describe('Action Button', () => {
+    beforeEach(() => {
+      matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<ConfirmationModalWindowComponent>);
+    });
 
-    matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
-      afterClosed: () => of(true)
-    } as MatDialogRef<ConfirmationModalWindowComponent>);
-    component.onActionButtonClick(ModalConfirmationType.publishCompetition);
+    // it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+    //   expectingMatDialogData = {
+    //     width: Constants.MODAL_SMALL,
+    //     data: {
+    //       type: ModalConfirmationType.draftSet
+    //     }
+    //   };
+    //   component.onActionButtonClick(ModalConfirmationType.draftSet);
+    //   expect(matDialogSpy).toHaveBeenCalledTimes(1);
+    //   expect(mockStore.dispatch).toHaveBeenCalledWith(new CompetitionDraftSendForModeration('123'));
+    // });
 
-    expect(matDialogSpy).toHaveBeenCalledTimes(1);
-    expect(matDialogSpy).toHaveBeenCalledWith(ConfirmationModalWindowComponent, expectingMatDialogData);
+    it('should open confirmation dialog and dispatch ArchiveCompetition on confirm', () => {
+      component.competition = {
+        id: '123'
+      } as Competition;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.archiveCompetition
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.archiveCompetition);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new ArchiveCompetitionById('123'));
+    });
   });
 
   it('should load images for carousel and cover image on ngOnInit', () => {

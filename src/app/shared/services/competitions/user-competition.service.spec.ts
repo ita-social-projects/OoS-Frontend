@@ -4,7 +4,6 @@ import { Store } from '@ngxs/store';
 import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { MetaDataState } from 'shared/store/meta-data.state';
 import { UserCompetitionService } from './user-competition.service';
 
 describe('UserCompetitionService', () => {
@@ -87,12 +86,12 @@ describe('UserCompetitionService', () => {
     req.flush(mockCompetition);
   });
 
-  it('should delete competition by ID', () => {
-    service.deleteCompetitionById('123').subscribe((response) => {
+  it('should archivate competition by ID', () => {
+    service.archiveCompetitionById('123').subscribe((response) => {
       expect(response).toBeNull();
     });
 
-    const req = httpMock.expectOne('/api/v1/CompetitiveEvent/123');
+    const req = httpMock.expectOne('/api/v2/CompetitiveEvent/Delete/123');
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });

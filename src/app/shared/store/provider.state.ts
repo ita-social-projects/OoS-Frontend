@@ -42,6 +42,7 @@ import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
 import {
+  GetProviderViewCompetitions,
   OnGetWorkshopDraftIdByWorkshopIdSuccess,
   OnSaveWorkshopStep,
   OnSaveWorkshopStepFail,
@@ -526,11 +527,14 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(providerActions.DeleteWorkshopById)
-  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { id, parameters }: providerActions.DeleteWorkshopById): Observable<void> {
-    return this.userWorkshopService.deleteWorkshop(id).pipe(
-      tap(() => dispatch(new providerActions.OnDeleteWorkshopSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteWorkshopFail(error)))
+  @Action(providerActions.ArchiveWorkshopById)
+  deleteWorkshop(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { id, parameters }: providerActions.ArchiveWorkshopById
+  ): Observable<void> {
+    return this.userWorkshopService.archiveWorkshop(id).pipe(
+      tap(() => dispatch(new providerActions.OnArchiveWorkshopSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnArchiveWorkshopFail(error)))
     );
   }
 
@@ -567,7 +571,7 @@ export class ProviderState {
           }
         })
         .afterClosed()
-        .pipe(take(1), filter(Boolean))
+        .pipe(filter(Boolean))
         .subscribe(() => {
           this.router.navigate(['/create/draft', draftId]).then(() => {
             dispatch(
@@ -626,19 +630,22 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(providerActions.OnDeleteWorkshopSuccess)
-  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteWorkshopSuccess): void {
-    dispatch([
+  @Action(providerActions.OnArchiveWorkshopSuccess)
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnArchiveWorkshopSuccess): void {
+    dispatch(
       new ShowMessageBar({
         message: SnackbarText.deleteWorkshop,
         type: 'success'
-      }),
-      new providerActions.GetProviderViewWorkshops(parameters)
-    ]);
+      })
+    );
+
+    if (parameters) {
+      dispatch(new providerActions.GetProviderViewWorkshops(parameters));
+    }
   }
 
-  @Action(providerActions.OnDeleteWorkshopFail)
-  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteWorkshopFail): void {
+  @Action(providerActions.OnArchiveWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -1246,32 +1253,31 @@ export class ProviderState {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(providerActions.DeleteCompetitionById)
+  @Action(providerActions.ArchiveCompetitionById)
   deleteCompetitionById(
     { dispatch }: StateContext<ProviderStateModel>,
-    { competition, parameters }: providerActions.DeleteCompetitionById
+    { id, parameters }: providerActions.ArchiveCompetitionById
   ): Observable<Competition | void> {
-    return this.userCompetitionService.deleteCompetitionById(competition.id).pipe(
-      tap(() => dispatch(new providerActions.DeleteCompetitionByIdSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => dispatch(new providerActions.DeleteCompetitionByIdFail(error)))
+    return this.userCompetitionService.archiveCompetitionById(id).pipe(
+      tap(() => dispatch(new providerActions.OnArchiveCompetitionSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnArchiveCompetitionFail(error)))
     );
   }
 
-  @Action(providerActions.DeleteCompetitionByIdSuccess)
-  deleteCompetitionByIdSuccess(
+  @Action(providerActions.OnArchiveCompetitionSuccess)
+  archiveCompetitionByIdSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { competition }: providerActions.DeleteCompetitionByIdSuccess
+    { parameters }: providerActions.OnArchiveCompetitionSuccess
   ): void {
-    const messageData = Util.getWorkshopMessage(competition, SnackbarText.deleteCompetition);
-    dispatch([
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: messageData.message, type: messageData.type }),
-      new providerActions.GetProviderViewCompetitions(competition)
-    ]);
+    dispatch(new ShowMessageBar({ message: SnackbarText.deleteCompetition, type: 'success' }));
+
+    if (parameters) {
+      dispatch(new GetProviderViewCompetitions(parameters));
+    }
   }
 
-  @Action(providerActions.DeleteCompetitionByIdFail)
-  deleteCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>, { error }: providerActions.DeleteCompetitionByIdFail): void {
+  @Action(providerActions.OnArchiveCompetitionFail)
+  archiveCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

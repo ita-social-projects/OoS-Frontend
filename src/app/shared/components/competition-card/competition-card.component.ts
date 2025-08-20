@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
@@ -11,6 +11,8 @@ import { Role } from 'shared/enum/role';
 import { CompetitionBaseCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-competition-card',
@@ -44,7 +46,11 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private imageService: ImagesService) {}
+  constructor(
+    private imageService: ImagesService,
+    private router: Router,
+    private store: Store
+  ) {}
 
   @Input() public set competition(competition: CompetitionProviderViewCard) {
     this.competitionData = competition;
@@ -70,6 +76,25 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public onImageError(): void {
     this.isImageBroken = true;
     this.competitionData._meta = this.imageService.getDefaultCoverImage();
+  }
+
+  public onKeydown(event: KeyboardEvent, action: () => void): void {
+    if (event.keyCode === ENTER || event.keyCode === SPACE) {
+      action();
+      event.preventDefault();
+    }
+  }
+
+  public onEditKeydown(event: KeyboardEvent): void {
+    this.onKeydown(event, () => this.onEdit());
+  }
+
+  public onEdit(): void {
+    this.router.navigate(['/create-competition', this.competitionData.id]);
+  }
+
+  public onDeleteKeydown(event: KeyboardEvent): void {
+    this.onKeydown(event, () => this.onDelete());
   }
 
   public onDelete(): void {

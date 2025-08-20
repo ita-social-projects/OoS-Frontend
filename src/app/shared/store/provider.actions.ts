@@ -15,7 +15,7 @@ import {
   WorkshopOtherRequiredProperties
 } from 'shared/models/draftWorkshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
-import { Competition, CompetitionCardParameters, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -200,23 +200,23 @@ export class OnUpdateWorkshopSuccess {
   constructor(public payload: Workshop) {}
 }
 
-export class DeleteWorkshopById {
-  static readonly type = '[provider] delete Workshop';
+export class ArchiveWorkshopById {
+  static readonly type = '[provider] archive Workshop';
 
   constructor(
     public id: string,
-    public parameters: WorkshopCardParameters
+    public parameters?: WorkshopCardParameters
   ) {}
 }
 
-export class OnDeleteWorkshopSuccess {
-  static readonly type = '[provider] delete Workshop success';
+export class OnArchiveWorkshopSuccess {
+  static readonly type = '[provider] archive Workshop success';
 
-  constructor(public parameters: WorkshopCardParameters) {}
+  constructor(public parameters?: WorkshopCardParameters) {}
 }
 
-export class OnDeleteWorkshopFail {
-  static readonly type = '[provider] delete Workshop fail';
+export class OnArchiveWorkshopFail {
+  static readonly type = '[provider] archive Workshop fail';
 
   constructor(public payload: HttpErrorResponse) {}
 }
@@ -833,23 +833,23 @@ export class OnUpdateCompetitionSuccess {
   constructor(public payload: Competition) {}
 }
 
-export class DeleteCompetitionById {
-  static readonly type = '[provider] delete Competition by id';
+export class ArchiveCompetitionById {
+  static readonly type = '[provider] archive Competition by id';
 
   constructor(
-    public competition: CompetitionProviderViewCard,
-    public parameters: CompetitionCardParameters
+    public id: string,
+    public parameters?: CompetitionCardParameters
   ) {}
 }
 
-export class DeleteCompetitionByIdFail {
-  static readonly type = '[provider] delete Competition by id fail';
+export class OnArchiveCompetitionSuccess {
+  static readonly type = '[provider] archive Competition by id success';
 
-  constructor(public error: HttpErrorResponse) {}
+  constructor(public parameters?: CompetitionCardParameters) {}
 }
 
-export class DeleteCompetitionByIdSuccess {
-  static readonly type = '[provider] delete Competition by id success';
+export class OnArchiveCompetitionFail {
+  static readonly type = '[provider] archive Competition by id fail';
 
-  constructor(public competition: CompetitionCardParameters) {}
+  constructor(public error: HttpErrorResponse) {}
 }

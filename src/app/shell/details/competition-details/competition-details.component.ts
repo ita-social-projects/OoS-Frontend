@@ -1,10 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
-import { filter, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { EMPTY, filter, Observable } from 'rxjs';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -20,10 +20,11 @@ import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { GetProviderById } from 'shared/store/shared-user.actions';
+import { GetCompetitionById, GetProviderById } from 'shared/store/shared-user.actions';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { SubDirection } from 'shared/models/category.model';
+import { ArchiveCompetitionById, OnArchiveCompetitionFail, OnArchiveCompetitionSuccess } from 'shared/store/provider.actions';
 import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
@@ -65,7 +66,8 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
     private readonly store: Store,
     private readonly dialog: MatDialog,
     private readonly imagesService: ImagesService,
-    private readonly navigationBarService: NavigationBarService
+    private readonly navigationBarService: NavigationBarService,
+    private readonly actions$: Actions
   ) {
     super(window, route, router);
   }
@@ -78,28 +80,43 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
     this.getSubDirections();
   }
 
-  public onActionButtonClick(ModalType: ModalConfirmationType): void {
+  public onActionButtonClick(type: ModalConfirmationType): void {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalType
+        type: type
       }
     });
+
     dialogRef
       .afterClosed()
       .pipe(
-        take(1),
-        filter(Boolean)
-        /*
-         * todo: this code should be return when
-         * backend add functions that archive/publish user Competition
-         */
-        // return this code when added feature for published competition
-        // switchMap(() => {
-        //   if (ModalType === this.ModalType.publishCompetition) {
-        //     return this.store.dispatch(new PublishWorkshop(this.competition.organizerOfTheEventId));
-        //   }
-        // })
+        filter(Boolean),
+        switchMap(() => {
+          // TODO: uncomment once provider competition draft PR will be merged
+          // if (type === ModalConfirmationType.draftSet) {
+          //   this.store.dispatch(new CompetitionDraftSendForModeration((this.competition as CompetitionDraft).competitiveEventDraftId));
+          //
+          //   return this.actions$.pipe(
+          //     ofAction(OnCompetitionDraftSendForModerationSuccess),
+          //     take(1),
+          //     takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
+          //     tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
+          //   );
+          // }
+
+          if (type === ModalConfirmationType.archiveCompetition) {
+            this.store.dispatch(new ArchiveCompetitionById(this.competition.id));
+            return this.actions$.pipe(
+              ofAction(OnArchiveCompetitionSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
+              tap(() => this.store.dispatch(new GetCompetitionById((this.competition as Competition).id)))
+            );
+          }
+
+          return EMPTY;
+        })
       )
       .subscribe();
   }

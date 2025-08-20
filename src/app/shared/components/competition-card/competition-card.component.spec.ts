@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { Role } from 'shared/enum/role';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ENTER } from '@angular/cdk/keycodes';
+import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { NgxsModule, Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+
+import { Role } from 'shared/enum/role';
 import { CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { CompetitionStatus, FormOfLearning } from 'shared/enum/competition';
 import { RegistrationState } from 'shared/store/registration.state';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { StsConfigLoader } from 'angular-auth-oidc-client';
-import { TranslateModule } from '@ngx-translate/core';
 import { CompetitionCardComponent } from './competition-card.component';
 
 describe('CompetitionCardComponent', () => {
@@ -45,10 +47,8 @@ describe('CompetitionCardComponent', () => {
       maximumAge: 12,
       competitiveSelection: false,
       price: 0,
-      withDisabilityOptions: false,
       rating: 0,
-      numberOfRatings: 0,
-      directionIds: []
+      numberOfRatings: 0
     };
     fixture.detectChanges();
   });
@@ -71,5 +71,19 @@ describe('CompetitionCardComponent', () => {
     component.onDelete();
 
     expect(component.deleteCompetition.emit).toHaveBeenCalledWith(component.competitionData);
+  });
+
+  it('keydown', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {
+      keyCode: ENTER
+    });
+
+    jest.spyOn(component, 'onEdit');
+    jest.spyOn(component, 'onDelete');
+
+    component.onEditKeydown(keyboardEvent);
+    expect(component.onEdit).toHaveBeenCalled();
+    component.onDeleteKeydown(keyboardEvent);
+    expect(component.onDelete).toHaveBeenCalled();
   });
 });

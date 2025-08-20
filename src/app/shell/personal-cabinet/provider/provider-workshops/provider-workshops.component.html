@@ -22,7 +22,7 @@
           *ngFor="let workshop of workshops.entities"
           [workshop]="workshop"
           [isCabinetView]="true"
-          (deleteWorkshop)="onDelete($event)">
+          (deleteWorkshop)="onArchive($event)">
         </app-workshop-card>
       </div>
       <ng-container *ngIf="workshops.totalAmount">

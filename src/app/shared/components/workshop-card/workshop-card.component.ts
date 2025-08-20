@@ -118,8 +118,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onEditKeydown(event: KeyboardEvent, id: string | undefined): void {
-    this.onKeydown(event, () => this.onEdit(id));
+  public onEditKeydown(event: KeyboardEvent): void {
+    this.onKeydown(event, () => this.onEdit());
   }
 
   public onDeleteKeydown(event: KeyboardEvent): void {
@@ -138,9 +138,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.onKeydown(event, () => this.onDisLike());
   }
 
-  public onEdit(workshopDraftId: string | undefined): void {
-    if (workshopDraftId) {
-      this.router.navigate(['create/draft', workshopDraftId]);
+  public onEdit(): void {
+    const draftId = (this.workshopData as WorkshopDraftCard)?.workshopDraftId;
+    if (draftId) {
+      this.router.navigate(['create/draft', draftId]);
     } else {
       this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.workshopData?.id));
     }

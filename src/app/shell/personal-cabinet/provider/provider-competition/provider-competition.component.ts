@@ -3,14 +3,15 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { Select, Store } from '@ngxs/store';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { CompetitionCardParameters, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { CompetitionBaseCard, CompetitionCardParameters } from 'shared/models/competition.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { Util } from 'shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderState } from 'shared/store/provider.state';
-import { filter, Observable, takeUntil } from 'rxjs';
-import { DeleteCompetitionById, GetProviderViewCompetitions } from 'shared/store/provider.actions';
+import { filter, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ArchiveCompetitionById, GetProviderViewCompetitions } from 'shared/store/provider.actions';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ProviderComponent } from '../provider.component';
@@ -40,6 +41,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
   ) {
     super(store, matDialog);
   }
+
   /**
    * This method set navigation path
    */
@@ -67,7 +69,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
    * This method delete competition By Competition Id
    * @param competition
    */
-  public onDelete(competition: CompetitionProviderViewCard): void {
+  public onDelete(competition: CompetitionBaseCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -80,7 +82,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        this.store.dispatch(new DeleteCompetitionById(competition, this.competitionCardParameters));
+        this.store.dispatch(new ArchiveCompetitionById(competition.id, this.competitionCardParameters));
       });
   }
 
@@ -92,6 +94,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
       .pipe(takeUntil(this.destroy$))
       .subscribe((competitions: SearchResponse<CompetitionCardParameters[]>) => (this.competitions = competitions));
   }
+
   /**
    * @private
    * @memberof ProviderCompetitionComponent
