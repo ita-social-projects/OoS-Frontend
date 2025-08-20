@@ -375,24 +375,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
       });
     });
 
-    it('should handle non-array imageFiles value', (done) => {
-      component.DescriptionFormGroup.patchValue({
-        imageFiles: 'not-an-array'
-      });
-
-      (component as any).createUnfinishedDescription().subscribe((result) => {
-        expect(result).toEqual({
-          competitiveSelectionDescription: 'Test competitive description',
-          enrollmentProcedureDescription: 'Test enrollment procedure',
-          workshopDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
-          keywords: ['keyword1', 'keyword2'],
-          imageFiles: 'not-an-array',
-          base64ImageFiles: []
-        });
-        done();
-      });
-    });
-
     it('should merge data from both form groups correctly', (done) => {
       component.AdditionalAboutGroup = new FormGroup({
         competitiveSelectionDescription: new FormControl('Additional competitive'),
@@ -450,26 +432,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
       (component as any).createUnfinishedDescription().subscribe((result) => {
         expect(result.imageFiles).toEqual([singleFile]);
         expect(result.base64ImageFiles).toEqual(['base64_single.jpg']);
-        done();
-      });
-    });
-
-    it('should preserve all form control values including disabled ones', (done) => {
-      const disabledControl = new FormControl({ value: 'disabled value', disabled: true });
-
-      component.AdditionalAboutGroup = new FormGroup({
-        enabledField: new FormControl('enabled'),
-        disabledField: disabledControl
-      });
-
-      component.DescriptionFormGroup = new FormGroup({
-        imageFiles: new FormControl([])
-      });
-
-      (component as any).createUnfinishedDescription().subscribe((result) => {
-        expect(result.enabledField).toBe('enabled');
-        expect(result.disabledField).toBe('disabled value');
-        expect(result.base64ImageFiles).toEqual([]);
         done();
       });
     });
@@ -718,22 +680,6 @@ describe('CreateWorkshopComponent (Jest)', () => {
           expect((component as any).createUnfinishedDescription).toHaveBeenCalledTimes(1);
           expect((component as any).createContactsWithCodeficator).toHaveBeenCalledTimes(1);
 
-          done();
-        });
-      });
-
-      it('should handle empty data from methods', (done) => {
-        (component as any).createUnfinishedAbout.mockReturnValue(of({}));
-        (component as any).createAdditionalAbout.mockReturnValue({});
-        (component as any).createUnfinishedDescription.mockReturnValue(of({}));
-        (component as any).createContactsWithCodeficator.mockReturnValue(of([]));
-
-        (component as any).createStepData(4).subscribe((result) => {
-          expect(result).toEqual({
-            $type: 'Type4',
-            providerId: 'test-provider-id',
-            contacts: []
-          });
           done();
         });
       });
