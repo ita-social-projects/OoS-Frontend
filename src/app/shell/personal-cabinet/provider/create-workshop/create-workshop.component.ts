@@ -460,6 +460,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private createContactsWithCodeficator(): Observable<any[]> {
     const contacts = this.createContacts();
 
+    if (!contacts.length) {
+      return of([]);
+    }
+
     const contactsToUpdate$ = contacts.map((contact) => {
       if (contact.address?.catottgId) {
         this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
