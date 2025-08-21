@@ -141,7 +141,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public onEdit(): void {
     const draftId = (this.workshopData as WorkshopDraftCard)?.workshopDraftId;
     if (draftId) {
-      this.router.navigate(['create/draft', draftId]);
+      this.router.navigate(['create/workshop/draft', draftId]);
     } else {
       this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(this.workshopData?.id));
     }

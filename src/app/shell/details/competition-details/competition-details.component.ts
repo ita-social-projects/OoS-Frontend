@@ -5,8 +5,6 @@ import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
 import { EMPTY, filter, Observable } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { filter, Observable, of } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -32,9 +30,10 @@ import {
   CompetitionDraftSendForModeration,
   GetCompetitionDraftIdByCompetitionId,
   OnArchiveCompetitionFail,
-  OnArchiveCompetitionSuccess
+  OnArchiveCompetitionSuccess,
+  OnDraftSendForModerationSuccess
 } from 'shared/store/provider.actions';
-import { WorkshopType } from 'shared/enum/workshop';
+import { WorkshopDraftStatus, WorkshopType } from 'shared/enum/workshop';
 import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
@@ -58,6 +57,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly CompetitionDetailsTabTitlesEnum = CompetitionDetailsTabTitlesEnum;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly WorkshopDraftStatus = WorkshopDraftStatus;
 
   public isImageBroken: boolean = false;
   public competitionStatusOpen: boolean;
@@ -108,7 +108,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
             this.store.dispatch(new CompetitionDraftSendForModeration((this.competition as CompetitionDraft).competitiveEventDraftId));
 
             return this.actions$.pipe(
-              ofAction(OnCompetitionDraftSendForModerationSuccess),
+              ofAction(OnDraftSendForModerationSuccess),
               take(1),
               takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
               tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))

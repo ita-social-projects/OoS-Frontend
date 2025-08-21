@@ -4,17 +4,11 @@ import { ENTER } from '@angular/cdk/keycodes';
 import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ENTER } from '@angular/cdk/keycodes';
 import { Router } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
-import { TranslateModule } from '@ngx-translate/core';
-import { StsConfigLoader } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
 
 import { Role } from 'shared/enum/role';
 import { CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
-import { CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { CompetitionStatus, FormOfLearning } from 'shared/enum/competition';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetCompetitionDraftIdByCompetitionId } from 'shared/store/provider.actions';
@@ -83,19 +77,21 @@ describe('CompetitionCardComponent', () => {
   });
 
   describe('onEdit', () => {
-    it('should navigate directly if workshopDraftId provided', () => {
+    it('should navigate directly if DraftId provided', () => {
       const mockRouter = TestBed.inject(Router);
+      component.competitionData = {
+        competitiveEventDraftId: '111'
+      } as CompetitionDraftCard;
       jest.spyOn(mockRouter, 'navigate');
-      component.onEdit('111');
-      expect(storeMock.dispatch).not.toHaveBeenCalled();
+      component.onEdit();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['create/competition/draft', '111']);
     });
 
-    it('should dispatch check for workshopDraftId if workshopDraftId is not provided', () => {
+    it('should dispatch check for competitiveEventDraftId if DraftId is not provided', () => {
       component.competitionData = {
         id: '111'
       } as CompetitionDraftCard;
-      component.onEdit(undefined);
+      component.onEdit();
       expect(storeMock.dispatch).toHaveBeenCalledWith(new GetCompetitionDraftIdByCompetitionId('111'));
     });
   });
@@ -108,7 +104,7 @@ describe('CompetitionCardComponent', () => {
     jest.spyOn(component, 'onEdit');
     jest.spyOn(component, 'onDelete');
 
-    component.onEditKeydown(keyboardEvent, '111');
+    component.onEditKeydown(keyboardEvent);
     expect(component.onEdit).toHaveBeenCalled();
 
     component.onDeleteKeydown(keyboardEvent);

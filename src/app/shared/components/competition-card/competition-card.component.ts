@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
+
 import { Constants } from 'shared/constants/constants';
 import { CompetitionStatus } from 'shared/enum/competition';
-import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
@@ -35,7 +35,6 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public isImageBroken = false;
 
-  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
   public readonly Constants = Constants;
@@ -104,17 +103,14 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     this.onKeydown(event, () => this.onEdit());
   }
 
-  public onEdit(): void {
-    this.router.navigate(['/create-competition', this.competitionData.id]);
-  }
-
   public onDeleteKeydown(event: KeyboardEvent): void {
     this.onKeydown(event, () => this.onDelete());
   }
 
-  public onEdit(competitiveEventDraftId: string | undefined): void {
-    if (competitiveEventDraftId) {
-      this.router.navigate(['create/competition/draft', competitiveEventDraftId]);
+  public onEdit(): void {
+    const draftId = (this.competitionData as CompetitionDraftCard)?.competitiveEventDraftId;
+    if (draftId) {
+      this.router.navigate(['create/competition/draft', draftId]);
     } else {
       this.store.dispatch(new GetCompetitionDraftIdByCompetitionId(this.competitionData?.id));
     }
@@ -123,6 +119,4 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public onDelete(): void {
     this.deleteCompetition.emit(this.competitionData);
   }
-
-  protected readonly recruitmentStatusEnum = RecruitmentStatusEnum;
 }
