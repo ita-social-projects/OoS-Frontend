@@ -19,13 +19,13 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
   ArchiveWorkshopById,
-  WorkshopDraftSendForModeration,
   GetWorkshopDraftIdByWorkshopId,
   OnArchiveWorkshopFail,
   OnArchiveWorkshopSuccess,
   OnDraftSendForModerationFail,
   OnDraftSendForModerationSuccess,
-  ResetAchievements
+  ResetAchievements,
+  WorkshopDraftSendForModeration
 } from 'shared/store/provider.actions';
 import { GetProviderById, GetWorkshopById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
@@ -228,4 +228,3 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
     ].filter((tab) => tab.visible);
   }
 }
-

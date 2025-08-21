@@ -46,9 +46,7 @@ import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
 import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { WorkshopType } from 'shared/enum/workshop';
 import { GetFilteredProviders } from './admin.actions';
