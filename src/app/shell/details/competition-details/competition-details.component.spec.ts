@@ -16,12 +16,12 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Role } from 'shared/enum/role';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Provider } from 'shared/models/provider.model';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft } from 'shared/models/competition.model';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { ImagesService } from 'shared/services/images/images.service';
 import { SubDirection } from 'shared/models/category.model';
-import { ArchiveCompetitionById } from 'shared/store/provider.actions';
+import { ArchiveCompetitionById, CompetitionDraftSendForModeration } from 'shared/store/provider.actions';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
 describe('CompetitionDetailsComponent', () => {
@@ -101,17 +101,21 @@ describe('CompetitionDetailsComponent', () => {
       } as MatDialogRef<ConfirmationModalWindowComponent>);
     });
 
-    // it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
-    //   expectingMatDialogData = {
-    //     width: Constants.MODAL_SMALL,
-    //     data: {
-    //       type: ModalConfirmationType.draftSet
-    //     }
-    //   };
-    //   component.onActionButtonClick(ModalConfirmationType.draftSet);
-    //   expect(matDialogSpy).toHaveBeenCalledTimes(1);
-    //   expect(mockStore.dispatch).toHaveBeenCalledWith(new CompetitionDraftSendForModeration('123'));
-    // });
+    it('should open confirmation dialog and dispatch SendForModeration on confirm', () => {
+      component.competition = {
+        competitiveEventDraftId: '123'
+      } as CompetitionDraft;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftSet
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.draftSet);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new CompetitionDraftSendForModeration('123'));
+    });
 
     it('should open confirmation dialog and dispatch ArchiveCompetition on confirm', () => {
       component.competition = {
