@@ -93,12 +93,12 @@ export class UserCompetitionService {
    * This method create competition
    * @param competition Competition
    */
-  public createCompetition(competition: Competition): Observable<Competition> {
+  public createCompetition(competition: Competition): Observable<CompetitionDraft> {
     return this.createCompetitionV2(competition);
   }
 
-  public createCompetitionV2(competition: Competition): Observable<Competition> {
-    return this.http.post<Competition>('/api/v2/competitions-drafts', this.createFormData(competition));
+  public createCompetitionV2(competition: Competition): Observable<CompetitionDraft> {
+    return this.http.post<CompetitionDraft>('/api/v2/competitions-drafts', this.createFormData(competition));
   }
 
   /**
