@@ -1,4 +1,6 @@
-import { Contacts } from 'shared/models/workshop.model';
+import { firstValueFrom } from 'rxjs';
+import { base64ArrayToFiles, blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
+import { base64ToFile } from 'ngx-image-cropper';
 import { addBeforeUnloadProtection, Util } from './utils';
 
 describe('formatTimeString', () => {
@@ -246,5 +248,44 @@ describe('addBeforeUnloadProtection', () => {
     expect(shouldBlock).toHaveBeenCalled();
     expect(event.preventDefault).not.toHaveBeenCalled();
     expect(event.returnValue).toBe('');
+  });
+});
+
+describe('image convertation utils', () => {
+  it('should convert blob to base64 string', async () => {
+    const blob = new Blob(['hello world'], { type: 'text/plain' });
+
+    const result = await firstValueFrom(blobToBase64(blob));
+
+    expect(result).toContain('data:text/plain;base64,');
+    expect(typeof result).toBe('string');
+  });
+
+  it('should convert multiple blobs to base64 strings', async () => {
+    const blobs = [new Blob(['one'], { type: 'text/plain' }), new Blob(['two'], { type: 'text/plain' })];
+
+    const result = await firstValueFrom(blobsToBase64(blobs));
+
+    expect(result.length).toBe(2);
+    expect(result[0]).toContain('data:text/plain;base64,');
+    expect(result[1]).toContain('data:text/plain;base64,');
+  });
+
+  it('should convert base64 string', () => {
+    const base64 = 'data:text/plain;base64,aGVsbG8=';
+    const file = base64ToFile(base64);
+
+    expect(file).toBeInstanceOf(Blob);
+    expect(file.type).toBe('text/plain');
+  });
+
+  it('should convert array of base64 strings to File[]', () => {
+    const base64Array = ['data:text/plain;base64,aGVsbG8=', 'data:text/plain;base64,d29ybGQ='];
+
+    const files = base64ArrayToFiles(base64Array);
+
+    expect(files.length).toBe(2);
+    expect(files[0]).toBeInstanceOf(Blob);
+    expect(files[1].name).toBe('image');
   });
 });

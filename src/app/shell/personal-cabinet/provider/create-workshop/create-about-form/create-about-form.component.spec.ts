@@ -28,7 +28,6 @@ import { CreateAboutFormComponent } from './create-about-form.component';
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
   let fixture: ComponentFixture<CreateAboutFormComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -170,6 +169,17 @@ describe('CreateAboutFormComponent', () => {
 
     expect(component.AboutFormGroup.controls.minAge.value).toBe(null);
     expect(component.AboutFormGroup.controls.maxAge.value).toBe(null);
+  });
+
+  it('should convert base64CoverImage to File and set it into coverImage control', () => {
+    component.workshop.base64CoverImage = 'data:text/plain;base64,aGVsbG8=';
+    component.activateEditMode();
+
+    const coverImageValue = component.AboutFormGroup.get('coverImage')?.value;
+    expect(coverImageValue).toBeTruthy();
+    expect(coverImageValue.length).toBe(1);
+    expect(coverImageValue[0]).toBeInstanceOf(Blob);
+    expect(coverImageValue[0].type).toBe('text/plain');
   });
 });
 

@@ -236,4 +236,20 @@ describe('CreateDescriptionFormComponent', () => {
 
     expect(component.DescriptionFormGroup.dirty).toBe(true);
   });
+
+  it('should convert base64ImageFiles to Files and set them into imageFiles control', () => {
+    component.workshop.base64ImageFiles = ['data:text/plain;base64,aGVsbG8=', 'data:text/plain;base64,d29ybGQ='];
+    component.activateEditMode();
+
+    const imageFilesValue = component.DescriptionFormGroup.get('imageFiles')?.value;
+
+    expect(imageFilesValue).toBeTruthy();
+    expect(imageFilesValue.length).toBe(2);
+
+    expect(imageFilesValue[0]).toBeInstanceOf(Blob);
+    expect(imageFilesValue[0].type).toBe('text/plain');
+
+    expect(imageFilesValue[1]).toBeInstanceOf(Blob);
+    expect(imageFilesValue[1].type).toBe('text/plain');
+  });
 });

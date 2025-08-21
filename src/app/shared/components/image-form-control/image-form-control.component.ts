@@ -80,6 +80,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
   public writeValue(images: File[]): void {
     if (images) {
       this.selectedImages = images;
+      this.processFilesForDisplay(images);
       this.changeDetection.markForCheck();
     }
   }
@@ -187,6 +188,17 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
     if (this.editMode) {
       window.open(src, '_blank');
     }
+  }
+
+  private processFilesForDisplay(files: File[]): void {
+    this.decodedImages = this.decodedImages.filter((img) => !img.imgFile);
+
+    files.forEach((file) => {
+      this.imageDecoder(file, (ev: ProgressEvent<FileReader>) => {
+        this.decodedImages.push(new DecodedImage(ev.target.result as string, file));
+        this.changeDetection.markForCheck();
+      });
+    });
   }
 
   private removeImage(img: DecodedImage): void {

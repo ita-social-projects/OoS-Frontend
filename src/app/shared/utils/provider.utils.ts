@@ -1,6 +1,6 @@
 import { Role } from 'shared/enum/role';
-import { WorkshopDraftState } from 'shared/models/draftWorkshop.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
+import { forkJoin, Observable, of } from 'rxjs';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -26,4 +26,39 @@ export function formatToClientDate(serverDate: string | null): Date | null {
   }
 
   return dateObj;
+}
+
+export function blobToBase64(blob: Blob): Observable<string> {
+  return new Observable<string>((subscriber) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = (): void => {
+      subscriber.next(reader.result as string);
+      subscriber.complete();
+    };
+  });
+}
+
+export function blobsToBase64(blobs: Blob[]): Observable<string[]> {
+  if (!blobs?.length) {
+    return of([]);
+  }
+  const observables = blobs.map((blob) => blobToBase64(blob));
+  return forkJoin(observables);
+}
+
+export function base64ToFile(base64: string, filename: string = 'image'): File {
+  const arr = base64.split(',');
+  const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
+}
+
+export function base64ArrayToFiles(base64Array: string[]): File[] {
+  return base64Array.map((b64) => base64ToFile(b64));
 }

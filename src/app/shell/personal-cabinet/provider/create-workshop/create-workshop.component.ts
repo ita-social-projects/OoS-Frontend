@@ -4,7 +4,7 @@ import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, V
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, Observable, of, zip } from 'rxjs';
+import { asyncScheduler, forkJoin, Observable, of, zip } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
@@ -12,7 +12,16 @@ import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { AdditionalAbout, Contacts, Workshop, WorkshopAbout, WorkshopDraft } from 'shared/models/workshop.model';
+import {
+  AdditionalAbout,
+  Contacts,
+  Workshop,
+  WorkshopAbout,
+  WorkshopDraft,
+  UnfinishedWorkshopType as WorkshopTypeUnfinished,
+  UnfinishedWorkshopAbout,
+  UnfinishedWorkshopDescription
+} from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
@@ -28,7 +37,6 @@ import { GetWorkshopById, GetWorkshopDraftById, ResetProvider, ResetWorkshop } f
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { WorkshopType as WorkshopTypeUnfinished } from 'shared/models/draftWorkshop.model';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
@@ -39,6 +47,7 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderState } from 'shared/store/provider.state';
+import { blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -82,13 +91,27 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     3: WorkshopTypeUnfinished.WithDescription,
     4: WorkshopTypeUnfinished.WithContacts
   };
+
   private readonly stepActions = {
-    1: (): void => this.dispatchUnfinishedData(1, this.createAbout()),
-    2: (): void => this.dispatchUnfinishedData(2, this.createAdditionalAbout()),
-    3: (): void =>
-      this.dispatchUnfinishedData(3, { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() }),
+    1: (): void => {
+      this.createStepData(1)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(1, stepData));
+    },
+    2: (): void => {
+      this.createStepData(2)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(2, stepData));
+    },
+    3: (): void => {
+      this.createStepData(3)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(3, stepData));
+    },
     4: (): void => {
-      this.handleContactsStep();
+      this.createStepData(4)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(4, stepData));
     }
   };
 
@@ -218,7 +241,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.store.dispatch(new GetUnfinishedWorkshop());
     this.unfinishedWorkshop$.subscribe((draft: Workshop) => {
       this.workshop = draft;
-
       asyncScheduler.schedule(() => {
         const stepToGo = this.getFirstInvalidStep();
 
@@ -336,54 +358,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/typedef
-  private createDraftData(step: number, extraData = {}): any {
-    const baseData = {
-      $type: this.unfinishedWorkshopTypeMap[step],
-      ...this.createAbout(),
-      providerId: this.provider.id
-    };
-
-    return {
-      ...baseData,
-      ...extraData
-    };
-  }
-
-  // eslint-disable-next-line @typescript-eslint/typedef
-  private dispatchUnfinishedData(step: number, extraData = {}): void {
-    const data = this.createDraftData(step, extraData);
+  private dispatchUnfinishedData(step: number, data: any): void {
     this.store.dispatch(new OnSaveWorkshopStep({ data, step }));
-  }
-
-  private handleContactsStep(): void {
-    const contacts = this.createContacts();
-    const contactsToUpdate = contacts.map((contact) => {
-      if (contact.address?.catottgId) {
-        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
-
-        return this.codeficator$.pipe(
-          filter((codeficator) => codeficator?.id === contact.address.catottgId),
-          take(1),
-          map((codeficatorData) => ({
-            ...contact,
-            address: new Address({
-              ...contact.address,
-              codeficatorAddress: codeficatorData
-            })
-          }))
-        );
-      }
-      return of(contact);
-    });
-
-    zip(...contactsToUpdate).subscribe((updatedContacts) => {
-      this.dispatchUnfinishedData(4, {
-        ...this.AdditionalAboutGroup.value,
-        ...this.DescriptionFormGroup.getRawValue(),
-        contacts: updatedContacts
-      });
-    });
   }
 
   private getFirstInvalidStep(): number {
@@ -391,8 +367,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.AboutFormGroup,
       this.AdditionalAboutGroup,
       this.DescriptionFormGroup,
-      this.WorkshopContactsFormArray,
-      this.TeacherFormArray
+      this.WorkshopContactsFormArray
+      // this.TeacherFormArray
     ];
 
     return steps.findIndex((step) => !step?.valid && !step?.touched);
@@ -453,6 +429,86 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   private createContacts(): Contacts[] {
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private createUnfinishedAbout(): Observable<UnfinishedWorkshopAbout> {
+    const aboutInfo = this.createAbout();
+
+    return blobToBase64(aboutInfo.coverImage[0]).pipe(
+      map((base64CoverImage) => ({
+        ...aboutInfo,
+        base64CoverImage
+      }))
+    );
+  }
+
+  private createUnfinishedDescription(): Observable<UnfinishedWorkshopDescription> {
+    const descriptionInfo = {
+      ...this.AdditionalAboutGroup.getRawValue(),
+      ...this.DescriptionFormGroup.getRawValue()
+    };
+
+    const files: Blob[] = Array.isArray(descriptionInfo.imageFiles) ? descriptionInfo.imageFiles : [];
+    return blobsToBase64(files).pipe(
+      map((base64ImageFiles) => ({
+        ...descriptionInfo,
+        base64ImageFiles
+      }))
+    );
+  }
+
+  private createContactsWithCodeficator(): Observable<any[]> {
+    const contacts = this.createContacts();
+
+    if (!contacts.length) {
+      return of([]);
+    }
+
+    const contactsToUpdate$ = contacts.map((contact) => {
+      if (contact.address?.catottgId) {
+        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+
+        return this.codeficator$.pipe(
+          filter((c) => c?.id === contact.address.catottgId),
+          take(1),
+          map((codeficatorData) => ({
+            ...contact,
+            address: new Address({
+              ...contact.address,
+              codeficatorAddress: codeficatorData
+            })
+          }))
+        );
+      }
+      return of(contact);
+    });
+
+    return zip(...contactsToUpdate$);
+  }
+
+  private createStepData(step: number): Observable<any> {
+    const baseData = {
+      $type: this.unfinishedWorkshopTypeMap[step],
+      providerId: this.provider.id
+    };
+
+    const about$ = this.createUnfinishedAbout();
+    const additional$ = of(this.createAdditionalAbout());
+    const description$ = this.createUnfinishedDescription();
+    const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
+    const stepConfig = new Map<number, Observable<any>[]>([
+      [1, [about$]],
+      [2, [about$, additional$]],
+      [3, [about$, additional$, description$]],
+      [4, [about$, additional$, description$, contacts$]]
+    ]);
+
+    const observables = stepConfig.get(step);
+
+    if (!observables) {
+      return of(baseData);
+    }
+    return forkJoin(observables).pipe(map((results) => ({ ...baseData, ...Object.assign({}, ...results) })));
   }
 
   private shouldBeDraft(newWorkshop: Workshop): boolean {

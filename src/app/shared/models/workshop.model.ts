@@ -51,6 +51,8 @@ export abstract class WorkshopBase {
   ageComposition: string;
   coverage: string;
   workshopType: string;
+  base64CoverImage?: string;
+  base64ImageFiles?: string[];
 
   constructor(
     about: WorkshopAbout,
@@ -337,4 +339,41 @@ export enum Socials {
   Facebook = 'Facebook',
   Instagram = 'Instagram',
   Website = 'Website'
+}
+
+export enum UnfinishedWorkshopType {
+  WithMainProperties = 'withMainProperties',
+  WithOtherRequiredProperties = 'withOtherRequiredProperties',
+  WithDescription = 'withDescription',
+  WithContacts = 'withContacts'
+}
+
+export type UnfinishedWorkshopAbout = WorkshopAbout & {
+  $type?: UnfinishedWorkshopType.WithMainProperties;
+  base64CoverImage: string;
+  providerId?: string;
+};
+
+export type UnfinishedWorkshopAdditionalAbout = AdditionalAbout &
+  UnfinishedWorkshopAbout & {
+    $type?: UnfinishedWorkshopType.WithOtherRequiredProperties;
+  };
+
+export type UnfinishedWorkshopDescription = Description &
+  UnfinishedWorkshopAdditionalAbout & {
+    $type?: UnfinishedWorkshopType.WithDescription;
+    base64ImageFiles: string[];
+  };
+
+export type UnfinishedWorkshopContacts = Contacts &
+  UnfinishedWorkshopDescription & {
+    $type?: UnfinishedWorkshopType.WithContacts;
+  };
+
+export interface WorkshopDraftState {
+  step1?: UnfinishedWorkshopAbout;
+  step2?: UnfinishedWorkshopAdditionalAbout;
+  step3?: UnfinishedWorkshopDescription;
+  step4?: UnfinishedWorkshopContacts;
+  workshopForLoading?: Workshop;
 }

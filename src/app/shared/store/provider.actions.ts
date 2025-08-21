@@ -7,13 +7,16 @@ import { Position, PositionParameters } from 'shared/models/position.model';
 import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
-import { Workshop, WorkshopCardParameters, WorkshopDraftCard, WorkshopStatus } from 'shared/models/workshop.model';
 import {
-  WorkshopContacts,
-  WorkshopDescription,
-  WorkshopMainRequiredProperties,
-  WorkshopOtherRequiredProperties
-} from 'shared/models/draftWorkshop.model';
+  Workshop,
+  WorkshopCardParameters,
+  WorkshopDraftCard,
+  WorkshopStatus,
+  UnfinishedWorkshopAbout,
+  UnfinishedWorkshopAdditionalAbout,
+  UnfinishedWorkshopDescription,
+  UnfinishedWorkshopContacts
+} from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
 import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
 
@@ -571,7 +574,7 @@ export class OnSaveWorkshopStep {
 
   constructor(
     public payload: {
-      data: Partial<WorkshopMainRequiredProperties | WorkshopOtherRequiredProperties | WorkshopDescription | WorkshopContacts>;
+      data: UnfinishedWorkshopAbout | UnfinishedWorkshopAdditionalAbout | UnfinishedWorkshopDescription | UnfinishedWorkshopContacts;
       step: number;
     }
   ) {}

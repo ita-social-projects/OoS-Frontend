@@ -252,7 +252,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
 
     beforeEach(() => {
       workshopTypeControl = component.AdditionalAboutGroup.get('workshopType');
-      championsPathControl = component.AdditionalAboutGroup.get('championsPath');
+      championsPathControl = component.AdditionalAboutGroup.get('isChampionPath');
 
       jest.spyOn(workshopTypeControl, 'setValue');
       jest.spyOn(workshopTypeControl, 'disable');
