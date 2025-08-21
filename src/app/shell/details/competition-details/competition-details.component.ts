@@ -7,7 +7,7 @@ import { EMPTY, filter, Observable } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { CompetitionDetailsTabTitlesParams, CompetitionStatus } from 'shared/enum/competition';
+import { CompetitionStatus } from 'shared/enum/competition';
 import { CompetitionDetailsTabTitlesEnum } from 'shared/enum/enumUA/competition';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';

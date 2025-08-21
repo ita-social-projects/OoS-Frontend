@@ -8,13 +8,19 @@ import { WorkshopCardParameters, WorkshopDraftCard } from 'shared/models/worksho
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { MatDialog } from '@angular/material/dialog';
 import { WINDOW } from 'ngx-window-token';
-import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
+import {
+  DeleteWorkshopDraftById,
+  GetProviderViewWorkshopDrafts,
+  GetUnfinishedWorkshop,
+  OnDraftSendForModerationSuccess
+} from 'shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
 import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
+import { BannerMode } from 'shared/enum/bannerMode';
 
 @Component({
   selector: 'app-workshop-drafts',
@@ -27,7 +33,13 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
   @Select(ProviderState.providerWorkshopDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
+  public draftLiveTime$: Observable<string>;
+  public isLoaded: boolean = false;
 
+  public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
 
@@ -54,6 +66,10 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
       this.workshopDrafts = workshopDrafts;
     });
     this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
+    this.store.dispatch(new GetUnfinishedWorkshop());
+    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.isLoaded = true;
+    });
   }
 
   public ngOnDestroy(): void {

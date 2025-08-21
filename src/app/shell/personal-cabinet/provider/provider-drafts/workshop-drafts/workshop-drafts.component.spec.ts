@@ -1,19 +1,24 @@
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Actions, NgxsModule, Store } from '@ngxs/store';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { Actions, NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
-import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { WorkshopDraftCard } from 'shared/models/workshop.model';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { PaginationConstants } from 'shared/constants/constants';
+import { ApplicationChildFilterPipe } from 'shared/pipes/application-child-filter.pipe';
+import { ApplicationFilterPipe } from 'shared/pipes/application-filter.pipe';
 import { SearchResponse } from 'shared/models/search.model';
 import { ProviderState } from 'shared/store/provider.state';
 import { Provider } from 'shared/models/provider.model';
 import { Role } from 'shared/enum/role';
+import { DeleteWorkshopDraftById, GetProviderViewWorkshopDrafts, OnDraftSendForModerationSuccess } from 'shared/store/provider.actions';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { RegistrationState } from 'shared/store/registration.state';
+import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDraftsComponent } from './workshop-drafts.component';
 
 describe('WorkshopDraftsComponent', () => {
@@ -25,8 +30,8 @@ describe('WorkshopDraftsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule, TranslateModule.forRoot()],
-      declarations: [WorkshopDraftsComponent],
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule, MatTabsModule, TranslateModule.forRoot()],
+      declarations: [WorkshopDraftsComponent, ApplicationFilterPipe, ApplicationChildFilterPipe, NoResultCardComponent],
       providers: [
         {
           provide: Actions,
@@ -56,13 +61,21 @@ describe('WorkshopDraftsComponent', () => {
       if (selector === ProviderState.providerWorkshopDrafts) {
         return of(initialState);
       }
+      // @ts-ignore
+      if (selector === RegistrationState.role) {
+        return of(Role.provider);
+      }
+      // @ts-ignore
+      if (selector === ProviderState.getTimeToLiveUnfinishedWorkshop) {
+        return of('');
+      }
     });
 
     fixture = TestBed.createComponent(WorkshopDraftsComponent);
     component = fixture.componentInstance;
     component.provider = { id: '123' } as Provider;
     component.role = Role.provider;
-    fixture.detectChanges();
+    component.ngOnInit(); // to set role
   });
 
   it('should create', () => {
@@ -70,24 +83,22 @@ describe('WorkshopDraftsComponent', () => {
   });
 
   it('should set drafts', fakeAsync(() => {
-    component.ngOnInit();
-
-    expect(component.workshopDrafts).toBeTruthy();
+    expect((component as any).workshopDrafts).toBeTruthy();
   }));
 
-  it('should get drafts if OnDraftSendForModerationSuccess', () => {
+  it('should get drafts once OnDraftSendForModerationSuccess', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
     component.ngOnInit();
 
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith(new GetProviderViewWorkshopDrafts(component.workshopCardParameters));
+    expect(dispatchSpy).toHaveBeenCalledTimes(3);
+    expect(dispatchSpy).toHaveBeenCalledWith(new GetProviderViewWorkshopDrafts((component as any).workshopCardParameters));
   });
 
   it('trackBy fn', () => {
     const mockWorkshop = { workshopDraftId: '123' } as WorkshopDraftCard;
 
-    expect(component.trackByDraft(0, mockWorkshop)).toBe('123');
+    expect((component as any).trackByDraft(0, mockWorkshop)).toBe('123');
   });
 
   describe('MatDialog', () => {
@@ -100,7 +111,7 @@ describe('WorkshopDraftsComponent', () => {
 
       jest.spyOn(matDialog, 'open').mockReturnValue(dialogRef as any);
 
-      component.onDelete(mockWorkshop);
+      (component as any).onDelete(mockWorkshop);
 
       expect(matDialog.open).toHaveBeenCalledWith(
         ConfirmationModalWindowComponent,
@@ -122,9 +133,9 @@ describe('WorkshopDraftsComponent', () => {
 
       const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-      component.onDelete(mockWorkshop);
+      (component as any).onDelete(mockWorkshop);
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new DeleteWorkshopDraftById(mockWorkshop, component.workshopCardParameters));
+      expect(dispatchSpy).toHaveBeenCalledWith(new DeleteWorkshopDraftById(mockWorkshop, (component as any).workshopCardParameters));
     });
 
     it('should not dispatch DeleteWorkshopDraftById', () => {
@@ -136,7 +147,7 @@ describe('WorkshopDraftsComponent', () => {
 
       const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-      component.onDelete(mockWorkshop);
+      (component as any).onDelete(mockWorkshop);
 
       expect(dispatchSpy).not.toHaveBeenCalled();
     });
@@ -147,7 +158,7 @@ describe('WorkshopDraftsComponent', () => {
       const mockPage = { element: 1, isActive: true };
       const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-      component.onPageChange(mockPage);
+      (component as any).onPageChange(mockPage);
 
       expect(dispatchSpy).toHaveBeenCalled();
     });
@@ -156,11 +167,11 @@ describe('WorkshopDraftsComponent', () => {
       const mockSize = 8;
       const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-      component.onItemsPerPageChange(8);
+      (component as any).onItemsPerPageChange(8);
 
-      expect(component.workshopCardParameters.size).toEqual(mockSize);
-      expect(component.currentPage).toEqual(PaginationConstants.firstPage);
-      expect(dispatchSpy).toHaveBeenCalledWith(new GetProviderViewWorkshopDrafts(component.workshopCardParameters));
+      expect((component as any).workshopCardParameters.size).toEqual(mockSize);
+      expect((component as any).currentPage).toEqual(PaginationConstants.firstPage);
+      expect(dispatchSpy).toHaveBeenCalledWith(new GetProviderViewWorkshopDrafts((component as any).workshopCardParameters));
     });
   });
 });

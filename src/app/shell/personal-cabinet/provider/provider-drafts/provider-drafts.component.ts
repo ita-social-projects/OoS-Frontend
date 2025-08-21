@@ -7,15 +7,6 @@ import { map, takeUntil } from 'rxjs/operators';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import {
-  DeleteWorkshopDraftById,
-  GetProviderViewWorkshopDrafts,
-  GetUnfinishedWorkshop,
-  OnDraftSendForModerationSuccess
-} from 'shared/store/provider.actions';
-import { ProviderState } from 'shared/store/provider.state';
-import { Util } from 'shared/utils/utils';
-import { BannerMode } from 'shared/enum/bannerMode';
 import { ProviderComponent } from '../provider.component';
 
 @Component({

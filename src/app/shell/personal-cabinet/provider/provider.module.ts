@@ -39,6 +39,7 @@ import { CreatePositionFormComponent } from './create-position/position-form/cre
 import { ProviderEmployeesComponent } from './provider-employees/provider-employees.component';
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
 import { CreateRequiredFormComponent } from './create-competition/create-required-form/create-required-form.component';
+// eslint-disable-next-line max-len
 import { CreateCompetitionDescriptionFormComponent } from './create-competition/create-competition-description-form/create-competition-description-form.component';
 import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
@@ -64,8 +65,8 @@ import { CompetitionDraftsComponent } from './provider-drafts/competition-drafts
     EmployeesComponent,
     ProviderApplicationsComponent,
     ProviderWorkshopsComponent,
-    ProviderDraftsComponent,
     WorkshopDraftsComponent,
+    ProviderDraftsComponent,
     CompetitionDraftsComponent,
     WorkingHoursFormWrapperComponent,
     ProviderEmployeesUploadComponent,
