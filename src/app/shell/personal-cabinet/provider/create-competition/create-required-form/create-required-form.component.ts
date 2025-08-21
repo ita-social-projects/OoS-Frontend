@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, takeUntil } from 'rxjs/operators';
-import { first, merge, of, Subject, throttleTime } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { merge, of, Subject, throttleTime } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -47,7 +47,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 12));
   protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
   protected readonly validationConstants = ValidationConstants;
-  protected readonly TypeOfCompetition = TypeOfCompetition;
   protected readonly InfoMenuType = InfoMenuType;
   protected readonly ownershipType = OwnershipTypes;
 
@@ -118,16 +117,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
    */
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
-
-    if (this.competition.coverImageId) {
-      this.RequiredFormGroup.get('coverImage').removeValidators(Validators.required);
-      this.RequiredFormGroup.get('coverImageId')
-        .valueChanges.pipe(
-          filter((value) => !value),
-          first()
-        )
-        .subscribe(() => this.RequiredFormGroup.get('coverImage').addValidators(Validators.required));
-    }
 
     if (this.competition.scheduledStartTime) {
       this.minDate = new Date(
