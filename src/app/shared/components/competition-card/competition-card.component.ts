@@ -110,7 +110,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
   public onEdit(): void {
     const draftId = (this.competitionData as CompetitionDraftCard)?.competitiveEventDraftId;
     if (draftId) {
-      this.router.navigate(['create/competition/draft', draftId]);
+      this.router.navigate(['/create/competition/draft', draftId]);
     } else {
       this.store.dispatch(new GetCompetitionDraftIdByCompetitionId(this.competitionData?.id));
     }

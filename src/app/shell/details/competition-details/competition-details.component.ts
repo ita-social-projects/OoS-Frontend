@@ -31,6 +31,7 @@ import {
   GetCompetitionDraftIdByCompetitionId,
   OnArchiveCompetitionFail,
   OnArchiveCompetitionSuccess,
+  OnDeleteDraftFail,
   OnDraftSendForModerationSuccess
 } from 'shared/store/provider.actions';
 import { WorkshopDraftStatus, WorkshopType } from 'shared/enum/workshop';
@@ -110,7 +111,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
             return this.actions$.pipe(
               ofAction(OnDraftSendForModerationSuccess),
               take(1),
-              takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
+              takeUntil(this.actions$.pipe(ofAction(OnDeleteDraftFail))),
               tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
             );
           }

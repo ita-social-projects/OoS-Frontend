@@ -119,7 +119,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public setEditMode(): void {
     const competitionId = this.route.snapshot.paramMap.get('param');
-    if (!this.route.snapshot.paramMap.get('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity')) {
       this.store.dispatch(new GetCompetitionById(competitionId));
     } else {
       this.store.dispatch(new GetCompetitionDraftById(competitionId));

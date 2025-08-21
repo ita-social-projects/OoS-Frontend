@@ -123,7 +123,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     );
     this.checkIfMinSport();
     this.handlePriceChange();
-    if (!this.route.snapshot.paramMap.get('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity')) {
       this.listenToChanges();
     }
   }

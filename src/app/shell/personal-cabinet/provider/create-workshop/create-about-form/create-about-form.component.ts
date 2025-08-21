@@ -174,7 +174,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.availableSeatsRadioBtnControl.setValue(false);
     }
 
-    if (!this.route.snapshot.paramMap.get('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity')) {
       this.listenToChanges();
     }
 

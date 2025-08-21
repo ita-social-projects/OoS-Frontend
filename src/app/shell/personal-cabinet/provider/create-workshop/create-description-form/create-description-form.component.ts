@@ -248,7 +248,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.DescriptionFormGroup.get('competitiveSelectionDescription')?.enable();
     }
 
-    if (!this.route.snapshot.paramMap.get('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity')) {
       this.listenToChanges();
     }
 

@@ -134,7 +134,7 @@ describe('UserCompetitionService', () => {
       const draftId = '111';
 
       service.updateDraft(draftId, mockCompetition).subscribe((data) => {
-        expect(data).toContain(mockCompetition);
+        expect(data).toMatchObject(mockCompetition);
       });
 
       const req = httpMock.expectOne('/api/v2/competitions-drafts/111');

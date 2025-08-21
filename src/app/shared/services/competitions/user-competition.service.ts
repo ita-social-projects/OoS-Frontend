@@ -131,7 +131,7 @@ export class UserCompetitionService {
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(competition).forEach((key: string) => {
-      if (competition[key]) {
+      if (competition[key] !== null && competition[key] !== undefined) {
         if (imageFiles.includes(key)) {
           competition[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {

@@ -200,7 +200,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       });
     }
 
-    if (!this.route.snapshot.paramMap.get('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity')) {
       this.listenToChanges();
     }
   }
