@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Store } from '@ngxs/store';
 
-import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { UserCompetitionService } from './user-competition.service';
@@ -86,7 +86,7 @@ describe('UserCompetitionService', () => {
     req.flush(mockCompetition);
   });
 
-  it('should archivate competition by ID', () => {
+  it('should archive competition by ID', () => {
     service.archiveCompetitionById('123').subscribe((response) => {
       expect(response).toBeNull();
     });
@@ -110,5 +110,46 @@ describe('UserCompetitionService', () => {
     expect(formData.has('imageFiles')).toBeTruthy();
     expect(formData.has('coverImage')).toBeTruthy();
     expect(formData.has('judges')).toBeTruthy();
+  });
+
+  describe('drafts', () => {
+    it('should get provider view competitions drafts', () => {
+      const mockResponse: SearchResponse<CompetitionDraftCard[]> = {
+        entities: [{ competitiveEventDraftId: 'draft1' } as CompetitionDraftCard],
+        totalAmount: 1
+      };
+
+      service.getProviderViewCompetitionDrafts({ from: 0, size: 10, providerId: 'provider1' }).subscribe((data) => {
+        expect(data).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne('/api/v2/provider/provider1/competitions-drafts?From=0&Size=10');
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should update competition draft', () => {
+      storeMock.selectSnapshot.mockReturnValue({ images: false } as FeaturesList);
+      const mockCompetition: Competition = { id: '123' } as Competition;
+      const draftId = '111';
+
+      service.updateDraft(draftId, mockCompetition).subscribe((data) => {
+        expect(data).toContain(mockCompetition);
+      });
+
+      const req = httpMock.expectOne('/api/v2/competitions-drafts/111');
+      expect(req.request.method).toBe('PUT');
+      req.flush(mockCompetition);
+    });
+
+    it('should delete competition draft by ID', () => {
+      service.deleteCompetitionDraft('123').subscribe((response) => {
+        expect(response).toBeNull();
+      });
+
+      const req = httpMock.expectOne('/api/v2/competitions-drafts/123');
+      expect(req.request.method).toBe('DELETE');
+      req.flush(null);
+    });
   });
 });

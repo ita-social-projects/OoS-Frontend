@@ -80,9 +80,9 @@ export class UserCompetitionService {
     return this.http.put<void>(`/api/v2/competitions-drafts/${id}/send-for-moderation`, {});
   }
 
-  public updateDraft(draftId: string, draft: Competition): Observable<Competition> {
+  public updateDraft(draftId: string, draft: Competition): Observable<CompetitionDraft> {
     const formData = this.createFormData(draft, draftId);
-    return this.http.put<Competition>(`/api/v2/competitions-drafts/${draftId}`, formData);
+    return this.http.put<CompetitionDraft>(`/api/v2/competitions-drafts/${draftId}`, formData);
   }
 
   public deleteCompetitionDraft(id: string): Observable<void> {
