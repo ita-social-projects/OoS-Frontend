@@ -21,12 +21,3 @@
 .subdirection-checkbox {
   margin-right: 8px;
 }
-
-:host ::ng-deep {
-  --mdc-checkbox-selected-focus-state-layer-opacity: 0;
-  --mdc-checkbox-selected-hover-state-layer-opacity: 0;
-  --mdc-checkbox-selected-pressed-state-layer-opacity: 0;
-  --mdc-checkbox-unselected-focus-state-layer-opacity: 0;
-  --mdc-checkbox-unselected-hover-state-layer-opacity: 0;
-  --mdc-checkbox-unselected-pressed-state-layer-opacity: 0;
-}

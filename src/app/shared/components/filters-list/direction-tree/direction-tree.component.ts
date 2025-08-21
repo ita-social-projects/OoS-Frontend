@@ -237,13 +237,17 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   }
 
   private selectInitialIds(initials: DirectionsSelected): void {
-    this.initDirectionIds = initials.selectedDirectionIds || [];
-    this.initSubdirectionIds = initials.selectedSubdirectionIds || [];
-    this.initIndeterminateIds = initials.indeterminateDirectionIds || [];
+    const initialDirs = initials.selectedDirectionIds || [];
+    const initialSubs = initials.selectedSubdirectionIds || [];
+    const initialIndets = initials.indeterminateDirectionIds || [];
 
-    this.selectedDirectionIds = initials.selectedDirectionIds || [];
-    this.selectedSubdirectionIds = initials.selectedSubdirectionIds || [];
-    this.indeterminateDirectionIds = initials.indeterminateDirectionIds || [];
+    this.initDirectionIds = [...initialDirs];
+    this.initSubdirectionIds = [...initialSubs];
+    this.initIndeterminateIds = [...initialIndets];
+
+    this.selectedDirectionIds = [...initialDirs];
+    this.selectedSubdirectionIds = [...initialSubs];
+    this.indeterminateDirectionIds = [...initialIndets];
 
     this.initDirectionIds.forEach((id: number) => {
       const direction = this.allDirections.find((dir) => dir.id === id);

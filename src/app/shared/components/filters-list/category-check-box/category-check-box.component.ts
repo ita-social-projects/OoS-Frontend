@@ -1,11 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
-import { DirectionsSelected } from 'shared/models/category.model';
+import { Direction, DirectionsSelected } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
+import { GetDirections } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-category-check-box',
@@ -18,16 +20,27 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
 
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
+  @Select(MetaDataState.directions)
+  private directions$: Observable<Direction[]>;
 
   @ViewChild('listWrapper')
   private filterContainer: ElementRef;
 
   public directionSearchFormControl = new FormControl('');
+  private allDirections: Direction[] = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly store: Store,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(new GetDirections());
+    this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
+      this.allDirections = directions;
+      this.cdr.markForCheck();
+    });
     this.directionSearchFormControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: string) => {
