@@ -84,7 +84,7 @@ describe('CompetitionCardComponent', () => {
       } as CompetitionDraftCard;
       jest.spyOn(mockRouter, 'navigate');
       component.onEdit();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['create/competition/draft', '111']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/competition/draft', '111']);
     });
 
     it('should dispatch check for competitiveEventDraftId if DraftId is not provided', () => {

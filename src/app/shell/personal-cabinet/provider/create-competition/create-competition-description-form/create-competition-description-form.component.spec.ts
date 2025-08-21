@@ -69,7 +69,7 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: (key: string) => '123'
+                has: () => true
               }
             }
           }

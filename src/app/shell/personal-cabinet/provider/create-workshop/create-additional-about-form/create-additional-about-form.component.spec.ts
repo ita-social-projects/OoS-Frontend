@@ -36,7 +36,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: (key: string) => null
+                has: () => false
               }
             }
           }
