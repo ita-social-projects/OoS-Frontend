@@ -5,6 +5,9 @@ import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WINDOW } from 'ngx-window-token';
 import { EMPTY, filter, Observable } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, Observable, of } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { CompetitionStatus } from 'shared/enum/competition';

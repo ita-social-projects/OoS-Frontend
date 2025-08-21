@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { first, Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, takeUntil, first } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
