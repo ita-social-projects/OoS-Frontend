@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Store } from '@ngxs/store';
 
-import { Competition, CompetitionDraft, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { UserCompetitionService } from './user-competition.service';
