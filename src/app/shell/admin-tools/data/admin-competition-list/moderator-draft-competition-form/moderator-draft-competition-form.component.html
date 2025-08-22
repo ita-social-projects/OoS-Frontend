@@ -39,9 +39,10 @@
           </app-validation-hint>
 
           <div class="flex flex-row justify-between items-center">
-            <label for="shortTitle" class="step-label"
-              >{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label
-            >
+            <label for="shortTitle" class="step-label">
+              {{ 'FORMS.LABELS.SHORT_TITLE' | translate }}
+              <span class="step-required">*</span>
+            </label>
             <app-info-menu [type]="InfoMenuType.Text">
               {{ 'INFO_MENU.SHORT_TITLE_DESCRIPTION' | translate }}
             </app-info-menu>
@@ -60,7 +61,7 @@
             *ngIf="isImagesFeature && form.get('imageIds').value?.length"
             [imgMaxAmount]="10"
             [cropperConfig]="cropperConfig"
-            [label]="'Фотографії'"
+            [label]="'FORMS.LABELS.PHOTOS' | translate"
             [deleteMode]="true"
             formControlName="imageFiles"
             (deleteImage)="onDeleteImage($event)"

@@ -1,5 +1,185 @@
-<app-workshop-list
-  [workshops]="workshops$ | async"
-  [setWorkshopFiltersByDefault]="setWorkshopsFiltersByDefault"
-  (getWorkshopsByFilter)="onGetWorkshopsByFilter($event)">
-</app-workshop-list>
+<app-draft-filters (getDraftsByFilter)="getWorkshops($event)" [currentPage]="currentPage"> </app-draft-filters>
+
+<ng-container>
+  <ng-container *ngIf="totalEntities; else isEmptyList">
+    <div class="wrapper-workshop-list">
+      <div class="total-count flex mb-2">
+        {{ 'TOTAL_DRAFTS' | translate:{ count: totalEntities } }}
+      </div>
+      <div class="wrapper wrapper-workshop-list-container">
+        <div class="table-container mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" appStretchTable>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
+                {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="element.workshopDetails.title"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ element.workshopDetails.title | emptyValueTransform | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerTitle">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider title">
+                {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="element.workshopDetails.providerTitle"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ element.workshopDetails.providerTitle | emptyValueTransform | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerOwnership">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by provider ownership">
+                {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="element.workshopDetails.providerOwnership"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ ownershipTypeEnum[element.workshopDetails.providerOwnership] | emptyValueTransform | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="directorPosition">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorPosition">
+                {{ 'FORMS.LABELS.DIRECTOR_POSITION' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.directorPosition }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="directorFullName">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorFullName">
+                {{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.directorFullName }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerEdrpou">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by providerEdrpou">
+                {{ 'FORMS.LABELS.EDRPO' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.providerEdrpou }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isPaid">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by isPaid">
+                {{ 'FORMS.LABELS.COST' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="(element.workshopDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ (element.workshopDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status" stickyEnd>
+              <th class="status-title" mat-header-cell *matHeaderCellDef sortActionDescription="Sort by status">
+                {{ 'FORMS.LABELS.STATUS' | translate }}
+              </th>
+              <td [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId" mat-cell *matCellDef="let element">
+                <ng-container
+                  *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: element.draftStatus, titles: workshopDraftStatusTitles }">
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td
+                [class.!bg-slate-300]="selectedWorkshopDraftId === element.workshopDraftId"
+                class="p-0"
+                mat-cell
+                *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="actions">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onViewWorkshopInfo(element)">
+                  <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['/details/draft/', element.workshopDraftId]">
+                  <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['../moderate/draft', element.workshopDraftId]">
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <mat-menu #actions="matMenu" class="header_menu">
+                  <button mat-menu-item (click)="onRejectDraft(element)">
+                    {{ 'BUTTONS.REQUEST_CHANGES' | translate }}
+                  </button>
+                  <button mat-menu-item (click)="onApproveDraft(element)">
+                    {{ 'BUTTONS.CONFIRM' | translate }}
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <div *ngIf="isInfoDisplayed" class="container">
+          <app-workshop-info
+            [setWorkshop]="workshop"
+            [workshopDraftId]="selectedWorkshopDraftId"
+            [isWorkshopView]="isInfoDisplayed"
+            (closeInfo)="closeInfo()"></app-workshop-info>
+        </div>
+      </div>
+    </div>
+    <div class="paginator">
+      <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="workshopParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #isEmptyList>
+  <app-no-result-card *ngIf="!isLoading && !totalEntities" [title]="noWorkshops"></app-no-result-card>
+</ng-template>
+
+<ng-template #WorkshopStatusTmpl let-status let-titles="titles">
+  <div class="workshop-list-status {{ status }}">
+    <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
+    <span>{{ titles[status] | translate }}</span>
+  </div>
+</ng-template>

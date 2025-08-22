@@ -93,14 +93,11 @@ import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-pa
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
-import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
-import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
-import { CompetitionListComponent } from './components/competition-list/competition-list.component';
-import { CompetitionInfoComponent } from './components/competition-list/competition-info/competition-info.component';
+import { DraftFiltersComponent } from './components/draft-filters/draft-filters.component';
 
 @NgModule({
   declarations: [
@@ -113,8 +110,6 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     IntegerOnlyDirective,
     WorkshopCardComponent,
     CategoryCardComponent,
-    CompetitionListComponent,
-    CompetitionInfoComponent,
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
@@ -179,8 +174,6 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     CustomCarouselDirective,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    WorkshopListComponent,
-    WorkshopInfoComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
@@ -194,7 +187,8 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     ForbiddenPageComponent,
     DecimalNumberPipe,
     ContactsCardComponent,
-    NumberArrowsDirective
+    NumberArrowsDirective,
+    DraftFiltersComponent
   ],
 
   imports: [
@@ -218,8 +212,6 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     AgeFilterComponent,
     SearchbarComponent,
     WorkshopSearchbarComponent,
-    CompetitionListComponent,
-    CompetitionInfoComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     IntegerOnlyDirective,
@@ -283,7 +275,6 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     ImageCarouselComponent,
     ThemeSwitcherComponent,
     ScrollToTopComponent,
-    WorkshopListComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
@@ -296,7 +287,8 @@ import { CompetitionInfoComponent } from './components/competition-list/competit
     ProfileWaitingPageComponent,
     DecimalNumberPipe,
     ContactsCardComponent,
-    NumberArrowsDirective
+    NumberArrowsDirective,
+    DraftFiltersComponent
   ]
 })
 export class SharedModule {}

@@ -60,7 +60,7 @@
             *ngIf="isImagesFeature && form.get('imageIds').value?.length"
             [imgMaxAmount]="10"
             [cropperConfig]="cropperConfig"
-            [label]="'Фотографії'"
+            [label]="'FORMS.LABELS.PHOTOS' | translate"
             [deleteMode]="true"
             formControlName="imageFiles"
             (deleteImage)="onDeleteImage($event)"
@@ -196,7 +196,10 @@
         <ng-template matStepLabel>
           <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
         </ng-template>
-        <app-create-contacts [moderatorFlow]="true" [contacts]="selectedWorkshop.workshopDetails?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
+        <app-create-contacts
+          [moderatorFlow]="true"
+          [contacts]="selectedWorkshop.workshopDetails?.contacts"
+          (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
         </app-create-contacts>
         <div class="footer flex flex-row justify-center items-center">
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">

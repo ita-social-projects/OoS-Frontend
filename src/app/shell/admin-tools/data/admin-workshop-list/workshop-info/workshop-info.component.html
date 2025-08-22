@@ -1,4 +1,3 @@
-<!-- TO DO Adopt this component to fields that exists in Competition -->
 <div class="wrapper" *ngIf="workshop">
   <div class="justify-end mb-[10px] items-center flex">
     <a (click)="onCloseInfo()" class="close-icon h-[24px]">
@@ -91,7 +90,7 @@
         *ngIf="isImagesFeature && form.get('imageIds').value?.length"
         [imgMaxAmount]="10"
         [cropperConfig]="cropperConfig"
-        [label]="'Фотографії'"
+        [label]="'FORMS.LABELS.PHOTOS' | translate"
         [deleteMode]="true"
         formControlName="imageFiles"
         (deleteImage)="onDeleteImage($event)"

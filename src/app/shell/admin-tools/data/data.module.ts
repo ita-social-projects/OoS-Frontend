@@ -23,8 +23,11 @@ import { StatisticsComponent } from './statistics/statistics.component';
 // eslint-disable-next-line max-len
 import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-wrapper/directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
 import { AdminWorkshopListComponent } from './admin-workshop-list/admin-workshop-list.component';
+import { WorkshopInfoComponent } from './admin-workshop-list/workshop-info/workshop-info.component';
 import { ModeratorDraftEditFormComponent } from './admin-workshop-list/moderator-draft-edit-form/moderator-draft-edit-form.component';
 import { AdminCompetitionListComponent } from './admin-competition-list/admin-competition-list.component';
+import { CompetitionInfoComponent } from './admin-competition-list/competition-info/competition-info.component';
+// eslint-disable-next-line max-len
 import { ModeratorDraftCompetitionFormComponent } from './admin-competition-list/moderator-draft-competition-form/moderator-draft-competition-form.component';
 
 @NgModule({
@@ -47,7 +50,9 @@ import { ModeratorDraftCompetitionFormComponent } from './admin-competition-list
     AdminWorkshopListComponent,
     AdminCompetitionListComponent,
     ModeratorDraftEditFormComponent,
-    ModeratorDraftCompetitionFormComponent
+    ModeratorDraftCompetitionFormComponent,
+    WorkshopInfoComponent,
+    CompetitionInfoComponent
   ],
   imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, TranslateModule, SharedCabinetModule],
   exports: [DataComponent]

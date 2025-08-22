@@ -580,7 +580,8 @@
       "VENUE_NAME": "Venue",
       "INFORMATION_ABOUT_COMPETITION": "About competition",
       "COMPETITION_TITLE": "Competition title",
-      "COMPETITION_TYPE": "Competition type"
+      "COMPETITION_TYPE": "Competition type",
+      "PHOTOS": "Photos"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",

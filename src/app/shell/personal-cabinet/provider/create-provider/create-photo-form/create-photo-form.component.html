@@ -3,7 +3,7 @@
     *ngIf="isImagesFeature"
     [imgMaxAmount]="4"
     [cropperConfig]="cropperConfig"
-    [label]="'Фотографії'"
+    [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"
     [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
   </app-image-form-control>

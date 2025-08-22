@@ -36,7 +36,7 @@
       <h5>{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</h5>
       <p>{{ (competition.registrationStartTime | date: 'shortDate') + ' - ' + (competition.registrationEndTime | date: 'shortDate') }}</p>
 
-      <h5>{{'FORMS.LABELS.COMPETITION_TYPE' | translate}}</h5>
+      <h5>{{ 'FORMS.LABELS.COMPETITION_TYPE' | translate }}</h5>
       <p>{{ typeOfCompetitionMap[competition.competitiveEventAccountingTypeId] | translate }}</p>
 
       <h5>{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</h5>
@@ -52,7 +52,7 @@
         *ngIf="isImagesFeature && form.get('imageIds').value?.length"
         [imgMaxAmount]="10"
         [cropperConfig]="cropperConfig"
-        [label]="'Фотографії'"
+        [label]="'FORMS.LABELS.PHOTOS' | translate"
         [deleteMode]="true"
         formControlName="imageFiles"
         (deleteImage)="onDeleteImage($event)"

@@ -581,7 +581,8 @@
       "VENUE_NAME": "Місце проведення",
       "INFORMATION_ABOUT_COMPETITION": "Про конкурс",
       "COMPETITION_TITLE": "Назва конкурсу",
-      "COMPETITION_TYPE": "Тип конкурсу"
+      "COMPETITION_TYPE": "Тип конкурсу",
+      "PHOTOS": "Фотографії"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",

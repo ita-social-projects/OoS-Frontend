@@ -1,54 +1,6 @@
 @use 'tables';
-@use 'list-wrappers';
 @use 'search';
 @use 'dropdown';
-
-.total-count {
-  font-family: Innerspace, sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  color: white;
-}
-
-.workshop-list-status {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  margin: 5px;
-}
-
-.Approved {
-  color: var(--status-approved);
-}
-
-.PendingModeration {
-  color: var(--status-pending);
-}
-
-.EditedByModerator,
-.Recheck {
-  color: var(--status-recheck);
-}
-
-.Blocked {
-  color: var(--status-blocked);
-}
-
-.NotProvided {
-  color: var(--status-not-provided);
-}
-
-.wrapper-workshop-list {
-  position: relative;
-  margin-top: 2rem;
-}
-
-.container {
-  margin-left: 1rem;
-  @media (max-width: 676px) {
-    margin-left: 0;
-  }
-}
 
 .search {
   padding-left: 10px;
@@ -68,27 +20,6 @@
 
 .search-icon {
   transform: rotate(90deg);
-}
-
-.status-title {
-  padding-left: 7px;
-}
-
-.true {
-  color: var(--status-approved);
-}
-
-.false {
-  color: var(--status-pending);
-}
-
-.wrapper-workshop-list-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.table-container {
-  height: fit-content;
 }
 
 .select {
@@ -189,23 +120,9 @@
   }
 }
 
-td {
-  word-break: break-word;
-}
-
-.tab-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 ::ng-deep .filters-area .mdc-text-field {
   background-color: transparent;
   padding: 0;
-}
-
-.reset-title {
-  color: var(--primary-light-text-color);
 }
 
 ::ng-deep .mat-mdc-select-placeholder {
