@@ -69,7 +69,7 @@
               </div>
             </div>
             <div class="flex flex-row justify-start items-center content-center">
-              <button class="btn-add" mat-button (click)="addPhoneField(addressForm)" [disabled]="addressForm.get('phones').invalid">
+              <button class="btn-add" mat-button (click)="addPhoneField(addressForm)" [disabled]="addressForm.get('phones').invalid || moderatorFlow">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_PHONE' | translate }}
               </button>
             </div>
@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="flex flex-row justify-start items-center content-center">
-              <button class="btn-add" mat-button (click)="addEmailField(addressForm)" [disabled]="addressForm.get('emails').invalid">
+              <button class="btn-add" mat-button (click)="addEmailField(addressForm)" [disabled]="addressForm.get('emails').invalid || moderatorFlow">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_EMAIL' | translate }}
               </button>
             </div>
@@ -164,7 +164,7 @@
                 class="btn-add"
                 mat-button
                 (click)="addSocialsField(addressForm)"
-                [disabled]="addressForm.get('socialNetworks').invalid">
+                [disabled]="addressForm.get('socialNetworks').invalid || moderatorFlow">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_SOCIAL_NETWORK' | translate }}
               </button>
             </div>

@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
@@ -33,7 +33,6 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraft[]>>;
 
   public readonly noWorkshops = NoResultsTitle.noResult;
-  public readonly modeConstants = ModeConstants;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ownershipTypeEnum = OwnershipTypesEnum;
   public readonly formOfLearningEnum = FormOfLearningEnum;
@@ -72,7 +71,6 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     private readonly matDialog: MatDialog
   ) {}
 
-  @Input()
   public set workshops(value: SearchResponse<WorkshopDraft[]>) {
     this.dataSource.data = value?.entities;
     this.totalEntities = value?.totalAmount;

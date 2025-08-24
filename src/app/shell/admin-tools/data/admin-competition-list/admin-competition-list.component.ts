@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -31,8 +31,7 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   @Select(AdminState.competitionDrafts)
   public competitionDrafts$: Observable<SearchResponse<CompetitionDraft[]>>;
 
-  public readonly noWorkshops = NoResultsTitle.noResult;
-  public readonly modeConstants = ModeConstants;
+  public readonly noCompetitions = NoResultsTitle.noResult;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ownershipTypeEnum = OwnershipTypesEnum;
   public readonly formOfLearningEnum = FormOfLearningEnum;
@@ -67,7 +66,6 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
     private readonly matDialog: MatDialog
   ) {}
 
-  @Input()
   public set competitions(value: SearchResponse<CompetitionDraft[]>) {
     this.dataSource.data = value?.entities;
     this.totalEntities = value?.totalAmount;

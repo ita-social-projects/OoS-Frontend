@@ -79,15 +79,6 @@
               [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
               (deleteForm)="onDeleteForm($event)">
             </app-info-form>
-            <button
-              *ngIf="SectionItemsFormArray.controls.length < 10"
-              [disabled]="SectionItemsFormArray.invalid"
-              class="btn-add"
-              mat-button
-              (click)="onAddForm()">
-              <mat-icon class="mat-icon-add">add</mat-icon>
-              {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
-            </button>
           </fieldset>
 
           <ng-container *ngIf="selectedWorkshop.workshopDetails.competitiveSelection">

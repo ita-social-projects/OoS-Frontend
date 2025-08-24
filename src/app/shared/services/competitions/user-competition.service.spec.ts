@@ -2,7 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Store } from '@ngxs/store';
 
-import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import {
+  Competition,
+  CompetitionDraft,
+  CompetitionDraftCard,
+  CompetitionProviderViewCard,
+  EditCompetitionDraft
+} from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { UserCompetitionService } from './user-competition.service';
@@ -165,5 +171,74 @@ describe('UserCompetitionService', () => {
       expect(req.request.method).toBe('PUT');
       req.flush(null);
     });
+  });
+
+  it('should send PUT request with rejection message when rejecting draft', () => {
+    const draftId = 'abc123';
+    const reason = 'Not valid';
+
+    service.rejectCompetitionDraft(draftId, reason).subscribe();
+
+    const req = httpMock.expectOne(`/api/v2/competitions-drafts/${encodeURIComponent(draftId)}/reject`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual({ rejectionMessage: reason });
+
+    req.flush(null);
+  });
+
+  it('should deleteImageByCompetitionDraftId with body containing imageId', () => {
+    const draftId = 'draft-123';
+    const imageId = 'img-99';
+
+    service.deleteImageByCompetitionDraftId(draftId, imageId).subscribe();
+
+    const req = httpMock.expectOne(`/api/v2/competitions-drafts/${draftId}/images`);
+
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.body).toEqual([imageId]);
+    req.flush(null);
+  });
+
+  it('should deleteCoverImageByCompetitionDraftId', () => {
+    const draftId = 'draft-123';
+
+    service.deleteCoverImageByCompetitionDraftId(draftId).subscribe();
+
+    const req = httpMock.expectOne(`/api/v2/competitions-drafts/${draftId}/cover-image`);
+
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+  });
+
+  it('should getCompetitionDraftById', () => {
+    const id = 'draft-123';
+    const mockDraft: CompetitionDraft = {
+      competitiveEventDraftId: id,
+      competitiveEventDetails: { title: 'Mock' }
+    } as CompetitionDraft;
+
+    service.getCompetitionDraftById(id).subscribe((res) => {
+      expect(res).toEqual(mockDraft);
+    });
+
+    const req = httpMock.expectOne(`/api/v2/competitions-drafts/${id}`);
+
+    expect(req.request.method).toBe('GET');
+    req.flush(mockDraft);
+  });
+
+  it('should editCompetitionDraftByModerator with formData', () => {
+    const draftId = 'draft-123';
+    const formData: EditCompetitionDraft = {
+      title: 'Updated title'
+    } as EditCompetitionDraft;
+
+    service.editCompetitionDraftByModerator(formData, draftId).subscribe();
+
+    const req = httpMock.expectOne(`/api/v2/competitions-drafts/${draftId}/moderator-edit`);
+
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(formData);
+    req.flush(null);
   });
 });
