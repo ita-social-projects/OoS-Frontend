@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
@@ -79,7 +79,7 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
         disable: true
       })
     );
-    this.competitionDrafts$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((competitions) => {
+    this.competitionDrafts$.pipe(takeUntil(this.destroy$)).subscribe((competitions) => {
       this.competitions = competitions;
     });
   }

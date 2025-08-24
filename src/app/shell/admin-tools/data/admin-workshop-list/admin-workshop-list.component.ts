@@ -89,7 +89,7 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.workshopDrafts$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((workshops: SearchResponse<WorkshopDraft[]>) => {
+    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshops: SearchResponse<WorkshopDraft[]>) => {
       this.workshops = workshops;
     });
   }
