@@ -12,12 +12,19 @@ import { StepperDirective } from './stepper.directive';
   template:
     '<div id="cdk-step-content-0-0">' +
     '<input id="invalidField" class="ng-invalid">' +
+    '<input id="hiddenField" class="ng-invalid" style="display: none;">' +
+    '<input id="zeroSizeField" class="ng-invalid">' +
+    '<div style="visibility: hidden;">' +
+    '<input id="hiddenParentField" class="ng-invalid">' +
     '</div>' +
-    '<button appStepperNext [form]="form" [stepper]="stepper"></button>'
+    '</div>' +
+    '<button appStepperNext [form]="form" [stepper]="stepper"></button>' +
+    '<button appStepperNext [stepper]="stepper" [appStepperNext]="submitFn"></button>'
 })
 class TestComponent {
   form: FormGroup;
   stepper = { next: jest.fn(), selectedIndex: 0 } as unknown as MatStepper;
+  submitFn = jest.fn();
 }
 
 describe('StepperDirective', () => {
@@ -74,24 +81,195 @@ describe('StepperDirective', () => {
     fixture.componentInstance.form.setErrors({ invalid: true });
     const spyUpdateValueAndValidity = jest.spyOn(fixture.componentInstance.form, 'updateValueAndValidity');
     const invalidInput = document.getElementById('invalidField');
-    invalidInput.scrollIntoView = jest.fn();
-    invalidInput.focus = jest.fn();
+    const spyScrollIntoView = jest.fn();
+    const spyFocus = jest.fn();
+    invalidInput.scrollIntoView = spyScrollIntoView;
+    invalidInput.focus = spyFocus;
+
+    invalidInput.getBoundingClientRect = jest.fn().mockReturnValue({
+      width: 100,
+      height: 20,
+      top: 0,
+      left: 0,
+      bottom: 20,
+      right: 100
+    });
+
+    jest.spyOn(window, 'getComputedStyle').mockReturnValue({
+      display: 'block',
+      visibility: 'visible'
+    } as CSSStyleDeclaration);
+
     debugElement.triggerEventHandler('click', new MouseEvent('click'));
     tick();
     expect(fixture.componentInstance.form.touched).toEqual(true);
     expect(spyUpdateValueAndValidity).toHaveBeenCalled();
     expect(mockStore.dispatch).toHaveBeenCalled();
-    expect(invalidInput.scrollIntoView).toHaveBeenCalled();
-    expect(invalidInput.focus).toHaveBeenCalled();
+    expect(spyScrollIntoView).toHaveBeenCalled();
+    expect(spyFocus).toHaveBeenCalled();
   }));
 
   it('should return if step element is null or undefined', () => {
     const directive = debugElement.injector.get(StepperDirective);
     const spyMarkAllAsTouched = jest.spyOn(fixture.componentInstance.form, 'markAllAsTouched');
     const spyUpdateValueAndValidity = jest.spyOn(fixture.componentInstance.form, 'updateValueAndValidity');
-    directive.scrollToFirstInvalidControl();
+
+    (directive as any).scrollToFirstInvalidControl();
     expect(spyMarkAllAsTouched).not.toHaveBeenCalled();
     expect(spyUpdateValueAndValidity).not.toHaveBeenCalled();
+  });
+
+  it('should call submit function when form is valid and submit is provided', () => {
+    const submitButton = fixture.debugElement.queryAll(By.directive(StepperDirective))[1];
+    fixture.componentInstance.form.patchValue({ control1: 'valid', control2: 'valid' });
+
+    submitButton.triggerEventHandler('click', new MouseEvent('click'));
+
+    expect(fixture.componentInstance.submitFn).toHaveBeenCalled();
+    expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
+  });
+
+  it('should call submit function when no form is provided and submit is provided', () => {
+    const submitButton = fixture.debugElement.queryAll(By.directive(StepperDirective))[1];
+    const directive = submitButton.injector.get(StepperDirective);
+    directive.form = null;
+
+    submitButton.triggerEventHandler('click', new MouseEvent('click'));
+
+    expect(fixture.componentInstance.submitFn).toHaveBeenCalled();
+    expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
+  });
+
+  describe('isElementVisible edge cases', () => {
+    let directive: StepperDirective;
+
+    beforeEach(() => {
+      directive = debugElement.injector.get(StepperDirective);
+      fixture.componentInstance.form.setErrors({ invalid: true });
+    });
+
+    it('should return false when element has display: none', fakeAsync(() => {
+      jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+        callback(0);
+        return 0;
+      });
+
+      const hiddenField = document.getElementById('hiddenField');
+      const spyScrollIntoView = jest.fn();
+      const spyFocus = jest.fn();
+      hiddenField.scrollIntoView = spyScrollIntoView;
+      hiddenField.focus = spyFocus;
+
+      jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+        if (element === hiddenField) {
+          return { display: 'none', visibility: 'visible' } as CSSStyleDeclaration;
+        }
+        return { display: 'block', visibility: 'visible' } as CSSStyleDeclaration;
+      });
+
+      debugElement.triggerEventHandler('click', new MouseEvent('click'));
+      tick();
+
+      expect(spyScrollIntoView).not.toHaveBeenCalled();
+      expect(spyFocus).not.toHaveBeenCalled();
+    }));
+
+    it('should return false when element has visibility: hidden', fakeAsync(() => {
+      jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+        callback(0);
+        return 0;
+      });
+
+      const hiddenField = document.getElementById('hiddenField');
+      const spyScrollIntoView = jest.fn();
+      const spyFocus = jest.fn();
+      hiddenField.scrollIntoView = spyScrollIntoView;
+      hiddenField.focus = spyFocus;
+
+      jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+        if (element === hiddenField) {
+          return { display: 'block', visibility: 'hidden' } as CSSStyleDeclaration;
+        }
+        return { display: 'block', visibility: 'visible' } as CSSStyleDeclaration;
+      });
+
+      debugElement.triggerEventHandler('click', new MouseEvent('click'));
+      tick();
+
+      expect(spyScrollIntoView).not.toHaveBeenCalled();
+      expect(spyFocus).not.toHaveBeenCalled();
+    }));
+
+    it('should return false when element has zero width and height', fakeAsync(() => {
+      jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+        callback(0);
+        return 0;
+      });
+
+      const zeroSizeField = document.getElementById('zeroSizeField');
+      const spyScrollIntoView = jest.fn();
+      const spyFocus = jest.fn();
+      zeroSizeField.scrollIntoView = spyScrollIntoView;
+      zeroSizeField.focus = spyFocus;
+
+      zeroSizeField.getBoundingClientRect = jest.fn().mockReturnValue({
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
+      });
+
+      jest.spyOn(window, 'getComputedStyle').mockReturnValue({
+        display: 'block',
+        visibility: 'visible'
+      } as CSSStyleDeclaration);
+
+      debugElement.triggerEventHandler('click', new MouseEvent('click'));
+      tick();
+
+      expect(spyScrollIntoView).not.toHaveBeenCalled();
+      expect(spyFocus).not.toHaveBeenCalled();
+    }));
+
+    it('should return false when parent element is hidden', fakeAsync(() => {
+      jest.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+        callback(0);
+        return 0;
+      });
+
+      const hiddenParentField = document.getElementById('hiddenParentField');
+      const spyScrollIntoView = jest.fn();
+      const spyFocus = jest.fn();
+      hiddenParentField.scrollIntoView = spyScrollIntoView;
+      hiddenParentField.focus = spyFocus;
+
+      hiddenParentField.getBoundingClientRect = jest.fn().mockReturnValue({
+        width: 100,
+        height: 20,
+        top: 0,
+        left: 0,
+        bottom: 20,
+        right: 100
+      });
+
+      jest.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+        if (element === hiddenParentField) {
+          return { display: 'block', visibility: 'visible' } as CSSStyleDeclaration;
+        }
+        if (element === hiddenParentField.parentElement) {
+          return { display: 'block', visibility: 'hidden' } as CSSStyleDeclaration;
+        }
+        return { display: 'block', visibility: 'visible' } as CSSStyleDeclaration;
+      });
+
+      debugElement.triggerEventHandler('click', new MouseEvent('click'));
+      tick();
+
+      expect(spyScrollIntoView).not.toHaveBeenCalled();
+      expect(spyFocus).not.toHaveBeenCalled();
+    }));
   });
 
   describe('form or stepper not provided', () => {
@@ -112,7 +290,7 @@ describe('StepperDirective', () => {
     });
 
     afterEach(() => {
-      const spyScrollToFirstInvalidControl = jest.spyOn(directive, 'scrollToFirstInvalidControl');
+      const spyScrollToFirstInvalidControl = jest.spyOn(directive as any, 'scrollToFirstInvalidControl');
       debugElement.triggerEventHandler('click', new MouseEvent('click'));
       expect(fixture.componentInstance.stepper.next).not.toHaveBeenCalled();
       expect(spyScrollToFirstInvalidControl).not.toHaveBeenCalled();
