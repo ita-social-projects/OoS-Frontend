@@ -38,7 +38,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public ngAfterViewInit(): void {
-    if (this.directionsSelected.selectedDirectionIds?.length) {
+    if (this.directionsSelected?.selectedDirectionIds?.length) {
       this.scrollToSelectedDirection();
     }
   }

@@ -258,7 +258,7 @@ export class FilterState {
 
   @Action(SetIndeterminates)
   setIndeterminates({ patchState }: StateContext<FilterStateModel>, { payload }: SetIndeterminates): void {
-    patchState({ indeterminateDirectionIds: payload });
+    patchState({ indeterminateDirectionIds: payload, from: 0 });
   }
 
   @Action(SetWorkingDays)

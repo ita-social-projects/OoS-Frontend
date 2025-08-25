@@ -38,10 +38,6 @@ export class DirectionsService {
     return this.http.get<Direction[]>('/api/v1/popular/directions', { params });
   }
 
-  public getSubDirections(directionId: string): Observable<SearchResponse<Subdirection[]>> {
-    return this.http.get<SearchResponse<Subdirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
-  }
-
   public createDirection(direction: Direction): Observable<Direction> {
     return this.http.post<Direction>('/api/v1/directions', direction);
   }
@@ -50,8 +46,8 @@ export class DirectionsService {
     return this.http.get<Direction>(`/api/v1/directions/${id}`);
   }
 
-  public getSubdirections(directionId: number): Observable<SubdirectionsResponse> {
-    return this.http.get<SubdirectionsResponse>(`/api/v1/directions/${directionId}/subdirections`);
+  public getSubdirections(directionId: string | number): Observable<SearchResponse<Subdirection[]>> {
+    return this.http.get<SearchResponse<Subdirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
   }
 
   private setParams(directionParameters: DirectionParameters): HttpParams {

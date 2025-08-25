@@ -205,7 +205,7 @@ export class MetaDataState {
   @Action(GetSubDirections)
   getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<Subdirection[]> {
     patchState({ subDirections: null, isLoading: true });
-    return this.categoriesService.getSubDirections(directionId).pipe(
+    return this.categoriesService.getSubdirections(directionId).pipe(
       map((searchResponse) => searchResponse.entities),
       tap((subDirections: Subdirection[]) => {
         patchState({ subDirections, isLoading: false });
