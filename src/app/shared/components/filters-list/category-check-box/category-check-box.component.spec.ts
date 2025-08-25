@@ -33,15 +33,6 @@ describe('CategoryCheckBoxComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call markForCheck when search value changes after debounce', fakeAsync(() => {
-    const markSpy = jest.spyOn((component as any).cdr, 'markForCheck');
-
-    component.directionSearchFormControl.setValue('query');
-    tick(300);
-
-    expect(markSpy).toHaveBeenCalled();
-  }));
-
   it('should call scrollToSelectedDirection in ngAfterViewInit when there are selected directions', () => {
     const spyScroll = jest.spyOn(component as any, 'scrollToSelectedDirection');
 

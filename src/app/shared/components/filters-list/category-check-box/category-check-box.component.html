@@ -17,6 +17,6 @@
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>
-    <app-direction-tree [initialDirectionIds]="directionsSelected"></app-direction-tree>
+    <app-direction-tree [initialDirectionIds]="directionsSelected" [searchInput]="directionSearchFormControl.value"></app-direction-tree>
   </div>
 </div>

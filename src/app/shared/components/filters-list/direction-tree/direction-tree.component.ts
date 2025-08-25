@@ -1,9 +1,10 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
+import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 import { Direction, DirectionNode, DirectionsSelected, Subdirection } from 'shared/models/category.model';
 import { DirectionsService } from 'shared/services/directions/directions.service';
 import { SetSubdirections, SetDirections, SetIndeterminates, FilterClear } from 'shared/store/filter.actions';
@@ -14,9 +15,12 @@ import { MetaDataState } from 'shared/store/meta-data.state';
   templateUrl: './direction-tree.component.html',
   styleUrls: ['./direction-tree.component.scss']
 })
-export class DirectionTreeComponent implements OnDestroy, OnInit {
+export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
   @Input()
   public initialDirectionIds: DirectionsSelected;
+
+  @Input()
+  public searchInput: string = '';
 
   @Select(MetaDataState.directions)
   private directions$: Observable<Direction[]>;
@@ -29,9 +33,12 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   public dataSource = new MatTreeNestedDataSource<DirectionNode>();
 
   private allDirections: DirectionNode[] = [];
+  private originalDirections: DirectionNode[] = [];
   private selectedDirectionIds: number[] = [];
   private indeterminateDirectionIds: number[] = [];
   private selectedSubdirectionIds: number[] = [];
+
+  private loadingChildren: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -43,9 +50,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions: Direction[]) => {
-      // update data source when directions are received
-      this.allDirections = this.transformDirections(directions);
-      this.dataSource.data = this.allDirections;
+      this.originalDirections = this.transformDirections(directions);
+      this.applyFilter();
       this.selectInitialIds(this.initialDirectionIds);
     });
 
@@ -57,6 +63,12 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       this.initSubdirectionIds = [];
       this.initIndeterminateIds = [];
     });
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.searchInput && this.originalDirections.length > 0) {
+      this.applyFilter();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -131,7 +143,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
     if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
       this.selectedDirectionIds.push(direction.id);
       this.store.dispatch(new SetDirections(this.selectedDirectionIds));
-    } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id)) {
+    } else if (!allChildrenSelected && this.selectedDirectionIds.includes(direction.id) && !this.loadingChildren) {
       this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
       this.store.dispatch(new SetDirections(this.selectedDirectionIds));
     }
@@ -199,12 +211,14 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   }
 
   private loadChildrenAndPush(node: DirectionNode): void {
+    this.loadingChildren = true;
     if (node.children.length > 0) {
       // subdirections already fetched
       node.children.forEach((sub) => {
         this.selectedSubdirectionIds.push(sub.id);
       });
       this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
+      this.loadingChildren = false;
     } else {
       // fetch subdirections from backend
       this.directionsService
@@ -219,6 +233,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
             this.selectedSubdirectionIds.push(sub.id);
           });
           this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
+          this.loadingChildren = false;
         });
     }
   }
@@ -234,6 +249,24 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
       });
       this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
     }
+  }
+
+  private applyFilter(): void {
+    if (!this.searchInput || this.searchInput.trim() === '') {
+      // show all directions if no filter
+      this.allDirections = [...this.originalDirections];
+    } else {
+      // apply search filter
+      this.allDirections = this.originalDirections.filter((direction: DirectionNode) => {
+        const directionMatches = direction.title
+          .toLowerCase()
+          .split(WORD_SPLIT_REGEX)
+          .some((word) => word.startsWith(this.searchInput.toLowerCase()));
+
+        return directionMatches;
+      });
+    }
+    this.dataSource.data = this.allDirections;
   }
 
   private selectInitialIds(initials: DirectionsSelected): void {
