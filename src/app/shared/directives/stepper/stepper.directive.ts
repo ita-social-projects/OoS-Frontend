@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { MatStepper } from '@angular/material/stepper';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
+import { WINDOW } from 'ngx-window-token';
 
 import { ShowMessageBar } from 'shared/store/app.actions';
 
@@ -19,6 +20,7 @@ export class StepperDirective {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(WINDOW) private readonly window: Window,
     private readonly store: Store,
     private readonly translateService: TranslateService
   ) {}
@@ -69,7 +71,7 @@ export class StepperDirective {
   }
 
   private isElementVisible(element: HTMLElement): boolean {
-    const computedStyle = window.getComputedStyle(element);
+    const computedStyle = this.window.getComputedStyle(element);
     if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden') {
       return false;
     }
@@ -81,7 +83,7 @@ export class StepperDirective {
 
     let parent = element.parentElement;
     while (parent) {
-      const parentStyle = window.getComputedStyle(parent);
+      const parentStyle = this.window.getComputedStyle(parent);
       if (parentStyle.display === 'none' || parentStyle.visibility === 'hidden') {
         return false;
       }
