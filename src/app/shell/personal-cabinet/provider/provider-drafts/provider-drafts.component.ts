@@ -31,7 +31,7 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
     super.ngOnInit();
     this.route.queryParams
       .pipe(
-        map((params) => params.t),
+        map((params) => params.tab),
         takeUntil(this.destroy$)
       )
       .subscribe((tab: string | undefined) => {
