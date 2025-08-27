@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { MatStepper } from '@angular/material/stepper';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
+import { WINDOW } from 'ngx-window-token';
 
 import { ShowMessageBar } from 'shared/store/app.actions';
 
@@ -19,6 +20,7 @@ export class StepperDirective {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
+    @Inject(WINDOW) private readonly window: Window,
     private readonly store: Store,
     private readonly translateService: TranslateService
   ) {}
@@ -59,9 +61,35 @@ export class StepperDirective {
 
         this.store.dispatch(new ShowMessageBar({ message, type: 'error' }));
 
-        invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        (invalidFields[0] as HTMLElement).focus({ preventScroll: true });
+        const firstVisibleInvalidField = Array.from(invalidFields).find((field) => this.isElementVisible(field as HTMLElement));
+        if (firstVisibleInvalidField) {
+          firstVisibleInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          (firstVisibleInvalidField as HTMLElement).focus({ preventScroll: true });
+        }
       }
     });
+  }
+
+  private isElementVisible(element: HTMLElement): boolean {
+    const computedStyle = this.window.getComputedStyle(element);
+    if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden') {
+      return false;
+    }
+
+    const rect = element.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) {
+      return false;
+    }
+
+    let parent = element.parentElement;
+    while (parent) {
+      const parentStyle = this.window.getComputedStyle(parent);
+      if (parentStyle.display === 'none' || parentStyle.visibility === 'hidden') {
+        return false;
+      }
+      parent = parent.parentElement;
+    }
+
+    return true;
   }
 }
