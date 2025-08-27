@@ -70,7 +70,6 @@
       [matTooltip]="'BUTTONS.ARCHIVE' | translate"
       (click)="onDelete()"
       (keydown)="onDeleteKeydown($event)">
-      >
       <ng-container *ngIf="competitionData.draftStatus; else archive">
         <mat-icon>delete</mat-icon>
       </ng-container>
