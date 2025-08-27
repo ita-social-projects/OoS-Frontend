@@ -34,8 +34,8 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
         map((params) => params.t),
         takeUntil(this.destroy$)
       )
-      .subscribe((t: string | undefined) => {
-        this.updateTab(t);
+      .subscribe((tab: string | undefined) => {
+        this.updateTab(tab);
       });
   }
 
@@ -57,19 +57,19 @@ export class ProviderDraftsComponent extends ProviderComponent implements OnInit
   }
 
   public updateTab(param: string | undefined): void {
-    const t = this.tabs.includes(param) ? param : this.tabs[0];
-    this.selectedTab = this.tabs.indexOf(t);
-    this.updateQueryParams(t);
+    const tab = this.tabs.includes(param) ? param : this.tabs[0];
+    this.selectedTab = this.tabs.indexOf(tab);
+    this.updateQueryParams(tab);
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
     this.updateQueryParams(this.tabs[event.index]);
   }
 
-  private updateQueryParams(t: string): void {
+  private updateQueryParams(tab: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { t }
+      queryParams: { tab }
     });
   }
 }
