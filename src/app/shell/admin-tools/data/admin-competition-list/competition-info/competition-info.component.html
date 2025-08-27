@@ -60,9 +60,9 @@
         [moderatorDeleteFlow]="true"
         [showConfirmationWindow]="true">
       </app-image-form-control>
-      <ng-container *ngIf="competition.workshopDescriptionItems?.length">
+      <ng-container *ngIf="competition.competitiveEventDescriptionItems?.length">
         <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
-        <div *ngFor="let item of competition.workshopDescriptionItems">
+        <div *ngFor="let item of competition.competitiveEventDescriptionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
           <p class="line-break">{{ item.description }}</p>
         </div>
@@ -142,7 +142,7 @@
             <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
             <p>{{ socialNetwork.type }}</p>
             <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank">{{ socialNetwork.url }}</a>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{ socialNetwork.url }}</a>
           </div>
         </div>
       </div>
