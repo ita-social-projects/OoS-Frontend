@@ -147,7 +147,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr
               mat-row
-              [ngClass]="{ 'selected-row': selectedCompetitionDraftId === row.competitiveEventDraftId }"
+              [ngClass]="{ 'selected-row': selectedWorkshopDraftId === row.workshopDraftId }"
               *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
         </div>
