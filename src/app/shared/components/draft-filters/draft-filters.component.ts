@@ -25,7 +25,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Component({
   selector: 'app-draft-filters',
   templateUrl: './draft-filters.component.html',
-  styleUrl: './draft-filters.component.scss'
+  styleUrls: ['./draft-filters.component.scss']
 })
 export class DraftFiltersComponent implements OnInit, OnDestroy {
   @Input() public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -144,8 +144,8 @@ export class DraftFiltersComponent implements OnInit, OnDestroy {
     this.subscribeFormControls();
   }
 
-  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
-    return codeficator1.id === codeficator2.id;
+  public compareById(a: { id: any }, b: { id: any }): boolean {
+    return a && b ? a.id === b.id : a === b;
   }
 
   public ngOnDestroy(): void {

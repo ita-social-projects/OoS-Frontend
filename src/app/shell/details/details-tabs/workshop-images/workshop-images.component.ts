@@ -9,7 +9,7 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 @Component({
   selector: 'app-workshop-images',
   templateUrl: './workshop-images.component.html',
-  styleUrl: './workshop-images.component.scss'
+  styleUrls: ['./workshop-images.component.scss']
 })
 export class WorkshopImagesComponent {
   public images: ImgPath[];

@@ -19,6 +19,7 @@ describe('CompetitionInfoComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), SharedModule],
+      declarations: [CompetitionInfoComponent],
       providers: [{ provide: Store, useValue: storeMock }]
     });
     fixture = TestBed.createComponent(CompetitionInfoComponent);

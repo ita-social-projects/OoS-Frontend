@@ -83,3 +83,7 @@ td {
   color: var(--primary-light-text-color);
 }
 
+.selected-row {
+  background-color: var(--bg-light-additional) !important;
+}
+

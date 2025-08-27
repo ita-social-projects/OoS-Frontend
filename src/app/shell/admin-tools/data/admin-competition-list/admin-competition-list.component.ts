@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -61,7 +60,6 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    protected readonly route: ActivatedRoute,
     private readonly store: Store,
     private readonly matDialog: MatDialog
   ) {}

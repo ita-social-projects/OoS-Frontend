@@ -62,7 +62,7 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
     this.competition = competition;
     if (competition) {
       if (this.form) {
-        this.applyWorkshopToForm(competition);
+        this.applyCompetitionToForm(competition);
       } else {
         this.pendingCompetition = competition;
       }
@@ -73,7 +73,7 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
     this.initForm();
     this.initListeners();
     if (this.pendingCompetition) {
-      this.applyWorkshopToForm(this.pendingCompetition);
+      this.applyCompetitionToForm(this.pendingCompetition);
       this.pendingCompetition = null;
     }
   }
@@ -152,7 +152,7 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
-  private applyWorkshopToForm(workshop: Competition): void {
+  private applyCompetitionToForm(workshop: Competition): void {
     if (workshop.coverImageId?.length) {
       this.form.get('coverImageId').setValue([workshop.coverImageId]);
     } else {
