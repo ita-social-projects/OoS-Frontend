@@ -332,25 +332,27 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   }
 
   private listenToChanges(): void {
-    merge(
-      ...[
-        'imageFiles',
-        'description',
-        'disabilityOptionsDesc',
-        'additionalDescription',
-        'descriptionOfTheEnrollmentProcedure',
-        'competitiveEventDescriptionItems',
-        'benefitsOptionsDesc'
-      ].map(
-        (controlName) =>
-          this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
-            throttleTime(5000, undefined, {
-              leading: true,
-              trailing: false
-            })
-          ) ?? of()
-      )
-    )
+    const fieldsToListen = [
+      'imageFiles',
+      'description',
+      'disabilityOptionsDesc',
+      'additionalDescription',
+      'descriptionOfTheEnrollmentProcedure',
+      'competitiveEventDescriptionItems',
+      'benefitsOptionsDesc'
+    ];
+
+    const mappedFields = fieldsToListen.map(
+      (controlName) =>
+        this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
+          throttleTime(5000, undefined, {
+            leading: true,
+            trailing: false
+          })
+        ) ?? of()
+    );
+
+    merge(...mappedFields)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.store.dispatch(

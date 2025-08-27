@@ -345,17 +345,18 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private listenToChanges(): void {
-    merge(
-      ...['coverImage', 'title', 'shortTitle'].map(
-        (controlName) =>
-          this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
-            throttleTime(5000, undefined, {
-              leading: true,
-              trailing: false
-            })
-          ) ?? of()
-      )
-    )
+    const fieldsToListen = ['coverImage', 'title', 'shortTitle'];
+    const mappedFields = fieldsToListen.map(
+      (controlName) =>
+        this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
+          throttleTime(5000, undefined, {
+            leading: true,
+            trailing: false
+          })
+        ) ?? of()
+    );
+
+    merge(...mappedFields)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.store.dispatch(

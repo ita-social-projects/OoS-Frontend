@@ -163,26 +163,6 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
     }
   }
 
-  private getWorkshopData(): void {
-    this.coverImage = this.imagesService.getCoverImage(this.workshop);
-    this.store.dispatch([
-      new GetProviderById(
-        Util.containsWorkshopOrCompetitionDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
-      ),
-      new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: NavBarName.WorkshopResult,
-            path: '/result',
-            isActive: false,
-            disable: false
-          },
-          { name: this.workshop.title, isActive: false, disable: true }
-        )
-      )
-    ]);
-  }
-
   protected initTabs(): void {
     this.tabs = [
       {
@@ -226,5 +206,25 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
         visible: true
       }
     ].filter((tab) => tab.visible);
+  }
+
+  private getWorkshopData(): void {
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
+    this.store.dispatch([
+      new GetProviderById(
+        Util.containsWorkshopOrCompetitionDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: NavBarName.WorkshopResult,
+            path: '/result',
+            isActive: false,
+            disable: false
+          },
+          { name: this.workshop.title, isActive: false, disable: true }
+        )
+      )
+    ]);
   }
 }
