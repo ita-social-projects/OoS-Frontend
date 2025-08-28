@@ -8,7 +8,7 @@
   </app-working-hours-form>
 </ng-container>
 <div class="add-hour flex flex-row justify-start items-center">
-  <button class="btn-add" mat-button (click)="addWorkingHours()" [disabled]="workingHoursFormArray.invalid">
+  <button class="btn-add" type="button" mat-button (click)="addWorkingHours()" [disabled]="workingHoursFormArray.invalid">
     <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_LESSONS_SCHEDULE' | translate }}
   </button>
 </div>
