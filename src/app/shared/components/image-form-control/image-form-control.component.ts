@@ -102,7 +102,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
           data: { type: deleteImageType }
         })
         .afterClosed()
-        .pipe(first(), filter(Boolean))
+        .pipe(filter(Boolean))
         .subscribe(() => this.removeImage(img));
     } else {
       this.removeImage(img);
@@ -111,11 +111,14 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
 
   public activateEditMode(): void {
     this.editMode = true;
-    if (this.imageIdsFormControl?.value?.length) {
-      this.imageIdsFormControl.value.forEach((imageId) => {
-        this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
-      });
+    if (!this.imageIdsFormControl.value) {
+      return;
     }
+
+    const images = Array.isArray(this.imageIdsFormControl.value) ? this.imageIdsFormControl.value : [this.imageIdsFormControl.value];
+    images.forEach((imageId: string) => {
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
+    });
   }
 
   public markAsTouched(): void {

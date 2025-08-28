@@ -1,18 +1,21 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
+
 import { Constants } from 'shared/constants/constants';
-import { CategoryIcons } from 'shared/enum/category-icons';
 import { CompetitionStatus } from 'shared/enum/competition';
-import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DraftStatusEnum, FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
-import { CompetitionBaseCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { CompetitionBaseCard, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { RegistrationState } from 'shared/store/registration.state';
 import { ImagesService } from 'shared/services/images/images.service';
-import { ENTER, SPACE } from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { CompetitionDraftSendForModeration, GetCompetitionDraftIdByCompetitionId } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-competition-card',
@@ -32,35 +35,32 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public isImageBroken = false;
 
-  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
   public readonly Constants = Constants;
-  public readonly CategoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly CompetitionStatus = CompetitionStatus;
   public readonly ModalConfirmationType = ModalConfirmationType;
-  public competitionData: CompetitionProviderViewCard;
+  public readonly draftStatusEnum = DraftStatusEnum;
+  public readonly workshopDraftStatus = WorkshopDraftStatus;
+  public competitionData: CompetitionProviderViewCard | CompetitionDraftCard;
 
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private imageService: ImagesService,
+    private dialog: MatDialog,
     private router: Router,
     private store: Store
   ) {}
 
-  @Input() public set competition(competition: CompetitionProviderViewCard) {
+  @Input() public set competition(competition: CompetitionProviderViewCard | CompetitionDraftCard) {
     this.competitionData = competition;
   }
 
   public ngOnInit(): void {
-    // this code is a stub, so when the logic appears on the backend, it will need to be removed
-    this.competitionData.amountOfPendingApplications = 0;
-    this.competitionData.unreadMessages = 0;
-
     this.Role$.pipe(takeUntil(this.destroy$))
       .pipe(filter((role: Role) => role === Role.parent))
       .subscribe((role: Role) => {
@@ -78,6 +78,20 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     this.competitionData._meta = this.imageService.getDefaultCoverImage();
   }
 
+  public onSendForModeration(id: string, type: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: type
+      }
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => this.store.dispatch(new CompetitionDraftSendForModeration(id)));
+  }
+
   public onKeydown(event: KeyboardEvent, action: () => void): void {
     if (event.keyCode === ENTER || event.keyCode === SPACE) {
       action();
@@ -89,12 +103,17 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
     this.onKeydown(event, () => this.onEdit());
   }
 
-  public onEdit(): void {
-    this.router.navigate(['/create-competition', this.competitionData.id]);
-  }
-
   public onDeleteKeydown(event: KeyboardEvent): void {
     this.onKeydown(event, () => this.onDelete());
+  }
+
+  public onEdit(): void {
+    const draftId = (this.competitionData as CompetitionDraftCard)?.competitiveEventDraftId;
+    if (draftId) {
+      this.router.navigate(['/create/competition/draft', draftId]);
+    } else {
+      this.store.dispatch(new GetCompetitionDraftIdByCompetitionId(this.competitionData?.id));
+    }
   }
 
   public onDelete(): void {

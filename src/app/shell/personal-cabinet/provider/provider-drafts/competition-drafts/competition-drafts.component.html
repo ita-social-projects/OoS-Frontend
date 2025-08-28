@@ -4,20 +4,19 @@
     <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_COMPETITION' | translate }}</button>
   </a>
 </div>
-
-<ng-container *ngIf="!(isLoading$ | async) && !!competitions">
-  <div class="card-wrapper" *ngIf="competitions?.totalAmount">
+<ng-container *ngIf="!(isLoading$ | async) && !!competitionDrafts">
+  <div class="card-wrapper" *ngIf="competitionDrafts?.totalAmount">
     <app-competition-card
       class="card"
-      *ngFor="let competition of competitions.entities"
-      [competition]="competition"
+      *ngFor="let competitionDraft of competitionDrafts.entities; trackBy: trackByDraft"
       [isCabinet]="true"
+      [competition]="competitionDraft"
       (deleteCompetition)="onDelete($event)">
     </app-competition-card>
   </div>
-  <ng-container *ngIf="competitions.totalAmount">
+  <ng-container *ngIf="competitionDrafts.totalAmount">
     <app-paginator
-      [totalEntities]="competitions.totalAmount"
+      [totalEntities]="competitionDrafts.totalAmount"
       [currentPage]="currentPage"
       [itemsPerPage]="competitionCardParameters.size"
       (pageChange)="onPageChange($event)"
@@ -25,3 +24,4 @@
     </app-paginator>
   </ng-container>
 </ng-container>
+

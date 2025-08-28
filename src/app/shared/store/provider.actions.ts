@@ -18,7 +18,8 @@ import {
   UnfinishedWorkshopContacts
 } from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
-import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
+import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { WorkshopType } from 'shared/enum/workshop';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -105,13 +106,19 @@ export class GetProviderViewWorkshops {
 }
 
 export class GetProviderViewWorkshopDrafts {
-  static readonly type = '[provider] get Workshops Drafts for provider cabinet';
+  static readonly type = '[provider] get Workshop Drafts for provider cabinet';
 
   constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
 export class GetProviderViewCompetitions {
   static readonly type = '[provider] get Competitions for provider cabinet';
+
+  constructor(public competitionCardParameters: CompetitionCardParameters) {}
+}
+
+export class GetProviderViewCompetitionDrafts {
+  static readonly type = '[provider] get Competition Drafts for provider cabinet';
 
   constructor(public competitionCardParameters: CompetitionCardParameters) {}
 }
@@ -140,17 +147,24 @@ export class GetWorkshopDraftIdByWorkshopId {
   constructor(public id: string) {}
 }
 
-export class OnGetWorkshopDraftIdByWorkshopIdSuccess {
-  static readonly type = '[provider] get Workshop DraftId by Workshop Id Success';
+export class OnGetDraftIdByEntityIdSuccess {
+  static readonly type = '[provider] get DraftId by Entity Id Success';
 
   constructor(
     public draftId: string,
-    public workshopId: string
+    public entityId: string,
+    public entityType: WorkshopType
   ) {}
 }
 
-export class DraftSendForModeration {
-  static readonly type = '[provider] send Draft for Moderation';
+export class WorkshopDraftSendForModeration {
+  static readonly type = '[provider] send Workshop Draft for Moderation';
+
+  constructor(public id: string) {}
+}
+
+export class CompetitionDraftSendForModeration {
+  static readonly type = '[provider] send Competition Draft for Moderation';
 
   constructor(public id: string) {}
 }
@@ -230,8 +244,8 @@ export class CreateWorkshopDraft {
   constructor(public payload: Workshop) {}
 }
 
-export class UpdateDraft {
-  static readonly type = '[provider] update Draft';
+export class UpdateWorkshopDraft {
+  static readonly type = '[provider] update Workshop Draft';
 
   constructor(
     public draftId: string,
@@ -242,11 +256,11 @@ export class UpdateDraft {
 export class OnUpdateDraftSuccess {
   static readonly type = '[provider] update Draft success';
 
-  constructor(public payload: Workshop) {}
+  constructor(public payload: Workshop | Competition) {}
 }
 
 export class DeleteWorkshopDraftById {
-  static readonly type = '[provider] delete Draft';
+  static readonly type = '[provider] delete Workshop Draft';
 
   constructor(
     public payload: WorkshopDraftCard,
@@ -254,7 +268,7 @@ export class DeleteWorkshopDraftById {
   ) {}
 }
 
-export class OnDeleteDraftSuccess {
+export class OnDeleteWorkshopDraftSuccess {
   static readonly type = '[provider] delete Draft success';
 
   constructor(public parameters: WorkshopCardParameters) {}
@@ -855,4 +869,34 @@ export class OnArchiveCompetitionFail {
   static readonly type = '[provider] archive Competition by id fail';
 
   constructor(public error: HttpErrorResponse) {}
+}
+
+export class UpdateCompetitionDraft {
+  static readonly type = '[provider] update Competition Draft';
+
+  constructor(
+    public draftId: string,
+    public payload: Competition
+  ) {}
+}
+
+export class DeleteCompetitionDraftById {
+  static readonly type = '[provider] delete Competition draft';
+
+  constructor(
+    public payload: CompetitionDraftCard,
+    public parameters: CompetitionCardParameters
+  ) {}
+}
+
+export class OnDeleteCompetitionDraftSuccess {
+  static readonly type = '[provider] delete Competition draft success';
+
+  constructor(public parameters: CompetitionCardParameters) {}
+}
+
+export class GetCompetitionDraftIdByCompetitionId {
+  static readonly type = '[provider] get Competition Draft ID by Competition Id';
+
+  constructor(public id: string) {}
 }

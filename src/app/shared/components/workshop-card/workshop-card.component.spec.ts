@@ -90,7 +90,7 @@ describe('WorkshopCardComponent', () => {
       } as WorkshopDraftCard;
       component.onEdit();
       expect(mockStore.dispatch).not.toHaveBeenCalled();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['create/draft', '111']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['create/workshop/draft', '111']);
     });
 
     it('should dispatch check for workshopDraftId if workshopDraftId is not provided', () => {

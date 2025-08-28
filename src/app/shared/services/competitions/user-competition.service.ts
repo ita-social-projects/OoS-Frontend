@@ -2,11 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import {
+  Competition,
+  CompetitionCardParameters,
+  CompetitionDraft,
+  CompetitionDraftCard,
+  CompetitionProviderViewCard
+} from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { CompetitionCardParameters } from 'shared/models/competition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +32,14 @@ export class UserCompetitionService {
     return this.http.get<Competition>(`/api/v1/CompetitiveEvent/${id}`);
   }
 
+  public getCompetitionDraftById(id: string): Observable<CompetitionDraft> {
+    return this.http.get<CompetitionDraft>(`/api/v2/competitions-drafts/${id}`);
+  }
+
+  public getCompetitionDraftIdByCompetitionId(competitionId: string): Observable<string> {
+    return this.http.get<string>(`/api/v2/competitions-drafts/event/${competitionId}/draft-id`);
+  }
+
   /**
    * This method get related competitions for provider personal cabinet
    */
@@ -45,42 +58,57 @@ export class UserCompetitionService {
   }
 
   /**
+   * This method get related competition drafts for provider personal cabinet
+   */
+  // eslint-disable-next-line max-len
+  public getProviderViewCompetitionDrafts(
+    competitionCardParameters: CompetitionCardParameters
+  ): Observable<SearchResponse<CompetitionDraftCard[]>> {
+    const params = new HttpParams()
+      .set('From', competitionCardParameters.from.toString())
+      .set('Size', competitionCardParameters.size.toString());
+
+    return this.http.get<SearchResponse<CompetitionDraftCard[]>>(
+      `/api/v2/provider/${competitionCardParameters.providerId}/competitions-drafts`,
+      {
+        params
+      }
+    );
+  }
+
+  public sendDraftForModeration(id: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/competitions-drafts/${id}/send-for-moderation`, {});
+  }
+
+  public updateDraft(draftId: string, draft: Competition): Observable<CompetitionDraft> {
+    const formData = this.createFormData(draft, draftId);
+    return this.http.put<CompetitionDraft>(`/api/v2/competitions-drafts/${draftId}`, formData);
+  }
+
+  public deleteCompetitionDraft(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${id}`);
+  }
+
+  /**
    * This method create competition
    * @param competition Competition
    */
-  /**
-   / * This method creates a competition.
-   * todo: Update logic to use `createCompetitionV2` when the new version is available.
-   */
-  public createCompetition(competition: Competition): Observable<Competition> {
-    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    // this code return when v2 for competition will be
-    // return this.isImagesFeature ? this.createCompetitionV2(competition) : this.createCompetitionV1(competition);
-    return this.createCompetitionV1(competition);
+  public createCompetition(competition: Competition): Observable<CompetitionDraft> {
+    return this.createCompetitionV2(competition);
   }
 
-  public createCompetitionV1(competition: Competition): Observable<Competition> {
-    return this.http.post<Competition>('/api/v1/CompetitiveEvent', competition);
-  }
-
-  public createCompetitionV2(competition: Competition): Observable<Competition> {
-    const formData = this.createFormData(competition);
-    return this.http.post<Competition>('/api/v2/CompetitiveEvent', formData);
+  public createCompetitionV2(competition: Competition): Observable<CompetitionDraft> {
+    return this.http.post<CompetitionDraft>('/api/v2/competitions-drafts', this.createFormData(competition));
   }
 
   /**
    * This method update competition
    * @param competition Competition
    */
-  /**
-   / * This method creates a competition.
-   * todo: Update logic to use `createCompetitionV2` when the new version is available.
-   */
+
   public updateCompetition(competition: Competition): Observable<Competition> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-    // this code return when v2 for competition will be
-    // return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
-    return this.updateCompetitionV1(competition);
+    return this.isImagesFeature ? this.updateCompetitionV2(competition) : this.updateCompetitionV1(competition);
   }
 
   public updateCompetitionV1(competition: Competition): Observable<Competition> {
@@ -96,22 +124,27 @@ export class UserCompetitionService {
     return this.http.delete<void>(`/api/v2/CompetitiveEvent/Delete/${id}`);
   }
 
-  private createFormData(competition: Competition): FormData {
+  private createFormData(competition: Competition, draftId?: string): FormData {
+    const preKey = draftId ? 'CompetitiveEventV2Dto.' : '';
     const formData = new FormData();
-    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges'];
+    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(competition).forEach((key: string) => {
-      if (competition[key]) {
+      if (competition[key] !== null && competition[key] !== undefined) {
         if (imageFiles.includes(key)) {
-          competition[key].forEach((file: File) => formData.append(key, file));
+          competition[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {
-          formData.append(key, JSON.stringify(competition[key]));
+          formData.append(`${preKey}${key}`, JSON.stringify(competition[key]));
         } else {
-          formData.append(key, competition[key]);
+          formData.append(`${preKey}${key}`, competition[key]);
         }
       }
     });
+
+    if (draftId) {
+      formData.append('id', draftId);
+    }
 
     return formData;
   }

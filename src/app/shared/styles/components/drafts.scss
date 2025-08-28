@@ -1,0 +1,45 @@
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color) !important;
+  color: var(--specific-text-color) !important;
+}
+
+.btn-publish {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+}
+
+.error-message {
+  color: red;
+  height: 40px;
+  width: 40px;
+  font-size: 40px;
+
+  &:hover {
+    color: darkred;
+  }
+}
+
+.reject {
+  &-block {
+    height: 34px;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 0 30px;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+
+    &-moderator-message {
+      font-family: Innerspace, sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      color: var(--specific-light-text-color);
+      user-select: none;
+    }
+  }
+
+  &-block:hover {
+    background-color: #ece8e8;
+  }
+}

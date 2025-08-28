@@ -8,7 +8,7 @@ import { EMPTY_RESULT } from 'shared/constants/constants';
 import { messageStatus, showHttpErrorMessage, SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application } from 'shared/models/application.model';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionDraft } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard, WorkshopDraft, WorkshopDraftCard } from 'shared/models/workshop.model';
@@ -34,15 +34,17 @@ import {
   GetAllApplications,
   GetApplicationsByPropertyId,
   GetCompetitionById,
+  GetCompetitionDraftById,
   GetProviderById,
   GetWorkshopById,
   GetWorkshopDraftById,
   GetWorkshopsByProviderId,
   OnGetCompetitionByIdFail,
+  OnGetCompetitionDraftByIdSuccess,
+  OnGetDraftByIdFail,
   OnGetProviderByIdFail,
   OnGetWorkshopByIdFail,
   OnGetWorkshopByIdSuccess,
-  OnGetWorkshopDraftByIdFail,
   OnGetWorkshopDraftByIdSuccess,
   OnUpdateApplicationFail,
   OnUpdateApplicationSuccess,
@@ -58,7 +60,7 @@ export interface SharedUserStateModel {
   selectedWorkshop: Workshop | WorkshopDraft;
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
-  selectedCompetition: Competition;
+  selectedCompetition: Competition | CompetitionDraft;
 }
 
 @State<SharedUserStateModel>({
@@ -105,7 +107,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static selectedCompetition(state: SharedUserStateModel): Competition {
+  static selectedCompetition(state: SharedUserStateModel): Competition | CompetitionDraft {
     return state.selectedCompetition;
   }
 
@@ -147,7 +149,7 @@ export class SharedUserState {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftById(payload).pipe(
       tap((workshop: WorkshopDraft) => dispatch(new OnGetWorkshopDraftByIdSuccess(workshop))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopDraftByIdFail(error)))
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetDraftByIdFail(error)))
     );
   }
 
@@ -156,9 +158,9 @@ export class SharedUserState {
     patchState({ selectedWorkshop: payload, isLoading: false });
   }
 
-  @Action(OnGetWorkshopDraftByIdFail)
-  onGetWorkshopDraftByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopDraftByIdFail): void {
-    patchState({ selectedWorkshop: null, isLoading: false });
+  @Action(OnGetDraftByIdFail)
+  onGetDraftByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetDraftByIdFail): void {
+    patchState({ selectedWorkshop: null, selectedCompetition: null, isLoading: false });
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.deletedDraft,
@@ -177,6 +179,26 @@ export class SharedUserState {
       tap((competition: Competition) => patchState({ selectedCompetition: competition, isLoading: false })),
       catchError((error: HttpErrorResponse) => dispatch(new OnGetCompetitionByIdFail(error)))
     );
+  }
+
+  @Action(GetCompetitionDraftById)
+  getCompetitionDraftById(
+    { patchState, dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: GetCompetitionDraftById
+  ): Observable<CompetitionDraft | void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.getCompetitionDraftById(payload).pipe(
+      tap((competition: CompetitionDraft) => dispatch(new OnGetCompetitionDraftByIdSuccess(competition))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetDraftByIdFail(error)))
+    );
+  }
+
+  @Action(OnGetCompetitionDraftByIdSuccess)
+  onGetCompetitionDraftByIdSuccess(
+    { patchState }: StateContext<SharedUserStateModel>,
+    { payload }: OnGetCompetitionDraftByIdSuccess
+  ): void {
+    patchState({ selectedCompetition: payload, isLoading: false });
   }
 
   @Action(GetAllApplications)
@@ -237,7 +259,6 @@ export class SharedUserState {
     { id, parameters }: GetApplicationsByPropertyId
   ): Observable<SearchResponse<Application[]>> {
     patchState({ isLoading: true });
-
     return this.applicationService
       .getApplicationsByPropertyId(id, parameters)
       .pipe(

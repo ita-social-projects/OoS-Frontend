@@ -14,17 +14,59 @@
       {{ 'BUTTONS.ARCHIVE' | translate }}
     </button>
     <div class="flex">
-      <a [routerLink]="['/create-competition', competition.id]" class="btn btn-cancel" mat-button>
-        {{ 'BUTTONS.EDIT' | translate }}
-      </a>
+      <span
+        [matTooltip]="
+          competition.draftStatus === WorkshopDraftStatus.PendingModeration
+            ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate)
+            : null
+        ">
+        <button
+          class="btn btn-cancel"
+          [class.btn-rejected]="competition.draftStatus === WorkshopDraftStatus.Rejected"
+          [disabled]="competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+          mat-button
+          (click)="onEdit()">
+          {{ 'BUTTONS.EDIT' | translate }}
+        </button>
+      </span>
       <button
+        *ngIf="competition.competitiveEventDraftId"
         class="btn btn-publish"
-        [disabled]="competition.state !== CompetitionStatus.Draft"
-        (click)="onActionButtonClick(ModalType.publishCompetition)"
+        [disabled]="competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+        (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
         mat-button>
         {{ 'BUTTONS.PUBLISH' | translate }}
       </button>
     </div>
+  </div>
+
+  <div
+    *ngIf="competition.draftStatus === WorkshopDraftStatus.Draft || competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+    class="draft-panel flex items-center"
+    [ngClass]="{
+      'draft-panel-draft': competition.draftStatus === WorkshopDraftStatus.Draft,
+      'draft-panel-pending': competition.draftStatus === WorkshopDraftStatus.PendingModeration
+    }">
+    <ng-container [ngSwitch]="competition.draftStatus">
+      <span *ngSwitchCase="WorkshopDraftStatus.Draft">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.PendingModeration">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING' | translate | uppercase }}
+      </span>
+    </ng-container>
+  </div>
+  <div class="expansion-wrapper" *ngIf="competition.rejectionMessage">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="reject-block-moderator-message">
+          {{ 'MODERATOR_MESSAGE' | translate | uppercase }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        {{ competition.rejectionMessage }}
+      </p>
+    </mat-expansion-panel>
   </div>
 
   <div class="details-wrapper">
@@ -94,6 +136,7 @@
 
     <mat-tab-group
       class="nav"
+      [dynamicHeight]="true"
       [mat-stretch-tabs]="false"
       [selectedIndex]="selectedIndex"
       (animationDone)="onAnimationDone()"

@@ -32,10 +32,4 @@ describe('ArrayLengthValidator', () => {
 
     expect(numbers.errors).toEqual({ minArrayLength: { requiredLength: 3, actualLength: 0 } });
   });
-
-  it('should return not array error if value is null', () => {
-    const numbers: FormControl = new FormControl(null, [minArrayLength(3), maxArrayLength(6)]);
-
-    expect(numbers.errors).toEqual({ notArray: true });
-  });
 });

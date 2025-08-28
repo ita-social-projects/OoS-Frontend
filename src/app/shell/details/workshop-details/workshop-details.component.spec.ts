@@ -19,7 +19,7 @@ import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { ArchiveWorkshopById, DraftSendForModeration, GetWorkshopDraftIdByWorkshopId } from 'shared/store/provider.actions';
+import { ArchiveWorkshopById, GetWorkshopDraftIdByWorkshopId, WorkshopDraftSendForModeration } from 'shared/store/provider.actions';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { WorkshopDetailsComponent } from './workshop-details.component';
@@ -124,7 +124,7 @@ describe('WorkshopDetailsComponent', () => {
       };
       component.onActionButtonClick(ModalConfirmationType.draftSet);
       expect(matDialogSpy).toHaveBeenCalledTimes(1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(new DraftSendForModeration('123'));
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new WorkshopDraftSendForModeration('123'));
     });
 
     it('should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {
@@ -160,13 +160,13 @@ describe('WorkshopDetailsComponent', () => {
           return '123';
         }
         if (key === 'entity') {
-          return 'draft';
+          return 'workshop-draft';
         }
       });
 
       component.onEdit();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/draft', '123']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/create/workshop/draft', '123']);
     });
 
     it('should dispatch GetWorkshopDraftIdByWorkshopId if workshop', () => {

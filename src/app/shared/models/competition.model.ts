@@ -2,6 +2,7 @@ import { CompetitionCoverage, CompetitionStatus, FormOfLearning } from 'shared/e
 import { Address } from 'shared/models/address.model';
 import { Judge } from 'shared/models/judge.model';
 import { Provider } from 'shared/models/provider.model';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
 import { PaginationParameters } from './query-parameters.model';
 import { SectionItem } from './section-item.model';
 import { Contacts } from './workshop.model';
@@ -138,7 +139,23 @@ export class Competition extends CompetitionBase {
     if (required.coverImage) {
       this.coverImage = required.coverImage;
     }
+    if (description.imageIds) {
+      this.imageIds = description.imageIds;
+    }
+    if (description.imageFiles) {
+      this.imageFiles = description.imageFiles;
+    }
   }
+}
+
+export class CompetitionDraft extends Competition {
+  competitiveEventDraftId: string;
+  draftStatus: WorkshopDraftStatus;
+  rejectionMessage?: string;
+  competitiveEventDetails: Competition;
+  providerEdrpou: string;
+  directorFullName: string;
+  directorPosition: string;
 }
 
 export interface CompetitionRequired {
@@ -214,4 +231,13 @@ export interface Description {
   price?: number;
   benefitsOptionsDesc?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
+  imageIds?: string[];
+  imageFiles?: File[];
+}
+
+export interface CompetitionDraftCard extends CompetitionBaseCard {
+  competitiveEventDraftId: string;
+  draftStatus: WorkshopDraftStatus;
+  rejectionMessage?: string;
+  coverImageId?: string;
 }
