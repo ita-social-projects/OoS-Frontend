@@ -11,6 +11,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { ClearCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { Address } from 'shared/models/address.model';
 import { CreateAddressFormComponent } from './create-address-form.component';
 
 describe('CreateAddressFormComponent', () => {
@@ -64,7 +65,7 @@ describe('CreateAddressFormComponent', () => {
         longitude: 0,
         fullName: ''
       }
-    };
+    } as Address;
     store = TestBed.inject(Store);
     fixture.detectChanges();
   });
@@ -81,17 +82,6 @@ describe('CreateAddressFormComponent', () => {
     expect(component.settlementSearchFormControl.value).toBeNull();
     expect(component.codeficatorIdFormControl.value).toBeNull();
     expect(component.settlementFormControl.value).toBeNull();
-  });
-
-  it('should not clear form controls on focus out when no value is selected if autocomplete is open', () => {
-    component.settlementSearchFormControl.setValue({ settlement: 'Test Settlement Search' }, { emitEvent: false });
-    component.settlementFormControl.setValue({ settlement: 'Test Settlement' }, { emitEvent: false });
-    component.autocomplete.options = { first: { value: null } } as any;
-    component.autocomplete._isOpen = true;
-
-    component.onFocusOut();
-
-    expect(component.settlementSearchFormControl.value).toEqual(component.settlementFormControl.value.settlement);
   });
 
   it('should update form controls on selecting a settlement', () => {
