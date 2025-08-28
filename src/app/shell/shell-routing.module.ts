@@ -93,14 +93,14 @@ const routes: Routes = [
     loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
   {
-    path: 'create/:param',
+    path: 'create/workshop/:param',
     component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create/:entity/:param',
+    path: 'create/workshop/:entity/:param',
     component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
@@ -205,14 +205,21 @@ const routes: Routes = [
   },
   { path: 'server-error', component: ServerErrorPageComponent },
   {
-    path: 'create-competition/:param',
+    path: 'create/competition/:param',
     component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-competition/:id/:param',
+    path: 'create/competition/:entity/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create/competition/:entity/:id/:param',
     component: CreateCompetitionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],

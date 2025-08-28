@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { asyncScheduler, merge, Observable, of, Subject, throttleTime } from 'rxjs';
 import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -18,6 +18,9 @@ import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction, SubDirection } from 'shared/models/category.model';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -57,7 +60,9 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly route: ActivatedRoute,
+    private readonly translateService: TranslateService
   ) {}
 
   public get directionControl(): FormControl {
@@ -183,6 +188,10 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
         const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
         asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
       });
+    }
+
+    if (!this.route.snapshot.paramMap.has('entity')) {
+      this.listenToChanges();
     }
   }
 
@@ -320,5 +329,38 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       this.subDirectionControl.setErrors(null);
       this.store.dispatch(new GetSubDirections(directionId));
     });
+  }
+
+  private listenToChanges(): void {
+    const fieldsToListen = [
+      'imageFiles',
+      'description',
+      'disabilityOptionsDesc',
+      'additionalDescription',
+      'descriptionOfTheEnrollmentProcedure',
+      'competitiveEventDescriptionItems',
+      'benefitsOptionsDesc'
+    ];
+
+    const mappedFields = fieldsToListen.map(
+      (controlName) =>
+        this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
+          throttleTime(5000, undefined, {
+            leading: true,
+            trailing: false
+          })
+        ) ?? of()
+    );
+
+    merge(...mappedFields)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+            type: 'warningYellow'
+          })
+        );
+      });
   }
 }

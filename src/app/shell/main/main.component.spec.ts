@@ -103,7 +103,7 @@ describe('MainComponent', () => {
     it('should continue draft and navigate to create/unfinished', () => {
       jest.spyOn(router, 'navigate');
       component.continueUnfinishedCreation();
-      expect(router.navigate).toHaveBeenCalledWith(['/create', 'unfinished']);
+      expect(router.navigate).toHaveBeenCalledWith(['/create/workshop', 'unfinished']);
     });
 
     it('should cancel draft and dispatch OnDeleteDraftWorkshop', () => {

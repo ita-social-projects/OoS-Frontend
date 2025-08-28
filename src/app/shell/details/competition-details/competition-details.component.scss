@@ -2,6 +2,7 @@
 @use 'details';
 @use 'workshop-status';
 @use 'buttons';
+@use 'drafts';
 
 .workshop-title {
   margin-bottom: 0;
@@ -22,17 +23,6 @@
 
 .details-link {
   margin-bottom: 1rem;
-}
-
-.btn-cancel {
-  background-color: transparent;
-  border: 1px solid var(--specific-text-color) !important;
-  color: var(--specific-text-color) !important;
-}
-
-.btn-publish {
-  background-color: var(--specific-bg-button) !important;
-  color: var(--light-text-button) !important;
 }
 
 .action-buttons-wrapper {

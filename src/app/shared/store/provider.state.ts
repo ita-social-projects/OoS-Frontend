@@ -45,15 +45,16 @@ import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
-import { Competition, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { WorkshopType } from 'shared/enum/workshop';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
 import {
   GetProviderViewCompetitions,
-  OnGetWorkshopDraftIdByWorkshopIdSuccess,
+  OnGetDraftIdByEntityIdSuccess,
   OnSaveWorkshopStep,
   OnSaveWorkshopStepFail,
   OnSaveWorkshopStepSuccess
@@ -69,7 +70,8 @@ export interface ProviderStateModel {
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
-  providerDrafts: SearchResponse<WorkshopDraftCard[]>;
+  providerWorkshopDrafts: SearchResponse<WorkshopDraftCard[]>;
+  providerCompetitionDrafts: SearchResponse<CompetitionDraftCard[]>;
   selectedEmployee: Employee;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -93,7 +95,8 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerCompetition: null,
     officialEmployees: null,
-    providerDrafts: null,
+    providerWorkshopDrafts: null,
+    providerCompetitionDrafts: null,
     selectedEmployee: null,
     blockedParent: null,
     truncatedItems: null,
@@ -149,8 +152,13 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
-    return state.providerDrafts;
+  static providerWorkshopDrafts(state: ProviderStateModel): SearchResponse<WorkshopDraftCard[]> {
+    return state.providerWorkshopDrafts;
+  }
+
+  @Selector()
+  static providerCompetitionDrafts(state: ProviderStateModel): SearchResponse<CompetitionDraftCard[]> {
+    return state.providerCompetitionDrafts;
   }
 
   @Selector()
@@ -275,10 +283,10 @@ export class ProviderState {
       .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
-  @Action(providerActions.DraftSendForModeration)
+  @Action(providerActions.WorkshopDraftSendForModeration)
   sendDraftForModeration(
     { dispatch, patchState }: StateContext<ProviderStateModel>,
-    { id }: providerActions.DraftSendForModeration
+    { id }: providerActions.WorkshopDraftSendForModeration
   ): Observable<void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.sendDraftForModeration(id).pipe(
@@ -449,8 +457,8 @@ export class ProviderState {
     return this.userWorkshopService
       .getProviderViewWorkshopDrafts(workshopCardParameters)
       .pipe(
-        tap((providerDrafts: SearchResponse<WorkshopDraftCard[]>) =>
-          patchState({ providerDrafts: providerDrafts ?? EMPTY_RESULT, isLoading: false })
+        tap((providerWorkshopDrafts: SearchResponse<WorkshopDraftCard[]>) =>
+          patchState({ providerWorkshopDrafts: providerWorkshopDrafts ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -466,6 +474,21 @@ export class ProviderState {
       .pipe(
         tap((providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>) =>
           patchState({ providerCompetition: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
+  }
+
+  @Action(providerActions.GetProviderViewCompetitionDrafts)
+  getProviderViewCompetitionDrafts(
+    { patchState }: StateContext<ProviderStateModel>,
+    { competitionCardParameters }: providerActions.GetProviderViewCompetitionDrafts
+  ): Observable<SearchResponse<CompetitionDraftCard[]>> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService
+      .getProviderViewCompetitionDrafts(competitionCardParameters)
+      .pipe(
+        tap((providerCompetitionDrafts: SearchResponse<CompetitionDraftCard[]>) =>
+          patchState({ providerCompetitionDrafts: providerCompetitionDrafts ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -556,7 +579,7 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopDraftIdByWorkshopId(id).pipe(
       take(1),
-      tap((draftId: string) => dispatch(new OnGetWorkshopDraftIdByWorkshopIdSuccess(draftId, id))),
+      tap((draftId: string) => dispatch(new OnGetDraftIdByEntityIdSuccess(draftId, id, WorkshopType.Workshop))),
       catchError(() => {
         dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
         return EMPTY;
@@ -565,13 +588,13 @@ export class ProviderState {
     );
   }
 
-  @Action(providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess)
-  onGetWorkshopDraftIdByWorkshopIdSuccess(
+  @Action(providerActions.OnGetDraftIdByEntityIdSuccess)
+  onGetDraftIdByEntityIdSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { draftId, workshopId }: providerActions.OnGetWorkshopDraftIdByWorkshopIdSuccess
+    { draftId, entityId, entityType }: providerActions.OnGetDraftIdByEntityIdSuccess
   ): void {
     if (!draftId) {
-      this.router.navigate(['/create/workshop', workshopId]);
+      this.router.navigate(['create', entityType, entityId]);
     } else {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {
@@ -583,7 +606,7 @@ export class ProviderState {
         .afterClosed()
         .pipe(filter(Boolean))
         .subscribe(() => {
-          this.router.navigate(['/create/draft', draftId]).then(() => {
+          this.router.navigate(['create', entityType, draftId]).then(() => {
             dispatch(
               new ShowMessageBar({
                 type: 'warningBlue',
@@ -595,10 +618,10 @@ export class ProviderState {
     }
   }
 
-  @Action(providerActions.UpdateDraft)
+  @Action(providerActions.UpdateWorkshopDraft)
   updateDraft(
     { dispatch }: StateContext<ProviderStateModel>,
-    { draftId, payload }: providerActions.UpdateDraft
+    { draftId, payload }: providerActions.UpdateWorkshopDraft
   ): Observable<WorkshopDraft | void> {
     return this.userWorkshopService.updateDraft(draftId, payload).pipe(
       tap((res: WorkshopDraft) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
@@ -614,18 +637,21 @@ export class ProviderState {
   }
 
   @Action(providerActions.DeleteWorkshopDraftById)
-  deleteDraft(
+  deleteWorkshopDraft(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, parameters }: providerActions.DeleteWorkshopDraftById
   ): Observable<void> {
     return this.userWorkshopService.deleteWorkshopDraft(payload.workshopDraftId).pipe(
-      tap(() => dispatch(new providerActions.OnDeleteDraftSuccess(parameters))),
+      tap(() => dispatch(new providerActions.OnDeleteWorkshopDraftSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
     );
   }
 
-  @Action(providerActions.OnDeleteDraftSuccess)
-  onDeleteDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnDeleteDraftSuccess): void {
+  @Action(providerActions.OnDeleteWorkshopDraftSuccess)
+  onDeleteWorkshopDraftSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { parameters }: providerActions.OnDeleteWorkshopDraftSuccess
+  ): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteDraft,
@@ -1289,6 +1315,71 @@ export class ProviderState {
   @Action(providerActions.OnArchiveCompetitionFail)
   archiveCompetitionByIdFail({ dispatch }: StateContext<ProviderStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.UpdateCompetitionDraft)
+  updateCompetitionDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { draftId, payload }: providerActions.UpdateCompetitionDraft
+  ): Observable<Competition | void> {
+    return this.userCompetitionService.updateDraft(draftId, payload).pipe(
+      tap((res: Competition) => dispatch(new providerActions.OnUpdateDraftSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnUpdateCompetitionFail(error)))
+    );
+  }
+
+  @Action(providerActions.DeleteCompetitionDraftById)
+  deleteCompetitionDraft(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload, parameters }: providerActions.DeleteCompetitionDraftById
+  ): Observable<void> {
+    return this.userCompetitionService.deleteCompetitionDraft(payload.competitiveEventDraftId).pipe(
+      tap(() => dispatch(new providerActions.OnDeleteCompetitionDraftSuccess(parameters))),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
+    );
+  }
+
+  @Action(providerActions.OnDeleteCompetitionDraftSuccess)
+  onDeleteCompetitionDraftSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { parameters }: providerActions.OnDeleteCompetitionDraftSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteDraft,
+        type: 'success'
+      }),
+      new providerActions.GetProviderViewCompetitionDrafts(parameters)
+    ]);
+  }
+
+  @Action(providerActions.CompetitionDraftSendForModeration)
+  sendCompetitionDraftForModeration(
+    { dispatch, patchState }: StateContext<ProviderStateModel>,
+    { id }: providerActions.CompetitionDraftSendForModeration
+  ): Observable<void> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.sendDraftForModeration(id).pipe(
+      tap(() => dispatch(new providerActions.OnDraftSendForModerationSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDraftSendForModerationFail(error)))
+    );
+  }
+
+  @Action(providerActions.GetCompetitionDraftIdByCompetitionId)
+  getCompetitionDraftIdByCompetitionId(
+    { patchState, dispatch }: StateContext<ProviderStateModel>,
+    { id }: providerActions.GetCompetitionDraftIdByCompetitionId
+  ): Observable<string> {
+    patchState({ isLoading: true });
+    return this.userCompetitionService.getCompetitionDraftIdByCompetitionId(id).pipe(
+      take(1),
+      tap((draftId: string) => dispatch(new OnGetDraftIdByEntityIdSuccess(draftId, id, WorkshopType.Competition))),
+      catchError(() => {
+        dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+        return EMPTY;
+      }),
+      finalize(() => patchState({ isLoading: false }))
+    );
   }
 
   @Action(OnSaveWorkshopStep)
