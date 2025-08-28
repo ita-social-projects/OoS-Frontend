@@ -121,7 +121,7 @@ describe('UserWorkshopService', () => {
     req.flush({} as WorkshopDraft);
   });
 
-  it('should get provider view draft cardss', (done) => {
+  it('should get provider view draft cards', (done) => {
     const workshopCardParameters = {
       from: 0,
       size: 10,

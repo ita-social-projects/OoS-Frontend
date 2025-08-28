@@ -151,5 +151,19 @@ describe('UserCompetitionService', () => {
       expect(req.request.method).toBe('DELETE');
       req.flush(null);
     });
+
+    it('should send draft for moderation', (done) => {
+      service.sendDraftForModeration('123').subscribe({
+        next: (res) => {
+          expect(res).toBeFalsy();
+          done();
+        },
+        error: done.fail
+      });
+
+      const req = httpMock.expectOne('/api/v2/competitions-drafts/123/send-for-moderation');
+      expect(req.request.method).toBe('PUT');
+      req.flush(null);
+    });
   });
 });
