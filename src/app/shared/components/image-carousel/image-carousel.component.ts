@@ -5,6 +5,7 @@ import { ImgPath } from 'shared/models/carousel.model';
 import { DefaultCarouselOptions } from 'shared/configs/carousel.config';
 import { ImagesService } from 'shared/services/images/images.service';
 import { WINDOW } from 'ngx-window-token';
+import { asyncScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-image-carousel',
@@ -39,6 +40,6 @@ export class ImageCarouselComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    setTimeout(() => this.window.dispatchEvent(new Event('resize')));
+    asyncScheduler.schedule(() => this.window.dispatchEvent(new Event('resize')));
   }
 }
