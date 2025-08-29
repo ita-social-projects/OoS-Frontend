@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, Inject, Input, OnInit } from '@angular/core';
+import { WINDOW } from 'ngx-window-token';
+import { asyncScheduler } from 'rxjs';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 import { ImgPath } from 'shared/models/carousel.model';
 import { DefaultCarouselOptions } from 'shared/configs/carousel.config';
 import { ImagesService } from 'shared/services/images/images.service';
-import { WINDOW } from 'ngx-window-token';
-import { asyncScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-image-carousel',
