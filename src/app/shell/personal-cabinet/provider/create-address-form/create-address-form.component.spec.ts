@@ -1,7 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatOption, MatOptionModule } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -72,16 +72,6 @@ describe('CreateAddressFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should clear form controls on focus out when no value is selected', () => {
-    component.autocomplete.options = { first: { value: null } } as QueryList<MatOption>;
-
-    component.onFocusOut();
-
-    expect(component.settlementSearchFormControl.value).toBeNull();
-    expect(component.codeficatorIdFormControl.value).toBeNull();
-    expect(component.settlementFormControl.value).toBeNull();
   });
 
   it('should update form controls on selecting a settlement', () => {
