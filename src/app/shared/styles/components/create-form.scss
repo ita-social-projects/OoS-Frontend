@@ -51,6 +51,9 @@
     }
 
     &-age {
+      background-color: transparent;
+      color: var(--primary-light-text-color);
+      width: 85px;
       max-width: 100%;
       max-height: 40px;
       margin-right: 1rem;
