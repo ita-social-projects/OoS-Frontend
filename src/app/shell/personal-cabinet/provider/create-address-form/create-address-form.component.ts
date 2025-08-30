@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
@@ -18,7 +18,7 @@ import { Util } from 'shared/utils/utils';
   templateUrl: './create-address-form.component.html',
   styleUrls: ['./create-address-form.component.scss']
 })
-export class CreateAddressFormComponent implements OnInit {
+export class CreateAddressFormComponent implements OnInit, OnDestroy {
   @ViewChild(MatAutocomplete)
   public autocomplete: MatAutocomplete;
 
@@ -60,25 +60,12 @@ export class CreateAddressFormComponent implements OnInit {
   public ngOnInit(): void {
     this.activateEditMode();
     this.initSettlementListener();
-    this.codeficatorSearch$
-      .pipe(
-        filter(() => this.shouldReplaceQueryWithFirstOption),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((codeficator) => {
-        const first = codeficator[0];
-        if (first && first.settlement !== Constants.NO_SETTLEMENT) {
-          const { fullAddress, ...prev } = this.settlementFormControl.value || {};
-          this.settlementSearchFormControl.patchValue(first.settlement, { emitEvent: false });
-          if (!Util.deepEqual(prev, first)) {
-            this.settlementFormControl.patchValue(first, { emitEvent: false });
-            this.clearStreetAndBuildingNumber();
-          }
-        } else {
-          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
-        }
-        this.shouldReplaceQueryWithFirstOption = false;
-      });
+    this.initSearchResultListener();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   /**
@@ -175,6 +162,28 @@ export class CreateAddressFormComponent implements OnInit {
             longitude: settlement.value.longitude
           });
         }
+      });
+  }
+
+  private initSearchResultListener(): void {
+    this.codeficatorSearch$
+      .pipe(
+        filter(() => this.shouldReplaceQueryWithFirstOption),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((codeficator) => {
+        const first = codeficator[0];
+        if (first && first.settlement !== Constants.NO_SETTLEMENT) {
+          const { fullAddress, ...prev } = this.settlementFormControl.value || {};
+          this.settlementSearchFormControl.patchValue(first.settlement, { emitEvent: false });
+          if (!Util.deepEqual(prev, first)) {
+            this.settlementFormControl.patchValue(first, { emitEvent: false });
+            this.clearStreetAndBuildingNumber();
+          }
+        } else {
+          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+        }
+        this.shouldReplaceQueryWithFirstOption = false;
       });
   }
 
