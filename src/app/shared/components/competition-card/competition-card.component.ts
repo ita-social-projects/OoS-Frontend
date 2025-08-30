@@ -58,6 +58,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   @Input() public set competition(competition: CompetitionProviderViewCard | CompetitionDraftCard) {
     this.competitionData = competition;
+    this.competitionData._meta = this.imageService.getCardCoverImage(competition);
   }
 
   public ngOnInit(): void {
@@ -75,7 +76,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public onImageError(): void {
     this.isImageBroken = true;
-    this.competitionData._meta = this.imageService.getCompetitionCardCoverImage(this.competitionData);
+    this.competitionData._meta = this.imageService.getDefaultCoverImage();
   }
 
   public onSendForModeration(id: string, type: ModalConfirmationType): void {
