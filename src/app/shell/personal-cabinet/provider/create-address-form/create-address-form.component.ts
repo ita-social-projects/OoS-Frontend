@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, delayWhen, distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delayWhen, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -32,7 +32,7 @@ export class CreateAddressFormComponent implements OnInit {
   public readonly ValidationConstants = ValidationConstants;
   public readonly Constants = Constants;
 
-  private switch: boolean = false;
+  private shouldReplaceQueryWithFirstOption: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -62,7 +62,7 @@ export class CreateAddressFormComponent implements OnInit {
     this.initSettlementListener();
     this.codeficatorSearch$
       .pipe(
-        filter(() => this.switch),
+        filter(() => this.shouldReplaceQueryWithFirstOption),
         takeUntil(this.destroy$)
       )
       .subscribe((codeficator) => {
@@ -77,7 +77,7 @@ export class CreateAddressFormComponent implements OnInit {
         } else {
           this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
         }
-        this.switch = false;
+        this.shouldReplaceQueryWithFirstOption = false;
       });
   }
 
@@ -93,10 +93,10 @@ export class CreateAddressFormComponent implements OnInit {
    * This method listen input FocusOut event and update search and settlement controls value
    */
   public onFocusOut(): void {
-    const entered = this.settlementSearchFormControl.value;
+    const entered = this.settlementSearchFormControl.value.trim();
 
     if (this.settlementSearchFormControl.valid && entered.toLowerCase() !== this.settlementFormControl.value.settlement.toLowerCase()) {
-      this.switch = true;
+      this.shouldReplaceQueryWithFirstOption = true;
       this.store.dispatch(new GetCodeficatorSearch(entered));
       return;
     }
@@ -162,6 +162,7 @@ export class CreateAddressFormComponent implements OnInit {
           }
         }),
         filter((value: string) => value?.length > 2 && this.settlementSearchFormControl.valid),
+        map((val) => val.trim()),
         delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
       )
       .subscribe((value: string) => {
