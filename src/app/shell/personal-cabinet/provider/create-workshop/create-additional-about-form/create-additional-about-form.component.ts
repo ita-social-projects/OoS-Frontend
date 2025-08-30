@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, throttleTime } from 'rxjs';
+import { Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
@@ -16,11 +16,11 @@ import {
 import { Workshop } from 'shared/models/workshop.model';
 import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { listenToChanges } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-create-additional-about-form',
@@ -124,7 +124,7 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     this.checkIfMinSport();
     this.handlePriceChange();
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      listenToChanges(['preferentialTermsOfParticipation'], this.AdditionalAboutGroup, this.store, this.translateService, this.destroy$);
     }
   }
 
@@ -239,25 +239,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
         this.payRateControl.markAsUntouched();
       }
     });
-  }
-
-  private listenToChanges(): void {
-    this.AdditionalAboutGroup.get('preferentialTermsOfParticipation')
-      .valueChanges.pipe(
-        takeUntil(this.destroy$),
-        throttleTime(5000, undefined, {
-          leading: true,
-          trailing: false
-        })
-      )
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 
   private listenToBenefitsChanges(): void {

@@ -75,7 +75,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   public onImageError(): void {
     this.isImageBroken = true;
-    this.competitionData._meta = this.imageService.getDefaultCoverImage();
+    this.competitionData._meta = this.imageService.getCompetitionCardCoverImage(this.competitionData);
   }
 
   public onSendForModeration(id: string, type: ModalConfirmationType): void {

@@ -3,9 +3,10 @@
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
-    [label]="'Фонове зображення'"
+    [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"
-    [imageIdsFormControl]="RequiredFormGroup.get('coverImageId')">
+    [imageIdsFormControl]="RequiredFormGroup.get('coverImageId')"
+    (deleteImage)="onDeleteImage()">
   </app-image-form-control>
   <app-validation-hint [validationFormControl]="RequiredFormGroup.get('coverImage')" [isImage]="true" minImages="1" maxImages="1">
   </app-validation-hint>

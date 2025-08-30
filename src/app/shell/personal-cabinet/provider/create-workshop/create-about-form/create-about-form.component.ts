@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { merge, Observable, of, Subject, throttleTime } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -17,9 +17,8 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
-import { formatToClientDate } from 'shared/utils/provider.utils';
+import { formatToClientDate, listenToChanges } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
 import { ValidationMessages } from 'shared/enum/validation-messages';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -75,6 +74,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public errorMap = new Map<string, string>([[ValidationMessages.INVALID_DATE_FIELD, ValidationMessages.INVALID_STUDY_PERIOD_RANGE]]);
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private minimumSeats: number = 1;
+  private readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly store: Store,
@@ -175,7 +176,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      listenToChanges(this.fieldsToListen, this.AboutFormGroup, this.store, this.translateService, this.destroy$);
     }
 
     this.coverImageControl.clearValidators();
@@ -342,29 +343,5 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
       }
     });
-  }
-
-  private listenToChanges(): void {
-    const fieldsToListen = ['coverImage', 'title', 'shortTitle'];
-    const mappedFields = fieldsToListen.map(
-      (controlName) =>
-        this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
-          throttleTime(5000, undefined, {
-            leading: true,
-            trailing: false
-          })
-        ) ?? of()
-    );
-
-    merge(...mappedFields)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 }

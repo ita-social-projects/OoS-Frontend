@@ -24,13 +24,9 @@ import {
   Workshop,
   WorkshopDraft,
   WorkshopDraftCard,
-  WorkshopProviderViewCard,
-  WorkshopStatus,
   WorkshopDraftState,
-  UnfinishedWorkshopAbout,
-  UnfinishedWorkshopAdditionalAbout,
-  UnfinishedWorkshopDescription,
-  UnfinishedWorkshopContacts
+  WorkshopProviderViewCard,
+  WorkshopStatus
 } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
@@ -606,7 +602,7 @@ export class ProviderState {
         .afterClosed()
         .pipe(filter(Boolean))
         .subscribe(() => {
-          this.router.navigate(['create', entityType, draftId]).then(() => {
+          this.router.navigate(['create', entityType, 'draft', draftId]).then(() => {
             dispatch(
               new ShowMessageBar({
                 type: 'warningBlue',

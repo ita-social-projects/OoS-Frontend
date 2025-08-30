@@ -5,7 +5,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, takeUntil, first } from 'rxjs/operators';
+import { filter, first, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
@@ -23,8 +23,7 @@ import { Contacts } from 'shared/models/workshop.model';
 import { SubDirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { shouldBeDraft, showDraftConfirmationDialog, submittingRealEntity } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -47,6 +46,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public provider: Provider;
   public competition: Competition;
   public parentCompetition: string;
+  public entity: string;
 
   public RequiredFormGroup: FormGroup;
   public DescriptionFormGroup: FormGroup;
@@ -54,6 +54,19 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public JudgeFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
+
+  private param: string;
+  private readonly fieldsToCheck = [
+    'title',
+    'shortTitle',
+    'coverImage',
+    'imageFiles',
+    'disabilityOptionsDesc',
+    'additionalDescription',
+    'descriptionOfTheEnrollmentProcedure',
+    'competitiveEventDescriptionItems',
+    'benefitsOptionsDesc'
+  ];
 
   constructor(
     protected store: Store,
@@ -78,15 +91,17 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public ngOnInit(): void {
+    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Competition;
+    this.param = this.route.snapshot.paramMap.get('param');
+    const id = Boolean(this.route.snapshot.paramMap.get('id'));
+
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => (this.provider = provider));
 
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
 
-    const id = Boolean(this.route.snapshot.paramMap.get('id'));
-    const param = Boolean(this.route.snapshot.paramMap.get('param'));
-    if (id && param) {
+    if (id && this.param) {
       this.parentCompetition = this.route.snapshot.paramMap.get('id');
     }
   }
@@ -118,11 +133,10 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public setEditMode(): void {
-    const competitionId = this.route.snapshot.paramMap.get('param');
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.store.dispatch(new GetCompetitionById(competitionId));
+      this.store.dispatch(new GetCompetitionById(this.param));
     } else {
-      this.store.dispatch(new GetCompetitionDraftById(competitionId));
+      this.store.dispatch(new GetCompetitionDraftById(this.param));
     }
     this.selectedCompetition$.pipe(filter(Boolean), first()).subscribe((competition: Competition | CompetitionDraft) => {
       this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
@@ -144,20 +158,9 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
       if (this.editMode) {
         competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
-        if (this.route.snapshot.paramMap.get('entity') === WorkshopType.Competition) {
-          if (this.shouldBeDraft(competition)) {
-            this.dialog
-              .open(ConfirmationModalWindowComponent, {
-                width: Constants.MODAL_SMALL,
-                data: {
-                  type: ModalConfirmationType.draftEditSet
-                }
-              })
-              .afterClosed()
-              .pipe(filter(Boolean))
-              .subscribe(() => {
-                this.store.dispatch(new UpdateCompetition(competition));
-              });
+        if (submittingRealEntity(this.entity)) {
+          if (shouldBeDraft(this.competition, competition, this.fieldsToCheck)) {
+            showDraftConfirmationDialog(this.store, this.dialog, competition);
           } else {
             this.store.dispatch(new UpdateCompetition(competition));
           }
@@ -250,31 +253,5 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   private createContacts(): Contacts[] {
     return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
-  }
-
-  private shouldBeDraft(competition: Competition): boolean {
-    const fieldsToCheck = [
-      'title',
-      'shortTitle',
-      'coverImage',
-      'imageFiles',
-      'description',
-      'disabilityOptionsDesc',
-      'additionalDescription',
-      'descriptionOfTheEnrollmentProcedure',
-      'competitiveEventDescriptionItems',
-      'benefitsOptionsDesc'
-    ];
-
-    return fieldsToCheck.some((fieldName) => {
-      if (typeof competition[fieldName] === 'object' && typeof this.competition[fieldName] === 'object') {
-        return !Util.deepEqual(competition[fieldName], this.competition[fieldName]);
-      }
-
-      return (
-        competition[fieldName] !== this.competition[fieldName] &&
-        (!Util.isEmpty(competition[fieldName]) || !Util.isEmpty(this.competition[fieldName]))
-      );
-    });
   }
 }

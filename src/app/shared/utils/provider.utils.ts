@@ -1,6 +1,19 @@
 import { Role } from 'shared/enum/role';
 import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, merge, Observable, of, Subject, throttleTime } from 'rxjs';
+import { Competition } from 'shared/models/competition.model';
+import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { filter, takeUntil } from 'rxjs/operators';
+import { UpdateCompetition, UpdateWorkshop } from 'shared/store/provider.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { WorkshopType } from 'shared/enum/workshop';
+import { FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -13,6 +26,7 @@ export function workshopToDraftState(workshop: Workshop): WorkshopDraftState {
     workshopForLoading: workshop
   };
 }
+
 export function formatToClientDate(serverDate: string | null): Date | null {
   if (!serverDate) {
     return null;
@@ -61,4 +75,67 @@ export function base64ToFile(base64: string, filename: string = 'image'): File {
 
 export function base64ArrayToFiles(base64Array: string[]): File[] {
   return base64Array.map((b64) => base64ToFile(b64));
+}
+
+export function shouldBeDraft(original: Workshop | Competition, changed: Workshop | Competition, fieldsToCheck: string[]): boolean {
+  return fieldsToCheck.some((fieldName) => {
+    if (typeof changed[fieldName] === 'object' && typeof original[fieldName] === 'object') {
+      return !Util.deepEqual(changed[fieldName], original[fieldName]);
+    }
+
+    return changed[fieldName] !== original[fieldName] && (!Util.isEmpty(changed[fieldName]) || !Util.isEmpty(original[fieldName]));
+  });
+}
+
+export function showDraftConfirmationDialog(store: Store, dialog: MatDialog, entity: Workshop | Competition): void {
+  dialog
+    .open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.draftEditSet
+      }
+    })
+    .afterClosed()
+    .pipe(filter(Boolean))
+    .subscribe(() => {
+      if (entity instanceof Workshop) {
+        store.dispatch(new UpdateWorkshop(entity));
+      }
+      if (entity instanceof Competition) {
+        store.dispatch(new UpdateCompetition(entity));
+      }
+    });
+}
+
+export function submittingRealEntity(entityParam: string): boolean {
+  return entityParam !== WorkshopType.Draft;
+}
+
+export function listenToChanges(
+  fieldsToListen: string[],
+  form: FormGroup,
+  store: Store,
+  translateService: TranslateService,
+  destroy$: Subject<boolean>
+): void {
+  const mappedFields = fieldsToListen.map(
+    (controlName) =>
+      form.get(controlName)?.valueChanges.pipe(
+        throttleTime(5000, undefined, {
+          leading: true,
+          trailing: false
+        })
+      ) ?? of()
+  );
+
+  merge(...mappedFields)
+    .pipe(takeUntil(destroy$))
+    .subscribe(() => {
+      store.dispatch(
+        new ShowMessageBar({
+          message: translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
+          type: 'warningYellow'
+        })
+      );
+    });
 }

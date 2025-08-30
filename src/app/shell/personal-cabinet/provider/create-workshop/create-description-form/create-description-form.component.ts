@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { merge, of, Subject, throttleTime } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -26,13 +26,12 @@ import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction } from 'shared/models/category.model';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
-import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles, listenToChanges } from 'shared/utils/provider.utils';
 
 @Component({
   selector: 'app-create-description-form',
@@ -82,7 +81,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public tagsControl: FormControl;
 
   protected readonly ValidationConstants = ValidationConstants;
-
+  private readonly fieldsToListen = [
+    'imageFiles',
+    'workshopDescriptionItems',
+    'competitiveSelectionDescription',
+    'keyWords',
+    'enrollmentProcedureDescription'
+  ];
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -249,7 +254,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      listenToChanges(this.fieldsToListen, this.DescriptionFormGroup, this.store, this.translateService, this.destroy$);
     }
 
     this.DescriptionFormGroup.updateValueAndValidity();
@@ -381,36 +386,5 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.tagsControl.markAsTouched(); // to mark as touched another control which represents this in template
       (formControl.statusChanges as EventEmitter<any>).emit();
     };
-  }
-
-  private listenToChanges(): void {
-    const fieldsToListen = [
-      'imageFiles',
-      'workshopDescriptionItems',
-      'competitiveSelectionDescription',
-      'keyWords',
-      'enrollmentProcedureDescription'
-    ];
-
-    const mappedFields = fieldsToListen.map(
-      (controlName) =>
-        this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
-          throttleTime(5000, undefined, {
-            leading: true,
-            trailing: false
-          })
-        ) ?? of()
-    );
-
-    merge(...mappedFields)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 }
