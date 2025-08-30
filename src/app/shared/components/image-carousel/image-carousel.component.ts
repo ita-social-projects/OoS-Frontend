@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit } from '@angular/core';
+import { WINDOW } from 'ngx-window-token';
+import { asyncScheduler } from 'rxjs';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 import { ImgPath } from 'shared/models/carousel.model';
@@ -10,12 +12,15 @@ import { ImagesService } from 'shared/services/images/images.service';
   templateUrl: './image-carousel.component.html',
   styleUrls: ['./image-carousel.component.scss']
 })
-export class ImageCarouselComponent implements OnInit {
+export class ImageCarouselComponent implements OnInit, AfterViewInit {
   @Input() public images: ImgPath[];
 
   protected customOptions: OwlOptions = { ...DefaultCarouselOptions };
 
-  constructor(private imageService: ImagesService) {}
+  constructor(
+    private imageService: ImagesService,
+    @Inject(WINDOW) private window: Window
+  ) {}
 
   public ngOnInit(): void {
     if (this.images && this.images.length <= 1) {
@@ -32,5 +37,9 @@ export class ImageCarouselComponent implements OnInit {
   public onImageError(event: Event): void {
     const imgEl = event.target as HTMLImageElement;
     imgEl.src = this.imageService.getDefaultCoverImage();
+  }
+
+  public ngAfterViewInit(): void {
+    asyncScheduler.schedule(() => this.window.dispatchEvent(new Event('resize')));
   }
 }
