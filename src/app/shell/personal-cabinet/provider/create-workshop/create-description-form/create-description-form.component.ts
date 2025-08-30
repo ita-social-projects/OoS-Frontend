@@ -318,7 +318,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       .select(MetaDataState.featuresList)
       .pipe(
         take(1),
-        map((fl) => fl.enableWorkshopTags),
+        map((fl) => fl?.enableWorkshopTags),
         filter(Boolean)
       )
       .subscribe(() => {

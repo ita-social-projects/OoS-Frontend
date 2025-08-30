@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -33,7 +32,7 @@ export class CreateAddressFormComponent implements OnInit {
   public readonly ValidationConstants = ValidationConstants;
   public readonly Constants = Constants;
 
-  private option: MatOption<Codeficator>;
+  private switch: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -61,6 +60,25 @@ export class CreateAddressFormComponent implements OnInit {
   public ngOnInit(): void {
     this.activateEditMode();
     this.initSettlementListener();
+    this.codeficatorSearch$
+      .pipe(
+        filter(() => this.switch),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((codeficator) => {
+        const first = codeficator[0];
+        if (first && first.settlement !== Constants.NO_SETTLEMENT) {
+          const { fullAddress, ...prev } = this.settlementFormControl.value || {};
+          this.settlementSearchFormControl.patchValue(first.settlement, { emitEvent: false });
+          if (!Util.deepEqual(prev, first)) {
+            this.settlementFormControl.patchValue(first, { emitEvent: false });
+            this.clearStreetAndBuildingNumber();
+          }
+        } else {
+          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+        }
+        this.switch = false;
+      });
   }
 
   /**
@@ -75,27 +93,16 @@ export class CreateAddressFormComponent implements OnInit {
    * This method listen input FocusOut event and update search and settlement controls value
    */
   public onFocusOut(): void {
-    const codeficator: Codeficator = this.autocomplete.options.first?.value || this.option;
-    const val = this.settlementSearchFormControl.value;
+    const entered = this.settlementSearchFormControl.value;
 
-    if (
-      (!val && this.settlementSearchFormControl.invalid) ||
-      !codeficator ||
-      codeficator?.settlement === Constants.NO_SETTLEMENT ||
-      val?.toLowerCase() !== codeficator.settlement.toLowerCase()
-    ) {
-      this.settlementSearchFormControl.setValue(null);
-      this.settlementFormControl.setValue(null);
-      this.codeficatorIdFormControl.setValue(null);
-      this.clearStreetAndBuildingNumber();
-    } else if (val?.toLowerCase() === codeficator?.settlement.toLowerCase()) {
-      this.settlementSearchFormControl.setValue(codeficator.settlement);
-      const { fullAddress, ...prev } = this.settlementFormControl.value || {};
-      this.settlementFormControl.patchValue(codeficator, { emitEvent: false });
-      if (!Util.deepEqual(prev, codeficator)) {
-        this.settlementFormControl.patchValue(codeficator, { emitEvent: false });
-        this.clearStreetAndBuildingNumber();
-      }
+    if (this.settlementSearchFormControl.valid && entered.toLowerCase() !== this.settlementFormControl.value.settlement.toLowerCase()) {
+      this.switch = true;
+      this.store.dispatch(new GetCodeficatorSearch(entered));
+      return;
+    }
+
+    if (!entered.length) {
+      this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
     }
   }
 
@@ -113,15 +120,16 @@ export class CreateAddressFormComponent implements OnInit {
       this.codeficatorIdFormControl.reset();
       this.codeficatorIdFormControl.setValue(selected.id);
 
-      this.clearStreetAndBuildingNumber();
-      this.addressFormGroup.patchValue({
-        latitude: selected.latitude,
-        longitude: selected.longitude
-      });
+      // this.addressFormGroup.patchValue({
+      //   latitude: selected.latitude,
+      //   longitude: selected.longitude
+      // });
+      //
+      // if (!this.addressFormGroup.dirty) {
+      //   this.addressFormGroup.markAsDirty({ onlySelf: true });
+      // }
 
-      if (!this.addressFormGroup.dirty) {
-        this.addressFormGroup.markAsDirty({ onlySelf: true });
-      }
+      this.clearStreetAndBuildingNumber();
     }
 
     this.settlementSearchFormControl.patchValue(selected.settlement, { emitEvent: false });
@@ -165,7 +173,6 @@ export class CreateAddressFormComponent implements OnInit {
             latitude: settlement.value.latitude,
             longitude: settlement.value.longitude
           });
-          this.option = options[0].value;
         }
       });
   }
