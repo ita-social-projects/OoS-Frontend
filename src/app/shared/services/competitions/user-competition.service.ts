@@ -7,7 +7,8 @@ import {
   CompetitionCardParameters,
   CompetitionDraft,
   CompetitionDraftCard,
-  CompetitionProviderViewCard, EditCompetitionDraft
+  CompetitionProviderViewCard,
+  EditCompetitionDraft
 } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
