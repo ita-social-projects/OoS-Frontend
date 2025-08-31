@@ -3,9 +3,15 @@
     height: 36px !important;
   }
 
-  .mat-mdc-tab-group:hover,
-  .mat-mdc-tab-nav-bar:hover {
-    --mat-tab-header-active-ripple-color: transparent;
+  .mat-mdc-tab-group {
+    --mat-tab-header-inactive-label-text-color: var(--specific-light-text-color);
+    --mat-tab-header-inactive-hover-label-text-color: var(--specific-light-text-color);
+    --mat-tab-header-inactive-focus-label-text-color: var(--specific-light-text-color);
+
+    &:hover,
+    &-nav-bar:hover {
+      --mat-tab-header-active-ripple-color: transparent;
+    }
   }
 
   .mat-mdc-tab-ripple {
