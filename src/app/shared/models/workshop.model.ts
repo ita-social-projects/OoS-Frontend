@@ -310,7 +310,7 @@ export class Contacts {
   }
 }
 
-export class EditDraft {
+export class EditWorkshopDraft {
   title: string;
   shortTitle: string;
   competitiveSelectionDescription?: string;

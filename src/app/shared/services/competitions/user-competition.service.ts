@@ -7,7 +7,8 @@ import {
   CompetitionCardParameters,
   CompetitionDraft,
   CompetitionDraftCard,
-  CompetitionProviderViewCard
+  CompetitionProviderViewCard,
+  EditCompetitionDraft
 } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -122,6 +123,28 @@ export class UserCompetitionService {
 
   public archiveCompetitionById(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v2/CompetitiveEvent/Delete/${id}`);
+  }
+
+  public rejectCompetitionDraft(draftId: string, rejectReason: string): Observable<void> {
+    draftId = encodeURIComponent(draftId);
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/reject`, { rejectionMessage: rejectReason });
+  }
+
+  public approveCompetitionDraft(draftId: string): Observable<void> {
+    draftId = encodeURIComponent(draftId);
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/approve`, null);
+  }
+
+  public deleteCoverImageByCompetitionDraftId(draftId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${draftId}/cover-image`);
+  }
+
+  public deleteImageByCompetitionDraftId(draftId: string, imageId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/competitions-drafts/${draftId}/images`, { body: [imageId] });
+  }
+
+  public editCompetitionDraftByModerator(formData: EditCompetitionDraft, draftId: string): Observable<void> {
+    return this.http.put<void>(`/api/v2/competitions-drafts/${draftId}/moderator-edit`, formData);
   }
 
   private createFormData(competition: Competition, draftId?: string): FormData {

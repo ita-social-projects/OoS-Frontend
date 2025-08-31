@@ -90,7 +90,7 @@
         *ngIf="isImagesFeature && form.get('imageIds').value?.length"
         [imgMaxAmount]="10"
         [cropperConfig]="cropperConfig"
-        [label]="'Фотографії'"
+        [label]="'FORMS.LABELS.PHOTOS' | translate"
         [deleteMode]="true"
         formControlName="imageFiles"
         (deleteImage)="onDeleteImage($event)"
@@ -174,7 +174,7 @@
             <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
             <p>{{ socialNetwork.type }}</p>
             <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank">{{ socialNetwork.url }}</a>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{ socialNetwork.url }}</a>
           </div>
         </div>
       </div>

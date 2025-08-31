@@ -11,27 +11,26 @@ import { DraftStatusEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { UserStatusIcons } from 'shared/enum/statuses';
-import { Codeficator } from 'shared/models/codeficator.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
-import { ApproveWorkshopDraft, GetFilteredWorkshopDrafts, RejectWorkshopDraft } from 'shared/store/admin.actions';
+import { ApproveCompetitionDraft, GetFilteredCompetitionDrafts, RejectCompetitionDraft } from 'shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { Util } from 'shared/utils/utils';
 import { WorkshopDraftStatus } from 'shared/enum/workshop';
+import { Competition, CompetitionDraft, CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { AdminState } from 'shared/store/admin.state';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
-  selector: 'app-workshop-list',
-  templateUrl: './admin-workshop-list.component.html',
-  styleUrls: ['./admin-workshop-list.component.scss']
+  selector: 'app-admin-competition-list',
+  templateUrl: './admin-competition-list.component.html',
+  styleUrls: ['./admin-competition-list.component.scss']
 })
-export class AdminWorkshopListComponent implements OnInit, OnDestroy {
-  @Select(AdminState.workshopDrafts)
-  public workshopDrafts$: Observable<SearchResponse<WorkshopDraft[]>>;
+export class AdminCompetitionListComponent implements OnInit, OnDestroy {
+  @Select(AdminState.competitionDrafts)
+  public competitionDrafts$: Observable<SearchResponse<CompetitionDraft[]>>;
 
-  public readonly noWorkshops = NoResultsTitle.noResult;
+  public readonly noCompetitions = NoResultsTitle.noResult;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly ownershipTypeEnum = OwnershipTypesEnum;
   public readonly formOfLearningEnum = FormOfLearningEnum;
@@ -40,13 +39,8 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly workshopDraftStatusTitles = DraftStatusEnum;
-  public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
   public readonly displayedColumns: string[] = [
     'title',
-    'providerTitle',
-    'providerOwnership',
-    // 'formOfLearning',
-    // 'seats',
     'providerEdrpou',
     'directorPosition',
     'directorFullName',
@@ -54,11 +48,12 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     'status',
     'actions'
   ];
-  public workshopParameters: WorkshopFilterAdministration = {};
-  public dataSource = new MatTableDataSource<WorkshopDraft>();
+  public competitionParameters: CompetitionFilterAdministration = {};
+  public dataSource = new MatTableDataSource<CompetitionDraft>();
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public workshop: Workshop;
-  public selectedWorkshopDraftId: string;
+
+  public competition: Competition;
+  public selectedCompetitionDraftId: string;
   public isInfoDisplayed: boolean;
   public totalEntities: number;
 
@@ -69,62 +64,59 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     private readonly matDialog: MatDialog
   ) {}
 
-  public set workshops(value: SearchResponse<WorkshopDraft[]>) {
+  public set competitions(value: SearchResponse<CompetitionDraft[]>) {
     this.dataSource.data = value?.entities;
     this.totalEntities = value?.totalAmount;
-  }
-
-  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
-    return codeficator1.id === codeficator2.id;
   }
 
   public ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath({
-        name: NavBarName.WorkshopDrafts,
+        name: NavBarName.CompetitionDrafts,
         isActive: false,
         disable: true
       })
     );
-
-    this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshops: SearchResponse<WorkshopDraft[]>) => {
-      this.workshops = workshops;
+    this.competitionDrafts$.pipe(takeUntil(this.destroy$)).subscribe((competitions) => {
+      this.competitions = competitions;
     });
   }
 
-  public onViewWorkshopInfo(workshop: WorkshopDraft): void {
-    this.selectedWorkshopDraftId = workshop.workshopDraftId;
-    this.workshop = workshop.workshopDetails;
+  public onViewCompetitionInfo(competition: CompetitionDraft): void {
+    this.selectedCompetitionDraftId = competition.competitiveEventDraftId;
+    this.competition = competition.competitiveEventDetails;
     this.isInfoDisplayed = true;
   }
 
-  public onRejectDraft(workshop: WorkshopDraft): void {
+  public onRejectDraft(competition: CompetitionDraft): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.editingWorkshop }
+      data: { type: ModalConfirmationType.editingCompetition }
     });
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe((statusReason: string) => this.store.dispatch(new RejectWorkshopDraft(workshop.workshopDraftId, statusReason)));
+      .subscribe((statusReason: string) =>
+        this.store.dispatch(new RejectCompetitionDraft(competition.competitiveEventDraftId, statusReason))
+      );
   }
 
-  public onApproveDraft(workshop: WorkshopDraft): void {
-    this.store.dispatch(new ApproveWorkshopDraft(workshop.workshopDraftId));
+  public onApproveDraft(competition: CompetitionDraft): void {
+    this.store.dispatch(new ApproveCompetitionDraft(competition.competitiveEventDraftId));
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getWorkshops();
+    this.getCompetitions();
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
-    this.workshopParameters.size = itemsPerPage;
+    this.competitionParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
   public closeInfo(): void {
     this.isInfoDisplayed = false;
-    this.selectedWorkshopDraftId = null;
+    this.selectedCompetitionDraftId = null;
   }
 
   public ngOnDestroy(): void {
@@ -133,12 +125,13 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PopNavPath());
   }
 
-  public getWorkshops(filterData: { parameters: WorkshopFilterAdministration; currentPage: PaginationElement } = null): void {
+  public getCompetitions(filterData: { parameters: CompetitionFilterAdministration; currentPage: PaginationElement } = null): void {
     if (filterData?.parameters && filterData?.currentPage) {
-      this.workshopParameters = filterData.parameters;
+      this.competitionParameters = filterData.parameters;
       this.currentPage = filterData.currentPage;
     }
-    Util.setFromPaginationParam(this.workshopParameters, this.currentPage, this.totalEntities);
-    this.store.dispatch(new GetFilteredWorkshopDrafts(this.workshopParameters));
+
+    Util.setFromPaginationParam(this.competitionParameters, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetFilteredCompetitionDrafts(this.competitionParameters));
   }
 }

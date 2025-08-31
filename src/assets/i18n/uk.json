@@ -164,7 +164,8 @@
       "EMPLOYEES": "Співробітники",
       "NEW_COMPETITION": "Реєстрація конкурсу",
       "EDIT_COMPETITION": "Редагування конкурсу",
-      "WORKSHOP_DRAFTS": "Чернетки гуртків"
+      "WORKSHOP_DRAFTS": "Чернетки гуртків",
+      "COMPETITION_DRAFTS": "Чернетки конкурсів"
     },
     "WORKSHOP_DRAFT": {
       "STATUS": {
@@ -575,7 +576,13 @@
       "PHONE_NUMBERS": "Номери телефонів",
       "LINK": "Посилання",
       "CONTACTS": "Контакти",
-      "SUPPORT_PERSONS_WITH_DISABILITIES": "Підтримка осіб з інвалідністю"
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Підтримка осіб з інвалідністю",
+      "TERMS_OF_PARTICIPATION": "Умови участі",
+      "VENUE_NAME": "Місце проведення",
+      "INFORMATION_ABOUT_COMPETITION": "Про конкурс",
+      "COMPETITION_TITLE": "Назва конкурсу",
+      "COMPETITION_TYPE": "Тип конкурсу",
+      "PHOTOS": "Фотографії"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -1062,6 +1069,7 @@
       "COVER_IMAGE_DELETED": "Обкладинку видалено!",
       "IMAGE_DELETED": "Зображення видалено",
       "DRAFT_EDITED": "Гурток успішно відредаговано",
+      "EDIT_COMPETITION_DRAFT": "Конкурс успішно відредаговано",
       "ERROR_RESPONSE": {
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",
@@ -1147,6 +1155,7 @@
       "CREATE_SUBJECT": "Ви впевнені, що хочете створити навчальний предмет?",
       "EDITING_WORKSHOP": "Ви впевнені, що хочете відправити гурток на редагування?",
       "DELETE_COMPETITION": "Ви впевнені, що хочете видалити конкурс",
+      "EDITING_COMPETITION": "Ви впевнені, що хочете відправити конкурс на редагування?",
       "TITLES": {
         "DELETE_WORKSHOP": "Видалити гурток?",
         "DELETE_DIRECTION": "Видалити напрямок?",
@@ -1204,7 +1213,8 @@
         "DELETE_SUBJECT": "Видалити навчальний предмет?",
         "EDIT_SUBJECT": "Редагувати навчальний предмет?",
         "CREATE_SUBJECT": "Створити навчальний предмет?",
-        "DELETE_COMPETITION": "Видалити конкурс?"
+        "DELETE_COMPETITION": "Видалити конкурс?",
+        "EDITING_COMPETITION": "Відправити конкурс на редагування?"
       }
     }
   },

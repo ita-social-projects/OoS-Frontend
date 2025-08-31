@@ -60,7 +60,7 @@
             *ngIf="isImagesFeature && form.get('imageIds').value?.length"
             [imgMaxAmount]="10"
             [cropperConfig]="cropperConfig"
-            [label]="'Фотографії'"
+            [label]="'FORMS.LABELS.PHOTOS' | translate"
             [deleteMode]="true"
             formControlName="imageFiles"
             (deleteImage)="onDeleteImage($event)"
@@ -79,15 +79,6 @@
               [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
               (deleteForm)="onDeleteForm($event)">
             </app-info-form>
-            <button
-              *ngIf="SectionItemsFormArray.controls.length < 10"
-              [disabled]="SectionItemsFormArray.invalid"
-              class="btn-add"
-              mat-button
-              (click)="onAddForm()">
-              <mat-icon class="mat-icon-add">add</mat-icon>
-              {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
-            </button>
           </fieldset>
 
           <ng-container *ngIf="selectedWorkshop.workshopDetails.competitiveSelection">
@@ -196,7 +187,10 @@
         <ng-template matStepLabel>
           <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
         </ng-template>
-        <app-create-contacts [moderatorFlow]="true" [contacts]="selectedWorkshop.workshopDetails?.contacts" (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
+        <app-create-contacts
+          [moderatorFlow]="true"
+          [contacts]="selectedWorkshop.workshopDetails?.contacts"
+          (passContactsFormArray)="onReceiveWorkshopContactsFormArray($event)">
         </app-create-contacts>
         <div class="footer flex flex-row justify-center items-center">
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">

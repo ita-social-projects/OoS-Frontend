@@ -163,7 +163,8 @@
       "EMPLOYEES": "Employees",
       "NEW_COMPETITION": "Add new competition event",
       "EDIT_COMPETITION": "Edit competition event",
-      "WORKSHOP_DRAFTS": "Workshop drafts"
+      "WORKSHOP_DRAFTS": "Workshop drafts",
+      "COMPETITION_DRAFTS": "Competition drafts"
     },
     "WORKSHOP_DRAFT": {
       "STATUS": {
@@ -574,7 +575,13 @@
       "PHONE_NUMBERS": "Phone numbers",
       "LINK": "Link",
       "CONTACTS": "Contacts",
-      "SUPPORT_PERSONS_WITH_DISABILITIES": "Support for persons with disabilities"
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Support for persons with disabilities",
+      "TERMS_OF_PARTICIPATION": "Terms of participation",
+      "VENUE_NAME": "Venue",
+      "INFORMATION_ABOUT_COMPETITION": "About competition",
+      "COMPETITION_TITLE": "Competition title",
+      "COMPETITION_TYPE": "Competition type",
+      "PHOTOS": "Photos"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -1069,6 +1076,7 @@
       "COVER_IMAGE_DELETED": "Cover image deleted!",
       "IMAGE_DELETED": "Image deleted",
       "DRAFT_EDITED": "Draft successfully edited!",
+      "EDIT_COMPETITION_DRAFT": "Draft successfully edited!",
       "ERROR_RESPONSE": {
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",

@@ -256,6 +256,14 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray,
       price: new FormControl({ value: 0, disabled: true }),
+      venueName: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ]),
+      termsOfParticipation: new FormControl('', [
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+      ]),
       areThereBenefits: this.benefitsOptionRadioBtn,
       benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),

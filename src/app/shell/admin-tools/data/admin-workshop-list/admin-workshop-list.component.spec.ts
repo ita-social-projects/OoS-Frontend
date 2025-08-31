@@ -1,43 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-
-import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
-import { PaginationConstants } from 'shared/constants/constants';
-import { Role } from 'shared/enum/role';
-import { RegionAdmin } from 'shared/models/region-admin.model';
-import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
-import { WorkshopListComponent } from 'shared/components/workshop-list/workshop-list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'shared/shared.module';
-import { BaseAdmin } from 'shared/models/admin.model';
+import { provideRouter } from '@angular/router';
+import { WorkshopDraft } from 'shared/models/workshop.model';
+import { GetFilteredWorkshopDrafts } from 'shared/store/admin.actions';
+import { of } from 'rxjs';
 import { AdminWorkshopListComponent } from './admin-workshop-list.component';
 
 describe('AdminWorkshopListComponent', () => {
   let component: AdminWorkshopListComponent;
   let fixture: ComponentFixture<AdminWorkshopListComponent>;
-  let store: Store;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), SharedModule, TranslateModule.forRoot(), BrowserAnimationsModule],
-      declarations: [AdminWorkshopListComponent, WorkshopListComponent],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: { params: of({}) }
-        }
-      ]
-    }).compileComponents();
+  let store: jest.Mocked<Store>;
+  beforeEach(() => {
+    const storeMock: Partial<jest.Mocked<Store>> = {
+      dispatch: jest.fn().mockReturnValue(of({})),
+      select: jest.fn().mockReturnValue(of({}))
+    };
+    TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), SharedModule, BrowserAnimationsModule],
+      declarations: [AdminWorkshopListComponent],
+      providers: [{ provide: Store, useValue: storeMock }, provideRouter([])]
+    });
 
     fixture = TestBed.createComponent(AdminWorkshopListComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
-
-    jest.spyOn(store, 'select').mockReturnValue(of({ data: [], total: 0 }));
-
+    store = TestBed.inject(Store) as jest.Mocked<Store>;
     fixture.detectChanges();
   });
 
@@ -45,62 +34,36 @@ describe('AdminWorkshopListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set default filters for MinistryAdmin', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
-    const selectedAdmin = { institutionId: 123 } as any;
+  it('should dispatch GetFilteredWorkshopDrafts on onItemsPerPageChange', () => {
+    const itemsPerPage = 10;
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.ministryAdmin, selectedAdmin);
+    component.onItemsPerPageChange(itemsPerPage);
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe(123);
-    expect(workshopParameters.catottgId).toBe(0);
+    expect(component.workshopParameters.size).toBe(itemsPerPage);
+    expect(store.dispatch).toHaveBeenCalledWith(expect.any(GetFilteredWorkshopDrafts));
   });
 
-  it('should set default filters for Region and Area Admins', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
-    const selectedAdmin: RegionAdmin = {
-      institutionId: '456',
-      catottgId: 789,
-      catottgName: 'Test Name',
-      email: 'test@example.com',
-      phoneNumber: '123456789',
-      lastName: 'Test',
-      firstName: 'Test'
-    };
+  it('should set workshop info on onViewWorkshopInfo', () => {
+    const workshop: WorkshopDraft = {
+      workshopDraftId: '123',
+      workshopDetails: { title: 'Test Event' }
+    } as any;
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.regionAdmin, selectedAdmin);
+    component.onViewWorkshopInfo(workshop);
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe('456');
-    expect(workshopParameters.catottgId).toBe(789);
+    expect(component.selectedWorkshopDraftId).toBe('123');
+    expect(component.workshop).toEqual({ title: 'Test Event' });
+    expect(component.isInfoDisplayed).toBe(true);
   });
 
-  it('should set default filters for TechAdmin', () => {
-    const workshopParameters: WorkshopFilterAdministration = {} as WorkshopFilterAdministration;
-    const selectedAdmin: BaseAdmin = {} as BaseAdmin;
+  it('should reset workshop info on closeInfo', () => {
+    component.selectedWorkshopDraftId = '123';
+    component.workshop = { title: 'Test Event' } as any;
+    component.isInfoDisplayed = true;
 
-    component.setWorkshopsFiltersByDefault(workshopParameters, Role.techAdmin, selectedAdmin);
+    component.closeInfo();
 
-    expect(workshopParameters.searchString).toBe('');
-    expect(workshopParameters.size).toBe(PaginationConstants.TABLE_ITEMS_PER_PAGE);
-    expect(workshopParameters.institutionId).toBe('');
-    expect(workshopParameters.catottgId).toBe(0);
-  });
-
-  it('should call store.dispatch after onGetWorkshopsByFilter', () => {
-    const workshopParameters: WorkshopFilterAdministration = {
-      searchString: 'test',
-      size: 10,
-      institutionId: '1',
-      catottgId: 2
-    };
-
-    const dispatchSpy = jest.spyOn(store, 'dispatch');
-
-    component.onGetWorkshopsByFilter(workshopParameters);
-
-    expect(dispatchSpy).toHaveBeenCalledWith(new GetFilteredWorkshopDrafts(workshopParameters));
+    expect(component.isInfoDisplayed).toBe(false);
+    expect(component.selectedWorkshopDraftId).toBeNull();
   });
 });

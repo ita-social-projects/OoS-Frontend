@@ -93,12 +93,11 @@ import { ForbiddenPageComponent } from './components/forbidden-page/forbidden-pa
 import { TimeRemainingPipe } from './pipes/time-remaining.pipe';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { CreateContactsComponent } from './base-components/create-contacts/create-contacts.component';
-import { WorkshopListComponent } from './components/workshop-list/workshop-list.component';
-import { WorkshopInfoComponent } from './components/workshop-list/workshop-info/workshop-info.component';
 import { CookiesBannerComponent } from './components/cookies-banner/cookies-banner.component';
 import { CookiePreferencesComponent } from './components/cookies-banner/cookie-preferences/cookie-preferences.component';
 import { ContactsCardComponent } from './components/contacts-card/contacts.component';
 import { IntegerOnlyDirective } from './directives/integer-only.directive';
+import { DraftFiltersComponent } from './components/draft-filters/draft-filters.component';
 
 @NgModule({
   declarations: [
@@ -154,7 +153,6 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     StarsComponent,
     ErrorPageComponent,
     AchievementCardComponent,
-    StarsComponent,
     RateComponent,
     JoinPipe,
     GetFullNamePipe,
@@ -172,11 +170,7 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     NotificationDescriptionPipe,
     InfoMenuComponent,
     ImageCarouselComponent,
-    CustomCarouselDirective,
     ThemeSwitcherComponent,
-    ScrollToTopComponent,
-    WorkshopListComponent,
-    WorkshopInfoComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
@@ -190,7 +184,8 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     ForbiddenPageComponent,
     DecimalNumberPipe,
     ContactsCardComponent,
-    NumberArrowsDirective
+    NumberArrowsDirective,
+    DraftFiltersComponent
   ],
 
   imports: [
@@ -276,8 +271,6 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     InfoMenuComponent,
     ImageCarouselComponent,
     ThemeSwitcherComponent,
-    ScrollToTopComponent,
-    WorkshopListComponent,
     DateInputDirective,
     ServerErrorPageComponent,
     TimeRemainingPipe,
@@ -287,10 +280,10 @@ import { IntegerOnlyDirective } from './directives/integer-only.directive';
     CreateAddressFormComponent,
     CookiesBannerComponent,
     ProfileWaitingPageComponent,
-    ProfileWaitingPageComponent,
     DecimalNumberPipe,
     ContactsCardComponent,
-    NumberArrowsDirective
+    NumberArrowsDirective,
+    DraftFiltersComponent
   ]
 })
 export class SharedModule {}

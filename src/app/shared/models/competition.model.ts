@@ -241,3 +241,21 @@ export interface CompetitionDraftCard extends CompetitionBaseCard {
   rejectionMessage?: string;
   coverImageId?: string;
 }
+
+export interface CompetitionFilterAdministration extends PaginationParameters {
+  searchString?: string;
+  institutionId?: string;
+  competitiveEventDraftStatuses?: string;
+  catottgId?: number;
+}
+
+export class EditCompetitionDraft {
+  title: string;
+  shortTitle: string;
+  descriptionOfTheEnrollmentProcedure?: string;
+  additionalDescription?: string;
+  venueName?: string;
+  termsOfParticipation?: string;
+  preferentialTermsOfParticipation?: string;
+  benefits?: string;
+}

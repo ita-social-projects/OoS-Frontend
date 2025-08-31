@@ -1,4 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
+import { EditCompetitionDraft } from 'shared/models/competition.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
 
 export enum messageStatus {
@@ -117,9 +118,10 @@ export enum SnackbarText {
   rejectDraftSuccess = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_REJECTED_SUCCESS',
   approveDraftSuccess = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_APPROVED_SUCCESS',
   accessIsDenied = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ACCESS_DENIED',
-  workshopCoverImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COVER_IMAGE_DELETED',
-  workshopImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.IMAGE_DELETED',
-  editDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_EDITED'
+  coverImageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.COVER_IMAGE_DELETED',
+  imageDeleted = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.IMAGE_DELETED',
+  editDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DRAFT_EDITED',
+  editCompetitionDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.EDIT_COMPETITION_DRAFT'
 }
 
 export function showHttpErrorMessage(dispatch: Function, status?: number, defaultError: SnackbarText = SnackbarText.error): void {

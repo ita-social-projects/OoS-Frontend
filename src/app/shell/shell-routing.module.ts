@@ -40,6 +40,7 @@ import { CreatePositionComponent } from './personal-cabinet/provider/create-posi
 import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
 import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
 import { ModeratorDraftEditFormComponent } from './admin-tools/data/admin-workshop-list/moderator-draft-edit-form/moderator-draft-edit-form.component';
+import { ModeratorDraftCompetitionFormComponent } from './admin-tools/data/admin-competition-list/moderator-draft-competition-form/moderator-draft-competition-form.component';
 import { AdminsGuard } from './admin-tools/data/admins/admins.guard';
 
 const routes: Routes = [
@@ -134,6 +135,12 @@ const routes: Routes = [
   {
     path: 'admin-tools/data/moderate/draft/:id',
     component: ModeratorDraftEditFormComponent,
+    canDeactivate: [CreateGuard],
+    canLoad: [AdminsGuard]
+  },
+  {
+    path: 'admin-tools/data/moderate/competition-draft/:id',
+    component: ModeratorDraftCompetitionFormComponent,
     canDeactivate: [CreateGuard],
     canLoad: [AdminsGuard]
   },

@@ -1,63 +1,42 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, filter, map, Observable, of, skip, startWith, Subject, switchMap, takeUntil } from 'rxjs';
-
-import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { Observable, takeUntil, switchMap, of, Subject, debounceTime, distinctUntilChanged, filter, map, skip, startWith } from 'rxjs';
+import { PaginationConstants } from 'shared/constants/constants';
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { DraftStatusEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { OwnershipTypes } from 'shared/enum/provider';
+import { DraftStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { UserStatusIcons } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { Institution } from 'shared/models/institution.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
-import { SearchResponse } from 'shared/models/search.model';
-import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
-import {
-  ApproveWorkshopDraft,
-  GetAreaAdminProfile,
-  GetMinistryAdminProfile,
-  GetRegionAdminProfile,
-  RejectWorkshopDraft
-} from 'shared/store/admin.actions';
+import { WorkshopFilterAdministration } from 'shared/models/workshop.model';
+import { GetMinistryAdminProfile, GetRegionAdminProfile, GetAreaAdminProfile } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { FilterState } from 'shared/store/filter.state';
-import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { GetAllInstitutions, GetCodeficatorSearch, GetCodeficatorById, ClearCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { GetProfile } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { Util } from 'shared/utils/utils';
-import { WorkshopDraftStatus } from 'shared/enum/workshop';
-import { ReasonModalWindowComponent } from '../confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
-  selector: 'app-workshop-list',
-  templateUrl: './workshop-list.component.html',
-  styleUrls: ['./workshop-list.component.scss']
+  selector: 'app-draft-filters',
+  templateUrl: './draft-filters.component.html',
+  styleUrls: ['./draft-filters.component.scss']
 })
-export class WorkshopListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) public sort: MatSort;
-
-  @Input() public setWorkshopFiltersByDefault: (
-    workshopParameters: WorkshopFilterAdministration,
-    role: Role,
-    selectedAdmin: BaseAdmin
-  ) => void;
-
-  @Output() public getWorkshopsByFilter: EventEmitter<WorkshopFilterAdministration> = new EventEmitter();
-
+export class DraftFiltersComponent implements OnInit, OnDestroy {
+  @Input() public currentPage: PaginationElement = PaginationConstants.firstPage;
+  @Output() public getDraftsByFilter: EventEmitter<{
+    parameters: CompetitionFilterAdministration | WorkshopFilterAdministration;
+    currentPage: PaginationElement;
+  }> = new EventEmitter();
+  @Select(RegistrationState.role)
+  public role$: Observable<Role>;
+  @Select(AdminState.selectedAdmin)
+  public selectedAdmin$: Observable<BaseAdmin>;
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.institutions)
@@ -66,55 +45,21 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
   public settlement$: Observable<Codeficator>;
   @Select(MetaDataState.codeficatorSearch)
   public codeficatorSearch$: Observable<Codeficator[]>;
-  @Select(RegistrationState.role)
-  public role$: Observable<Role>;
-  @Select(AdminState.selectedAdmin)
-  public selectedAdmin$: Observable<BaseAdmin>;
 
-  public readonly noWorkshops = NoResultsTitle.noResult;
-  public readonly modeConstants = ModeConstants;
-  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  public readonly ownershipTypeEnum = OwnershipTypesEnum;
-  public readonly formOfLearningEnum = FormOfLearningEnum;
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly statusIcons = UserStatusIcons;
-  public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
-  public readonly workshopDraftStatus = WorkshopDraftStatus;
   public readonly workshopDraftStatusTitles = DraftStatusEnum;
-  public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
-  public readonly displayedColumns: string[] = [
-    'title',
-    'providerTitle',
-    'providerOwnership',
-    // 'formOfLearning',
-    // 'seats',
-    'providerEdrpou',
-    'directorPosition',
-    'directorFullName',
-    'isPaid',
-    'status',
-    'actions'
-  ];
-  public workshopParameters: WorkshopFilterAdministration = {};
-  public dataSource = new MatTableDataSource<WorkshopDraft>();
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
-
   public selectedAdmin: BaseAdmin;
-  public role: Role;
-  public workshop: Workshop;
-  public selectedWorkshopDraftId: string;
-  public isInfoDisplayed: boolean;
   public filterGroup: FormGroup;
-  public isLoading: boolean;
-  public totalEntities: number;
+  public role: Role;
+
+  // TO DO Make one parameters object for both competitions and workshops
+  public parameters: CompetitionFilterAdministration & WorkshopFilterAdministration = {};
   public regions$: Observable<Codeficator[]>;
 
+  public readonly workshopStatusesToFilter = ['PendingModeration', 'EditedByModerator'];
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    protected readonly route: ActivatedRoute,
     private readonly store: Store,
-    private readonly matDialog: MatDialog,
     private readonly formBuilder: FormBuilder
   ) {}
 
@@ -158,16 +103,6 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     return this.filterGroup.get('workshopDraftStatuses') as FormControl;
   }
 
-  @Input()
-  public set workshops(value: SearchResponse<WorkshopDraft[]>) {
-    this.dataSource.data = value?.entities;
-    this.totalEntities = value?.totalAmount;
-  }
-
-  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
-    return codeficator1.id === codeficator2.id;
-  }
-
   public ngOnInit(): void {
     this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => (this.selectedAdmin = admin));
 
@@ -194,22 +129,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.setInitialWorkshopFilterByDefault();
-        this.getWorkshops();
+        this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
       });
-
-    this.isLoadingCabinet$.pipe(takeUntil(this.destroy$)).subscribe((isLoadingCabinet) => {
-      this.isLoading = isLoadingCabinet;
-    });
-
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.WorkshopDrafts,
-        isActive: false,
-        disable: true
-      })
-    );
-
-    this.dataSource.sort = this.sort;
 
     this.filterGroup = this.formBuilder.group({
       searchBarFilter: new FormControl(''),
@@ -223,34 +144,35 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     this.subscribeFormControls();
   }
 
-  public onViewWorkshopInfo(workshop: WorkshopDraft): void {
-    this.selectedWorkshopDraftId = workshop.workshopDraftId;
-    this.workshop = workshop.workshopDetails;
-    this.isInfoDisplayed = true;
+  public compareById(a: { id: any }, b: { id: any }): boolean {
+    return a && b ? a.id === b.id : a === b;
   }
 
-  public onRejectDraft(workshop: WorkshopDraft): void {
-    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.editingWorkshop }
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(filter(Boolean))
-      .subscribe((statusReason: string) => this.store.dispatch(new RejectWorkshopDraft(workshop.workshopDraftId, statusReason)));
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
-  public onApproveDraft(workshop: WorkshopDraft): void {
-    this.store.dispatch(new ApproveWorkshopDraft(workshop.workshopDraftId));
-  }
+  public setFiltersByDefault(parameters: CompetitionFilterAdministration, role: Role, selectedAdmin?: BaseAdmin): void {
+    parameters.searchString = '';
+    parameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
 
-  public onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
-    this.getWorkshops();
-  }
-
-  public onItemsPerPageChange(itemsPerPage: number): void {
-    this.workshopParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    switch (role) {
+      case Role.techAdmin:
+      case Role.moderator:
+        parameters.institutionId = '';
+        parameters.catottgId = 0;
+        break;
+      case Role.ministryAdmin:
+        parameters.institutionId = selectedAdmin.institutionId;
+        parameters.catottgId = 0;
+        break;
+      case Role.regionAdmin:
+      case Role.areaAdmin:
+        parameters.institutionId = selectedAdmin.institutionId;
+        parameters.catottgId = (selectedAdmin as RegionAdmin | AreaAdmin).catottgId;
+        break;
+    }
   }
 
   public onResetFilters(): void {
@@ -268,19 +190,8 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
       }
 
       this.setInitialWorkshopFilterByDefault();
-      this.getWorkshops();
+      this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
     }
-  }
-
-  public closeInfo(): void {
-    this.isInfoDisplayed = false;
-    this.selectedWorkshopDraftId = null;
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
   }
 
   private setInformationDependingOnRole(): void {
@@ -334,25 +245,25 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((searchValue: string) => {
-        this.workshopParameters.searchString = searchValue;
+        this.parameters.searchString = searchValue;
         this.currentPage = PaginationConstants.firstPage;
-        this.getWorkshops();
+        this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
       });
 
     this.institutionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
-        this.workshopParameters.institutionId = this.institutionFormControl.value.id;
+        this.parameters.institutionId = this.institutionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
-        this.getWorkshops();
+        this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
       });
 
     this.regionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((value: Codeficator) => {
-        this.workshopParameters.catottgId = this.regionFormControl.value.id;
+        this.parameters.catottgId = this.regionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
-        this.getWorkshops();
+        this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
         if (value.category === CodeficatorCategories.Region) {
           this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
           this.areaFormControl.enable();
@@ -365,26 +276,23 @@ export class WorkshopListComponent implements OnInit, OnDestroy {
     this.areaFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
-        this.workshopParameters.catottgId = this.areaFormControl.value.id;
+        this.parameters.catottgId = this.areaFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
-        this.getWorkshops();
+        this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
       });
 
     this.statusFormControl.valueChanges.pipe(distinctUntilChanged(), debounceTime(1000), takeUntil(this.destroy$)).subscribe(() => {
-      this.workshopParameters.workshopDraftStatuses = this.statusFormControl.value;
+      // TO DO Change statuses when it will be unified
+      this.parameters.competitiveEventDraftStatuses = this.statusFormControl.value;
+      this.parameters.workshopDraftStatuses = this.statusFormControl.value;
       this.currentPage = PaginationConstants.firstPage;
-      this.getWorkshops();
+      this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
     });
   }
 
   private setInitialWorkshopFilterByDefault(): void {
-    this.workshopParameters.searchString = '';
-    this.workshopParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    this.setWorkshopFiltersByDefault(this.workshopParameters, this.role, this.selectedAdmin);
-  }
-
-  private getWorkshops(): void {
-    Util.setFromPaginationParam(this.workshopParameters, this.currentPage, this.totalEntities);
-    this.getWorkshopsByFilter.emit(this.workshopParameters);
+    this.parameters.searchString = '';
+    this.parameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
+    this.setFiltersByDefault(this.parameters, this.role, this.selectedAdmin);
   }
 }

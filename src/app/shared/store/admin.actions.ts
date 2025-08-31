@@ -6,6 +6,7 @@ import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/model
 import { Direction, DirectionParameters } from 'shared/models/category.model';
 import { ChildrenParameters } from 'shared/models/child.model';
 import { CompanyInformation } from 'shared/models/company-information.model';
+import { CompetitionDraft, CompetitionFilterAdministration } from 'shared/models/competition.model';
 import { FilterData } from 'shared/models/history-log.model';
 import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
 import { ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
@@ -622,4 +623,50 @@ export class OnRejectDraftFail {
 export class OnRejectDraftSuccess {
   static readonly type = '[admin] Reject Workshop Draft Success';
   constructor(public draftId: string) {}
+}
+
+export class GetFilteredCompetitionDrafts {
+  static readonly type = '[admin] Get Filtered Competition Event Drafts';
+
+  constructor(public competitionParameters: CompetitionFilterAdministration) {}
+}
+
+export class OnGetFilteredCompetitionDraftsSuccess {
+  static readonly type = '[admin] Get Filtered Competition Event Drafts Success';
+  constructor(public competitions: SearchResponse<CompetitionDraft[]>) {}
+}
+
+export class OnGetFilteredCompetitionDraftsFail {
+  static readonly type = '[admin] Get Filtered Competition Event Drafts Fail';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class ApproveCompetitionDraft {
+  static readonly type = '[admin] Approve Competition Draft';
+  constructor(public draftId: string) {}
+}
+
+export class OnApproveCompetitionDraftSuccess {
+  static readonly type = '[admin] Approve Competition Draft Success';
+  constructor(public draftId: string) {}
+}
+export class OnApproveCompetitionDraftFail {
+  static readonly type = '[admin] Approve Competition Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
+}
+
+export class RejectCompetitionDraft {
+  static readonly type = '[admin] Reject Competition Draft';
+  constructor(
+    public draftId: string,
+    public rejectReason: string
+  ) {}
+}
+export class OnRejectCompetitionDraftSuccess {
+  static readonly type = '[admin] Reject Competition Draft Success';
+  constructor(public draftId: string) {}
+}
+export class OnRejectCompetitionDraftFail {
+  static readonly type = '[admin] Reject Competition Draft Failed';
+  constructor(public error: HttpErrorResponse) {}
 }

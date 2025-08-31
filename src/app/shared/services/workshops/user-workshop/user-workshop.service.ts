@@ -9,7 +9,7 @@ import { ProviderParameters } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import {
-  EditDraft,
+  EditWorkshopDraft,
   Workshop,
   UnfinishedWorkshopType,
   WorkshopCard,
@@ -137,9 +137,9 @@ export class UserWorkshopService {
    * Used in moderator flow
    * @param draftId string
    * @param moderatorId string
-   * @param formData EditDraft - contains data for editing workshop draft
+   * @param formData EditWorkshopDraft - contains data for editing workshop draft
    */
-  public editWorkshopDraftByModerator(formData: EditDraft, draftId: string): Observable<void> {
+  public editWorkshopDraftByModerator(formData: EditWorkshopDraft, draftId: string): Observable<void> {
     return this.http.put<void>(`/api/v2/workshop-drafts/${draftId}/moderator-edit`, formData);
   }
 

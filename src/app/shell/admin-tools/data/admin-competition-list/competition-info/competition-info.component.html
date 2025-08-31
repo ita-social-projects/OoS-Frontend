@@ -1,0 +1,164 @@
+<div class="wrapper" *ngIf="competition">
+  <div class="justify-end mb-[10px] items-center flex">
+    <a (click)="onCloseInfo()" class="close-icon h-[24px]">
+      <mat-icon>close</mat-icon>
+    </a>
+  </div>
+
+  <mat-tab-group [mat-stretch-tabs]="false">
+    <mat-tab [formGroup]="form" label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_COMPETITION' | translate }}">
+      <app-image-form-control
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('coverImageId').value?.length"
+        [imgMaxAmount]="1"
+        [cropperConfig]="cropperConfig"
+        [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
+        formControlName="coverImage"
+        [deleteMode]="true"
+        (deleteImage)="onDeleteCoverImage($event)"
+        [moderatorDeleteFlow]="true"
+        [imageIdsFormControl]="form.get('coverImageId')"
+        [showConfirmationWindow]="true">
+      </app-image-form-control>
+
+      <h5>{{ 'FORMS.LABELS.WORKSHOP_FULL_TITLE' | translate }}</h5>
+      <p>{{ competition.title }}</p>
+
+      <h5>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</h5>
+      <p>{{ competition.shortTitle }}</p>
+
+      <h5>{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}</h5>
+      <p>{{ ('FROM' | translate) + ' ' + competition.minimumAge + ' ' + ('TO' | translate) + ' ' + competition.maximumAge }}</p>
+
+      <h5>{{ 'FORMS.LABELS.COMPETITION_RANGE' | translate }}</h5>
+      <p>{{ (competition.scheduledStartTime | date: 'shortDate') + ' - ' + (competition.scheduledEndTime | date: 'shortDate') }}</p>
+
+      <h5>{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</h5>
+      <p>{{ (competition.registrationStartTime | date: 'shortDate') + ' - ' + (competition.registrationEndTime | date: 'shortDate') }}</p>
+
+      <h5>{{ 'FORMS.LABELS.COMPETITION_TYPE' | translate }}</h5>
+      <p>{{ typeOfCompetitionMap[competition.competitiveEventAccountingTypeId] | translate }}</p>
+
+      <h5>{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</h5>
+      <p *ngIf="competition.numberOfSeats === unlimitedSeats; else limitedSeats">{{ 'UNLIMITED' | translate }}</p>
+      <ng-template #limitedSeats>
+        <p>{{ competition.numberOfSeats }}</p>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [formGroup]="form" label="{{ 'TITLES.DESCRIPTION' | translate }}">
+      <app-image-form-control
+        class="image-form-control"
+        *ngIf="isImagesFeature && form.get('imageIds').value?.length"
+        [imgMaxAmount]="10"
+        [cropperConfig]="cropperConfig"
+        [label]="'FORMS.LABELS.PHOTOS' | translate"
+        [deleteMode]="true"
+        formControlName="imageFiles"
+        (deleteImage)="onDeleteImage($event)"
+        [imageIdsFormControl]="form.get('imageIds')"
+        [moderatorDeleteFlow]="true"
+        [showConfirmationWindow]="true">
+      </app-image-form-control>
+      <ng-container *ngIf="competition.competitiveEventDescriptionItems?.length">
+        <h5>{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
+        <div *ngFor="let item of competition.competitiveEventDescriptionItems">
+          <h5 class="section-title">{{ item.sectionName }}</h5>
+          <p class="line-break">{{ item.description }}</p>
+        </div>
+      </ng-container>
+
+      <h5>{{ 'FORMS.LABELS.DESCRIPTION' | translate }}</h5>
+      <p *ngIf="competition.description; else notSpecified">{{ competition.description }}</p>
+
+      <h5>{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</h5>
+      <p *ngIf="competition.additionalDescription; else notSpecified">{{ competition.additionalDescription }}</p>
+
+      <h5>{{ 'COMPETITIVE_SELECTION' | translate }}</h5>
+      <ng-container *ngIf="competition.competitiveSelection; else withoutCompetitiveSelection">
+        <p>{{ 'WITH_COMPETITIVE_SELECTION' | translate }}</p>
+        <h5>{{ 'INFO_ABOUT_SELECTION' | translate }}</h5>
+        <p>{{ competition.competitiveSelectionDescription }}</p>
+      </ng-container>
+      <ng-template #withoutCompetitiveSelection>
+        <p>{{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}</p>
+      </ng-template>
+
+      <h5>{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</h5>
+      <p>{{ formOfLearningEnum[competition.plannedFormatOfClasses] | translate }}</p>
+
+      <h5>{{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</h5>
+      <p *ngIf="competition.descriptionOfTheEnrollmentProcedure; else notSpecified">
+        {{ competition.descriptionOfTheEnrollmentProcedure }}
+      </p>
+
+      <h5>{{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</h5>
+      <p *ngIf="competition.termsOfParticipation; else notSpecified">{{ competition.termsOfParticipation }}</p>
+
+      <h5>{{ 'FORMS.LABELS.VENUE_NAME' | translate }}</h5>
+      <p *ngIf="competition.venueName; else notSpecified">{{ competition.venueName }}</p>
+
+      <h5>{{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</h5>
+      <p>{{ competition.areThereBenefits ? ('AGREEMENT' | translate) : ('DISAGREEMENT' | translate) }}</p>
+
+      <ng-container *ngIf="competition.areThereBenefits">
+        <h5>{{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</h5>
+        <p *ngIf="competition.preferentialTermsOfParticipation; else notSpecified">{{ competition.preferentialTermsOfParticipation }}</p>
+      </ng-container>
+
+      <h5>{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
+      <p *ngIf="competition.price; else isFree">{{ competition.price }}</p>
+      <ng-template #isFree>
+        <p>{{ 'IS_FREE' | translate }}</p>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="{{ 'FORMS.LABELS.CONTACTS' | translate }}">
+      <div class="max-w-[579px] overflow-hidden">
+        <div *ngFor="let contact of competition.contacts" class="gap-4 flex flex-col">
+          <h3>{{ contact.title }}</h3>
+
+          <div>
+            <h5>{{ 'FORMS.LABELS.ADDRESS' | translate }}</h5>
+            <p>
+              {{ contact.address.codeficatorAddress.fullName + ', ' + contact.address.street + ' ' + contact.address.buildingNumber }}
+            </p>
+          </div>
+
+          <h3>{{ 'FORMS.LABELS.EMAILS' | translate }}</h3>
+          <div *ngFor="let email of contact.emails">
+            <h5>{{ email.type }}</h5>
+            <p>{{ email.address }}</p>
+          </div>
+
+          <h3>{{ 'FORMS.LABELS.PHONE_NUMBERS' | translate }}</h3>
+          <div *ngFor="let phone of contact.phones">
+            <h5>{{ phone.type }}</h5>
+            <p>{{ phone.number }}</p>
+          </div>
+
+          <div *ngFor="let socialNetwork of contact.socialNetworks">
+            <h3>{{ 'FORMS.LABELS.SOCIAL_NETWORKS' | translate }}</h3>
+            <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
+            <p>{{ socialNetwork.type }}</p>
+            <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{ socialNetwork.url }}</a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!competition.contacts.length" class="add-wrapper flex flex-row">
+        <p>{{ 'SERVICE_MESSAGES.NO_INFO' | translate }}</p>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="{{ 'TITLES.JUDGES' | translate }}">
+      <div class="add-wrapper flex flex-row">
+        <p>{{ 'TEMP.FUNCTIONALITY_LATER_MESSAGE' | translate }}</p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #notSpecified>
+  <p>{{ 'NOT_SPECIFIED' | translate }}</p>
+</ng-template>
