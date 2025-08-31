@@ -249,16 +249,6 @@ export interface CompetitionFilterAdministration extends PaginationParameters {
   catottgId?: number;
 }
 
-export class CompetitionDraft {
-  competitiveEventDraftId: string;
-  rejectionMessage?: string;
-  draftStatus: WorkshopDraftStatus;
-  competitiveEventDetails: Competition;
-  providerEdrpou: string;
-  directorFullName: string;
-  directorPosition: string;
-}
-
 export class EditCompetitionDraft {
   title: string;
   shortTitle: string;
