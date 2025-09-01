@@ -11,7 +11,6 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -31,7 +30,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
-import { base64ArrayToFiles, listenToChanges } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-description-form',
@@ -39,7 +39,7 @@ import { base64ArrayToFiles, listenToChanges } from 'shared/utils/provider.utils
   styleUrls: ['./create-description-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CreateDescriptionFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public workshop: Workshop;
   @Input() public isImagesFeature: boolean;
   @Input() public provider: Provider;
@@ -81,22 +81,22 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public tagsControl: FormControl;
 
   protected readonly ValidationConstants = ValidationConstants;
-  private readonly fieldsToListen = [
+  protected readonly fieldsToListen = [
     'imageFiles',
     'workshopDescriptionItems',
     'competitiveSelectionDescription',
     'keyWords',
     'enrollmentProcedureDescription'
   ];
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
     private readonly formBuilder: FormBuilder,
     private readonly tagService: TagService,
-    private readonly store: Store,
-    private readonly translateService: TranslateService,
     private readonly route: ActivatedRoute
   ) {
+    super(store, translateService);
     this.DescriptionFormGroup = this.formBuilder.group(
       {
         imageFiles: this.imageFilesControl,
@@ -180,11 +180,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   /**
    * This method listens for changes in the 'keyWords' control and marks
    * the form as 'dirty' whenever there are changes in the key words.
@@ -254,7 +249,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      listenToChanges(this.fieldsToListen, this.DescriptionFormGroup, this.store, this.translateService, this.destroy$);
+      this.listenToChanges(this.DescriptionFormGroup);
     }
 
     this.DescriptionFormGroup.updateValueAndValidity();

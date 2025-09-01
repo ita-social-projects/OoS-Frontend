@@ -5,7 +5,8 @@
     [cropperConfig]="cropperConfig"
     [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"
-    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
+    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"
+    (deleteImage)="onImageDelete()">
   </app-image-form-control>
   <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" minImages="1" maxImages="10">
   </app-validation-hint>

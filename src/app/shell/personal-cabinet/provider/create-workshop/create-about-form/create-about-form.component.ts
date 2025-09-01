@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -18,7 +18,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { ActivatedRoute } from '@angular/router';
-import { formatToClientDate, listenToChanges } from 'shared/utils/provider.utils';
+import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
 import { ValidationMessages } from 'shared/enum/validation-messages';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -27,6 +27,7 @@ import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ToFile } from 'ngx-image-cropper';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-about-form',
@@ -34,7 +35,7 @@ import { base64ToFile } from 'ngx-image-cropper';
   styleUrls: ['./create-about-form.component.scss'],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: LOCAL_STUDY_PERIOD_DATE_FORMATS }]
 })
-export class CreateAboutFormComponent implements OnInit, OnDestroy {
+export class CreateAboutFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.languageList)
   public languageList$!: Observable<LanguageListItem[]>;
 
@@ -72,16 +73,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
   public errorMap = new Map<string, string>([[ValidationMessages.INVALID_DATE_FIELD, ValidationMessages.INVALID_STUDY_PERIOD_RANGE]]);
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
   private minimumSeats: number = 1;
-  private readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
 
   constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly translateService: TranslateService,
-    private readonly route: ActivatedRoute
-  ) {}
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute,
+    private readonly formBuilder: FormBuilder
+  ) {
+    super(store, translateService);
+  }
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
@@ -114,11 +116,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   /**
@@ -176,7 +173,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      listenToChanges(this.fieldsToListen, this.AboutFormGroup, this.store, this.translateService, this.destroy$);
+      this.listenToChanges(this.AboutFormGroup);
     }
 
     this.coverImageControl.clearValidators();

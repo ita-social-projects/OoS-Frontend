@@ -88,7 +88,7 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!entered.length) {
+    if (this.settlementSearchFormControl.invalid) {
       this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
     }
   }
@@ -107,14 +107,14 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
       this.codeficatorIdFormControl.reset();
       this.codeficatorIdFormControl.setValue(selected.id);
 
-      // this.addressFormGroup.patchValue({
-      //   latitude: selected.latitude,
-      //   longitude: selected.longitude
-      // });
-      //
-      // if (!this.addressFormGroup.dirty) {
-      //   this.addressFormGroup.markAsDirty({ onlySelf: true });
-      // }
+      this.addressFormGroup.patchValue({
+        latitude: selected.latitude,
+        longitude: selected.longitude
+      });
+
+      if (!this.addressFormGroup.dirty) {
+        this.addressFormGroup.markAsDirty({ onlySelf: true });
+      }
 
       this.clearStreetAndBuildingNumber();
     }

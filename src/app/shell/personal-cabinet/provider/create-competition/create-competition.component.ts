@@ -23,7 +23,9 @@ import { Contacts } from 'shared/models/workshop.model';
 import { SubDirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { shouldBeDraft, showDraftConfirmationDialog, submittingRealEntity } from 'shared/utils/provider.utils';
+import { shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -160,7 +162,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
         competition = new Competition(requiredInfo, descInfo, contacts, judges, provider, this.competition.id);
         if (submittingRealEntity(this.entity)) {
           if (shouldBeDraft(this.competition, competition, this.fieldsToCheck)) {
-            showDraftConfirmationDialog(this.store, this.dialog, competition);
+            this.showDraftConfirmationDialog(competition);
           } else {
             this.store.dispatch(new UpdateCompetition(competition));
           }
@@ -218,6 +220,21 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch(new ResetCompetition());
+  }
+
+  private showDraftConfirmationDialog(competition: Competition): void {
+    this.dialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftEditSet
+        }
+      })
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new UpdateCompetition(competition));
+      });
   }
 
   /**

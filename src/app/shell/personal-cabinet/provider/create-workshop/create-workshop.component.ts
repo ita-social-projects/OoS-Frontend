@@ -45,7 +45,9 @@ import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderState } from 'shared/store/provider.state';
-import { blobsToBase64, blobToBase64, shouldBeDraft, showDraftConfirmationDialog, submittingRealEntity } from 'shared/utils/provider.utils';
+import { blobsToBase64, blobToBase64, shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -277,7 +279,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
       if (submittingRealEntity(this.entity)) {
         if (shouldBeDraft(this.workshop, workshop, this.fieldsToCheck)) {
-          showDraftConfirmationDialog(this.store, this.dialog, workshop);
+          this.showDraftConfirmationDialog(workshop);
         } else {
           this.store.dispatch(new UpdateWorkshop(workshop));
         }
@@ -341,6 +343,21 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
+  }
+
+  private showDraftConfirmationDialog(workshop: Workshop): void {
+    this.dialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftEditSet
+        }
+      })
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new UpdateWorkshop(workshop));
+      });
   }
 
   private dispatchUnfinishedData(step: number, data: any): void {

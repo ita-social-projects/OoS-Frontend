@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -17,8 +16,8 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { listenToChanges } from 'shared/utils/provider.utils';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-required-form',
@@ -26,7 +25,7 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
   styleUrls: ['./create-required-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateRequiredFormComponent implements OnInit, OnDestroy {
+export class CreateRequiredFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
   @Input() public parentCompetition: string;
   @Input() public provider: Provider;
@@ -50,17 +49,18 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   protected readonly validationConstants = ValidationConstants;
   protected readonly InfoMenuType = InfoMenuType;
   protected readonly ownershipType = OwnershipTypes;
+  protected readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
 
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly minimumSeats: number = 1;
-  private readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
 
   constructor(
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
     private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly route: ActivatedRoute,
-    private readonly translateService: TranslateService
-  ) {}
+    private readonly route: ActivatedRoute
+  ) {
+    super(store, translateService);
+  }
 
   public get availableSeatsControl(): FormControl {
     return this.RequiredFormGroup.get('numberOfSeats') as FormControl;
@@ -102,11 +102,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   /**
@@ -164,7 +159,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      listenToChanges(this.fieldsToListen, this.RequiredFormGroup, this.store, this.translateService, this.destroy$);
+      this.listenToChanges(this.RequiredFormGroup);
     }
 
     this.coverImageControl.clearValidators();

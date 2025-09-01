@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, Observable, Subject } from 'rxjs';
+import { asyncScheduler, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -20,7 +20,7 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
 import { Direction, SubDirection } from 'shared/models/category.model';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { listenToChanges } from 'shared/utils/provider.utils';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-competition-description-form',
@@ -28,7 +28,7 @@ import { listenToChanges } from 'shared/utils/provider.utils';
   styleUrls: ['./create-competition-description-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDestroy {
+export class CreateCompetitionDescriptionFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   public directions$: Observable<Direction[]>;
   @Select(MetaDataState.subDirections)
@@ -56,7 +56,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
   public SectionItemsFormArray: FormArray = new FormArray([]);
   public filteredCompetitionCoverage: { key: string; value: string }[] = [];
 
-  private readonly fieldsToListen = [
+  protected readonly fieldsToListen = [
     'imageFiles',
     'description',
     'disabilityOptionsDesc',
@@ -65,14 +65,15 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     'competitiveEventDescriptionItems',
     'benefitsOptionsDesc'
   ];
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
     private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly route: ActivatedRoute,
-    private readonly translateService: TranslateService
-  ) {}
+    private readonly route: ActivatedRoute
+  ) {
+    super(store, translateService);
+  }
 
   public get directionControl(): FormControl {
     return this.DescriptionFormGroup.get('directionId') as FormControl;
@@ -111,11 +112,6 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
 
     this.initializeFormControls();
     this.priceControlListener();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   /**
@@ -204,7 +200,7 @@ export class CreateCompetitionDescriptionFormComponent implements OnInit, OnDest
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      listenToChanges(this.fieldsToListen, this.DescriptionFormGroup, this.store, this.translateService, this.destroy$);
+      this.listenToChanges(this.DescriptionFormGroup);
     }
 
     this.imageFilesControl.clearValidators();

@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
@@ -20,14 +19,14 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
-import { listenToChanges } from 'shared/utils/provider.utils';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-additional-about-form',
   templateUrl: './create-additional-about-form.component.html',
   styleUrls: ['./create-additional-about-form.component.scss']
 })
-export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
+export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Input() public workshop: Workshop;
   @Input() public provider: Provider;
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
@@ -48,15 +47,15 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
   protected readonly validationConstants = ValidationConstants;
   protected readonly PayRateType = PayRateType;
   protected readonly PayRateTypeEnum = PayRateTypeEnum;
-
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly fieldsToListen = ['preferentialTermsOfParticipation'];
 
   constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly translateService: TranslateService,
-    private readonly route: ActivatedRoute
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute,
+    private readonly formBuilder: FormBuilder
   ) {
+    super(store, translateService);
     this.initializeForm();
   }
 
@@ -97,11 +96,6 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   public activateEditMode(): void {
     this.AdditionalAboutGroup.patchValue(
       {
@@ -123,8 +117,9 @@ export class CreateAdditionalAboutFormComponent implements OnInit, OnDestroy {
     );
     this.checkIfMinSport();
     this.handlePriceChange();
+
     if (!this.route.snapshot.paramMap.has('entity')) {
-      listenToChanges(['preferentialTermsOfParticipation'], this.AdditionalAboutGroup, this.store, this.translateService, this.destroy$);
+      this.listenToChanges(this.AdditionalAboutGroup);
     }
   }
 
