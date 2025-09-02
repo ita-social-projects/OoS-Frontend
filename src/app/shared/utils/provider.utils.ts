@@ -1,6 +1,9 @@
 import { Role } from 'shared/enum/role';
 import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
 import { forkJoin, Observable, of } from 'rxjs';
+import { Competition } from 'shared/models/competition.model';
+import { Util } from 'shared/utils/utils';
+import { WorkshopType } from 'shared/enum/workshop';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -13,6 +16,7 @@ export function workshopToDraftState(workshop: Workshop): WorkshopDraftState {
     workshopForLoading: workshop
   };
 }
+
 export function formatToClientDate(serverDate: string | null): Date | null {
   if (!serverDate) {
     return null;
@@ -61,4 +65,18 @@ export function base64ToFile(base64: string, filename: string = 'image'): File {
 
 export function base64ArrayToFiles(base64Array: string[]): File[] {
   return base64Array.map((b64) => base64ToFile(b64));
+}
+
+export function shouldBeDraft(original: Workshop | Competition, changed: Workshop | Competition, fieldsToCheck: string[]): boolean {
+  return fieldsToCheck.some((fieldName) => {
+    if (typeof changed[fieldName] === 'object' && typeof original[fieldName] === 'object') {
+      return !Util.deepEqual(changed[fieldName], original[fieldName]);
+    }
+
+    return changed[fieldName] !== original[fieldName] && (!Util.isEmpty(changed[fieldName]) || !Util.isEmpty(original[fieldName]));
+  });
+}
+
+export function submittingRealEntity(entityParam: string): boolean {
+  return entityParam !== WorkshopType.Draft;
 }

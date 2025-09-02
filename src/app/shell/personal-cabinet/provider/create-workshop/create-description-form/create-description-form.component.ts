@@ -11,7 +11,6 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { merge, of, Subject, throttleTime } from 'rxjs';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants } from 'shared/constants/constants';
@@ -26,13 +25,13 @@ import { Util } from 'shared/utils/utils';
 import { TagService } from 'shared/services/workshops/tag-workshop/tag-workshop.service';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Direction } from 'shared/models/category.model';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-description-form',
@@ -40,7 +39,7 @@ import { base64ArrayToFiles } from 'shared/utils/provider.utils';
   styleUrls: ['./create-description-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CreateDescriptionFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public workshop: Workshop;
   @Input() public isImagesFeature: boolean;
   @Input() public provider: Provider;
@@ -82,16 +81,22 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
   public tagsControl: FormControl;
 
   protected readonly ValidationConstants = ValidationConstants;
-
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly fieldsToListen = [
+    'imageFiles',
+    'workshopDescriptionItems',
+    'competitiveSelectionDescription',
+    'keyWords',
+    'enrollmentProcedureDescription'
+  ];
 
   constructor(
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
     private readonly formBuilder: FormBuilder,
     private readonly tagService: TagService,
-    private readonly store: Store,
-    private readonly translateService: TranslateService,
     private readonly route: ActivatedRoute
   ) {
+    super(store, translateService);
     this.DescriptionFormGroup = this.formBuilder.group(
       {
         imageFiles: this.imageFilesControl,
@@ -175,11 +180,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   /**
    * This method listens for changes in the 'keyWords' control and marks
    * the form as 'dirty' whenever there are changes in the key words.
@@ -249,7 +249,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      this.listenToChanges(this.DescriptionFormGroup);
     }
 
     this.DescriptionFormGroup.updateValueAndValidity();
@@ -313,7 +313,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       .select(MetaDataState.featuresList)
       .pipe(
         take(1),
-        map((fl) => fl.enableWorkshopTags),
+        map((fl) => fl?.enableWorkshopTags),
         filter(Boolean)
       )
       .subscribe(() => {
@@ -381,36 +381,5 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy, AfterV
       this.tagsControl.markAsTouched(); // to mark as touched another control which represents this in template
       (formControl.statusChanges as EventEmitter<any>).emit();
     };
-  }
-
-  private listenToChanges(): void {
-    const fieldsToListen = [
-      'imageFiles',
-      'workshopDescriptionItems',
-      'competitiveSelectionDescription',
-      'keyWords',
-      'enrollmentProcedureDescription'
-    ];
-
-    const mappedFields = fieldsToListen.map(
-      (controlName) =>
-        this.DescriptionFormGroup.get(controlName)?.valueChanges.pipe(
-          throttleTime(5000, undefined, {
-            leading: true,
-            trailing: false
-          })
-        ) ?? of()
-    );
-
-    merge(...mappedFields)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 }

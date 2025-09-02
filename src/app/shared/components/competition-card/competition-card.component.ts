@@ -58,6 +58,7 @@ export class CompetitionCardComponent implements OnInit, OnDestroy {
 
   @Input() public set competition(competition: CompetitionProviderViewCard | CompetitionDraftCard) {
     this.competitionData = competition;
+    this.competitionData._meta = this.imageService.getCardCoverImage(competition);
   }
 
   public ngOnInit(): void {

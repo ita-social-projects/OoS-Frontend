@@ -12,6 +12,12 @@
   color: var(--primary-light-text-color);
 }
 
+.step-input-age {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+  width: 85px;
+}
+
 ::ng-deep .dropdown-panel {
   max-height: 150px !important;
 }

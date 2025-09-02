@@ -1,23 +1,31 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatOption, MatOptionModule } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
-import { ClearCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { Address } from 'shared/models/address.model';
+import { Codeficator } from 'shared/models/codeficator.model';
 import { CreateAddressFormComponent } from './create-address-form.component';
 
 describe('CreateAddressFormComponent', () => {
   let component: CreateAddressFormComponent;
   let fixture: ComponentFixture<CreateAddressFormComponent>;
   let store: Store;
+  const codeficatorSub$: Subject<Codeficator[]> = new Subject<Codeficator[]>();
+
+  store = {
+    select: jest.fn().mockReturnValue(codeficatorSub$.asObservable()),
+    dispatch: jest.fn()
+  } as unknown as Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,6 +40,12 @@ describe('CreateAddressFormComponent', () => {
         TranslateModule.forRoot()
       ],
       declarations: [CreateAddressFormComponent, MockValidationHintForInputComponent, MockCityAutocompleteComponent],
+      providers: [
+        {
+          provide: Store,
+          useValue: store
+        }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -74,16 +88,6 @@ describe('CreateAddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should clear form controls on focus out when no value is selected', () => {
-    component.autocomplete.options = { first: { value: null } } as QueryList<MatOption>;
-
-    component.onFocusOut();
-
-    expect(component.settlementSearchFormControl.value).toBeNull();
-    expect(component.codeficatorIdFormControl.value).toBeNull();
-    expect(component.settlementFormControl.value).toBeNull();
-  });
-
   it('should update form controls on selecting a settlement', () => {
     const mockEvent = {
       option: {
@@ -104,8 +108,53 @@ describe('CreateAddressFormComponent', () => {
     component.settlementSearchFormControl.setValue(null);
     tick(500);
 
-    expect(store.dispatch).toBeCalledWith(new ClearCodeficatorSearch());
+    expect(store.dispatch).toHaveBeenCalledWith(new ClearCodeficatorSearch());
   }));
+
+  it('should get codeficators if search is valid and abandoned', () => {
+    component.settlementSearchFormControl.setValue('киї', { emitEvent: false });
+    jest.spyOn(store, 'dispatch');
+    component.onFocusOut();
+    expect(store.dispatch).toHaveBeenCalledWith(new GetCodeficatorSearch('киї'));
+    expect((component as any).shouldReplaceQueryWithFirstOption).toBe(true);
+  });
+
+  it('should get codeficators if search is invalid and abandoned', () => {
+    component.settlementSearchFormControl.setValue('3', { emitEvent: false });
+    component.settlementSearchFormControl.setErrors({ some: 'error' });
+    jest.spyOn(store, 'dispatch');
+    component.onFocusOut();
+    expect(store.dispatch).not.toHaveBeenCalledWith(new GetCodeficatorSearch('3'));
+    expect((component as any).shouldReplaceQueryWithFirstOption).toBe(false);
+    expect(component.settlementSearchFormControl.value).toBeFalsy();
+  });
+
+  it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true', () => {
+    (component as any).shouldReplaceQueryWithFirstOption = true;
+    const codef: Codeficator = {
+      id: 111,
+      region: 'someregion',
+      category: CodeficatorCategories.City,
+      territorialCommunity: 'community',
+      settlement: 'Київ',
+      cityDistrict: 'citydis',
+      latitude: 11,
+      longitude: 22,
+      fullName: 'fn',
+      fullAddress: 'fa'
+    };
+    codeficatorSub$.next([codef]);
+    expect(component.settlementSearchFormControl.value).toEqual('Київ');
+    expect(component.settlementFormControl.value).toBe(codef);
+  });
+
+  it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true but no results', () => {
+    const initialCodeficator = component.address.codeficatorAddress;
+    (component as any).shouldReplaceQueryWithFirstOption = true;
+    codeficatorSub$.next([]);
+    expect(component.settlementSearchFormControl.value).toEqual(initialCodeficator.settlement);
+    expect(component.settlementFormControl.value).toBe(initialCodeficator);
+  });
 });
 
 @Component({

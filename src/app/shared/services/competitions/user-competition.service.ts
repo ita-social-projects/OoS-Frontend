@@ -118,7 +118,7 @@ export class UserCompetitionService {
 
   public updateCompetitionV2(competition: Competition): Observable<Competition> {
     const formData = this.createFormData(competition);
-    return this.http.put<Competition>('/api/v2/CompetitiveEvent', formData);
+    return this.http.put<Competition>('/api/v2/CompetitiveEvent/Update', formData);
   }
 
   public archiveCompetitionById(id: string): Observable<void> {

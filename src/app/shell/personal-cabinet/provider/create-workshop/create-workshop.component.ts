@@ -15,12 +15,12 @@ import { Teacher } from 'shared/models/teacher.model';
 import {
   AdditionalAbout,
   Contacts,
+  UnfinishedWorkshopAbout,
+  UnfinishedWorkshopDescription,
+  UnfinishedWorkshopType as WorkshopTypeUnfinished,
   Workshop,
   WorkshopAbout,
-  WorkshopDraft,
-  UnfinishedWorkshopType as WorkshopTypeUnfinished,
-  UnfinishedWorkshopAbout,
-  UnfinishedWorkshopDescription
+  WorkshopDraft
 } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -43,11 +43,11 @@ import { Codeficator } from 'shared/models/codeficator.model';
 import { Address } from 'shared/models/address.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderState } from 'shared/store/provider.state';
-import { blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
+import { blobsToBase64, blobToBase64, shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -90,6 +90,18 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     3: WorkshopTypeUnfinished.WithDescription,
     4: WorkshopTypeUnfinished.WithContacts
   };
+
+  private readonly fieldsToCheck = [
+    'title',
+    'shortTitle',
+    'coverImage',
+    'imageFiles',
+    'competitiveSelectionDescription',
+    'workshopDescriptionItems',
+    'keywords',
+    'enrollmentProcedureDescription',
+    'preferentialTermsOfParticipation'
+  ];
 
   private readonly stepActions = {
     1: (): void => {
@@ -141,20 +153,15 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
-    this.provider$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((provider: Provider) => !!provider)
-      )
-      .subscribe((provider: Provider) => (this.provider = provider));
+    this.provider$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((provider: Provider) => (this.provider = provider));
+
+    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Workshop;
+    const param = this.getRouteParam();
 
     this.determineEditMode();
     this.determineRelease();
-
-    this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Workshop;
     this.addNavPath();
 
-    const param = this.getRouteParam();
     if (param === ModeConstants.UNFINISHED) {
       this.loadUnfinishedWorkshopData();
     }
@@ -196,7 +203,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       this.loadUnfinishedWorkshopData();
       this.editMode = false;
     } else {
-      switch (this.route.snapshot.paramMap.get('entity')) {
+      switch (this.entity) {
         case WorkshopType.Workshop:
           this.store.dispatch(new GetWorkshopById(param));
           break;
@@ -270,20 +277,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
     if (this.editMode) {
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider, this.workshop?.id);
-      if (this.entity === WorkshopType.Workshop) {
-        if (this.shouldBeDraft(workshop)) {
-          this.dialog
-            .open(ConfirmationModalWindowComponent, {
-              width: Constants.MODAL_SMALL,
-              data: {
-                type: ModalConfirmationType.draftEditSet
-              }
-            })
-            .afterClosed()
-            .pipe(filter(Boolean))
-            .subscribe(() => {
-              this.store.dispatch(new UpdateWorkshop(workshop));
-            });
+      if (submittingRealEntity(this.entity)) {
+        if (shouldBeDraft(this.workshop, workshop, this.fieldsToCheck)) {
+          this.showDraftConfirmationDialog(workshop);
         } else {
           this.store.dispatch(new UpdateWorkshop(workshop));
         }
@@ -295,6 +291,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
+
     this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
@@ -346,6 +343,21 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch([new ResetProvider(), new ResetWorkshop()]);
+  }
+
+  private showDraftConfirmationDialog(workshop: Workshop): void {
+    this.dialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.draftEditSet
+        }
+      })
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new UpdateWorkshop(workshop));
+      });
   }
 
   private dispatchUnfinishedData(step: number, data: any): void {
@@ -499,30 +511,5 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       return of(baseData);
     }
     return forkJoin(observables).pipe(map((results) => ({ ...baseData, ...Object.assign({}, ...results) })));
-  }
-
-  private shouldBeDraft(newWorkshop: Workshop): boolean {
-    const fieldsToCheck = [
-      'title',
-      'shortTitle',
-      'coverImage',
-      'imageFiles',
-      'competitiveSelectionDescription',
-      'workshopDescriptionItems',
-      'keywords',
-      'enrollmentProcedureDescription',
-      'preferentialTermsOfParticipation'
-    ];
-
-    return fieldsToCheck.some((fieldName) => {
-      if (typeof newWorkshop[fieldName] === 'object' && typeof this.workshop[fieldName] === 'object') {
-        return !Util.deepEqual(newWorkshop[fieldName], this.workshop[fieldName]);
-      }
-
-      return (
-        newWorkshop[fieldName] !== this.workshop[fieldName] &&
-        (!Util.isEmpty(newWorkshop[fieldName]) || !Util.isEmpty(this.workshop[fieldName]))
-      );
-    });
   }
 }

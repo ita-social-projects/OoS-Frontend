@@ -3,9 +3,10 @@
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
-    [label]="'Фонове зображення'"
+    [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"
-    [imageIdsFormControl]="RequiredFormGroup.get('coverImageId')">
+    [imageIdsFormControl]="RequiredFormGroup.get('coverImageId')"
+    (deleteImage)="onDeleteImage()">
   </app-image-form-control>
   <app-validation-hint [validationFormControl]="RequiredFormGroup.get('coverImage')" [isImage]="true" minImages="1" maxImages="1">
   </app-validation-hint>
@@ -34,58 +35,48 @@
   <div class="flex flex-row justify-start">
     <div class="flex flex-col justify-start items-start">
       <div class="flex flex-row justify-start items-center">
-        <p class="step-text">{{ 'FROM' | translate }}</p>
-        <mat-form-field>
-          <input
-            matInput
-            class="step-input step-input-age"
-            type="number"
-            formControlName="minimumAge"
-            appDigitOnly
-            maxlength="2"
-            appMinMax
-            [directiveFormControl]="RequiredFormGroup.get('minimumAge')"
-            [max]="
-              (RequiredFormGroup.get('maximumAge').value !== null
-                ? RequiredFormGroup.get('maximumAge').value
-                : ValidationConstants.BIRTH_AGE_MAX) - 1
-            "
-            autocomplete="off" />
-        </mat-form-field>
+        <p class="step-text font-sans !font-normal !pl-0">{{ 'FROM' | translate }}</p>
+        <input
+          matInput
+          class="step-input step-input-age"
+          type="number"
+          formControlName="minimumAge"
+          appDigitOnly
+          appMinMax
+          [directiveFormControl]="RequiredFormGroup.get('minimumAge')"
+          [max]="
+            (RequiredFormGroup.get('maximumAge').value !== null
+              ? RequiredFormGroup.get('maximumAge').value
+              : ValidationConstants.BIRTH_AGE_MAX) - 1
+          "
+          autocomplete="off" />
       </div>
       <app-validation-hint
         [validationFormControl]="RequiredFormGroup.get('minimumAge')"
-        isNumberValue="true"
+        [isNumberValue]="true"
         [minValue]="validationConstants.AGE_MIN"
         [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
-      <app-validation-hint formLevelValidation="true" [validationFormControl]="RequiredFormGroup"></app-validation-hint>
+      <app-validation-hint [formLevelValidation]="true" [validationFormControl]="RequiredFormGroup"></app-validation-hint>
     </div>
 
     <div class="flex flex-col justify-start items-start">
       <div class="flex flex-row justify-start items-center">
-        <p class="step-text">{{ 'TO' | translate }}</p>
-        <mat-form-field>
-          <input
-            matInput
-            class="step-input step-input-age"
-            type="number"
-            formControlName="maximumAge"
-            appDigitOnly
-            maxlength="2"
-            appMinMax
-            [directiveFormControl]="RequiredFormGroup.get('maximumAge')"
-            [max]="ValidationConstants.BIRTH_AGE_MAX"
-            [min]="
-              RequiredFormGroup.get('minimumAge').value !== null || RequiredFormGroup.get('maximumAge').value === 0
-                ? RequiredFormGroup.get('minimumAge').value + 1
-                : null
-            "
-            autocomplete="off" />
-        </mat-form-field>
+        <p class="step-text font-sans !font-normal">{{ 'TO' | translate }}</p>
+        <input
+          matInput
+          class="step-input step-input-age"
+          type="number"
+          formControlName="maximumAge"
+          appDigitOnly
+          appMinMax
+          [directiveFormControl]="RequiredFormGroup.get('maximumAge')"
+          [max]="ValidationConstants.BIRTH_AGE_MAX"
+          [min]="RequiredFormGroup.get('minimumAge').value !== null ? RequiredFormGroup.get('minimumAge').value + 1 : null"
+          autocomplete="off" />
       </div>
       <app-validation-hint
         [validationFormControl]="RequiredFormGroup.get('maximumAge')"
-        isNumberValue="true"
+        [isNumberValue]="true"
         [minValue]="validationConstants.AGE_MIN"
         [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
     </div>

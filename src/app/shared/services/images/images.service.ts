@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionBaseCard } from 'shared/models/competition.model';
 import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
 import { ImgPath } from '../../models/carousel.model';
@@ -13,12 +13,12 @@ import { Workshop, WorkshopBaseCard, WorkshopDraftCard } from '../../models/work
 export class ImagesService {
   private readonly defaultCoverImage: string = 'assets/images/groupimages/workshop-img.png';
 
-  public getWorkshopCardCoverImage(workshop: WorkshopBaseCard | WorkshopDraftCard): string {
-    return workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
+  public getCardCoverImage(entity: WorkshopBaseCard | CompetitionBaseCard): string {
+    return environment.storageUrl + entity?.coverImageId;
   }
 
   public getDefaultWorkshopCardImage(workshop: WorkshopBaseCard | WorkshopDraftCard): string {
-    return CategoryIcons[workshop.directionIds[0]] ?? CategoryIcons['0'];
+    return CategoryIcons[workshop.directionIds[0]] || CategoryIcons['0'];
   }
 
   public getCoverImage(entity: Workshop | Provider | Competition): string {

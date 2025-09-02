@@ -9,22 +9,21 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of, Subject } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { GetUnfinishedWorkshop, OnSaveWorkshopStep } from 'shared/store/provider.actions';
 import { FormOfLearning, WorkshopType } from 'shared/enum/workshop';
-import { UnfinishedWorkshopAbout } from 'shared/models/workshop.model';
+import { UnfinishedWorkshopAbout, UnfinishedWorkshopType, Workshop } from 'shared/models/workshop.model';
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
-import { Workshop, UnfinishedWorkshopType } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
-import { delay } from 'rxjs/operators';
+import * as ProviderUtils from 'shared/utils/provider.utils';
+import { shouldBeDraft } from 'shared/utils/provider.utils';
 import { CreateWorkshopComponent } from './create-workshop.component';
 
-jest.mock('shared/utils/provider.utils', () => ({
-  blobToBase64: jest.fn((blob) => of(`base64_${blob?.name || 'mock'}`)),
-  blobsToBase64: jest.fn((blobs) => of(blobs.map((blob) => `base64_${blob?.name || 'mock'}`)))
-}));
+jest.spyOn(ProviderUtils, 'blobToBase64').mockImplementation((blob: any) => of(`base64_${blob?.name || 'mock'}`));
+jest.spyOn(ProviderUtils, 'blobsToBase64').mockImplementation((blobs: any) => of(blobs.map((b) => `base64_${b?.name || 'mock'}`)));
 
 describe('CreateWorkshopComponent (Jest)', () => {
   let component: CreateWorkshopComponent;
@@ -606,7 +605,14 @@ describe('CreateWorkshopComponent (Jest)', () => {
         jest.spyOn(component as any, 'createUnfinishedAbout').mockReturnValue(of({ about: 'test about' }));
         jest.spyOn(component as any, 'createAdditionalAbout').mockReturnValue({ additional: 'test additional' });
         jest.spyOn(component as any, 'createUnfinishedDescription').mockReturnValue(of({ description: 'test description' }));
-        jest.spyOn(component as any, 'createContactsWithCodeficator').mockReturnValue(of([{ id: 1, name: 'Test Contact' }]));
+        jest.spyOn(component as any, 'createContactsWithCodeficator').mockReturnValue(
+          of([
+            {
+              id: 1,
+              name: 'Test Contact'
+            }
+          ])
+        );
 
         (component as any).unfinishedWorkshopTypeMap = {
           1: 'Type1',
@@ -738,7 +744,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
           keywords: ['a', 'b'],
           enrollmentProcedureDescription: 'enroll',
           preferentialTermsOfParticipation: 'terms'
-        };
+        } as Workshop;
 
         anotherWorkshop = {
           title: 'Title',
@@ -754,33 +760,35 @@ describe('CreateWorkshopComponent (Jest)', () => {
           enrollmentProcedureDescription: 'enroll',
           preferentialTermsOfParticipation: 'terms'
         } as Workshop;
+
+        jest.clearAllMocks();
       });
 
       it('should NOT be draft', () => {
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
+        expect(shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(false);
       });
 
       it('should be draft if primitives changed', () => {
         anotherWorkshop.title = 'Another Title';
 
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
       });
 
       it('arrays changed', () => {
         anotherWorkshop.keywords = ['a', 'c'];
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
         anotherWorkshop.keywords = ['a', 'b', 'c'];
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
         anotherWorkshop.keywords = ['b', 'a'];
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
+        expect(shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(false);
       });
 
       it('should be draft if coverImage changed', () => {
         anotherWorkshop.coverImage = new File([''], 'filename1.jpg', { type: 'image/png' });
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
 
         anotherWorkshop.coverImage = null;
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
       });
 
       it('should be draft if files changed', () => {
@@ -788,26 +796,26 @@ describe('CreateWorkshopComponent (Jest)', () => {
           new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
           new File([''], 'filename3.jpg', { type: 'image/jpeg' })
         ];
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
 
         anotherWorkshop.imageFiles = [
           new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
           new File([''], 'filename2.jpg', { type: 'image/jpeg' }),
           new File([''], 'filename3.jpg', { type: 'image/jpeg' })
         ];
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+        expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
       });
 
       it('should be draft if keyword are falsy', () => {
         anotherWorkshop.keywords = null;
         component.workshop.keywords = [''];
 
-        expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(false);
+        expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(false);
       });
 
       describe('should be draft if workshopDescriptionItems changed', () => {
         afterEach(() => {
-          expect((component as any).shouldBeDraft(anotherWorkshop)).toBe(true);
+          expect(ProviderUtils.shouldBeDraft(component.workshop, anotherWorkshop, (component as any).fieldsToCheck)).toBe(true);
         });
 
         it('length changed', () => {
@@ -863,7 +871,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
       });
 
       it('should be draft matDialog', () => {
-        jest.spyOn(component, 'shouldBeDraft').mockReturnValue(true);
+        jest.spyOn(ProviderUtils, 'shouldBeDraft').mockReturnValue(true);
 
         component.editMode = true;
 
@@ -880,7 +888,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
       });
 
       it('should NOT be draft matDialog', () => {
-        jest.spyOn(component, 'shouldBeDraft').mockReturnValue(false);
+        jest.spyOn(ProviderUtils, 'shouldBeDraft').mockReturnValue(false);
 
         component.editMode = true;
 

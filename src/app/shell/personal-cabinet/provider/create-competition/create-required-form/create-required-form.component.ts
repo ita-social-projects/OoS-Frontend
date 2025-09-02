@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
-import { merge, of, Subject, throttleTime } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
@@ -17,7 +16,8 @@ import { Competition } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { ShowMessageBar } from 'shared/store/app.actions';
+import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-required-form',
@@ -25,7 +25,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
   styleUrls: ['./create-required-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateRequiredFormComponent implements OnInit, OnDestroy {
+export class CreateRequiredFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Input() public competition: Competition;
   @Input() public parentCompetition: string;
   @Input() public provider: Provider;
@@ -49,16 +49,18 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
   protected readonly validationConstants = ValidationConstants;
   protected readonly InfoMenuType = InfoMenuType;
   protected readonly ownershipType = OwnershipTypes;
+  protected readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
 
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private readonly minimumSeats: number = 1;
 
   constructor(
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
     private readonly formBuilder: FormBuilder,
-    private store: Store,
-    private route: ActivatedRoute,
-    private translateService: TranslateService
-  ) {}
+    private readonly route: ActivatedRoute
+  ) {
+    super(store, translateService);
+  }
 
   public get availableSeatsControl(): FormControl {
     return this.RequiredFormGroup.get('numberOfSeats') as FormControl;
@@ -81,6 +83,10 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
       : this.competition?.numberOfSeats;
   }
 
+  private get coverImageControl(): FormControl {
+    return this.RequiredFormGroup.get('coverImage') as FormControl;
+  }
+
   public ngOnInit(): void {
     this.initForm();
     this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
@@ -96,11 +102,6 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   /**
@@ -158,7 +159,17 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      this.listenToChanges(this.RequiredFormGroup);
+    }
+
+    this.coverImageControl.clearValidators();
+  }
+
+  public onDeleteImage(): void {
+    if (this.competition) {
+      this.coverImageControl.addValidators([Validators.required, minArrayLength(1), maxArrayLength(1)]);
+      this.coverImageControl.markAsTouched();
+      this.coverImageControl.updateValueAndValidity();
     }
   }
 
@@ -166,7 +177,7 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     this.RequiredFormGroup = this.formBuilder.group(
       {
         image: new FormControl(''),
-        coverImage: new FormControl('', Validators.required),
+        coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
         coverImageId: new FormControl(''),
         title: new FormControl('', [
           Validators.required,
@@ -253,30 +264,5 @@ export class CreateRequiredFormComponent implements OnInit, OnDestroy {
     this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
       .filter(([key, value]) => !isNaN(Number(key)) && (stage || value !== 'CompetitionStage'))
       .map(([key, value]) => ({ key, value: value as string }));
-  }
-
-  private listenToChanges(): void {
-    const fieldsToListen = ['coverImage', 'title', 'shortTitle'];
-
-    const mappedFields = fieldsToListen.map(
-      (controlName) =>
-        this.RequiredFormGroup.get(controlName)?.valueChanges.pipe(
-          throttleTime(5000, undefined, {
-            leading: true,
-            trailing: false
-          })
-        ) ?? of()
-    );
-
-    merge(...mappedFields)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 }

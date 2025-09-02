@@ -16,6 +16,9 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Competition } from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
+import * as ProviderUtil from 'shared/utils/provider.utils';
+import { shouldBeDraft } from 'shared/utils/provider.utils';
+import { RegistrationState } from 'shared/store/registration.state';
 import { CreateCompetitionComponent } from './create-competition.component';
 
 describe('CreateCompetitionComponent', () => {
@@ -34,7 +37,12 @@ describe('CreateCompetitionComponent', () => {
 
   const mockStore = {
     dispatch: jest.fn(),
-    select: jest.fn(),
+    select: jest.fn().mockImplementation((selector) => {
+      if (selector === RegistrationState.provider) {
+        return of(provider);
+      }
+      return of(null);
+    }),
     selectSnapshot: jest.fn()
   };
 
@@ -42,7 +50,8 @@ describe('CreateCompetitionComponent', () => {
     snapshot: {
       paramMap: new Map([
         ['id', '1'],
-        ['entity', WorkshopType.Competition]
+        ['entity', WorkshopType.Competition],
+        ['param', '123']
       ])
     }
   };
@@ -96,7 +105,7 @@ describe('CreateCompetitionComponent', () => {
     institution: sampleInstitution,
     institutionType: InstitutionTypes.Other,
     providerSectionItems: []
-  } as Provider;
+  } as unknown as Provider;
 
   mockStore.selectSnapshot.mockReturnValue(of(provider));
 
@@ -150,6 +159,13 @@ describe('CreateCompetitionComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set params', () => {
+    fixture.detectChanges();
+    expect((component as any).entity).toBeTruthy();
+    expect((component as any).param).toBeTruthy();
+    expect((component as any).parentCompetition).toBeTruthy();
   });
 
   it('should navigate to competitions list on cancel', () => {
@@ -215,21 +231,21 @@ describe('CreateCompetitionComponent', () => {
     });
 
     it('should NOT be draft', () => {
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(false);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(false);
     });
 
     it('should be draft if primitives changed', () => {
       anotherCompetition.title = 'Another Title';
 
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
     });
 
     it('should be draft if coverImage changed', () => {
       anotherCompetition.coverImage = new File([''], 'filename1.jpg', { type: 'image/png' });
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
 
       anotherCompetition.coverImage = null;
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
     });
 
     it('should be draft if files changed', () => {
@@ -237,29 +253,24 @@ describe('CreateCompetitionComponent', () => {
         new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename3.jpg', { type: 'image/jpeg' })
       ];
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
 
       anotherCompetition.imageFiles = [
         new File([''], 'filename1.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename2.jpg', { type: 'image/jpeg' }),
         new File([''], 'filename3.jpg', { type: 'image/jpeg' })
       ];
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
-    });
-
-    it('should be draft if description changed', () => {
-      anotherCompetition.description = 'test';
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
     });
 
     it('should be draft if additional description changed', () => {
       anotherCompetition.additionalDescription = 'test';
-      expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+      expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
     });
 
     describe('should be draft if competitiveEventDescriptionItems changed', () => {
       afterEach(() => {
-        expect((component as any).shouldBeDraft(anotherCompetition)).toBe(true);
+        expect(shouldBeDraft(component.competition, anotherCompetition, (component as any).fieldsToCheck)).toBe(true);
       });
 
       it('length changed', () => {
@@ -315,7 +326,7 @@ describe('CreateCompetitionComponent', () => {
     });
 
     it('should be draft matDialog', () => {
-      jest.spyOn(component as any, 'shouldBeDraft').mockReturnValue(true);
+      jest.spyOn(ProviderUtil, 'shouldBeDraft').mockReturnValue(true);
 
       component.editMode = true;
 
@@ -332,7 +343,7 @@ describe('CreateCompetitionComponent', () => {
     });
 
     it('should NOT be draft matDialog', () => {
-      jest.spyOn(component as any, 'shouldBeDraft').mockReturnValue(false);
+      jest.spyOn(ProviderUtil, 'shouldBeDraft').mockReturnValue(false);
 
       component.editMode = true;
 

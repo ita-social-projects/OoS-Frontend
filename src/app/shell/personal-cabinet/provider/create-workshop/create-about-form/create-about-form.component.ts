@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { merge, Observable, of, Subject, throttleTime } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
@@ -17,7 +17,6 @@ import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
-import { ShowMessageBar } from 'shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { formatToClientDate } from 'shared/utils/provider.utils';
 import { LOCAL_STUDY_PERIOD_DATE_FORMATS } from 'shared/configs/study-period-dates.config';
@@ -28,6 +27,7 @@ import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ToFile } from 'ngx-image-cropper';
+import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
   selector: 'app-create-about-form',
@@ -35,7 +35,7 @@ import { base64ToFile } from 'ngx-image-cropper';
   styleUrls: ['./create-about-form.component.scss'],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: LOCAL_STUDY_PERIOD_DATE_FORMATS }]
 })
-export class CreateAboutFormComponent implements OnInit, OnDestroy {
+export class CreateAboutFormComponent extends FieldsListenerComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.languageList)
   public languageList$!: Observable<LanguageListItem[]>;
 
@@ -73,14 +73,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
   public errorMap = new Map<string, string>([[ValidationMessages.INVALID_DATE_FIELD, ValidationMessages.INVALID_STUDY_PERIOD_RANGE]]);
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly fieldsToListen = ['coverImage', 'title', 'shortTitle'];
   private minimumSeats: number = 1;
+
   constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly translateService: TranslateService,
-    private readonly route: ActivatedRoute
-  ) {}
+    protected readonly store: Store,
+    protected readonly translateService: TranslateService,
+    private readonly route: ActivatedRoute,
+    private readonly formBuilder: FormBuilder
+  ) {
+    super(store, translateService);
+  }
 
   public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
@@ -113,11 +116,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     this.initListeners();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   /**
@@ -175,7 +173,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     if (!this.route.snapshot.paramMap.has('entity')) {
-      this.listenToChanges();
+      this.listenToChanges(this.AboutFormGroup);
     }
 
     this.coverImageControl.clearValidators();
@@ -342,29 +340,5 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
       }
     });
-  }
-
-  private listenToChanges(): void {
-    const fieldsToListen = ['coverImage', 'title', 'shortTitle'];
-    const mappedFields = fieldsToListen.map(
-      (controlName) =>
-        this.AboutFormGroup.get(controlName)?.valueChanges.pipe(
-          throttleTime(5000, undefined, {
-            leading: true,
-            trailing: false
-          })
-        ) ?? of()
-    );
-
-    merge(...mappedFields)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: this.translateService.instant('SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_REQUIRES_MODERATION'),
-            type: 'warningYellow'
-          })
-        );
-      });
   }
 }

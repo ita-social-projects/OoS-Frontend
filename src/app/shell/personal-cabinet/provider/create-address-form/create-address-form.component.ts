@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, delayWhen, distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delayWhen, distinctUntilChanged, filter, map, takeUntil, tap } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -19,7 +18,7 @@ import { Util } from 'shared/utils/utils';
   templateUrl: './create-address-form.component.html',
   styleUrls: ['./create-address-form.component.scss']
 })
-export class CreateAddressFormComponent implements OnInit {
+export class CreateAddressFormComponent implements OnInit, OnDestroy {
   @ViewChild(MatAutocomplete)
   public autocomplete: MatAutocomplete;
 
@@ -33,7 +32,7 @@ export class CreateAddressFormComponent implements OnInit {
   public readonly ValidationConstants = ValidationConstants;
   public readonly Constants = Constants;
 
-  private option: MatOption<Codeficator>;
+  private shouldReplaceQueryWithFirstOption: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -61,6 +60,12 @@ export class CreateAddressFormComponent implements OnInit {
   public ngOnInit(): void {
     this.activateEditMode();
     this.initSettlementListener();
+    this.initSearchResultListener();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   /**
@@ -75,27 +80,16 @@ export class CreateAddressFormComponent implements OnInit {
    * This method listen input FocusOut event and update search and settlement controls value
    */
   public onFocusOut(): void {
-    const codeficator: Codeficator = this.autocomplete.options.first?.value || this.option;
-    const val = this.settlementSearchFormControl.value;
+    const entered = this.settlementSearchFormControl.value.trim();
 
-    if (
-      (!val && this.settlementSearchFormControl.invalid) ||
-      !codeficator ||
-      codeficator?.settlement === Constants.NO_SETTLEMENT ||
-      val?.toLowerCase() !== codeficator.settlement.toLowerCase()
-    ) {
-      this.settlementSearchFormControl.setValue(null);
-      this.settlementFormControl.setValue(null);
-      this.codeficatorIdFormControl.setValue(null);
-      this.clearStreetAndBuildingNumber();
-    } else if (val?.toLowerCase() === codeficator?.settlement.toLowerCase()) {
-      this.settlementSearchFormControl.setValue(codeficator.settlement);
-      const { fullAddress, ...prev } = this.settlementFormControl.value || {};
-      this.settlementFormControl.patchValue(codeficator, { emitEvent: false });
-      if (!Util.deepEqual(prev, codeficator)) {
-        this.settlementFormControl.patchValue(codeficator, { emitEvent: false });
-        this.clearStreetAndBuildingNumber();
-      }
+    if (this.settlementSearchFormControl.valid && entered.toLowerCase() !== this.settlementFormControl.value.settlement.toLowerCase()) {
+      this.shouldReplaceQueryWithFirstOption = true;
+      this.store.dispatch(new GetCodeficatorSearch(entered));
+      return;
+    }
+
+    if (this.settlementSearchFormControl.invalid) {
+      this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
     }
   }
 
@@ -113,7 +107,6 @@ export class CreateAddressFormComponent implements OnInit {
       this.codeficatorIdFormControl.reset();
       this.codeficatorIdFormControl.setValue(selected.id);
 
-      this.clearStreetAndBuildingNumber();
       this.addressFormGroup.patchValue({
         latitude: selected.latitude,
         longitude: selected.longitude
@@ -122,6 +115,8 @@ export class CreateAddressFormComponent implements OnInit {
       if (!this.addressFormGroup.dirty) {
         this.addressFormGroup.markAsDirty({ onlySelf: true });
       }
+
+      this.clearStreetAndBuildingNumber();
     }
 
     this.settlementSearchFormControl.patchValue(selected.settlement, { emitEvent: false });
@@ -154,6 +149,7 @@ export class CreateAddressFormComponent implements OnInit {
           }
         }),
         filter((value: string) => value?.length > 2 && this.settlementSearchFormControl.valid),
+        map((val) => val.trim()),
         delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
       )
       .subscribe((value: string) => {
@@ -165,8 +161,29 @@ export class CreateAddressFormComponent implements OnInit {
             latitude: settlement.value.latitude,
             longitude: settlement.value.longitude
           });
-          this.option = options[0].value;
         }
+      });
+  }
+
+  private initSearchResultListener(): void {
+    this.codeficatorSearch$
+      .pipe(
+        filter(() => this.shouldReplaceQueryWithFirstOption),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((codeficator) => {
+        const first = codeficator[0];
+        if (first && first.settlement !== Constants.NO_SETTLEMENT) {
+          const { fullAddress, ...prev } = this.settlementFormControl.value || {};
+          this.settlementSearchFormControl.patchValue(first.settlement, { emitEvent: false });
+          if (!Util.deepEqual(prev, first)) {
+            this.settlementFormControl.patchValue(first, { emitEvent: false });
+            this.clearStreetAndBuildingNumber();
+          }
+        } else {
+          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+        }
+        this.shouldReplaceQueryWithFirstOption = false;
       });
   }
 
