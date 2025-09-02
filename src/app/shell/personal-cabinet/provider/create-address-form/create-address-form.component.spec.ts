@@ -123,7 +123,7 @@ describe('CreateAddressFormComponent', () => {
     component.settlementFormControl.setErrors({ some: 'error' });
     jest.spyOn(store, 'dispatch');
     component.onFocusOut();
-    expect(store.dispatch).not.toHaveBeenCalledWith();
+    expect(store.dispatch).not.toHaveBeenCalled();
     expect((component as any).shouldReplaceQueryWithFirstOption).toBe(false);
     expect(component.settlementSearchFormControl.value).toBeFalsy();
   });
