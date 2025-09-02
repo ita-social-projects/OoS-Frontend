@@ -18,6 +18,7 @@ import { Competition } from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import * as ProviderUtil from 'shared/utils/provider.utils';
 import { shouldBeDraft } from 'shared/utils/provider.utils';
+import { RegistrationState } from 'shared/store/registration.state';
 import { CreateCompetitionComponent } from './create-competition.component';
 
 describe('CreateCompetitionComponent', () => {
@@ -36,7 +37,12 @@ describe('CreateCompetitionComponent', () => {
 
   const mockStore = {
     dispatch: jest.fn(),
-    select: jest.fn(),
+    select: jest.fn().mockImplementation((selector) => {
+      if (selector === RegistrationState.provider) {
+        return of(provider);
+      }
+      return of(null);
+    }),
     selectSnapshot: jest.fn()
   };
 
@@ -44,7 +50,8 @@ describe('CreateCompetitionComponent', () => {
     snapshot: {
       paramMap: new Map([
         ['id', '1'],
-        ['entity', WorkshopType.Competition]
+        ['entity', WorkshopType.Competition],
+        ['param', '123']
       ])
     }
   };
@@ -152,6 +159,13 @@ describe('CreateCompetitionComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set params', () => {
+    fixture.detectChanges();
+    expect((component as any).entity).toBeTruthy();
+    expect((component as any).param).toBeTruthy();
+    expect((component as any).parentCompetition).toBeTruthy();
   });
 
   it('should navigate to competitions list on cancel', () => {
