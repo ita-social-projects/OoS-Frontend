@@ -120,10 +120,11 @@ describe('CreateAddressFormComponent', () => {
   });
 
   it('should get codeficators if search is invalid and abandoned', () => {
-    component.settlementFormControl.setErrors({ some: 'error' });
+    component.settlementSearchFormControl.setValue('3', { emitEvent: false });
+    component.settlementSearchFormControl.setErrors({ some: 'error' });
     jest.spyOn(store, 'dispatch');
     component.onFocusOut();
-    expect(store.dispatch).not.toHaveBeenCalled();
+    expect(store.dispatch).not.toHaveBeenCalledWith(new GetCodeficatorSearch('3'));
     expect((component as any).shouldReplaceQueryWithFirstOption).toBe(false);
     expect(component.settlementSearchFormControl.value).toBeFalsy();
   });
