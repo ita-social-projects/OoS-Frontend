@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { Address } from 'shared/models/address.model';
-import { Subject } from 'rxjs';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { CreateAddressFormComponent } from './create-address-form.component';
 
@@ -131,11 +131,28 @@ describe('CreateAddressFormComponent', () => {
     expect((component as any).shouldReplaceQueryWithFirstOption).toBe(true);
   });
 
+  it('should get codeficators if search is invalid and abandoned', () => {
+    component.settlementFormControl.setErrors({ some: 'error' });
+    jest.spyOn(store, 'dispatch');
+    component.onFocusOut();
+    expect(store.dispatch).not.toHaveBeenCalledWith();
+    expect((component as any).shouldReplaceQueryWithFirstOption).toBe(false);
+    expect(component.settlementSearchFormControl.value).toBeFalsy();
+  });
+
   it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true', () => {
     (component as any).shouldReplaceQueryWithFirstOption = true;
     codeficatorSub$.next([codef]);
     expect(component.settlementSearchFormControl.value).toBe('Київ');
     expect(component.settlementFormControl.value).toEqual(codef);
+  });
+
+  it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true but no results', () => {
+    const initialCodeficator = component.address.codeficatorAddress;
+    (component as any).shouldReplaceQueryWithFirstOption = true;
+    codeficatorSub$.next([]);
+    expect(component.settlementSearchFormControl.value).toEqual(initialCodeficator.settlement);
+    expect(component.settlementFormControl.value).toBe(initialCodeficator);
   });
 });
 
