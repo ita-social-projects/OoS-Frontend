@@ -23,7 +23,6 @@ export abstract class CompetitionBase {
   numberOfSeats: number;
   directionSubDirectionIds: { directionId: number; subDirectionId: number }[];
   subDirectionIds: number[];
-  description?: string;
   coverageId: number;
   plannedFormatOfClasses?: FormOfLearning;
   minimumAge?: number;
@@ -87,9 +86,6 @@ export abstract class CompetitionBase {
     }
     if (description.subDirectionIds) {
       this.subDirectionIds = description.subDirectionIds;
-    }
-    if (description.description) {
-      this.description = description.description;
     }
     if (description.formOfLearning) {
       this.plannedFormatOfClasses = description.formOfLearning;
@@ -223,7 +219,6 @@ export class CompetitiveDescriptionItem extends SectionItem {
 export interface Description {
   directionId?: number;
   subDirectionIds: number[];
-  description?: string;
   coverageId: CompetitionCoverage;
   formOfLearning?: FormOfLearning;
   additionalDescription?: string;
