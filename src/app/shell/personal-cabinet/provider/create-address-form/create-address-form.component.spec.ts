@@ -21,18 +21,6 @@ describe('CreateAddressFormComponent', () => {
   let fixture: ComponentFixture<CreateAddressFormComponent>;
   let store: Store;
   const codeficatorSub$: Subject<Codeficator[]> = new Subject<Codeficator[]>();
-  const codef: Codeficator = {
-    id: 111,
-    region: 'someregion',
-    category: CodeficatorCategories.City,
-    territorialCommunity: 'community',
-    settlement: 'Київ',
-    cityDistrict: 'citydis',
-    latitude: 11,
-    longitude: 22,
-    fullName: 'fn',
-    fullAddress: 'fa'
-  };
 
   store = {
     select: jest.fn().mockReturnValue(codeficatorSub$.asObservable()),
@@ -142,9 +130,21 @@ describe('CreateAddressFormComponent', () => {
 
   it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true', () => {
     (component as any).shouldReplaceQueryWithFirstOption = true;
+    const codef: Codeficator = {
+      id: 111,
+      region: 'someregion',
+      category: CodeficatorCategories.City,
+      territorialCommunity: 'community',
+      settlement: 'Київ',
+      cityDistrict: 'citydis',
+      latitude: 11,
+      longitude: 22,
+      fullName: 'fn',
+      fullAddress: 'fa'
+    };
     codeficatorSub$.next([codef]);
-    expect(component.settlementSearchFormControl.value).toBe('Київ');
-    expect(component.settlementFormControl.value).toEqual(codef);
+    expect(component.settlementSearchFormControl.value).toEqual('Київ');
+    expect(component.settlementFormControl.value).toBe(codef);
   });
 
   it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true but no results', () => {
