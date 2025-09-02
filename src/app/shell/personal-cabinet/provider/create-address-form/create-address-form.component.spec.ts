@@ -10,14 +10,34 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
-import { ClearCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { Address } from 'shared/models/address.model';
+import { Subject } from 'rxjs';
+import { Codeficator } from 'shared/models/codeficator.model';
 import { CreateAddressFormComponent } from './create-address-form.component';
 
 describe('CreateAddressFormComponent', () => {
   let component: CreateAddressFormComponent;
   let fixture: ComponentFixture<CreateAddressFormComponent>;
   let store: Store;
+  const codeficatorSub$: Subject<Codeficator[]> = new Subject<Codeficator[]>();
+  const codef: Codeficator = {
+    id: 111,
+    region: 'someregion',
+    category: CodeficatorCategories.City,
+    territorialCommunity: 'community',
+    settlement: 'Київ',
+    cityDistrict: 'citydis',
+    latitude: 11,
+    longitude: 22,
+    fullName: 'fn',
+    fullAddress: 'fa'
+  };
+
+  store = {
+    select: jest.fn().mockReturnValue(codeficatorSub$.asObservable()),
+    dispatch: jest.fn()
+  } as unknown as Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,6 +52,12 @@ describe('CreateAddressFormComponent', () => {
         TranslateModule.forRoot()
       ],
       declarations: [CreateAddressFormComponent, MockValidationHintForInputComponent, MockCityAutocompleteComponent],
+      providers: [
+        {
+          provide: Store,
+          useValue: store
+        }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -94,8 +120,23 @@ describe('CreateAddressFormComponent', () => {
     component.settlementSearchFormControl.setValue(null);
     tick(500);
 
-    expect(store.dispatch).toBeCalledWith(new ClearCodeficatorSearch());
+    expect(store.dispatch).toHaveBeenCalledWith(new ClearCodeficatorSearch());
   }));
+
+  it('should get codeficators if search is valid and abandoned', () => {
+    component.settlementSearchFormControl.setValue('киї', { emitEvent: false });
+    jest.spyOn(store, 'dispatch');
+    component.onFocusOut();
+    expect(store.dispatch).toHaveBeenCalledWith(new GetCodeficatorSearch('киї'));
+    expect((component as any).shouldReplaceQueryWithFirstOption).toBe(true);
+  });
+
+  it('should set codeficator with first option if shouldReplaceQueryWithFirstOption is set to true', () => {
+    (component as any).shouldReplaceQueryWithFirstOption = true;
+    codeficatorSub$.next([codef]);
+    expect(component.settlementSearchFormControl.value).toBe('Київ');
+    expect(component.settlementFormControl.value).toEqual(codef);
+  });
 });
 
 @Component({
