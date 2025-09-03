@@ -68,8 +68,8 @@ import {
     from: null,
     size: null,
     previousResults: [],
-    workshopSearchQuery: '',
-    workshopPreviousResults: []
+    entitySearchQuery: '',
+    entityPreviousResults: []
   }
 })
 @Injectable()
@@ -112,8 +112,8 @@ export class FilterState {
   }
 
   @Selector()
-  static workshopSearchQuery(state: FilterStateModel): string {
-    return state.workshopSearchQuery;
+  static entitySearchQuery(state: FilterStateModel): string {
+    return state.entitySearchQuery;
   }
 
   @Selector()
@@ -122,8 +122,8 @@ export class FilterState {
   }
 
   @Selector()
-  static workshopPreviousResults(state: FilterStateModel): string[] {
-    return state.workshopPreviousResults;
+  static entityPreviousResults(state: FilterStateModel): string[] {
+    return state.entityPreviousResults;
   }
 
   @Selector()
@@ -287,7 +287,7 @@ export class FilterState {
 
   @Action(SetWorkshopSearchQueryValue)
   setWorkshopSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkshopSearchQueryValue): void {
-    patchState({ workshopSearchQuery: payload, from: 0 });
+    patchState({ entitySearchQuery: payload, from: 0 });
   }
 
   @Action(AddPreviousResult)
@@ -314,10 +314,10 @@ export class FilterState {
     const state = ctx.getState();
     const updatedResults = [
       trimmedResult,
-      ...state.workshopPreviousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
+      ...state.entityPreviousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
     ].slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS);
 
-    ctx.patchState({ workshopPreviousResults: updatedResults });
+    ctx.patchState({ entityPreviousResults: updatedResults });
   }
 
   @Action(RemovePreviousResult)
@@ -328,8 +328,8 @@ export class FilterState {
 
   @Action(RemoveWorkshopPreviousResult)
   removeWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemoveWorkshopPreviousResult): void {
-    const updatedResults = ctx.getState().workshopPreviousResults.filter((result) => result !== previousResult);
-    ctx.patchState({ workshopPreviousResults: updatedResults });
+    const updatedResults = ctx.getState().entityPreviousResults.filter((result) => result !== previousResult);
+    ctx.patchState({ entityPreviousResults: updatedResults });
   }
 
   @Action(SetOpenRecruitment)

@@ -14,6 +14,9 @@ import { takeUntil } from 'rxjs/operators';
 import { ArchiveCompetitionById, GetProviderViewCompetitions } from 'shared/store/provider.actions';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { FormControl } from '@angular/forms';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -27,6 +30,8 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
   public competitions$: Observable<SearchResponse<CompetitionCardParameters[]>>;
 
   public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public competitions: SearchResponse<CompetitionCardParameters[]>;
 
@@ -93,6 +98,17 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
     this.competitions$
       .pipe(takeUntil(this.destroy$))
       .subscribe((competitions: SearchResponse<CompetitionCardParameters[]>) => (this.competitions = competitions));
+  }
+
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.competitionCardParameters = {
+      ...this.competitionCardParameters,
+      searchText
+    };
+
+    this.getProviderCompetitions();
   }
 
   /**

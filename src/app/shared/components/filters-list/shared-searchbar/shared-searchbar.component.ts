@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { distinctUntilChanged, map, Observable, startWith, Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
@@ -10,22 +9,24 @@ import { Navigation } from 'shared/models/navigation.model';
 import { AddWorkshopPreviousResult, RemoveWorkshopPreviousResult, SetWorkshopSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { SEARCHBAR_REGEX_VALID, SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { SEARCHBAR_REGEX_REPLACE, SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
+import { WorkshopType } from 'shared/enum/workshop';
 
 @Component({
   selector: 'app-workshop-searchbar',
-  templateUrl: './workshop-searchbar.component.html',
-  styleUrls: ['./workshop-searchbar.component.scss']
+  templateUrl: './shared-searchbar.component.html',
+  styleUrls: ['./shared-searchbar.component.scss']
 })
-export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
+export class SharedSearchbarComponent implements OnInit, OnDestroy {
+  @Input() public for: WorkshopType;
   @Output() public outputSearchFormControl = new EventEmitter<FormControl>();
 
   @Select(NavigationState.navigationPaths)
   private readonly navigationPaths$: Observable<Navigation[]>;
-  @Select(FilterState.workshopSearchQuery)
+  @Select(FilterState.entitySearchQuery)
   private readonly searchQuery$: Observable<string>;
-  @Select(FilterState.workshopPreviousResults)
+  @Select(FilterState.entityPreviousResults)
   private readonly previousResults$: Observable<string[]>;
 
   public filteredResults: string[];
@@ -39,10 +40,7 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private tempSearchValue: string = '';
 
-  constructor(
-    private readonly store: Store,
-    private readonly router: Router
-  ) {}
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.navigationPaths$
@@ -133,4 +131,6 @@ export class WorkshopSearchbarComponent implements OnInit, OnDestroy {
   private saveSearchResults(): void {
     this.store.dispatch(new AddWorkshopPreviousResult(this.searchedText));
   }
+
+  protected readonly WorkshopType = WorkshopType;
 }

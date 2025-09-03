@@ -14,6 +14,7 @@ import { DateInputDirective } from 'shared/directives/date-input/date-input.dire
 import { StepperDirective } from 'shared/directives/stepper/stepper.directive';
 import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
 import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
+import { SharedSearchbarComponent } from 'shared/components/filters-list/shared-searchbar/shared-searchbar.component';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -32,7 +33,6 @@ import { FiltersListComponent } from './components/filters-list/filters-list.com
 import { FullSearchBarComponent } from './components/filters-list/full-search-bar/full-search-bar.component';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
-import { WorkshopSearchbarComponent } from './components/filters-list/workshops-searchbar/workshop-searchbar.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
@@ -104,7 +104,7 @@ import { DraftFiltersComponent } from './components/draft-filters/draft-filters.
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
-    WorkshopSearchbarComponent,
+    SharedSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     IntegerOnlyDirective,
@@ -208,7 +208,7 @@ import { DraftFiltersComponent } from './components/draft-filters/draft-filters.
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
-    WorkshopSearchbarComponent,
+    SharedSearchbarComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     IntegerOnlyDirective,

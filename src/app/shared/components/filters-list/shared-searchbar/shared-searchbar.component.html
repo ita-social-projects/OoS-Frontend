@@ -13,7 +13,7 @@
       matInput
       type="text"
       class="search"
-      placeholder="{{ 'SEARCH_WORKSHOP' | translate }}"
+      [placeholder]="for === WorkshopType.Workshop ? ('SEARCH_WORKSHOP' | translate) : ('SEARCH_COMPETITION' | translate)"
       disableOptionCentering
       autocomplete="off"
       appTrimValue
@@ -21,7 +21,11 @@
       [matAutocomplete]="auto"
       [matAutocompleteConnectedTo]="origin"
       (keyup.enter)="onValueEnter()" />
-    <mat-autocomplete #auto="matAutocomplete" hideSingleSelectionIndicator="true" class="search-input" (optionSelected)="onValueSelect()">
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      hideSingleSelectionIndicator="true"
+      panelClass="dropdown-panel"
+      (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option search-dropdown-option" *ngFor="let result of filteredResults" [value]="result">
         <div class="w-[100%] flex justify-between items-center">
           <span class="option-value">{{ result }}</span>

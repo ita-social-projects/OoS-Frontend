@@ -47,9 +47,14 @@ export class UserCompetitionService {
   public getProviderViewCompetitions(
     competitionCardParameters: CompetitionCardParameters
   ): Observable<SearchResponse<CompetitionProviderViewCard[]>> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('From', competitionCardParameters.from.toString())
       .set('Size', competitionCardParameters.size.toString());
+
+    if (competitionCardParameters.searchText) {
+      params = params.set('SearchText', competitionCardParameters.searchText);
+    }
+
     return this.http.get<SearchResponse<CompetitionProviderViewCard[]>>(
       `/api/v1/provider/${competitionCardParameters?.providerId}/competitiveevents`,
       {
@@ -65,9 +70,13 @@ export class UserCompetitionService {
   public getProviderViewCompetitionDrafts(
     competitionCardParameters: CompetitionCardParameters
   ): Observable<SearchResponse<CompetitionDraftCard[]>> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('From', competitionCardParameters.from.toString())
       .set('Size', competitionCardParameters.size.toString());
+
+    if (competitionCardParameters.searchText) {
+      params = params.set('SearchText', competitionCardParameters.searchText);
+    }
 
     return this.http.get<SearchResponse<CompetitionDraftCard[]>>(
       `/api/v2/provider/${competitionCardParameters.providerId}/competitions-drafts`,

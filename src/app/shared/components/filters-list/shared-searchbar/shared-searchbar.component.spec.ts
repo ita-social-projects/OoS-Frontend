@@ -8,11 +8,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
-import { WorkshopSearchbarComponent } from './workshop-searchbar.component';
+import { SharedSearchbarComponent } from './shared-searchbar.component';
 
-describe('WorkshopSearchbarComponent', () => {
-  let component: WorkshopSearchbarComponent;
-  let fixture: ComponentFixture<WorkshopSearchbarComponent>;
+describe('SharedSearchbarComponent', () => {
+  let component: SharedSearchbarComponent;
+  let fixture: ComponentFixture<SharedSearchbarComponent>;
   let mockRouter: Partial<Router>;
   let mockStore: Partial<Store>;
   let mockTranslateService: Partial<TranslateService>;
@@ -33,7 +33,7 @@ describe('WorkshopSearchbarComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [WorkshopSearchbarComponent],
+      declarations: [SharedSearchbarComponent],
       imports: [ReactiveFormsModule, TranslateModule.forRoot(), MatAutocompleteModule, MatInputModule],
       providers: [
         { provide: Router, useValue: mockRouter },
@@ -42,7 +42,7 @@ describe('WorkshopSearchbarComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WorkshopSearchbarComponent);
+    fixture = TestBed.createComponent(SharedSearchbarComponent);
     component = fixture.componentInstance;
   });
 

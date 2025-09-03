@@ -21,6 +21,9 @@ import { Role } from 'shared/enum/role';
 import { Provider } from 'shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
 import { BannerMode } from 'shared/enum/bannerMode';
+import { FormControl } from '@angular/forms';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 
 @Component({
   selector: 'app-workshop-drafts',
@@ -42,6 +45,8 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
 
   public workshopDrafts: SearchResponse<WorkshopDraftCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -111,6 +116,17 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
 
   public trackByDraft(index: number, item: WorkshopDraftCard): string {
     return item.workshopDraftId;
+  }
+
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.workshopCardParameters = {
+      ...this.workshopCardParameters,
+      searchText
+    };
+
+    this.getProviderDrafts();
   }
 
   private getProviderDrafts(): void {

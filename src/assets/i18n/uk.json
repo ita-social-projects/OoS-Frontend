@@ -46,6 +46,7 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "SEARCH_WORKSHOP": "Пошук гуртка",
+  "SEARCH_COMPETITION": "Пошук змагання",
   "ENUM": {
     "CHAT_CHANGES": {
       "CHANGE_IN_MESSAGES": "зміна в повідомленнях",
