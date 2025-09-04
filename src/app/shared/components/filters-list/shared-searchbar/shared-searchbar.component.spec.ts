@@ -82,12 +82,17 @@ describe('SharedSearchbarComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('OldSearch'));
   });
 
-  it('should handle invalid characters correctly', () => {
-    jest.spyOn(component.outputSearchFormControl, 'emit');
-    const val = component.handleInvalidCharacter('???');
-    expect(component.searchValueFormControl.errors).toBeTruthy();
-    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
-    expect(val).toEqual('');
+  it('should perform search', () => {
+    (component as any).tempSearchValue = 'SearchValue';
+    jest.spyOn(component, 'handleInvalidCharacter');
+    component.onValueSelect();
+    expect(component.searchValueFormControl.value).toEqual('SearchValue');
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
+
+    jest.spyOn(component.searchValueFormControl, 'markAllAsTouched');
+    (component as any).tempSearchValue = '???';
+    component.onValueEnter();
+    expect(component.searchValueFormControl.markAllAsTouched).toHaveBeenCalled();
   });
 
   it('should handle invalid characters correctly', () => {

@@ -6,7 +6,7 @@
 </div>
 <div class="flex flex-col gap-4">
   <div class="flex justify-end">
-    <app-workshop-searchbar [for]="WorkshopType.Competition" (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
+    <app-shared-searchbar [for]="WorkshopType.Competition" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>
   <div>
     <ng-container *ngIf="!(isLoading$ | async) && !!competitionDrafts">

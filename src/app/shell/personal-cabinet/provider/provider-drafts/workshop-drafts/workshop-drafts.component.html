@@ -12,7 +12,7 @@
     class="unfinished-banner">
   </app-provider-status-banner>
   <div class="flex justify-end">
-    <app-workshop-searchbar [for]="WorkshopType.Workshop" (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
+    <app-shared-searchbar [for]="WorkshopType.Workshop" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>
   <div>
     <ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">

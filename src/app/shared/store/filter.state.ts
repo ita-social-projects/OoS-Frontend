@@ -13,7 +13,7 @@ import { WorkshopCard } from 'shared/models/workshop.model';
 import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
 import {
   AddPreviousResult,
-  AddWorkshopPreviousResult,
+  AddEntityPreviousResult,
   CleanCity,
   ClearCoordsByMap,
   ClearRadiusSize,
@@ -22,7 +22,7 @@ import {
   FilterClear,
   GetFilteredWorkshops,
   RemovePreviousResult,
-  RemoveWorkshopPreviousResult,
+  RemoveEntityPreviousResult,
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
@@ -50,7 +50,7 @@ import {
   SetStartTime,
   SetWithDisabilityOption,
   SetWorkingDays,
-  SetWorkshopSearchQueryValue,
+  SetEntitySearchQueryValue,
   SetPayRate
 } from './filter.actions';
 
@@ -285,8 +285,8 @@ export class FilterState {
     patchState({ searchQuery: payload, from: 0 });
   }
 
-  @Action(SetWorkshopSearchQueryValue)
-  setWorkshopSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkshopSearchQueryValue): void {
+  @Action(SetEntitySearchQueryValue)
+  setEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetEntitySearchQueryValue): void {
     patchState({ entitySearchQuery: payload, from: 0 });
   }
 
@@ -305,8 +305,8 @@ export class FilterState {
     ctx.patchState({ previousResults: updatedResults });
   }
 
-  @Action(AddWorkshopPreviousResult)
-  addWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddWorkshopPreviousResult): void {
+  @Action(AddEntityPreviousResult)
+  addWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddEntityPreviousResult): void {
     const trimmedResult = result.trim();
     if (!trimmedResult) {
       return;
@@ -326,8 +326,8 @@ export class FilterState {
     ctx.patchState({ previousResults: updatedResults });
   }
 
-  @Action(RemoveWorkshopPreviousResult)
-  removeWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemoveWorkshopPreviousResult): void {
+  @Action(RemoveEntityPreviousResult)
+  removeWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemoveEntityPreviousResult): void {
     const updatedResults = ctx.getState().entityPreviousResults.filter((result) => result !== previousResult);
     ctx.patchState({ entityPreviousResults: updatedResults });
   }
