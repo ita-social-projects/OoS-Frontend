@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { SetSearchQueryValue, AddPreviousResult, RemovePreviousResult } from 'shared/store/filter.actions';
-import { TranslateService } from '@ngx-translate/core';
+import { AddPreviousResult, RemovePreviousResult, SetEntitySearchQueryValue, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedSearchbarComponent } from './shared-searchbar.component';
 
 describe('SharedSearchbarComponent', () => {
@@ -87,7 +86,7 @@ describe('SharedSearchbarComponent', () => {
     jest.spyOn(component, 'handleInvalidCharacter');
     component.onValueSelect();
     expect(component.searchValueFormControl.value).toEqual('SearchValue');
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetEntitySearchQueryValue('SearchValue'));
 
     jest.spyOn(component.searchValueFormControl, 'markAllAsTouched');
     (component as any).tempSearchValue = '???';
