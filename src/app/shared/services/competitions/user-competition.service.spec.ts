@@ -58,11 +58,11 @@ describe('UserCompetitionService', () => {
       totalAmount: 1
     };
 
-    service.getProviderViewCompetitions({ from: 0, size: 10, providerId: 'provider1' }).subscribe((data) => {
+    service.getProviderViewCompetitions({ from: 0, size: 10, providerId: 'provider1', searchText: '123' }).subscribe((data) => {
       expect(data).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne('/api/v1/provider/provider1/competitiveevents?From=0&Size=10');
+    const req = httpMock.expectOne('/api/v1/provider/provider1/competitiveevents?From=0&Size=10&SearchText=123');
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
   });
@@ -125,11 +125,11 @@ describe('UserCompetitionService', () => {
         totalAmount: 1
       };
 
-      service.getProviderViewCompetitionDrafts({ from: 0, size: 10, providerId: 'provider1' }).subscribe((data) => {
+      service.getProviderViewCompetitionDrafts({ from: 0, size: 10, providerId: 'provider1', searchText: '123' }).subscribe((data) => {
         expect(data).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('/api/v2/provider/provider1/competitions-drafts?From=0&Size=10');
+      const req = httpMock.expectOne('/api/v2/provider/provider1/competitions-drafts?From=0&Size=10&SearchText=123');
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
