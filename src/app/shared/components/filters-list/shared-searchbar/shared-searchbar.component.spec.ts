@@ -81,4 +81,28 @@ describe('SharedSearchbarComponent', () => {
     expect(component.filteredResults).toEqual([]);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('OldSearch'));
   });
+
+  it('should handle invalid characters correctly', () => {
+    jest.spyOn(component.outputSearchFormControl, 'emit');
+    const val = component.handleInvalidCharacter('???');
+    expect(component.searchValueFormControl.errors).toBeTruthy();
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
+    expect(val).toEqual('');
+  });
+
+  it('should handle invalid characters correctly', () => {
+    jest.spyOn(component.outputSearchFormControl, 'emit');
+    const val = component.handleInvalidCharacter('???');
+    expect(component.searchValueFormControl.errors).toBeTruthy();
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
+    expect(val).toEqual('');
+  });
+
+  it('should handle valid characters correctly', () => {
+    jest.spyOn(component.outputSearchFormControl, 'emit');
+    const val = component.handleInvalidCharacter('aaa');
+    expect(component.searchValueFormControl.errors).toBeFalsy();
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
+    expect(val).toEqual('aaa');
+  });
 });
