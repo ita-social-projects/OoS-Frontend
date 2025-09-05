@@ -3,11 +3,6 @@
 @use 'buttons';
 @use 'create-form';
 
-.searchbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .unfinished-banner {
   background-color: var(--bg-specific-light);
 }

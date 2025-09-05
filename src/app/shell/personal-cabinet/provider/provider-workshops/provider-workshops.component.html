@@ -1,6 +1,10 @@
 <div class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_WORKSHOP' | translate }}</p>
-  <button class="btn" mat-raised-button [disabled]="hasUnfinishedWorkshopData$ | async" [routerLink]="['/create/workshop', ModeConstants.NEW]">
+  <button
+    class="btn"
+    mat-raised-button
+    [disabled]="hasUnfinishedWorkshopData$ | async"
+    [routerLink]="['/create/workshop', ModeConstants.NEW]">
     {{ 'BUTTONS.ADD_WORKSHOP' | translate }}
   </button>
 </div>
@@ -11,12 +15,12 @@
     *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
     class="unfinished-banner">
   </app-provider-status-banner>
-  <div class="searchbar">
-    <app-workshop-searchbar (outputSearchFormControl)="onSearch($event)"></app-workshop-searchbar>
+  <div class="flex justify-end">
+    <app-shared-searchbar [for]="WorkshopType.Workshop" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>
   <div>
     <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
-      <div class="card-wrapper" *ngIf="workshops?.totalAmount">
+      <div class="card-wrapper" *ngIf="workshops?.totalAmount; else emptyResult">
         <app-workshop-card
           class="card"
           *ngFor="let workshop of workshops.entities"
@@ -37,3 +41,7 @@
     </ng-container>
   </div>
 </div>
+
+<ng-template #emptyResult>
+  <app-no-result-card [title]="NoResultsTitle.noResult"></app-no-result-card>
+</ng-template>

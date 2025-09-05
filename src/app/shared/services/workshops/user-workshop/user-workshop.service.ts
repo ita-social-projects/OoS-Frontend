@@ -63,7 +63,11 @@ export class UserWorkshopService {
    * This method get related workshop drafts for provider personal cabinet
    */
   public getProviderViewWorkshopDrafts(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopDraftCard[]>> {
-    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+    let params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
+
+    if (workshopCardParameters.searchText) {
+      params = params.set('SearchText', workshopCardParameters.searchText);
+    }
 
     return this.http.get<SearchResponse<WorkshopDraftCard[]>>(
       `/api/v2/WorkshopDraft/GetByProviderId/provider/${workshopCardParameters.providerId}/drafts`,

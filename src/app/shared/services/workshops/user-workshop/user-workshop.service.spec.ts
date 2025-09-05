@@ -125,7 +125,8 @@ describe('UserWorkshopService', () => {
     const workshopCardParameters = {
       from: 0,
       size: 10,
-      providerId: '08da842d-12fc-4865-85c5-ec6e6142abad'
+      providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
+      searchText: '123'
     };
 
     const mockResponse = [
@@ -154,7 +155,8 @@ describe('UserWorkshopService', () => {
         req.method === 'GET' &&
         req.url === `/api/v2/WorkshopDraft/GetByProviderId/provider/${workshopCardParameters.providerId}/drafts` &&
         req.params.get('From') === '0' &&
-        req.params.get('Size') === '10'
+        req.params.get('Size') === '10' &&
+        req.params.get('SearchText') === '123'
     );
     expect(request.request.method).toBe('GET');
     request.flush(mockResponse);

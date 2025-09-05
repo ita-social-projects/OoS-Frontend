@@ -2,17 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { SetSearchQueryValue, AddPreviousResult, RemovePreviousResult } from 'shared/store/filter.actions';
-import { TranslateService } from '@ngx-translate/core';
+import { AddPreviousResult, RemovePreviousResult, SetEntitySearchQueryValue, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule } from '@ngx-translate/core';
-import { WorkshopSearchbarComponent } from './workshop-searchbar.component';
+import { SharedSearchbarComponent } from './shared-searchbar.component';
 
-describe('WorkshopSearchbarComponent', () => {
-  let component: WorkshopSearchbarComponent;
-  let fixture: ComponentFixture<WorkshopSearchbarComponent>;
+describe('SharedSearchbarComponent', () => {
+  let component: SharedSearchbarComponent;
+  let fixture: ComponentFixture<SharedSearchbarComponent>;
   let mockRouter: Partial<Router>;
   let mockStore: Partial<Store>;
   let mockTranslateService: Partial<TranslateService>;
@@ -33,7 +32,7 @@ describe('WorkshopSearchbarComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [WorkshopSearchbarComponent],
+      declarations: [SharedSearchbarComponent],
       imports: [ReactiveFormsModule, TranslateModule.forRoot(), MatAutocompleteModule, MatInputModule],
       providers: [
         { provide: Router, useValue: mockRouter },
@@ -42,7 +41,7 @@ describe('WorkshopSearchbarComponent', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WorkshopSearchbarComponent);
+    fixture = TestBed.createComponent(SharedSearchbarComponent);
     component = fixture.componentInstance;
   });
 
@@ -80,5 +79,34 @@ describe('WorkshopSearchbarComponent', () => {
     expect(event.stopPropagation).toHaveBeenCalled();
     expect(component.filteredResults).toEqual([]);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('OldSearch'));
+  });
+
+  it('should perform search', () => {
+    (component as any).tempSearchValue = 'SearchValue';
+    jest.spyOn(component, 'handleInvalidCharacter');
+    component.onValueSelect();
+    expect(component.searchValueFormControl.value).toEqual('SearchValue');
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetEntitySearchQueryValue('SearchValue'));
+
+    jest.spyOn(component.searchValueFormControl, 'markAllAsTouched');
+    (component as any).tempSearchValue = '???';
+    component.onValueEnter();
+    expect(component.searchValueFormControl.markAllAsTouched).toHaveBeenCalled();
+  });
+
+  it('should handle invalid characters correctly', () => {
+    jest.spyOn(component.outputSearchFormControl, 'emit');
+    const val = component.handleInvalidCharacter('???');
+    expect(component.searchValueFormControl.errors).toBeTruthy();
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
+    expect(val).toEqual('');
+  });
+
+  it('should handle valid characters correctly', () => {
+    jest.spyOn(component.outputSearchFormControl, 'emit');
+    const val = component.handleInvalidCharacter('aaa');
+    expect(component.searchValueFormControl.errors).toBeFalsy();
+    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
+    expect(val).toEqual('aaa');
   });
 });

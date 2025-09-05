@@ -25,6 +25,8 @@ import { Util } from 'shared/utils/utils';
 import { WINDOW } from 'ngx-window-token';
 import { FormControl } from '@angular/forms';
 import { BannerMode } from 'shared/enum/bannerMode';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -43,6 +45,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
   public isLoaded: boolean = false;
 
   public workshops: SearchResponse<WorkshopProviderViewCard[]>;

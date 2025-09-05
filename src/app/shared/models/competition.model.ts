@@ -202,6 +202,7 @@ export interface CompetitionProviderViewCard extends CompetitionBaseCard {
 
 export interface CompetitionCardParameters extends PaginationParameters {
   providerId: string;
+  searchText?: string;
 }
 
 export class CompetitiveDescriptionItem extends SectionItem {

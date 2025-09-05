@@ -11,9 +11,12 @@
     *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
     class="unfinished-banner">
   </app-provider-status-banner>
+  <div class="flex justify-end">
+    <app-shared-searchbar [for]="WorkshopType.Workshop" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
+  </div>
   <div>
     <ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">
-      <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount">
+      <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount; else emptyResult">
         <app-workshop-card
           class="card"
           *ngFor="let workshopDraft of workshopDrafts.entities; trackBy: trackByDraft"
@@ -34,3 +37,7 @@
     </ng-container>
   </div>
 </div>
+
+<ng-template #emptyResult>
+  <app-no-result-card [title]="NoResultsTitle.noResult"></app-no-result-card>
+</ng-template>

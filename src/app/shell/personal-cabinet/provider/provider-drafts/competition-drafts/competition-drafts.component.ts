@@ -15,11 +15,13 @@ import {
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Util } from 'shared/utils/utils';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Role } from 'shared/enum/role';
 import { CompetitionCardParameters, CompetitionDraftCard } from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 
 @Component({
   selector: 'app-competition-drafts',
@@ -35,6 +37,8 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
 
   public competitionDrafts: SearchResponse<CompetitionDraftCard[]>;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -102,8 +106,15 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
     return item.competitiveEventDraftId;
   }
 
-  public onTabChange(event: MatTabChangeEvent): void {
-    return;
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.competitionCardParameters = {
+      ...this.competitionCardParameters,
+      searchText
+    };
+
+    this.getProviderDrafts();
   }
 
   private getProviderDrafts(): void {

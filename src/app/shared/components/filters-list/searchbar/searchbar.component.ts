@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { distinctUntilChanged, map, Observable, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
@@ -10,38 +9,28 @@ import { Navigation } from 'shared/models/navigation.model';
 import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { SEARCHBAR_REGEX_VALID, SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
-import { ValidationConstants } from 'shared/constants/validation';
+import { SearchComponent } from 'shared/components/filters-list/search.component';
 
 @Component({
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
   styleUrls: ['./searchbar.component.scss']
 })
-export class SearchbarComponent implements OnInit, OnDestroy {
-  @Output() public outputSearchFormControl = new EventEmitter<FormControl>();
-
+export class SearchbarComponent extends SearchComponent implements OnInit, OnDestroy {
+  @Select(FilterState.searchQuery)
+  protected readonly searchQuery$: Observable<string>;
   @Select(NavigationState.navigationPaths)
   private readonly navigationPaths$: Observable<Navigation[]>;
-  @Select(FilterState.searchQuery)
-  private readonly searchQuery$: Observable<string>;
   @Select(FilterState.previousResults)
   private readonly previousResults$: Observable<string[]>;
-
-  public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [
-    Validators.maxLength(ValidationConstants.MAX_SEARCH_LENGTH_200),
-    Validators.pattern(SEARCHBAR_REGEX_VALID)
-  ]);
-
-  private isResultPage = false;
-  private searchedText: string;
-  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  private isResultPage: boolean = false;
 
   constructor(
-    private readonly store: Store,
+    protected readonly store: Store,
     private readonly router: Router
-  ) {}
+  ) {
+    super(store);
+  }
 
   public ngOnInit(): void {
     this.navigationPaths$
@@ -55,21 +44,19 @@ export class SearchbarComponent implements OnInit, OnDestroy {
       .pipe(
         distinctUntilChanged(),
         startWith(''),
-        takeUntil(this.destroy$),
         map((value: string) => value.trim()),
         withLatestFrom(this.previousResults$),
         tap(([value, results]: [string, string[]]) => {
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(([value, _]: [string, string[]]) => {
         const validValue = this.handleInvalidCharacter(value);
         this.searchedText = validValue;
       });
 
-    this.searchQuery$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
+    super.ngOnInit();
 
     // The input value is reset when the user is on the main page, but when the user is on the result page,
     // the input value should remain
@@ -78,40 +65,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
-  public onValueEnter(): void {
-    this.performSearch();
-  }
-
-  public onValueSelect(): void {
-    this.performSearch();
-  }
-
-  public handleInvalidCharacter(value: string): string {
-    const validValue = value?.replace(SEARCHBAR_REGEX_REPLACE, '');
-    if (validValue !== value) {
-      this.searchValueFormControl.setValue(validValue, { emitEvent: true });
-      this.searchValueFormControl.setErrors({ ...this.searchValueFormControl.errors, invalidSearch: true });
-    } else {
-      const currentErrors = { ...this.searchValueFormControl.errors };
-      delete currentErrors.invalidSearch;
-      this.searchValueFormControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
-    }
-    this.outputSearchFormControl.emit(this.searchValueFormControl);
-    return validValue;
-  }
-
   public onDeletePreviousSearchValue(previousValue: string, event: Event): void {
     event.stopPropagation();
     this.filteredResults = this.filteredResults.filter((result: string) => result !== previousValue);
     this.store.dispatch(new RemovePreviousResult(previousValue));
   }
 
-  private performSearch(): void {
+  protected performSearch(): void {
     if (this.searchValueFormControl.valid) {
       this.saveSearchResults();
       const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
@@ -129,7 +89,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
    * and if it is not included in the previous results. If the length of the saved search length is more
    * than 10, then the oldest value is removed and the new one is added.
    */
-  private saveSearchResults(): void {
+  protected saveSearchResults(): void {
     this.store.dispatch(new AddPreviousResult(this.searchedText));
   }
 }
