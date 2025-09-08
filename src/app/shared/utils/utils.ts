@@ -460,3 +460,16 @@ export function addBeforeUnloadProtection(shouldBlock: () => boolean): () => voi
   window.addEventListener('beforeunload', handler);
   return (): void => window.removeEventListener('beforeunload', handler);
 }
+
+export function arraysEqualByValue(a: number[], b: number[]): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  const setA = new Set(a);
+  for (const v of b) {
+    if (!setA.has(v)) {
+      return false;
+    }
+  }
+  return true;
+}

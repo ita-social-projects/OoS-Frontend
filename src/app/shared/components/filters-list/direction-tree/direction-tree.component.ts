@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
@@ -9,24 +9,22 @@ import { Direction, DirectionNode, DirectionsSelected, Subdirection } from 'shar
 import { DirectionsService } from 'shared/services/directions/directions.service';
 import { SetSubdirections, SetDirections, SetIndeterminates, FilterClear } from 'shared/store/filter.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { arraysEqualByValue } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-direction-tree',
   templateUrl: './direction-tree.component.html',
-  styleUrls: ['./direction-tree.component.scss']
+  styleUrls: ['./direction-tree.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
+export class DirectionTreeComponent implements OnDestroy, OnInit {
   @Input()
   public initialDirectionIds: DirectionsSelected;
-
-  @Input()
-  public searchInput: string = '';
 
   @Select(MetaDataState.directions)
   private directions$: Observable<Direction[]>;
 
   public initDirectionIds: number[] = [];
-  public initSubdirectionIds: number[] = [];
   public initIndeterminateIds: number[] = [];
 
   public treeControl = new NestedTreeControl<DirectionNode>((node) => node.children);
@@ -42,11 +40,24 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
+  private _searchInput: string = '';
+
   constructor(
     private readonly directionsService: DirectionsService,
     private readonly actions$: Actions,
     private readonly store: Store
   ) {}
+
+  @Input()
+  public get searchInput(): string {
+    return this._searchInput;
+  }
+  public set searchInput(value: string) {
+    this._searchInput = value;
+    if (this.originalDirections.length) {
+      this.applyFilter();
+    }
+  }
 
   public ngOnInit(): void {
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions: Direction[]) => {
@@ -60,15 +71,8 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
       this.selectedSubdirectionIds = [];
       this.indeterminateDirectionIds = [];
       this.initDirectionIds = [];
-      this.initSubdirectionIds = [];
       this.initIndeterminateIds = [];
     });
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.searchInput && this.originalDirections.length > 0) {
-      this.applyFilter();
-    }
   }
 
   public ngOnDestroy(): void {
@@ -109,7 +113,6 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
 
   public onDirectionCheck(direction: DirectionNode, event: MatCheckboxChange): void {
     if (event.checked) {
-      // checked
       this.selectedDirectionIds.push(direction.id);
       this.store.dispatch(new SetDirections(this.selectedDirectionIds));
 
@@ -137,7 +140,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     // check if all children are selected
-    const allChildrenSelected: boolean =
+    const allChildrenSelected =
       direction.children.length > 0 && direction.children.every((sub: DirectionNode) => this.selectedSubdirectionIds.includes(sub.id));
 
     if (allChildrenSelected && !this.selectedDirectionIds.includes(direction.id)) {
@@ -163,10 +166,10 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
     let newIndeterminateIds = [...this.indeterminateDirectionIds];
 
     // the direction has no children
-    if (!direction.children || direction.children.length === 0) {
+    if (!direction.children || !direction.children.length) {
       newIndeterminateIds = newIndeterminateIds.filter((id: number) => id !== direction.id);
       // if the indeterminate ids are different, update the store
-      if (!this.arraysEqualByValue(newIndeterminateIds, this.indeterminateDirectionIds)) {
+      if (!arraysEqualByValue(newIndeterminateIds, this.indeterminateDirectionIds)) {
         this.indeterminateDirectionIds = newIndeterminateIds;
         this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
       }
@@ -185,7 +188,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
       newIndeterminateIds = newIndeterminateIds.filter((id: number) => id !== direction.id);
     }
     // if the indeterminate ids are different, update the store
-    if (!this.arraysEqualByValue(newIndeterminateIds, this.indeterminateDirectionIds)) {
+    if (!arraysEqualByValue(newIndeterminateIds, this.indeterminateDirectionIds)) {
       this.indeterminateDirectionIds = newIndeterminateIds;
       this.store.dispatch(new SetIndeterminates(this.indeterminateDirectionIds));
     }
@@ -212,7 +215,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
 
   private loadChildrenAndPush(node: DirectionNode): void {
     this.loadingChildren = true;
-    if (node.children.length > 0) {
+    if (node.children.length) {
       // subdirections already fetched
       node.children.forEach((sub) => {
         this.selectedSubdirectionIds.push(sub.id);
@@ -252,7 +255,7 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   private applyFilter(): void {
-    if (!this.searchInput || this.searchInput.trim() === '') {
+    if (!this.searchInput || !this.searchInput.trim()) {
       // show all directions if no filter
       this.allDirections = [...this.originalDirections];
     } else {
@@ -275,7 +278,6 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
     const initialIndets = initials.indeterminateDirectionIds || [];
 
     this.initDirectionIds = [...initialDirs];
-    this.initSubdirectionIds = [...initialSubs];
     this.initIndeterminateIds = [...initialIndets];
 
     this.selectedDirectionIds = [...initialDirs];
@@ -295,18 +297,5 @@ export class DirectionTreeComponent implements OnDestroy, OnInit, OnChanges {
         this.loadChildren(direction);
       }
     });
-  }
-
-  private arraysEqualByValue(a: number[], b: number[]): boolean {
-    if (a.length !== b.length) {
-      return false;
-    }
-    const setA = new Set(a);
-    for (const v of b) {
-      if (!setA.has(v)) {
-        return false;
-      }
-    }
-    return true;
   }
 }

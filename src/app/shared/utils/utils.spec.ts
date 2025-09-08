@@ -1,7 +1,7 @@
 import { firstValueFrom } from 'rxjs';
 import { base64ArrayToFiles, blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
 import { base64ToFile } from 'ngx-image-cropper';
-import { addBeforeUnloadProtection, Util } from './utils';
+import { addBeforeUnloadProtection, arraysEqualByValue, Util } from './utils';
 
 describe('formatTimeString', () => {
   it('should clean input value by removing non-numeric and non-colon characters', () => {
@@ -287,5 +287,27 @@ describe('image convertation utils', () => {
     expect(files.length).toBe(2);
     expect(files[0]).toBeInstanceOf(Blob);
     expect(files[1].name).toBe('image');
+  });
+});
+
+describe('arraysEqualByValue', () => {
+  it('should return true for equal arrays', () => {
+    expect(arraysEqualByValue([1, 2, 3], [1, 2, 3])).toBe(true);
+  });
+
+  it('should return false for unequal arrays', () => {
+    expect(arraysEqualByValue([1, 2, 3], [1, 2, 4])).toBe(false);
+  });
+
+  it('should return false for arrays of different lengths', () => {
+    expect(arraysEqualByValue([1, 2, 3], [1, 2])).toBe(false);
+  });
+
+  it('should return true for empty arrays', () => {
+    expect(arraysEqualByValue([], [])).toBe(true);
+  });
+
+  it('should return true for arrays with the same values in different order', () => {
+    expect(arraysEqualByValue([1, 2, 3], [3, 2, 1])).toBe(true);
   });
 });
