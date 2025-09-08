@@ -1,21 +1,20 @@
 // src/app/shared/components/filters-list/direction-tree/direction-tree.component.spec.ts
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Actions, NgxsModule, Store } from '@ngxs/store';
 
 import { Direction, Subdirection, DirectionNode, DirectionsSelected } from 'shared/models/category.model';
-import { DirectionsService } from 'shared/services/directions/directions.service';
-import { SetDirections, SetIndeterminates, SetSubdirections } from 'shared/store/filter.actions';
+import { SetDirections, SetIndeterminates, SetSubdirections, FilterClear } from 'shared/store/filter.actions';
+import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { DirectionTreeComponent } from './direction-tree.component';
 
 describe('DirectionTreeComponent', () => {
   let component: DirectionTreeComponent;
   let fixture: ComponentFixture<DirectionTreeComponent>;
 
-  let storeMock: { dispatch: jest.Mock };
-  let directionsServiceMock: { getSubdirections: jest.Mock };
+  let storeMock: { dispatch: jest.Mock; selectSnapshot: jest.Mock };
   let actionsSubject: Subject<any>;
   let actionsStub: { pipe: jest.Mock };
 
@@ -34,8 +33,7 @@ describe('DirectionTreeComponent', () => {
   });
 
   beforeEach(async () => {
-    storeMock = { dispatch: jest.fn(() => of(null)) };
-    directionsServiceMock = { getSubdirections: jest.fn(() => of({ entities: [] })) };
+    storeMock = { dispatch: jest.fn(() => of(null)), selectSnapshot: jest.fn() };
     actionsSubject = new Subject<any>();
     actionsStub = { pipe: jest.fn(() => actionsSubject.asObservable()) };
 
@@ -44,7 +42,6 @@ describe('DirectionTreeComponent', () => {
       declarations: [DirectionTreeComponent],
       providers: [
         { provide: Store, useValue: storeMock },
-        { provide: DirectionsService, useValue: directionsServiceMock },
         { provide: Actions, useValue: actionsStub }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -218,9 +215,14 @@ describe('DirectionTreeComponent', () => {
     component.dataSource.data = [node];
     component.initDirectionIds = [9];
     component.initIndeterminateIds = [9];
-    directionsServiceMock.getSubdirections.mockReturnValueOnce(of({ entities: [{ id: 91, title: 's', description: 's' }] }));
+
+    // first call (before fetch) returns empty, second call (after action) returns fetched subs
+    storeMock.selectSnapshot.mockReturnValueOnce({}).mockReturnValueOnce({ 9: [{ id: 91, title: 's', description: 's' }] });
 
     (component as any).loadChildren(node);
+
+    // simulate successful action for direction 9
+    actionsSubject.next(new GetSubDirections('9'));
 
     expect(node.children.length).toBe(1);
     expect(component.dataSource.data).toBe((component as any).allDirections);
@@ -230,22 +232,29 @@ describe('DirectionTreeComponent', () => {
 
   it('loadChildrenAndPush should add children ids and dispatch, fetching if needed', () => {
     const node = makeNode(10, 'Fetch', []);
-    directionsServiceMock.getSubdirections.mockReturnValueOnce(
-      of({
-        entities: [
-          { id: 101, title: 'a', description: 'a' },
-          { id: 102, title: 'b', description: 'b' }
-        ]
-      })
-    );
+    // empty first, then populated for direction 10
+    storeMock.selectSnapshot.mockReturnValueOnce({}).mockReturnValueOnce({
+      10: [
+        { id: 101, title: 'a', description: 'a' },
+        { id: 102, title: 'b', description: 'b' }
+      ]
+    });
 
     (component as any).selectedSubdirectionIds = [];
     (component as any).loadChildrenAndPush(node);
+    actionsSubject.next(new GetSubDirections('10'));
 
     expect((component as any).selectedSubdirectionIds).toEqual(expect.arrayContaining([101, 102]));
     expect(storeMock.dispatch).toHaveBeenCalledWith(expect.any(SetSubdirections));
 
     const node2 = makeNode(11, 'Have', [makeNode(111), makeNode(112)]);
+    // already present in store
+    storeMock.selectSnapshot.mockReturnValueOnce({
+      11: [
+        { id: 111, title: 'x', description: 'x' },
+        { id: 112, title: 'y', description: 'y' }
+      ]
+    });
     (component as any).selectedSubdirectionIds = [];
     (component as any).loadChildrenAndPush(node2);
 
@@ -270,18 +279,16 @@ describe('DirectionTreeComponent', () => {
     (component as any).selectedSubdirectionIds = [2];
     (component as any).indeterminateDirectionIds = [3];
     component.initDirectionIds = [4];
-    component.initSubdirectionIds = [5];
     component.initIndeterminateIds = [6];
 
     component.ngOnInit();
 
-    actionsSubject.next({});
+    actionsSubject.next(new FilterClear());
 
     expect((component as any).selectedDirectionIds).toEqual([]);
     expect((component as any).selectedSubdirectionIds).toEqual([]);
     expect((component as any).indeterminateDirectionIds).toEqual([]);
     expect(component.initDirectionIds).toEqual([]);
-    expect(component.initSubdirectionIds).toEqual([]);
     expect(component.initIndeterminateIds).toEqual([]);
   });
 });

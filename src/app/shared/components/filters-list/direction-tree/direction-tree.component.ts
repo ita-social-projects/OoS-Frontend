@@ -6,8 +6,8 @@ import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { filter, Observable, takeUntil, Subject, map } from 'rxjs';
 import { WORD_SPLIT_REGEX } from 'shared/constants/regex-constants';
 import { Direction, DirectionNode, DirectionsSelected, Subdirection } from 'shared/models/category.model';
-import { DirectionsService } from 'shared/services/directions/directions.service';
 import { SetSubdirections, SetDirections, SetIndeterminates, FilterClear } from 'shared/store/filter.actions';
+import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { arraysEqualByValue } from 'shared/utils/utils';
 
@@ -43,7 +43,6 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   private _searchInput: string = '';
 
   constructor(
-    private readonly directionsService: DirectionsService,
     private readonly actions$: Actions,
     private readonly store: Store
   ) {}
@@ -196,55 +195,70 @@ export class DirectionTreeComponent implements OnDestroy, OnInit {
   }
 
   private loadChildren(node: DirectionNode): void {
-    this.directionsService
-      .getSubdirections(node.id)
-      .pipe(
-        map((response) => response.entities),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((subs: Subdirection[]) => {
-        node.children = subs as DirectionNode[];
-        this.dataSource.data = [];
-        this.dataSource.data = this.allDirections;
+    const subdirectionsMap = this.store.selectSnapshot(MetaDataState.subdirectionsByDirection);
+    const current = subdirectionsMap[node.id];
 
-        // remove from initial ids if it was there
-        this.initDirectionIds = this.initDirectionIds.filter((id: number) => id !== node.id);
-        this.initIndeterminateIds = this.initIndeterminateIds.filter((id: number) => id !== node.id);
-      });
+    if (current?.length) {
+      // subdirections are already fetched
+      node.children = current as DirectionNode[];
+      this.updateChildren(node.id);
+      return;
+    }
+
+    // fetch subdirections from backend
+    this.store.dispatch(new GetSubDirections(node.id.toString()));
+    this.actions$.pipe(ofActionSuccessful(GetSubDirections), takeUntil(this.destroy$)).subscribe(({ directionId }: GetSubDirections) => {
+      if (directionId !== node.id.toString()) {
+        return;
+      }
+      const updatedMap = this.store.selectSnapshot(MetaDataState.subdirectionsByDirection);
+      node.children = (updatedMap?.[node.id] ?? []) as DirectionNode[];
+      this.updateChildren(node.id);
+    });
+  }
+
+  private updateChildren(nodeId: number): void {
+    this.dataSource.data = [];
+    this.dataSource.data = this.allDirections;
+
+    // remove from initial ids if it was there
+    this.initDirectionIds = this.initDirectionIds.filter((id: number) => id !== nodeId);
+    this.initIndeterminateIds = this.initIndeterminateIds.filter((id: number) => id !== nodeId);
   }
 
   private loadChildrenAndPush(node: DirectionNode): void {
     this.loadingChildren = true;
-    if (node.children.length) {
-      // subdirections already fetched
-      node.children.forEach((sub) => {
-        this.selectedSubdirectionIds.push(sub.id);
-      });
+
+    const subdirectionsMap = this.store.selectSnapshot(MetaDataState.subdirectionsByDirection);
+    const current = subdirectionsMap[node.id];
+
+    const apply = (subs: Subdirection[]): void => {
+      node.children = subs as DirectionNode[];
+      subs.forEach((sub: Subdirection) => this.selectedSubdirectionIds.push(sub.id));
       this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
       this.loadingChildren = false;
-    } else {
-      // fetch subdirections from backend
-      this.directionsService
-        .getSubdirections(node.id)
-        .pipe(
-          map((response) => response.entities),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((subs: Subdirection[]) => {
-          node.children = subs as DirectionNode[];
-          subs.forEach((sub) => {
-            this.selectedSubdirectionIds.push(sub.id);
-          });
-          this.store.dispatch(new SetSubdirections(this.selectedSubdirectionIds));
-          this.loadingChildren = false;
-        });
+    };
+
+    if (current?.length) {
+      apply(current);
+      return;
     }
+
+    this.store.dispatch(new GetSubDirections(node.id.toString()));
+    this.actions$.pipe(ofActionSuccessful(GetSubDirections), takeUntil(this.destroy$)).subscribe(({ directionId }: GetSubDirections) => {
+      if (directionId !== node.id.toString()) {
+        return;
+      }
+      const updatedMap = this.store.selectSnapshot(MetaDataState.subdirectionsByDirection);
+      apply(updatedMap?.[node.id] ?? []);
+    });
   }
 
   private removeDirectionAndChildren(direction: DirectionNode): void {
     // remove parent's id
     this.selectedDirectionIds = this.selectedDirectionIds.filter((id: number) => id !== direction.id);
     this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+    this.loadingChildren = false;
     // remove all children ids
     if (direction.children && direction.children.length > 0) {
       direction.children.forEach((sub: Subdirection) => {

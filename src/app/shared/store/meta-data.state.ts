@@ -50,6 +50,7 @@ import {
 export interface MetaDataStateModel {
   directions: Direction[];
   subDirections: Subdirection[];
+  subdirectionsByDirection: Record<number, Subdirection[]>;
   socialGroups: DataItem[];
   institutionStatuses: DataItem[];
   providerTypes: DataItem[];
@@ -72,6 +73,7 @@ export interface MetaDataStateModel {
   defaults: {
     directions: null,
     subDirections: null,
+    subdirectionsByDirection: {},
     socialGroups: [],
     institutionStatuses: null,
     providerTypes: null,
@@ -111,6 +113,11 @@ export class MetaDataState {
   @Selector()
   static subDirections(state: MetaDataStateModel): Subdirection[] {
     return state.subDirections;
+  }
+
+  @Selector()
+  static subdirectionsByDirection(state: MetaDataStateModel): Record<number, Subdirection[]> {
+    return state.subdirectionsByDirection;
   }
 
   @Selector()
@@ -203,12 +210,19 @@ export class MetaDataState {
   }
 
   @Action(GetSubDirections)
-  getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<Subdirection[]> {
+  getSubDirections(
+    { getState, patchState }: StateContext<MetaDataStateModel>,
+    { directionId }: GetSubDirections
+  ): Observable<Subdirection[]> {
     patchState({ subDirections: null, isLoading: true });
     return this.categoriesService.getSubdirections(directionId).pipe(
       map((searchResponse) => searchResponse.entities),
       tap((subDirections: Subdirection[]) => {
-        patchState({ subDirections, isLoading: false });
+        patchState({
+          subDirections,
+          subdirectionsByDirection: { ...getState().subdirectionsByDirection, [directionId]: subDirections },
+          isLoading: false
+        });
       })
     );
   }
