@@ -102,32 +102,6 @@
     <app-validation-hint [validationFormControl]="subDirectionControl"></app-validation-hint>
   </ng-container>
 
-  <div class="step-label-combined">
-    <label class="step-label" for="description"> {{ 'FORMS.LABELS.DESCRIPTION' | translate }}</label>
-    <span class="step-characters-count">
-      {{ DescriptionFormGroup.get('description').value?.length }}
-      /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</span
-    >
-  </div>
-  <mat-form-field appearance="fill">
-    <textarea
-      matInput
-      class="step-textarea"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-      }}"
-      formControlName="description"
-      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
-      appTrimValue
-      (focusout)="onFocusOut('description')"
-      id="description"></textarea>
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('description')"
-    [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
-    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-  </app-validation-hint>
-
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
   <mat-radio-group formControlName="formOfLearning" class="flex flex-col justify-center items-between" color="primary">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">

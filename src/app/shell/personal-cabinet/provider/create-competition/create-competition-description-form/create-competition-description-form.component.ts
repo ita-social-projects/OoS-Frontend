@@ -188,8 +188,10 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     }
 
     if (this.competition.areThereBenefits) {
-      this.benefitsOptionRadioBtn.setValue(this.competition.benefits, { emitEvent: false });
-      this.DescriptionFormGroup.get('benefitsOptionsDesc').enable({ emitEvent: false });
+      this.benefitsOptionRadioBtn.setValue(this.competition.areThereBenefits, { emitEvent: false });
+      const benefitsControl = this.DescriptionFormGroup.get('benefitsOptionsDesc');
+      benefitsControl.setValue(this.competition.benefits);
+      benefitsControl.enable({ emitEvent: false });
     }
 
     if (this.competition.subDirectionIds) {
@@ -251,11 +253,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       imageIds: new FormControl(''),
       directionId: new FormControl(null, Validators.required),
       subDirectionIds: new FormControl(null, Validators.required),
-      description: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
       coverageId: new FormControl(null, Validators.required),
       formOfLearning: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
