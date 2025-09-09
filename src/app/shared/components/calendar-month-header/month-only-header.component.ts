@@ -15,16 +15,16 @@ export class MonthOnlyHeaderComponent<D> implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private _calendar: MatCalendar<D>,
-    private _dateAdapter: DateAdapter<D>,
-    @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
-    cdr: ChangeDetectorRef
+    private readonly calendar: MatCalendar<D>,
+    private readonly dateAdapter: DateAdapter<D>,
+    @Inject(MAT_DATE_FORMATS) private readonly dateFormats: MatDateFormats,
+    private cdr: ChangeDetectorRef
   ) {
-    _calendar.stateChanges.pipe(takeUntil(this.destroy$)).subscribe(() => cdr.markForCheck());
+    calendar.stateChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.cdr.markForCheck());
   }
 
   public get periodLabel(): string {
-    return this._dateAdapter.format(this._calendar.activeDate, this._dateFormats.display.monthYearLabel).toLocaleUpperCase();
+    return this.dateAdapter.format(this.calendar.activeDate, this.dateFormats.display.monthYearLabel).toLocaleUpperCase();
   }
 
   public ngOnDestroy(): void {
@@ -33,10 +33,10 @@ export class MonthOnlyHeaderComponent<D> implements OnDestroy {
   }
 
   public previousClicked(mode: string): void {
-    this._calendar.activeDate = this._dateAdapter.addCalendarMonths(this._calendar.activeDate, -1);
+    this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, -1);
   }
 
   public nextClicked(mode: string): void {
-    this._calendar.activeDate = this._dateAdapter.addCalendarMonths(this._calendar.activeDate, 1);
+    this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, 1);
   }
 }
