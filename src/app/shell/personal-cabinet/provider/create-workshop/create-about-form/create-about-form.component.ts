@@ -27,6 +27,7 @@ import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ToFile } from 'ngx-image-cropper';
+import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -44,6 +45,7 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
   @Input() public isImagesFeature: boolean;
   @Output() public PassAboutFormGroup = new EventEmitter();
 
+  public readonly MonthOnlyHeaderComponent = MonthOnlyHeaderComponent;
   public readonly validationConstants = ValidationConstants;
   public readonly MIN_SEATS = Constants.MIN_SEATS;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;

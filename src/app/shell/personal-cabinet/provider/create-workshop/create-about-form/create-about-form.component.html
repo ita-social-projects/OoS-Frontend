@@ -121,7 +121,7 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
               class="text-center" />
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-datepicker [calendarHeaderComponent]="MonthOnlyHeaderComponent" #startPicker></mat-datepicker>
           </mat-form-field>
         </div>
         <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')" [errorMessagesMap]="errorMap">
@@ -141,7 +141,7 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
               class="text-center" />
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker></mat-datepicker>
+            <mat-datepicker [calendarHeaderComponent]="MonthOnlyHeaderComponent" #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
         <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"></app-validation-hint>
