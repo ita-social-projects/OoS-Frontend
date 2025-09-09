@@ -82,14 +82,14 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
   public onFocusOut(): void {
     const entered = this.settlementSearchFormControl.value.trim();
 
-    if (this.settlementSearchFormControl.valid && entered.toLowerCase() !== this.settlementFormControl.value.settlement.toLowerCase()) {
+    if (this.settlementSearchFormControl.valid && entered.toLowerCase() !== this.settlementFormControl.value?.settlement?.toLowerCase()) {
       this.shouldReplaceQueryWithFirstOption = true;
       this.store.dispatch(new GetCodeficatorSearch(entered));
       return;
     }
 
     if (this.settlementSearchFormControl.invalid) {
-      this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+      this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement || '', { emitEvent: false });
     }
   }
 
@@ -181,9 +181,10 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
             this.clearStreetAndBuildingNumber();
           }
         } else {
-          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement, { emitEvent: false });
+          this.settlementSearchFormControl.patchValue(this.settlementFormControl.value.settlement || '');
         }
         this.shouldReplaceQueryWithFirstOption = false;
+        this.store.dispatch(new ClearCodeficatorSearch());
       });
   }
 
