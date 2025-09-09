@@ -32,11 +32,11 @@ export class MonthOnlyHeaderComponent<D> implements OnDestroy {
     this.destroy$.complete();
   }
 
-  public previousClicked(mode: string): void {
+  public previousClicked(): void {
     this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, -1);
   }
 
-  public nextClicked(mode: string): void {
+  public nextClicked(): void {
     this.calendar.activeDate = this.dateAdapter.addCalendarMonths(this.calendar.activeDate, 1);
   }
 }
