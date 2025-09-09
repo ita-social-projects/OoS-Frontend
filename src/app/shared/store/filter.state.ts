@@ -386,9 +386,7 @@ export class FilterState {
 
         patchState({
           filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT,
-          limitMinMaxPrice: minMaxPriceFilter
-            ? { ...minMaxPriceFilter, isActiveLimitation: true }
-            : { minPrice: 0, maxPrice: 0, isActiveLimitation: false },
+          limitMinMaxPrice: minMaxPriceFilter,
           isLoading: false
         });
       }),

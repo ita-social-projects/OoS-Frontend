@@ -247,10 +247,7 @@ export class Util {
         }
         continue;
       }
-      if (key === 'limitMinMaxPrice') {
-        continue;
-      }
-      if (value !== filterState[key]) {
+      if (!Util.deepEqual(value, filterState[key])) {
         filterStateDiff[key] = filterState[key];
       }
     }
