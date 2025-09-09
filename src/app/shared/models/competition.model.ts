@@ -97,6 +97,12 @@ export abstract class CompetitionBase {
     if (description.descriptionOfTheEnrollmentProcedure) {
       this.descriptionOfTheEnrollmentProcedure = description.descriptionOfTheEnrollmentProcedure;
     }
+    if (description.venueName) {
+      this.venueName = description.venueName;
+    }
+    if (description.termsOfParticipation) {
+      this.termsOfParticipation = description.termsOfParticipation;
+    }
     if (description.price) {
       this.price = description.price;
     }
@@ -226,6 +232,10 @@ export interface Description {
   descriptionOfTheEnrollmentProcedure?: string;
   price?: number;
   benefitsOptionsDesc?: string;
+  benefits?: string;
+  venueName?: string;
+  termsOfParticipation?: string;
+  preferentialTermsOfParticipation?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
   imageIds?: string[];
   imageFiles?: File[];
