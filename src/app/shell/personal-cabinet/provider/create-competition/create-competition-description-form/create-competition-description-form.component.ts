@@ -249,8 +249,8 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
   private initForm(): void {
     this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(10)]),
-      imageIds: new FormControl(''),
+      imageFiles: new FormControl([], [Validators.required, minArrayLength(1), maxArrayLength(10)]),
+      imageIds: new FormControl([]),
       directionId: new FormControl(null, Validators.required),
       subDirectionIds: new FormControl(null, Validators.required),
       coverageId: new FormControl(null, Validators.required),

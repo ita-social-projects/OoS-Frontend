@@ -119,6 +119,10 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
 
+    if (this.competition.coverImageId) {
+      this.RequiredFormGroup.get('coverImageId').setValue([this.competition.coverImageId], { emitEvent: false });
+    }
+
     if (this.competition.scheduledStartTime) {
       this.minDate = new Date(
         new Date(this.competition.scheduledStartTime).setMonth(new Date(this.competition.scheduledStartTime).getMonth() - 1)

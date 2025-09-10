@@ -159,7 +159,7 @@ export class UserCompetitionService {
   private createFormData(competition: Competition, draftId?: string): FormData {
     const preKey = draftId ? 'CompetitiveEventV2Dto.' : '';
     const formData = new FormData();
-    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds'];
+    const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds', 'imageIds'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(competition).forEach((key: string) => {
