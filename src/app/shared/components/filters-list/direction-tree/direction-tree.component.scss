@@ -1,0 +1,23 @@
+.directions-tree {
+  background-color: transparent;
+
+  .mat-tree-node {
+    color: var(--primary-light-text-color);
+  }
+}
+
+.directions-tree ul,
+.directions-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.directions-tree-invisible {
+  display: none;
+}
+
+.direction-checkbox,
+.subdirection-checkbox {
+  margin-right: 8px;
+}

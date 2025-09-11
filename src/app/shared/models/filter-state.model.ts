@@ -7,6 +7,8 @@ import { WorkshopCard } from './workshop.model';
 
 export interface FilterStateModel {
   directionIds: number[];
+  subdirectionIds: number[];
+  indeterminateDirectionIds: number[];
   maxAge: number;
   minAge: number;
   isAppropriateAge: boolean;

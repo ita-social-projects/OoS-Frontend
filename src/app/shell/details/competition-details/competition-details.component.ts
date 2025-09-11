@@ -24,7 +24,7 @@ import { AddNavPath } from 'shared/store/navigation.actions';
 import { GetCompetitionById, GetCompetitionDraftById, GetProviderById } from 'shared/store/shared-user.actions';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { SubDirection } from 'shared/models/category.model';
+import { Subdirection } from 'shared/models/category.model';
 import {
   ArchiveCompetitionById,
   CompetitionDraftSendForModeration,
@@ -50,7 +50,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
   @Input() public currentProvider: Provider;
   @Input() public displayActionCard: boolean;
 
-  @Select(MetaDataState.subDirections) public subDirections$: Observable<SubDirection[]>;
+  @Select(MetaDataState.subDirections) public subDirections$: Observable<Subdirection[]>;
 
   public readonly ModalType = ModalConfirmationType;
   public readonly CompetitionStatus = CompetitionStatus;
@@ -193,7 +193,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
     if (this.competition.directionSubDirectionIds?.at(0)) {
       this.store.dispatch(new GetSubDirections(String(this.competition.directionSubDirectionIds.at(0).directionId)));
 
-      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: Subdirection[]) => {
         this.competitionSubdirections = subDirections
           .filter((sd) => this.competition?.subDirectionIds.includes(sd.id))
           .map((sd) => sd.title);

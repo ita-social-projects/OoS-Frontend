@@ -5,6 +5,8 @@ export interface FilterList {
   statuses: WorkshopOpenStatus[];
   formsOfLearning: FormOfLearning[];
   directionIds: number[];
+  subdirectionIds: number[];
+  indeterminateDirectionIds: number[];
   ageFilter: AgeFilter;
   priceFilter: PriceFilter;
   workingHours: WorkingHoursFilter;

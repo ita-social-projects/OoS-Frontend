@@ -17,7 +17,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 import { CompetitionCoverage } from 'shared/enum/competition';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
-import { Direction, SubDirection } from 'shared/models/category.model';
+import { Direction, Subdirection } from 'shared/models/category.model';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
@@ -32,7 +32,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   @Select(MetaDataState.directions)
   public directions$: Observable<Direction[]>;
   @Select(MetaDataState.subDirections)
-  public subDirections$: Observable<SubDirection[]>;
+  public subDirections$: Observable<Subdirection[]>;
 
   @Input() public competition: Competition;
   @Input() public isImagesFeature: boolean;
@@ -195,7 +195,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     }
 
     if (this.competition.subDirectionIds) {
-      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: SubDirection[]) => {
+      this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: Subdirection[]) => {
         const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
         asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
       });
@@ -234,16 +234,16 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     this.markFormAsDirtyOnUserInteraction();
   }
 
-  public compareItems(item1: SubDirection, item2: SubDirection): boolean {
+  public compareItems(item1: Subdirection, item2: Subdirection): boolean {
     if (!item1 || !item2) {
       return false;
     }
     return item1.id === item2.id;
   }
 
-  public onRemove(item: SubDirection): void {
+  public onRemove(item: Subdirection): void {
     const currentValue = this.subDirectionControl.value;
-    const newValue = currentValue.filter((subDirection: SubDirection) => subDirection.id !== item.id);
+    const newValue = currentValue.filter((subDirection: Subdirection) => subDirection.id !== item.id);
     this.subDirectionControl.patchValue(newValue);
   }
 

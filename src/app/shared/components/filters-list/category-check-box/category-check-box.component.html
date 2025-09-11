@@ -17,10 +17,6 @@
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>
-    <li class="list" *ngFor="let direction of filteredDirections">
-      <mat-checkbox color="primary" (change)="onDirectionCheck(direction, $event)" [checked]="onSelectCheck(direction)">
-        {{ direction.title }}
-      </mat-checkbox>
-    </li>
+    <app-direction-tree [initialDirectionIds]="directionsSelected" [searchInput]="directionSearchFormControl.value"></app-direction-tree>
   </div>
 </div>

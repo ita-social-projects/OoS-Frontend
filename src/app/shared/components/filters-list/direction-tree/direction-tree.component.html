@@ -1,0 +1,37 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="directions-tree">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle class="mat-tree-node">
+    <li>
+      <mat-checkbox
+        color="primary"
+        class="subdirection-checkbox"
+        (change)="onSubdirectionCheck(node, $event)"
+        [checked]="subdirectionChecked(node)"
+        (click)="$event.stopPropagation()">
+      </mat-checkbox>
+      {{ node.title }}
+    </li>
+  </mat-tree-node>
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <li>
+      <div class="mat-tree-node">
+        <mat-checkbox
+          color="primary"
+          class="direction-checkbox"
+          (change)="onDirectionCheck(node, $event)"
+          [checked]="directionChecked(node)"
+          [indeterminate]="isDirectionIndeterminate(node)"
+          (click)="$event.stopPropagation()">
+        </mat-checkbox>
+        {{ node.title }}
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.title" (click)="onToggle(node)">
+          <mat-icon>
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+          </mat-icon>
+        </button>
+      </div>
+      <ul [class.directions-tree-invisible]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree>

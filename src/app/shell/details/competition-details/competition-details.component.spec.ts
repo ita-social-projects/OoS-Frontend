@@ -20,7 +20,7 @@ import { Competition, CompetitionDraft } from 'shared/models/competition.model';
 import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { ImagesService } from 'shared/services/images/images.service';
-import { SubDirection } from 'shared/models/category.model';
+import { Subdirection } from 'shared/models/category.model';
 import { ArchiveCompetitionById, CompetitionDraftSendForModeration } from 'shared/store/provider.actions';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
@@ -160,7 +160,7 @@ describe('CompetitionDetailsComponent', () => {
     component.subDirections$ = of([
       { id: 1, title: 'Sub1' },
       { id: 2, title: 'Sub2' }
-    ] as SubDirection[]);
+    ] as Subdirection[]);
 
     component.competition = {
       directionSubDirectionIds: [{ directionId: 1, subDirectionId: 1 }],

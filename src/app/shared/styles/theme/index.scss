@@ -223,6 +223,10 @@ a {
       color: var(--specific-text-color) !important;
     }
 
+    .mdc-checkbox__native-control:indeterminate ~ .mdc-checkbox__background .mdc-checkbox__mixedmark {
+      border-color: var(--specific-text-color) !important;
+    }
+
     .mdc-checkbox__background {
       top: 0;
       left: 0;

@@ -130,8 +130,8 @@ export class AppWorkshopsService {
     if (filters.statuses.length) {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
-    if (filters.directionIds.length) {
-      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
+    if (filters.subdirectionIds.length) {
+      filters.subdirectionIds.forEach((id: number) => (params = params.append('SubDirectionIds', id.toString())));
     }
 
     if (isMapView) {

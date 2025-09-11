@@ -22,6 +22,7 @@ import { Util } from 'shared/utils/utils';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { GetLanguageList } from 'shared/store/meta-data.actions';
+import { DirectionsSelected } from 'shared/models/category.model';
 
 @Component({
   selector: 'app-filters-list',
@@ -100,6 +101,14 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.LanguageOfEducationControl.valueChanges
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe((val: number | null) => this.store.dispatch(new SetLanguageOfEducation(val)));
+  }
+
+  public formDirectionData(): DirectionsSelected {
+    return {
+      selectedDirectionIds: this.filterList.directionIds,
+      selectedSubdirectionIds: this.filterList.subdirectionIds,
+      indeterminateDirectionIds: this.filterList.indeterminateDirectionIds
+    };
   }
 
   /**

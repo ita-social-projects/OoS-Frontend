@@ -6,7 +6,7 @@ import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { AchievementType } from 'shared/models/achievement.model';
-import { Direction, SubDirection } from 'shared/models/category.model';
+import { Direction, Subdirection } from 'shared/models/category.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
@@ -49,7 +49,8 @@ import {
 
 export interface MetaDataStateModel {
   directions: Direction[];
-  subDirections: SubDirection[];
+  subDirections: Subdirection[];
+  subdirectionsByDirection: Record<number, Subdirection[]>;
   socialGroups: DataItem[];
   institutionStatuses: DataItem[];
   providerTypes: DataItem[];
@@ -72,6 +73,7 @@ export interface MetaDataStateModel {
   defaults: {
     directions: null,
     subDirections: null,
+    subdirectionsByDirection: {},
     socialGroups: [],
     institutionStatuses: null,
     providerTypes: null,
@@ -109,8 +111,13 @@ export class MetaDataState {
   }
 
   @Selector()
-  static subDirections(state: MetaDataStateModel): SubDirection[] {
+  static subDirections(state: MetaDataStateModel): Subdirection[] {
     return state.subDirections;
+  }
+
+  @Selector()
+  static subdirectionsByDirection(state: MetaDataStateModel): Record<number, Subdirection[]> {
+    return state.subdirectionsByDirection;
   }
 
   @Selector()
@@ -203,12 +210,19 @@ export class MetaDataState {
   }
 
   @Action(GetSubDirections)
-  getSubDirections({ patchState }: StateContext<MetaDataStateModel>, { directionId }: GetSubDirections): Observable<SubDirection[]> {
+  getSubDirections(
+    { getState, patchState }: StateContext<MetaDataStateModel>,
+    { directionId }: GetSubDirections
+  ): Observable<Subdirection[]> {
     patchState({ subDirections: null, isLoading: true });
-    return this.categoriesService.getSubDirections(directionId).pipe(
+    return this.categoriesService.getSubdirections(directionId).pipe(
       map((searchResponse) => searchResponse.entities),
-      tap((subDirections: SubDirection[]) => {
-        patchState({ subDirections, isLoading: false });
+      tap((subDirections: Subdirection[]) => {
+        patchState({
+          subDirections,
+          subdirectionsByDirection: { ...getState().subdirectionsByDirection, [directionId]: subDirections },
+          isLoading: false
+        });
       })
     );
   }
