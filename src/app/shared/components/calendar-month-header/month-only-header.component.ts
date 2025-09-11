@@ -18,7 +18,7 @@ export class MonthOnlyHeaderComponent<D> implements OnDestroy {
     private readonly calendar: MatCalendar<D>,
     private readonly dateAdapter: DateAdapter<D>,
     @Inject(MAT_DATE_FORMATS) private readonly dateFormats: MatDateFormats,
-    private cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef
   ) {
     calendar.stateChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.cdr.markForCheck());
   }
