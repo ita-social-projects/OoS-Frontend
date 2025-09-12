@@ -234,7 +234,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       shortTitle: new FormControl('', [
