@@ -1,10 +1,13 @@
+@use 'create-form';
+
 .filter-text {
-  margin: 0;
-  margin-right: 1rem;
+  margin: 0 1rem 0 0;
 }
+
 .title {
   margin-top: 24px;
 }
+
 .wrapper {
   margin-top: 13px;
 }

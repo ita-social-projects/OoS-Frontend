@@ -50,11 +50,11 @@
     <p class="filter-text title">
       {{ 'FORMS.LABELS.PAYMENT_UNIT' | translate }}
     </p>
-    <div class="flex flex-nowrap" [class.input-wrapper-disable]="!isPaidControl.value">
+    <mat-form-field class="w-full" appearance="fill">
       <mat-select
-        disableOptionCentering
-        panelClass="dropdown-panel"
-        class="step-input payment-type-input"
+        [disableOptionCentering]="true"
+        panelClass="dropdown-panel select-with-form-field"
+        class="step-input"
         [formControl]="payRateControl"
         placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
         <ng-container *ngFor="let type of PayRateType | keyvalue">
@@ -63,14 +63,6 @@
           </mat-option>
         </ng-container>
       </mat-select>
-      <mat-icon
-        class="clear-pay-rate"
-        type="button"
-        [class.disabled-pay-rate]="!isPaidControl.value"
-        (keydown.enter)="clearPayRate()"
-        (click)="clearPayRate()"
-        >clear</mat-icon
-      >
-    </div>
+    </mat-form-field>
   </div>
 </div>
