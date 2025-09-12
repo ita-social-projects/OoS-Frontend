@@ -5,8 +5,6 @@ import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from '@angular/material
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'calendar-header',
   templateUrl: './month-only-header.component.html',
   styleUrls: ['./month-only-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
