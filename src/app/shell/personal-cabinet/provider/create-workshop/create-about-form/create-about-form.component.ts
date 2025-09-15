@@ -193,14 +193,14 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
         title: new FormControl('', [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         shortTitle: new FormControl('', [
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
           Validators.required,
           Validators.pattern(MUST_CONTAIN_LETTERS),
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3)
         ]),
         noAgeRestrictions: new FormControl(true),
         minAge: new FormControl(

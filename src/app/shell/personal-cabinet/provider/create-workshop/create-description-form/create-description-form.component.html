@@ -9,11 +9,11 @@
     (deleteImage)="onImageDelete()">
   </app-image-form-control>
   <app-validation-hint
-    formLevelValidation="true"
+    [formLevelValidation]="true"
     [validationFormControl]="DescriptionFormGroup"
     [isImage]="true"
-    minImages="1"
-    maxImages="10">
+    [minImages]="1"
+    [maxImages]="10">
   </app-validation-hint>
 
   <span class="font-semibold inline-block mt-2">
@@ -148,7 +148,7 @@
       </textarea>
       <app-validation-hint
         [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
-        [minCharacters]="validationConstants.INPUT_LENGTH_1"
+        [minCharacters]="validationConstants.INPUT_LENGTH_3"
         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </app-validation-hint>
     </ng-container>
@@ -159,24 +159,24 @@
     <label class="step-characters-count">
       <ng-container *ngIf="DescriptionFormGroup.get('enrollmentProcedureDescription').value; else emptyState">
         {{ DescriptionFormGroup.get('enrollmentProcedureDescription').value?.length }}
-        /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
+        /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
       </ng-container>
-      <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}</ng-template>
+      <ng-template #emptyState> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
     </label>
   </div>
   <textarea
     matInput
     class="step-textarea step-textarea-short"
-    placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
+    placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
       'FORMS.PLACEHOLDERS.SYMBOLS' | translate
     }}"
     formControlName="enrollmentProcedureDescription"
-    [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+    [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
   </textarea>
   <app-validation-hint
     [validationFormControl]="DescriptionFormGroup.get('enrollmentProcedureDescription')"
     [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
-    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.COVERAGE' | translate }}</label>

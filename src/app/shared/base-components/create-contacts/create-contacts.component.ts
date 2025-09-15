@@ -206,7 +206,8 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         type: new FormControl('', [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
       })
@@ -219,7 +220,8 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         type: new FormControl('', [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         address: new FormControl('', [
           Validators.required,
@@ -234,7 +236,12 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private createSocialNetworksFormGroup(): FormGroup {
     return this.overrideTouch(
       this.formBuilder.group({
-        type: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.INPUT_LENGTH_3)]),
+        type: new FormControl('', [
+          Validators.required,
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
+        ]),
         url: new FormControl('', [
           Validators.required,
           Validators.pattern(SOCIAL_NETWORK_LINK_REGEX),

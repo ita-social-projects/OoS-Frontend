@@ -266,6 +266,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       descriptionOfTheEnrollmentProcedure: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
