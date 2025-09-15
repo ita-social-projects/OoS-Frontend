@@ -33,23 +33,25 @@ export class DateInputDirective implements OnInit {
   }
 
   private formatDate(value: string): string {
-    if (value.length === 1 && value === '/') {
-      return '';
-    }
+    let formattedValue = this.digitsOnly(value);
+    formattedValue = this.insertSlashes(formattedValue);
+    return formattedValue.slice(0, 10);
+  }
 
-    let formattedDate = this.indexesToInsert.reduce((acc, index) => {
-      if (value.length >= index && acc.at(index) !== '/' && acc.at(index - 1) !== '/' && acc.at(index + 1) !== '/') {
-        return acc.slice(0, index) + '/' + acc.slice(index);
+  private insertSlashes(str: string): string {
+    const arr = str.split('');
+    this.indexesToInsert.forEach((i, idx) => {
+      if (str.length < i - idx) {
+        return arr.join('');
       }
-      return acc;
-    }, value);
+      if (arr[i] !== '/') {
+        arr.splice(i, 0, '/');
+      }
+    });
+    return arr.join('');
+  }
 
-    formattedDate = formattedDate.replace(/\/{2,}/g, '/');
-
-    if (formattedDate.split('/').length > 3) {
-      return formattedDate.split('/')[0] + '/' + formattedDate.split('/')[1] + '/' + formattedDate.split('/').slice(2).join('');
-    }
-
-    return formattedDate;
+  private digitsOnly(str: string): string {
+    return str.replace(/\//g, '');
   }
 }
