@@ -52,7 +52,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
 
   @Select(MetaDataState.subDirections) public subDirections$: Observable<Subdirection[]>;
 
-  public readonly ModalType = ModalConfirmationType;
+  public readonly ModalConfirmationType = ModalConfirmationType;
   public readonly CompetitionStatus = CompetitionStatus;
   public readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly FormOfLearningEnum = FormOfLearningEnum;

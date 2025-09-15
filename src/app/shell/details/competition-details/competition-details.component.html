@@ -10,7 +10,7 @@
   <div
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
-    <button (click)="onActionButtonClick(ModalType.archiveCompetition)" class="btn btn-cancel" mat-button>
+    <button (click)="onActionButtonClick(ModalConfirmationType.archiveCompetition)" class="btn btn-cancel" mat-button>
       {{ 'BUTTONS.ARCHIVE' | translate }}
     </button>
     <div class="flex">
