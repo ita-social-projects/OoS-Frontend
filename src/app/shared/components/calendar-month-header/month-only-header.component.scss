@@ -1,0 +1,44 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 8px 8px 0 8px;
+}
+
+.calendar-header-label {
+  flex: 1;
+  font-weight: 500;
+  text-align: center;
+}
+
+button.mat-mdc-icon-button.mat-mdc-button-base {
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+
+  color: var(--mat-datepicker-calendar-navigation-button-icon-color);
+}
+
+// copy of mat calendar buttons below
+.prev::after {
+  border-left-width: 2px !important;
+  transform: translateX(2px) rotate(-45deg);
+}
+
+.next::after {
+  border-right-width: 2px !important;
+  transform: translateX(-1px) rotate(45deg);
+}
+
+.prev::after,
+.next::after {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  content: '';
+  margin: 15.5px;
+  border: 0 solid currentColor;
+  border-top-width: 2px;
+}
