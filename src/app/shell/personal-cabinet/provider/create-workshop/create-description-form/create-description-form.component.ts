@@ -13,7 +13,7 @@ import {
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
-import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { CropperConfigurationConstants, ModeConstants } from 'shared/constants/constants';
 import { Tag } from 'shared/models/tag.model';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -248,7 +248,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
       this.DescriptionFormGroup.get('competitiveSelectionDescription')?.enable();
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.DescriptionFormGroup);
     }
 

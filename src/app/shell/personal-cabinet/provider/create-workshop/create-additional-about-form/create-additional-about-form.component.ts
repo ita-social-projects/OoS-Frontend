@@ -17,7 +17,7 @@ import { Provider } from 'shared/models/provider.model';
 import { ValidationConstants } from 'shared/constants/validation';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { GetAllInstitutions } from 'shared/store/meta-data.actions';
-import { Constants } from 'shared/constants/constants';
+import { Constants, ModeConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
@@ -118,7 +118,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
     this.checkIfMinSport();
     this.handlePriceChange();
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.AdditionalAboutGroup);
     }
   }
