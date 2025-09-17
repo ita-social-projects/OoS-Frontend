@@ -1,8 +1,7 @@
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
 import { Constants } from 'shared/constants/constants';
@@ -81,6 +80,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.setFinalHierarchyLevel(null);
     }
     this.instituitionHierarchyIdFormControl.updateValueAndValidity();
+    this.instituitionIdFormControl.markAsDirty();
     this.changeDetectorRef.markForCheck();
   }
 
@@ -104,6 +104,9 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setHierarchySubscribes(): void {
     this.instituitionIdFormControl.valueChanges
       .pipe(
+        tap(() => {
+          this.instituitionHierarchyIdFormControl.markAsDirty();
+        }),
         switchMap((institutionId) =>
           this.institutions$.pipe(map((institutions) => institutions.find((inst) => inst.id === institutionId)))
         ),
