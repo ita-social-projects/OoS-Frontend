@@ -68,6 +68,7 @@
 <ng-template #ProviderActions>
   <div *ngIf="isCabinet" class="flex flex-row justify-end items-start actions">
     <div
+      *ngIf="competitionData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
