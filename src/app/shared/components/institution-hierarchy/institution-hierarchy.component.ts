@@ -104,9 +104,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setHierarchySubscribes(): void {
     this.instituitionIdFormControl.valueChanges
       .pipe(
-        tap(() => {
-          this.instituitionHierarchyIdFormControl.markAsDirty();
-        }),
         switchMap((institutionId) =>
           this.institutions$.pipe(map((institutions) => institutions.find((inst) => inst.id === institutionId)))
         ),
