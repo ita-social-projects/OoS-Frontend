@@ -10,10 +10,10 @@
       {{ 'PAID' | translate }}
     </mat-checkbox>
   </div>
-  
+
   <div class="wrapper flex flex-row justify-between gap-4" [class.input-wrapper-disable]="!isPaidControl.value">
     <mat-form-field class="price-filter">
-      <div class="flex p-0 w-[150px] flex-row items-center">
+      <div class="flex p-0 w-[100px] flex-row items-center">
         <p class="filter-text">
           {{ 'FROM' | translate }}
         </p>
@@ -22,7 +22,7 @@
       </div>
     </mat-form-field>
     <mat-form-field class="price-filter">
-      <div class="flex w-[150px] flex-row items-center">
+      <div class="flex w-[100px] flex-row items-center">
         <p class="filter-text">
           {{ 'TO' | translate }}
         </p>
@@ -63,11 +63,14 @@
           </mat-option>
         </ng-container>
       </mat-select>
-      <mat-icon class="clear-pay-rate"
+      <mat-icon
+        class="clear-pay-rate"
         type="button"
         [class.disabled-pay-rate]="!isPaidControl.value"
         (keydown.enter)="clearPayRate()"
-        (click)="clearPayRate()">clear</mat-icon>
+        (click)="clearPayRate()"
+        >clear</mat-icon
+      >
     </div>
   </div>
 </div>
