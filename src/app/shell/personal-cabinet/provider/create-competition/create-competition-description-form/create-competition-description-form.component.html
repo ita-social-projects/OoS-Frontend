@@ -111,32 +111,6 @@
     </ng-container>
   </mat-radio-group>
 
-  <div class="step-label-combined">
-    <label class="step-label" for="additionalDescription"> {{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</label>
-    <span class="step-characters-count">
-      {{ DescriptionFormGroup.get('additionalDescription').value?.length }}
-      /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</span
-    >
-  </div>
-  <mat-form-field appearance="fill">
-    <textarea
-      matInput
-      class="step-textarea"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-      }}"
-      formControlName="additionalDescription"
-      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
-      appTrimValue
-      (focusout)="onFocusOut('additionalDescription')"
-      id="additionalDescription"></textarea>
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('additionalDescription')"
-    [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
-    [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-  </app-validation-hint>
-
   <label class="step-label"> {{ 'FORMS.LABELS.COMPETITIVE_SELECTION' | translate }}</label>
   <mat-radio-group [formControl]="selectionOptionRadioBtn" color="primary" class="flex flex-col justify-center items-between">
     <mat-radio-button #selectionRadio1 name="selectionRadioBtn1" [value]="false"
@@ -149,7 +123,7 @@
       <div class="step-label-combined" [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }">
         <label class="step-label" for="descriptionOfTheEnrollmentProcedure"> {{ 'INFO_ABOUT_SELECTION' | translate }}</label>
         <span class="step-characters-count">
-          {{ DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').value?.length }}/{{
+          {{ DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}/{{
             validationConstants.MAX_DESCRIPTION_LENGTH_500
           }}
         </span>
@@ -179,7 +153,7 @@
   <div class="step-label-combined">
     <label class="step-label" for="venueName"> {{ 'FORMS.LABELS.VENUE_NAME' | translate }}</label>
     <span class="step-characters-count">
-      {{ DescriptionFormGroup.get('venueName').value?.length }}/{{ validationConstants.INPUT_LENGTH_60 }}
+      {{ DescriptionFormGroup.get('venueName').value?.length ?? 0 }}/{{ validationConstants.INPUT_LENGTH_60 }}
     </span>
   </div>
 
@@ -203,7 +177,7 @@
   <div class="step-label-combined">
     <label class="step-label" for="termsOfParticipation"> {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label>
     <span class="step-characters-count">
-      {{ DescriptionFormGroup.get('termsOfParticipation').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+      {{ DescriptionFormGroup.get('termsOfParticipation').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
     </span>
   </div>
   <mat-form-field appearance="fill">
@@ -233,6 +207,7 @@
             matInput
             class="step-input price-input"
             appDigitOnly
+            required
             formControlName="price"
             type="number"
             [min]="validationConstants.MIN_PRICE"
@@ -250,7 +225,7 @@
       [maxValue]="validationConstants.MAX_PRICE"></app-validation-hint>
   </div>
 
-  <ng-container *ngIf="priceRadioBtn.value && priceControl.value">
+  <ng-container *ngIf="priceRadioBtn.value">
     <label class="step-label"> {{ 'FORMS.LABELS.ARE_THERE_BENEFITS' | translate }}</label>
     <mat-radio-group [formControl]="benefitsOptionRadioBtn" color="primary" class="flex flex-col justify-center items-between">
       <mat-radio-button #benefitsRadio1 name="benefitsRadioBtn1" [value]="false"
@@ -263,7 +238,7 @@
         <div class="step-label-combined">
           <label class="step-label" for="benefitsOptionsDesc"> {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
           <span class="step-characters-count">
-            {{ DescriptionFormGroup.get('benefitsOptionsDesc').value?.length }}
+            {{ DescriptionFormGroup.get('benefitsOptionsDesc').value?.length ?? 0 }}
             /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
           </span>
         </div>

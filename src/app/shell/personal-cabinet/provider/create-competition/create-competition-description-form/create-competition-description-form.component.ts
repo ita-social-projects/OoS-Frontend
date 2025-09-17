@@ -60,7 +60,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     'imageFiles',
     'description',
     'disabilityOptionsDesc',
-    'additionalDescription',
     'descriptionOfTheEnrollmentProcedure',
     'competitiveEventDescriptionItems',
     'benefitsOptionsDesc'
@@ -256,11 +255,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       coverageId: new FormControl(null, Validators.required),
       formOfLearning: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      additionalDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
