@@ -56,7 +56,6 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
     private readonly formBuilder: FormBuilder
   ) {
     super(store, translateService);
-    this.initializeForm();
   }
 
   public get priceControl(): FormControl {
@@ -86,6 +85,9 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
   }
 
   public ngOnInit(): void {
+    this.initializeForm();
+    this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
+
     if (this.workshop) {
       this.activateEditMode();
     }
@@ -93,7 +95,6 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
     this.priceControlListener();
     this.priceValueListener();
     this.listenToBenefitsChanges();
-    this.passAdditionalAboutGroup.emit(this.AdditionalAboutGroup);
   }
 
   public activateEditMode(): void {

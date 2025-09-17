@@ -156,8 +156,8 @@
             </button>
             <button
               class="btn"
+              mat-raised-button
               [disabled]="(isLoading$ | async) || IsAllFormsNotDirtyAndInvalid"
-              mat-button
               [appStepperNext]="onSubmit.bind(this)"
               [form]="TeacherFormArray"
               [stepper]="stepper"

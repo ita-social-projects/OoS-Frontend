@@ -170,7 +170,6 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
       this.addressesFormArray.updateValueAndValidity();
     });
     this.setStep(this.addressesFormArray.controls.length - 1);
-    this.addressesFormArray.markAsDirty();
   }
 
   public onIsDefaultChange(addressGroup: FormGroup, checked: boolean): void {
