@@ -193,7 +193,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
   private addFormField<T extends FormGroup>(contact: FormGroup, arrayName: string, createFormGroup: () => T): void {
     const formGroup = createFormGroup();
     const formArray = contact.get(arrayName) as FormArray;
-    formArray.controls.push(formGroup);
+    formArray.push(formGroup);
     formArray.updateValueAndValidity();
     formGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       formArray.updateValueAndValidity();

@@ -66,7 +66,7 @@ describe('CreateContactsComponent', () => {
 
     component.addPhoneField(contactForm);
 
-    expect(phonesArray.updateValueAndValidity).toHaveBeenCalledTimes(1);
+    expect(phonesArray.updateValueAndValidity).toHaveBeenCalled();
   });
 
   it('should return socialTypes keys', () => {

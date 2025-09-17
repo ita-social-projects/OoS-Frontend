@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { Constants, CropperConfigurationConstants, ModeConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { FormOfLearningEnum, PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
@@ -174,7 +174,7 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
       this.availableSeatsRadioBtnControl.setValue(false);
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.AboutFormGroup);
     }
 
