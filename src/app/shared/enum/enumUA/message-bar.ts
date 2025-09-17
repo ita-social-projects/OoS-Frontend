@@ -1,5 +1,4 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { EditCompetitionDraft } from 'shared/models/competition.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
 
 export enum messageStatus {
@@ -16,6 +15,7 @@ export enum SnackbarText {
   publishWorkshop = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.PUBLISH_WORKSHOP',
 
   createDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_DRAFT',
+  providerEditDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.EDIT_DRAFT',
   deleteDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_DRAFT',
   deletedDraft = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETED_DRAFT',
   sendDraftForModeration = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.SEND_FOR_MODERATION',

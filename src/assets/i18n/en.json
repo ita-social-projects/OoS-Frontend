@@ -1001,6 +1001,7 @@
       "DELETED_WORKSHOP": "This workshop has been deleted!",
       "PUBLISH_WORKSHOP": "Thank you! Workshop successfully published.",
       "CREATE_DRAFT": "The workshop was successfully created as draft",
+      "EDIT_DRAFT": "Draft updated successfully!",
       "DELETE_DRAFT": "Draft deleted",
       "DELETED_DRAFT": "This draft has been deleted!",
       "SEND_FOR_MODERATION": "Draft sent for moderation",

@@ -627,10 +627,7 @@ export class ProviderState {
 
   @Action(providerActions.OnUpdateDraftSuccess)
   onUpdateDraftSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: providerActions.OnUpdateDraftSuccess): void {
-    const messageData = Util.getWorkshopMessage(
-      payload,
-      payload instanceof Workshop ? SnackbarText.updateWorkshop : SnackbarText.updateCompetition
-    );
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.providerEditDraft);
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['/personal-cabinet/provider/drafts'], {
       queryParams: {
