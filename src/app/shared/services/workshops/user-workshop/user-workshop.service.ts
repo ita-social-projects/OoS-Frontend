@@ -250,6 +250,7 @@ export class UserWorkshopService {
     ];
     const imageFiles = ['imageFiles', 'coverImage'];
     const skipNullKeys = ['maxAge', 'minAge'];
+    const skipKeys = ['providerTitle'];
 
     if (workshop.price) {
       workshop.price = workshop.price.toString().replace('.', ',');
@@ -261,7 +262,9 @@ export class UserWorkshopService {
           workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {
           formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
-        } else {
+        } else if (skipKeys.includes(key)) {
+          /* empty */
+        } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
           formData.append(`${preKey}${key}`, workshop[key]);
         }
       }
