@@ -68,4 +68,6 @@ $light-theme: mat.define-light-theme(
   --mat-option-selected-state-label-text-color: var(--specific-light-text-color) !important;
   --mdc-chip-elevated-container-color: var(--bg-specific-light) !important;
   --mdc-filled-text-field-input-text-placeholder-color: var(--primary-light-text-color) !important;
+  --mat-select-enabled-trigger-text-color: var(--primary-light-text-color) !important;
+  --mat-expansion-header-indicator-color: var(--primary-light-text-color) !important;
 }

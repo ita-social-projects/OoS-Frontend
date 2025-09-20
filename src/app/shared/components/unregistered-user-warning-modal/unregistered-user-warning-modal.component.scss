@@ -14,7 +14,7 @@
   text-align: center;
 }
 .unregistered-user-modal__message {
-  color: var(--cancel-text-color);
+  color: var(--primary-dark-text-color);
   padding: 20px 0;
   font-size: 18px;
   font-weight: 600;
@@ -23,16 +23,17 @@
 }
 .unregistered-user-modal__action-button {
   color: var(--primary-light-text-color);
-  background-color: var(--primary-accent-color);
-  border: 1px solid var(--primary-accent-color);
+  background-color: var(--primary-light-bg-color);
+  border: 1px solid var(--primary-light-bg-color);
   border-radius: 20px;
   display: block;
 
   &.white {
-    color: black;
-    background-color: white;
-    border: 1px solid black;
+    color: var(--specific-text-button) !important;
+    background-color: var(--bg-button);
+    border: none;
     width: 145px;
+    display: flex;
 
     &:focus {
       background-color: white;

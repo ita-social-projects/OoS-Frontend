@@ -398,6 +398,17 @@ button.mdc-icon-button {
   }
 }
 
+.mat-mdc-option {
+  .mat-pseudo-checkbox-checked {
+    background-color: var(--bg-button) !important;
+    border-color: var(--bg-button) !important;
+  }
+  .mat-pseudo-checkbox-checked::after {
+    color: var(--specific-text-button) !important;
+    border-color: var(--specific-text-button) !important;
+  }
+}
+
 input:focus {
   outline: none;
 }
@@ -448,6 +459,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
