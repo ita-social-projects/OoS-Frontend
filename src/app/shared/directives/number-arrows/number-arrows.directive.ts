@@ -1,11 +1,13 @@
-import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'input[type=number]'
 })
-export class NumberArrowsDirective implements AfterViewInit {
+export class NumberArrowsDirective implements AfterViewInit, OnDestroy {
   @Input() public useArrows: boolean = true;
+  private upInterval: number;
+  private downInterval: number;
 
   constructor(
     private el: ElementRef,
@@ -41,6 +43,11 @@ export class NumberArrowsDirective implements AfterViewInit {
     }
   }
 
+  public ngOnDestroy(): void {
+    clearInterval(this.upInterval);
+    clearInterval(this.downInterval);
+  }
+
   private initBehavior(input: HTMLInputElement, up: HTMLElement, down: HTMLElement, wrapper: HTMLElement): void {
     // show on hover
     this.renderer.listen(wrapper, 'mouseenter', () => {
@@ -56,21 +63,19 @@ export class NumberArrowsDirective implements AfterViewInit {
     });
 
     // default + clamping
-    let upInterval: number;
     this.renderer.listen(up, 'mousedown', () => {
       this.step(input, 'up');
-      upInterval = setTimeout(() => (upInterval = setInterval(() => this.step(input, 'up'), 40)), 400);
+      this.upInterval = setTimeout(() => (this.upInterval = setInterval(() => this.step(input, 'up'), 40)), 400);
     });
-    this.renderer.listen(up, 'mouseup', () => clearInterval(upInterval));
-    this.renderer.listen(up, 'mouseleave', () => clearInterval(upInterval));
+    this.renderer.listen(up, 'mouseup', () => clearInterval(this.upInterval));
+    this.renderer.listen(up, 'mouseleave', () => clearInterval(this.upInterval));
 
-    let downInterval: number;
     this.renderer.listen(down, 'mousedown', () => {
       this.step(input, 'down');
-      downInterval = setTimeout(() => (downInterval = setInterval(() => this.step(input, 'down'), 40)), 400);
+      this.downInterval = setTimeout(() => (this.downInterval = setInterval(() => this.step(input, 'down'), 40)), 400);
     });
-    this.renderer.listen(down, 'mouseup', () => clearInterval(downInterval));
-    this.renderer.listen(down, 'mouseleave', () => clearInterval(downInterval));
+    this.renderer.listen(down, 'mouseup', () => clearInterval(this.downInterval));
+    this.renderer.listen(down, 'mouseleave', () => clearInterval(this.downInterval));
   }
 
   private createIcon(name: string): HTMLElement {
