@@ -1,37 +1,44 @@
-import { AfterViewInit, Directive, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'input[type=number]'
 })
 export class NumberArrowsDirective implements AfterViewInit {
+  @Input() public useArrows: boolean = true;
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2
   ) {}
 
   public ngAfterViewInit(): void {
-    const input = this.el.nativeElement;
-    const width = `${parseFloat(getComputedStyle(input).width) + 20}px`;
+    if (this.useArrows) {
+      const input = this.el.nativeElement;
 
-    this.renderer.setStyle(input, 'width', width);
+      this.renderer.setStyle(input, 'padding-right', '24px');
 
-    const wrapper = this.renderer.createElement('div');
-    this.renderer.setStyle(wrapper, 'position', 'relative');
-    this.renderer.setStyle(wrapper, 'display', 'inline-block');
-    this.renderer.setStyle(wrapper, 'width', width);
+      const width = `${parseFloat(getComputedStyle(input).width) + 20}px`;
 
-    const parent = input.parentNode;
-    this.renderer.insertBefore(parent, wrapper, input);
-    this.renderer.appendChild(wrapper, input);
+      this.renderer.setStyle(input, 'width', width);
 
-    const up = this.createIcon('keyboard_arrow_up');
-    const down = this.createIcon('keyboard_arrow_down');
+      const wrapper = this.renderer.createElement('div');
+      this.renderer.setStyle(wrapper, 'position', 'relative');
+      this.renderer.setStyle(wrapper, 'display', 'inline-block');
+      this.renderer.setStyle(wrapper, 'width', width);
 
-    this.renderer.appendChild(wrapper, up);
-    this.renderer.appendChild(wrapper, down);
+      const parent = input.parentNode;
+      this.renderer.insertBefore(parent, wrapper, input);
+      this.renderer.appendChild(wrapper, input);
 
-    this.initBehavior(input, up, down, wrapper);
+      const up = this.createIcon('keyboard_arrow_up');
+      const down = this.createIcon('keyboard_arrow_down');
+
+      this.renderer.appendChild(wrapper, up);
+      this.renderer.appendChild(wrapper, down);
+
+      this.initBehavior(input, up, down, wrapper);
+    }
   }
 
   private initBehavior(input: HTMLInputElement, up: HTMLElement, down: HTMLElement, wrapper: HTMLElement): void {
@@ -84,6 +91,7 @@ export class NumberArrowsDirective implements AfterViewInit {
     this.renderer.setStyle(icon, 'cursor', 'pointer');
     this.renderer.setStyle(icon, 'user-select', 'none');
     this.renderer.setStyle(icon, 'background', 'transparent');
+    this.renderer.setStyle(icon, 'color', 'white');
 
     this.renderer.setStyle(icon, 'width', '20px');
     this.renderer.setStyle(icon, 'height', '20px');

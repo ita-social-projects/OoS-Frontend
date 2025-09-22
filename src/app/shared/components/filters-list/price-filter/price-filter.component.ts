@@ -1,11 +1,11 @@
-import { Options, ChangeContext } from '@angular-slider/ngx-slider';
-import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeContext, Options } from '@angular-slider/ngx-slider';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
-import { Subject, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil, filter } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ValidationConstants } from 'shared/constants/validation';
-import { PriceFilter, MinMaxPriceFilter } from 'shared/models/filter-list.model';
+import { MinMaxPriceFilter, PriceFilter } from 'shared/models/filter-list.model';
 import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate } from 'shared/store/filter.actions';
 import { PayRateType } from 'shared/enum/workshop';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
@@ -47,13 +47,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   public set priceFilter(priceFilter: PriceFilter) {
     const { minPrice, maxPrice, isFree, isPaid, payRate } = priceFilter;
     this.minPriceControl.setValue(minPrice, { emitEvent: false });
-    this.minValue = minPrice;
     this.maxPriceControl.setValue(maxPrice, { emitEvent: false });
-    this.maxValue = maxPrice;
     this.isFreeControl.setValue(isFree, { emitEvent: false });
     this.isPaidControl.setValue(isPaid, { emitEvent: false });
-    this.options.disabled = !isPaid;
     this.payRateControl.setValue(payRate, { emitEvent: false });
+    this.options.disabled = !isPaid;
   }
 
   /**
@@ -101,27 +99,27 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetPayRate(val));
       });
 
-    this.minPriceControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
-      if (!this.isPaidControl.value) {
-        this.isPaidControl.setValue(true);
-      }
-      if (!this.minPriceControl.errors && !this.maxPriceControl.errors) {
+    this.minPriceControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((val: number) => {
         this.store.dispatch(new SetMinPrice(val));
-        this.minValue = val;
         this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
-      }
-    });
+      });
 
-    this.maxPriceControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
-      if (!this.isPaidControl.value) {
-        this.isPaidControl.setValue(true);
-      }
-      if (!this.maxPriceControl.errors && !this.minPriceControl.errors) {
+    this.maxPriceControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((val: number) => {
         this.store.dispatch(new SetMaxPrice(val));
-        this.maxValue = val;
         this.minPriceControl.updateValueAndValidity({ emitEvent: false });
-      }
-    });
+      });
+  }
+
+  public onPriceBlur(type: 'min' | 'max'): void {
+    if (type === 'min' && !this.minPriceControl.value) {
+      this.minPriceControl.setValue(this.validationConstants.MIN_PRICE);
+    } else if (type === 'max' && !this.maxPriceControl.value) {
+      this.maxPriceControl.setValue(this.validationConstants.MAX_PRICE);
+    }
   }
 
   public getSliderOptions(disabled: boolean): Options {
@@ -148,10 +146,6 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   public clearMax(): void {
     const maxPrice: number = this.limitMinMaxPrice.isActiveLimitation ? this.limitMinMaxPrice.maxPrice : ValidationConstants.MAX_PRICE;
     this.maxPriceControl.setValue(maxPrice);
-  }
-
-  public clearPayRate(): void {
-    this.payRateControl.setValue(PayRateType.None);
   }
 
   public priceHandler(e: ChangeContext): void {

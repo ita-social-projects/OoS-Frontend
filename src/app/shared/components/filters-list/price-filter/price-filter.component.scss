@@ -5,7 +5,7 @@
 }
 
 .title {
-  margin-top: 24px;
+  margin: 24px 0 16px;
 }
 
 .wrapper {
@@ -25,21 +25,26 @@
     line-height: 14.6px;
     color: var(--primary-light-text-color);
   }
+
   &-slider {
     .ngx-slider {
       margin-top: 1rem;
+
       .ngx-slider-bar-wrapper {
         margin: 0;
         height: 0;
       }
+
       .ngx-slider-bar {
         bottom: 1px;
         background: var(--primary-light-text-color);
         height: 2px;
       }
+
       .ngx-slider-selection {
         background: var(--primary-accent-color);
       }
+
       .ngx-slider-pointer {
         width: 15px;
         height: 15px;
@@ -50,6 +55,7 @@
           rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
           rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
       }
+
       .ngx-slider-pointer:after,
       .ngx-slider-bubble {
         display: none;
@@ -69,20 +75,20 @@
   text-align: center;
 }
 
-.price-input::-webkit-outer-spin-button,
-.price-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-}
-
 .input-wrapper {
   margin-top: 13px;
   margin-bottom: 0 !important;
+
   &-disable {
     opacity: 0.5;
     cursor: initial;
+
     .price-input {
       color: var(--primary-light-text-color);
+    }
+
+    ::ng-deep .mat-mdc-select.mat-mdc-select-disabled .mat-mdc-select-arrow {
+      color: var(--input-light-color);
     }
   }
 }
@@ -95,15 +101,17 @@
 .price-input:hover + .clear-price {
   visibility: visible;
 }
+
 .clear-price {
   cursor: pointer;
   visibility: hidden;
   position: absolute;
   font-size: 18px;
-  color: var(--secondary-light-bg-color);
+  color: var(--secondary-light-text-color);
   top: 14px;
   left: 123px;
 }
+
 .clear-price:hover {
   visibility: visible;
 }
