@@ -59,3 +59,6 @@ export const WORD_SPLIT_REGEX: RegExp = /[ ,/]+/;
 
 // Regex for social network link
 export const SOCIAL_NETWORK_LINK_REGEX: RegExp = /^https?:\/\/[\w\d\.-]+\.[a-z]{2,}(?:\/.*)?$/;
+
+//  Regex for keywords
+export const KEYWORDS_REGEX: RegExp = /^[A-Za-z0-9 ]+$/;
