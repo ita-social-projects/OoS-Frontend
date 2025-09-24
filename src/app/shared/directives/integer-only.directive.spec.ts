@@ -57,12 +57,15 @@ describe('IntegerOnlyDirective', () => {
   });
 
   it('should prevent paste with non-digit text', () => {
-    const event = new ClipboardEvent('paste', {
-      clipboardData: new DataTransfer()
-    });
-    event.clipboardData?.setData('text', '5.5');
-    Object.defineProperty(event, 'target', { value: inputElement });
-    jest.spyOn(event, 'preventDefault');
+    const mockClipboardData = {
+      getData: jest.fn().mockReturnValue('5.5')
+    };
+    const event = {
+      type: 'paste',
+      preventDefault: jest.fn(),
+      target: inputElement,
+      clipboardData: mockClipboardData
+    } as unknown as ClipboardEvent;
 
     directive.onPaste(event);
 
