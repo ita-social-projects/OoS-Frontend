@@ -28,7 +28,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
 
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
   public paginationParameters: PaginationParameters = { size: PaginationConstants.WORKSHOPS_PER_PAGE, from: 0 };
   public readonly noResultWorkshops = NoResultsTitle.noResult;
   public readonly Role = Role;
@@ -57,7 +57,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   }
 
   public onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
+    this.currentPage = { ...page };
     this.getWorkshops();
     Util.scrollToTop(this.window);
   }

@@ -148,7 +148,12 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         takeUntil(this.destroy$)
       )
       .subscribe((params) => {
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(params.filter || null)));
+        // If query is invalid, recover it from state
+        try {
+          this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(params.filter || null)));
+        } catch {
+          this.setFilterStateURLParams();
+        }
       });
   }
 
