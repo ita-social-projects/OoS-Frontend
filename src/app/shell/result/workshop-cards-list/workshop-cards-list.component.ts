@@ -10,10 +10,11 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
-import { GetFilteredWorkshops, SetFilterPagination } from 'shared/store/filter.actions';
+import { SetFilterPagination } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { Util } from 'shared/utils/utils';
 import { WINDOW } from 'ngx-window-token';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -22,14 +23,13 @@ import { WINDOW } from 'ngx-window-token';
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() public workshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
-  @Input() public currentPage: PaginationElement;
-  @Output() public currentPageChange: EventEmitter<PaginationElement> = new EventEmitter<PaginationElement>();
 
   @Select(FilterState.isLoading)
   public isLoadingResultPage$: Observable<boolean>;
 
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public paginationParameters: PaginationParameters = { size: PaginationConstants.WORKSHOPS_PER_PAGE, from: 0 };
   public readonly noResultWorkshops = NoResultsTitle.noResult;
   public readonly Role = Role;
 
@@ -39,7 +39,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store,
-    @Inject(WINDOW) private window: Window
+    private readonly route: ActivatedRoute,
+    @Inject(WINDOW) private readonly window: Window
   ) {}
 
   public ngOnInit(): void {
@@ -49,18 +50,16 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
-        if (!workshops.entities.length) {
-          this.onPageChange(PaginationConstants.firstPage);
-        }
         this.workshops = workshops;
       });
+
+    this.setInitialPage();
   }
 
   public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
     Util.scrollToTop(this.window);
-    this.currentPageChange.emit(this.currentPage);
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
@@ -75,6 +74,15 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
-    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
+  }
+
+  private setInitialPage(): void {
+    const filterFromQuery = Util.parseFilterStateQuery(this.route.snapshot.queryParams.filter || null);
+    const from = filterFromQuery.from ?? 0;
+    const size = filterFromQuery.size ?? PaginationConstants.WORKSHOPS_PER_PAGE;
+
+    this.paginationParameters.from = from;
+    this.currentPage.element = Math.floor(from / size) + 1;
   }
 }

@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -12,7 +13,7 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { ClearMessageBar } from 'shared/store/app.actions';
-import { ClearCoordsByMap, ClearRadiusSize } from 'shared/store/filter.actions';
+import { ClearCoordsByMap, ClearRadiusSize, SetFilterPagination } from 'shared/store/filter.actions';
 import { Util } from 'shared/utils/utils';
 
 @Component({
@@ -33,13 +34,13 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   public curSelectedWorkshop: ElementRef;
 
   @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() public paginationParameters: PaginationParameters;
   @Input() public role: string;
-  @Input() public currentPage: PaginationElement;
 
   public readonly Role = Role;
 
   public workshops: WorkshopCard[];
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public paginationParameters: PaginationParameters = { size: PaginationConstants.WORKSHOPS_PER_PAGE, from: 0 };
   public selectedWorkshops: WorkshopCard[] = [];
   public workshopsOnPage: WorkshopCard[] = [];
   public isSelectedMarker = false;
@@ -49,11 +50,14 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   public direct: string;
   public left = 0;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
   private swipeCoord?: [number, number];
   private swipeTime?: number;
 
-  constructor(private store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly route: ActivatedRoute
+  ) {}
 
   public ngOnInit(): void {
     this.filteredWorkshops$
@@ -144,6 +148,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   private getWorkshopsOnPage(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.selectedWorkshops.length);
+    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
     this.workshopsOnPage = this.selectedWorkshops.slice(
       this.paginationParameters.from,
       this.paginationParameters.size + this.paginationParameters.from
