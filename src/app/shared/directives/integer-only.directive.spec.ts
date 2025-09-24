@@ -34,7 +34,7 @@ describe('IntegerOnlyDirective', () => {
     const event = new InputEvent('beforeinput', { data: '5' });
     jest.spyOn(event, 'preventDefault');
 
-    directive.onInputChange(event);
+    directive.onBeforeInput(event);
 
     expect(event.preventDefault).not.toHaveBeenCalled();
   });
@@ -43,7 +43,7 @@ describe('IntegerOnlyDirective', () => {
     const event = new InputEvent('beforeinput', { data: 'a' });
     jest.spyOn(event, 'preventDefault');
 
-    directive.onInputChange(event);
+    directive.onBeforeInput(event);
 
     expect(event.preventDefault).toHaveBeenCalled();
   });
@@ -52,7 +52,20 @@ describe('IntegerOnlyDirective', () => {
     const event = new InputEvent('beforeinput', { data: null });
     jest.spyOn(event, 'preventDefault');
 
-    expect(() => directive.onInputChange(event)).not.toThrow();
+    expect(() => directive.onBeforeInput(event)).not.toThrow();
     expect(event.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('should prevent paste with non-digit text', () => {
+    const event = new ClipboardEvent('paste', {
+      clipboardData: new DataTransfer()
+    });
+    event.clipboardData?.setData('text', '5.5');
+    Object.defineProperty(event, 'target', { value: inputElement });
+    jest.spyOn(event, 'preventDefault');
+
+    directive.onPaste(event);
+
+    expect(event.preventDefault).toHaveBeenCalled();
   });
 });
