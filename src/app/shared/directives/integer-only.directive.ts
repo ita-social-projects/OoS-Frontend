@@ -26,7 +26,7 @@ export class IntegerOnlyDirective {
   }
 
   private setCleanValue(input: HTMLInputElement, value: string): void {
-    const cleanedValue = value.replace(/\D/g, '');
+    const cleanedValue = value.replaceAll(/\D/g, '');
 
     if (input.value !== cleanedValue) {
       input.value = cleanedValue;
