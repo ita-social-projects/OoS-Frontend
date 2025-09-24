@@ -75,7 +75,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       this.isFiltersSidenavOpen = filtersSidenavState;
     });
 
-    combineLatest(Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges))
+    combineLatest(
+      Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
+    )
       .pipe(takeUntil(this.destroy$), skip(1))
       .subscribe((values: boolean[]) => {
         const formsOfLearning = Object.values(FormOfLearning).filter((_, index) => values[index]);

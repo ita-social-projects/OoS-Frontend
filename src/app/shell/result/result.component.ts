@@ -4,12 +4,10 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ResultViewType } from 'shared/enum/result-view-type';
 import { FilterStateModel } from 'shared/models/filter-state.model';
-import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
