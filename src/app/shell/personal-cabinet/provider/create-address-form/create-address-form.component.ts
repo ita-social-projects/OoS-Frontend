@@ -144,9 +144,9 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         map((val: string | Codeficator) => {
           if (typeof val === 'string') {
-            return val.trim();
+            return val?.trim();
           } else {
-            return val.settlement.trim();
+            return val?.settlement.trim();
           }
         }),
         tap((value: string) => {
