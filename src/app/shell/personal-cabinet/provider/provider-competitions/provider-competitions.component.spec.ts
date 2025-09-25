@@ -1,15 +1,15 @@
-import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
 import { Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { PaginationConstants } from 'shared/constants/constants';
-import { TranslateModule } from '@ngx-translate/core';
-import { ProviderCompetitionComponent } from './provider-competition.component';
+import { ProviderCompetitionsComponent } from './provider-competitions.component';
 
 describe('ProviderCompetitionComponent', () => {
-  let component: ProviderCompetitionComponent;
-  let fixture: ComponentFixture<ProviderCompetitionComponent>;
+  let component: ProviderCompetitionsComponent;
+  let fixture: ComponentFixture<ProviderCompetitionsComponent>;
   let storeMock: any;
   let matDialogMock: any;
 
@@ -26,7 +26,7 @@ describe('ProviderCompetitionComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ProviderCompetitionComponent],
+      declarations: [ProviderCompetitionsComponent],
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock }
@@ -34,7 +34,7 @@ describe('ProviderCompetitionComponent', () => {
       imports: [TranslateModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProviderCompetitionComponent);
+    fixture = TestBed.createComponent(ProviderCompetitionsComponent);
     component = fixture.componentInstance;
   });
   it('should create', () => {
@@ -44,7 +44,13 @@ describe('ProviderCompetitionComponent', () => {
   it('should set navigation path', () => {
     component.addNavPath();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(new PushNavPath({ name: expect.any(String), isActive: false, disable: true }));
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new PushNavPath({
+        name: expect.any(String),
+        isActive: false,
+        disable: true
+      })
+    );
   });
 
   it('should change page and fetch competitions', () => {
