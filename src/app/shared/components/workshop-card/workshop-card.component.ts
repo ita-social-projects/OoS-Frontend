@@ -41,7 +41,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() public isHorizontalView = false;
   @Input() public isCreateFormView = false;
 
-  @Output() public deleteWorkshop = new EventEmitter<WorkshopBaseCard>();
+  @Output() public deleteWorkshop = new EventEmitter<WorkshopBaseCard | WorkshopDraftCard>();
 
   @Select(ParentState.favoriteWorkshops)
   public favoriteWorkshops$: Observable<Favorite[]>;

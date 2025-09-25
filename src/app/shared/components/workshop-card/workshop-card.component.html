@@ -22,7 +22,7 @@
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             [matTooltipPosition]="tooltipPositionAbove"
             [routerLink]="[
-              workshopData.id ? '/details/workshop' : '/details/draft',
+              workshopData.id ? '/details/workshop' : '/details/workshop-draft',
               workshopData.id ? workshopData.id : workshopData.workshopDraftId
             ]">
             <mat-icon class="icon_launch">launch</mat-icon>
