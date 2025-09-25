@@ -337,8 +337,8 @@ export class Util {
    * Removing non-numeric characters implemented by DigitOnly directive
    * @param value
    */
-  public static formatAgeString(value: number): number {
-    if (Number.isNaN(value) || value === null) {
+  public static formatAgeString(value: number | null | undefined): number | null {
+    if (Number.isNaN(value) || value === null || value === undefined) {
       return null;
     }
     const integerValue = Math.floor(Math.abs(value));
