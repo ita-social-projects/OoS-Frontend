@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, filter, finalize, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -64,7 +64,7 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
-  providerCompetition: SearchResponse<CompetitionProviderViewCard[]>;
+  providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>;
   officialEmployees: SearchResponse<OfficialEmployee[]>;
   providerWorkshopDrafts: SearchResponse<WorkshopDraftCard[]>;
   providerCompetitionDrafts: SearchResponse<CompetitionDraftCard[]>;
@@ -89,7 +89,7 @@ export interface ProviderStateModel {
     achievements: null,
     selectedAchievement: null,
     providerWorkshops: null,
-    providerCompetition: null,
+    providerCompetitions: null,
     officialEmployees: null,
     providerWorkshopDrafts: null,
     providerCompetitionDrafts: null,
@@ -158,8 +158,8 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerCompetition(state: ProviderStateModel): SearchResponse<CompetitionProviderViewCard[]> {
-    return state.providerCompetition;
+  static providerCompetitions(state: ProviderStateModel): SearchResponse<CompetitionProviderViewCard[]> {
+    return state.providerCompetitions;
   }
 
   @Selector()
@@ -435,13 +435,11 @@ export class ProviderState {
     { workshopCardParameters }: providerActions.GetProviderViewWorkshops
   ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService
-      .getProviderViewWorkshops(workshopCardParameters)
-      .pipe(
-        tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
-          patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
-        )
-      );
+    return this.userWorkshopService.getProviderViewWorkshops(workshopCardParameters).pipe(
+      tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) => {
+        patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false });
+      })
+    );
   }
 
   @Action(providerActions.GetProviderViewWorkshopDrafts)
@@ -469,7 +467,7 @@ export class ProviderState {
       .getProviderViewCompetitions(competitionCardParameters)
       .pipe(
         tap((providerCompetitions: SearchResponse<CompetitionProviderViewCard[]>) =>
-          patchState({ providerCompetition: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
+          patchState({ providerCompetitions: providerCompetitions ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -1384,7 +1382,6 @@ export class ProviderState {
 
   @Action(OnSaveWorkshopStep)
   onSaveWorkshopStep(ctx: StateContext<ProviderStateModel>, action: OnSaveWorkshopStep): Observable<string | void> {
-    ctx.patchState({ isLoading: true });
     const currentState = ctx.getState().unfinishedWorkshop || {};
     const { step, data } = action.payload;
     const combinedPayload = {
@@ -1405,17 +1402,16 @@ export class ProviderState {
   onSaveWorkshopStepSuccess(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepSuccess): void {
     const currentState = ctx.getState().unfinishedWorkshop || {};
     ctx.patchState({
-      isLoading: false,
       unfinishedWorkshop: {
         ...currentState,
-        [`step${payload.step}`]: payload.data
+        [`step${payload.step}`]: payload.data,
+        workshopForLoading: null
       }
     });
   }
 
   @Action(OnSaveWorkshopStepFail)
   onSaveWorkshopStepFail(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveWorkshopStepFail): void {
-    ctx.patchState({ isLoading: false });
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -1426,32 +1422,30 @@ export class ProviderState {
       tap(() => {
         ctx.dispatch(new providerActions.OnDeleteUnfinishedWorkshopSuccess());
       }),
-      catchError((error: HttpErrorResponse) => ctx.dispatch(new providerActions.OnDeleteUnfinishedWorkshopFail(error)))
+      catchError((error: HttpErrorResponse) => ctx.dispatch(new providerActions.OnDeleteUnfinishedWorkshopFail(error))),
+      finalize(() => ctx.patchState({ isLoading: false }))
     );
   }
 
   @Action(providerActions.OnDeleteUnfinishedWorkshopFail)
   onDeleteUnfinishedWorkshopFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.OnDeleteUnfinishedWorkshopFail): void {
-    ctx.patchState({ isLoading: false });
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.deleteDraftFail, type: 'error' }));
   }
 
   @Action(providerActions.OnDeleteUnfinishedWorkshopSuccess)
   onDeleteUnfinishedWorkshopSuccess(ctx: StateContext<ProviderStateModel>): void {
-    ctx.patchState({ unfinishedWorkshop: null, isLoading: false });
+    ctx.patchState({ unfinishedWorkshop: null });
   }
 
   @Action(providerActions.GetUnfinishedWorkshop)
   getUnfinishedWorkshop(ctx: StateContext<ProviderStateModel>): Observable<Workshop> {
-    ctx.patchState({ isLoading: true });
-
     return this.userWorkshopService.getUnfinishedWorkshop().pipe(
       tap((workshop: Workshop) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopSuccess(workshop));
       }),
       catchError((error: HttpErrorResponse) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopFail(error));
-        return of({} as Workshop);
+        return EMPTY;
       })
     );
   }
@@ -1459,28 +1453,24 @@ export class ProviderState {
   @Action(providerActions.GetUnfinishedWorkshopSuccess)
   getUnfinishedWorkshopSuccess(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopSuccess): void {
     const draftState: WorkshopDraftState = workshopToDraftState(payload);
-    ctx.patchState({
-      unfinishedWorkshop: draftState,
-      isLoading: false
-    });
+    ctx.patchState({ unfinishedWorkshop: draftState });
   }
 
   @Action(providerActions.GetUnfinishedWorkshopFail)
   onGetUnfinishedWorkshopFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopFail): void {
-    ctx.patchState({ isLoading: false, unfinishedWorkshop: null });
+    ctx.patchState({ unfinishedWorkshop: null });
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getDraftFail, type: 'error' }));
   }
 
   @Action(providerActions.GetUnfinishedWorkshopTimeToLive)
   getUnfinishedWorkshopTimeToLive(ctx: StateContext<ProviderStateModel>): Observable<string> {
-    ctx.patchState({ isLoading: true });
     return this.userWorkshopService.getTimeToLiveOfUnfinishedWorkshop().pipe(
       tap((response: string) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopTimeToLiveSuccess(response));
       }),
       catchError((error: HttpErrorResponse) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopTimeToLiveFail(error));
-        return of('');
+        return EMPTY;
       })
     );
   }
@@ -1490,12 +1480,11 @@ export class ProviderState {
     ctx: StateContext<ProviderStateModel>,
     { payload }: providerActions.GetUnfinishedWorkshopTimeToLiveSuccess
   ): void {
-    ctx.patchState({ timeToLiveUnfinishedWorkshop: payload, isLoading: false });
+    ctx.patchState({ timeToLiveUnfinishedWorkshop: payload });
   }
 
   @Action(providerActions.GetUnfinishedWorkshopTimeToLiveFail)
   onGetDraftTimeToLiveFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedWorkshopTimeToLiveFail): void {
-    ctx.patchState({ isLoading: false });
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
   }
 
