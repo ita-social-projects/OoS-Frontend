@@ -247,6 +247,9 @@ export class Util {
         }
         continue;
       }
+      if (key === 'limitMinMaxPrice') {
+        continue;
+      }
       if (value !== filterState[key]) {
         filterStateDiff[key] = filterState[key];
       }

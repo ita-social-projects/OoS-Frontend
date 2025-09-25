@@ -21,8 +21,6 @@
     <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" class="flex flex-row justify-start">
       <app-workshop-map-view-list
         [role]="role"
-        [paginationParameters]="paginationParameters"
-        [currentPage]="currentPage"
         [filteredWorkshops$]="filteredWorkshops$">
       </app-workshop-map-view-list>
     </div>
@@ -30,10 +28,7 @@
       <app-workshop-cards-list
         class="cards"
         [role]="role"
-        [paginationParameters]="paginationParameters"
-        [currentPage]="currentPage"
-        [workshops$]="filteredWorkshops$"
-        (currentPageChange)="onCurrentPageChange($event)">
+        [workshops$]="filteredWorkshops$">
       </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
