@@ -78,10 +78,11 @@
       <mat-icon>edit</mat-icon>
     </div>
     <div
+      *ngIf="competitionData.draftStatus !== workshopDraftStatus.PendingModeration"
       class="actions_btn action-icon"
       role="button"
       tabindex="0"
-      [matTooltip]="'BUTTONS.ARCHIVE' | translate"
+      [matTooltip]="(competitionData.draftStatus ? 'BUTTONS.DELETE' : 'BUTTONS.ARCHIVE') | translate"
       (click)="onDelete()"
       (keydown)="onDeleteKeydown($event)">
       <ng-container *ngIf="competitionData.draftStatus; else archive">

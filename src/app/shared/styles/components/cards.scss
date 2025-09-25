@@ -58,6 +58,8 @@
     min-width: 0;
 
     &_label {
+      flex: 1;
+      min-width: 0;
       margin: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -276,5 +278,3 @@
     -webkit-box-orient: vertical;
   }
 }
-
-
