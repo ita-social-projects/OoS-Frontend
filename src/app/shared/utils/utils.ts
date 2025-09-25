@@ -250,10 +250,18 @@ export class Util {
       if (key === 'limitMinMaxPrice') {
         continue;
       }
-      if (value !== filterState[key]) {
+      if (!Util.deepEqual(value, filterState[key])) {
         filterStateDiff[key] = filterState[key];
       }
     }
+
+    // To avoid min/max price query param
+    if (!filterState.isPaid && (filterState.minPrice || filterState.maxPrice)) {
+      delete filterStateDiff.minPrice;
+      delete filterStateDiff.maxPrice;
+      delete filterStateDiff.payRate;
+    }
+
     // Create query string from filterStateDiff object
     Object.keys(filterStateDiff).forEach((key, index, keyArray) => {
       // Shouldn't add semicolon on last iteration
