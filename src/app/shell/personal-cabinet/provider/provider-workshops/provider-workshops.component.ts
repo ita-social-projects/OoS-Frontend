@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { filter, Observable } from 'rxjs';
@@ -32,25 +32,23 @@ import { ProviderComponent } from '../provider.component';
 @Component({
   selector: 'app-provider-workshops',
   templateUrl: './provider-workshops.component.html',
-  styleUrls: ['./provider-workshops.component.scss']
+  styleUrls: ['./provider-workshops.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerWorkshops)
   public workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
   @Select(ProviderState.hasUnfinishedWorkshopData)
   public hasUnfinishedWorkshopData$: Observable<boolean>;
-  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
-  public draftLiveTime$: Observable<string>;
 
   public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
   public readonly WorkshopType = WorkshopType;
   public readonly NoResultsTitle = NoResultsTitle;
-  public isLoaded: boolean = false;
 
   public workshops: SearchResponse<WorkshopProviderViewCard[]>;
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
   public workshopCardParameters: WorkshopCardParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
@@ -60,17 +58,17 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions,
-    @Inject(WINDOW) private window: Window
+    @Inject(WINDOW) private window: Window,
+    private cdr: ChangeDetectorRef
   ) {
     super(store, matDialog);
   }
 
   public ngOnInit(): void {
     super.ngOnInit();
-    this.store.dispatch(new GetUnfinishedWorkshop());
-    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.isLoaded = true;
-    });
+    if (!this.store.selectSnapshot(ProviderState.hasUnfinishedWorkshopData)) {
+      this.store.dispatch(new GetUnfinishedWorkshop());
+    }
   }
 
   /**
@@ -93,13 +91,11 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderWorkshops();
 
-    this.workshops$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((workshops: SearchResponse<WorkshopProviderViewCard[]>) => (this.workshops = workshops));
-    this.actions$
-      .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.getProviderWorkshops());
+    this.workshops$.pipe(takeUntil(this.destroy$)).subscribe((workshops: SearchResponse<WorkshopProviderViewCard[]>) => {
+      this.workshops = workshops;
+      this.cdr.markForCheck();
+    });
+    this.actions$.pipe(ofAction(OnUpdateWorkshopStatusSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderWorkshops());
   }
 
   /**
@@ -152,5 +148,9 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     } else {
       this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
+  }
+
+  private trackById(index: number, item: WorkshopProviderViewCard): string {
+    return item.id;
   }
 }
