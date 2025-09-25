@@ -336,8 +336,9 @@ export class Util {
     if (isNaN(value) || value === null) {
       return null;
     }
-    const stringValue: string = value?.toString();
-    return stringValue?.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : value;
+    const integerValue = Math.floor(Math.abs(value));
+    const stringValue = integerValue.toString();
+    return stringValue.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : integerValue;
   }
 
   /**
