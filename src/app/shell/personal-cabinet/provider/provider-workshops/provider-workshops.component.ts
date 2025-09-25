@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { filter, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { WINDOW } from 'ngx-window-token';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
@@ -22,8 +24,6 @@ import {
 } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
-import { WINDOW } from 'ngx-window-token';
-import { FormControl } from '@angular/forms';
 import { BannerMode } from 'shared/enum/bannerMode';
 import { WorkshopType } from 'shared/enum/workshop';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';

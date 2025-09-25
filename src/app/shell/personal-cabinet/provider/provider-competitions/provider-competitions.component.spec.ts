@@ -1,24 +1,32 @@
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
-import { Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { PaginationConstants } from 'shared/constants/constants';
+import { Provider } from 'shared/models/provider.model';
+import { Role } from 'shared/enum/role';
+import { CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { ProviderState } from 'shared/store/provider.state';
 import { ProviderCompetitionsComponent } from './provider-competitions.component';
 
 describe('ProviderCompetitionComponent', () => {
   let component: ProviderCompetitionsComponent;
   let fixture: ComponentFixture<ProviderCompetitionsComponent>;
-  let storeMock: any;
   let matDialogMock: any;
+  let store: any;
+  const cdrMock = {
+    markForCheck: jest.fn()
+  };
+  const mockData = {
+    entities: [{ id: '1' } as CompetitionProviderViewCard, { id: '2' } as CompetitionProviderViewCard],
+    totalAmount: 2
+  };
 
   beforeEach(() => {
-    storeMock = {
-      dispatch: jest.fn(),
-      select: jest.fn().mockReturnValue(of({ entities: [], totalAmount: 0 }))
-    };
-
     matDialogMock = {
       open: jest.fn().mockReturnValue({
         afterClose: () => of(true)
@@ -28,23 +36,41 @@ describe('ProviderCompetitionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProviderCompetitionsComponent],
       providers: [
-        { provide: Store, useValue: storeMock },
-        { provide: MatDialog, useValue: matDialogMock }
+        {
+          provide: MatDialog,
+          useValue: matDialogMock
+        },
+        { provide: ChangeDetectorRef, useValue: cdrMock }
       ],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot(), NgxsModule.forRoot([ProviderState]), HttpClientTestingModule]
     }).compileComponents();
+
+    store = TestBed.inject(Store);
+    jest.spyOn(store, 'select').mockReturnValue(of(mockData));
 
     fixture = TestBed.createComponent(ProviderCompetitionsComponent);
     component = fixture.componentInstance;
+    component.provider = { providerId: '123' } as unknown as Provider;
+    component.role = Role.provider;
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initProviderData correctly', () => {
+    const getSpy = jest.spyOn(component as any, 'getProviderCompetitions');
+    jest.spyOn(cdrMock, 'markForCheck');
+    component.initProviderData();
+    expect(getSpy).toHaveBeenCalled();
+    expect(component.competitions).toEqual(mockData);
+  });
+
   it('should set navigation path', () => {
+    jest.spyOn(store, 'dispatch');
     component.addNavPath();
 
-    expect(storeMock.dispatch).toHaveBeenCalledWith(
+    expect(store.dispatch).toHaveBeenCalledWith(
       new PushNavPath({
         name: expect.any(String),
         isActive: false,

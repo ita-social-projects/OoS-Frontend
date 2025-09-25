@@ -113,6 +113,10 @@ export class ProviderCompetitionsComponent extends ProviderComponent implements 
     this.getProviderCompetitions();
   }
 
+  public trackById(index: number, item: CompetitionProviderViewCard): string {
+    return item.id;
+  }
+
   /**
    * @private
    * @memberof ProviderCompetitionsComponent
@@ -122,9 +126,5 @@ export class ProviderCompetitionsComponent extends ProviderComponent implements 
     if (this.role === this.Role.provider || this.role === this.Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewCompetitions(this.competitionCardParameters));
     }
-  }
-
-  private trackById(index: number, item: CompetitionProviderViewCard): string {
-    return item.id;
   }
 }
