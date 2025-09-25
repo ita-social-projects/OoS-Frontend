@@ -115,7 +115,7 @@ export class Util {
    */
   public static updateStructureForTheTable(users: Child[]): UsersTableData[] {
     const updatedUsers = [];
-    users.forEach((user) => {
+    for (const user of users) {
       updatedUsers.push({
         id: user.id,
         pib: this.getFullName(user),
@@ -127,7 +127,7 @@ export class Util {
         parentId: user.parentId,
         parentFullName: this.getFullName(user.parent)
       });
-    });
+    }
     return updatedUsers;
   }
 
@@ -138,7 +138,7 @@ export class Util {
    */
   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): AdminsTableData[] {
     const updatedAdmins = [];
-    admins.forEach((admin: BaseAdmin) => {
+    for (const admin of admins) {
       updatedAdmins.push({
         id: admin.id,
         pib: this.getFullName(admin),
@@ -150,7 +150,7 @@ export class Util {
         regionName: (admin as AreaAdmin).regionName ?? admin.catottgName,
         isAdmin: true
       });
-    });
+    }
     return updatedAdmins;
   }
 
@@ -161,14 +161,14 @@ export class Util {
    */
   public static updateStructureForTheTableOfficialEmployees(admins: OfficialEmployee[]): OfficialEmployeeTableData[] {
     const updatedOfficialEmployees: OfficialEmployeeTableData[] = [];
-    admins.forEach((admin: OfficialEmployee) => {
+    for (const admin of admins) {
       updatedOfficialEmployees.push({
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         role: admin.position,
         rnokpp: admin.rnokpp
       });
-    });
+    }
     return updatedOfficialEmployees;
   }
 
@@ -210,7 +210,11 @@ export class Util {
 
     if (isInvalidGalleryImages) {
       const errorCodes = new Set();
-      invalidImages.map((img) => img[1]).forEach((img) => img.errors.forEach((error) => errorCodes.add(error.code)));
+      for (const [, result] of invalidImages) {
+        for (const error of result.errors) {
+          errorCodes.add(error.code);
+        }
+      }
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map((img) => img[0]);
       const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
@@ -252,14 +256,15 @@ export class Util {
       }
     }
     // Create query string from filterStateDiff object
-    Object.keys(filterStateDiff).forEach((key, index, keyArray) => {
+    const keyArray = Object.keys(filterStateDiff);
+    for (const [index, key] of keyArray.entries()) {
       // Shouldn't add semicolon on last iteration
       if (index === keyArray.length - 1) {
         serializedFilters += `${key}=${filterStateDiff[key]}`;
       } else {
         serializedFilters += `${key}=${filterStateDiff[key]};`;
       }
-    });
+    }
 
     return serializedFilters;
   }
@@ -333,12 +338,12 @@ export class Util {
    * @param value
    */
   public static formatAgeString(value: number): number {
-    if (isNaN(value) || value === null) {
+    if (Number.isNaN(value) || value === null) {
       return null;
     }
     const integerValue = Math.floor(Math.abs(value));
     const stringValue = integerValue.toString();
-    return stringValue.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : integerValue;
+    return stringValue.length > ValidationConstants.MAX_AGE_LENGTH ? Number.parseInt(stringValue.slice(0, 3), 10) : integerValue;
   }
 
   /**
@@ -424,7 +429,7 @@ export class Util {
       field === undefined ||
       field === null ||
       field === '' ||
-      (Array.isArray(field) && (field.length === 0 || field.every((el) => this.isEmpty(el)))) ||
+      (Array.isArray(field) && field.every((el) => this.isEmpty(el))) ||
       (typeof field === 'object' && Object.keys(field).length === 0)
     );
   }
