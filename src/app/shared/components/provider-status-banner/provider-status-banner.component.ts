@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -12,12 +12,12 @@ import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
 import { GetUnfinishedWorkshopTimeToLive, OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-provider-status-banner',
   templateUrl: './provider-status-banner.component.html',
-  styleUrls: ['./provider-status-banner.component.scss']
+  styleUrls: ['./provider-status-banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
@@ -34,7 +34,6 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   public iconClasses: string;
   public statusTitle: string;
   public statusDetails: string;
-  public timeToLive: string;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -51,9 +50,6 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.setBannerOptions();
     this.store.dispatch(new GetUnfinishedWorkshopTimeToLive());
-    this.timeToLiveUnfinishedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe((timeToLive) => {
-      this.timeToLive = timeToLive;
-    });
   }
 
   public onActivateEditMode(): void {
