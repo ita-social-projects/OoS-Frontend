@@ -43,7 +43,7 @@ import { CreateRequiredFormComponent } from './create-competition/create-require
 import { CreateCompetitionDescriptionFormComponent } from './create-competition/create-competition-description-form/create-competition-description-form.component';
 import { CreateJudgeComponent } from './create-competition/create-judge/create-judge.component';
 import { JudgeFormComponent } from './create-competition/create-judge/judge-form/judge-form.component';
-import { ProviderCompetitionComponent } from './provider-competition/provider-competition.component';
+import { ProviderCompetitionsComponent } from './provider-competitions/provider-competitions.component';
 import { ProviderDraftsComponent } from './provider-drafts/provider-drafts.component';
 import { WorkshopDraftsComponent } from './provider-drafts/workshop-drafts/workshop-drafts.component';
 import { CompetitionDraftsComponent } from './provider-drafts/competition-drafts/competition-drafts.component';
@@ -82,7 +82,7 @@ import { CompetitionDraftsComponent } from './provider-drafts/competition-drafts
     CreateCompetitionDescriptionFormComponent,
     CreateJudgeComponent,
     JudgeFormComponent,
-    ProviderCompetitionComponent
+    ProviderCompetitionsComponent
   ],
   imports: [
     CommonModule,
