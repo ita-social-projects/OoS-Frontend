@@ -1,21 +1,18 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, pairwise, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ResultViewType } from 'shared/enum/result-view-type';
 import { FilterStateModel } from 'shared/models/filter-state.model';
-import { PaginationElement } from 'shared/models/pagination-element.model';
-import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from 'shared/store/app.state';
-import { FilterClear, ResetFilteredWorkshops, SetFilterFromURL, SetFilterPagination, SetMapView } from 'shared/store/filter.actions';
+import { FilterClear, ResetFilteredWorkshops, SetFilterFromURL, SetMapView } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
@@ -49,11 +46,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public isFiltersSidenavOpen: boolean;
   public isMapView: boolean;
   public currentViewType: ResultViewType;
-  public paginationParameters: PaginationParameters = {
-    size: PaginationConstants.WORKSHOPS_PER_PAGE,
-    from: 0
-  };
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
+
   public marginLeft: string = '0';
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -73,7 +66,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
-    this.setPageParam();
     this.setFiltersFromQueryParams();
     this.calculateMarginLeft();
   }
@@ -104,15 +96,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public filterHandler(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
     this.calculateMarginLeft();
-  }
-
-  public onCurrentPageChange(newPage: PaginationElement): void {
-    this.currentPage = newPage;
-    this.router.navigate([`result/${this.currentViewType}`], {
-      queryParams: { pagination: `${this.currentPage.element},${this.paginationParameters.size}` },
-      queryParamsHandling: 'merge',
-      replaceUrl: true
-    });
   }
 
   private addNavPath(): void {
@@ -156,38 +139,19 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private setPageParam(): void {
+  private setFiltersFromQueryParams(): void {
     this.route.queryParams
       .pipe(
-        takeUntil(this.destroy$),
-        map((params) => ({
-          paginationParam: params.pagination,
-          filterParam: params.filter
-        }))
+        distinctUntilChanged((prev, curr) => Util.deepEqual(prev, curr)),
+        takeUntil(this.destroy$)
       )
-      .subscribe(({ paginationParam, filterParam }) => {
-        const [page, size] = paginationParam ? paginationParam.split(',').map(Number) : [1, PaginationConstants.WORKSHOPS_PER_PAGE];
-        this.currentPage = { element: page, isActive: true };
-        this.paginationParameters.size = PaginationConstants.ITEMS_PER_PAGE.includes(size) ? size : PaginationConstants.WORKSHOPS_PER_PAGE;
-        Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
-        this.store.dispatch(new SetFilterPagination(this.paginationParameters));
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParam || null)));
-      });
-  }
-
-  private setFiltersFromQueryParams(): void {
-    this.route.queryParamMap
-      .pipe(
-        takeUntil(this.destroy$),
-        map((params) => params.get('filter')),
-        pairwise(),
-        filter(([prevFilterParam, newFilterParam]) => prevFilterParam !== newFilterParam)
-      )
-      .subscribe(([prevFilterParam, newFilterParam]) => {
-        this.currentPage = PaginationConstants.firstPage;
-        Util.setFromPaginationParam(this.paginationParameters, this.currentPage, 0);
-        this.store.dispatch(new SetFilterPagination(this.paginationParameters));
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(newFilterParam)));
+      .subscribe((params) => {
+        // If query is invalid, recover it from state
+        try {
+          this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(params.filter || null)));
+        } catch {
+          this.setFilterStateURLParams();
+        }
       });
   }
 
@@ -197,8 +161,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.router.url.startsWith('/result')) {
         this.router.navigate([`result/${this.currentViewType}`], {
           queryParams: {
-            filter: filterQueryParams,
-            pagination: `${this.currentPage.element},${this.paginationParameters.size}`
+            filter: filterQueryParams
           },
           queryParamsHandling: 'merge',
           replaceUrl: true

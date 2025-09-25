@@ -4,7 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { distinctUntilChanged, map, Observable, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { Navigation } from 'shared/models/navigation.model';
 import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
@@ -40,11 +39,16 @@ export class SearchbarComponent extends SearchComponent implements OnInit, OnDes
           (this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.WorkshopResult))
       );
 
+    this.searchQuery$.pipe(takeUntil(this.destroy$)).subscribe((searchQuery: string) => {
+      this.searchValueFormControl.setValue(searchQuery, { emitEvent: false });
+      this.searchedText = searchQuery;
+    });
+
     this.searchValueFormControl.valueChanges
       .pipe(
         distinctUntilChanged(),
         startWith(''),
-        map((value: string) => value.trim()),
+        map((value: string) => this.handleInvalidCharacter(value).trim()),
         withLatestFrom(this.previousResults$),
         tap(([value, results]: [string, string[]]) => {
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
@@ -52,17 +56,10 @@ export class SearchbarComponent extends SearchComponent implements OnInit, OnDes
         takeUntil(this.destroy$)
       )
       .subscribe(([value, _]: [string, string[]]) => {
-        const validValue = this.handleInvalidCharacter(value);
-        this.searchedText = validValue;
+        this.searchedText = value;
       });
 
     super.ngOnInit();
-
-    // The input value is reset when the user is on the main page, but when the user is on the result page,
-    // the input value should remain
-    if (!this.isResultPage) {
-      this.searchValueFormControl.setValue('', { emitEvent: false });
-    }
   }
 
   public onDeletePreviousSearchValue(previousValue: string, event: Event): void {
@@ -74,11 +71,11 @@ export class SearchbarComponent extends SearchComponent implements OnInit, OnDes
   protected performSearch(): void {
     if (this.searchValueFormControl.valid) {
       this.saveSearchResults();
-      const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
-      if (!this.isResultPage) {
-        this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: false });
-      }
       this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
+      if (!this.isResultPage) {
+        this.router.navigate(['result/List'], { replaceUrl: false });
+        return;
+      }
     } else {
       this.searchValueFormControl.markAllAsTouched();
     }
