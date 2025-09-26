@@ -141,6 +141,10 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
+  public trackById(index: number, item: WorkshopProviderViewCard): string {
+    return item.id;
+  }
+
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {
@@ -148,9 +152,5 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
     } else {
       this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
-  }
-
-  private trackById(index: number, item: WorkshopProviderViewCard): string {
-    return item.id;
   }
 }
