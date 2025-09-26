@@ -86,6 +86,6 @@ describe('ProviderCompetitionsComponent', () => {
 
     expect(component.competitionCardParameters.size).toBe(20);
 
-    expect(component.currentPage).toBe(PaginationConstants.firstPage);
+    expect(component.currentPage).toEqual(PaginationConstants.firstPage);
   });
 });
