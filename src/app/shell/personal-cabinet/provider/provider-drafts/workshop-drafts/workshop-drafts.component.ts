@@ -107,7 +107,7 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.workshopCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   public trackByDraft(index: number, item: WorkshopDraftCard): string {

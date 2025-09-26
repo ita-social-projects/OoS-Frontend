@@ -101,7 +101,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.competitionCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   public trackByDraft(index: number, item: CompetitionDraftCard): string {

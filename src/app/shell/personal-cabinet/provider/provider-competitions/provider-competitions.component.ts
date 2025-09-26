@@ -68,7 +68,7 @@ export class ProviderCompetitionsComponent extends ProviderComponent implements 
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.competitionCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   /**

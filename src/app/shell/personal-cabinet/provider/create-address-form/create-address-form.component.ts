@@ -143,11 +143,8 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
         debounceTime(500),
         distinctUntilChanged(),
         map((val: string | Codeficator) => {
-          if (typeof val === 'string') {
-            return val?.trim();
-          } else {
-            return val?.settlement.trim();
-          }
+          const settlement = typeof val === 'string' ? val : val?.settlement;
+          return settlement?.trim() ?? '';
         }),
         tap((value: string) => {
           if (!value?.length || this.settlementSearchFormControl.invalid) {

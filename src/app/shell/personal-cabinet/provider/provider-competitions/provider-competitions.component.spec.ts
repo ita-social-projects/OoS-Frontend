@@ -1,4 +1,3 @@
-import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,14 +12,11 @@ import { CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { ProviderState } from 'shared/store/provider.state';
 import { ProviderCompetitionsComponent } from './provider-competitions.component';
 
-describe('ProviderCompetitionComponent', () => {
+describe('ProviderCompetitionsComponent', () => {
   let component: ProviderCompetitionsComponent;
   let fixture: ComponentFixture<ProviderCompetitionsComponent>;
   let matDialogMock: any;
   let store: any;
-  const cdrMock = {
-    markForCheck: jest.fn()
-  };
   const mockData = {
     entities: [{ id: '1' } as CompetitionProviderViewCard, { id: '2' } as CompetitionProviderViewCard],
     totalAmount: 2
@@ -39,8 +35,7 @@ describe('ProviderCompetitionComponent', () => {
         {
           provide: MatDialog,
           useValue: matDialogMock
-        },
-        { provide: ChangeDetectorRef, useValue: cdrMock }
+        }
       ],
       imports: [TranslateModule.forRoot(), NgxsModule.forRoot([ProviderState]), HttpClientTestingModule]
     }).compileComponents();
@@ -60,7 +55,6 @@ describe('ProviderCompetitionComponent', () => {
 
   it('should initProviderData correctly', () => {
     const getSpy = jest.spyOn(component as any, 'getProviderCompetitions');
-    jest.spyOn(cdrMock, 'markForCheck');
     component.initProviderData();
     expect(getSpy).toHaveBeenCalled();
     expect(component.competitions).toEqual(mockData);

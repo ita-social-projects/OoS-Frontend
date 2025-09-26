@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { EMPTY, Observable, throwError } from 'rxjs';
-import { catchError, filter, finalize, take, tap } from 'rxjs/operators';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { catchError, filter, finalize, map, take, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -436,8 +436,13 @@ export class ProviderState {
   ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getProviderViewWorkshops(workshopCardParameters).pipe(
-      tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) => {
-        patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false });
+      map((providerWorkshops) => providerWorkshops ?? EMPTY_RESULT),
+      catchError(() => of(EMPTY_RESULT)),
+      tap((providerWorkshops) => {
+        patchState({ providerWorkshops });
+      }),
+      finalize(() => {
+        patchState({ isLoading: false });
       })
     );
   }
@@ -1404,8 +1409,7 @@ export class ProviderState {
     ctx.patchState({
       unfinishedWorkshop: {
         ...currentState,
-        [`step${payload.step}`]: payload.data,
-        workshopForLoading: null
+        [`step${payload.step}`]: payload.data
       }
     });
   }
