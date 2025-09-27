@@ -63,8 +63,14 @@
 }
 
 .btn-cancel {
-  color: var(--primary-dark-text-color) !important;
-  border: 1px solid var(--primary-dark-text-color) !important;
+  color: var(--specific-text-color) !important;
+  border: 1px solid var(--specific-text-color) !important;
+}
+
+.btn-confirm {
+  color: var(--primary-accent-color) !important;
+  border: 1px solid var(--primary-accent-color) !important;
+  background-color: var(--specific-text-color) !important;
 }
 
 ::ng-deep .mat-toolbar.mat-primary {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, first, startWith, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, first, skip, startWith, takeUntil } from 'rxjs/operators';
 
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
@@ -78,7 +78,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     combineLatest(
       Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
     )
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), skip(1))
       .subscribe((values: boolean[]) => {
         const formsOfLearning = Object.values(FormOfLearning).filter((_, index) => values[index]);
         this.store.dispatch(new SetFormsOfLearning(formsOfLearning));
@@ -142,7 +142,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       this.filterList = filterList;
       Object.keys(this.formOfLearningControls).forEach((key) => {
         const formKey = key as FormOfLearning;
-        this.formOfLearningControls[key].setValue(filterList.formsOfLearning.includes(formKey));
+        this.formOfLearningControls[key].setValue(filterList.formsOfLearning.includes(formKey), { emitEvent: false });
       });
       this.OpenRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Open), { emitEvent: false });
       this.ClosedRecruitmentControl.setValue(this.filterList.statuses.includes(WorkshopOpenStatus.Closed), { emitEvent: false });

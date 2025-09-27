@@ -67,8 +67,6 @@ import {
     mapViewCoords: null,
     userRadiusSize: null,
     isMapView: false,
-    from: null,
-    size: null,
     previousResults: [],
     entitySearchQuery: '',
     entityPreviousResults: []
@@ -381,11 +379,14 @@ export class FilterState {
       minMaxPriceFilter: state.isPaid ? this.appWorkshopsService.getLimitMinMaxPriceFilter(state, payload) : of(null)
     }).pipe(
       tap(({ filteredWorkshops, minMaxPriceFilter }) => {
+        if (!filteredWorkshops?.entities?.length && state.from !== 0) {
+          patchState({ from: 0 });
+          return;
+        }
+
         patchState({
           filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT,
-          limitMinMaxPrice: minMaxPriceFilter
-            ? { ...minMaxPriceFilter, isActiveLimitation: true }
-            : { minPrice: 0, maxPrice: 0, isActiveLimitation: false },
+          limitMinMaxPrice: minMaxPriceFilter,
           isLoading: false
         });
       }),

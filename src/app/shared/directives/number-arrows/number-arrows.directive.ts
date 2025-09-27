@@ -1,37 +1,51 @@
-import { AfterViewInit, Directive, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'input[type=number]'
 })
-export class NumberArrowsDirective implements AfterViewInit {
+export class NumberArrowsDirective implements AfterViewInit, OnDestroy {
+  @Input() public useArrows: boolean = true;
+  private upInterval: number;
+  private downInterval: number;
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2
   ) {}
 
   public ngAfterViewInit(): void {
-    const input = this.el.nativeElement;
-    const width = `${parseFloat(getComputedStyle(input).width) + 20}px`;
+    if (this.useArrows) {
+      const input = this.el.nativeElement;
 
-    this.renderer.setStyle(input, 'width', width);
+      this.renderer.setStyle(input, 'padding-right', '24px');
 
-    const wrapper = this.renderer.createElement('div');
-    this.renderer.setStyle(wrapper, 'position', 'relative');
-    this.renderer.setStyle(wrapper, 'display', 'inline-block');
-    this.renderer.setStyle(wrapper, 'width', width);
+      const width = `${parseFloat(getComputedStyle(input).width) + 20}px`;
 
-    const parent = input.parentNode;
-    this.renderer.insertBefore(parent, wrapper, input);
-    this.renderer.appendChild(wrapper, input);
+      this.renderer.setStyle(input, 'width', width);
 
-    const up = this.createIcon('keyboard_arrow_up');
-    const down = this.createIcon('keyboard_arrow_down');
+      const wrapper = this.renderer.createElement('div');
+      this.renderer.setStyle(wrapper, 'position', 'relative');
+      this.renderer.setStyle(wrapper, 'display', 'inline-block');
+      this.renderer.setStyle(wrapper, 'width', width);
 
-    this.renderer.appendChild(wrapper, up);
-    this.renderer.appendChild(wrapper, down);
+      const parent = input.parentNode;
+      this.renderer.insertBefore(parent, wrapper, input);
+      this.renderer.appendChild(wrapper, input);
 
-    this.initBehavior(input, up, down, wrapper);
+      const up = this.createIcon('keyboard_arrow_up');
+      const down = this.createIcon('keyboard_arrow_down');
+
+      this.renderer.appendChild(wrapper, up);
+      this.renderer.appendChild(wrapper, down);
+
+      this.initBehavior(input, up, down, wrapper);
+    }
+  }
+
+  public ngOnDestroy(): void {
+    clearInterval(this.upInterval);
+    clearInterval(this.downInterval);
   }
 
   private initBehavior(input: HTMLInputElement, up: HTMLElement, down: HTMLElement, wrapper: HTMLElement): void {
@@ -49,21 +63,19 @@ export class NumberArrowsDirective implements AfterViewInit {
     });
 
     // default + clamping
-    let upInterval: number;
     this.renderer.listen(up, 'mousedown', () => {
       this.step(input, 'up');
-      upInterval = setTimeout(() => (upInterval = setInterval(() => this.step(input, 'up'), 40)), 400);
+      this.upInterval = setTimeout(() => (this.upInterval = setInterval(() => this.step(input, 'up'), 40)), 400);
     });
-    this.renderer.listen(up, 'mouseup', () => clearInterval(upInterval));
-    this.renderer.listen(up, 'mouseleave', () => clearInterval(upInterval));
+    this.renderer.listen(up, 'mouseup', () => clearInterval(this.upInterval));
+    this.renderer.listen(up, 'mouseleave', () => clearInterval(this.upInterval));
 
-    let downInterval: number;
     this.renderer.listen(down, 'mousedown', () => {
       this.step(input, 'down');
-      downInterval = setTimeout(() => (downInterval = setInterval(() => this.step(input, 'down'), 40)), 400);
+      this.downInterval = setTimeout(() => (this.downInterval = setInterval(() => this.step(input, 'down'), 40)), 400);
     });
-    this.renderer.listen(down, 'mouseup', () => clearInterval(downInterval));
-    this.renderer.listen(down, 'mouseleave', () => clearInterval(downInterval));
+    this.renderer.listen(down, 'mouseup', () => clearInterval(this.downInterval));
+    this.renderer.listen(down, 'mouseleave', () => clearInterval(this.downInterval));
   }
 
   private createIcon(name: string): HTMLElement {
@@ -84,6 +96,7 @@ export class NumberArrowsDirective implements AfterViewInit {
     this.renderer.setStyle(icon, 'cursor', 'pointer');
     this.renderer.setStyle(icon, 'user-select', 'none');
     this.renderer.setStyle(icon, 'background', 'transparent');
+    this.renderer.setStyle(icon, 'color', 'white');
 
     this.renderer.setStyle(icon, 'width', '20px');
     this.renderer.setStyle(icon, 'height', '20px');
