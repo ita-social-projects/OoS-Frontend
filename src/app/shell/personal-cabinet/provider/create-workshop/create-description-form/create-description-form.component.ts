@@ -15,7 +15,7 @@ import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ENTER } from '@angular/cdk/keycodes';
 import { CropperConfigurationConstants, ModeConstants } from 'shared/constants/constants';
 import { Tag } from 'shared/models/tag.model';
-import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
+import { KEYWORDS_REGEX, MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
@@ -170,7 +170,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
   public onKeyWordsInput(isEditMode: boolean = true): void {
     this.DescriptionFormGroup.get('keyWords').markAsTouched();
     const inputKeyWord = this.keyWordsCtrl.value?.trim().toLowerCase();
-    if (inputKeyWord && !this.keyWords.includes(inputKeyWord)) {
+    if (inputKeyWord && !this.keyWords.includes(inputKeyWord) && KEYWORDS_REGEX.test(inputKeyWord)) {
       if (this.keyWords.length < this.validationConstants.MAX_KEYWORDS_LENGTH) {
         this.keyWords = [...this.keyWords, inputKeyWord];
         this.updateKeywordsInputState();
