@@ -25,6 +25,8 @@ export class DefaultFilterState {
   statuses: WorkshopOpenStatus[] = [];
   searchQuery = '';
   order = 'Rating';
+  size = 12;
+  from = 0;
   withDisabilityOption = false;
   isStrictWorkdays = false;
   isAppropriateHours = false;

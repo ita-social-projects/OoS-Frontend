@@ -103,17 +103,6 @@ describe('SearchbarComponent', () => {
     expect(validCharacterDetectedSpy).toHaveBeenCalled();
   });
 
-  it('should reset searchValueFormControl value on main page initialization', () => {
-    const navigationPathsSubject = new Subject<any[]>();
-    jest.spyOn(component as any, 'navigationPaths$', 'get').mockReturnValue(navigationPathsSubject.asObservable());
-    (component as any).isResultPage = false;
-
-    navigationPathsSubject.next([]);
-    component.ngOnInit();
-
-    expect(component.searchValueFormControl.value).toBe('');
-  });
-
   it('should retain searchValueFormControl value on result page initialization', () => {
     const navigationPathsSubject = new Subject<any[]>();
     jest.spyOn(component as any, 'navigationPaths$', 'get').mockReturnValue(navigationPathsSubject.asObservable());

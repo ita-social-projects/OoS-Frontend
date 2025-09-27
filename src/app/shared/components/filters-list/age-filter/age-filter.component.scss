@@ -24,13 +24,8 @@
   padding: 0.5rem;
   width: 114px;
   max-height: 34px;
+  max-width: 114px;
   text-align: center;
-}
-
-.age-input::-webkit-outer-spin-button,
-.age-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
 }
 
 :host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {

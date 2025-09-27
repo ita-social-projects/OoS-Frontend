@@ -6,20 +6,29 @@
     {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
-<div class="wrapper flex flex-row justify-between gap-4">
+<div class="wrapper flex flex-col justify-between gap-4">
   <div class="flex flex-col gap-1">
     <div class="from-filter-text flex flex-row items-center">
       <p class="filter-text">
         {{ 'FROM' | translate }}
       </p>
       <div class="relative">
-        <input matInput class="age-input" type="number" [formControl]="minAgeFormControl" appDigitOnly autocomplete="off" />
+        <input
+          matInput
+          class="age-input"
+          type="number"
+          [useArrows]="false"
+          [min]="validationConstants.AGE_MIN"
+          [max]="validationConstants.BIRTH_AGE_MAX"
+          [formControl]="minAgeFormControl"
+          appDigitOnly
+          autocomplete="off" />
         <mat-icon class="clear-age" (click)="clearMin()" (keydown.enter)="clearMin()">clear</mat-icon>
       </div>
     </div>
     <app-validation-hint
       [validationFormControl]="minAgeFormControl"
-      isNumberValue="true"
+      [isNumberValue]="true"
       [minValue]="validationConstants.AGE_MIN"
       [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
   </div>
@@ -29,15 +38,24 @@
         {{ 'TO' | translate }}
       </p>
       <div class="relative">
-        <input matInput class="age-input" type="number" [formControl]="maxAgeFormControl" appDigitOnly autocomplete="off" />
+        <input
+          matInput
+          class="age-input"
+          type="number"
+          [useArrows]="false"
+          [min]="validationConstants.AGE_MIN"
+          [max]="validationConstants.BIRTH_AGE_MAX"
+          [formControl]="maxAgeFormControl"
+          appDigitOnly
+          autocomplete="off" />
         <mat-icon class="clear-age" (click)="clearMax()" (keydown.enter)="clearMax()">clear</mat-icon>
       </div>
     </div>
     <app-validation-hint
-      isNumberValue="true"
       [validationFormControl]="maxAgeFormControl"
+      [isNumberValue]="true"
       [minValue]="validationConstants.AGE_MIN"
       [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
   </div>
 </div>
-<app-validation-hint formLevelValidation="true" [validationFormControl]="ageFormGroup"></app-validation-hint>
+<app-validation-hint [formLevelValidation]="true" [validationFormControl]="ageFormGroup"></app-validation-hint>

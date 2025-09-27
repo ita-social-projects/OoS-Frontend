@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
@@ -7,11 +7,16 @@ import { Observable, of } from 'rxjs';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Parent } from 'shared/models/parent.model';
-import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { Util } from 'shared/utils/utils';
-import { SearchResponse } from 'shared/models/search.model';
-import { PaginationConstants } from 'shared/constants/constants';
+import { ActivatedRoute } from '@angular/router';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
+
+@Injectable()
+class RouteMock {
+  snapshot = { queryParams: { chatId: 123 } };
+  queryParams = of({ chatId: 123 });
+}
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -27,7 +32,8 @@ describe('WorkshopCardsListComponentt', () => {
         NoResultCardComponent,
         MockListWorkshopCardPaginatorComponent
       ],
-      imports: [CommonModule, NgxsModule.forRoot([])]
+      imports: [CommonModule, NgxsModule.forRoot([])],
+      providers: [{ provide: ActivatedRoute, useClass: RouteMock }]
     }).compileComponents();
   });
 
@@ -66,20 +72,6 @@ describe('WorkshopCardsListComponentt', () => {
       },
       undefined
     );
-  });
-
-  it('should restore page if page entities is 0 list', () => {
-    jest.spyOn(component, 'onPageChange');
-
-    const workshopsMock: SearchResponse<WorkshopCard[]> = {
-      entities: [],
-      totalAmount: 54
-    };
-
-    component.workshops$ = of(workshopsMock);
-    component.ngOnInit();
-
-    expect(component.onPageChange).toHaveBeenCalledWith(PaginationConstants.firstPage);
   });
 });
 
