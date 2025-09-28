@@ -343,12 +343,13 @@ export class Util {
    * Removing non-numeric characters implemented by DigitOnly directive
    * @param value
    */
-  public static formatAgeString(value: number): number {
-    if (isNaN(value) || value === null) {
+  public static formatAgeString(value: number | null | undefined): number | null {
+    if (isNaN(value) || value === null || value === undefined) {
       return null;
     }
-    const stringValue: string = value?.toString();
-    return stringValue?.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : value;
+    const integerValue = Math.floor(Math.abs(value));
+    const stringValue = integerValue.toString();
+    return stringValue.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : integerValue;
   }
 
   /**
