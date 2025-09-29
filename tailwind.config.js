@@ -5,7 +5,11 @@ module.exports = {
   },
   content: ['./src/**/*.{html,ts,scss}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        innerspace: ['Innerspace', 'sans-serif'],
+      }
+    }
   },
   plugins: []
 };
