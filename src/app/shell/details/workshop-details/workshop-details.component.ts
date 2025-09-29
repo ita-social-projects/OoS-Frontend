@@ -99,7 +99,7 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
     this.providerParameters.providerId = this.workshop.providerId;
     this.getWorkshopData();
 
-    this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
+    this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open && !(this.workshop as WorkshopDraft).draftStatus;
 
     this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
   }

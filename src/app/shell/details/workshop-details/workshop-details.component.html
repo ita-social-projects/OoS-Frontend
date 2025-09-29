@@ -76,7 +76,7 @@
           <div class="flex flex-row items-center">
             <h1 class="title">{{ workshop.title }}</h1>
             <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-              <div class="chip chip-draft chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
             </ng-container>
           </div>
           <h3 class="short-title" *ngIf="workshop.shortTitle">{{ workshop.shortTitle }}</h3>
@@ -165,7 +165,7 @@
     class="chip"
     [ngClass]="{
       'chip-color-close': workshop.status === workshopStatus.Closed,
-      'chip-color-draft': workshop.status === workshopStatus.Draft
+      'chip-color-draft': workshop.draftStatus
     }">
     {{ (workshop.status === workshopStatus.Closed ? recruitmentStatusEnum.RecruitmentStoped : recruitmentStatusEnum.Draft) | translate }}
   </div>
