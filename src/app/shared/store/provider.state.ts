@@ -634,7 +634,7 @@ export class ProviderState {
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['/personal-cabinet/provider/drafts'], {
       queryParams: {
-        tab: payload instanceof Workshop ? 'workshops' : 'competitions'
+        tab: 'workshopDraft' in payload ? 'workshops' : 'competitions'
       }
     });
   }
@@ -1263,7 +1263,11 @@ export class ProviderState {
     const messageData = Util.getWorkshopMessage(payload, SnackbarText.createCompetition);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
-    this.router.navigate(['./personal-cabinet/provider/competitions']);
+    this.router.navigate(['/personal-cabinet/provider/drafts'], {
+      queryParams: {
+        tab: 'competitions'
+      }
+    });
   }
 
   @Action(providerActions.UpdateCompetition)

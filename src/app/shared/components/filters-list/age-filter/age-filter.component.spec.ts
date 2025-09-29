@@ -67,6 +67,7 @@ describe('AgeFilterComponent', () => {
     it('should dispatch SetMaxAge when maxAgeFormControl value changes', fakeAsync(() => {
       const mockMaxAge = 14;
 
+      component.minAgeFormControl.setValue(mockMaxAge - 1, { emitEvent: false });
       component.maxAgeFormControl.setValue(mockMaxAge);
       tick(500);
 
