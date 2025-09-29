@@ -13,7 +13,7 @@
       <div class="card-wrapper" *ngIf="competitions?.totalAmount; else emptyResult">
         <app-competition-card
           class="card"
-          *ngFor="let competition of competitions.entities"
+          *ngFor="let competition of competitions.entities; trackBy: trackById"
           [competition]="competition"
           [isCabinet]="true"
           (deleteCompetition)="onDelete($event)">

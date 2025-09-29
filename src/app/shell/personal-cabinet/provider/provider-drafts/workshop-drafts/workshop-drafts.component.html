@@ -10,16 +10,16 @@
 </div>
 <div class="flex flex-col gap-4">
   <app-provider-status-banner
+    *ngIf="hasUnfinishedWorkshopData$ | async"
     [provider]="provider"
     [mode]="BannerMode.Unfinished"
-    *ngIf="(hasUnfinishedWorkshopData$ | async) && isLoaded"
     class="unfinished-banner">
   </app-provider-status-banner>
   <div class="flex justify-end">
     <app-shared-searchbar [for]="WorkshopType.Workshop" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>
   <div>
-    <ng-container *ngIf="!(isLoading$ | async) && !!workshopDrafts">
+    <ng-container *ngIf="workshopDrafts">
       <div class="card-wrapper" *ngIf="workshopDrafts?.totalAmount; else emptyResult">
         <app-workshop-card
           class="card"

@@ -142,15 +142,18 @@ export class CreateAddressFormComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        takeUntil(this.destroy$),
+        map((val: string | Codeficator) => {
+          const settlement = typeof val === 'string' ? val : val?.settlement;
+          return settlement?.trim() ?? '';
+        }),
         tap((value: string) => {
           if (!value?.length || this.settlementSearchFormControl.invalid) {
             this.store.dispatch(new ClearCodeficatorSearch());
           }
         }),
         filter((value: string) => value?.length > 2 && this.settlementSearchFormControl.valid),
-        map((val) => val.trim()),
-        delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
+        delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value))),
+        takeUntil(this.destroy$)
       )
       .subscribe((value: string) => {
         const options = this.autocomplete.options.filter((option) => option.value.settlement.toLowerCase() === value.toLowerCase());

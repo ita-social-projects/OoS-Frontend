@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
@@ -28,19 +28,16 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 @Component({
   selector: 'app-workshop-drafts',
   templateUrl: './workshop-drafts.component.html',
-  styleUrls: ['./workshop-drafts.component.scss']
+  styleUrls: ['./workshop-drafts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   @Input() public role: Role;
-  @Input() public isLoading$: Observable<boolean>;
   @Input() public provider: Provider;
   @Select(ProviderState.providerWorkshopDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraftCard[]>>;
   @Select(ProviderState.hasUnfinishedWorkshopData)
   public hasUnfinishedWorkshopData$: Observable<boolean>;
-  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
-  public draftLiveTime$: Observable<string>;
-  public isLoaded: boolean = false;
 
   public readonly BannerMode = BannerMode;
   public readonly constants: typeof Constants = Constants;
@@ -49,7 +46,7 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   public readonly NoResultsTitle = NoResultsTitle;
 
   public workshopDrafts: SearchResponse<WorkshopDraftCard[]>;
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
   public workshopCardParameters: WorkshopCardParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
@@ -61,20 +58,19 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions,
-    @Inject(WINDOW) private window: Window
+    @Inject(WINDOW) private window: Window,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderDrafts();
+    this.getUnfinishedData();
     this.workshopDrafts$.pipe(takeUntil(this.destroy$)).subscribe((workshopDrafts: SearchResponse<WorkshopDraftCard[]>) => {
       this.workshopDrafts = workshopDrafts;
+      this.cdr.markForCheck();
     });
     this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
-    this.store.dispatch(new GetUnfinishedWorkshop());
-    this.draftLiveTime$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.isLoaded = true;
-    });
   }
 
   public ngOnDestroy(): void {
@@ -111,7 +107,7 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.workshopCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   public trackByDraft(index: number, item: WorkshopDraftCard): string {
@@ -133,6 +129,12 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshopDrafts?.totalAmount);
     if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshopDrafts(this.workshopCardParameters));
+    }
+  }
+
+  private getUnfinishedData(): void {
+    if (!this.store.selectSnapshot(ProviderState.hasUnfinishedWorkshopData)) {
+      this.store.dispatch(new GetUnfinishedWorkshop());
     }
   }
 }

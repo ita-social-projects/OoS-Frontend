@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { ProviderState } from 'shared/store/provider.state';
@@ -26,11 +26,11 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 @Component({
   selector: 'app-competition-drafts',
   templateUrl: './competition-drafts.component.html',
-  styleUrls: ['./competition-drafts.component.scss']
+  styleUrls: ['./competition-drafts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   @Input() public role: Role;
-  @Input() public isLoading$: Observable<boolean>;
   @Input() public provider: Provider;
   @Select(ProviderState.providerCompetitionDrafts)
   public competitionDrafts$: Observable<SearchResponse<CompetitionDraftCard[]>>;
@@ -41,7 +41,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   public readonly NoResultsTitle = NoResultsTitle;
 
   public competitionDrafts: SearchResponse<CompetitionDraftCard[]>;
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
   public competitionCardParameters: CompetitionCardParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
@@ -53,7 +53,8 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
     protected store: Store,
     protected matDialog: MatDialog,
     private actions$: Actions,
-    @Inject(WINDOW) private window: Window
+    @Inject(WINDOW) private window: Window,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -61,6 +62,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
     this.getProviderDrafts();
     this.competitionDrafts$.pipe(takeUntil(this.destroy$)).subscribe((competitionDrafts: SearchResponse<CompetitionDraftCard[]>) => {
       this.competitionDrafts = competitionDrafts;
+      this.cdr.markForCheck();
     });
     this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
   }
@@ -99,7 +101,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.competitionCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   public trackByDraft(index: number, item: CompetitionDraftCard): string {

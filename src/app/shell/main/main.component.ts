@@ -52,9 +52,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public readonly Role = Role;
 
-  public topWorkshops: WorkshopCard[];
-  public topDirections: Direction[];
-  public isLoadingData: boolean;
   public settlement: Codeficator;
   public isMobile: boolean;
 

@@ -18,7 +18,7 @@
       <p class="text-sm !mt-2">
         {{ 'PROVIDER_DRAFT.DETAILS' | translate }}
       </p>
-      <p *ngIf="timeToLive" class="text-sm !mt-1">
+      <p *ngIf="timeToLiveUnfinishedWorkshop$ | async as timeToLive" class="text-sm !mt-1">
         {{ timeToLive | timeRemaining }}
       </p>
       <div class="flex mt-3 justify-start btn-container">

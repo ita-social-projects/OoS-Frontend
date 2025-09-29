@@ -1,9 +1,9 @@
 import { SearchResponse } from 'shared/models/search.model';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { CompetitionBaseCard, CompetitionCardParameters } from 'shared/models/competition.model';
+import { CompetitionBaseCard, CompetitionCardParameters, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { Util } from 'shared/utils/utils';
@@ -20,20 +20,20 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
-  selector: 'app-provider-competition',
-  templateUrl: './provider-competition.component.html',
-  styleUrls: ['./provider-competition.component.scss'],
+  selector: 'app-provider-competitions',
+  templateUrl: './provider-competitions.component.html',
+  styleUrls: ['./provider-competitions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProviderCompetitionComponent extends ProviderComponent implements OnInit, OnDestroy {
-  @Select(ProviderState.providerCompetition)
-  public competitions$: Observable<SearchResponse<CompetitionCardParameters[]>>;
+export class ProviderCompetitionsComponent extends ProviderComponent implements OnInit, OnDestroy {
+  @Select(ProviderState.providerCompetitions)
+  public competitions$: Observable<SearchResponse<CompetitionProviderViewCard[]>>;
 
   public readonly ModeConstants = ModeConstants;
   public readonly WorkshopType = WorkshopType;
   public readonly NoResultsTitle = NoResultsTitle;
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public competitions: SearchResponse<CompetitionCardParameters[]>;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
+  public competitions: SearchResponse<CompetitionProviderViewCard[]>;
 
   public competitionCardParameters: CompetitionCardParameters = {
     providerId: '',
@@ -42,7 +42,8 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
 
   constructor(
     protected readonly store: Store,
-    protected matDialog: MatDialog
+    protected matDialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     super(store, matDialog);
   }
@@ -67,7 +68,7 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.competitionCardParameters.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
+    this.onPageChange({ ...PaginationConstants.firstPage });
   }
 
   /**
@@ -95,9 +96,10 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
     this.competitionCardParameters.providerId = this.provider.id;
     this.getProviderCompetitions();
 
-    this.competitions$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((competitions: SearchResponse<CompetitionCardParameters[]>) => (this.competitions = competitions));
+    this.competitions$.pipe(takeUntil(this.destroy$)).subscribe((competitions: SearchResponse<CompetitionProviderViewCard[]>) => {
+      this.competitions = competitions;
+      this.cdr.markForCheck();
+    });
   }
 
   public onSearch(searchFormControl: FormControl): void {
@@ -111,9 +113,13 @@ export class ProviderCompetitionComponent extends ProviderComponent implements O
     this.getProviderCompetitions();
   }
 
+  public trackById(index: number, item: CompetitionProviderViewCard): string {
+    return item.id;
+  }
+
   /**
    * @private
-   * @memberof ProviderCompetitionComponent
+   * @memberof ProviderCompetitionsComponent
    */
   private getProviderCompetitions(): void {
     Util.setFromPaginationParam(this.competitionCardParameters, this.currentPage, this.competitions?.totalAmount);

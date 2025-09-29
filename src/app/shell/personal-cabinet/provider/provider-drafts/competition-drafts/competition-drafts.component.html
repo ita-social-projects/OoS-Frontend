@@ -9,7 +9,7 @@
     <app-shared-searchbar [for]="WorkshopType.Competition" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>
   <div>
-    <ng-container *ngIf="!(isLoading$ | async) && !!competitionDrafts">
+    <ng-container *ngIf="competitionDrafts">
       <div class="card-wrapper" *ngIf="competitionDrafts?.totalAmount; else emptyResult">
         <app-competition-card
           class="card"
