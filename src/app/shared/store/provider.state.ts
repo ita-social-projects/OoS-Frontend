@@ -560,7 +560,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.ArchiveWorkshopById)
-  deleteWorkshop(
+  archiveWorkshop(
     { dispatch }: StateContext<ProviderStateModel>,
     { id, parameters }: providerActions.ArchiveWorkshopById
   ): Observable<void> {
@@ -642,9 +642,9 @@ export class ProviderState {
   @Action(providerActions.DeleteWorkshopDraftById)
   deleteWorkshopDraft(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: providerActions.DeleteWorkshopDraftById
+    { workshopDraftId, parameters }: providerActions.DeleteWorkshopDraftById
   ): Observable<void> {
-    return this.userWorkshopService.deleteWorkshopDraft(payload.workshopDraftId).pipe(
+    return this.userWorkshopService.deleteWorkshopDraft(workshopDraftId).pipe(
       tap(() => dispatch(new providerActions.OnDeleteWorkshopDraftSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
     );
@@ -670,10 +670,10 @@ export class ProviderState {
   }
 
   @Action(providerActions.OnArchiveWorkshopSuccess)
-  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnArchiveWorkshopSuccess): void {
+  onArchiveWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: providerActions.OnArchiveWorkshopSuccess): void {
     dispatch(
       new ShowMessageBar({
-        message: SnackbarText.deleteWorkshop,
+        message: SnackbarText.archiveWorkshop,
         type: 'success'
       })
     );
@@ -1297,7 +1297,7 @@ export class ProviderState {
   }
 
   @Action(providerActions.ArchiveCompetitionById)
-  deleteCompetitionById(
+  archiveCompetitionById(
     { dispatch }: StateContext<ProviderStateModel>,
     { id, parameters }: providerActions.ArchiveCompetitionById
   ): Observable<Competition | void> {
@@ -1312,7 +1312,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { parameters }: providerActions.OnArchiveCompetitionSuccess
   ): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.deleteCompetition, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.archiveCompetition, type: 'success' }));
 
     if (parameters) {
       dispatch(new GetProviderViewCompetitions(parameters));
@@ -1338,9 +1338,9 @@ export class ProviderState {
   @Action(providerActions.DeleteCompetitionDraftById)
   deleteCompetitionDraft(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: providerActions.DeleteCompetitionDraftById
+    { competitiveEventDraftId, parameters }: providerActions.DeleteCompetitionDraftById
   ): Observable<void> {
-    return this.userCompetitionService.deleteCompetitionDraft(payload.competitiveEventDraftId).pipe(
+    return this.userCompetitionService.deleteCompetitionDraft(competitiveEventDraftId).pipe(
       tap(() => dispatch(new providerActions.OnDeleteCompetitionDraftSuccess(parameters))),
       catchError((error: HttpErrorResponse) => dispatch(new providerActions.OnDeleteDraftFail(error)))
     );

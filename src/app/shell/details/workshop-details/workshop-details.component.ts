@@ -19,15 +19,18 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import {
   ArchiveWorkshopById,
+  DeleteWorkshopDraftById,
   GetWorkshopDraftIdByWorkshopId,
   OnArchiveWorkshopFail,
   OnArchiveWorkshopSuccess,
+  OnDeleteDraftFail,
+  OnDeleteWorkshopDraftSuccess,
   OnDraftSendForModerationFail,
   OnDraftSendForModerationSuccess,
   ResetAchievements,
   WorkshopDraftSendForModeration
 } from 'shared/store/provider.actions';
-import { GetProviderById, GetWorkshopById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -144,7 +147,23 @@ export class WorkshopDetailsComponent extends TabParamsComponent implements OnIn
               ofAction(OnArchiveWorkshopSuccess),
               take(1),
               takeUntil(this.actions$.pipe(ofAction(OnArchiveWorkshopFail))),
-              tap(() => this.store.dispatch(new GetWorkshopById((this.workshop as Workshop).id)))
+              tap(() => this.router.navigate(['/personal-cabinet/provider/workshops']))
+            );
+          }
+
+          if (type === ModalConfirmationType.deleteDraft) {
+            this.store.dispatch(new DeleteWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId));
+            return this.actions$.pipe(
+              ofAction(OnDeleteWorkshopDraftSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnDeleteDraftFail))),
+              tap(() =>
+                this.router.navigate(['/personal-cabinet/provider/drafts'], {
+                  queryParams: {
+                    tab: 'workshops'
+                  }
+                })
+              )
             );
           }
 

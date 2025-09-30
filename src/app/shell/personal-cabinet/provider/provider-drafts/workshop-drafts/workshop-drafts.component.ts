@@ -79,14 +79,14 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method delete workshop By Workshop Id
+   * This method delete workshop By Workshop Draft ID
    * @param workshop
    */
   public onDelete(workshop: WorkshopDraftCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.deleteDraft,
         property: workshop.title
       }
     });
@@ -95,7 +95,7 @@ export class WorkshopDraftsComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        this.store.dispatch(new DeleteWorkshopDraftById(workshop, this.workshopCardParameters));
+        this.store.dispatch(new DeleteWorkshopDraftById(workshop.workshopDraftId, this.workshopCardParameters));
       });
   }
 
