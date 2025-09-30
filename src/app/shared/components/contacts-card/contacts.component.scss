@@ -1,20 +1,14 @@
-@import 'side-menu-cards.scss';
-
-.container {
-  max-width: 100%;
-}
-
-.expansion {
-  padding: 50px 0;
-  background-color: var(--secondary-light-bg-color) !important;
-}
-
 a {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--primary-light-text-color);
   word-break: break-all;
   font-family: 'Open Sans', sans-serif;
+
+  &.map {
+    font-size: 11px;
+    font-weight: bold;
+  }
 }
 
 .description-width {
@@ -25,17 +19,11 @@ a {
   display: flex;
   align-items: center;
   width: 60%;
+
   .contact-info {
     font-family: 'Open Sans', sans-serif;
     color: var(--primary-light-text-color);
     max-width: 100%;
-    span {
-      display: block;
-      max-width: inherit;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
   }
 }
 
@@ -47,34 +35,32 @@ a {
   width: 100%;
 }
 
-.container-left {
+.container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  .contact-type-card {
-    width: 70%;
-    margin: 10px 0;
-    .card-title {
-      margin: 5px 0 10px 5px;
-    }
-    .contact-info-extended {
-      display: flex;
-      margin: 10px 0 0 5px;
-      align-items: flex-start;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--primary-light-text-color) !important;
 
-      .contact-title {
-        font-family: 'Open Sans', sans-serif;
-        color: var(--primary-light-text-color) !important;
-        width: 100px;
-      }
-      a {
-        flex: 1;
-        min-width: 0;
-        word-break: break-all;
-        overflow-wrap: break-word;
-      }
+  .title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 50%;
+
+    .contact-title {
+      display: block;
+      flex: 1 1 100%;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      white-space: normal;
     }
+  }
+
+  .contact-content {
+    width: 50%;
   }
 }
 
@@ -85,25 +71,10 @@ a {
   }
 }
 
-.extended-view {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  .phone-info,
-  .email-info,
-  .social-info {
-    margin-left: 15px;
-  }
-}
-
-.mat-icon {
+.card_icon {
   width: 16px;
   height: 16px;
-  margin-right: 8px;
   overflow: unset;
-}
-
-.card_icon {
   color: var(--primary-light-text-color);
   font-size: 16px;
 }
@@ -121,10 +92,5 @@ a {
     @media (max-width: 750px) {
       max-width: 100%;
     }
-  }
-}
-@media (max-width: 1280px) {
-  .container {
-    width: inherit;
   }
 }

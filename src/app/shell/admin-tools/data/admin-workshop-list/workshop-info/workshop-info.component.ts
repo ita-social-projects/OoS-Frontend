@@ -8,7 +8,7 @@ import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { CoverageEnum, FormOfLearningEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
+import { CoverageEnum, FormOfLearningEnum, PayRateTypeEnum, SpecialNeedsTypeEnum } from 'shared/enum/enumUA/workshop';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DeleteWorkshopDraftCoverImage, DeleteWorkshopDraftImage } from 'shared/store/shared-user.actions';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -49,6 +49,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public readonly formOfLearningEnum = FormOfLearningEnum;
   public readonly unlimitedSeats = Constants.UNLIMITED_SEATS;
   public readonly specialNeedsType = SpecialNeedsTypeEnum;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly coverageEnum = CoverageEnum;
   public workshop: Workshop;
   public role: Role;

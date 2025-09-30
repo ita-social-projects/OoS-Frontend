@@ -4,7 +4,7 @@ import { EDRPOU_REGEX, EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, SECTION_NAME_RE
 
 export class ValidationConstants {
   // Age
-  static readonly AGE_MIN = 0;
+  static readonly AGE_MIN = 1;
   static readonly AGE_MAX = 18;
   static readonly MAX_AGE_LENGTH = 3;
   static readonly BIRTH_AGE_MAX = 120;

@@ -3,6 +3,9 @@
 <ng-container>
   <ng-container *ngIf="totalEntities; else isEmptyList">
     <div class="wrapper-workshop-list">
+      <div class="font-innerspace text-[14px] font-bold text-white flex mb-2">
+        {{ 'TOTAL_DRAFTS' | translate: { count: totalEntities } }}
+      </div>
       <div class="wrapper wrapper-workshop-list-container">
         <div class="table-container mat-elevation-z8">
           <table mat-table [dataSource]="dataSource" appStretchTable>

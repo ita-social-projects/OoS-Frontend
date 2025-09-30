@@ -52,7 +52,7 @@
       <p class="description">{{ formOfLearningEnum[workshop.formOfLearning] | translate }}</p>
 
       <h5>{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
-      <p *ngIf="workshop.price; else isFree">{{ workshop.price }}</p>
+      <p *ngIf="workshop.price; else isFree">{{ workshop.price }} / {{ PayRateTypeEnum[workshop.payRate] | translate }}</p>
       <ng-template #isFree>
         <p>{{ 'IS_FREE' | translate }}</p>
       </ng-template>
@@ -174,7 +174,9 @@
             <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
             <p>{{ socialNetwork.type }}</p>
             <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{ socialNetwork.url }}</a>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{
+              socialNetwork.url
+            }}</a>
           </div>
         </div>
       </div>
