@@ -133,7 +133,7 @@ describe('CompetitionDraftsComponent', () => {
       );
     });
 
-    it('should not dispatch DeleteWorkshopDraftById', () => {
+    it('should not dispatch DeleteCompetitionDraftById', () => {
       const dialogRef = {
         afterClosed: jest.fn().mockReturnValue(of(false))
       };

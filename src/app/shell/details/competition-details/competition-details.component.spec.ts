@@ -21,7 +21,7 @@ import { Judge } from 'shared/models/judge.model';
 import { Constants } from 'shared/constants/constants';
 import { ImagesService } from 'shared/services/images/images.service';
 import { Subdirection } from 'shared/models/category.model';
-import { ArchiveCompetitionById, CompetitionDraftSendForModeration } from 'shared/store/provider.actions';
+import { ArchiveCompetitionById, CompetitionDraftSendForModeration, DeleteCompetitionDraftById } from 'shared/store/provider.actions';
 import { CompetitionDetailsComponent } from './competition-details.component';
 
 describe('CompetitionDetailsComponent', () => {
@@ -115,6 +115,22 @@ describe('CompetitionDetailsComponent', () => {
       component.onActionButtonClick(ModalConfirmationType.draftSet);
       expect(matDialogSpy).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(new CompetitionDraftSendForModeration('123'));
+    });
+
+    it('should open confirmation dialog and dispatch DeleteDraft on confirm', () => {
+      component.competition = {
+        competitiveEventDraftId: '123'
+      } as CompetitionDraft;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteDraft
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.deleteDraft);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new DeleteCompetitionDraftById('123'));
     });
 
     it('should open confirmation dialog and dispatch ArchiveCompetition on confirm', () => {
