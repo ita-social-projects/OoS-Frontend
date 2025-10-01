@@ -117,7 +117,7 @@ describe('WorkshopDraftsComponent', () => {
         ConfirmationModalWindowComponent,
         expect.objectContaining({
           data: expect.objectContaining({
-            type: ModalConfirmationType.delete,
+            type: ModalConfirmationType.deleteDraft,
             property: mockWorkshop.title
           })
         })
@@ -135,7 +135,9 @@ describe('WorkshopDraftsComponent', () => {
 
       (component as any).onDelete(mockWorkshop);
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new DeleteWorkshopDraftById(mockWorkshop, (component as any).workshopCardParameters));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new DeleteWorkshopDraftById(mockWorkshop.workshopDraftId, (component as any).workshopCardParameters)
+      );
     });
 
     it('should not dispatch DeleteWorkshopDraftById', () => {
