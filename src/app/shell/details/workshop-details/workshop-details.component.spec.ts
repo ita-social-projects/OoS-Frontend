@@ -19,7 +19,12 @@ import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Constants } from 'shared/constants/constants';
-import { ArchiveWorkshopById, GetWorkshopDraftIdByWorkshopId, WorkshopDraftSendForModeration } from 'shared/store/provider.actions';
+import {
+  ArchiveWorkshopById,
+  DeleteWorkshopDraftById,
+  GetWorkshopDraftIdByWorkshopId,
+  WorkshopDraftSendForModeration
+} from 'shared/store/provider.actions';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { WorkshopDetailsComponent } from './workshop-details.component';
@@ -125,6 +130,22 @@ describe('WorkshopDetailsComponent', () => {
       component.onActionButtonClick(ModalConfirmationType.draftSet);
       expect(matDialogSpy).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(new WorkshopDraftSendForModeration('123'));
+    });
+
+    it('should open confirmation dialog and dispatch DeleteDraft on confirm', () => {
+      component.workshop = {
+        workshopDraftId: '123'
+      } as WorkshopDraft;
+
+      expectingMatDialogData = {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteDraft
+        }
+      };
+      component.onActionButtonClick(ModalConfirmationType.deleteDraft);
+      expect(matDialogSpy).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(new DeleteWorkshopDraftById('123'));
     });
 
     it('should open confirmation dialog and dispatch ArchiveWorkshop on confirm', () => {

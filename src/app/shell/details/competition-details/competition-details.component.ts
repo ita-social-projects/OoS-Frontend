@@ -21,17 +21,20 @@ import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { GetCompetitionById, GetCompetitionDraftById, GetProviderById } from 'shared/store/shared-user.actions';
+import { GetCompetitionDraftById, GetProviderById } from 'shared/store/shared-user.actions';
 import { GetSubDirections } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Subdirection } from 'shared/models/category.model';
 import {
   ArchiveCompetitionById,
   CompetitionDraftSendForModeration,
+  DeleteCompetitionDraftById,
   GetCompetitionDraftIdByCompetitionId,
   OnArchiveCompetitionFail,
   OnArchiveCompetitionSuccess,
+  OnDeleteCompetitionDraftSuccess,
   OnDeleteDraftFail,
+  OnDraftSendForModerationFail,
   OnDraftSendForModerationSuccess
 } from 'shared/store/provider.actions';
 import { WorkshopDraftStatus, WorkshopType } from 'shared/enum/workshop';
@@ -111,7 +114,7 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
             return this.actions$.pipe(
               ofAction(OnDraftSendForModerationSuccess),
               take(1),
-              takeUntil(this.actions$.pipe(ofAction(OnDeleteDraftFail))),
+              takeUntil(this.actions$.pipe(ofAction(OnDraftSendForModerationFail))),
               tap(() => this.store.dispatch(new GetCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId)))
             );
           }
@@ -122,7 +125,24 @@ export class CompetitionDetailsComponent extends TabParamsComponent implements O
               ofAction(OnArchiveCompetitionSuccess),
               take(1),
               takeUntil(this.actions$.pipe(ofAction(OnArchiveCompetitionFail))),
-              tap(() => this.store.dispatch(new GetCompetitionById((this.competition as Competition).id)))
+              tap(() => this.router.navigate(['/personal-cabinet/provider/competitions']))
+            );
+          }
+
+          if (type === ModalConfirmationType.deleteDraft) {
+            this.store.dispatch(new DeleteCompetitionDraftById((this.competition as CompetitionDraft).competitiveEventDraftId));
+
+            return this.actions$.pipe(
+              ofAction(OnDeleteCompetitionDraftSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnDeleteDraftFail))),
+              tap(() =>
+                this.router.navigate(['/personal-cabinet/provider/drafts'], {
+                  queryParams: {
+                    tab: 'competitions'
+                  }
+                })
+              )
             );
           }
 

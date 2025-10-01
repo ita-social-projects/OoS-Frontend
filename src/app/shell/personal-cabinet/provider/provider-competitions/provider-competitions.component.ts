@@ -79,7 +79,7 @@ export class ProviderCompetitionsComponent extends ProviderComponent implements 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.deleteCompetition,
+        type: ModalConfirmationType.archiveCompetition,
         property: competition.title
       }
     });

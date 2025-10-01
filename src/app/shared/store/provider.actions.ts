@@ -8,17 +8,16 @@ import { Employee, EmployeeParameters } from 'shared/models/employee.model';
 import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import {
-  Workshop,
-  WorkshopCardParameters,
-  WorkshopDraftCard,
-  WorkshopStatus,
   UnfinishedWorkshopAbout,
   UnfinishedWorkshopAdditionalAbout,
+  UnfinishedWorkshopContacts,
   UnfinishedWorkshopDescription,
-  UnfinishedWorkshopContacts
+  Workshop,
+  WorkshopCardParameters,
+  WorkshopStatus
 } from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
-import { Competition, CompetitionCardParameters, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
 
 export class GetAchievementById {
@@ -263,8 +262,8 @@ export class DeleteWorkshopDraftById {
   static readonly type = '[provider] delete Workshop Draft';
 
   constructor(
-    public payload: WorkshopDraftCard,
-    public parameters: WorkshopCardParameters
+    public workshopDraftId: string,
+    public parameters?: WorkshopCardParameters
   ) {}
 }
 
@@ -884,8 +883,8 @@ export class DeleteCompetitionDraftById {
   static readonly type = '[provider] delete Competition draft';
 
   constructor(
-    public payload: CompetitionDraftCard,
-    public parameters: CompetitionCardParameters
+    public competitiveEventDraftId: string,
+    public parameters?: CompetitionCardParameters
   ) {}
 }
 

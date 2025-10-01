@@ -80,7 +80,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.deleteDraft,
         property: competition.title
       }
     });
@@ -89,7 +89,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        this.store.dispatch(new DeleteCompetitionDraftById(competition, this.competitionCardParameters));
+        this.store.dispatch(new DeleteCompetitionDraftById(competition.competitiveEventDraftId, this.competitionCardParameters));
       });
   }
 

@@ -10,8 +10,11 @@
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     [class.draft-panel-action-row]="workshop.draftStatus"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
-    <button (click)="onActionButtonClick(modalType.archiveWorkshop)" class="btn btn-cancel" mat-button>
-      {{ 'BUTTONS.ARCHIVE' | translate }}
+    <button
+      (click)="onActionButtonClick(workshop.draftStatus ? modalType.deleteDraft : modalType.archiveWorkshop)"
+      class="btn btn-cancel"
+      mat-button>
+      {{ workshop.draftStatus ? ('BUTTONS.DELETE' | translate) : ('BUTTONS.ARCHIVE' | translate) }}
     </button>
     <div class="flex">
       <span
