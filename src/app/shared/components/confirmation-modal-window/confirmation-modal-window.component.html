@@ -11,7 +11,7 @@
   <mat-dialog-actions class="flex flex-row flex-wrap box-border !justify-center items-center">
     <button
       class="btn btn-add"
-      mat-button
+      mat-raised-button
       cdkFocusInitial
       [disabled]="data.type === modalConfirmationType.rate && !ratingSelectControl?.value"
       [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true">

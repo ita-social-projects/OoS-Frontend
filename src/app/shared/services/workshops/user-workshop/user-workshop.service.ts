@@ -10,8 +10,8 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import {
   EditWorkshopDraft,
-  Workshop,
   UnfinishedWorkshopType,
+  Workshop,
   WorkshopCard,
   WorkshopCardParameters,
   WorkshopDraft,
@@ -119,7 +119,6 @@ export class UserWorkshopService {
    * This method delete cover image by WorkshopDraft id and moderator id
    * Used in moderator flow
    * @param draftId string
-   * @param moderatorId string
    */
   public deleteCoverImageByWorkshopDraftId(draftId: string): Observable<void> {
     return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/cover-image`);
@@ -130,7 +129,6 @@ export class UserWorkshopService {
    * Used in moderator flow
    * @param draftId string
    * @param imageId string
-   * @param moderatorId string
    */
   public deleteImageByWorkshopDraftId(draftId: string, imageId: string): Observable<void> {
     return this.http.delete<void>(`/api/v2/workshop-drafts/${draftId}/moderator/image/${encodeURIComponent(encodeURIComponent(imageId))}`);
@@ -140,7 +138,6 @@ export class UserWorkshopService {
    * This method update WorkshopDraft
    * Used in moderator flow
    * @param draftId string
-   * @param moderatorId string
    * @param formData EditWorkshopDraft - contains data for editing workshop draft
    */
   public editWorkshopDraftByModerator(formData: EditWorkshopDraft, draftId: string): Observable<void> {
@@ -259,12 +256,12 @@ export class UserWorkshopService {
     }
 
     Object.keys(workshop).forEach((key: string) => {
-      if (workshop[key]) {
+      if (workshop[key] || skipNullKeys.includes(key)) {
         if (imageFiles.includes(key)) {
           workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {
           formData.append(`${preKey}${key}`, JSON.stringify(workshop[key]));
-        } else if (!(skipNullKeys.includes(key) && workshop[key] === null)) {
+        } else {
           formData.append(`${preKey}${key}`, workshop[key]);
         }
       }

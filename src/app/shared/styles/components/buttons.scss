@@ -1,7 +1,7 @@
 .btn {
-  color: var(--specific-text-button) !important;
-  background-color: var(--bg-button) !important;
-  border: 1px solid var(--bg-button) !important;
+  color: var(--specific-text-button);
+  background-color: var(--bg-button);
+  border: 1px solid var(--bg-button);
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
@@ -27,15 +27,15 @@
   }
 
   &-cancel {
-    color: var(--primary-light-text-color) !important;
-    background-color: transparent !important;
-    border-color: var(--primary-light-text-color) !important;
+    color: var(--primary-light-text-color);
+    background-color: transparent;
+    border-color: var(--primary-light-text-color);
   }
 
   &-rejected {
-    background-color: var(--error-color) !important;
-    border-color: var(--primary-light-color) !important;
-    color: var(--primary-light-color) !important;
+    background-color: var(--error-color);
+    border-color: var(--primary-light-color);
+    color: var(--primary-light-color);
   }
 
   &-transparent {
@@ -81,6 +81,7 @@ button[disabled] {
   border: 1px solid var(--bg-disabled-button);
   background-color: var(--bg-disabled-button);
   pointer-events: none;
+  color: var(--disabled-btn-color);
 }
 
 .status-info-icon {

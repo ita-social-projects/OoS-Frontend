@@ -35,3 +35,7 @@
   line-height: 16px;
   margin: 0;
 }
+
+:host ::ng-deep .mat-mdc-progress-spinner svg {
+  stroke: var(--specific-text-color) !important;
+}

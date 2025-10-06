@@ -40,12 +40,13 @@
 }
 
 .btn:not(.btn-cancel) {
-  background-color: var(--specific-text-color) !important;
-  color: var(--light-text-button) !important;
+  background-color: var(--specific-text-color);
+  color: var(--light-text-button);
+  border: 1px solid var(--light-text-button);
 }
 
 .btn-cancel {
-  color: var(--primary-dark-text-color) !important;
-  background-color: transparent !important;
-  border: 1px solid var(--primary-dark-text-color) !important;
+  color: var(--specific-text-color);
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color);
 }
