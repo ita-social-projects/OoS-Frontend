@@ -89,7 +89,8 @@
               </label>
               <label for="competitiveSelectionDescription" class="step-characters-count">
                 <ng-container *ngIf="form.get('competitiveSelectionDescription').value; else elseBlock">
-                  {{ form.get('competitiveSelectionDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+                  {{ form.get('competitiveSelectionDescription').value?.length }}
+                  /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
                 </ng-container>
                 <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
               </label>
@@ -146,7 +147,8 @@
               </label>
               <label for="preferentialTermsOfParticipation" class="step-characters-count">
                 <ng-container *ngIf="form.get('preferentialTermsOfParticipation').value; else elseBlock">
-                  {{ form.get('preferentialTermsOfParticipation').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+                  {{ form.get('preferentialTermsOfParticipation').value?.length }}
+                  /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
                 </ng-container>
                 <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
               </label>
@@ -178,7 +180,7 @@
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn" mat-raised-button [stepper]="stepper" (click)="onNext()">
+          <button class="btn" mat-raised-button [appStepperNext]="onNext.bind(this)" [form]="form" [stepper]="stepper">
             {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
@@ -196,7 +198,13 @@
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn" mat-raised-button (click)="onSubmit()">
+          <button
+            mat-raised-button
+            class="btn"
+            type="submit"
+            [disabled]="!isFormDirtyOrInvalid"
+            [form]="WorkshopContactsFormArray"
+            [appStepperNext]="onSubmit.bind(this)">
             {{ 'BUTTONS.SEND' | translate }}
           </button>
         </div>

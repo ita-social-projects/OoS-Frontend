@@ -24,11 +24,6 @@ mat-button-toggle {
   font-weight: bold;
 }
 
-.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
-  border-radius: 0 1.2rem 1.2rem 0;
-  background-color: var(--button-toggle-color);
-}
-
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
   line-height: 1;
 }
