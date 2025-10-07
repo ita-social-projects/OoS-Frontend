@@ -86,7 +86,8 @@
               'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate
             }}</label>
             <label for="descriptionOfTheEnrollmentProcedure" class="step-characters-count">
-              {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
+              {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
             </label>
           </div>
           <mat-form-field appearance="fill">
@@ -109,7 +110,8 @@
           <div class="step-label-combined">
             <label for="additionalDescription" class="step-label">{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</label>
             <label for="additionalDescription" class="step-characters-count">
-              {{ form.get('additionalDescription').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+              {{ form.get('additionalDescription').value?.length ?? 0 }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
             </label>
           </div>
 
@@ -157,7 +159,8 @@
           <div class="step-label-combined">
             <label class="step-label" for="termsOfParticipation"> {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label>
             <span class="step-characters-count">
-              {{ form.get('termsOfParticipation').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+              {{ form.get('termsOfParticipation').value?.length ?? 0 }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
             </span>
           </div>
           <mat-form-field appearance="fill">
@@ -213,7 +216,7 @@
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn" mat-raised-button [stepper]="stepper" (click)="onNext()">
+          <button class="btn" mat-raised-button [appStepperNext]="onNext.bind(this)" [form]="form" [stepper]="stepper">
             {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
@@ -231,7 +234,13 @@
           <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn" mat-raised-button (click)="onSubmit()">
+          <button
+            mat-raised-button
+            class="btn"
+            [disabled]="isFormDirtyOrInvalid"
+            [appStepperNext]="onSubmit.bind(this)"
+            [form]="CompetitionContactsFormArray"
+            [stepper]="stepper">
             {{ 'BUTTONS.SEND' | translate }}
           </button>
         </div>
