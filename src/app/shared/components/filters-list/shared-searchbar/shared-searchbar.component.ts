@@ -1,7 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { distinctUntilChanged, map, Observable, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
-import { AddEntityPreviousResult, RemoveEntityPreviousResult, SetEntitySearchQueryValue } from 'shared/store/filter.actions';
+import {
+  AddEntityPreviousResult,
+  ClearEntitySearchQueryValue,
+  RemoveEntityPreviousResult,
+  SetEntitySearchQueryValue
+} from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { WorkshopType } from 'shared/enum/workshop';
 import { SearchComponent } from 'shared/components/filters-list/search.component';
@@ -42,6 +47,11 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
       .subscribe();
 
     super.ngOnInit();
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch(new ClearEntitySearchQueryValue());
+    super.ngOnDestroy();
   }
 
   public onDeletePreviousSearchValue(previousValue: string, event: Event): void {

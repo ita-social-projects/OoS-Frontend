@@ -107,6 +107,10 @@ export class SetEntitySearchQueryValue {
   constructor(public payload: string) {}
 }
 
+export class ClearEntitySearchQueryValue {
+  static readonly type = '[Filter] Clear Entity Search Query Value';
+}
+
 export class AddEntityPreviousResult {
   static readonly type = '[Filter] Entity Previous Result';
   constructor(public result: string) {}

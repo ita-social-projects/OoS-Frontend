@@ -50,6 +50,7 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import * as providerActions from './provider.actions';
 import {
   GetProviderViewCompetitions,
+  OnDeleteUnfinishedWorkshop,
   OnGetDraftIdByEntityIdSuccess,
   OnSaveWorkshopStep,
   OnSaveWorkshopStepFail,
@@ -535,7 +536,14 @@ export class ProviderState {
   ): void {
     const messageData = Util.getWorkshopMessage(payload, SnackbarText.createDraft);
     patchState({ isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
+    dispatch([
+      new MarkFormDirty(false),
+      new OnDeleteUnfinishedWorkshop(),
+      new ShowMessageBar({
+        message: messageData.message,
+        type: messageData.type
+      })
+    ]);
     this.router.navigate(['./personal-cabinet/provider/drafts']);
   }
 

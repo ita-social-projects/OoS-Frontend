@@ -6,7 +6,7 @@ export function ImageControlValidator(field1: string, field2: string): Validator
     const field2Value = group.get(field2)?.value;
 
     const isField1Empty = !field1Value || (Array.isArray(field1Value) && field1Value.length === 0);
-    const isField2Empty = field2Value.length === 0;
+    const isField2Empty = field2Value?.length === 0;
 
     if (isField1Empty && isField2Empty && group.get(field1)?.touched) {
       return { imageControlError: true };
