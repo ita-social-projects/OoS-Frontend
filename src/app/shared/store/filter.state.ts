@@ -317,7 +317,7 @@ export class FilterState {
 
   @Action(ClearEntitySearchQueryValue)
   clearEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ entitySearchQuery: null, from: 0 });
+    patchState({ entitySearchQuery: '', from: 0 });
   }
 
   @Action(AddPreviousResult)
