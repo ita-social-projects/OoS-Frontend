@@ -11,12 +11,13 @@
     class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button
-      (click)="onActionButtonClick(competition.id ? ModalConfirmationType.archiveCompetition : ModalConfirmationType.deleteDraft)"
+      mat-button
       class="btn btn-cancel"
-      mat-button>
+      (click)="onActionButtonClick(competition.id ? ModalConfirmationType.archiveCompetition : ModalConfirmationType.deleteDraft)"
+      *ngIf="competition.draftStatus !== WorkshopDraftStatus.PendingModeration">
       {{ competition.id ? ('BUTTONS.ARCHIVE' | translate) : ('BUTTONS.DELETE' | translate) }}
     </button>
-    <div class="flex">
+    <div class="flex ml-auto">
       <span
         [matTooltip]="
           competition.draftStatus === WorkshopDraftStatus.PendingModeration
@@ -72,7 +73,7 @@
     </mat-expansion-panel>
   </div>
 
-  <div class="details-wrapper">
+  <div class="details-wrapper" [class.margin-top]="!competition.draftStatus">
     <div class="flex flex-col justify-between">
       <div class="flex flex-row justify-between items-center">
         <div class="flex flex-col items-start sm:flex-wrap">
