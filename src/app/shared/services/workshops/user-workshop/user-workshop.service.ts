@@ -256,7 +256,7 @@ export class UserWorkshopService {
     }
 
     Object.keys(workshop).forEach((key: string) => {
-      if (workshop[key] || skipNullKeys.includes(key)) {
+      if (workshop[key] || (workshop[key] === 0 && skipNullKeys.includes(key))) {
         if (imageFiles.includes(key)) {
           workshop[key].forEach((file: File) => formData.append(`${preKey}${key}`, file));
         } else if (formNames.includes(key)) {
