@@ -202,7 +202,7 @@
             mat-raised-button
             class="btn"
             type="submit"
-            [disabled]="!isFormDirtyOrInvalid"
+            [disabled]="!isFormValidAndDirty"
             [form]="WorkshopContactsFormArray"
             [appStepperNext]="onSubmit.bind(this)">
             {{ 'BUTTONS.SEND' | translate }}

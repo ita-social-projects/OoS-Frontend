@@ -65,8 +65,8 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
     this.activatedRoute = activatedRoute;
   }
 
-  public get isFormDirtyOrInvalid(): boolean {
-    return this.form.dirty || this.form.invalid || this.CompetitionContactsFormArray.dirty || this.CompetitionContactsFormArray.invalid;
+  public get isFormValidAndDirty(): boolean {
+    return this.form.dirty && this.form.valid && this.CompetitionContactsFormArray.dirty && this.CompetitionContactsFormArray.valid;
   }
 
   public ngOnInit(): void {

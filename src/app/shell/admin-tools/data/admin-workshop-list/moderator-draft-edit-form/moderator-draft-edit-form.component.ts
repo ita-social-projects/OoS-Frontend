@@ -65,8 +65,8 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     this.activatedRoute = activatedRoute;
   }
 
-  public get isFormDirtyOrInvalid(): boolean {
-    return this.form.dirty || this.form.invalid || this.WorkshopContactsFormArray.dirty || this.WorkshopContactsFormArray.invalid;
+  public get isFormValidAndDirty(): boolean {
+    return this.form.dirty && this.form.valid && this.WorkshopContactsFormArray.dirty && this.WorkshopContactsFormArray.valid;
   }
 
   public ngOnInit(): void {

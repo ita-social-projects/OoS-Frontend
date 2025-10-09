@@ -237,7 +237,7 @@
           <button
             mat-raised-button
             class="btn"
-            [disabled]="isFormDirtyOrInvalid"
+            [disabled]="isFormValidAndDirty"
             [appStepperNext]="onSubmit.bind(this)"
             [form]="CompetitionContactsFormArray"
             [stepper]="stepper">
