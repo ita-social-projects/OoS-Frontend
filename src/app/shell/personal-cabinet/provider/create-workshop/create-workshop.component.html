@@ -157,7 +157,7 @@
             <button
               class="btn"
               mat-raised-button
-              [disabled]="(isLoading$ | async) || IsAllFormsNotDirtyAndInvalid"
+              [disabled]="(isLoading$ | async) || (IsAllFormsNotDirtyAndInvalid && !isUnfinished)"
               [appStepperNext]="onSubmit.bind(this)"
               [form]="TeacherFormArray"
               [stepper]="stepper"

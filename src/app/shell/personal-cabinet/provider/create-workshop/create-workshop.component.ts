@@ -27,7 +27,6 @@ import { AddNavPath } from 'shared/store/navigation.actions';
 import {
   CreateWorkshopDraft,
   GetUnfinishedWorkshop,
-  OnDeleteUnfinishedWorkshop,
   OnSaveWorkshopStep,
   UpdateWorkshop,
   UpdateWorkshopDraft
@@ -152,17 +151,20 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     );
   }
 
+  public get isUnfinished(): boolean {
+    return this.getRouteParam() === ModeConstants.UNFINISHED;
+  }
+
   public ngOnInit(): void {
     this.provider$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((provider: Provider) => (this.provider = provider));
 
     this.entity = this.route.snapshot.paramMap.get('entity') || WorkshopType.Workshop;
-    const param = this.getRouteParam();
 
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
 
-    if (param === ModeConstants.UNFINISHED) {
+    if (this.isUnfinished) {
       this.loadUnfinishedWorkshopData();
     }
   }
@@ -291,8 +293,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       workshop = new Workshop(aboutInfo, descInfo, contacts, additionalAboutInfo, teachers, provider);
       this.store.dispatch(new CreateWorkshopDraft(workshop));
     }
-
-    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
   }
 
   /**

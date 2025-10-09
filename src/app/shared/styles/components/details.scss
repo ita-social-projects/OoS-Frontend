@@ -50,8 +50,13 @@
   .details {
     &-wrapper {
       margin: 0 2rem 2rem 2rem;
+
       @include devices(mobile) {
         margin: 0;
+      }
+
+      &.margin-top {
+        margin: 20px 2rem 2rem 2rem;
       }
     }
 

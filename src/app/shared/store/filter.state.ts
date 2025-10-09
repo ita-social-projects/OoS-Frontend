@@ -53,7 +53,8 @@ import {
   SetWorkingDays,
   SetEntitySearchQueryValue,
   SetPayRate,
-  SetIndeterminates
+  SetIndeterminates,
+  ClearEntitySearchQueryValue
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -312,6 +313,11 @@ export class FilterState {
   @Action(SetEntitySearchQueryValue)
   setEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetEntitySearchQueryValue): void {
     patchState({ entitySearchQuery: payload, from: 0 });
+  }
+
+  @Action(ClearEntitySearchQueryValue)
+  clearEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ entitySearchQuery: '', from: 0 });
   }
 
   @Action(AddPreviousResult)

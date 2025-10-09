@@ -11,12 +11,13 @@
     [class.draft-panel-action-row]="workshop.draftStatus"
     *ngIf="providerParameters?.providerId === currentProvider?.id">
     <button
-      (click)="onActionButtonClick(workshop.draftStatus ? modalType.deleteDraft : modalType.archiveWorkshop)"
+      mat-button
       class="btn btn-cancel"
-      mat-button>
+      *ngIf="workshop.draftStatus !== WorkshopDraftStatus.PendingModeration"
+      (click)="onActionButtonClick(workshop.draftStatus ? modalType.deleteDraft : modalType.archiveWorkshop)">
       {{ workshop.draftStatus ? ('BUTTONS.DELETE' | translate) : ('BUTTONS.ARCHIVE' | translate) }}
     </button>
-    <div class="flex">
+    <div class="flex ml-auto">
       <span
         [matTooltip]="
           workshop.draftStatus === WorkshopDraftStatus.PendingModeration
@@ -72,7 +73,7 @@
     </mat-expansion-panel>
   </div>
 
-  <div class="details-wrapper">
+  <div class="details-wrapper" [class.margin-top]="!workshop.draftStatus">
     <div class="flex flex-col justify-between">
       <div class="flex flex-row justify-between items-center">
         <div class="flex flex-col items-start sm:flex-wrap">
