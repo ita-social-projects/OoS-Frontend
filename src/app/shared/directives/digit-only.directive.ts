@@ -6,7 +6,7 @@ import { Directive, HostListener } from '@angular/core';
 export class DigitOnlyDirective {
   @HostListener('beforeinput', ['$event'])
   public onInputChange(event: InputEvent): void {
-    if (event.data && /[^0-9./]/.test(event.data)) {
+    if (event.data && !/^\d*(?:[.,]\d{0,2})?$/.test((event.target as HTMLInputElement).value + event.data)) {
       event.preventDefault();
     }
   }
