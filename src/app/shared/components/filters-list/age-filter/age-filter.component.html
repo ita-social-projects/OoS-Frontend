@@ -3,7 +3,7 @@
 </p>
 <div class="check-boxes flex flex-col items-start gap-[0.8rem]">
   <mat-checkbox color="primary" [formControl]="noRestrictionControl">
-    {{ 'NO_AGE_RESTRICTION' | translate }}
+    {{ 'UNLIMITED' | translate }}
   </mat-checkbox>
   <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl" [class.disabled]="noRestrictionControl.value">
     {{ 'EXACT_MATCH' | translate }}
