@@ -28,6 +28,10 @@
   text-align: center;
 }
 
+.disabled {
+  opacity: 0.5;
+}
+
 :host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0 !important;
 }

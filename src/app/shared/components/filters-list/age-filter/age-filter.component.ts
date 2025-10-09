@@ -29,10 +29,10 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   public set ageFilter(filter: AgeFilter) {
-    const { minAge, maxAge, isAppropriateAge, noRestriction } = filter;
+    const { minAge, maxAge, isAppropriateAge, noAgeRestriction } = filter;
     this.minAgeFormControl.setValue(minAge, { emitEvent: false });
     this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
-    this.noRestrictionControl.setValue(noRestriction, { emitEvent: false });
+    this.noRestrictionControl.setValue(noAgeRestriction, { emitEvent: false });
     this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
   }
 

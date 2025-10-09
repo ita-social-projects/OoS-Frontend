@@ -3,13 +3,13 @@
 </p>
 <div class="check-boxes flex flex-col items-start gap-[0.8rem]">
   <mat-checkbox color="primary" [formControl]="noRestrictionControl">
-    {{ 'NO_RESTRICTION' | translate }}
+    {{ 'NO_AGE_RESTRICTION' | translate }}
   </mat-checkbox>
-  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
+  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl" [class.disabled]="noRestrictionControl.value">
     {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
-<div class="wrapper flex flex-col justify-between gap-4">
+<div class="wrapper flex flex-col justify-between gap-4" [class.disabled]="noRestrictionControl.value">
   <div class="flex flex-col gap-1">
     <div class="from-filter-text flex flex-row items-center">
       <p class="filter-text">

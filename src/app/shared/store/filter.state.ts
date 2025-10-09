@@ -178,7 +178,7 @@ export class FilterState {
       isAppropriateAge,
       minAge,
       maxAge,
-      noRestriction,
+      noAgeRestriction,
       directionIds,
       subdirectionIds,
       indeterminateDirectionIds,
@@ -203,7 +203,7 @@ export class FilterState {
       directionIds,
       subdirectionIds,
       indeterminateDirectionIds,
-      ageFilter: { minAge, maxAge, noRestriction, isAppropriateAge },
+      ageFilter: { minAge, maxAge, noAgeRestriction, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
@@ -440,9 +440,9 @@ export class FilterState {
   @Action(SetNoRestrictionAge)
   setNoRestrictionAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetNoRestrictionAge): void {
     if (payload) {
-      patchState({ minAge: ValidationConstants.AGE_MIN, maxAge: ValidationConstants.BIRTH_AGE_MAX, from: 0 });
+      patchState({ noAgeRestriction: true, minAge: ValidationConstants.AGE_MIN, maxAge: ValidationConstants.BIRTH_AGE_MAX, from: 0 });
     } else {
-      patchState({ minAge: null, maxAge: null, from: 0 });
+      patchState({ noAgeRestriction: false, minAge: null, maxAge: null, from: 0 });
     }
   }
 
