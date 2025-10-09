@@ -20,6 +20,10 @@
     margin-right: 8px;
     border-color: var(--primary-light-text-color) !important;
   }
+
+  .mat-pseudo-checkbox-minimal {
+    display: none;
+  }
 }
 
 .mat-mdc-option.mat-mdc-option--disabled {
