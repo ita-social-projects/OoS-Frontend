@@ -31,6 +31,7 @@ import {
   SetDirections,
   SetEndTime,
   SetEntitySearchQueryValue,
+  ClearEntitySearchQueryValue,
   SetFilterFromURL,
   SetFilterPagination,
   SetFormsOfLearning,
