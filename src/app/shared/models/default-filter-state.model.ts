@@ -11,6 +11,7 @@ export class DefaultFilterState {
   indeterminateDirectionIds: number[] = [];
   maxAge: number = null;
   minAge: number = null;
+  noRestriction: boolean = false;
   isAppropriateAge = false;
   startTime: string = null;
   endTime: string = null;

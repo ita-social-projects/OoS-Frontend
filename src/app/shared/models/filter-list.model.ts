@@ -17,6 +17,7 @@ export interface FilterList {
 export interface AgeFilter {
   minAge: number;
   maxAge: number;
+  noRestriction: boolean;
   isAppropriateAge: boolean;
 }
 

@@ -100,6 +100,10 @@ export class AppWorkshopsService {
     if (filters.isAppropriateAge) {
       params = params.set('IsAppropriateAge', 'true');
     }
+    if (filters.noRestriction) {
+      params = params.set('MinAge', filters.minAge.toString());
+      params = params.set('MaxAge', filters.maxAge.toString());
+    }
     if (filters.startTime) {
       params = params.set('MinStartTime', filters.startTime);
     }

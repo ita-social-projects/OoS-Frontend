@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operato
 
 import { ValidationConstants } from 'shared/constants/validation';
 import { AgeFilter } from 'shared/models/filter-list.model';
-import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
+import { SetIsAppropriateAge, SetMaxAge, SetMinAge, SetNoRestrictionAge } from 'shared/store/filter.actions';
 import { Util } from 'shared/utils/utils';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 
@@ -20,6 +20,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   public minAgeFormControl = new FormControl(null);
   public maxAgeFormControl = new FormControl(null);
+  public noRestrictionControl = new FormControl(false);
   public isAppropriateAgeControl = new FormControl(false);
   public ageFormGroup: FormGroup;
   private readonly destroy$: Subject<boolean> = new Subject<boolean>();
@@ -28,9 +29,10 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   public set ageFilter(filter: AgeFilter) {
-    const { minAge, maxAge, isAppropriateAge } = filter;
+    const { minAge, maxAge, isAppropriateAge, noRestriction } = filter;
     this.minAgeFormControl.setValue(minAge, { emitEvent: false });
     this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
+    this.noRestrictionControl.setValue(noRestriction, { emitEvent: false });
     this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
   }
 
@@ -72,9 +74,25 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.applyFilters();
       });
+
     this.isAppropriateAgeControl.valueChanges
       .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
+
+    this.noRestrictionControl.valueChanges
+      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.minAgeFormControl.setValue(null, { emitEvent: false });
+          this.minAgeFormControl.disable();
+          this.maxAgeFormControl.setValue(null, { emitEvent: false });
+          this.maxAgeFormControl.disable();
+        } else {
+          this.minAgeFormControl.enable();
+          this.maxAgeFormControl.enable();
+        }
+        this.store.dispatch(new SetNoRestrictionAge(val));
+      });
   }
 
   public ngOnDestroy(): void {
