@@ -83,6 +83,11 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   }
 
   public onViewCompetitionInfo(competition: CompetitionDraft): void {
+    if (this.selectedCompetitionDraftId === competition.competitiveEventDraftId && this.isInfoDisplayed) {
+      this.closeInfo();
+      return;
+    }
+
     this.selectedCompetitionDraftId = competition.competitiveEventDraftId;
     this.competition = competition.competitiveEventDetails;
     this.isInfoDisplayed = true;

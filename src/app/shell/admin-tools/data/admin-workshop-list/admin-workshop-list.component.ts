@@ -93,6 +93,11 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   }
 
   public onViewWorkshopInfo(workshop: WorkshopDraft): void {
+    if (this.selectedWorkshopDraftId === workshop.workshopDraftId && this.isInfoDisplayed) {
+      this.closeInfo();
+      return;
+    }
+
     this.selectedWorkshopDraftId = workshop.workshopDraftId;
     this.workshop = workshop.workshopDetails;
     this.isInfoDisplayed = true;
@@ -133,7 +138,12 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PopNavPath());
   }
 
-  public getWorkshops(filterData: { parameters: WorkshopFilterAdministration; currentPage: PaginationElement } = null): void {
+  public getWorkshops(
+    filterData: {
+      parameters: WorkshopFilterAdministration;
+      currentPage: PaginationElement;
+    } = null
+  ): void {
     if (filterData?.parameters && filterData?.currentPage) {
       this.workshopParameters = filterData.parameters;
       this.currentPage = filterData.currentPage;
