@@ -36,7 +36,7 @@
                 <a [href]="'tel:' + phone.number" rel="noopener">{{ phone.number }}</a>
               </div>
             </div>
-            <mat-divider *ngIf="contact.emails?.length"></mat-divider>
+            <mat-divider *ngIf="contact.emails?.length && contact.phones.length"></mat-divider>
             <div class="flex justify-between" *ngFor="let email of contact.emails">
               <div class="title-wrapper">
                 <mat-icon class="card_icon">mail</mat-icon>
@@ -46,7 +46,7 @@
                 <a [href]="'mailto:' + email.address" target="_blank">{{ email.address }}</a>
               </div>
             </div>
-            <mat-divider *ngIf="contact.socialNetworks?.length"></mat-divider>
+            <mat-divider *ngIf="contact.socialNetworks?.length && contact.emails?.length"></mat-divider>
             <div class="flex justify-between" *ngFor="let social of contact.socialNetworks">
               <div class="title-wrapper">
                 <mat-icon class="card_icon">language</mat-icon>
