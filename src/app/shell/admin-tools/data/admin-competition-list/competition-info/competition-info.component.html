@@ -5,7 +5,7 @@
     </a>
   </div>
 
-  <mat-tab-group [mat-stretch-tabs]="false">
+  <mat-tab-group [mat-stretch-tabs]="false" #tabGroup>
     <mat-tab [formGroup]="form" label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_COMPETITION' | translate }}">
       <app-image-form-control
         class="image-form-control"
@@ -142,7 +142,9 @@
             <h5>{{ 'FORMS.LABELS.TYPE' | translate }}</h5>
             <p>{{ socialNetwork.type }}</p>
             <h5>{{ 'FORMS.LABELS.LINK' | translate }}</h5>
-            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{ socialNetwork.url }}</a>
+            <a class="my-[13px] block break-words" [href]="socialNetwork.url" target="_blank" rel="noopener noreferrer">{{
+              socialNetwork.url
+            }}</a>
           </div>
         </div>
       </div>

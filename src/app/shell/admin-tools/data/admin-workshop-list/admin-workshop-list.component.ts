@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
@@ -11,7 +11,6 @@ import { DraftStatusEnum, FormOfLearningEnum } from 'shared/enum/enumUA/workshop
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { UserStatusIcons } from 'shared/enum/statuses';
-import { Codeficator } from 'shared/models/codeficator.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopDraft, WorkshopFilterAdministration } from 'shared/models/workshop.model';
@@ -30,6 +29,8 @@ import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal
 export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   @Select(AdminState.workshopDrafts)
   public workshopDrafts$: Observable<SearchResponse<WorkshopDraft[]>>;
+
+  public height$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   public readonly noWorkshops = NoResultsTitle.noResult;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
@@ -62,6 +63,7 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   public isInfoDisplayed: boolean;
   public totalEntities: number;
 
+  private resizeObserver: ResizeObserver;
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -69,13 +71,20 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
     private readonly matDialog: MatDialog
   ) {}
 
+  @ViewChild('table', { read: ElementRef })
+  public set table(tableRef: ElementRef) {
+    if (tableRef) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.height$.next(tableRef.nativeElement.offsetHeight);
+      });
+      this.resizeObserver.observe(tableRef.nativeElement);
+      this.height$.next(tableRef.nativeElement.offsetHeight);
+    }
+  }
+
   public set workshops(value: SearchResponse<WorkshopDraft[]>) {
     this.dataSource.data = value?.entities;
     this.totalEntities = value?.totalAmount;
-  }
-
-  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
-    return codeficator1.id === codeficator2.id;
   }
 
   public ngOnInit(): void {
@@ -135,6 +144,7 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+    this.resizeObserver.disconnect();
     this.store.dispatch(new PopNavPath());
   }
 

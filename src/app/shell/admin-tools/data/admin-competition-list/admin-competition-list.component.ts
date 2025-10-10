@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
@@ -29,6 +29,8 @@ import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal
 export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   @Select(AdminState.competitionDrafts)
   public competitionDrafts$: Observable<SearchResponse<CompetitionDraft[]>>;
+
+  public height$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   public readonly noCompetitions = NoResultsTitle.noResult;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
@@ -57,12 +59,24 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   public isInfoDisplayed: boolean;
   public totalEntities: number;
 
+  private resizeObserver: ResizeObserver;
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly store: Store,
     private readonly matDialog: MatDialog
   ) {}
+
+  @ViewChild('table', { read: ElementRef })
+  public set table(tableRef: ElementRef) {
+    if (tableRef) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.height$.next(tableRef.nativeElement.offsetHeight);
+      });
+      this.resizeObserver.observe(tableRef.nativeElement);
+      this.height$.next(tableRef.nativeElement.offsetHeight);
+    }
+  }
 
   public set competitions(value: SearchResponse<CompetitionDraft[]>) {
     this.dataSource.data = value?.entities;
