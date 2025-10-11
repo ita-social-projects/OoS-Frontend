@@ -144,7 +144,7 @@ export class AdminWorkshopListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.resizeObserver.disconnect();
+    this.resizeObserver?.disconnect();
     this.store.dispatch(new PopNavPath());
   }
 

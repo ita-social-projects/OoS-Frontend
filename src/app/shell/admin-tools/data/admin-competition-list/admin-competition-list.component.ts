@@ -70,6 +70,7 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   @ViewChild('table', { read: ElementRef })
   public set table(tableRef: ElementRef) {
     if (tableRef) {
+      this.resizeObserver?.disconnect();
       this.resizeObserver = new ResizeObserver(() => {
         this.height$.next(tableRef.nativeElement.offsetHeight);
       });
@@ -141,10 +142,16 @@ export class AdminCompetitionListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+    this.resizeObserver?.disconnect();
     this.store.dispatch(new PopNavPath());
   }
 
-  public getCompetitions(filterData: { parameters: CompetitionFilterAdministration; currentPage: PaginationElement } = null): void {
+  public getCompetitions(
+    filterData: {
+      parameters: CompetitionFilterAdministration;
+      currentPage: PaginationElement;
+    } = null
+  ): void {
     if (filterData?.parameters && filterData?.currentPage) {
       this.competitionParameters = filterData.parameters;
       this.currentPage = filterData.currentPage;
