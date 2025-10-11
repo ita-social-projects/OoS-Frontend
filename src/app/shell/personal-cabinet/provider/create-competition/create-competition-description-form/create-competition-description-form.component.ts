@@ -329,11 +329,9 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   }
 
   private priceControlListener(): void {
-    this.priceControl.valueChanges
+    this.priceRadioBtn.valueChanges
       .pipe(
-        map((val) => !!val),
-        distinctUntilChanged(),
-        filter(() => this.benefitsOptionRadioBtn.value),
+        filter((value) => !value),
         takeUntil(this.destroy$)
       )
       .subscribe(() => {
