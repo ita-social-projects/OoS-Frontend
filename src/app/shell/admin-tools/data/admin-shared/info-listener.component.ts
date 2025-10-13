@@ -5,7 +5,7 @@ import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
   template: ''
 })
 export abstract class InfoListenerComponent implements OnDestroy {
-  @Input() public height$: BehaviorSubject<number> = new BehaviorSubject<number>(400);
+  @Input() public height$!: BehaviorSubject<number>;
 
   public destroy$: Subject<void> = new Subject();
 
@@ -19,7 +19,7 @@ export abstract class InfoListenerComponent implements OnDestroy {
       return;
     }
 
-    this.tableHeightSubscription.unsubscribe();
+    this.tableHeightSubscription?.unsubscribe();
     this.tableHeightSubscription = this.height$.pipe(takeUntil(this.destroy$)).subscribe((height: number) => {
       const tab = tabGroup.nativeElement.querySelector('.mat-mdc-tab-body-wrapper') as HTMLElement;
       this.renderer.setStyle(tab, 'max-height', height > 400 ? `${height}px` : '400px');
