@@ -66,4 +66,21 @@ describe('AdminWorkshopListComponent', () => {
     expect(component.isInfoDisplayed).toBe(false);
     expect(component.selectedWorkshopDraftId).toBeNull();
   });
+
+  it('should reset info on onViewWorkshopInfo for the same workshop', () => {
+    jest.spyOn(component, 'closeInfo');
+    component.selectedWorkshopDraftId = '123';
+    component.isInfoDisplayed = true;
+
+    const workshop: WorkshopDraft = {
+      workshopDraftId: '123',
+      workshopDetails: { title: 'Test Event' }
+    } as any;
+
+    component.onViewWorkshopInfo(workshop);
+
+    expect(component.isInfoDisplayed).toBe(false);
+    expect(component.selectedWorkshopDraftId).toBeNull();
+    expect(component.closeInfo).toHaveBeenCalled();
+  });
 });

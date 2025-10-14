@@ -11,6 +11,7 @@ export interface FilterStateModel {
   indeterminateDirectionIds: number[];
   maxAge: number;
   minAge: number;
+  noAgeRestriction: boolean;
   isAppropriateAge: boolean;
   workingDays: string[];
   startTime: string;

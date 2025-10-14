@@ -68,4 +68,21 @@ describe('AdminCompetitionListComponent', () => {
     expect(component.isInfoDisplayed).toBe(false);
     expect(component.selectedCompetitionDraftId).toBeNull();
   });
+
+  it('should reset info on onViewWorkshopInfo for the same competition', () => {
+    jest.spyOn(component, 'closeInfo');
+    component.selectedCompetitionDraftId = '123';
+    component.isInfoDisplayed = true;
+
+    const competition: CompetitionDraft = {
+      competitiveEventDraftId: '123',
+      competitiveEventDetails: { title: 'Test Event' }
+    } as any;
+
+    component.onViewCompetitionInfo(competition);
+
+    expect(component.isInfoDisplayed).toBe(false);
+    expect(component.selectedCompetitionDraftId).toBeNull();
+    expect(component.closeInfo).toHaveBeenCalled();
+  });
 });

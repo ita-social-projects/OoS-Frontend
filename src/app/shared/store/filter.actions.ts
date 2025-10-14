@@ -197,6 +197,11 @@ export class SetIsAppropriateAge {
   constructor(public payload: boolean) {}
 }
 
+export class SetNoRestrictionAge {
+  static readonly type = '[filter] Set No restriction age';
+  constructor(public payload: boolean) {}
+}
+
 export class SetCoordsByMap {
   static readonly type = '[filter] Set coords by map';
   constructor(public payload: Coords) {}
