@@ -239,6 +239,7 @@ export interface Description {
   benefits?: string;
   venueName?: string;
   termsOfParticipation?: string;
+  preferentialTermsOfParticipation?: string;
   competitiveSelectionDescription?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
   imageIds?: string[];
