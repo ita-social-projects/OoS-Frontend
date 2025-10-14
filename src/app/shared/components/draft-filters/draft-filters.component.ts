@@ -253,7 +253,7 @@ export class DraftFiltersComponent implements OnInit, OnDestroy {
     this.institutionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe(() => {
-        this.parameters.institutionId = this.institutionFormControl.value.id;
+        this.parameters.institutionId = this.institutionFormControl.value[0]?.id;
         this.currentPage = PaginationConstants.firstPage;
         this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
       });
@@ -261,7 +261,7 @@ export class DraftFiltersComponent implements OnInit, OnDestroy {
     this.regionFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((value: Codeficator) => {
-        this.parameters.catottgId = this.regionFormControl.value.id;
+        this.parameters.catottgId = this.regionFormControl.value[0]?.id;
         this.currentPage = PaginationConstants.firstPage;
         this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
         if (value.category === CodeficatorCategories.Region) {
@@ -283,8 +283,8 @@ export class DraftFiltersComponent implements OnInit, OnDestroy {
 
     this.statusFormControl.valueChanges.pipe(distinctUntilChanged(), debounceTime(1000), takeUntil(this.destroy$)).subscribe(() => {
       // TO DO Change statuses when it will be unified
-      this.parameters.competitiveEventDraftStatuses = this.statusFormControl.value;
-      this.parameters.workshopDraftStatuses = this.statusFormControl.value;
+      this.parameters.competitiveEventDraftStatuses = this.statusFormControl.value[0];
+      this.parameters.workshopDraftStatuses = this.statusFormControl.value[0];
       this.currentPage = PaginationConstants.firstPage;
       this.getDraftsByFilter.emit({ parameters: this.parameters, currentPage: this.currentPage });
     });
