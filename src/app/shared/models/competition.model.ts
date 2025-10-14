@@ -38,6 +38,7 @@ export abstract class CompetitionBase {
   buildingHoldingId: string;
   childParticipantId: string;
   competitiveEventAccountingTypeId: number;
+  competitiveSelectionDescription: string;
   descriptionOfTheEnrollmentProcedure?: string;
   venueId?: string;
   venueName?: string;
@@ -111,6 +112,9 @@ export abstract class CompetitionBase {
     }
     if (description.competitiveEventDescriptionItems) {
       this.competitiveEventDescriptionItems = description.competitiveEventDescriptionItems;
+    }
+    if (description.competitiveSelectionDescription) {
+      this.competitiveSelectionDescription = description.competitiveSelectionDescription;
     }
   }
 }
@@ -235,7 +239,7 @@ export interface Description {
   benefits?: string;
   venueName?: string;
   termsOfParticipation?: string;
-  preferentialTermsOfParticipation?: string;
+  competitiveSelectionDescription?: string;
   competitiveEventDescriptionItems?: CompetitiveDescriptionItem[];
   imageIds?: string[];
   imageFiles?: File[];
