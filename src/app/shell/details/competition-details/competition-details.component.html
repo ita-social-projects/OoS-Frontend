@@ -13,9 +13,9 @@
     <button
       mat-button
       class="btn btn-cancel"
-      (click)="onActionButtonClick(competition.id ? ModalConfirmationType.archiveCompetition : ModalConfirmationType.deleteDraft)"
+      (click)="onActionButtonClick(competition.draftStatus ? ModalConfirmationType.deleteDraft : ModalConfirmationType.archiveCompetition)"
       *ngIf="competition.draftStatus !== WorkshopDraftStatus.PendingModeration">
-      {{ competition.id ? ('BUTTONS.ARCHIVE' | translate) : ('BUTTONS.DELETE' | translate) }}
+      {{ competition.draftStatus ? ('BUTTONS.DELETE' | translate) : ('BUTTONS.ARCHIVE' | translate) }}
     </button>
     <div class="flex ml-auto">
       <span
