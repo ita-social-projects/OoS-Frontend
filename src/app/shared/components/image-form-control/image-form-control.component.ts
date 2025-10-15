@@ -30,6 +30,7 @@ type FilesToVoid = (array: File[]) => void;
   ]
 })
 export class ImageFormControlComponent implements OnInit, ControlValueAccessor, OnDestroy {
+  @Input() public entity: 'workshop' | 'competition';
   @Input() public imgMaxAmount: number;
   @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;

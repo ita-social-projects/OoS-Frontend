@@ -790,6 +790,7 @@
     "ADD_POSITION": "You can add positions here",
     "ADD_COVER_IMG_SUBHEADER": "Add a cover for your workshop",
     "ADD_IMG_SUBHEADER": "Add photos of them from your workshop. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER_COMPETITION": "Add photos for your competition. The maximum number of photos -",
     "ADD_IMG_SUBHEADER_DESC": "Photos will be available for parents and children to view in order to learn more about the workshop.",
     "UPLOAD_EMPLOYEE": "Here you can upload a file with an employee of your workshop"
   },
