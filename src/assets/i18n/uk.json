@@ -446,6 +446,7 @@
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
       "AVAILABLE_PLACES": "Загальна кількість місць в групі",
+      "AVAILABLE_PLACES_COMPETITION": "Загальна кількість місць",
       "AVAILABLE_PLACES_DESCRIPTION": "Вкажіть максимальну кількість місць або розмір групи",
       "BIRTHDAY": "Дата народження",
       "BUILDING": "Будинок",

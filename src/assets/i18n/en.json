@@ -445,6 +445,7 @@
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
       "AVAILABLE_PLACES": "Number of available places",
+      "AVAILABLE_PLACES_COMPETITION": "Number of places",
       "AVAILABLE_PLACES_DESCRIPTION": "Specify maximum number of seats or group size",
       "BIRTHDAY": "Birthday",
       "BUILDING": "Building",
