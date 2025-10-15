@@ -4,7 +4,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants, ModeConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -109,8 +109,9 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(new GetLanguageList());
     this.initForm();
-    this.getLanguageList();
+    this.setDefaultLanguage();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
 
     if (this.workshop) {
@@ -243,8 +244,11 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
     );
   }
 
-  private getLanguageList(): void {
-    this.store.dispatch(new GetLanguageList());
+  private setDefaultLanguage(): void {
+    this.languageList$.pipe(filter(Boolean), take(1)).subscribe((languageList) => {
+      const uaLang = languageList.find((lang) => lang.code === 'uk');
+      this.AboutFormGroup.get('languageOfEducationId').setValue(uaLang.id);
+    });
   }
 
   private initListeners(): void {
