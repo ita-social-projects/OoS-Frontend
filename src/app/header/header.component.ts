@@ -104,7 +104,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public onLogin(): void {
-    localStorage.setItem('shouldRedirect', JSON.stringify(true));
     this.store.dispatch(new Login(false));
   }
 

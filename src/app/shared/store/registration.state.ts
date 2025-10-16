@@ -69,6 +69,8 @@ export interface RegistrationStateModel {
 })
 @Injectable()
 export class RegistrationState {
+  private firstLogin: boolean = false;
+
   constructor(
     private store: Store,
     private router: Router,
@@ -142,6 +144,7 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<void> {
+    this.firstLogin = Boolean(new URLSearchParams(window.location.search).size);
     return this.oidcSecurityService.checkAuth().pipe(
       switchMap((auth: LoginResponse) => {
         patchState({ isAuthorized: auth.isAuthenticated });
@@ -168,12 +171,10 @@ export class RegistrationState {
     const state = getState();
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
-      const shouldRedirect = localStorage.getItem('shouldRedirect');
       if (
-        shouldRedirect &&
+        this.firstLogin &&
         (state.user.role === Role.provider || state.user.role === Role.providerDeputy || state.user.role === Role.employee)
       ) {
-        localStorage.removeItem('shouldRedirect');
         this.router.navigate(['/personal-cabinet/config']);
       }
     } else {
