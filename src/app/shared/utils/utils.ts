@@ -262,6 +262,11 @@ export class Util {
       delete filterStateDiff.payRate;
     }
 
+    if (filterStateDiff.noAgeRestriction) {
+      delete filterStateDiff.minAge;
+      delete filterStateDiff.maxAge;
+    }
+
     // Create query string from filterStateDiff object
     Object.keys(filterStateDiff).forEach((key, index, keyArray) => {
       // Shouldn't add semicolon on last iteration

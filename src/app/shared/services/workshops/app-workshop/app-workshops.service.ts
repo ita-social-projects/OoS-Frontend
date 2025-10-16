@@ -12,6 +12,7 @@ import { MinMaxPriceFilter } from 'shared/models/filter-list.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { FilterState } from 'shared/store/filter.state';
+import { ValidationConstants } from 'shared/constants/validation';
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,10 @@ export class AppWorkshopsService {
     }
     if (filters.isAppropriateAge) {
       params = params.set('IsAppropriateAge', 'true');
+    }
+    if (filters.noAgeRestriction) {
+      params = params.set('MinAge', ValidationConstants.AGE_MIN);
+      params = params.set('MaxAge', ValidationConstants.BIRTH_AGE_MAX);
     }
     if (filters.startTime) {
       params = params.set('MinStartTime', filters.startTime);

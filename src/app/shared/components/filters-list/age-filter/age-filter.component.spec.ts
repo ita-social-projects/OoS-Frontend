@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -12,7 +12,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { MaterialModule } from 'shared/modules/material.module';
-import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
+import { SetIsAppropriateAge, SetMaxAge, SetMinAge, SetNoRestrictionAge } from 'shared/store/filter.actions';
 import { AgeFilterComponent } from './age-filter.component';
 
 describe('AgeFilterComponent', () => {
@@ -43,7 +43,7 @@ describe('AgeFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AgeFilterComponent);
     component = fixture.componentInstance;
-    component.ageFilter = { minAge: 0, maxAge: 120, isAppropriateAge: false };
+    component.ageFilter = { minAge: 0, maxAge: 120, noAgeRestriction: false, isAppropriateAge: false };
     store = TestBed.inject(Store);
     fixture.detectChanges();
   });
@@ -98,5 +98,37 @@ describe('AgeFilterComponent', () => {
     component.clearMax();
 
     expect(component.maxAgeFormControl.reset).toHaveBeenCalled();
+  });
+
+  describe('age restriction', () => {
+    beforeEach(async () => {
+      jest.spyOn(store, 'dispatch');
+    });
+
+    it('should set maxAge to max and minAge to min available if no restriction', fakeAsync(() => {
+      component.noRestrictionControl.setValue(true);
+      tick(500);
+      expect(component.minAgeFormControl.disabled).toBeTruthy();
+      expect(component.maxAgeFormControl.disabled).toBeTruthy();
+      expect(component.minAgeFormControl.value).toBeNull();
+      expect(component.maxAgeFormControl.value).toBeNull();
+      expect(store.dispatch).toHaveBeenCalledWith(new SetNoRestrictionAge(true));
+      (component as any).destroy$.next(true);
+      (component as any).destroy$.complete();
+      flush();
+    }));
+
+    it('should reset minAge, maxAge if there are restrictions', fakeAsync(() => {
+      jest.spyOn(component.minAgeFormControl, 'enable');
+      jest.spyOn(component.maxAgeFormControl, 'enable');
+      component.noRestrictionControl.setValue(false);
+      tick(500);
+      expect(component.minAgeFormControl.enable).toHaveBeenCalled();
+      expect(component.maxAgeFormControl.enable).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(new SetNoRestrictionAge(false));
+      (component as any).destroy$.next(true);
+      (component as any).destroy$.complete();
+      flush();
+    }));
   });
 });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, forkJoin, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { Codeficator } from 'shared/models/codeficator.model';
@@ -11,9 +11,10 @@ import { FilterStateModel } from 'shared/models/filter-state.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
+import { ValidationConstants } from 'shared/constants/validation';
 import {
-  AddPreviousResult,
   AddEntityPreviousResult,
+  AddPreviousResult,
   CleanCity,
   ClearCoordsByMap,
   ClearRadiusSize,
@@ -21,18 +22,20 @@ import {
   FilterChange,
   FilterClear,
   GetFilteredWorkshops,
-  RemovePreviousResult,
   RemoveEntityPreviousResult,
+  RemovePreviousResult,
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
   SetCoordsByMap,
   SetDirections,
-  SetSubdirections,
   SetEndTime,
+  SetEntitySearchQueryValue,
+  ClearEntitySearchQueryValue,
   SetFilterFromURL,
   SetFilterPagination,
   SetFormsOfLearning,
+  SetIndeterminates,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
@@ -44,17 +47,16 @@ import {
   SetMaxPrice,
   SetMinAge,
   SetMinPrice,
+  SetNoRestrictionAge,
   SetOpenRecruitment,
   SetOrder,
+  SetPayRate,
   SetRadiusSize,
   SetSearchQueryValue,
   SetStartTime,
+  SetSubdirections,
   SetWithDisabilityOption,
-  SetWorkingDays,
-  SetEntitySearchQueryValue,
-  SetPayRate,
-  SetIndeterminates,
-  ClearEntitySearchQueryValue
+  SetWorkingDays
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -177,6 +179,7 @@ export class FilterState {
       isAppropriateAge,
       minAge,
       maxAge,
+      noAgeRestriction,
       directionIds,
       subdirectionIds,
       indeterminateDirectionIds,
@@ -201,7 +204,7 @@ export class FilterState {
       directionIds,
       subdirectionIds,
       indeterminateDirectionIds,
-      ageFilter: { minAge, maxAge, isAppropriateAge },
+      ageFilter: { minAge, maxAge, noAgeRestriction, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
@@ -433,6 +436,15 @@ export class FilterState {
   @Action(SetIsAppropriateAge)
   setIsAppropriateAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
     patchState({ isAppropriateAge: payload, from: 0 });
+  }
+
+  @Action(SetNoRestrictionAge)
+  setNoRestrictionAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetNoRestrictionAge): void {
+    if (payload) {
+      patchState({ noAgeRestriction: true, minAge: ValidationConstants.AGE_MIN, maxAge: ValidationConstants.BIRTH_AGE_MAX, from: 0 });
+    } else {
+      patchState({ noAgeRestriction: false, minAge: null, maxAge: null, from: 0 });
+    }
   }
 
   @Action(ResetFilteredWorkshops)
