@@ -2,12 +2,12 @@
   <div class="search-area">
     <div class="search-bar flex flex-row justify-start items-center">
       <mat-icon class="search-icon mt-2">search</mat-icon>
-        <input
-          formControlName="searchBarFilter"
-          matInput
-          type="text"
-          class="search"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}" />
+      <input
+        formControlName="searchBarFilter"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}" />
     </div>
     <div class="reset" (keydown.enter)="onResetFilters()" (click)="onResetFilters()" *ngIf="!isAreaAdmin">
       <mat-icon class="reset__icon">refresh</mat-icon>
@@ -22,8 +22,13 @@
           formControlName="workshopDraftStatuses"
           panelClass="dropdown-panel select-with-form-field"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_STATUS' | translate }}"
-          class="select">
-          <mat-option *ngFor="let status of workshopStatusesToFilter" [value]="status" class="dropdown-option">
+          class="select"
+          multiple>
+          <mat-option
+            *ngFor="let status of workshopStatusesToFilter"
+            [value]="status"
+            class="dropdown-option"
+            [disabled]="this.statusFormControl.value.length >= 1 && !this.statusFormControl.value.includes(status)">
             {{ workshopDraftStatusTitles[status] | translate }}
           </mat-option>
         </mat-select>
@@ -37,8 +42,13 @@
           formControlName="institution"
           panelClass="dropdown-panel select-with-form-field"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
-          class="select">
-          <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+          class="select"
+          multiple>
+          <mat-option
+            *ngFor="let institution of institutions$ | async"
+            [value]="institution"
+            class="dropdown-option"
+            [disabled]="this.institutionFormControl.value.length >= 1 && !this.institutionFormControl.value.includes(institution)">
             {{ institution.title }}
           </mat-option>
         </mat-select>
@@ -53,8 +63,13 @@
             formControlName="region"
             panelClass="dropdown-panel select-with-form-field"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
-            class="select">
-            <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
+            class="select"
+            multiple>
+            <mat-option
+              class="dropdown-option"
+              *ngFor="let region of regions$ | async"
+              [value]="region"
+              [disabled]="this.regionFormControl.value.length >= 1 && !this.regionFormControl.value.includes(region)">
               {{ region.fullName | translate }}
             </mat-option>
           </mat-select>
