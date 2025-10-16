@@ -168,6 +168,14 @@ export class RegistrationState {
     const state = getState();
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
+      const shouldRedirect = localStorage.getItem('shouldRedirect');
+      if (
+        shouldRedirect &&
+        (state.user.role === Role.provider || state.user.role === Role.providerDeputy || state.user.role === Role.employee)
+      ) {
+        localStorage.removeItem('shouldRedirect');
+        this.router.navigate(['/personal-cabinet/config']);
+      }
     } else {
       this.router
         .navigate([state.user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
