@@ -1,10 +1,11 @@
+import { ElementRef } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'shared/shared.module';
-import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
+import { SharedModule } from 'shared/shared.module';
 import { GetFilteredCompetitionDrafts } from 'shared/store/admin.actions';
 import { CompetitionDraft } from 'shared/models/competition.model';
 import { AdminCompetitionListComponent } from './admin-competition-list.component';
@@ -13,6 +14,7 @@ describe('AdminCompetitionListComponent', () => {
   let component: AdminCompetitionListComponent;
   let fixture: ComponentFixture<AdminCompetitionListComponent>;
   let store: jest.Mocked<Store>;
+  let mockElementRef: ElementRef;
 
   beforeEach(() => {
     const storeMock: Partial<jest.Mocked<Store>> = {
@@ -30,6 +32,16 @@ describe('AdminCompetitionListComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(Store) as jest.Mocked<Store>;
     fixture.detectChanges();
+
+    globalThis.ResizeObserver = class MockResizeObserver {
+      observe = jest.fn();
+      disconnect = jest.fn();
+      constructor(public callback: () => void) {}
+    } as any;
+
+    mockElementRef = {
+      nativeElement: { offsetHeight: 123 }
+    } as ElementRef;
   });
 
   it('should create', () => {
@@ -84,5 +96,19 @@ describe('AdminCompetitionListComponent', () => {
     expect(component.isInfoDisplayed).toBe(false);
     expect(component.selectedCompetitionDraftId).toBeNull();
     expect(component.closeInfo).toHaveBeenCalled();
+  });
+
+  it('should create observer and emit height', () => {
+    const nextSpy = jest.spyOn(component.height$, 'next');
+
+    component.table = mockElementRef;
+
+    expect((component as any).resizeObserver).toBeInstanceOf(ResizeObserver);
+    expect((component as any).resizeObserver?.observe).toHaveBeenCalledWith(mockElementRef.nativeElement);
+    expect(nextSpy).toHaveBeenCalledWith(123);
+
+    mockElementRef.nativeElement.offsetHeight = 200;
+    (component as any).resizeObserver.callback([], (component as any).resizeObserver);
+    expect(nextSpy).toHaveBeenCalledWith(200);
   });
 });
