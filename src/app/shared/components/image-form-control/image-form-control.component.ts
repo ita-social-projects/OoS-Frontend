@@ -10,7 +10,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { filter, first, Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
@@ -30,10 +30,10 @@ type FilesToVoid = (array: File[]) => void;
   ]
 })
 export class ImageFormControlComponent implements OnInit, ControlValueAccessor, OnDestroy {
-  @Input() public entity: 'workshop' | 'competition';
   @Input() public imgMaxAmount: number;
   @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;
+  @Input() public entity: 'workshop' | 'competition' | 'provider';
   @Input() public cropperConfig: Partial<Cropper>;
   // Allows only delete operation
   @Input() public deleteMode: boolean;

@@ -8,17 +8,14 @@
     </div>
     <div class="photo-subheader" *ngIf="!deleteMode">
       <ng-container *ngIf="imgMaxAmount === 1; else multipleImages">
-        {{ 'BANNERS.ADD_COVER_IMG_SUBHEADER' | translate }}
+        {{ 'BANNERS.ADD_COVER_IMG_SUBHEADER' | translate: { entity: ('BANNERS.' + (entity | uppercase) | translate) } }}
       </ng-container>
       <ng-template #multipleImages>
-        {{ entity === 'workshop' ? ('BANNERS.ADD_IMG_SUBHEADER' | translate) : ('BANNERS.ADD_IMG_SUBHEADER_COMPETITION' | translate) }}
-        {{ imgMaxAmount }}
+        {{ 'BANNERS.ADD_IMG_SUBHEADER' | translate: { entity: ('BANNERS.' + (entity | uppercase) | translate) } }} {{ imgMaxAmount }}
       </ng-template>
     </div>
     <div class="photo-subheader" *ngIf="imgMaxAmount !== 1">
-      {{
-        entity === 'workshop' ? ('BANNERS.ADD_IMG_SUBHEADER_DESC' | translate) : ('BANNERS.ADD_IMG_SUBHEADER_DESC_COMPETITION' | translate)
-      }}
+      {{ 'BANNERS.ADD_IMG_SUBHEADER_DESC' | translate: { entity: (entity | uppercase | translate) } }}
     </div>
     <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
       <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount && !deleteMode">

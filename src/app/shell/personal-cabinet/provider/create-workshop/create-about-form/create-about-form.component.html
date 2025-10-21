@@ -2,6 +2,7 @@
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
+    [entity]="'workshop'"
     [cropperConfig]="cropperConfig"
     [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"

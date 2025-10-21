@@ -14,6 +14,7 @@ export class InfoFormComponent {
   @Input() public formAmount: number;
   @Input() public infoEditFormGroup: AbstractControl;
   @Input() public maxDescriptionLength: number;
+  @Input() public entity: 'workshop' | 'competition' | 'provider';
 
   @Output() public deleteForm = new EventEmitter();
 

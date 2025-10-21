@@ -2,6 +2,7 @@
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="4"
+    [entity]="'provider'"
     [cropperConfig]="cropperConfig"
     [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"
@@ -10,6 +11,7 @@
 
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
+    [entity]="'provider'"
     [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"

@@ -26,6 +26,9 @@
   "DISAGREEMENT": "No",
   "NO_MORE_THAN": "no more than",
   "NOT_SPECIFIED": "Not specified",
+  "WORKSHOP": "workshop",
+  "COMPETITION": "competition",
+  "PROVIDER": "establishment",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -628,7 +631,8 @@
       "SORT_BY_NAME": "By name",
       "SORT_BY_CREATED_AT": "By creation date",
       "SEARCH_BY_TITLE": "Search by full title and registration code",
-      "SELECT_STATUS": "Select status"
+      "SELECT_STATUS": "Select status",
+      "INFO_FORM_TEXT_AREA": "Describe the {{entity}} as if you were telling parents or children about it"
     },
     "TOOLTIP": {
       "DESCRIPTION": "State what the club does as if you were telling your parents:\n- the essence\n- program\n- features",
@@ -788,10 +792,12 @@
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
     "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement",
     "ADD_POSITION": "You can add positions here",
-    "ADD_COVER_IMG_SUBHEADER": "Add a cover for your workshop",
-    "ADD_IMG_SUBHEADER": "Add photos of them from your workshop. The maximum number of photos -",
-    "ADD_IMG_SUBHEADER_COMPETITION": "Add photos for your competition. The maximum number of photos -",
-    "ADD_IMG_SUBHEADER_DESC": "Photos will be available for parents and children to view in order to learn more about the workshop.",
+    "WORKSHOP": "workshop",
+    "COMPETITION": "competition",
+    "PROVIDER": "establishment",
+    "ADD_COVER_IMG_SUBHEADER": "Add a cover for your {{entity}}",
+    "ADD_IMG_SUBHEADER": "Add photos of them from your {{entity}}. The maximum number of photos -",
+    "ADD_IMG_SUBHEADER_DESC": "Photos will be available for parents and children to view in order to learn more about the {{entity}}.",
     "UPLOAD_EMPLOYEE": "Here you can upload a file with an employee of your workshop"
   },
   "BUTTONS": {
@@ -811,6 +817,7 @@
     "CANCEL": "Cancel",
     "SEND": "Send",
     "EDIT": "Edit",
+    "SUPPLEMENT": "Supplement",
     "SAVE": "Save",
     "SAVE_DRAFT": "Save draft",
     "BACK": "Back",
