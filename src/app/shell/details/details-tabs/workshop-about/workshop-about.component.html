@@ -35,4 +35,10 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="workshop.enrollmentProcedureDescription">
+    <h5 class="title">{{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</h5>
+    <p class="line-break">
+      {{ workshop.enrollmentProcedureDescription }}
+    </p>
+  </ng-container>
 </div>

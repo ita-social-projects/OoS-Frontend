@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, filter, Observable, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { Role } from 'shared/enum/role';
@@ -19,13 +19,14 @@ import {
   GetInstitutionHierarchyParentsById,
   ResetInstitutionHierarchy
 } from 'shared/store/meta-data.actions';
+import { InfoListenerComponent } from '../../admin-shared/info-listener.component';
 
 @Component({
   selector: 'app-workshop-info',
   templateUrl: './workshop-info.component.html',
   styleUrls: ['./workshop-info.component.scss']
 })
-export class WorkshopInfoComponent implements OnDestroy, OnInit {
+export class WorkshopInfoComponent extends InfoListenerComponent implements OnInit, OnDestroy {
   @Input() public workshopDraftId: string;
   @Input() public isWorkshopView: boolean;
 
@@ -55,15 +56,17 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
   public role: Role;
   public isImagesFeature: boolean;
   public hierarchyElements: { filedTitle: string; title: string; hierarchyLevel: number }[] = [];
-  public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public form: FormGroup;
   private pendingWorkshop: Workshop;
 
   constructor(
     private readonly store: Store,
-    private readonly fb: FormBuilder
-  ) {}
+    private readonly fb: FormBuilder,
+    protected readonly renderer: Renderer2
+  ) {
+    super(renderer);
+  }
 
   @Input()
   public set setWorkshop(workshop: Workshop) {
@@ -90,8 +93,7 @@ export class WorkshopInfoComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.store.dispatch(new ResetInstitutionHierarchy());
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    super.ngOnDestroy();
   }
 
   public onCloseInfo(): void {

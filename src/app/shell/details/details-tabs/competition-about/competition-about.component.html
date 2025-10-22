@@ -17,4 +17,11 @@
   <h5 class="title">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</h5>
   <span class="txt">{{ competition.registrationStartTime | date }}</span>
   <span class="txt">- {{ competition.registrationEndTime | date }}</span>
+
+  <ng-container *ngIf="competition.descriptionOfTheEnrollmentProcedure">
+    <h5 class="title">{{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</h5>
+    <p class="txt">
+      {{ competition.descriptionOfTheEnrollmentProcedure }}
+    </p>
+  </ng-container>
 </div>

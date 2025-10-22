@@ -8,7 +8,7 @@
       </div>
       <div class="wrapper wrapper-workshop-list-container">
         <div class="table-container mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" appStretchTable>
+          <table mat-table [dataSource]="dataSource" appStretchTable #table>
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
                 {{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}
@@ -156,6 +156,7 @@
             [setWorkshop]="workshop"
             [workshopDraftId]="selectedWorkshopDraftId"
             [isWorkshopView]="isInfoDisplayed"
+            [height$]="height$"
             (closeInfo)="closeInfo()"></app-workshop-info>
         </div>
       </div>
