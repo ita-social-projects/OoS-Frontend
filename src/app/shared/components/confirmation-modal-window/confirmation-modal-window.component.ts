@@ -7,7 +7,8 @@ import {
   ModalConfirmationText,
   ModalConfirmationTitle,
   ModalConfirmationType,
-  ModalConfirmationTypeWithQuotes
+  ModalConfirmationTypeWithQuotes,
+  ModalConfirmationTypeWithThreeOptions
 } from 'shared/enum/modal-confirmation';
 
 @Component({
@@ -23,6 +24,7 @@ export class ConfirmationModalWindowComponent implements OnInit {
   public modalConfirmationText: string;
   public modalConfirmationProperty: string;
   public ratingSelectControl: FormControl;
+  public hasSecondOption: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -41,11 +43,18 @@ export class ConfirmationModalWindowComponent implements OnInit {
         this.modalConfirmationProperty = `"${this.modalConfirmationProperty}"`;
       }
     }
+    if (this.data.type in ModalConfirmationTypeWithThreeOptions) {
+      this.hasSecondOption = true;
+    }
   }
 
-  public getConfirmationButtonMessage(): string {
-    if (this.data.type === ModalConfirmationType.incompleteWorkshop) {
+  public getConfirmationButtonMessage(thirdOption: boolean = false): string {
+    if (this.data.type === ModalConfirmationType.incompleteWorkshop || this.data.type === ModalConfirmationType.incompleteCompetition) {
       return ModalConfirmationButtonText.continue;
+    } else if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition) {
+      return ModalConfirmationButtonText.continueWorkshop;
+    } else if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition && thirdOption) {
+      return ModalConfirmationButtonText.continueCompetition;
     }
     const buttonText = ModalConfirmationButtonText[this.data.type];
     return buttonText || ModalConfirmationButtonText.default;

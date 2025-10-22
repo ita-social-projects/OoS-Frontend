@@ -267,3 +267,33 @@ export class EditCompetitionDraft {
   termsOfParticipation?: string;
   benefits?: string;
 }
+
+export enum UnfinishedCompetitionType {
+  WithMainProperties = 'withMainProperties',
+  WithDescription = 'withDescription',
+  WithContacts = 'withContacts'
+}
+
+export type UnfinishedCompetitionRequired = CompetitionRequired & {
+  $type?: UnfinishedCompetitionType.WithMainProperties;
+  base64CoverImage: string;
+  providerId?: string;
+};
+
+export type UnfinishedCompetitionDescription = Description &
+  UnfinishedCompetitionRequired & {
+    $type?: UnfinishedCompetitionType.WithDescription;
+    base64ImageFiles: string[];
+  };
+
+export type UnfinishedCompetitionContacts = Contacts &
+  UnfinishedCompetitionDescription & {
+    $type?: UnfinishedCompetitionType.WithContacts;
+  };
+
+export interface CompetitionDraftState {
+  step1?: UnfinishedCompetitionRequired;
+  step2?: UnfinishedCompetitionDescription;
+  step3?: UnfinishedCompetitionContacts;
+  competitionForLoading?: Competition;
+}

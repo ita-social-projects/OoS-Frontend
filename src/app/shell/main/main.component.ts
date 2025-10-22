@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest, asyncScheduler } from 'rxjs';
-import { filter, take, takeUntil, map } from 'rxjs/operators';
+import { asyncScheduler, combineLatest, Observable, Subject } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Role } from 'shared/enum/role';
 import { Direction } from 'shared/models/category.model';
@@ -19,7 +19,13 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { MatDialog } from '@angular/material/dialog';
-import { GetUnfinishedWorkshop, OnDeleteUnfinishedWorkshop, SetDraftModalShown } from 'shared/store/provider.actions';
+import {
+  GetUnfinishedCompetition,
+  GetUnfinishedWorkshop,
+  OnDeleteUnfinishedCompetition,
+  OnDeleteUnfinishedWorkshop,
+  SetWorkshopModalShown
+} from 'shared/store/provider.actions';
 import { Router } from '@angular/router';
 import { ProviderState } from 'shared/store/provider.state';
 
@@ -45,6 +51,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public isMobileScreen$: Observable<boolean>;
   @Select(ProviderState.hasUnfinishedWorkshopData)
   public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.hasUnfinishedCompetitionData)
+  public hasUnfinishedCompetitionData$: Observable<boolean>;
   @Select(ProviderState.isModalShown)
   public isModalShown$: Observable<boolean>;
   public topDirectionsLimited$: Observable<Direction[]>;
@@ -77,13 +85,20 @@ export class MainComponent implements OnInit, OnDestroy {
         this.getData(role);
       });
 
-    combineLatest([this.hasUnfinishedWorkshopData$, this.isModalShown$])
+    combineLatest([this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$, this.isModalShown$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([hasDraftData, isModalShown]) => hasDraftData && !isModalShown)
+        filter(([hasWorkshopData, hasCompetitionData, isModalShown]) => (hasWorkshopData || hasCompetitionData) && !isModalShown)
       )
-      .subscribe(() => {
-        this.showDialog();
+      .subscribe(([hasWorkshopData, hasCompetitionData]) => {
+        const type =
+          hasWorkshopData && hasCompetitionData
+            ? ModalConfirmationType.incompleteWorkshopAndCompetition
+            : hasWorkshopData
+              ? ModalConfirmationType.incompleteWorkshop
+              : ModalConfirmationType.incompleteCompetition;
+
+        this.showDialog(type);
       });
 
     this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobile: boolean) => (this.isMobile = isMobile));
@@ -98,32 +113,47 @@ export class MainComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  public continueUnfinishedCreation(): void {
-    this.router.navigate(['/create/workshop', 'unfinished']);
+  public continueUnfinishedCreation(entity: 'workshop' | 'competition'): void {
+    this.router.navigate([`/create/${entity}`, 'unfinished']);
   }
 
-  public cancelUnfinishedCreation(): void {
-    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+  public cancelUnfinishedCreation(entity: 'workshop' | 'competition' | 'both'): void {
+    if (entity === 'workshop') {
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+    } else if (entity === 'competition') {
+      this.store.dispatch(new OnDeleteUnfinishedCompetition());
+    } else {
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+      this.store.dispatch(new OnDeleteUnfinishedCompetition());
+    }
   }
 
-  public showDialog(): void {
+  public showDialog(type: ModalConfirmationType): void {
+    const incompleteCompetition = type === ModalConfirmationType.incompleteCompetition;
+    const incompleteBoth = type === ModalConfirmationType.incompleteWorkshopAndCompetition;
     asyncScheduler.schedule(() => {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {
           width: Constants.MODAL_SMALL,
           data: {
-            type: ModalConfirmationType.incompleteWorkshop,
+            type,
             showCloseButton: true
           }
         })
         .afterClosed()
-        .subscribe((result) => {
-          if (result) {
-            this.continueUnfinishedCreation();
-          } else if (result === false) {
-            this.cancelUnfinishedCreation();
+        .subscribe((result: boolean | string) => {
+          if ((result === true && incompleteBoth) || (result && !incompleteBoth && !incompleteCompetition)) {
+            this.continueUnfinishedCreation('workshop');
+          } else if ((result === 'secondOption' && incompleteBoth) || (result === true && incompleteCompetition)) {
+            this.continueUnfinishedCreation('competition');
+          } else if (!result && incompleteBoth) {
+            return;
+          } else if (!result && !incompleteCompetition) {
+            this.cancelUnfinishedCreation('workshop');
+          } else {
+            this.cancelUnfinishedCreation('competition');
           }
-          this.store.dispatch(new SetDraftModalShown(true));
+          this.store.dispatch(new SetWorkshopModalShown(true));
         });
     }, 2000);
   }
@@ -139,7 +169,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
       return;
     } else if (role === Role.provider) {
-      this.store.dispatch(new GetUnfinishedWorkshop());
+      this.store.dispatch([new GetUnfinishedWorkshop(), new GetUnfinishedCompetition()]);
     }
     this.getMainPageData();
   }

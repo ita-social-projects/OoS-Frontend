@@ -35,7 +35,13 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button appStepperNext [form]="RequiredFormGroup" [stepper]="stepper">
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="RequiredFormGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(RequiredFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>
@@ -59,7 +65,13 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button appStepperNext [form]="DescriptionFormGroup" [stepper]="stepper">
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="DescriptionFormGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(DescriptionFormGroup)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>

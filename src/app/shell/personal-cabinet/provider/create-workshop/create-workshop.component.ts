@@ -15,8 +15,6 @@ import { Teacher } from 'shared/models/teacher.model';
 import {
   AdditionalAbout,
   Contacts,
-  UnfinishedWorkshopAbout,
-  UnfinishedWorkshopDescription,
   UnfinishedWorkshopType as WorkshopTypeUnfinished,
   Workshop,
   WorkshopAbout,
@@ -44,7 +42,7 @@ import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderState } from 'shared/store/provider.state';
-import { blobsToBase64, blobToBase64, shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import { createUnfinishedAbout, createUnfinishedDescription, shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
@@ -433,32 +431,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     return this.WorkshopContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 
-  private createUnfinishedAbout(): Observable<UnfinishedWorkshopAbout> {
-    const aboutInfo = this.createAbout();
-
-    return blobToBase64(aboutInfo.coverImage[0]).pipe(
-      map((base64CoverImage) => ({
-        ...aboutInfo,
-        base64CoverImage
-      }))
-    );
-  }
-
-  private createUnfinishedDescription(): Observable<UnfinishedWorkshopDescription> {
-    const descriptionInfo = {
-      ...this.AdditionalAboutGroup.getRawValue(),
-      ...this.DescriptionFormGroup.getRawValue()
-    };
-
-    const files: Blob[] = Array.isArray(descriptionInfo.imageFiles) ? descriptionInfo.imageFiles : [];
-    return blobsToBase64(files).pipe(
-      map((base64ImageFiles) => ({
-        ...descriptionInfo,
-        base64ImageFiles
-      }))
-    );
-  }
-
   private createContactsWithCodeficator(): Observable<any[]> {
     const contacts = this.createContacts();
 
@@ -494,9 +466,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       providerId: this.provider.id
     };
 
-    const about$ = this.createUnfinishedAbout();
+    const about$ = createUnfinishedAbout(this.createAbout());
     const additional$ = of(this.createAdditionalAbout());
-    const description$ = this.createUnfinishedDescription();
+    const descriptionInfo = { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() };
+    const description$ = createUnfinishedDescription(descriptionInfo);
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([
       [1, [about$]],

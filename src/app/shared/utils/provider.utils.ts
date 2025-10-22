@@ -1,9 +1,10 @@
 import { Role } from 'shared/enum/role';
-import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
+import { UnfinishedWorkshopAbout, Workshop, WorkshopAbout, WorkshopDraftState } from 'shared/models/workshop.model';
 import { forkJoin, Observable, of } from 'rxjs';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionRequired, UnfinishedCompetitionRequired } from 'shared/models/competition.model';
 import { Util } from 'shared/utils/utils';
 import { WorkshopType } from 'shared/enum/workshop';
+import { map } from 'rxjs/operators';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -79,4 +80,31 @@ export function shouldBeDraft(original: Workshop | Competition, changed: Worksho
 
 export function submittingRealEntity(entityParam: string): boolean {
   return entityParam !== WorkshopType.Draft;
+}
+
+export function createUnfinishedAbout(
+  aboutInfo: WorkshopAbout | CompetitionRequired
+): Observable<UnfinishedWorkshopAbout | UnfinishedCompetitionRequired> {
+  return blobToBase64(aboutInfo.coverImage[0]).pipe(
+    map((base64CoverImage) => ({
+      ...aboutInfo,
+      base64CoverImage
+    }))
+  );
+}
+
+export function createUnfinishedDescription<T extends { imageFiles?: Blob[] }>(
+  descriptionInfo: T
+): Observable<
+  T & {
+    base64ImageFiles: string[];
+  }
+> {
+  const files: Blob[] = Array.isArray(descriptionInfo.imageFiles) ? descriptionInfo.imageFiles : [];
+  return blobsToBase64(files).pipe(
+    map((base64ImageFiles) => ({
+      ...descriptionInfo,
+      base64ImageFiles
+    }))
+  );
 }
