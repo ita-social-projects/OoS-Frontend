@@ -1,6 +1,10 @@
 @use 'create-form';
 @use 'validation-form';
 
+mat-expansion-panel {
+  padding: 10px;
+}
+
 .map {
   height: 500px;
 }
@@ -43,8 +47,6 @@
 }
 
 .accordion-item {
-  padding-left: 1px;
-  padding-right: 1px;
   overflow: visible !important;
   background-color: var(--bg-light-additional) !important;
   ::ng-deep .mat-expansion-panel-body,

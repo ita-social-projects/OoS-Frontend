@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import * as Layer from 'leaflet';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, distinctUntilChanged, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { MessageBarType } from 'shared/enum/message-bar';
@@ -21,6 +21,7 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 import { SetCoordsByMap } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-map',
@@ -246,7 +247,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setAddress(): void {
-    const address: Geocoder & { latitude: number; longitude: number } = this.addressFormGroup.get('address').getRawValue();
+    const address: Geocoder & {
+      latitude: number;
+      longitude: number;
+    } = this.addressFormGroup.get('address').getRawValue();
 
     if (address.catottgId) {
       this.setNewSingleMarker([address.latitude, address.longitude]);
@@ -254,7 +258,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.addressFormGroup
       .get('address')
-      .valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$))
+      .valueChanges.pipe(
+        distinctUntilChanged((prev, curr) => !Util.deepEqual(prev, curr)),
+        debounceTime(500),
+        takeUntil(this.destroy$)
+      )
       .subscribe((value: Geocoder & { latitude: number; longitude: number }) => {
         if (this.addressFormGroup.valid) {
           this.addressDecode(value);
