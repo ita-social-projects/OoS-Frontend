@@ -269,13 +269,13 @@ export class EditCompetitionDraft {
 }
 
 export enum UnfinishedCompetitionType {
-  WithMainProperties = 'withMainProperties',
+  WithAboutProperties = 'withAboutProperties',
   WithDescription = 'withDescription',
   WithContacts = 'withContacts'
 }
 
 export type UnfinishedCompetitionRequired = CompetitionRequired & {
-  $type?: UnfinishedCompetitionType.WithMainProperties;
+  $type?: UnfinishedCompetitionType.WithAboutProperties;
   base64CoverImage: string;
   providerId?: string;
 };

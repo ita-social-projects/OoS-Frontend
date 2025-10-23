@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { isValidNumber, parsePhoneNumber } from 'libphonenumber-js';
 import { Observable, Subject } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/
 import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
-import { GetUnfinishedWorkshopTimeToLive, OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
+import { OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 
 @Component({
@@ -22,10 +22,8 @@ import { ProviderState } from 'shared/store/provider.state';
 export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
   @Input() public mode: BannerMode;
-  @Select(ProviderState.hasUnfinishedWorkshopData)
-  public hasUnfinishedWorkshopData$: Observable<boolean>;
-  @Select(ProviderState.getTimeToLiveUnfinishedWorkshop)
-  public timeToLiveUnfinishedWorkshop$: Observable<string>;
+  public hasUnfinishedEntityData$: Observable<boolean>;
+  public timeToLiveUnfinishedEntity$: Observable<string>;
 
   public readonly statuses = ProviderStatuses;
   public readonly bannerMode = BannerMode;
@@ -49,7 +47,13 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.setBannerOptions();
-    this.store.dispatch(new GetUnfinishedWorkshopTimeToLive());
+    if (this.mode === BannerMode.UnfinishedWorkshop) {
+      this.hasUnfinishedEntityData$ = this.store.select(ProviderState.hasUnfinishedWorkshopData);
+      this.timeToLiveUnfinishedEntity$ = this.store.select(ProviderState.getTimeToLiveUnfinishedWorkshop);
+    } else if (this.mode === BannerMode.UnfinishedCompetition) {
+      this.hasUnfinishedEntityData$ = this.store.select(ProviderState.hasUnfinishedCompetitionData);
+      this.timeToLiveUnfinishedEntity$ = this.store.select(ProviderState.getTimeToLiveUnfinishedCompetition);
+    }
   }
 
   public onActivateEditMode(): void {
@@ -96,4 +100,6 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  protected readonly BannerMode = BannerMode;
 }

@@ -1,10 +1,10 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { forkJoin, Observable, of, zip } from 'rxjs';
+import { asyncScheduler, forkJoin, Observable, of, zip } from 'rxjs';
 import { filter, first, map, take, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -24,7 +24,13 @@ import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 's
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants, ModeConstants } from 'shared/constants/constants';
-import { CreateCompetition, OnSaveWorkshopStep, UpdateCompetition, UpdateCompetitionDraft } from 'shared/store/provider.actions';
+import {
+  CreateCompetition,
+  GetUnfinishedCompetition,
+  OnSaveCompetitionStep,
+  UpdateCompetition,
+  UpdateCompetitionDraft
+} from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
@@ -36,6 +42,8 @@ import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { Address } from 'shared/models/address.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { MatStepper } from '@angular/material/stepper';
+import { ProviderState } from 'shared/store/provider.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -50,12 +58,15 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   ]
 })
 export class CreateCompetitionComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
+  @ViewChild('stepper') public stepper: MatStepper;
   @Select(MetaDataState.codeficator)
   public codeficator$: Observable<Codeficator>;
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
   @Select(SharedUserState.selectedCompetition)
   private selectedCompetition$: Observable<Competition>;
+  @Select(ProviderState.unfinishedCompetition)
+  private unfinishedCompetition$: Observable<Competition>;
 
   public provider: Provider;
   public competition: Competition;
@@ -71,7 +82,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public readonly WorkshopType = WorkshopType;
 
   private readonly unfinishedCompetitionTypeMap = {
-    1: UnfinishedCompetitionType.WithMainProperties,
+    1: UnfinishedCompetitionType.WithAboutProperties,
     2: UnfinishedCompetitionType.WithDescription,
     3: UnfinishedCompetitionType.WithContacts
   };
@@ -214,9 +225,24 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     ]);
 
     const step = stepMappings.get(formGroup) ?? -1;
+    console.error(step);
     if (step !== -1) {
       this.stepActions[step]?.();
     }
+  }
+
+  public loadUnfinishedCompetitionData(): void {
+    this.store.dispatch(new GetUnfinishedCompetition());
+    this.unfinishedCompetition$.subscribe((draft: Competition) => {
+      this.competition = draft;
+      asyncScheduler.schedule(() => {
+        const stepToGo = this.getFirstInvalidStep();
+
+        if (stepToGo !== -1 && this.stepper) {
+          this.stepper.selectedIndex = stepToGo;
+        }
+      }, 1000);
+    });
   }
 
   /**
@@ -312,7 +338,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   private dispatchUnfinishedData(step: number, data: any): void {
-    this.store.dispatch(new OnSaveWorkshopStep({ data, step }));
+    this.store.dispatch(new OnSaveCompetitionStep({ data, step }));
   }
 
   private getFirstInvalidStep(): number {
@@ -334,12 +360,17 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     if (requiredInfo.numberOfSeats === null) {
       requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
     }
+    requiredInfo.scheduledStartTime = new Date(requiredInfo.competitionDateRangeGroup.start).toISOString();
+    requiredInfo.scheduledEndTime = new Date(requiredInfo.competitionDateRangeGroup.end).toISOString();
+    requiredInfo.registrationStartTime = new Date(requiredInfo.registrationDateRangeGroup.start).toISOString();
+    requiredInfo.registrationEndTime = new Date(requiredInfo.registrationDateRangeGroup.end).toISOString();
+    console.log(requiredInfo);
     return requiredInfo;
   }
 
   private createDescription(): Description {
     const description = this.DescriptionFormGroup.getRawValue();
-    description.subDirectionIds = description.subDirectionIds.map((subDirection: Subdirection) => subDirection.id);
+    description.subDirectionIds = description.subDirectionIds?.map((subDirection: Subdirection) => subDirection.id);
     return description;
   }
 

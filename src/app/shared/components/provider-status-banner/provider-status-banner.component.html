@@ -10,15 +10,21 @@
     </mat-icon>
   </ng-container>
   <!-- Draft Mode -->
-  <ng-container *ngIf="mode === bannerMode.Unfinished && (hasUnfinishedWorkshopData$ | async)" class="flex justify-center">
+  <ng-container *ngIf="hasUnfinishedEntityData$ | async" class="flex justify-center">
     <div class="draft-content p-2">
       <p class="text-lg font-semibold">
-        {{ 'PROVIDER_DRAFT.TITLE' | translate }}
+        {{
+          'PROVIDER_DRAFT.TITLE'
+            | translate
+              : {
+                  entity: 'BANNERS.' + (mode === BannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
+                }
+        }}
       </p>
       <p class="text-sm !mt-2">
         {{ 'PROVIDER_DRAFT.DETAILS' | translate }}
       </p>
-      <p *ngIf="timeToLiveUnfinishedWorkshop$ | async as timeToLive" class="text-sm !mt-1">
+      <p *ngIf="timeToLiveUnfinishedEntity$ | async as timeToLive" class="text-sm !mt-1">
         {{ timeToLive | timeRemaining }}
       </p>
       <div class="flex mt-3 justify-start btn-container">
