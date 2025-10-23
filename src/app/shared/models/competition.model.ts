@@ -37,7 +37,7 @@ export abstract class CompetitionBase {
   buildingHoldingId: string;
   childParticipantId: string;
   competitiveEventAccountingTypeId: number;
-  competitiveSelectionDescription: string;
+  competitiveSelectionDescription?: string;
   descriptionOfTheEnrollmentProcedure?: string;
   venueId?: string;
   venueName?: string;
