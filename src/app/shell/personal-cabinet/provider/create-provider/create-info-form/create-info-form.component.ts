@@ -18,6 +18,7 @@ import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'sh
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
 import { BlacklistEmailValidator } from 'shared/validators/blacklist-email-validator';
+import { Entities } from 'shared/enum/entities';
 
 @Component({
   selector: 'app-create-info-form',
@@ -47,6 +48,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly Entities = Entities;
 
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,

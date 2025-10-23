@@ -11,6 +11,7 @@ import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { filter, Subject, takeUntil } from 'rxjs';
+import { Entities } from 'shared/enum/entities';
 import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
@@ -33,7 +34,7 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
   @Input() public imgMaxAmount: number;
   @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;
-  @Input() public entity: 'workshop' | 'competition' | 'provider';
+  @Input() public entity: Entities;
   @Input() public cropperConfig: Partial<Cropper>;
   // Allows only delete operation
   @Input() public deleteMode: boolean;

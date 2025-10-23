@@ -2,7 +2,7 @@
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="4"
-    [entity]="'provider'"
+    [entity]="Entities.Provider"
     [cropperConfig]="cropperConfig"
     [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"

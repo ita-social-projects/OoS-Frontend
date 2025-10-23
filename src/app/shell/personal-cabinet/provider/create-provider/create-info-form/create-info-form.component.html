@@ -3,7 +3,7 @@
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
-    [entity]="'provider'"
+    [entity]="Entities.Provider"
     [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"
     [imageIdsFormControl]="infoFormGroup.get('coverImageId')">

@@ -28,6 +28,7 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ToFile } from 'ngx-image-cropper';
 import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
+import { Entities } from 'shared/enum/entities';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -49,13 +50,13 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
   public readonly validationConstants = ValidationConstants;
   public readonly MIN_SEATS = Constants.MIN_SEATS;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
-  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipType = OwnershipTypes;
   public readonly Util = Util;
+  public readonly Entities = Entities;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,

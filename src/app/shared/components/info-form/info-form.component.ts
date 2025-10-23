@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { ValidationConstants } from 'shared/constants/validation';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { Entities } from 'shared/enum/entities';
 
 @Component({
   selector: 'app-info-form',
@@ -14,7 +15,7 @@ export class InfoFormComponent {
   @Input() public formAmount: number;
   @Input() public infoEditFormGroup: AbstractControl;
   @Input() public maxDescriptionLength: number;
-  @Input() public entity: 'workshop' | 'competition' | 'provider';
+  @Input() public entity: Entities;
 
   @Output() public deleteForm = new EventEmitter();
 

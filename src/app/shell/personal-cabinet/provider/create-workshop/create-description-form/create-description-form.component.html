@@ -1,7 +1,7 @@
 <form [formGroup]="DescriptionFormGroup" class="step flex flex-col justify-between items-stretch">
   <app-image-form-control
     *ngIf="isImagesFeature"
-    [entity]="'workshop'"
+    [entity]="Entities.Workshop"
     [imgMaxAmount]="10"
     [cropperConfig]="cropperConfig"
     [label]="'FORMS.LABELS.PHOTOS' | translate"
@@ -10,11 +10,11 @@
     (deleteImage)="onImageDelete()">
   </app-image-form-control>
   <app-validation-hint
-    formLevelValidation="true"
+    [formLevelValidation]="true"
     [validationFormControl]="DescriptionFormGroup"
     [isImage]="true"
-    minImages="1"
-    maxImages="10">
+    [minImages]="1"
+    [maxImages]="10">
   </app-validation-hint>
 
   <span class="font-semibold inline-block mt-2">

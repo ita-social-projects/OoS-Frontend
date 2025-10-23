@@ -31,6 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { Entities } from 'shared/enum/entities';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -52,6 +53,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Util = Util;
+  public readonly Entities = Entities;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,

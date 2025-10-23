@@ -169,12 +169,10 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
+    const providerRoles = [Role.provider, Role.providerDeputy, Role.employee];
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
-      if (
-        this.firstLogin &&
-        (state.user.role === Role.provider || state.user.role === Role.providerDeputy || state.user.role === Role.employee)
-      ) {
+      if (this.firstLogin && providerRoles.includes(state.user.role as Role)) {
         this.router.navigate(['/personal-cabinet/config']);
       }
     } else {
