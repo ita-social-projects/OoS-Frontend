@@ -86,14 +86,13 @@
           <h3 class="short-title" *ngIf="competition.shortTitle">{{ competition.shortTitle }}</h3>
         </div>
       </div>
-
+      <div *ngIf="competitionSubdirections?.length" class="flex flex-row gap-2 my-2">
+        <div *ngFor="let subDirection of competitionSubdirections" class="chip chip-color-tag">
+          {{ subDirection }}
+        </div>
+      </div>
       <div class="flex flex-row">
         <div class="flex flex-col">
-          <div *ngIf="competitionSubdirections?.length" class="flex flex-row gap-2 my-2">
-            <div *ngFor="let subDirection of competitionSubdirections" class="chip chip-color-tag">
-              {{ subDirection }}
-            </div>
-          </div>
           <span class="icon-text">
             <mat-icon class="icon">star</mat-icon>
             {{ competition.rating }}&nbsp;
@@ -120,19 +119,19 @@
             {{ 'YEARS' | translate }}
           </span>
         </div>
-        <div class="flex flex-col" *ngIf="competition.competitiveSelection">
-          <span class="flex flex-row items-center">
+        <div class="flex flex-col">
+          <span class="flex flex-row items-center" *ngIf="competition.competitiveSelection">
             <span class="icon-text">
               <mat-icon class="icon">person_add</mat-icon>
               {{ 'COMPETITIVE_SELECTION' | translate }}
               <app-info-menu [type]="InfoMenuType.Text">
-                {{ competition.competitiveSelectionDescription }}
+                {{ competition.termsOfParticipation }}
               </app-info-menu>
             </span>
           </span>
           <span class="icon-text">
             <mat-icon class="icon">school</mat-icon>
-            {{ FormOfLearningEnum[competition.formOfLearning] | translate }}
+            {{ FormOfLearningEnum[competition.plannedFormatOfClasses] | translate }}
           </span>
         </div>
       </div>

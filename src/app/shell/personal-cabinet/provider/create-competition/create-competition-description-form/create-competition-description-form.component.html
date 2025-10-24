@@ -121,9 +121,9 @@
     </mat-radio-button>
     <ng-container *ngIf="selectionOptionRadioBtn.value">
       <div class="step-label-combined" [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }">
-        <label class="step-label" for="descriptionOfTheEnrollmentProcedure"> {{ 'INFO_ABOUT_SELECTION' | translate }}</label>
+        <label class="step-label" for="competitiveSelectionDescription"> {{ 'INFO_ABOUT_SELECTION' | translate }}</label>
         <span class="step-characters-count">
-          {{ DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}/{{
+          {{ DescriptionFormGroup.get('competitiveSelectionDescription').value?.length ?? 0 }}/{{
             validationConstants.MAX_DESCRIPTION_LENGTH_500
           }}
         </span>
@@ -136,14 +136,14 @@
           placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
             'FORMS.PLACEHOLDERS.SYMBOLS' | translate
           }}"
-          formControlName="descriptionOfTheEnrollmentProcedure"
+          formControlName="competitiveSelectionDescription"
           maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
           appTrimValue
-          (focusout)="onFocusOut('descriptionOfTheEnrollmentProcedure')"
-          id="descriptionOfTheEnrollmentProcedure"></textarea>
+          (focusout)="onFocusOut('competitiveSelectionDescription')"
+          id="competitiveSelectionDescription"></textarea>
       </mat-form-field>
       <app-validation-hint
-        [validationFormControl]="DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure')"
+        [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
         [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </app-validation-hint>
@@ -175,9 +175,11 @@
   </app-validation-hint>
 
   <div class="step-label-combined">
-    <label class="step-label" for="termsOfParticipation"> {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label>
+    <label class="step-label" for="descriptionOfTheEnrollmentProcedure"> {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label>
     <span class="step-characters-count">
-      {{ DescriptionFormGroup.get('termsOfParticipation').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+      {{ DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}/{{
+        validationConstants.MAX_DESCRIPTION_LENGTH_500
+      }}
     </span>
   </div>
   <mat-form-field appearance="fill">
@@ -187,12 +189,12 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
         'FORMS.PLACEHOLDERS.SYMBOLS' | translate
       }}"
-      formControlName="termsOfParticipation"
+      formControlName="descriptionOfTheEnrollmentProcedure"
       maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
       appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('termsOfParticipation')"
+    [validationFormControl]="DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure')"
     [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
     [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
   </app-validation-hint>

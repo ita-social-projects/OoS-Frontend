@@ -58,6 +58,14 @@
   flex-direction: row;
 }
 
+@media (max-width: 1300px) {
+  .wrapper.wrapper-workshop-list-container {
+    align-items: center;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+}
+
 .table-container {
   height: fit-content;
 }

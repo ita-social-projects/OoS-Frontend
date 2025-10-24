@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, takeUntil } from 'rxjs';
 import { Constants, WorkingDaysValues } from 'shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { Role } from 'shared/enum/role';
@@ -13,13 +13,14 @@ import { DeleteCompetitionDraftCoverImage, DeleteCompetitionDraftImage } from 's
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Competition } from 'shared/models/competition.model';
 import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
+import { InfoListenerComponent } from '../../admin-shared/info-listener.component';
 
 @Component({
   selector: 'app-competition-info',
   templateUrl: './competition-info.component.html',
   styleUrls: ['./competition-info.component.scss']
 })
-export class CompetitionInfoComponent implements OnDestroy, OnInit {
+export class CompetitionInfoComponent extends InfoListenerComponent implements OnDestroy, OnInit {
   @Input() public competitionDraftId: string;
 
   @Output() public tabChanged = new EventEmitter();
@@ -47,15 +48,17 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
   public role: Role;
   public isImagesFeature: boolean;
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
   public form: FormGroup;
   private pendingCompetition: Competition;
 
   constructor(
     private readonly store: Store,
-    private readonly fb: FormBuilder
-  ) {}
+    private readonly fb: FormBuilder,
+    protected readonly renderer: Renderer2
+  ) {
+    super(renderer);
+  }
 
   @Input()
   public set setCompetition(competition: Competition) {
@@ -76,11 +79,6 @@ export class CompetitionInfoComponent implements OnDestroy, OnInit {
       this.applyCompetitionToForm(this.pendingCompetition);
       this.pendingCompetition = null;
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   public onCloseInfo(): void {

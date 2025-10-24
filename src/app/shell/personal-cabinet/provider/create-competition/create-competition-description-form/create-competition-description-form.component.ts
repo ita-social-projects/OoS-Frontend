@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnI
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { asyncScheduler, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, take, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -60,6 +60,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     'imageFiles',
     'description',
     'disabilityOptionsDesc',
+    'competitiveSelectionDescription',
     'descriptionOfTheEnrollmentProcedure',
     'competitiveEventDescriptionItems',
     'benefitsOptionsDesc'
@@ -134,7 +135,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    */
   public initializeFormControls(): void {
     const controls = [
-      { name: 'descriptionOfTheEnrollmentProcedure', radioBtn: this.selectionOptionRadioBtn },
+      { name: 'competitiveSelectionDescription', radioBtn: this.selectionOptionRadioBtn },
       { name: 'benefitsOptionsDesc', radioBtn: this.benefitsOptionRadioBtn },
       { name: 'price', radioBtn: this.priceRadioBtn }
     ];
@@ -163,7 +164,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
-      this.DescriptionFormGroup.get('descriptionOfTheEnrollmentProcedure').enable({ emitEvent: false });
+      this.DescriptionFormGroup.get('competitiveSelectionDescription').enable({ emitEvent: false });
     }
 
     if (this.competition.price) {
@@ -259,7 +260,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      descriptionOfTheEnrollmentProcedure: new FormControl({ value: '', disabled: true }, [
+      competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
@@ -270,7 +271,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      termsOfParticipation: new FormControl('', [
+      descriptionOfTheEnrollmentProcedure: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),

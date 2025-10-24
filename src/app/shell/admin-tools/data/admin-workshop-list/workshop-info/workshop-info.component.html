@@ -5,7 +5,7 @@
     </a>
   </div>
 
-  <mat-tab-group [mat-stretch-tabs]="false">
+  <mat-tab-group [mat-stretch-tabs]="false" #tabGroup>
     <mat-tab [formGroup]="form" label="{{ 'FORMS.LABELS.INFORMATION_ABOUT_WORKSHOP' | translate }}">
       <app-image-form-control
         class="image-form-control"
