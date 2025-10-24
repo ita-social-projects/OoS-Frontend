@@ -56,7 +56,8 @@
                       *ngIf="jindex !== 0"
                       class="delete-block"
                       mat-button
-                      (click)="deleteFormField(addressForm.get('phones'), jindex)">
+                      (click)="deleteFormField(addressForm.get('phones'), jindex)"
+                      type="button">
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
@@ -69,7 +70,12 @@
               </div>
             </div>
             <div class="flex flex-row justify-start items-center content-center">
-              <button class="btn-add" mat-button (click)="addPhoneField(addressForm)" [disabled]="addressForm.get('phones').invalid || moderatorFlow">
+              <button
+                class="btn-add"
+                mat-button
+                (click)="addPhoneField(addressForm)"
+                [disabled]="addressForm.get('phones').invalid || moderatorFlow"
+                type="button">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_PHONE' | translate }}
               </button>
             </div>
@@ -111,7 +117,8 @@
                       *ngIf="jindex !== 0"
                       class="delete-block"
                       mat-button
-                      (click)="deleteFormField(addressForm.get('emails'), jindex)">
+                      (click)="deleteFormField(addressForm.get('emails'), jindex)"
+                      type="button">
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
@@ -122,7 +129,12 @@
               </div>
             </div>
             <div class="flex flex-row justify-start items-center content-center">
-              <button class="btn-add" mat-button (click)="addEmailField(addressForm)" [disabled]="addressForm.get('emails').invalid || moderatorFlow">
+              <button
+                class="btn-add"
+                mat-button
+                (click)="addEmailField(addressForm)"
+                [disabled]="addressForm.get('emails').invalid || moderatorFlow"
+                type="button">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_EMAIL' | translate }}
               </button>
             </div>
@@ -151,7 +163,11 @@
                     <mat-form-field class="grow">
                       <input formControlName="url" matInput class="step-input" type="text" [id]="'socials-' + jindex" appTrimValue />
                     </mat-form-field>
-                    <button class="delete-block" mat-button (click)="deleteFormField(addressForm.get('socialNetworks'), jindex)">
+                    <button
+                      class="delete-block"
+                      mat-button
+                      (click)="deleteFormField(addressForm.get('socialNetworks'), jindex)"
+                      type="button">
                       <mat-icon class="mat-icon-delete">delete</mat-icon>
                     </button>
                   </div>
@@ -164,7 +180,8 @@
                 class="btn-add"
                 mat-button
                 (click)="addSocialsField(addressForm)"
-                [disabled]="addressForm.get('socialNetworks').invalid || moderatorFlow">
+                [disabled]="addressForm.get('socialNetworks').invalid || moderatorFlow"
+                type="button">
                 <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_SOCIAL_NETWORK' | translate }}
               </button>
             </div>
@@ -182,7 +199,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     <div class="flex flex-row justify-start items-center content-center">
-      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid || moderatorFlow">
+      <button class="btn-add" mat-button (click)="addAddressGroup()" [disabled]="addressesFormArray.invalid || moderatorFlow" type="button">
         <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_ADDRESS' | translate }}
       </button>
     </div>
