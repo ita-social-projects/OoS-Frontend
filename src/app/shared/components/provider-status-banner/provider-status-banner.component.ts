@@ -65,7 +65,8 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   }
 
   public continueDraft(): void {
-    this.router.navigate(['/create/workshop', 'unfinished']);
+    const entity = this.mode === BannerMode.UnfinishedWorkshop ? 'workshop' : 'competition';
+    this.router.navigate([`/create/${entity}`, 'unfinished']);
   }
 
   public cancelDraft(): void {

@@ -49,14 +49,13 @@ export class ConfirmationModalWindowComponent implements OnInit {
   }
 
   public getConfirmationButtonMessage(thirdOption: boolean = false): string {
-    if (this.data.type === ModalConfirmationType.incompleteWorkshop || this.data.type === ModalConfirmationType.incompleteCompetition) {
-      return ModalConfirmationButtonText.continue;
-    } else if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition) {
-      return ModalConfirmationButtonText.continueWorkshop;
-    } else if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition && thirdOption) {
+    if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition && thirdOption) {
       return ModalConfirmationButtonText.continueCompetition;
+    } else if (this.data.type === ModalConfirmationType.incompleteWorkshopAndCompetition && !thirdOption) {
+      return ModalConfirmationButtonText.continueWorkshop;
+    } else {
+      const buttonText = ModalConfirmationButtonText[this.data.type];
+      return buttonText || ModalConfirmationButtonText.default;
     }
-    const buttonText = ModalConfirmationButtonText[this.data.type];
-    return buttonText || ModalConfirmationButtonText.default;
   }
 }

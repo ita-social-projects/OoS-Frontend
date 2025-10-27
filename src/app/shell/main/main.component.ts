@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, combineLatest, Observable, Subject } from 'rxjs';
-import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, combineLatest, Observable, Subject, withLatestFrom } from 'rxjs';
+import { distinctUntilChanged, filter, map, skip, take, takeUntil } from 'rxjs/operators';
 
 import { Role } from 'shared/enum/role';
 import { Direction } from 'shared/models/category.model';
@@ -24,7 +24,7 @@ import {
   GetUnfinishedWorkshop,
   OnDeleteUnfinishedCompetition,
   OnDeleteUnfinishedWorkshop,
-  SetWorkshopModalShown
+  SetUnfinishedModalShown
 } from 'shared/store/provider.actions';
 import { Router } from '@angular/router';
 import { ProviderState } from 'shared/store/provider.state';
@@ -49,6 +49,10 @@ export class MainComponent implements OnInit, OnDestroy {
   public settlement$: Observable<Codeficator>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
+  @Select(ProviderState.fetchedUnfinishedWorkshop)
+  public fetchedWorkshop: Observable<boolean>;
+  @Select(ProviderState.fetchedUnfinishedCompetition)
+  public fetchedCompetition: Observable<boolean>;
   @Select(ProviderState.hasUnfinishedWorkshopData)
   public hasUnfinishedWorkshopData$: Observable<boolean>;
   @Select(ProviderState.hasUnfinishedCompetitionData)
@@ -85,19 +89,27 @@ export class MainComponent implements OnInit, OnDestroy {
         this.getData(role);
       });
 
-    combineLatest([this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$, this.isModalShown$])
+    combineLatest([this.fetchedWorkshop, this.fetchedCompetition, this.isModalShown$])
       .pipe(
-        takeUntil(this.destroy$),
-        filter(([hasWorkshopData, hasCompetitionData, isModalShown]) => (hasWorkshopData || hasCompetitionData) && !isModalShown)
+        filter(([fetchedWorkshop, fetchedCompetition, modalShown]) => fetchedWorkshop && fetchedCompetition && !modalShown),
+        withLatestFrom([this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$]),
+        map(([hasWorkshop, hasCompetition]) => {
+          if (hasWorkshop && hasCompetition) {
+            return ModalConfirmationType.incompleteWorkshopAndCompetition;
+          }
+          if (hasWorkshop) {
+            return ModalConfirmationType.incompleteWorkshop;
+          }
+          if (hasCompetition) {
+            return ModalConfirmationType.incompleteCompetition;
+          }
+          return null;
+        }),
+        filter((type): type is ModalConfirmationType => !!type),
+        take(1)
       )
-      .subscribe(([hasWorkshopData, hasCompetitionData]) => {
-        const type =
-          hasWorkshopData && hasCompetitionData
-            ? ModalConfirmationType.incompleteWorkshopAndCompetition
-            : hasWorkshopData
-              ? ModalConfirmationType.incompleteWorkshop
-              : ModalConfirmationType.incompleteCompetition;
-
+      .subscribe((type) => {
+        this.store.dispatch(new SetUnfinishedModalShown(true));
         this.showDialog(type);
       });
 
@@ -134,26 +146,29 @@ export class MainComponent implements OnInit, OnDestroy {
     asyncScheduler.schedule(() => {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
           data: {
             type,
             showCloseButton: true
-          }
+          },
+          maxWidth: incompleteBoth ? Constants.MODAL_MEDIUM : Constants.MODAL_SMALL
         })
         .afterClosed()
         .subscribe((result: boolean | string) => {
-          if ((result === true && incompleteBoth) || (result && !incompleteBoth && !incompleteCompetition)) {
+          const isWorkshop = (result === true && !incompleteCompetition) || (result === true && incompleteBoth);
+          const isCompetition = (result === 'secondOption' && incompleteBoth) || (result === true && incompleteCompetition);
+
+          if (isWorkshop) {
             this.continueUnfinishedCreation('workshop');
-          } else if ((result === 'secondOption' && incompleteBoth) || (result === true && incompleteCompetition)) {
+          } else if (isCompetition) {
             this.continueUnfinishedCreation('competition');
-          } else if (!result && incompleteBoth) {
-            return;
-          } else if (!result && !incompleteCompetition) {
-            this.cancelUnfinishedCreation('workshop');
-          } else {
-            this.cancelUnfinishedCreation('competition');
+          } else if (!result) {
+            const target = incompleteBoth ? null : incompleteCompetition ? 'competition' : 'workshop';
+
+            if (target) {
+              this.cancelUnfinishedCreation(target);
+            }
           }
-          this.store.dispatch(new SetWorkshopModalShown(true));
+          this.store.dispatch(new SetUnfinishedModalShown(true));
         });
     }, 2000);
   }

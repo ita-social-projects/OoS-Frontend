@@ -79,8 +79,10 @@ export interface ProviderStateModel {
   positions: SearchResponse<Position[]>;
   selectedPosition: Position;
   unfinishedWorkshop: WorkshopDraftState;
+  fetchedUnfinishedWorkshop: boolean;
   timeToLiveUnfinishedWorkshop: string | null;
   unfinishedCompetition: CompetitionDraftState;
+  fetchedUnfinishedCompetition: boolean;
   timeToLiveUnfinishedCompetition: string | null;
   studySubject: SearchResponse<StudySubject[]>;
   selectedSubject: StudySubject;
@@ -106,8 +108,10 @@ export interface ProviderStateModel {
     positions: null,
     selectedPosition: null,
     unfinishedWorkshop: null,
+    fetchedUnfinishedWorkshop: false,
     timeToLiveUnfinishedWorkshop: null,
     unfinishedCompetition: null,
+    fetchedUnfinishedCompetition: false,
     timeToLiveUnfinishedCompetition: null,
     studySubject: null,
     selectedSubject: null
@@ -201,6 +205,11 @@ export class ProviderState {
   }
 
   @Selector()
+  static fetchedUnfinishedWorkshop(state: ProviderStateModel): boolean {
+    return state.fetchedUnfinishedWorkshop;
+  }
+
+  @Selector()
   static unfinishedWorkshop(state: ProviderStateModel): Workshop {
     return state.unfinishedWorkshop?.workshopForLoading;
   }
@@ -213,6 +222,11 @@ export class ProviderState {
   @Selector()
   static hasUnfinishedCompetitionData(state: ProviderStateModel): boolean {
     return Boolean(state.unfinishedCompetition?.competitionForLoading);
+  }
+
+  @Selector()
+  static fetchedUnfinishedCompetition(state: ProviderStateModel): boolean {
+    return state.fetchedUnfinishedCompetition;
   }
 
   @Selector()
@@ -1484,7 +1498,8 @@ export class ProviderState {
       catchError((error: HttpErrorResponse) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopFail(error));
         return EMPTY;
-      })
+      }),
+      finalize(() => ctx.patchState({ fetchedUnfinishedWorkshop: true }))
     );
   }
 
@@ -1526,8 +1541,8 @@ export class ProviderState {
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
   }
 
-  @Action(providerActions.SetWorkshopModalShown)
-  setWorkshopModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetWorkshopModalShown): void {
+  @Action(providerActions.SetUnfinishedModalShown)
+  setWorkshopModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetUnfinishedModalShown): void {
     ctx.patchState({ isDraftModalShown: payload });
   }
 
@@ -1598,7 +1613,8 @@ export class ProviderState {
       catchError((error: HttpErrorResponse) => {
         ctx.dispatch(new providerActions.GetUnfinishedCompetitionFail(error));
         return EMPTY;
-      })
+      }),
+      finalize(() => ctx.patchState({ fetchedUnfinishedCompetition: true }))
     );
   }
 
@@ -1643,11 +1659,6 @@ export class ProviderState {
     { payload }: providerActions.GetUnfinishedCompetitionTimeToLiveFail
   ): void {
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
-  }
-
-  @Action(providerActions.SetCompetitionDraftModalShown)
-  setCompetitionDraftModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetCompetitionDraftModalShown): void {
-    ctx.patchState({ isDraftModalShown: payload });
   }
 
   @Action(providerActions.CreateStudySubject)

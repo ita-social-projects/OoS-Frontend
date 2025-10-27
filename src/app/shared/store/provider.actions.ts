@@ -657,8 +657,8 @@ export class GetUnfinishedWorkshopTimeToLiveFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class SetWorkshopModalShown {
-  static readonly type = '[provider] set workshop modal shown';
+export class SetUnfinishedModalShown {
+  static readonly type = '[provider] set unfinished modal shown';
 
   constructor(public payload: boolean) {}
 }
@@ -730,12 +730,6 @@ export class GetUnfinishedCompetitionTimeToLiveFail {
   static readonly type = '[provider] get time to live of unfinished competition fail';
 
   constructor(public payload: HttpErrorResponse) {}
-}
-
-export class SetCompetitionDraftModalShown {
-  static readonly type = '[provider] set competition modal shown';
-
-  constructor(public payload: boolean) {}
 }
 
 export class GetPositions {

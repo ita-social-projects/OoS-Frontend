@@ -22,7 +22,13 @@
         }}
       </p>
       <p class="text-sm !mt-2">
-        {{ 'PROVIDER_DRAFT.DETAILS' | translate }}
+        {{
+          'PROVIDER_DRAFT.DETAILS'
+            | translate
+              : {
+                  entity: 'BANNERS.' + (mode === BannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
+                }
+        }}
       </p>
       <p *ngIf="timeToLiveUnfinishedEntity$ | async as timeToLive" class="text-sm !mt-1">
         {{ timeToLive | timeRemaining }}

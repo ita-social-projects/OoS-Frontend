@@ -161,10 +161,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
-
-    if (this.isUnfinished) {
-      this.loadUnfinishedWorkshopData();
-    }
   }
 
   public ngAfterContentChecked(): void {

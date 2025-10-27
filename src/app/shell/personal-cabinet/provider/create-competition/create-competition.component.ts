@@ -20,7 +20,13 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 'shared/store/shared-user.actions';
+import {
+  GetCompetitionById,
+  GetCompetitionDraftById,
+  GetWorkshopById,
+  GetWorkshopDraftById,
+  ResetCompetition
+} from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants, ModeConstants } from 'shared/constants/constants';
@@ -31,7 +37,7 @@ import {
   UpdateCompetition,
   UpdateCompetitionDraft
 } from 'shared/store/provider.actions';
-import { Contacts } from 'shared/models/workshop.model';
+import { Contacts, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
@@ -199,14 +205,27 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public setEditMode(): void {
-    if (!this.route.snapshot.paramMap.has('entity')) {
-      this.store.dispatch(new GetCompetitionById(this.param));
+    const param = this.route.snapshot.paramMap.get('param');
+    if (param === ModeConstants.UNFINISHED) {
+      this.loadUnfinishedCompetitionData();
+      this.editMode = false;
     } else {
-      this.store.dispatch(new GetCompetitionDraftById(this.param));
+      switch (this.entity) {
+        case WorkshopType.Competition:
+          this.store.dispatch(new GetCompetitionById(param));
+          break;
+        case WorkshopType.Draft:
+          this.store.dispatch(new GetCompetitionDraftById(param));
+          break;
+        default:
+          this.editMode = false;
+          return;
+      }
+
+      this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition | CompetitionDraft) => {
+        this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
+      });
     }
-    this.selectedCompetition$.pipe(filter(Boolean), first()).subscribe((competition: Competition | CompetitionDraft) => {
-      this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
-    });
   }
 
   public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
@@ -360,11 +379,23 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     if (requiredInfo.numberOfSeats === null) {
       requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
     }
+    return requiredInfo;
+  }
+
+  private createUnfinishedRequired(): CompetitionRequired {
+    const requiredInfo = this.RequiredFormGroup.getRawValue();
+    if (requiredInfo.numberOfSeats === null) {
+      requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
+    }
+
     requiredInfo.scheduledStartTime = new Date(requiredInfo.competitionDateRangeGroup.start).toISOString();
     requiredInfo.scheduledEndTime = new Date(requiredInfo.competitionDateRangeGroup.end).toISOString();
     requiredInfo.registrationStartTime = new Date(requiredInfo.registrationDateRangeGroup.start).toISOString();
     requiredInfo.registrationEndTime = new Date(requiredInfo.registrationDateRangeGroup.end).toISOString();
-    console.log(requiredInfo);
+
+    delete requiredInfo.competitionDateRangeGroup;
+    delete requiredInfo.registrationDateRangeGroup;
+
     return requiredInfo;
   }
 
