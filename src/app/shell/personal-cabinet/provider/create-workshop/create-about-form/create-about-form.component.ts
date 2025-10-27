@@ -249,7 +249,7 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
   private setDefaultLanguage(): void {
     this.languageList$.pipe(filter(Boolean), take(1)).subscribe((languageList) => {
       const uaLang = languageList.find((lang) => lang.code === 'uk') || languageList[0].id;
-      this.AboutFormGroup.get('languageOfEducationId').setValue(this.workshop?.languageOfEducationId || uaLang);
+      this.AboutFormGroup.get('languageOfEducationId').setValue(this.workshop?.languageOfEducationId || uaLang, { emitEvent: false });
     });
   }
 
