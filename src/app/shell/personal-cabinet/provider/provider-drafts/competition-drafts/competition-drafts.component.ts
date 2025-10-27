@@ -105,7 +105,7 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   }
 
   public trackByDraft(index: number, item: CompetitionDraftCard): string {
-    return item.competitiveEventDraftId;
+    return `${item.competitiveEventDraftId}_${item.draftStatus}_${item.title}_${item.rejectionMessage}_${item.coverImageId}`;
   }
 
   public onSearch(searchFormControl: FormControl): void {

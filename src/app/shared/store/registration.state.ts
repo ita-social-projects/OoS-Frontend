@@ -69,6 +69,8 @@ export interface RegistrationStateModel {
 })
 @Injectable()
 export class RegistrationState {
+  private firstLogin: boolean = false;
+
   constructor(
     private store: Store,
     private router: Router,
@@ -142,6 +144,7 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<void> {
+    this.firstLogin = Boolean(new URLSearchParams(window.location.search).size);
     return this.oidcSecurityService.checkAuth().pipe(
       switchMap((auth: LoginResponse) => {
         patchState({ isAuthorized: auth.isAuthenticated });
@@ -166,8 +169,12 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
+    const providerRoles = [Role.provider, Role.providerDeputy, Role.employee];
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
+      if (this.firstLogin && providerRoles.includes(state.user.role as Role)) {
+        this.router.navigate(['/personal-cabinet/config']);
+      }
     } else {
       this.router
         .navigate([state.user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])

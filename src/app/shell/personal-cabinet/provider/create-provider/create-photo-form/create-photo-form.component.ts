@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 
-import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
-import { FormValidators, ValidationConstants } from '../../../../../shared/constants/validation';
-import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
+import { Entities } from 'shared/enum/entities';
+import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { Provider, ProviderSectionItem } from 'shared/models/provider.model';
 
 @Component({
   selector: 'app-create-photo-form',
@@ -18,6 +19,7 @@ export class CreatePhotoFormComponent implements OnInit {
   @Output() public passPhotoFormGroup = new EventEmitter();
 
   public readonly validationConstants = ValidationConstants;
+  public readonly Entities = Entities;
 
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,

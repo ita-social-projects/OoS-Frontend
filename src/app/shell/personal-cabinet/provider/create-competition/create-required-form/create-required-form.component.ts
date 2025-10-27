@@ -17,6 +17,7 @@ import { Provider } from 'shared/models/provider.model';
 import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
+import { Entities } from 'shared/enum/entities';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -38,10 +39,10 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
   public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
 
   public readonly cropperConfig = CopperConfig;
+  public readonly Entities = Entities;
   public RequiredFormGroup: FormGroup;
   public isShowHintAboutCompetitionAutoClosing: boolean = false;
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-  public useProviderInfoCtrl: FormControl = new FormControl(false);
   public filteredTypeOfCompetition: { key: string; value: string }[] = [];
 
   protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 12));

@@ -20,6 +20,7 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
 import { Direction, Subdirection } from 'shared/models/category.model';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Entities } from 'shared/enum/entities';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -46,6 +47,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly Util = Util;
   public readonly cropperConfig = CopperConfig;
+  public readonly Entities = Entities;
 
   public DescriptionFormGroup: FormGroup;
   public selectionOptionRadioBtn: FormControl = new FormControl(false);

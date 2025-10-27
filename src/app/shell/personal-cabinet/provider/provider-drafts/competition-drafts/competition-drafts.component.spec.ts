@@ -18,6 +18,7 @@ import { CompetitionDraftCard } from 'shared/models/competition.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { PaginationConstants } from 'shared/constants/constants';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
 import { CompetitionDraftsComponent } from './competition-drafts.component';
 
 describe('CompetitionDraftsComponent', () => {
@@ -89,9 +90,12 @@ describe('CompetitionDraftsComponent', () => {
   });
 
   it('trackBy fn', () => {
-    const mockCompetition = { competitiveEventDraftId: '123' } as CompetitionDraftCard;
+    const mockCompetition = {
+      competitiveEventDraftId: '123',
+      draftStatus: WorkshopDraftStatus.Draft
+    } as CompetitionDraftCard;
 
-    expect(component.trackByDraft(0, mockCompetition)).toBe('123');
+    expect(component.trackByDraft(0, mockCompetition)).toContain('123_Draft');
   });
 
   describe('MatDialog', () => {

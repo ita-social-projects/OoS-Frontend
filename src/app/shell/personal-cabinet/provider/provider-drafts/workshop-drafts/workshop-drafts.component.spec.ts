@@ -19,6 +19,7 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { RegistrationState } from 'shared/store/registration.state';
 import { PaginationConstants } from 'shared/constants/constants';
+import { WorkshopDraftStatus } from 'shared/enum/workshop';
 import { WorkshopDraftsComponent } from './workshop-drafts.component';
 
 describe('WorkshopDraftsComponent', () => {
@@ -96,9 +97,9 @@ describe('WorkshopDraftsComponent', () => {
   });
 
   it('trackBy fn', () => {
-    const mockWorkshop = { workshopDraftId: '123' } as WorkshopDraftCard;
+    const mockWorkshop = { workshopDraftId: '123', draftStatus: WorkshopDraftStatus.Draft } as WorkshopDraftCard;
 
-    expect((component as any).trackByDraft(0, mockWorkshop)).toBe('123');
+    expect((component as any).trackByDraft(0, mockWorkshop)).toContain('123_Draft');
   });
 
   describe('MatDialog', () => {

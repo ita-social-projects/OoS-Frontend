@@ -34,7 +34,7 @@
     <textarea
       matInput
       class="step-textarea"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ maxDescriptionLength }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.INFO_FORM_TEXT_AREA' | translate: { entity: (entity | uppercase | translate) } }}"
       formControlName="description"
       maxlength="{{ maxDescriptionLength }}"
       appTrimValue
