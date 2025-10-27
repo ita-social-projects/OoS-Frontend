@@ -17,7 +17,7 @@
           'PROVIDER_DRAFT.TITLE'
             | translate
               : {
-                  entity: 'BANNERS.' + (mode === BannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
+                  entity: 'BANNERS.' + (mode === bannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
                 }
         }}
       </p>
@@ -26,7 +26,7 @@
           'PROVIDER_DRAFT.DETAILS'
             | translate
               : {
-                  entity: 'BANNERS.' + (mode === BannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
+                  entity: 'BANNERS.' + (mode === bannerMode.UnfinishedWorkshop ? 'workshop' : 'competition') | uppercase | translate
                 }
         }}
       </p>

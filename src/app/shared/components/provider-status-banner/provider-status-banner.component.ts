@@ -10,7 +10,7 @@ import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/
 import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
-import { OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
+import { OnDeleteUnfinishedCompetition, OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 
 @Component({
@@ -70,7 +70,11 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
   }
 
   public cancelDraft(): void {
-    this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+    if (this.mode === BannerMode.UnfinishedWorkshop) {
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+    } else {
+      this.store.dispatch(new OnDeleteUnfinishedCompetition());
+    }
   }
 
   public ngOnDestroy(): void {
@@ -101,6 +105,4 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  protected readonly BannerMode = BannerMode;
 }

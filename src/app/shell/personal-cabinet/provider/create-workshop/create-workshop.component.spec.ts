@@ -307,7 +307,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: mockFiles
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result).toEqual({
           competitiveSelectionDescription: 'Test competitive description',
           enrollmentProcedureDescription: 'Test enrollment procedure',
@@ -325,7 +328,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: []
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result).toEqual({
           competitiveSelectionDescription: 'Test competitive description',
           enrollmentProcedureDescription: 'Test enrollment procedure',
@@ -343,7 +349,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: null
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result).toEqual({
           competitiveSelectionDescription: 'Test competitive description',
           enrollmentProcedureDescription: 'Test enrollment procedure',
@@ -361,7 +370,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: undefined
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result).toEqual({
           competitiveSelectionDescription: 'Test competitive description',
           enrollmentProcedureDescription: 'Test enrollment procedure',
@@ -387,7 +399,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: new FormControl([])
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result).toEqual({
           competitiveSelectionDescription: 'Additional competitive',
           customField1: 'Custom value 1',
@@ -413,7 +428,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: new FormControl([])
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result.competitiveSelectionDescription).toBe('From Additional');
         expect(result.sharedField).toBe('Description value');
         expect(result.base64ImageFiles).toEqual([]);
@@ -428,7 +446,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: [singleFile]
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result.imageFiles).toEqual([singleFile]);
         expect(result.base64ImageFiles).toEqual(['base64_single.jpg']);
         done();
@@ -442,7 +463,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
         imageFiles: mockFiles
       });
 
-      (component as any).createUnfinishedDescription().subscribe((result) => {
+      ProviderUtils.createUnfinishedDescription({
+        ...component.AdditionalAboutGroup.getRawValue(),
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
         expect(result.imageFiles).toEqual(mockFiles);
         expect(result.base64ImageFiles).toEqual(['base64_test1.jpg', 'base64_test2.png']);
         done();
@@ -602,9 +626,9 @@ describe('CreateWorkshopComponent (Jest)', () => {
     describe('createStepData', () => {
       beforeEach(() => {
         jest.clearAllMocks();
-        jest.spyOn(component as any, 'createUnfinishedAbout').mockReturnValue(of({ about: 'test about' }));
+        jest.spyOn(ProviderUtils, 'createUnfinishedAbout').mockReturnValue(of({ about: 'test about' }));
         jest.spyOn(component as any, 'createAdditionalAbout').mockReturnValue({ additional: 'test additional' });
-        jest.spyOn(component as any, 'createUnfinishedDescription').mockReturnValue(of({ description: 'test description' }));
+        jest.spyOn(ProviderUtils, 'createUnfinishedDescription').mockReturnValue(of({ description: 'test description' }));
         jest.spyOn(component as any, 'createContactsWithCodeficator').mockReturnValue(
           of([
             {
@@ -681,9 +705,9 @@ describe('CreateWorkshopComponent (Jest)', () => {
             contacts: [{ id: 1, name: 'Test Contact' }]
           });
 
-          expect((component as any).createUnfinishedAbout).toHaveBeenCalledTimes(1);
+          expect(ProviderUtils.createUnfinishedAbout).toHaveBeenCalledTimes(1);
           expect((component as any).createAdditionalAbout).toHaveBeenCalledTimes(1);
-          expect((component as any).createUnfinishedDescription).toHaveBeenCalledTimes(1);
+          expect(ProviderUtils.createUnfinishedDescription).toHaveBeenCalledTimes(1);
           expect((component as any).createContactsWithCodeficator).toHaveBeenCalledTimes(1);
 
           done();
@@ -691,7 +715,12 @@ describe('CreateWorkshopComponent (Jest)', () => {
       });
 
       it('should merge overlapping properties correctly', (done) => {
-        (component as any).createUnfinishedAbout.mockReturnValue(of({ name: 'from about', shared: 'about value' }));
+        jest.spyOn(ProviderUtils, 'createUnfinishedAbout').mockReturnValue(
+          of({
+            name: 'from about',
+            shared: 'about value'
+          })
+        );
         (component as any).createAdditionalAbout.mockReturnValue({
           name: 'from additional',
           shared: 'additional value',
@@ -711,8 +740,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
       });
 
       it('should handle async data correctly', (done) => {
-        (component as any).createUnfinishedAbout.mockReturnValue(of({ about: 'delayed about' }).pipe(delay(100)));
-        (component as any).createUnfinishedDescription.mockReturnValue(of({ description: 'delayed description' }).pipe(delay(50)));
+        jest.spyOn(ProviderUtils, 'createUnfinishedAbout').mockReturnValue(of({ about: 'delayed about' }).pipe(delay(100)));
+        jest
+          .spyOn(ProviderUtils, 'createUnfinishedDescription')
+          .mockReturnValue(of({ description: 'delayed description' }).pipe(delay(50)));
 
         (component as any).createStepData(3).subscribe((result) => {
           expect(result).toEqual({

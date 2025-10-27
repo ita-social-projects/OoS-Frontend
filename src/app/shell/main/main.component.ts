@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { asyncScheduler, combineLatest, Observable, Subject, withLatestFrom } from 'rxjs';
-import { distinctUntilChanged, filter, map, skip, take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { Role } from 'shared/enum/role';
 import { Direction } from 'shared/models/category.model';
@@ -50,9 +50,9 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
   @Select(ProviderState.fetchedUnfinishedWorkshop)
-  public fetchedWorkshop: Observable<boolean>;
+  public fetchedWorkshop$: Observable<boolean>;
   @Select(ProviderState.fetchedUnfinishedCompetition)
-  public fetchedCompetition: Observable<boolean>;
+  public fetchedCompetition$: Observable<boolean>;
   @Select(ProviderState.hasUnfinishedWorkshopData)
   public hasUnfinishedWorkshopData$: Observable<boolean>;
   @Select(ProviderState.hasUnfinishedCompetitionData)
@@ -89,11 +89,11 @@ export class MainComponent implements OnInit, OnDestroy {
         this.getData(role);
       });
 
-    combineLatest([this.fetchedWorkshop, this.fetchedCompetition, this.isModalShown$])
+    combineLatest([this.fetchedWorkshop$, this.fetchedCompetition$, this.isModalShown$])
       .pipe(
         filter(([fetchedWorkshop, fetchedCompetition, modalShown]) => fetchedWorkshop && fetchedCompetition && !modalShown),
-        withLatestFrom([this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$]),
-        map(([hasWorkshop, hasCompetition]) => {
+        withLatestFrom(this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$),
+        map(([[fetchedWorkshop, fetchedCompetition, modalShown], hasWorkshop, hasCompetition]) => {
           if (hasWorkshop && hasCompetition) {
             return ModalConfirmationType.incompleteWorkshopAndCompetition;
           }
@@ -105,7 +105,7 @@ export class MainComponent implements OnInit, OnDestroy {
           }
           return null;
         }),
-        filter((type): type is ModalConfirmationType => !!type),
+        filter(Boolean),
         take(1)
       )
       .subscribe((type) => {
