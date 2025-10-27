@@ -112,12 +112,13 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
   public ngOnInit(): void {
     this.store.dispatch(new GetLanguageList());
     this.initForm();
-    this.setDefaultLanguage();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
 
     if (this.workshop) {
       this.activateEditMode();
     }
+
+    this.setDefaultLanguage();
 
     this.initListeners();
   }
@@ -247,8 +248,8 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
 
   private setDefaultLanguage(): void {
     this.languageList$.pipe(filter(Boolean), take(1)).subscribe((languageList) => {
-      const uaLang = languageList.find((lang) => lang.code === 'uk');
-      this.AboutFormGroup.get('languageOfEducationId').setValue(uaLang.id);
+      const uaLang = languageList.find((lang) => lang.code === 'uk') || languageList[0].id;
+      this.AboutFormGroup.get('languageOfEducationId').setValue(this.workshop?.languageOfEducationId || uaLang);
     });
   }
 
