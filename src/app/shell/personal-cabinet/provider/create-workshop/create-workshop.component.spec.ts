@@ -243,7 +243,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
 
   describe('createUnfinishedAbout', () => {
     it('should create unfinished about with base64 cover image', (done) => {
-      const mockFile = new File(['test'], 'test.jpg');
+      const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
       component.AboutFormGroup.patchValue({
         coverImage: [mockFile],
         title: 'Test Title'
@@ -254,11 +254,11 @@ describe('CreateWorkshopComponent (Jest)', () => {
         coverImage: [mockFile]
       });
 
-      (component as any).createUnfinishedAbout().subscribe((result) => {
+      ProviderUtils.createUnfinishedAbout((component as any).createAbout()).subscribe((result) => {
         expect(result).toEqual({
           title: 'Test Title',
           coverImage: [mockFile],
-          base64CoverImage: 'base64_test.jpg'
+          base64CoverImage: expect.stringMatching(/^data:image\/jpeg;base64,/)
         });
         done();
       });
@@ -275,11 +275,11 @@ describe('CreateWorkshopComponent (Jest)', () => {
         coverImage: [null]
       });
 
-      (component as any).createUnfinishedAbout().subscribe((result) => {
+      ProviderUtils.createUnfinishedAbout((component as any).createAbout()).subscribe((result) => {
         expect(result).toEqual({
           title: 'Test Title',
           coverImage: [null],
-          base64CoverImage: 'base64_mock'
+          base64CoverImage: null
         });
         done();
       });
@@ -317,7 +317,10 @@ describe('CreateWorkshopComponent (Jest)', () => {
           workshopDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
           keywords: ['keyword1', 'keyword2'],
           imageFiles: mockFiles,
-          base64ImageFiles: ['base64_test1.jpg', 'base64_test2.png']
+          base64ImageFiles: expect.arrayContaining([
+            expect.stringMatching(/^data:image\/jpeg;base64,/),
+            expect.stringMatching(/^data:image\/png;base64,/)
+          ])
         });
         done();
       });
@@ -451,7 +454,7 @@ describe('CreateWorkshopComponent (Jest)', () => {
         ...component.DescriptionFormGroup.getRawValue()
       }).subscribe((result) => {
         expect(result.imageFiles).toEqual([singleFile]);
-        expect(result.base64ImageFiles).toEqual(['base64_single.jpg']);
+        expect(result.base64ImageFiles[0]).toMatch(/^data:image\/jpeg;base64,/);
         done();
       });
     });
@@ -468,7 +471,9 @@ describe('CreateWorkshopComponent (Jest)', () => {
         ...component.DescriptionFormGroup.getRawValue()
       }).subscribe((result) => {
         expect(result.imageFiles).toEqual(mockFiles);
-        expect(result.base64ImageFiles).toEqual(['base64_test1.jpg', 'base64_test2.png']);
+        expect(result.base64ImageFiles.length).toEqual(2);
+        expect(result.base64ImageFiles[0]).toMatch(/^data:image\/jpeg;base64,/);
+        expect(result.base64ImageFiles[1]).toMatch(/^data:image\/png;base64,/);
         done();
       });
     });

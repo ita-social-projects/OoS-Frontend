@@ -85,7 +85,16 @@ export function submittingRealEntity(entityParam: string): boolean {
 export function createUnfinishedAbout(
   aboutInfo: WorkshopAbout | CompetitionRequired
 ): Observable<UnfinishedWorkshopAbout | UnfinishedCompetitionRequired> {
-  return blobToBase64(aboutInfo.coverImage[0]).pipe(
+  const file = aboutInfo.coverImage?.[0];
+
+  if (!file) {
+    return of({
+      ...aboutInfo,
+      base64CoverImage: null
+    });
+  }
+
+  return blobToBase64(file).pipe(
     map((base64CoverImage) => ({
       ...aboutInfo,
       base64CoverImage
