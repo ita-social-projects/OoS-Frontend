@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
 
-import { Constants } from 'shared/constants/constants';
+import { Constants, ModeConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/competition';
@@ -163,7 +163,7 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
       this.availableSeatsRadioBtnControl.setValue(false);
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.RequiredFormGroup);
     }
 

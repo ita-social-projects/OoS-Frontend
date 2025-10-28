@@ -21,6 +21,7 @@ import { Direction, Subdirection } from 'shared/models/category.model';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entities } from 'shared/enum/entities';
+import { ModeConstants } from 'shared/constants/constants';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -205,7 +206,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       });
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.DescriptionFormGroup);
     }
 

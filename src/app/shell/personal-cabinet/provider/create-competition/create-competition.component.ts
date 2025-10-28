@@ -5,7 +5,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { asyncScheduler, forkJoin, Observable, of, zip } from 'rxjs';
-import { filter, first, map, take, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
@@ -20,13 +20,7 @@ import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import {
-  GetCompetitionById,
-  GetCompetitionDraftById,
-  GetWorkshopById,
-  GetWorkshopDraftById,
-  ResetCompetition
-} from 'shared/store/shared-user.actions';
+import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants, ModeConstants } from 'shared/constants/constants';
@@ -37,7 +31,7 @@ import {
   UpdateCompetition,
   UpdateCompetitionDraft
 } from 'shared/store/provider.actions';
-import { Contacts, Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { Contacts } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
@@ -244,7 +238,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     ]);
 
     const step = stepMappings.get(formGroup) ?? -1;
-    console.error(step);
     if (step !== -1) {
       this.stepActions[step]?.();
     }
@@ -458,8 +451,11 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       providerId: this.provider.id
     };
 
-    const about$ = createUnfinishedAbout(this.createRequired());
-    const description$ = createUnfinishedDescription(this.createDescription());
+    const about$ = createUnfinishedAbout(this.createUnfinishedRequired());
+    const descInfo = this.createDescription();
+    descInfo.competitiveEventDescriptionItems.forEach((item) => delete item.competitiveEventId);
+    const mappedDescInfo = { ...descInfo, plannedFormatOfClasses: descInfo.formOfLearning };
+    const description$ = createUnfinishedDescription(mappedDescInfo);
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([
       [1, [about$]],
