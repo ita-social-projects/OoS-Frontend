@@ -119,6 +119,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   public onTimeSet(chosenTime: string, formControl: FormControl): void {
     formControl.setValue(chosenTime);
+    this.dataChanged.emit();
   }
 
   public ngOnDestroy(): void {
