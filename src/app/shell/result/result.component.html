@@ -19,17 +19,10 @@
   </mat-drawer>
   <mat-drawer-content [style.margin-left]="marginLeft" [style.margin-top]="isMapView ? '0' : '2rem'">
     <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" class="flex flex-row justify-start">
-      <app-workshop-map-view-list
-        [role]="role"
-        [filteredWorkshops$]="filteredWorkshops$">
-      </app-workshop-map-view-list>
+      <app-workshop-map-view-list [role]="role" [filteredWorkshops$]="filteredWorkshops$"> </app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list
-        class="cards"
-        [role]="role"
-        [workshops$]="filteredWorkshops$">
-      </app-workshop-cards-list>
+      <app-workshop-cards-list class="cards" [role]="role" [workshops$]="filteredWorkshops$"> </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -60,7 +53,7 @@
         <mat-button-toggle
           value="{{ ResultViewType.List }}"
           aria-label="{{ ResultViewType.List }}"
-          class="flex flex-row box-border justify-center items-center">
+          class="flex flex-row box-border justify-center items-center btn-left">
           <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
           <span class="view-toggle_icon">{{ 'LIST' | translate }}</span>
         </mat-button-toggle>
@@ -68,7 +61,7 @@
         <mat-button-toggle
           value="{{ ResultViewType.Map }}"
           aria-label="{{ ResultViewType.Map }}"
-          class="flex flex-row box-border justify-center items-center">
+          class="flex flex-row box-border justify-center items-center btn-right">
           <mat-icon class="view-toggle_icon_small">map</mat-icon>
           <span class="view-toggle_icon">{{ 'MAP' | translate }}</span>
         </mat-button-toggle>
