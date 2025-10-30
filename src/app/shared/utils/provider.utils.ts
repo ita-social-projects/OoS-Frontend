@@ -102,7 +102,7 @@ export function createUnfinishedAbout(
   );
 }
 
-export function createUnfinishedDescription<T extends { imageFiles?: Blob[] }>(
+export function createUnfinishedDescription<T extends { imageFiles?: Blob[]; base64ImageFiles?: string[] }>(
   descriptionInfo: T
 ): Observable<
   T & {
@@ -113,7 +113,7 @@ export function createUnfinishedDescription<T extends { imageFiles?: Blob[] }>(
   return blobsToBase64(files).pipe(
     map((base64ImageFiles) => ({
       ...descriptionInfo,
-      base64ImageFiles
+      base64ImageFiles: [...base64ImageFiles, ...descriptionInfo.base64ImageFiles]
     }))
   );
 }

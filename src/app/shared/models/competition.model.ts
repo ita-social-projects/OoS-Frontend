@@ -125,8 +125,10 @@ export class Competition extends CompetitionBase {
   state: CompetitionStatus;
   coverImageId?: string;
   coverImage?: File;
+  base64CoverImage?: string;
   imageIds?: string[];
   imageFiles?: File[];
+  base64ImageFiles?: string[];
 
   constructor(
     required: CompetitionRequired,

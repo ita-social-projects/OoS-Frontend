@@ -389,6 +389,10 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     delete requiredInfo.competitionDateRangeGroup;
     delete requiredInfo.registrationDateRangeGroup;
 
+    if (this.competition?.base64CoverImage) {
+      requiredInfo.base64CoverImage = this.competition.base64CoverImage;
+    }
+
     return requiredInfo;
   }
 
@@ -454,7 +458,10 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     const about$ = createUnfinishedAbout(this.createUnfinishedRequired());
     const descInfo = this.createDescription();
     descInfo.competitiveEventDescriptionItems.forEach((item) => delete item.competitiveEventId);
-    const mappedDescInfo = { ...descInfo, plannedFormatOfClasses: descInfo.formOfLearning };
+    let mappedDescInfo = { ...descInfo, plannedFormatOfClasses: descInfo.formOfLearning };
+    if (this.competition?.base64ImageFiles?.length) {
+      mappedDescInfo = { ...mappedDescInfo, base64ImageFiles: this.competition.base64ImageFiles } as any;
+    }
     const description$ = createUnfinishedDescription(mappedDescInfo);
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([
