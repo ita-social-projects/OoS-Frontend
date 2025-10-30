@@ -241,7 +241,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public loadUnfinishedWorkshopData(): void {
     this.store.dispatch(new GetUnfinishedWorkshop());
-    this.unfinishedWorkshop$.subscribe((draft: Workshop) => {
+    this.unfinishedWorkshop$.pipe(filter(Boolean), take(1)).subscribe((draft: Workshop) => {
       this.workshop = draft;
       asyncScheduler.schedule(() => {
         const stepToGo = this.getFirstInvalidStep();

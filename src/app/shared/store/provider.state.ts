@@ -1574,7 +1574,7 @@ export class ProviderState {
     });
   }
 
-  @Action(OnSaveWorkshopStepFail)
+  @Action(OnSaveCompetitionStepFail)
   onSaveCompetitionStepFail(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveCompetitionStepFail): void {
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
@@ -1601,7 +1601,7 @@ export class ProviderState {
 
   @Action(providerActions.OnDeleteUnfinishedWorkshopSuccess)
   onDeleteUnfinishedCompetitionSuccess(ctx: StateContext<ProviderStateModel>): void {
-    ctx.patchState({ unfinishedWorkshop: null });
+    ctx.patchState({ unfinishedCompetition: null });
   }
 
   @Action(providerActions.GetUnfinishedCompetition)

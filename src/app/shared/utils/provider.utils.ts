@@ -113,7 +113,7 @@ export function createUnfinishedDescription<T extends { imageFiles?: Blob[]; bas
   return blobsToBase64(files).pipe(
     map((base64ImageFiles) => ({
       ...descriptionInfo,
-      base64ImageFiles: [...base64ImageFiles, ...descriptionInfo.base64ImageFiles]
+      base64ImageFiles: [...base64ImageFiles, ...(descriptionInfo.base64ImageFiles || [])]
     }))
   );
 }

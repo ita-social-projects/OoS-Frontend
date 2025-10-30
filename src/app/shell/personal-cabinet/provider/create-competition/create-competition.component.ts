@@ -245,7 +245,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   public loadUnfinishedCompetitionData(): void {
     this.store.dispatch(new GetUnfinishedCompetition());
-    this.unfinishedCompetition$.subscribe((draft: Competition) => {
+    this.unfinishedCompetition$.pipe(filter(Boolean), take(1)).subscribe((draft: Competition) => {
       this.competition = draft;
       asyncScheduler.schedule(() => {
         const stepToGo = this.getFirstInvalidStep();
