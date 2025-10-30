@@ -22,6 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { WorkshopType } from 'shared/enum/workshop';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { BannerMode } from 'shared/enum/bannerMode';
 
 @Component({
   selector: 'app-competition-drafts',
@@ -34,11 +35,14 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   @Input() public provider: Provider;
   @Select(ProviderState.providerCompetitionDrafts)
   public competitionDrafts$: Observable<SearchResponse<CompetitionDraftCard[]>>;
+  @Select(ProviderState.hasUnfinishedCompetitionData)
+  public hasUnfinishedCompetitionData$: Observable<boolean>;
 
   public readonly constants: typeof Constants = Constants;
   public readonly ModeConstants = ModeConstants;
   public readonly WorkshopType = WorkshopType;
   public readonly NoResultsTitle = NoResultsTitle;
+  public readonly BannerMode = BannerMode;
 
   public competitionDrafts: SearchResponse<CompetitionDraftCard[]>;
   public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
@@ -50,11 +54,11 @@ export class CompetitionDraftsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    protected store: Store,
-    protected matDialog: MatDialog,
-    private actions$: Actions,
+    protected readonly store: Store,
+    protected readonly matDialog: MatDialog,
+    private readonly actions$: Actions,
     @Inject(WINDOW) private window: Window,
-    private cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
