@@ -22,6 +22,7 @@
             [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
             formControlName="coverImage"
             [deleteMode]="true"
+            [entity]="Entities.Competition"
             (deleteImage)="onDeleteCoverImage($event)"
             [moderatorDeleteFlow]="true"
             [imageIdsFormControl]="form.get('coverImageId')"
@@ -214,7 +215,7 @@
           <button
             mat-raised-button
             class="btn"
-            [disabled]="isFormValidAndDirty"
+            [disabled]="isFormNotValidOrPristine"
             [appStepperNext]="onSubmit.bind(this)"
             [form]="CompetitionContactsFormArray"
             [stepper]="stepper">

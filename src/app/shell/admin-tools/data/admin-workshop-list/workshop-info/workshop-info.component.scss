@@ -3,6 +3,10 @@
 @use 'buttons';
 @use 'list-wrappers';
 
+:host ::ng-deep .mat-mdc-tab-body-content {
+  padding: 0 5px 0 5px;
+}
+
 .wrapper {
   background: var(--bg-light-additional);
   color: var(--primary-light-text-color);
