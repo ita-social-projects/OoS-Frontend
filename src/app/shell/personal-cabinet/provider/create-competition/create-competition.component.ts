@@ -17,7 +17,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
-import { Constants } from 'shared/constants/constants';
+import { Constants, ModeConstants } from 'shared/constants/constants';
 import { CreateCompetition, UpdateCompetition, UpdateCompetitionDraft } from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
@@ -90,6 +90,21 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       this.ContactsFormArray.invalid ||
       this.JudgeFormArray?.invalid
     );
+  }
+
+  public get IsAllFormsNotDirtyAndInvalid(): boolean {
+    return (
+      (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty) ||
+      // && !this.JudgeFormArray?.dirty
+      this.RequiredFormGroup.invalid ||
+      this.DescriptionFormGroup.invalid ||
+      this.ContactsFormArray.invalid
+      // || this.JudgeFormArray?.invalid
+    );
+  }
+
+  public get isUnfinished(): boolean {
+    return this.route.snapshot.paramMap.get('param') === ModeConstants.UNFINISHED;
   }
 
   public ngOnInit(): void {

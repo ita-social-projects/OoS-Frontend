@@ -98,7 +98,14 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button type="button" [appStepperNext]="onSubmit.bind(this)" [form]="JudgeFormArray" [stepper]="stepper">
+            <button
+              class="btn"
+              mat-raised-button
+              type="button"
+              [disabled]="(isLoading$ | async) || (IsAllFormsNotDirtyAndInvalid && !isUnfinished)"
+              [appStepperNext]="onSubmit.bind(this)"
+              [form]="JudgeFormArray"
+              [stepper]="stepper">
               {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>
