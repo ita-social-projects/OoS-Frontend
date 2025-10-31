@@ -65,7 +65,9 @@
 }
 
 ::ng-deep .paginator-panel {
-  left: 15px;
+  position: absolute !important;
+  top: -130px;
+  right: -100px;
   min-width: 65px !important;
   text-align: center;
 
