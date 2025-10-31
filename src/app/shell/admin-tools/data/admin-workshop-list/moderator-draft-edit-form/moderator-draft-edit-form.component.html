@@ -34,8 +34,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('title')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_250">
           </app-validation-hint>
 
           <div class="flex flex-row justify-between items-center">
@@ -52,8 +52,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('shortTitle')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_120">
           </app-validation-hint>
 
           <app-image-form-control
