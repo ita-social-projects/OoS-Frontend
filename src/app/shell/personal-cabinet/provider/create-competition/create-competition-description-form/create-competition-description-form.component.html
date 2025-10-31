@@ -9,7 +9,7 @@
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"
     (deleteImage)="onImageDelete()">
   </app-image-form-control>
-  <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" minImages="1" maxImages="10">
+  <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('imageFiles')" [isImage]="true" [minImages]="1" [maxImages]="10">
   </app-validation-hint>
 
   <span class="font-semibold inline-block mt-2">
@@ -19,6 +19,7 @@
     <app-info-form
       *ngFor="let form of SectionItemsFormArray.controls"
       [infoEditFormGroup]="form"
+      [entity]="Entities.Competition"
       [index]="SectionItemsFormArray.controls.indexOf(form)"
       [formAmount]="SectionItemsFormArray.controls.length"
       [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"

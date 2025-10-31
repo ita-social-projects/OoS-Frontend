@@ -24,6 +24,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
+import { Entities } from 'shared/enum/entities';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -53,6 +54,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   public WorkshopContactsFormArray: FormArray = new FormArray([]);
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly Entities = Entities;
 
   constructor(
     activatedRoute: ActivatedRoute,

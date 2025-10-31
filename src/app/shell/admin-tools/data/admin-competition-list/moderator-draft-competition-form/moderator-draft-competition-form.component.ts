@@ -24,6 +24,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
 import { CompetitionDraft, CompetitiveDescriptionItem } from 'shared/models/competition.model';
+import { Entities } from 'shared/enum/entities';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -53,6 +54,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
   public CompetitionContactsFormArray: FormArray = new FormArray([]);
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly Entities = Entities;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -247,25 +249,23 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      descriptionOfTheEnrollmentProcedure: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
-      ]),
-      additionalDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+      competitiveSelectionDescription: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       venueName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      termsOfParticipation: new FormControl('', [
+      descriptionOfTheEnrollmentProcedure: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
       benefits: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray
     });

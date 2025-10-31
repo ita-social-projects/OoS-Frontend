@@ -63,6 +63,7 @@
             [cropperConfig]="cropperConfig"
             [label]="'FORMS.LABELS.PHOTOS' | translate"
             [deleteMode]="true"
+            [entity]="Entities.Competition"
             formControlName="imageFiles"
             (deleteImage)="onDeleteImage($event)"
             [imageIdsFormControl]="form.get('imageIds')"
@@ -74,6 +75,7 @@
             <app-info-form
               *ngFor="let form of SectionItemsFormArray.controls"
               [infoEditFormGroup]="form"
+              [entity]="Entities.Competition"
               [index]="SectionItemsFormArray.controls.indexOf(form)"
               [formAmount]="SectionItemsFormArray.controls.length"
               [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
@@ -82,39 +84,12 @@
           </fieldset>
 
           <div class="step-label-combined">
-            <label for="descriptionOfTheEnrollmentProcedure" class="step-label">{{
-              'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate
-            }}</label>
-            <label for="descriptionOfTheEnrollmentProcedure" class="step-characters-count">
-              {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}
-              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
-            </label>
-          </div>
-          <mat-form-field appearance="fill">
-            <textarea
-              matInput
-              class="step-textarea"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
-                'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-              }}"
-              formControlName="descriptionOfTheEnrollmentProcedure"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
-            </textarea>
-          </mat-form-field>
-          <app-validation-hint
-            [validationFormControl]="form.get('descriptionOfTheEnrollmentProcedure')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
-          </app-validation-hint>
-
-          <div class="step-label-combined">
-            <label for="additionalDescription" class="step-label">{{ 'FORMS.LABELS.ADDITIONAL_DESCRIPTION' | translate }}</label>
-            <label for="additionalDescription" class="step-characters-count">
-              {{ form.get('additionalDescription').value?.length ?? 0 }}
+            <label for="competitiveSelectionDescription" class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}</label>
+            <label for="competitiveSelectionDescription" class="step-characters-count">
+              {{ form.get('competitiveSelectionDescription').value?.length ?? 0 }}
               /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
             </label>
           </div>
-
           <mat-form-field appearance="fill">
             <textarea
               matInput
@@ -122,12 +97,12 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
-              formControlName="additionalDescription"
+              formControlName="competitiveSelectionDescription"
               [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
             </textarea>
           </mat-form-field>
           <app-validation-hint
-            [validationFormControl]="form.get('additionalDescription')"
+            [validationFormControl]="form.get('competitiveSelectionDescription')"
             [minCharacters]="validationConstants.INPUT_LENGTH_1"
             [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
           </app-validation-hint>
@@ -157,9 +132,11 @@
           </app-validation-hint>
 
           <div class="step-label-combined">
-            <label class="step-label" for="termsOfParticipation"> {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label>
+            <label class="step-label" for="descriptionOfTheEnrollmentProcedure">
+              {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label
+            >
             <span class="step-characters-count">
-              {{ form.get('termsOfParticipation').value?.length ?? 0 }}
+              {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}
               /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
             </span>
           </div>
@@ -170,12 +147,12 @@
               placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
-              formControlName="termsOfParticipation"
+              formControlName="descriptionOfTheEnrollmentProcedure"
               [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
               appTrimValue></textarea>
           </mat-form-field>
           <app-validation-hint
-            [validationFormControl]="form.get('termsOfParticipation')"
+            [validationFormControl]="form.get('descriptionOfTheEnrollmentProcedure')"
             [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
             [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
           </app-validation-hint>
