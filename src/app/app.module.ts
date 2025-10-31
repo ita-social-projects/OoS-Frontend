@@ -99,10 +99,6 @@ registerLocaleData(localeUk);
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
     {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'custom-overlay-panel' }
-    },
-    {
       provide: APP_INITIALIZER,
       useFactory: () => {
         const store = inject(Store);

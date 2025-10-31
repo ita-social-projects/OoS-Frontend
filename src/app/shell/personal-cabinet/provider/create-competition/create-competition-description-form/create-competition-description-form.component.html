@@ -145,7 +145,7 @@
       </mat-form-field>
       <app-validation-hint
         [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
-        [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+        [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </app-validation-hint>
     </ng-container>
@@ -261,7 +261,7 @@
         </mat-form-field>
         <app-validation-hint
           [validationFormControl]="DescriptionFormGroup.get('benefitsOptionsDesc')"
-          [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+          [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
           [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
         </app-validation-hint>
       </ng-container>

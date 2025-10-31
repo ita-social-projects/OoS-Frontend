@@ -44,3 +44,7 @@
 :host ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
+
+:host ::ng-deep .mat-date-range-input-separator {
+  color: currentColor;
+}
