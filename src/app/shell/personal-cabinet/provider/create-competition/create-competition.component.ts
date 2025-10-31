@@ -140,7 +140,11 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
             disable: false
           },
           {
-            name: this.editMode ? NavBarName.EditCompetition : NavBarName.NewCompetition,
+            name: this.editMode
+              ? this.entity === WorkshopType.Competition
+                ? NavBarName.EditCompetition
+                : NavBarName.EditCompetitionDraft
+              : NavBarName.NewCompetition,
             isActive: false,
             disable: true
           }
@@ -286,4 +290,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   private createContacts(): Contacts[] {
     return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
+
+  protected readonly WorkshopType = WorkshopType;
 }

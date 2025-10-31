@@ -68,7 +68,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   }
 
   public get isFormNotValidOrPristine(): boolean {
-    return this.form.pristine || !this.form.valid || this.WorkshopContactsFormArray.pristine || !this.WorkshopContactsFormArray.valid;
+    return (!this.form.dirty && !this.WorkshopContactsFormArray.dirty) || this.form.invalid || this.WorkshopContactsFormArray.invalid;
   }
 
   public ngOnInit(): void {
@@ -90,7 +90,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
             disable: false
           },
           {
-            name: NavBarName.EditWorkshop,
+            name: NavBarName.EditDraft,
             isActive: false,
             disable: true
           }
@@ -159,7 +159,6 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       this.selectedWorkshop = workshopDraft;
 
       if (this.selectedWorkshop.workshopDetails.workshopDescriptionItems?.length) {
-        this.SectionItemsFormArray = new FormArray([]);
         this.selectedWorkshop.workshopDetails.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
           const itemFrom = this.newForm(item);
           this.SectionItemsFormArray.controls.push(itemFrom);

@@ -201,7 +201,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     if (this.competition.subDirectionIds) {
       this.subDirections$.pipe(filter(Boolean), take(1)).subscribe((subDirections: Subdirection[]) => {
         const value = subDirections.filter((subDirection) => this.competition.subDirectionIds.includes(subDirection.id));
-        console.error(value);
         asyncScheduler.schedule(() => this.subDirectionControl.patchValue(value, { emitEvent: false }));
       });
     }

@@ -68,7 +68,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
   }
 
   public get isFormNotValidOrPristine(): boolean {
-    return this.form.pristine || !this.form.valid || this.CompetitionContactsFormArray.pristine || !this.CompetitionContactsFormArray.valid;
+    return (!this.form.dirty && !this.CompetitionContactsFormArray.dirty) || this.form.invalid || this.CompetitionContactsFormArray.invalid;
   }
 
   public ngOnInit(): void {
@@ -90,7 +90,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
             disable: false
           },
           {
-            name: NavBarName.EditCompetition,
+            name: NavBarName.EditCompetitionDraft,
             isActive: false,
             disable: true
           }
@@ -126,14 +126,14 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
   }
 
   public onSubmit(): void {
-    if (this.form.invalid || this.CompetitionContactsFormArray.invalid) {
+    if (this.form.invalid || this.CompetitionContactsFormArray.invalid || this.SectionItemsFormArray.invalid) {
       this.form.markAllAsTouched();
       this.CompetitionContactsFormArray.markAllAsTouched();
       return;
     }
 
     const formData = this.form.getRawValue();
-    formData.competitionDescriptionItems = this.SectionItemsFormArray.getRawValue();
+    formData.competitiveEventDescriptionItems = this.SectionItemsFormArray.getRawValue();
     formData.contacts = this.CompetitionContactsFormArray.getRawValue();
     this.store.dispatch(new EditCompetitionDraftByModerator(formData, this.selectedCompetition.competitiveEventDraftId));
   }
@@ -159,7 +159,6 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
       this.selectedCompetition = competitionDraft;
 
       if (this.selectedCompetition.competitiveEventDetails.competitiveEventDescriptionItems?.length) {
-        this.SectionItemsFormArray = new FormArray([]);
         this.selectedCompetition.competitiveEventDetails.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
           const itemFrom = this.newForm(item);
           this.SectionItemsFormArray.controls.push(itemFrom);

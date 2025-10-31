@@ -3,7 +3,14 @@
     <div class="wrapper">
       <div class="create-form-header flex flex-col items-center justify-center">
         <h3 class="wrapper-title">
-          {{ (editMode ? 'FORMS.HEADERS.EDIT_COMPETITION' : 'FORMS.HEADERS.NEW_COMPETITION') | translate }}
+          {{
+            (editMode
+              ? entity === WorkshopType.Competition
+                ? 'FORMS.HEADERS.EDIT_COMPETITION'
+                : 'FORMS.HEADERS.EDIT_COMPETITION_DRAFT'
+              : 'FORMS.HEADERS.NEW_COMPETITION'
+            ) | translate
+          }}
         </h3>
         <p class="wrapper-text">
           {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
