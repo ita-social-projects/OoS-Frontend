@@ -63,7 +63,7 @@ export abstract class CompetitionBase {
     this.contacts = contacts;
     this.coverageId = description.coverageId;
 
-    this.competitiveSelection = Boolean(description.descriptionOfTheEnrollmentProcedure);
+    this.competitiveSelection = Boolean(description.competitiveSelectionDescription);
     this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
 
     if (id) {
