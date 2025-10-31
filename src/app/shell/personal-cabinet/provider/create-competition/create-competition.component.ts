@@ -56,6 +56,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public JudgeFormArray: FormArray;
 
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
+  public readonly WorkshopType = WorkshopType;
 
   private param: string;
   private readonly fieldsToCheck = [
@@ -290,6 +291,4 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   private createContacts(): Contacts[] {
     return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
-
-  protected readonly WorkshopType = WorkshopType;
 }

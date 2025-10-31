@@ -126,7 +126,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
   }
 
   public onSubmit(): void {
-    if (this.form.invalid || this.CompetitionContactsFormArray.invalid || this.SectionItemsFormArray.invalid) {
+    if (this.form.invalid || this.CompetitionContactsFormArray.invalid) {
       this.form.markAllAsTouched();
       this.CompetitionContactsFormArray.markAllAsTouched();
       return;
