@@ -88,19 +88,16 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty && !this.JudgeFormArray?.dirty) ||
       this.RequiredFormGroup.invalid ||
       this.DescriptionFormGroup.invalid ||
-      this.ContactsFormArray.invalid ||
-      this.JudgeFormArray?.invalid
+      this.ContactsFormArray.invalid
     );
   }
 
   public get IsAllFormsNotDirtyAndInvalid(): boolean {
     return (
       (!this.RequiredFormGroup.dirty && !this.DescriptionFormGroup.dirty && !this.ContactsFormArray.dirty) ||
-      // && !this.JudgeFormArray?.dirty
       this.RequiredFormGroup.invalid ||
       this.DescriptionFormGroup.invalid ||
       this.ContactsFormArray.invalid
-      // || this.JudgeFormArray?.invalid
     );
   }
 
