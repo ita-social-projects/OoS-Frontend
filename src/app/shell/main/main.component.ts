@@ -109,7 +109,6 @@ export class MainComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe((type) => {
-        this.store.dispatch(new SetUnfinishedModalShown(true));
         this.showDialog(type);
       });
 
