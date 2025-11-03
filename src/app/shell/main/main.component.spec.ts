@@ -141,7 +141,7 @@ describe('MainComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(expect.any(OnDeleteUnfinishedCompetition));
     });
 
-    it('should show dialog when draft data exists', () => {
+    it('should show dialog when workshop draft data exists', () => {
       const showDialogSpy = jest.spyOn(component, 'showDialog');
       hasUnfinishedWorkshopData$.next(true);
       fetchedWorkshop$.next(true);
@@ -150,6 +150,30 @@ describe('MainComponent', () => {
 
       expect(showDialogSpy).toHaveBeenCalledTimes(1);
       expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshop);
+    });
+
+    it('should show dialog when competition draft data exists', () => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(false);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteCompetition);
+    });
+
+    it('should show dialog when workshop and competition draft data exists', () => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(true);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshopAndCompetition);
     });
 
     it('should not show dialog multiple times', fakeAsync(() => {
@@ -188,7 +212,8 @@ describe('MainComponent', () => {
     ministryAdmin: undefined,
     regionAdmin: undefined,
     areaAdmin: undefined,
-    role: Role.unauthorized
+    role: Role.unauthorized,
+    employee: undefined
   }
 })
 @Injectable()
@@ -216,7 +241,10 @@ class MockRegistrationState {}
     userRadiusSize: null,
     isMapView: false,
     from: null,
-    size: null
+    size: null,
+    previousResults: [],
+    entitySearchQuery: '',
+    entityPreviousResults: []
   }
 })
 @Injectable()
