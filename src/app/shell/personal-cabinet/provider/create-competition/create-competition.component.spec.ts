@@ -14,11 +14,13 @@ import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { Institution } from 'shared/models/institution.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, UnfinishedCompetitionRequired, UnfinishedCompetitionType } from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import * as ProviderUtil from 'shared/utils/provider.utils';
 import { shouldBeDraft } from 'shared/utils/provider.utils';
 import { RegistrationState } from 'shared/store/registration.state';
+import { GetUnfinishedCompetition, OnSaveWorkshopStep } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
 import { ModeConstants } from 'shared/constants/constants';
 import { CreateCompetitionComponent } from './create-competition.component';
 
@@ -39,6 +41,9 @@ describe('CreateCompetitionComponent', () => {
   const mockStore = {
     dispatch: jest.fn(),
     select: jest.fn().mockImplementation((selector) => {
+      if (selector === ProviderState.unfinishedCompetition) {
+        return of({ provider: { competitionDraft: mockCompetition } });
+      }
       if (selector === RegistrationState.provider) {
         return of(provider);
       }
@@ -108,6 +113,21 @@ describe('CreateCompetitionComponent', () => {
     providerSectionItems: []
   } as unknown as Provider;
 
+  const mockCompetition: UnfinishedCompetitionRequired = {
+    competitionDateRangeGroup: { end: undefined, start: undefined },
+    competitiveEventAccountingTypeId: 0,
+    email: '',
+    maximumAge: 0,
+    minimumAge: 0,
+    phone: '',
+    title: 'fkfkkff',
+    shortTitle: 'fghjhgf',
+    numberOfSeats: 4294967295,
+    base64CoverImage: 'image',
+    providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
+    $type: UnfinishedCompetitionType.WithAboutProperties
+  };
+
   mockStore.selectSnapshot.mockReturnValue(of(provider));
 
   beforeEach(async () => {
@@ -126,8 +146,8 @@ describe('CreateCompetitionComponent', () => {
 
     fixture = TestBed.createComponent(CreateCompetitionComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+    store = TestBed.inject(Store);
     navigationBarService = TestBed.inject(NavigationBarService);
     activatedRoute = TestBed.inject(ActivatedRoute);
 
@@ -177,6 +197,58 @@ describe('CreateCompetitionComponent', () => {
     expect(cancelSpy).toHaveBeenCalledWith(['/personal-cabinet/provider/competitions']);
   });
 
+  it('should return first invalid step index', () => {
+    component.RequiredFormGroup.get('title')?.setErrors({ required: true });
+    expect((component as any).getFirstInvalidStep()).toBe(0);
+  });
+
+  it('should dispatch GetUnfinishedCompetition and set competition data', (done) => {
+    component.loadUnfinishedCompetitionData();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new GetUnfinishedCompetition());
+    (component as any).unfinishedCompetition$.subscribe((draft) => {
+      expect(draft).toEqual({ provider: { competitionDraft: mockCompetition } });
+      done();
+    });
+  });
+
+  it('should not change stepper index if no invalid steps are found', () => {
+    component.stepper = { selectedIndex: 0 } as any;
+    jest.spyOn(component as any, 'getFirstInvalidStep').mockReturnValue(-1);
+
+    component.loadUnfinishedCompetitionData();
+    expect(component.stepper.selectedIndex).toBe(0);
+  });
+
+  it('should return if form is invalid', () => {
+    const form = new FormGroup({
+      mock: new FormControl(null)
+    });
+    form.setErrors({ invalid: true });
+    const routeSpy = jest.spyOn(activatedRouteMock.snapshot.paramMap, 'get');
+    component.saveUnfinishedData(form);
+    expect(routeSpy).not.toHaveBeenCalled();
+  });
+
+  it('should dispatch unfinished data correctly', () => {
+    const step = 2;
+    const extraData = { description: 'Test Description' };
+    (component as any).dispatchUnfinishedData(step, extraData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new OnSaveWorkshopStep({ data: expect.any(Object), step }));
+  });
+
+  it('should execute stepActions correctly', () => {
+    const step = 1;
+    const mockData = { test: 'value' };
+    jest.spyOn(component as any, 'createStepData').mockReturnValue(of(mockData));
+    jest.spyOn(component as any, 'dispatchUnfinishedData');
+
+    (component as any).stepActions[step]();
+
+    expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(step, mockData);
+  });
+
   describe('pre-submit methods', () => {
     it('should create description correctly', () => {
       component.DescriptionFormGroup = new FormGroup({
@@ -210,7 +282,7 @@ describe('CreateCompetitionComponent', () => {
         description: 'desc',
         subDirectionIds: [1, 2],
         preferentialTermsOfParticipation: 'terms'
-      } as Competition;
+      } as unknown as Competition;
 
       anotherCompetition = {
         title: 'Title',
@@ -226,7 +298,7 @@ describe('CreateCompetitionComponent', () => {
         description: 'desc',
         subDirectionIds: [1, 2],
         preferentialTermsOfParticipation: 'terms'
-      } as Competition;
+      } as unknown as Competition;
 
       jest.clearAllMocks();
     });
