@@ -24,7 +24,9 @@ export class DirectionsService {
   }
 
   public getDirections(): Observable<SearchResponse<Direction[]>> {
-    return this.http.get<SearchResponse<Direction[]>>('/api/v1/directions');
+    // This should be enough to get all directions for filtering without pagination
+    const options = { params: new HttpParams().set('Size', '50').set('From', '0') };
+    return this.http.get<SearchResponse<Direction[]>>('/api/v1/directions', options);
   }
 
   public getTopDirections(): Observable<Direction[]> {
@@ -47,7 +49,9 @@ export class DirectionsService {
   }
 
   public getSubdirections(directionId: string | number): Observable<SearchResponse<Subdirection[]>> {
-    return this.http.get<SearchResponse<Subdirection[]>>(`/api/v1/directions/${directionId}/subdirections`);
+    // This should be enough to get all subdirections for filtering without pagination
+    const options = { params: new HttpParams().set('Size', '50').set('From', '0') };
+    return this.http.get<SearchResponse<Subdirection[]>>(`/api/v1/directions/${directionId}/subdirections`, options);
   }
 
   private setParams(directionParameters: DirectionParameters): HttpParams {
