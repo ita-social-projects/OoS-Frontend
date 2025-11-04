@@ -90,7 +90,6 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
 
   public ngOnInit(): void {
     this.initForm();
-    this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
 
     this.filterTypeOfCompetition(Boolean(this.parentCompetition));
 
@@ -98,7 +97,7 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
       this.activateEditMode();
     }
     if (this.parentCompetition) {
-      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage);
+      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage, { emitEvent: false });
       this.competitiveEventAccountingTypeIdControl.disable();
     }
 
@@ -197,8 +196,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         competitionDateRangeGroup: this.formBuilder.group({
-          start: new FormControl<Date | null>(null, Validators.required),
-          end: new FormControl<Date | null>(null, Validators.required)
+          start: [null, Validators.required],
+          end: [null, Validators.required]
         }),
         minimumAge: new FormControl(null, [
           Validators.required,
@@ -211,8 +210,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         registrationDateRangeGroup: this.formBuilder.group({
-          start: new FormControl<Date | null>(null),
-          end: new FormControl<Date | null>(null)
+          start: null,
+          end: null
         }),
         competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
         parentCompetitionControl: new FormControl(null),

@@ -295,7 +295,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
    */
   public onReceiveRequiredFormGroup(form: FormGroup): void {
     this.RequiredFormGroup = form;
-    this.subscribeOnDirtyForm(form);
+    setTimeout(() => this.subscribeOnDirtyForm(form));
   }
 
   /**
@@ -392,7 +392,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     if (this.competition?.base64CoverImage) {
       requiredInfo.base64CoverImage = this.competition.base64CoverImage;
     }
-
     return requiredInfo;
   }
 

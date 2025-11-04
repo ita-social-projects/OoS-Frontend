@@ -85,12 +85,12 @@ export function submittingRealEntity(entityParam: string): boolean {
 export function createUnfinishedAbout(
   aboutInfo: WorkshopAbout | CompetitionRequired
 ): Observable<UnfinishedWorkshopAbout | UnfinishedCompetitionRequired> {
-  const file = aboutInfo.coverImage?.[0];
+  const file = aboutInfo.coverImage;
 
   if (!file) {
     return of({
       ...aboutInfo,
-      base64CoverImage: null
+      base64CoverImage: aboutInfo.base64CoverImage || null
     });
   }
 

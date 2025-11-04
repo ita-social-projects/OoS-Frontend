@@ -184,7 +184,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     if (this.competition.competitiveEventDescriptionItems?.length) {
       this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
         const itemFrom = this.newForm(item);
-        this.SectionItemsFormArray.controls.push(itemFrom);
+        this.SectionItemsFormArray.push(itemFrom, { emitEvent: false });
         // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });
@@ -226,7 +226,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    */
   public onAddForm(): void {
     if (this.DescriptionFormGroup.get('competitiveEventDescriptionItems')) {
-      (this.DescriptionFormGroup.get('competitiveEventDescriptionItems') as FormArray).push(this.newForm());
+      (this.DescriptionFormGroup.get('competitiveEventDescriptionItems') as FormArray).push(this.newForm(), { emitEvent: false });
     }
   }
 

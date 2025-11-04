@@ -3,7 +3,7 @@
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
-    [base64Images]="[competition.base64CoverImage]"
+    [base64Images]="competition?.base64CoverImage ? [competition.base64CoverImage] : undefined"
     [entity]="Entities.Competition"
     [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"

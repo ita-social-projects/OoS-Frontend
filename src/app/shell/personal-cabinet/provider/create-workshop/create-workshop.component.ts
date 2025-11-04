@@ -462,9 +462,16 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       providerId: this.provider.id
     };
 
-    const about$ = createUnfinishedAbout(this.createAbout());
+    const about = this.createAbout();
+    if (this.workshop?.base64CoverImage) {
+      about.base64CoverImage = this.workshop.base64CoverImage;
+    }
+    const about$ = createUnfinishedAbout(about);
     const additional$ = of(this.createAdditionalAbout());
-    const descriptionInfo = { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() };
+    let descriptionInfo = { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() };
+    if (this.workshop?.base64ImageFiles?.length) {
+      descriptionInfo = { ...descriptionInfo, base64ImageFiles: this.workshop.base64ImageFiles };
+    }
     const description$ = createUnfinishedDescription(descriptionInfo);
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([

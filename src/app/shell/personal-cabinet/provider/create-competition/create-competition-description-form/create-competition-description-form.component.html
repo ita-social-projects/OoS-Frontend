@@ -4,7 +4,7 @@
     [entity]="Entities.Competition"
     [imgMaxAmount]="10"
     [cropperConfig]="cropperConfig"
-    [base64Images]="competition.base64ImageFiles"
+    [base64Images]="competition?.base64ImageFiles ? competition.base64ImageFiles : undefined"
     [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"

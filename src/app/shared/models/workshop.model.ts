@@ -252,6 +252,7 @@ export interface WorkshopAbout {
   availableSeats: number;
   coverImageId?: string;
   coverImage?: File;
+  base64CoverImage?: string;
 }
 
 export interface AdditionalAbout {

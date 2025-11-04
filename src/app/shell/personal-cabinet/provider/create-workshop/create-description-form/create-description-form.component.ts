@@ -206,7 +206,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
    */
   public onAddForm(): void {
     if (this.DescriptionFormGroup.get('workshopDescriptionItems')) {
-      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(this.newForm());
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(this.newForm(), { emitEvent: false });
     }
   }
 
@@ -238,7 +238,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
         const itemFrom = this.newForm(item);
-        this.SectionItemsFormArray.controls.push(itemFrom);
+        this.SectionItemsFormArray.push(itemFrom, { emitEvent: false });
         // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });

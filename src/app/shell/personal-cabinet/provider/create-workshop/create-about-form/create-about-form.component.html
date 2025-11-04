@@ -4,6 +4,7 @@
     [imgMaxAmount]="1"
     [entity]="Entities.Workshop"
     [cropperConfig]="cropperConfig"
+    [base64Images]="workshop?.base64CoverImage ? [workshop.base64CoverImage] : undefined"
     [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"
     [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"

@@ -92,7 +92,13 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn" mat-raised-button appStepperNext [form]="ContactsFormArray" [stepper]="stepper">
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="ContactsFormArray"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(ContactsFormArray)">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
           </div>

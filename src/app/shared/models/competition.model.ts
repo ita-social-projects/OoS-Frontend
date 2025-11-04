@@ -182,6 +182,7 @@ export interface CompetitionRequired {
   coverImage?: File;
   minimumAge: number;
   maximumAge: number;
+  base64CoverImage?: string;
 }
 
 export interface CompetitionBaseCard {
