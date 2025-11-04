@@ -24,6 +24,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
+import { Entities } from 'shared/enum/entities';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -53,6 +54,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
   public WorkshopContactsFormArray: FormArray = new FormArray([]);
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly Entities = Entities;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -65,8 +67,8 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
     this.activatedRoute = activatedRoute;
   }
 
-  public get isFormValidAndDirty(): boolean {
-    return this.form.dirty && this.form.valid && this.WorkshopContactsFormArray.dirty && this.WorkshopContactsFormArray.valid;
+  public get isFormNotValidOrPristine(): boolean {
+    return (!this.form.dirty && !this.WorkshopContactsFormArray.dirty) || this.form.invalid || this.WorkshopContactsFormArray.invalid;
   }
 
   public ngOnInit(): void {
@@ -88,7 +90,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
             disable: false
           },
           {
-            name: NavBarName.EditWorkshop,
+            name: NavBarName.EditDraft,
             isActive: false,
             disable: true
           }
@@ -157,7 +159,6 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       this.selectedWorkshop = workshopDraft;
 
       if (this.selectedWorkshop.workshopDetails.workshopDescriptionItems?.length) {
-        this.SectionItemsFormArray = new FormArray([]);
         this.selectedWorkshop.workshopDetails.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
           const itemFrom = this.newForm(item);
           this.SectionItemsFormArray.controls.push(itemFrom);
@@ -235,15 +236,15 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       coverImage: new FormControl(''),
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_250),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveSelectionDescription: new FormControl('', [Validators.pattern(MUST_CONTAIN_LETTERS)]),
       enrollmentProcedureDescription: new FormControl('', [

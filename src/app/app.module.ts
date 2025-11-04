@@ -3,14 +3,13 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import localeUk from '@angular/common/locales/uk';
 import { APP_INITIALIZER, inject, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MAT_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsStoragePluginModule, LOCAL_STORAGE_ENGINE, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
+import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 
@@ -98,10 +97,6 @@ registerLocaleData(localeUk);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'custom-overlay-panel' }
-    },
     {
       provide: APP_INITIALIZER,
       useFactory: () => {

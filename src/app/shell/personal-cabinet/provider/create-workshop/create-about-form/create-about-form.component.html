@@ -23,8 +23,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('title')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_250">
   </app-validation-hint>
 
   <div class="flex flex-row justify-between items-center">
@@ -39,8 +39,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('shortTitle')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_120">
   </app-validation-hint>
 
   <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
@@ -63,7 +63,7 @@
                 [min]="validationConstants.AGE_MIN"
                 [max]="validationConstants.BIRTH_AGE_MAX"
                 formControlName="minAge"
-                appDigitOnly />
+                appIntegerOnly />
             </div>
           </div>
 
@@ -77,7 +77,7 @@
                 [min]="validationConstants.AGE_MIN"
                 [max]="validationConstants.BIRTH_AGE_MAX"
                 formControlName="maxAge"
-                appDigitOnly />
+                appIntegerOnly />
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
           <mat-radio-button [value]="false">
             <input
               matInput
-              class="step-input price-input"
+              class="step-input price-input text-center"
               appIntegerOnly
               formControlName="availableSeats"
               type="number"

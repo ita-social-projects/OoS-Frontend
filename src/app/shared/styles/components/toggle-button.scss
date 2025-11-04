@@ -11,9 +11,19 @@ mat-button-toggle {
 .mat-button-toggle-checked {
   background-color: var(--button-toggle-color);
   color: var(--primary-accent-color);
-  border-top-left-radius: 1.2rem;
-  border-bottom-left-radius: 1.2rem;
   border: 2px solid var(--primary-accent-color);
+}
+
+.btn {
+  &-left {
+    border-top-left-radius: 1.2rem;
+    border-bottom-left-radius: 1.2rem;
+  }
+
+  &-right {
+    border-top-right-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+  }
 }
 
 .mat-button-toggle-group {

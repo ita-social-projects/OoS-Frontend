@@ -59,7 +59,8 @@
     }
   }
 
-  &-textarea {
+  &-textarea,
+  &-textarea.mat-mdc-form-field-input-control {
     font-family: 'Open Sans', sans-serif;
     border: 1px solid var(--input-light-color);
     border-radius: 25px;

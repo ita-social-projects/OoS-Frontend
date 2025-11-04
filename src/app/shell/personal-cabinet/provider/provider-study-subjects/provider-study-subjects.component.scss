@@ -2,7 +2,6 @@
 @use 'search';
 @use 'calendar';
 @use 'create-form';
-@use 'buttons';
 
 table {
   width: 100%;
@@ -17,18 +16,15 @@ table {
 }
 
 .btn {
-  margin: 0;
   height: 40px;
 }
 
 .btn-cancel {
-  background-color: transparent;
   border: 1px solid var(--specific-text-color) !important;
   color: var(--specific-text-color) !important;
 }
 
 .search {
-  padding-left: 1rem;
   background-color: var(--bg-light-additional) !important;
   color: var(--primary-light-text-color);
 }
@@ -59,22 +55,13 @@ table {
 }
 
 .filters-period {
-  margin-right: 10px;
   font-size: 14px;
-  align-self: center;
   line-height: 14.6px;
-  color: var(--input-light-color);
-  font-weight: 700;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--primary-light-text-color);
 
   mat-datepicker-toggle {
     pointer-events: all;
   }
-}
-
-::ng-deep .mat-datepicker-actions {
-  justify-content: center !important;
-  border-radius: 0 0 24px 24px;
 }
 
 ::ng-deep .mat-datepicker-content {
@@ -85,15 +72,9 @@ table {
   }
 }
 
-::ng-deep mat-date-range-picker-actions .date-buttons {
-  justify-content: center;
-}
-
 :host ::ng-deep .date {
-  width: 100%;
   max-width: 250px;
   padding: 0 16px 0 3px;
-  font-style: normal;
   font-size: 13px;
   line-height: 18px;
   height: 40px;
@@ -102,8 +83,6 @@ table {
   color: var(--primary-dark-text-color);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
-  box-sizing: border-box;
-  align-items: center;
 
   .mat-form-field-flex {
     background-color: transparent;
@@ -123,6 +102,10 @@ table {
     margin-top: 10px;
   }
 
+  .mat-date-range-input-separator {
+    color: currentColor;
+  }
+
   .mat-mdc-form-field-infix .mdc-floating-label {
     top: 18px;
     width: 100%;
@@ -134,12 +117,12 @@ table {
   }
 }
 
-::ng-deep .mat-form-field.mat-focused.mat-primary,
-::ng-deep .mat-form-field-infix {
+:host ::ng-deep .mat-form-field.mat-focused.mat-primary,
+:host ::ng-deep .mat-form-field-infix {
   border: 0;
 }
 
-::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
+:host ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
   padding: 0;
 }
 
@@ -149,7 +132,6 @@ table {
 
 .reset-icon {
   transform: rotateY(180deg) rotate(45deg);
-  overflow: visible;
   font-size: 24px;
   line-height: 19px;
   color: var(--primary-light-text-color) !important;

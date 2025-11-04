@@ -24,7 +24,7 @@
           [min]="validationConstants.AGE_MIN"
           [max]="validationConstants.BIRTH_AGE_MAX"
           [formControl]="minAgeFormControl"
-          appDigitOnly
+          appIntegerOnly
           autocomplete="off" />
         <mat-icon class="clear-age" (click)="clearMin()" (keydown.enter)="clearMin()">clear</mat-icon>
       </div>
@@ -49,7 +49,7 @@
           [min]="validationConstants.AGE_MIN"
           [max]="validationConstants.BIRTH_AGE_MAX"
           [formControl]="maxAgeFormControl"
-          appDigitOnly
+          appIntegerOnly
           autocomplete="off" />
         <mat-icon class="clear-age" (click)="clearMax()" (keydown.enter)="clearMax()">clear</mat-icon>
       </div>

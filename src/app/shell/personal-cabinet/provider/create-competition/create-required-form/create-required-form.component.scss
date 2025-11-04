@@ -6,7 +6,7 @@
 @use 'calendar';
 
 .seat-input {
-  max-width: 100px;
+  width: 100px;
   text-align: center;
   background-color: transparent;
   color: var(--primary-light-text-color);
@@ -43,4 +43,8 @@
 
 :host ::ng-deep .mat-form-field-infix {
   width: auto !important;
+}
+
+:host ::ng-deep .mat-date-range-input-separator {
+  color: currentColor;
 }

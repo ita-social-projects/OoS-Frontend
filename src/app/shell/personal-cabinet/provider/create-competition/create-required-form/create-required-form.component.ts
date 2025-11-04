@@ -191,10 +191,10 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         shortTitle: new FormControl('', [
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
           Validators.required,
-          Validators.pattern(MUST_CONTAIN_LETTERS),
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         competitionDateRangeGroup: this.formBuilder.group({
           start: new FormControl<Date | null>(null, Validators.required),

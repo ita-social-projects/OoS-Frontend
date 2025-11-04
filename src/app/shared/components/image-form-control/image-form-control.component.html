@@ -14,7 +14,7 @@
         {{ 'BANNERS.ADD_IMG_SUBHEADER' | translate: { entity: ('BANNERS.' + (entity | uppercase) | translate) } }} {{ imgMaxAmount }}
       </ng-template>
     </div>
-    <div class="photo-subheader" *ngIf="imgMaxAmount !== 1">
+    <div class="photo-subheader" *ngIf="imgMaxAmount !== 1 && !deleteMode">
       {{ 'BANNERS.ADD_IMG_SUBHEADER_DESC' | translate: { entity: (entity | uppercase | translate) } }}
     </div>
     <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">

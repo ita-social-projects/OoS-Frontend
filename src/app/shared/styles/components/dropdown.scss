@@ -63,22 +63,12 @@
   max-height: 172px !important;
 }
 
-::ng-deep .custom-overlay-panel {
-  transform: translate(-16px, 2.5rem) !important;
-}
-
 ::ng-deep .mat-mdc-text-field-wrapper {
   overflow: visible;
 }
 
 ::ng-deep .mat-mdc-select-placeholder {
   margin-left: 5px;
-}
-
-::ng-deep .select-with-form-field {
-  position: absolute !important;
-  top: -37px !important;
-  left: 15px;
 }
 
 .select-with-tags {

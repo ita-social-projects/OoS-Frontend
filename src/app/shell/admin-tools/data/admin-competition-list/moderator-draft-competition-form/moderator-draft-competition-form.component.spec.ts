@@ -103,7 +103,7 @@ describe('ModeratorDraftCompetitionFormComponent', () => {
 
     const expectedPayload = {
       ...component.form.getRawValue(),
-      competitionDescriptionItems: component.SectionItemsFormArray.getRawValue(),
+      competitiveEventDescriptionItems: component.SectionItemsFormArray.getRawValue(),
       contacts: component.CompetitionContactsFormArray.getRawValue()
     };
 

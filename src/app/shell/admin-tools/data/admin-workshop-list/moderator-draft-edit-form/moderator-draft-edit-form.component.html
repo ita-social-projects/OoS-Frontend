@@ -2,7 +2,7 @@
   <div class="wrapper !px-8">
     <div class="create-form-header flex flex-col justify-center items-center">
       <h3 class="wrapper-title">
-        {{ 'FORMS.HEADERS.EDIT_WORKSHOP' | translate }}
+        {{ 'FORMS.HEADERS.EDIT_DRAFT' | translate }}
       </h3>
       <p class="wrapper-text">
         {{ 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' | translate }}
@@ -22,6 +22,7 @@
             [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
             formControlName="coverImage"
             [deleteMode]="true"
+            [entity]="Entities.Workshop"
             (deleteImage)="onDeleteCoverImage($event)"
             [moderatorDeleteFlow]="true"
             [imageIdsFormControl]="form.get('coverImageId')"
@@ -34,8 +35,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('title')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_250">
           </app-validation-hint>
 
           <div class="flex flex-row justify-between items-center">
@@ -52,8 +53,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('shortTitle')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_120">
           </app-validation-hint>
 
           <app-image-form-control
@@ -62,6 +63,7 @@
             [cropperConfig]="cropperConfig"
             [label]="'FORMS.LABELS.PHOTOS' | translate"
             [deleteMode]="true"
+            [entity]="Entities.Workshop"
             formControlName="imageFiles"
             (deleteImage)="onDeleteImage($event)"
             [imageIdsFormControl]="form.get('imageIds')"
@@ -74,6 +76,7 @@
             <app-info-form
               *ngFor="let form of SectionItemsFormArray.controls"
               [infoEditFormGroup]="form"
+              [entity]="Entities.Workshop"
               [index]="SectionItemsFormArray.controls.indexOf(form)"
               [formAmount]="SectionItemsFormArray.controls.length"
               [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
@@ -202,9 +205,10 @@
             mat-raised-button
             class="btn"
             type="submit"
-            [disabled]="!isFormValidAndDirty"
+            [disabled]="isFormNotValidOrPristine"
             [form]="WorkshopContactsFormArray"
-            [appStepperNext]="onSubmit.bind(this)">
+            [appStepperNext]="onSubmit.bind(this)"
+            [stepper]="stepper">
             {{ 'BUTTONS.SEND' | translate }}
           </button>
         </div>

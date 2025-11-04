@@ -24,6 +24,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
 import { CompetitionDraft, CompetitiveDescriptionItem } from 'shared/models/competition.model';
+import { Entities } from 'shared/enum/entities';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -53,6 +54,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
   public CompetitionContactsFormArray: FormArray = new FormArray([]);
   public readonly validationConstants = ValidationConstants;
   public readonly InfoMenuType = InfoMenuType;
+  public readonly Entities = Entities;
 
   constructor(
     activatedRoute: ActivatedRoute,
@@ -65,8 +67,8 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
     this.activatedRoute = activatedRoute;
   }
 
-  public get isFormValidAndDirty(): boolean {
-    return this.form.dirty && this.form.valid && this.CompetitionContactsFormArray.dirty && this.CompetitionContactsFormArray.valid;
+  public get isFormNotValidOrPristine(): boolean {
+    return (!this.form.dirty && !this.CompetitionContactsFormArray.dirty) || this.form.invalid || this.CompetitionContactsFormArray.invalid;
   }
 
   public ngOnInit(): void {
@@ -88,7 +90,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
             disable: false
           },
           {
-            name: NavBarName.EditCompetition,
+            name: NavBarName.EditCompetitionDraft,
             isActive: false,
             disable: true
           }
@@ -131,7 +133,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
     }
 
     const formData = this.form.getRawValue();
-    formData.competitionDescriptionItems = this.SectionItemsFormArray.getRawValue();
+    formData.competitiveEventDescriptionItems = this.SectionItemsFormArray.getRawValue();
     formData.contacts = this.CompetitionContactsFormArray.getRawValue();
     this.store.dispatch(new EditCompetitionDraftByModerator(formData, this.selectedCompetition.competitiveEventDraftId));
   }
@@ -157,7 +159,6 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
       this.selectedCompetition = competitionDraft;
 
       if (this.selectedCompetition.competitiveEventDetails.competitiveEventDescriptionItems?.length) {
-        this.SectionItemsFormArray = new FormArray([]);
         this.selectedCompetition.competitiveEventDetails.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
           const itemFrom = this.newForm(item);
           this.SectionItemsFormArray.controls.push(itemFrom);
@@ -242,30 +243,28 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       shortTitle: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.required,
-        Validators.pattern(MUST_CONTAIN_LETTERS),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
-      ]),
-      descriptionOfTheEnrollmentProcedure: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      additionalDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+      competitiveSelectionDescription: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       venueName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      termsOfParticipation: new FormControl('', [
+      descriptionOfTheEnrollmentProcedure: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
       benefits: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray
     });
