@@ -19,6 +19,7 @@ import { WorkshopType } from 'shared/enum/workshop';
 import * as ProviderUtil from 'shared/utils/provider.utils';
 import { shouldBeDraft } from 'shared/utils/provider.utils';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ModeConstants } from 'shared/constants/constants';
 import { CreateCompetitionComponent } from './create-competition.component';
 
 describe('CreateCompetitionComponent', () => {
@@ -350,6 +351,41 @@ describe('CreateCompetitionComponent', () => {
       component.onSubmit();
 
       expect(matDialogMock.open).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('IsAllFormsNotDirtyAndInvalid', () => {
+    it('should return true, if all forms are not dirty', () => {
+      component.RequiredFormGroup.markAsPristine();
+      component.DescriptionFormGroup.markAsPristine();
+      component.ContactsFormArray.markAsPristine();
+
+      expect(component.IsAllFormsNotDirtyAndInvalid).toBe(true);
+    });
+
+    it('should return true, if at least one form is invalid', () => {
+      component.RequiredFormGroup.setErrors({ required: true });
+      expect(component.IsAllFormsNotDirtyAndInvalid).toBe(true);
+    });
+
+    it('should return false, if all valid and dirty', () => {
+      component.RequiredFormGroup.markAsDirty();
+      component.DescriptionFormGroup.markAsDirty();
+      component.ContactsFormArray.markAsDirty();
+
+      expect(component.IsAllFormsNotDirtyAndInvalid).toBe(false);
+    });
+  });
+
+  describe('isUnfinished', () => {
+    it('should return true, if param === UNFINISHED', () => {
+      activatedRouteMock.snapshot.paramMap.get = jest.fn().mockReturnValue(ModeConstants.UNFINISHED);
+      expect(component.isUnfinished).toBe(true);
+    });
+
+    it('should return false, if param is not UNFINISHED', () => {
+      activatedRouteMock.snapshot.paramMap.get = jest.fn().mockReturnValue('OTHER');
+      expect(component.isUnfinished).toBe(false);
     });
   });
 });
