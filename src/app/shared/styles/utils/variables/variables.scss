@@ -3,7 +3,7 @@
 
 :root {
   // Primary accent color for buttons, links, etc. – changes
-  --primary-accent-color: #ffffff;
+  --primary-accent-color: #fafcff;
 
   // Error color for validation messages, etc. – changes
   --error-color: #cf3636;
@@ -12,7 +12,7 @@
   --body-color: #1a69f3;
 
   // Main text color on dark backgrounds – changes in dark theme
-  --primary-light-text-color: #ffffff;
+  --primary-light-text-color: #fafcff;
 
   // Secondary text color – doesn't change in dark theme
   --secondary-light-text-color: #aaaaaa;
@@ -24,7 +24,7 @@
   --additional-light-text-color: #d5d5d5;
 
   // Static light text color - doesn’t change in dark theme
-  --specific-light-text-color: #ffffff;
+  --specific-light-text-color: #fafcff;
 
   // Primary grey color for text/buttons – doesn't change in dark theme
   --cancel-text-color: #444444;
@@ -72,10 +72,10 @@
   --bg-cancel-color: #444444;
 
   // Specific white background – changes in dark theme
-  --bg-specific-light: #ffffff;
+  --bg-specific-light: #fafcff;
 
   // Background for primary buttons - doesn't change in dark theme
-  --bg-button: #ffffff;
+  --bg-button: #fafcff;
 
   // Color for disabled button - changes
   --disabled-btn-color: #1a69f3;
@@ -84,7 +84,7 @@
   --specific-bg-button: #1a69f3;
 
   // White text color for spesific buttons – changes
-  --light-text-button: #ffffff;
+  --light-text-button: #fafcff;
 
   // Text color for specific buttons – doesn't change in dark theme
   --specific-text-button: #1a69f3;
@@ -110,7 +110,7 @@
   --status-recheck: #ff8000;
   --status-blocked: #ff3125;
   --status-not-provided: #2a2525;
-  --status-accepted-for-selection: #ffffff;
+  --status-accepted-for-selection: #fafcff;
 
   --chip-color: #e0e0e0;
 }
