@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, pairwise, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
