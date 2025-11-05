@@ -71,10 +71,9 @@ export abstract class CreateFormComponent implements OnDestroy {
     form.valueChanges
       .pipe(
         distinctUntilChanged((prev, curr) => Util.deepEqual(prev, curr)),
-        takeWhile(() => this.isPristine),
-        pairwise()
+        takeWhile(() => this.isPristine)
       )
-      .subscribe(([prev, curr]) => {
+      .subscribe(() => {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
         this.isDirtyForm$.pipe(filter(Boolean), take(1), takeUntil(this.destroy$)).subscribe(() => {
