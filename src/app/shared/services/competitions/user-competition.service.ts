@@ -8,7 +8,8 @@ import {
   CompetitionDraft,
   CompetitionDraftCard,
   CompetitionProviderViewCard,
-  EditCompetitionDraft
+  EditCompetitionDraft,
+  UnfinishedCompetitionType
 } from 'shared/models/competition.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -132,6 +133,22 @@ export class UserCompetitionService {
 
   public archiveCompetitionById(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v2/CompetitiveEvent/Delete/${id}`);
+  }
+
+  public saveCompetitionStep<T extends { $type?: UnfinishedCompetitionType }>(data: T): Observable<string> {
+    return this.http.post<string>('/api/v1/CompetitiveEventTempSave/Store', data, { responseType: 'text' as 'json' });
+  }
+
+  public deleteUnfinishedCompetition(): Observable<void> {
+    return this.http.delete<void>('/api/v1/CompetitiveEventTempSave/Remove');
+  }
+
+  public getUnfinishedCompetition(): Observable<Competition> {
+    return this.http.get<Competition>('/api/v1/CompetitiveEventTempSave/Restore');
+  }
+
+  public getTimeToLiveOfUnfinishedCompetition(): Observable<string> {
+    return this.http.get<string>('/api/v1/CompetitiveEventTempSave/GetTimeToLive');
   }
 
   public rejectCompetitionDraft(draftId: string, rejectReason: string): Observable<void> {

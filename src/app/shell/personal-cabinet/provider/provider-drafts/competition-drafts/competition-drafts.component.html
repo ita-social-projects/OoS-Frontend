@@ -5,6 +5,12 @@
   </a>
 </div>
 <div class="flex flex-col gap-4">
+  <app-provider-status-banner
+    *ngIf="hasUnfinishedCompetitionData$ | async"
+    [provider]="provider"
+    [mode]="BannerMode.UnfinishedCompetition"
+    class="unfinished-banner">
+  </app-provider-status-banner>
   <div class="flex justify-end">
     <app-shared-searchbar [for]="WorkshopType.Competition" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
   </div>

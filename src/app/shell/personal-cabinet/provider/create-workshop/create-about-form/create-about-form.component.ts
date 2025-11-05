@@ -26,9 +26,9 @@ import { LanguageListItem } from 'shared/models/language-list.model';
 import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
-import { base64ToFile } from 'ngx-image-cropper';
 import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
 import { Entities } from 'shared/enum/entities';
+import { base64ToFile } from 'ngx-image-cropper';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({

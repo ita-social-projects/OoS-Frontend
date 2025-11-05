@@ -1,15 +1,21 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter, first, takeUntil } from 'rxjs/operators';
+import { asyncScheduler, forkJoin, Observable, of, zip } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
-import { Competition, CompetitionDraft, CompetitionRequired, Description } from 'shared/models/competition.model';
+import {
+  Competition,
+  CompetitionDraft,
+  CompetitionRequired,
+  Description,
+  UnfinishedCompetitionType
+} from 'shared/models/competition.model';
 import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -18,14 +24,32 @@ import { GetCompetitionById, GetCompetitionDraftById, ResetCompetition } from 's
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Judge } from 'shared/models/judge.model';
 import { Constants, ModeConstants } from 'shared/constants/constants';
-import { CreateCompetition, UpdateCompetition, UpdateCompetitionDraft } from 'shared/store/provider.actions';
+import {
+  CreateCompetition,
+  GetUnfinishedCompetition,
+  OnSaveCompetitionStep,
+  UpdateCompetition,
+  UpdateCompetitionDraft
+} from 'shared/store/provider.actions';
 import { Contacts } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import {
+  createUnfinishedAbout,
+  createUnfinishedDescription,
+  mapDescriptionInfo,
+  shouldBeDraft,
+  submittingRealEntity
+} from 'shared/utils/provider.utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { GetCodeficatorById } from 'shared/store/meta-data.actions';
+import { Address } from 'shared/models/address.model';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { MatStepper } from '@angular/material/stepper';
+import { ProviderState } from 'shared/store/provider.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -40,10 +64,15 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   ]
 })
 export class CreateCompetitionComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
+  @ViewChild('stepper') public stepper: MatStepper;
+  @Select(MetaDataState.codeficator)
+  public codeficator$: Observable<Codeficator>;
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
   @Select(SharedUserState.selectedCompetition)
   private selectedCompetition$: Observable<Competition>;
+  @Select(ProviderState.unfinishedCompetition)
+  private unfinishedCompetition$: Observable<Competition>;
 
   public provider: Provider;
   public competition: Competition;
@@ -58,6 +87,12 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
   public readonly WorkshopType = WorkshopType;
 
+  private readonly unfinishedCompetitionTypeMap = {
+    1: UnfinishedCompetitionType.WithAboutProperties,
+    2: UnfinishedCompetitionType.WithDescription,
+    3: UnfinishedCompetitionType.WithContacts
+  };
+
   private param: string;
   private readonly fieldsToCheck = [
     'title',
@@ -70,6 +105,24 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     'competitiveEventDescriptionItems',
     'benefitsOptionsDesc'
   ];
+
+  private readonly stepActions = {
+    1: (): void => {
+      this.createStepData(1)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(1, stepData));
+    },
+    2: (): void => {
+      this.createStepData(2)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(2, stepData));
+    },
+    3: (): void => {
+      this.createStepData(3)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stepData) => this.dispatchUnfinishedData(3, stepData));
+    }
+  };
 
   constructor(
     protected store: Store,
@@ -152,13 +205,61 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
   }
 
   public setEditMode(): void {
-    if (!this.route.snapshot.paramMap.has('entity')) {
-      this.store.dispatch(new GetCompetitionById(this.param));
+    const param = this.route.snapshot.paramMap.get('param');
+    if (param === ModeConstants.UNFINISHED) {
+      this.loadUnfinishedCompetitionData();
+      this.editMode = false;
     } else {
-      this.store.dispatch(new GetCompetitionDraftById(this.param));
+      switch (this.entity) {
+        case WorkshopType.Competition:
+          this.store.dispatch(new GetCompetitionById(param));
+          break;
+        case WorkshopType.Draft:
+          this.store.dispatch(new GetCompetitionDraftById(param));
+          break;
+        default:
+          this.editMode = false;
+          return;
+      }
+      this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition | CompetitionDraft) => {
+        this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
+      });
     }
-    this.selectedCompetition$.pipe(filter(Boolean), first()).subscribe((competition: Competition | CompetitionDraft) => {
-      this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
+  }
+
+  public saveUnfinishedData(formGroup: FormGroup | FormArray): void {
+    if (formGroup.invalid) {
+      return;
+    }
+    const param = this.route.snapshot.paramMap.get('param');
+    if (![ModeConstants.NEW, ModeConstants.UNFINISHED].includes(param)) {
+      return;
+    }
+
+    const stepMappings = new Map<FormGroup | FormArray, number>([
+      [this.RequiredFormGroup, 1],
+      [this.DescriptionFormGroup, 2],
+      [this.ContactsFormArray, 3]
+    ]);
+
+    const step = stepMappings.get(formGroup) ?? -1;
+    if (step !== -1) {
+      this.stepActions[step]?.();
+    }
+  }
+
+  public loadUnfinishedCompetitionData(): void {
+    this.store.dispatch(new GetUnfinishedCompetition());
+    this.unfinishedCompetition$.pipe(filter(Boolean), take(1)).subscribe((draft: Competition) => {
+      this.competition = draft;
+      this.changeDetector.detectChanges();
+      asyncScheduler.schedule(() => {
+        const stepToGo = this.getFirstInvalidStep();
+
+        if (stepToGo !== -1 && this.stepper) {
+          this.stepper.selectedIndex = stepToGo;
+        }
+      }, 1000);
     });
   }
 
@@ -254,6 +355,21 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
       });
   }
 
+  private dispatchUnfinishedData(step: number, data: any): void {
+    this.store.dispatch(new OnSaveCompetitionStep({ data, step }));
+  }
+
+  private getFirstInvalidStep(): number {
+    const steps = [
+      this.RequiredFormGroup,
+      this.DescriptionFormGroup,
+      this.ContactsFormArray
+      // this.JudgeFormArray
+    ];
+
+    return steps.findIndex((step) => !step?.valid && !step?.touched);
+  }
+
   /**
    * Prepares 'Required' section data from the form, setting 'availableSeats' to 'UNLIMITED_SEATS' if null.
    */
@@ -265,9 +381,30 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     return requiredInfo;
   }
 
+  private createUnfinishedRequired(): CompetitionRequired {
+    const requiredInfo = this.RequiredFormGroup.getRawValue();
+    if (requiredInfo.numberOfSeats === null) {
+      requiredInfo.numberOfSeats = this.UNLIMITED_SEATS;
+    }
+
+    requiredInfo.scheduledStartTime = new Date(requiredInfo.competitionDateRangeGroup.start).toISOString();
+    requiredInfo.scheduledEndTime = new Date(requiredInfo.competitionDateRangeGroup.end).toISOString();
+    requiredInfo.registrationStartTime = new Date(requiredInfo.registrationDateRangeGroup.start).toISOString();
+    requiredInfo.registrationEndTime = new Date(requiredInfo.registrationDateRangeGroup.end).toISOString();
+
+    delete requiredInfo.competitionDateRangeGroup;
+    delete requiredInfo.registrationDateRangeGroup;
+
+    if (this.competition?.base64CoverImage) {
+      requiredInfo.base64CoverImage = this.competition.base64CoverImage;
+    }
+
+    return requiredInfo;
+  }
+
   private createDescription(): Description {
     const description = this.DescriptionFormGroup.getRawValue();
-    description.subDirectionIds = description.subDirectionIds.map((subDirection: Subdirection) => subDirection.id);
+    description.subDirectionIds = description.subDirectionIds?.map((subDirection: Subdirection) => subDirection.id);
     return description;
   }
 
@@ -287,5 +424,57 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
 
   private createContacts(): Contacts[] {
     return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
+  }
+
+  private createContactsWithCodeficator(): Observable<any[]> {
+    const contacts = this.createContacts();
+
+    if (!contacts.length) {
+      return of([]);
+    }
+
+    const contactsToUpdate$ = contacts.map((contact) => {
+      if (contact.address?.catottgId) {
+        this.store.dispatch(new GetCodeficatorById(contact.address.catottgId));
+
+        return this.codeficator$.pipe(
+          filter((c) => c?.id === contact.address.catottgId),
+          take(1),
+          map((codeficatorData) => ({
+            ...contact,
+            address: new Address({
+              ...contact.address,
+              codeficatorAddress: codeficatorData
+            })
+          }))
+        );
+      }
+      return of(contact);
+    });
+
+    return zip(...contactsToUpdate$);
+  }
+
+  private createStepData(step: number): Observable<any> {
+    const baseData = {
+      $type: this.unfinishedCompetitionTypeMap[step],
+      providerId: this.provider.id
+    };
+
+    const about$ = createUnfinishedAbout(this.createUnfinishedRequired());
+    const description$ = createUnfinishedDescription(mapDescriptionInfo(this.createDescription()));
+    const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
+    const stepConfig = new Map<number, Observable<any>[]>([
+      [1, [about$]],
+      [2, [about$, description$]],
+      [3, [about$, description$, contacts$]]
+    ]);
+
+    const observables = stepConfig.get(step);
+
+    if (!observables) {
+      return of(baseData);
+    }
+    return forkJoin(observables).pipe(map((results) => ({ ...baseData, ...Object.assign({}, ...results) })));
   }
 }

@@ -17,7 +17,13 @@ import {
   WorkshopStatus
 } from 'shared/models/workshop.model';
 import { StudySubject, StudySubjectParameters } from 'shared/models/study-subject.model';
-import { Competition, CompetitionCardParameters } from 'shared/models/competition.model';
+import {
+  Competition,
+  CompetitionCardParameters,
+  UnfinishedCompetitionContacts,
+  UnfinishedCompetitionDescription,
+  UnfinishedCompetitionRequired
+} from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
 
 export class GetAchievementById {
@@ -651,10 +657,79 @@ export class GetUnfinishedWorkshopTimeToLiveFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class SetDraftModalShown {
-  static readonly type = '[provider] set modal shown';
+export class SetUnfinishedModalShown {
+  static readonly type = '[provider] set unfinished modal shown';
 
   constructor(public payload: boolean) {}
+}
+
+export class OnSaveCompetitionStep {
+  static readonly type = '[Competition] save Competition step';
+
+  constructor(
+    public payload: {
+      data: UnfinishedCompetitionRequired | UnfinishedCompetitionDescription | UnfinishedCompetitionContacts;
+      step: number;
+    }
+  ) {}
+}
+
+export class OnSaveCompetitionStepFail {
+  static readonly type = '[Provider] On Save Competition Step Fail';
+
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnSaveCompetitionStepSuccess {
+  static readonly type = '[Provider] On Save Competition Step Success';
+
+  constructor(public payload: { step: number; data: any }) {}
+}
+
+export class OnDeleteUnfinishedCompetition {
+  static readonly type: string = '[provider] clear unfinished competition';
+}
+
+export class OnDeleteUnfinishedCompetitionFail {
+  static readonly type: string = '[provider] clear unfinished competition fail';
+
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnDeleteUnfinishedCompetitionSuccess {
+  static readonly type: string = '[provider] clear unfinished competition success';
+}
+
+export class GetUnfinishedCompetition {
+  static readonly type: string = '[provider] get unfinished competition';
+}
+
+export class GetUnfinishedCompetitionSuccess {
+  static readonly type: string = '[provider] get unfinished competition success';
+
+  constructor(public payload: Competition) {}
+}
+
+export class GetUnfinishedCompetitionFail {
+  static readonly type: string = '[provider] get unfinished competition fail';
+
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetUnfinishedCompetitionTimeToLive {
+  static readonly type = '[provider] get time to live of unfinished competition';
+}
+
+export class GetUnfinishedCompetitionTimeToLiveSuccess {
+  static readonly type = '[provider] get time to live of unfinished competition success';
+
+  constructor(public payload: string) {}
+}
+
+export class GetUnfinishedCompetitionTimeToLiveFail {
+  static readonly type = '[provider] get time to live of unfinished competition fail';
+
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetPositions {

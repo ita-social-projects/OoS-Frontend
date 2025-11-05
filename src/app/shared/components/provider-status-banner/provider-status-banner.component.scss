@@ -83,11 +83,13 @@ p {
 }
 
 .btn {
-  background-color: var(--primary-light-bg-color);
-  color: var(--primary-light-text-color);
+  background-color: var(--specific-text-color);
+  color: var(--light-text-button);
+  border: 1px solid var(--light-text-button);
 }
 
 .btn-container button:nth-child(2) {
-  color: var(--primary-dark-text-color) !important;
-  border-color: var(--primary-dark-text-color) !important;
+  color: var(--specific-text-color);
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color);
 }

@@ -1,9 +1,10 @@
 import { Role } from 'shared/enum/role';
-import { Workshop, WorkshopDraftState } from 'shared/models/workshop.model';
+import { UnfinishedWorkshopAbout, Workshop, WorkshopAbout, WorkshopDraftState } from 'shared/models/workshop.model';
 import { forkJoin, Observable, of } from 'rxjs';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, CompetitionRequired, Description, UnfinishedCompetitionRequired } from 'shared/models/competition.model';
 import { Util } from 'shared/utils/utils';
 import { WorkshopType } from 'shared/enum/workshop';
+import { map } from 'rxjs/operators';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -79,4 +80,55 @@ export function shouldBeDraft(original: Workshop | Competition, changed: Worksho
 
 export function submittingRealEntity(entityParam: string): boolean {
   return entityParam !== WorkshopType.Draft;
+}
+
+export function createUnfinishedAbout(
+  aboutInfo: WorkshopAbout | CompetitionRequired
+): Observable<UnfinishedWorkshopAbout | UnfinishedCompetitionRequired> {
+  const file = aboutInfo.coverImage[0];
+
+  if (!file) {
+    return of({
+      ...aboutInfo,
+      base64CoverImage: aboutInfo.base64CoverImage || null
+    });
+  }
+
+  return blobToBase64(file).pipe(
+    map((base64CoverImage) => ({
+      ...aboutInfo,
+      base64CoverImage
+    }))
+  );
+}
+
+export function createUnfinishedDescription<T extends { imageFiles?: Blob[]; base64ImageFiles?: string[] }>(
+  descriptionInfo: T
+): Observable<
+  T & {
+    base64ImageFiles: string[];
+  }
+> {
+  const files: Blob[] = Array.isArray(descriptionInfo.imageFiles) ? descriptionInfo.imageFiles : [];
+  return blobsToBase64(files).pipe(
+    map((base64ImageFiles) => ({
+      ...descriptionInfo,
+      base64ImageFiles: [...base64ImageFiles, ...(descriptionInfo.base64ImageFiles || [])]
+    }))
+  );
+}
+
+export function mapDescriptionInfo(descInfo: Description): any {
+  descInfo.competitiveEventDescriptionItems.forEach((item) => {
+    delete item.competitiveEventId;
+  });
+
+  if (descInfo.directionId && descInfo.subDirectionIds?.length) {
+    descInfo.directionSubDirectionIds = descInfo.subDirectionIds.map((subDirectionId) => ({
+      directionId: descInfo.directionId,
+      subDirectionId
+    }));
+  }
+
+  return Object.fromEntries(Object.entries(descInfo).filter(([_, value]) => value));
 }

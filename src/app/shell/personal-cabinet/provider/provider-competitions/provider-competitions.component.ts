@@ -11,12 +11,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProviderState } from 'shared/store/provider.state';
 import { filter, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ArchiveCompetitionById, GetProviderViewCompetitions } from 'shared/store/provider.actions';
+import { ArchiveCompetitionById, GetProviderViewCompetitions, GetUnfinishedCompetition } from 'shared/store/provider.actions';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { FormControl } from '@angular/forms';
 import { WorkshopType } from 'shared/enum/workshop';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { BannerMode } from 'shared/enum/bannerMode';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
@@ -28,10 +29,13 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderCompetitionsComponent extends ProviderComponent implements OnInit, OnDestroy {
   @Select(ProviderState.providerCompetitions)
   public competitions$: Observable<SearchResponse<CompetitionProviderViewCard[]>>;
+  @Select(ProviderState.hasUnfinishedCompetitionData)
+  public hasUnfinishedCompetitionData$: Observable<boolean>;
 
   public readonly ModeConstants = ModeConstants;
   public readonly WorkshopType = WorkshopType;
   public readonly NoResultsTitle = NoResultsTitle;
+  public readonly BannerMode = BannerMode;
   public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
   public competitions: SearchResponse<CompetitionProviderViewCard[]>;
 
@@ -46,6 +50,13 @@ export class ProviderCompetitionsComponent extends ProviderComponent implements 
     private cdr: ChangeDetectorRef
   ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    if (!this.store.selectSnapshot(ProviderState.hasUnfinishedCompetitionData)) {
+      this.store.dispatch(new GetUnfinishedCompetition());
+    }
   }
 
   /**

@@ -105,7 +105,7 @@
   </ng-container>
 
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
-  <mat-radio-group formControlName="formOfLearning" class="flex flex-col justify-center items-between" color="primary">
+  <mat-radio-group formControlName="plannedFormatOfClasses" class="flex flex-col justify-center items-between" color="primary">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
         {{ FormOfLearningEnum[formOfLearning.key] | translate }}

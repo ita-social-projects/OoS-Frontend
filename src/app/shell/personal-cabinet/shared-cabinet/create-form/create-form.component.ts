@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/for
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil, takeWhile } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { FeaturesList } from 'shared/models/features-list.model';
@@ -13,7 +13,7 @@ import { AppState } from 'shared/store/app.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { DeleteNavPath } from 'shared/store/navigation.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { addBeforeUnloadProtection } from 'shared/utils/utils';
+import { addBeforeUnloadProtection, Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-form',
@@ -50,10 +50,7 @@ export abstract class CreateFormComponent implements OnDestroy {
 
   protected determineRelease(): void {
     this.featuresList$
-      .pipe(
-        filter(Boolean),
-        takeWhile(() => this.isPristine)
-      )
+      .pipe(filter(Boolean), take(1))
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
@@ -71,13 +68,18 @@ export abstract class CreateFormComponent implements OnDestroy {
   }
 
   protected subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-    form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
-      this.isPristine = false;
-      this.store.dispatch(new MarkFormDirty(true));
-      this.isDirtyForm$.pipe(filter(Boolean), take(1), takeUntil(this.destroy$)).subscribe(() => {
-        this.removeUnloadProtection = addBeforeUnloadProtection(() => true);
+    form.valueChanges
+      .pipe(
+        distinctUntilChanged((prev, curr) => Util.deepEqual(prev, curr)),
+        takeWhile(() => this.isPristine)
+      )
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true));
+        this.isDirtyForm$.pipe(filter(Boolean), take(1), takeUntil(this.destroy$)).subscribe(() => {
+          this.removeUnloadProtection = addBeforeUnloadProtection(() => true);
+        });
       });
-    });
     this.subscribeOnTouchEvent(form);
   }
 

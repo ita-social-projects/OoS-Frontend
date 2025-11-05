@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { Role } from 'shared/enum/role';
@@ -21,9 +21,10 @@ import { Workshop } from 'shared/models/workshop.model';
 import { ParentStateModel } from 'shared/store/parent.state';
 import { Login } from 'shared/store/registration.actions';
 import { RegistrationStateModel } from 'shared/store/registration.state';
-import { OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
-
+import { OnDeleteUnfinishedCompetition, OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { FooterComponent } from '../../footer/footer.component';
+import { ShellRoutingModule } from '../shell-routing.module';
 import { MainComponent } from './main.component';
 
 describe('MainComponent', () => {
@@ -33,18 +34,26 @@ describe('MainComponent', () => {
   let router: Router;
   let dialog: MatDialog;
 
+  let fetchedWorkshop$: BehaviorSubject<boolean>;
+  let fetchedCompetition$: BehaviorSubject<boolean>;
   let hasUnfinishedWorkshopData$: BehaviorSubject<boolean>;
+  let hasUnfinishedCompetitionData$: BehaviorSubject<boolean>;
   let isModalShown$: BehaviorSubject<boolean>;
+  let modalResponse$: BehaviorSubject<boolean | string>;
 
   beforeEach(async () => {
+    fetchedWorkshop$ = new BehaviorSubject<boolean>(false);
+    fetchedCompetition$ = new BehaviorSubject<boolean>(false);
     hasUnfinishedWorkshopData$ = new BehaviorSubject<boolean>(false);
+    hasUnfinishedCompetitionData$ = new BehaviorSubject<boolean>(false);
     isModalShown$ = new BehaviorSubject<boolean>(false);
+    modalResponse$ = new BehaviorSubject<boolean | string>(false);
     await TestBed.configureTestingModule({
       imports: [
         MatSnackBarModule,
         NgxsModule.forRoot([MockRegistrationState, MockFilterState, MockParentState]),
         HttpClientTestingModule,
-        RouterTestingModule,
+        ShellRoutingModule,
         TranslateModule.forRoot(),
         MatDialogModule,
         RouterTestingModule
@@ -62,7 +71,7 @@ describe('MainComponent', () => {
           provide: MatDialog,
           useValue: {
             open: jest.fn().mockReturnValue({
-              afterClosed: () => of(undefined)
+              afterClosed: () => modalResponse$.asObservable()
             })
           }
         }
@@ -73,8 +82,17 @@ describe('MainComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MainComponent);
     component = fixture.componentInstance;
+    Object.defineProperty(component, 'fetchedWorkshop$', {
+      get: () => fetchedWorkshop$.asObservable()
+    });
+    Object.defineProperty(component, 'fetchedCompetition$', {
+      get: () => fetchedCompetition$.asObservable()
+    });
     Object.defineProperty(component, 'hasUnfinishedWorkshopData$', {
       get: () => hasUnfinishedWorkshopData$.asObservable()
+    });
+    Object.defineProperty(component, 'hasUnfinishedCompetitionData$', {
+      get: () => hasUnfinishedCompetitionData$.asObservable()
     });
     Object.defineProperty(component, 'isModalShown$', {
       get: () => isModalShown$.asObservable()
@@ -99,26 +117,113 @@ describe('MainComponent', () => {
     expect(component.onRegister).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalledWith(new Login(false));
   });
+
   describe('Draft Functionality', () => {
-    it('should continue draft and navigate to create/unfinished', () => {
+    beforeEach(() => {
+      jest.spyOn(component, 'continueUnfinishedCreation');
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should continue workshop draft and navigate to create/workshop/unfinished', () => {
       jest.spyOn(router, 'navigate');
-      component.continueUnfinishedCreation();
+      component.continueUnfinishedCreation('workshop');
       expect(router.navigate).toHaveBeenCalledWith(['/create/workshop', 'unfinished']);
     });
 
-    it('should cancel draft and dispatch OnDeleteDraftWorkshop', () => {
+    it('should continue competition draft and navigate to create/competition/unfinished', () => {
+      jest.spyOn(router, 'navigate');
+      component.continueUnfinishedCreation('competition');
+      expect(router.navigate).toHaveBeenCalledWith(['/create/competition', 'unfinished']);
+    });
+
+    it('should cancel workshop draft and dispatch OnDeleteUnfinishedWorkshop', () => {
       jest.spyOn(store, 'dispatch');
-      component.cancelUnfinishedCreation();
+      component.cancelUnfinishedCreation('workshop');
       expect(store.dispatch).toHaveBeenCalledWith(expect.any(OnDeleteUnfinishedWorkshop));
     });
 
-    it('should show dialog when draft data exists', () => {
+    it('should cancel competition draft and dispatch OnDeleteUnfinishedCompetition', () => {
+      jest.spyOn(store, 'dispatch');
+      component.cancelUnfinishedCreation('competition');
+      expect(store.dispatch).toHaveBeenCalledWith(expect.any(OnDeleteUnfinishedCompetition));
+    });
+
+    it('should show dialog when workshop draft data exists', fakeAsync(() => {
       const showDialogSpy = jest.spyOn(component, 'showDialog');
       hasUnfinishedWorkshopData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      modalResponse$.next(true);
       fixture.detectChanges();
 
       expect(showDialogSpy).toHaveBeenCalledTimes(1);
-    });
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshop);
+      tick(2000);
+      expect(component.continueUnfinishedCreation).toHaveBeenCalledWith('workshop');
+    }));
+
+    it('should show dialog when competition draft data exists and navigate', fakeAsync(() => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(false);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      modalResponse$.next(true);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteCompetition);
+      tick(2000);
+      expect(component.continueUnfinishedCreation).toHaveBeenCalledWith('competition');
+    }));
+
+    it('should show dialog when workshop and competition draft data exists and navigate to workshop', fakeAsync(() => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(true);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      modalResponse$.next(true);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshopAndCompetition);
+      tick(2000);
+      expect(component.continueUnfinishedCreation).toHaveBeenCalledWith('workshop');
+    }));
+
+    it('should show dialog when workshop and competition draft data exists and navigate to competition', fakeAsync(() => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(true);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      modalResponse$.next('secondOption');
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshopAndCompetition);
+      tick(2000);
+      expect(component.continueUnfinishedCreation).toHaveBeenCalledWith('competition');
+    }));
+
+    it('should show dialog when workshop and competition draft data exists and dismiss', fakeAsync(() => {
+      const showDialogSpy = jest.spyOn(component, 'showDialog');
+      hasUnfinishedWorkshopData$.next(true);
+      hasUnfinishedCompetitionData$.next(true);
+      fetchedWorkshop$.next(true);
+      fetchedCompetition$.next(true);
+      modalResponse$.next(false);
+      fixture.detectChanges();
+
+      expect(showDialogSpy).toHaveBeenCalledTimes(1);
+      expect(showDialogSpy).toHaveBeenCalledWith(ModalConfirmationType.incompleteWorkshopAndCompetition);
+      tick(2000);
+      expect(component.continueUnfinishedCreation).not.toHaveBeenCalled();
+    }));
 
     it('should not show dialog multiple times', fakeAsync(() => {
       const showDialogSpy = jest.spyOn(component, 'showDialog');
@@ -156,7 +261,8 @@ describe('MainComponent', () => {
     ministryAdmin: undefined,
     regionAdmin: undefined,
     areaAdmin: undefined,
-    role: Role.unauthorized
+    role: Role.unauthorized,
+    employee: undefined
   }
 })
 @Injectable()
@@ -184,7 +290,10 @@ class MockRegistrationState {}
     userRadiusSize: null,
     isMapView: false,
     from: null,
-    size: null
+    size: null,
+    previousResults: [],
+    entitySearchQuery: '',
+    entityPreviousResults: []
   }
 })
 @Injectable()

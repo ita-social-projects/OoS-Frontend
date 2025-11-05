@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
 
-import { Constants } from 'shared/constants/constants';
+import { Constants, ModeConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { TypeOfCompetition } from 'shared/enum/competition';
@@ -18,6 +18,7 @@ import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Entities } from 'shared/enum/entities';
+import { base64ToFile } from 'ngx-image-cropper';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -98,7 +99,7 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
       this.activateEditMode();
     }
     if (this.parentCompetition) {
-      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage);
+      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage, { emitEvent: false });
       this.competitiveEventAccountingTypeIdControl.disable();
     }
 
@@ -119,6 +120,11 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
    */
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.base64CoverImage) {
+      const file = base64ToFile(this.competition.base64CoverImage);
+      this.RequiredFormGroup.get('coverImage')?.setValue([file]);
+    }
 
     if (this.competition.coverImageId) {
       this.RequiredFormGroup.get('coverImageId').setValue([this.competition.coverImageId], { emitEvent: false });
@@ -163,7 +169,7 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
       this.availableSeatsRadioBtnControl.setValue(false);
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.RequiredFormGroup);
     }
 
@@ -197,8 +203,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         competitionDateRangeGroup: this.formBuilder.group({
-          start: new FormControl<Date | null>(null, Validators.required),
-          end: new FormControl<Date | null>(null, Validators.required)
+          start: [null, Validators.required],
+          end: [null, Validators.required]
         }),
         minimumAge: new FormControl(null, [
           Validators.required,
@@ -211,8 +217,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         registrationDateRangeGroup: this.formBuilder.group({
-          start: new FormControl<Date | null>(null),
-          end: new FormControl<Date | null>(null)
+          start: null,
+          end: null
         }),
         competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
         parentCompetitionControl: new FormControl(null),

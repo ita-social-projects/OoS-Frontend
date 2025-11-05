@@ -41,7 +41,7 @@ import { Util } from 'shared/utils/utils';
 import { Position } from 'shared/models/position.model';
 import { workshopToDraftState } from 'shared/utils/provider.utils';
 import { StudySubject } from 'shared/models/study-subject.model';
-import { Competition, CompetitionDraftCard, CompetitionProviderViewCard } from 'shared/models/competition.model';
+import { Competition, CompetitionDraftCard, CompetitionDraftState, CompetitionProviderViewCard } from 'shared/models/competition.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { WorkshopType } from 'shared/enum/workshop';
@@ -52,6 +52,9 @@ import {
   GetProviderViewCompetitions,
   OnDeleteUnfinishedWorkshop,
   OnGetDraftIdByEntityIdSuccess,
+  OnSaveCompetitionStep,
+  OnSaveCompetitionStepFail,
+  OnSaveCompetitionStepSuccess,
   OnSaveWorkshopStep,
   OnSaveWorkshopStepFail,
   OnSaveWorkshopStepSuccess
@@ -76,7 +79,11 @@ export interface ProviderStateModel {
   positions: SearchResponse<Position[]>;
   selectedPosition: Position;
   unfinishedWorkshop: WorkshopDraftState;
+  fetchedUnfinishedWorkshop: boolean;
   timeToLiveUnfinishedWorkshop: string | null;
+  unfinishedCompetition: CompetitionDraftState;
+  fetchedUnfinishedCompetition: boolean;
+  timeToLiveUnfinishedCompetition: string | null;
   studySubject: SearchResponse<StudySubject[]>;
   selectedSubject: StudySubject;
 }
@@ -101,7 +108,11 @@ export interface ProviderStateModel {
     positions: null,
     selectedPosition: null,
     unfinishedWorkshop: null,
+    fetchedUnfinishedWorkshop: false,
     timeToLiveUnfinishedWorkshop: null,
+    unfinishedCompetition: null,
+    fetchedUnfinishedCompetition: false,
+    timeToLiveUnfinishedCompetition: null,
     studySubject: null,
     selectedSubject: null
   }
@@ -194,17 +205,42 @@ export class ProviderState {
   }
 
   @Selector()
-  static unfinishedWorkshop(state: ProviderStateModel): Workshop {
-    return state.unfinishedWorkshop?.workshopForLoading;
+  static fetchedUnfinishedWorkshop(state: ProviderStateModel): boolean {
+    return state.fetchedUnfinishedWorkshop;
   }
 
-  @Selector() static isModalShown(state: ProviderStateModel): boolean {
-    return state.isDraftModalShown;
+  @Selector()
+  static unfinishedWorkshop(state: ProviderStateModel): Workshop {
+    return state.unfinishedWorkshop?.workshopForLoading;
   }
 
   @Selector()
   static getTimeToLiveUnfinishedWorkshop(state: ProviderStateModel): string | null {
     return state.timeToLiveUnfinishedWorkshop;
+  }
+
+  @Selector()
+  static hasUnfinishedCompetitionData(state: ProviderStateModel): boolean {
+    return Boolean(state.unfinishedCompetition?.competitionForLoading);
+  }
+
+  @Selector()
+  static fetchedUnfinishedCompetition(state: ProviderStateModel): boolean {
+    return state.fetchedUnfinishedCompetition;
+  }
+
+  @Selector()
+  static unfinishedCompetition(state: ProviderStateModel): Competition {
+    return state.unfinishedCompetition?.competitionForLoading;
+  }
+
+  @Selector()
+  static getTimeToLiveUnfinishedCompetition(state: ProviderStateModel): string | null {
+    return state.timeToLiveUnfinishedCompetition;
+  }
+
+  @Selector() static isModalShown(state: ProviderStateModel): boolean {
+    return state.isDraftModalShown;
   }
 
   @Selector()
@@ -1462,7 +1498,8 @@ export class ProviderState {
       catchError((error: HttpErrorResponse) => {
         ctx.dispatch(new providerActions.GetUnfinishedWorkshopFail(error));
         return EMPTY;
-      })
+      }),
+      finalize(() => ctx.patchState({ fetchedUnfinishedWorkshop: true }))
     );
   }
 
@@ -1504,9 +1541,124 @@ export class ProviderState {
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
   }
 
-  @Action(providerActions.SetDraftModalShown)
-  setDraftModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetDraftModalShown): void {
+  @Action(providerActions.SetUnfinishedModalShown)
+  setWorkshopModalShown(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.SetUnfinishedModalShown): void {
     ctx.patchState({ isDraftModalShown: payload });
+  }
+
+  @Action(OnSaveCompetitionStep)
+  onSaveCompetitionStep(ctx: StateContext<ProviderStateModel>, action: OnSaveCompetitionStep): Observable<string | void> {
+    const currentState = ctx.getState().unfinishedCompetition || {};
+    const { step, data } = action.payload;
+    const combinedPayload = {
+      ...currentState.step1,
+      ...currentState.step2,
+      ...currentState.step3,
+      ...data
+    };
+
+    return this.userCompetitionService.saveCompetitionStep(combinedPayload).pipe(
+      tap(() => ctx.dispatch(new OnSaveCompetitionStepSuccess({ step, data }))),
+      catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveCompetitionStepFail(error)))
+    );
+  }
+
+  @Action(OnSaveCompetitionStepSuccess)
+  onSaveCompetitionStepSuccess(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveCompetitionStepSuccess): void {
+    const currentState = ctx.getState().unfinishedCompetition || {};
+    ctx.patchState({
+      unfinishedCompetition: {
+        ...currentState,
+        [`step${payload.step}`]: payload.data
+      }
+    });
+  }
+
+  @Action(OnSaveCompetitionStepFail)
+  onSaveCompetitionStepFail(ctx: StateContext<ProviderStateModel>, { payload }: OnSaveCompetitionStepFail): void {
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedCompetition)
+  deleteUnfinishedCompetition(ctx: StateContext<ProviderStateModel>): Observable<void> {
+    ctx.patchState({ isLoading: true });
+    return this.userCompetitionService.deleteUnfinishedCompetition().pipe(
+      tap(() => {
+        ctx.dispatch(new providerActions.OnDeleteUnfinishedCompetitionSuccess());
+      }),
+      catchError((error: HttpErrorResponse) => ctx.dispatch(new providerActions.OnDeleteUnfinishedCompetitionFail(error))),
+      finalize(() => ctx.patchState({ isLoading: false }))
+    );
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedCompetitionFail)
+  onDeleteUnfinishedCompetitionFail(
+    ctx: StateContext<ProviderStateModel>,
+    { payload }: providerActions.OnDeleteUnfinishedCompetitionFail
+  ): void {
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.deleteDraftFail, type: 'error' }));
+  }
+
+  @Action(providerActions.OnDeleteUnfinishedCompetitionSuccess)
+  onDeleteUnfinishedCompetitionSuccess(ctx: StateContext<ProviderStateModel>): void {
+    ctx.patchState({ unfinishedCompetition: null });
+  }
+
+  @Action(providerActions.GetUnfinishedCompetition)
+  getUnfinishedCompetition(ctx: StateContext<ProviderStateModel>): Observable<Competition> {
+    return this.userCompetitionService.getUnfinishedCompetition().pipe(
+      tap((competition: Competition) => {
+        ctx.dispatch(new providerActions.GetUnfinishedCompetitionSuccess(competition));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        ctx.dispatch(new providerActions.GetUnfinishedCompetitionFail(error));
+        return EMPTY;
+      }),
+      finalize(() => ctx.patchState({ fetchedUnfinishedCompetition: true }))
+    );
+  }
+
+  @Action(providerActions.GetUnfinishedCompetitionSuccess)
+  getUnfinishedCompetitionSuccess(
+    ctx: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetUnfinishedCompetitionSuccess
+  ): void {
+    ctx.patchState({ unfinishedCompetition: { competitionForLoading: payload } });
+  }
+
+  @Action(providerActions.GetUnfinishedCompetitionFail)
+  onGetUnfinishedCompetitionFail(ctx: StateContext<ProviderStateModel>, { payload }: providerActions.GetUnfinishedCompetitionFail): void {
+    ctx.patchState({ unfinishedCompetition: null });
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getDraftFail, type: 'error' }));
+  }
+
+  @Action(providerActions.GetUnfinishedCompetitionTimeToLive)
+  getUnfinishedCompetitionTimeToLive(ctx: StateContext<ProviderStateModel>): Observable<string> {
+    return this.userCompetitionService.getTimeToLiveOfUnfinishedCompetition().pipe(
+      tap((response: string) => {
+        ctx.dispatch(new providerActions.GetUnfinishedCompetitionTimeToLiveSuccess(response));
+      }),
+      catchError((error: HttpErrorResponse) => {
+        ctx.dispatch(new providerActions.GetUnfinishedCompetitionTimeToLiveFail(error));
+        return EMPTY;
+      })
+    );
+  }
+
+  @Action(providerActions.GetUnfinishedCompetitionTimeToLiveSuccess)
+  onGetUnfinishedCompetitionTimeToLiveSuccess(
+    ctx: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetUnfinishedCompetitionTimeToLiveSuccess
+  ): void {
+    ctx.patchState({ timeToLiveUnfinishedCompetition: payload });
+  }
+
+  @Action(providerActions.GetUnfinishedCompetitionTimeToLiveFail)
+  onGetUnfinishedCompetitionTimeToLiveFail(
+    ctx: StateContext<ProviderStateModel>,
+    { payload }: providerActions.GetUnfinishedCompetitionTimeToLiveFail
+  ): void {
+    ctx.dispatch(new ShowMessageBar({ message: SnackbarText.getTimeToLiveFail, type: 'error' }));
   }
 
   @Action(providerActions.CreateStudySubject)

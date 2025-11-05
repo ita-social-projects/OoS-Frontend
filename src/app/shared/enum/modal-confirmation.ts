@@ -54,6 +54,8 @@ export enum ModalConfirmationType {
   editingWorkshop = 'editingWorkshop',
   editingCompetition = 'editingCompetition',
   incompleteWorkshop = 'incompleteWorkshop',
+  incompleteCompetition = 'incompleteCompetition',
+  incompleteWorkshopAndCompetition = 'incompleteWorkshopAndCompetition',
   publishCompetition = 'publishCompetition',
   archiveCompetition = 'archiveCompetition',
   deleteSubject = 'deleteSubject',
@@ -66,6 +68,10 @@ export enum ModalConfirmationTypeWithQuotes {
   delete = 'delete',
   deleteDirection = 'deleteDirection',
   deleteCompetition = 'deleteCompetition'
+}
+
+export enum ModalConfirmationTypeWithThreeOptions {
+  incompleteWorkshopAndCompetition = 'incompleteWorkshopAndCompetition'
 }
 
 export enum ModalConfirmationTitle {
@@ -127,6 +133,8 @@ export enum ModalConfirmationTitle {
   editingWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDITING_WORKSHOP',
   editingCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.EDITING_COMPETITION',
   incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP',
+  incompleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_COMPETITION',
+  incompleteWorkshopAndCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.INCOMPLETE_WORKSHOP_AND_COMPETITION',
   deleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_COMPETITION'
 }
 
@@ -187,6 +195,8 @@ export enum ModalConfirmationText {
   editingWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDITING_WORKSHOP',
   editingCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDITING_COMPETITION',
   incompleteWorkshop = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP',
+  incompleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_COMPETITION',
+  incompleteWorkshopAndCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.INCOMPLETE_WORKSHOP_AND_COMPETITION',
   deleteCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_COMPETITION',
   archiveCompetition = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.ARCHIVE_COMPETITION'
 }
@@ -209,5 +219,7 @@ export enum ModalConfirmationButtonText {
   delete = 'BUTTONS.DELETE',
   rate = 'BUTTONS.SEND',
   default = 'BUTTONS.CONFIRM',
-  continue = 'BUTTONS.CONTINUE'
+  continue = 'BUTTONS.CONTINUE',
+  continueWorkshop = 'BUTTONS.CONTINUE_WORKSHOP',
+  continueCompetition = 'BUTTONS.CONTINUE_COMPETITION'
 }

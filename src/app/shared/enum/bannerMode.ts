@@ -1,4 +1,5 @@
 export enum BannerMode {
   Status = 'status',
-  Unfinished = 'unfinished'
+  UnfinishedWorkshop = 'unfinishedWorkshop',
+  UnfinishedCompetition = 'unfinishedCompetition'
 }

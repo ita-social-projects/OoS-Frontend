@@ -21,6 +21,8 @@ import { Direction, Subdirection } from 'shared/models/category.model';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entities } from 'shared/enum/entities';
+import { ModeConstants } from 'shared/constants/constants';
+import { base64ArrayToFiles } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -160,6 +162,11 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
 
+    if (this.competition.base64ImageFiles?.length) {
+      const files = base64ArrayToFiles(this.competition.base64ImageFiles);
+      this.DescriptionFormGroup.get('imageFiles')?.setValue(files);
+    }
+
     if (this.competition.directionSubDirectionIds?.length) {
       const direction = this.competition.directionSubDirectionIds[0].directionId;
       this.directionControl.setValue(direction, { emitEvent: false });
@@ -183,7 +190,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     if (this.competition.competitiveEventDescriptionItems?.length) {
       this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
         const itemFrom = this.newForm(item);
-        this.SectionItemsFormArray.controls.push(itemFrom);
+        this.SectionItemsFormArray.push(itemFrom, { emitEvent: false });
         // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });
@@ -205,7 +212,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       });
     }
 
-    if (!this.route.snapshot.paramMap.has('entity')) {
+    if (!this.route.snapshot.paramMap.has('entity') && this.route.snapshot.paramMap.get('param') !== ModeConstants.UNFINISHED) {
       this.listenToChanges(this.DescriptionFormGroup);
     }
 
@@ -225,7 +232,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    */
   public onAddForm(): void {
     if (this.DescriptionFormGroup.get('competitiveEventDescriptionItems')) {
-      (this.DescriptionFormGroup.get('competitiveEventDescriptionItems') as FormArray).push(this.newForm());
+      (this.DescriptionFormGroup.get('competitiveEventDescriptionItems') as FormArray).push(this.newForm(), { emitEvent: false });
     }
   }
 
@@ -258,7 +265,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       directionId: new FormControl(null, Validators.required),
       subDirectionIds: new FormControl(null, Validators.required),
       coverageId: new FormControl(null, Validators.required),
-      formOfLearning: new FormControl(FormOfLearning.Offline),
+      plannedFormatOfClasses: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),

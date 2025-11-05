@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule, Store } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'shared/models/provider.model';
@@ -14,11 +14,14 @@ import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { Institution } from 'shared/models/institution.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Competition } from 'shared/models/competition.model';
+import { Competition, UnfinishedCompetitionRequired, UnfinishedCompetitionType } from 'shared/models/competition.model';
 import { WorkshopType } from 'shared/enum/workshop';
-import * as ProviderUtil from 'shared/utils/provider.utils';
+import * as ProviderUtils from 'shared/utils/provider.utils';
 import { shouldBeDraft } from 'shared/utils/provider.utils';
 import { RegistrationState } from 'shared/store/registration.state';
+import { GetUnfinishedCompetition, OnSaveCompetitionStep } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { ModeConstants } from 'shared/constants/constants';
 import { CreateCompetitionComponent } from './create-competition.component';
 
@@ -39,6 +42,9 @@ describe('CreateCompetitionComponent', () => {
   const mockStore = {
     dispatch: jest.fn(),
     select: jest.fn().mockImplementation((selector) => {
+      if (selector === ProviderState.unfinishedCompetition) {
+        return of({ provider: { competitionDraft: mockCompetition } });
+      }
       if (selector === RegistrationState.provider) {
         return of(provider);
       }
@@ -108,6 +114,21 @@ describe('CreateCompetitionComponent', () => {
     providerSectionItems: []
   } as unknown as Provider;
 
+  const mockCompetition: UnfinishedCompetitionRequired = {
+    competitionDateRangeGroup: { end: undefined, start: undefined },
+    competitiveEventAccountingTypeId: 0,
+    email: '',
+    maximumAge: 0,
+    minimumAge: 0,
+    phone: '',
+    title: 'fkfkkff',
+    shortTitle: 'fghjhgf',
+    numberOfSeats: 4294967295,
+    base64CoverImage: 'image',
+    providerId: '08da842d-12fc-4865-85c5-ec6e6142abad',
+    $type: UnfinishedCompetitionType.WithAboutProperties
+  };
+
   mockStore.selectSnapshot.mockReturnValue(of(provider));
 
   beforeEach(async () => {
@@ -126,8 +147,8 @@ describe('CreateCompetitionComponent', () => {
 
     fixture = TestBed.createComponent(CreateCompetitionComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+    store = TestBed.inject(Store);
     navigationBarService = TestBed.inject(NavigationBarService);
     activatedRoute = TestBed.inject(ActivatedRoute);
 
@@ -177,6 +198,50 @@ describe('CreateCompetitionComponent', () => {
     expect(cancelSpy).toHaveBeenCalledWith(['/personal-cabinet/provider/competitions']);
   });
 
+  it('should return first invalid step index', () => {
+    component.RequiredFormGroup.get('title')?.setErrors({ required: true });
+    expect((component as any).getFirstInvalidStep()).toBe(0);
+  });
+
+  it('should dispatch GetUnfinishedCompetition and set competition data', (done) => {
+    component.loadUnfinishedCompetitionData();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new GetUnfinishedCompetition());
+    (component as any).unfinishedCompetition$.subscribe((draft) => {
+      expect(draft).toEqual({ provider: { competitionDraft: mockCompetition } });
+      done();
+    });
+  });
+
+  it('should return if form is invalid', () => {
+    const form = new FormGroup({
+      mock: new FormControl(null)
+    });
+    form.setErrors({ invalid: true });
+    const routeSpy = jest.spyOn(activatedRouteMock.snapshot.paramMap, 'get');
+    component.saveUnfinishedData(form);
+    expect(routeSpy).not.toHaveBeenCalled();
+  });
+
+  it('should dispatch unfinished data correctly', () => {
+    const step = 2;
+    const extraData = { description: 'Test Description' };
+    (component as any).dispatchUnfinishedData(step, extraData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(new OnSaveCompetitionStep({ data: expect.any(Object), step }));
+  });
+
+  it('should execute stepActions correctly', () => {
+    const step = 1;
+    const mockData = { test: 'value' };
+    jest.spyOn(component as any, 'createStepData').mockReturnValue(of(mockData));
+    jest.spyOn(component as any, 'dispatchUnfinishedData');
+
+    (component as any).stepActions[step]();
+
+    expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(step, mockData);
+  });
+
   describe('pre-submit methods', () => {
     it('should create description correctly', () => {
       component.DescriptionFormGroup = new FormGroup({
@@ -210,7 +275,7 @@ describe('CreateCompetitionComponent', () => {
         description: 'desc',
         subDirectionIds: [1, 2],
         preferentialTermsOfParticipation: 'terms'
-      } as Competition;
+      } as unknown as Competition;
 
       anotherCompetition = {
         title: 'Title',
@@ -226,7 +291,7 @@ describe('CreateCompetitionComponent', () => {
         description: 'desc',
         subDirectionIds: [1, 2],
         preferentialTermsOfParticipation: 'terms'
-      } as Competition;
+      } as unknown as Competition;
 
       jest.clearAllMocks();
     });
@@ -327,7 +392,7 @@ describe('CreateCompetitionComponent', () => {
     });
 
     it('should be draft matDialog', () => {
-      jest.spyOn(ProviderUtil, 'shouldBeDraft').mockReturnValue(true);
+      jest.spyOn(ProviderUtils, 'shouldBeDraft').mockReturnValue(true);
 
       component.editMode = true;
 
@@ -344,13 +409,492 @@ describe('CreateCompetitionComponent', () => {
     });
 
     it('should NOT be draft matDialog', () => {
-      jest.spyOn(ProviderUtil, 'shouldBeDraft').mockReturnValue(false);
+      jest.spyOn(ProviderUtils, 'shouldBeDraft').mockReturnValue(false);
 
       component.editMode = true;
 
       component.onSubmit();
 
       expect(matDialogMock.open).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('stepActions', () => {
+    beforeEach(() => {
+      jest.spyOn(component as any, 'createStepData').mockReturnValue(of({ mockData: 'test' }));
+      jest.spyOn(component as any, 'dispatchUnfinishedData');
+    });
+
+    it('should execute step 1 action correctly', (done) => {
+      (component as any).stepActions[1]();
+
+      setTimeout(() => {
+        expect((component as any).createStepData).toHaveBeenCalledWith(1);
+        expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(1, { mockData: 'test' });
+        done();
+      }, 0);
+    });
+
+    it('should execute step 2 action correctly', (done) => {
+      (component as any).stepActions[2]();
+
+      setTimeout(() => {
+        expect((component as any).createStepData).toHaveBeenCalledWith(2);
+        expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(2, { mockData: 'test' });
+        done();
+      }, 0);
+    });
+
+    it('should execute step 3 action correctly', (done) => {
+      (component as any).stepActions[3]();
+
+      setTimeout(() => {
+        expect((component as any).createStepData).toHaveBeenCalledWith(3);
+        expect((component as any).dispatchUnfinishedData).toHaveBeenCalledWith(3, { mockData: 'test' });
+        done();
+      }, 0);
+    });
+  });
+
+  describe('createUnfinishedAbout', () => {
+    it('should create unfinished about with base64 cover image', (done) => {
+      const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
+      component.RequiredFormGroup.patchValue({
+        coverImage: [mockFile],
+        title: 'Test Title'
+      });
+
+      jest.spyOn(component as any, 'createUnfinishedRequired').mockReturnValue({
+        title: 'Test Title',
+        coverImage: [mockFile]
+      });
+
+      ProviderUtils.createUnfinishedAbout((component as any).createUnfinishedRequired()).subscribe((result) => {
+        expect(result).toEqual({
+          title: 'Test Title',
+          coverImage: [mockFile],
+          base64CoverImage: expect.stringMatching(/^data:image\/jpeg;base64,/)
+        });
+        done();
+      });
+    });
+
+    it('should handle null cover image', (done) => {
+      component.RequiredFormGroup.patchValue({
+        coverImage: [null],
+        title: 'Test Title'
+      });
+
+      jest.spyOn(component as any, 'createUnfinishedRequired').mockReturnValue({
+        title: 'Test Title',
+        coverImage: [null]
+      });
+
+      ProviderUtils.createUnfinishedAbout((component as any).createUnfinishedRequired()).subscribe((result) => {
+        expect(result).toEqual({
+          title: 'Test Title',
+          coverImage: [null],
+          base64CoverImage: null
+        });
+        done();
+      });
+    });
+  });
+
+  describe('createUnfinishedDescription', () => {
+    beforeEach(() => {
+      component.DescriptionFormGroup = new FormGroup({
+        competitiveEventDescriptionItems: new FormControl([{ sectionName: 'Section 1', description: 'Description 1' }]),
+        imageFiles: new FormControl([])
+      });
+    });
+
+    it('should create unfinished description with base64 image files', (done) => {
+      const mockFiles = [new File(['test1'], 'test1.jpg', { type: 'image/jpeg' }), new File(['test2'], 'test2.png', { type: 'image/png' })];
+
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: mockFiles
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result).toEqual({
+          competitiveEventDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
+          imageFiles: mockFiles,
+          base64ImageFiles: expect.arrayContaining([
+            expect.stringMatching(/^data:image\/jpeg;base64,/),
+            expect.stringMatching(/^data:image\/png;base64,/)
+          ])
+        });
+        done();
+      });
+    });
+
+    it('should handle empty imageFiles array', (done) => {
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: []
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result).toEqual({
+          competitiveEventDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
+          imageFiles: [],
+          base64ImageFiles: []
+        });
+        done();
+      });
+    });
+
+    it('should handle null imageFiles', (done) => {
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: null
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result).toEqual({
+          competitiveEventDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
+          imageFiles: null,
+          base64ImageFiles: []
+        });
+        done();
+      });
+    });
+
+    it('should handle undefined imageFiles', (done) => {
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: undefined
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result).toEqual({
+          competitiveEventDescriptionItems: [{ sectionName: 'Section 1', description: 'Description 1' }],
+          imageFiles: undefined,
+          base64ImageFiles: []
+        });
+        done();
+      });
+    });
+
+    it('should merge data from both form groups correctly', (done) => {
+      component.DescriptionFormGroup = new FormGroup({
+        competitiveEventDescriptionItems: new FormControl([]),
+        customField2: new FormControl('Custom value 2'),
+        imageFiles: new FormControl([])
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result).toEqual({
+          competitiveEventDescriptionItems: [],
+          customField2: 'Custom value 2',
+          imageFiles: [],
+          base64ImageFiles: []
+        });
+        done();
+      });
+    });
+
+    it('should handle overlapping field names (DescriptionFormGroup should override)', (done) => {
+      component.DescriptionFormGroup = new FormGroup({
+        competitiveEventDescriptionItems: new FormControl([]),
+        sharedField: new FormControl('Description value'),
+        imageFiles: new FormControl([])
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result.sharedField).toBe('Description value');
+        expect(result.base64ImageFiles).toEqual([]);
+        done();
+      });
+    });
+
+    it('should handle single file in imageFiles array', (done) => {
+      const singleFile = new File(['single'], 'single.jpg', { type: 'image/jpeg' });
+
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: [singleFile]
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result.imageFiles).toEqual([singleFile]);
+        expect(result.base64ImageFiles[0]).toMatch(/^data:image\/jpeg;base64,/);
+        done();
+      });
+    });
+
+    it('should handle multiple files and verify base64 conversion', (done) => {
+      const mockFiles = [new File(['test1'], 'test1.jpg', { type: 'image/jpeg' }), new File(['test2'], 'test2.png', { type: 'image/png' })];
+
+      component.DescriptionFormGroup.patchValue({
+        imageFiles: mockFiles
+      });
+
+      ProviderUtils.createUnfinishedDescription({
+        ...component.DescriptionFormGroup.getRawValue()
+      }).subscribe((result) => {
+        expect(result.imageFiles).toEqual(mockFiles);
+        expect(result.base64ImageFiles.length).toEqual(2);
+        expect(result.base64ImageFiles[0]).toMatch(/^data:image\/jpeg;base64,/);
+        expect(result.base64ImageFiles[1]).toMatch(/^data:image\/png;base64,/);
+        done();
+      });
+    });
+
+    describe('createContactsWithCodeficator', () => {
+      beforeEach(() => {
+        jest.spyOn(component as any, 'createContacts');
+        jest.spyOn(store, 'dispatch');
+        jest.clearAllMocks();
+      });
+
+      it('should return contacts with codeficator data when catottgId exists', (done) => {
+        const mockCodeficator = {
+          id: 12345,
+          name: 'Test Region',
+          fullName: 'Test Region Full Name'
+        };
+
+        const mockContacts = [
+          {
+            id: 'contact1',
+            name: 'Contact 1',
+            address: {
+              catottgId: 12345,
+              street: 'Test Street',
+              buildingNumber: '1'
+            }
+          }
+        ];
+
+        (component as any).createContacts.mockReturnValue(mockContacts);
+
+        const codeficatorSubject = new Subject();
+        Object.defineProperty(component, 'codeficator$', {
+          get: () => codeficatorSubject.asObservable()
+        });
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result).toHaveLength(1);
+          expect(result[0].address.codeficatorAddress).toEqual(mockCodeficator);
+          expect(result[0].address.street).toBe('Test Street');
+          expect(result[0].address.buildingNumber).toBe('1');
+          expect(store.dispatch).toHaveBeenCalledWith(new GetCodeficatorById(12345));
+          expect(store.dispatch).toHaveBeenCalledTimes(1);
+          done();
+        });
+
+        setTimeout(() => {
+          codeficatorSubject.next(mockCodeficator);
+        }, 10);
+      });
+
+      it('should handle multiple contacts with different catottgIds', (done) => {
+        const mockCodeficator1 = { id: 12345, name: 'Region 1' };
+        const mockCodeficator2 = { id: 67890, name: 'Region 2' };
+
+        const mockContacts = [
+          { id: 'contact1', address: { catottgId: 12345, street: 'Street 1' } },
+          { id: 'contact2', address: { catottgId: 67890, street: 'Street 2' } }
+        ];
+
+        (component as any).createContacts.mockReturnValue(mockContacts);
+        const codeficatorSubject = new Subject();
+        Object.defineProperty(component, 'codeficator$', {
+          get: () => codeficatorSubject.asObservable()
+        });
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result).toHaveLength(2);
+          expect(result[0].address.codeficatorAddress).toEqual(mockCodeficator1);
+          expect(result[1].address.codeficatorAddress).toEqual(mockCodeficator2);
+          expect(store.dispatch).toHaveBeenCalledWith(new GetCodeficatorById(12345));
+          expect(store.dispatch).toHaveBeenCalledWith(new GetCodeficatorById(67890));
+          expect(store.dispatch).toHaveBeenCalledTimes(2);
+          done();
+        });
+
+        setTimeout(() => {
+          codeficatorSubject.next(mockCodeficator1);
+          codeficatorSubject.next(mockCodeficator2);
+        }, 10);
+      });
+
+      it('should return contact unchanged when no catottgId', (done) => {
+        const mockContacts = [
+          { id: 'contact1', name: 'Contact without address', phone: '+380123456789' },
+          {
+            id: 'contact2',
+            name: 'Contact with address but no catottgId',
+            address: { street: 'Test Street', buildingNumber: '1' }
+          }
+        ];
+
+        (component as any).createContacts.mockReturnValue(mockContacts);
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result).toEqual(mockContacts);
+          expect(store.dispatch).toHaveBeenCalledTimes(0);
+          done();
+        });
+      });
+
+      it('should handle null/undefined address', (done) => {
+        const mockContacts = [
+          { id: 'contact1', name: 'Contact with null address', address: null },
+          { id: 'contact2', name: 'Contact with undefined address', address: undefined }
+        ];
+
+        (component as any).createContacts.mockReturnValue(mockContacts);
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result).toEqual(mockContacts);
+          expect(store.dispatch).toHaveBeenCalledTimes(0);
+          done();
+        });
+      });
+
+      it('should handle empty contacts array', (done) => {
+        (component as any).createContacts.mockReturnValue([]);
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result).toEqual([]);
+          expect(store.dispatch).toHaveBeenCalledTimes(0);
+          done();
+        });
+      });
+
+      it('should filter codeficator by id and take only first match', (done) => {
+        const correctCodeficator = { id: 12345, name: 'Correct Region' };
+        const wrongCodeficator = { id: 99999, name: 'Wrong Region' };
+
+        const mockContacts = [{ id: 'contact1', address: { catottgId: 12345, street: 'Test Street' } }];
+
+        (component as any).createContacts.mockReturnValue(mockContacts);
+
+        const codeficatorSubject = new Subject();
+        Object.defineProperty(component, 'codeficator$', {
+          get: () => codeficatorSubject.asObservable()
+        });
+
+        (component as any).createContactsWithCodeficator().subscribe((result) => {
+          expect(result[0].address.codeficatorAddress).toEqual(correctCodeficator);
+          expect(result[0].address.codeficatorAddress).not.toEqual(wrongCodeficator);
+          done();
+        });
+
+        setTimeout(() => {
+          codeficatorSubject.next(wrongCodeficator);
+          codeficatorSubject.next(correctCodeficator);
+          codeficatorSubject.next({ id: 12345, name: 'Ignored' });
+        }, 10);
+      });
+    });
+
+    describe('createStepData', () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.spyOn(ProviderUtils, 'createUnfinishedAbout').mockReturnValue(of({ about: 'test about' }));
+        jest.spyOn(ProviderUtils, 'createUnfinishedDescription').mockReturnValue(of({ description: 'test description' }));
+        jest.spyOn(component as any, 'createContactsWithCodeficator').mockReturnValue(
+          of([
+            {
+              id: 1,
+              name: 'Test Contact'
+            }
+          ])
+        );
+
+        (component as any).unfinishedCompetitionTypeMap = {
+          1: 'Type1',
+          2: 'Type2',
+          3: 'Type3'
+        };
+
+        (component as any).provider = { id: 'test-provider-id' };
+      });
+
+      it('should return baseData when step is 0', (done) => {
+        (component as any).createStepData(0).subscribe((result) => {
+          expect(result).toEqual({
+            $type: undefined,
+            providerId: 'test-provider-id'
+          });
+          done();
+        });
+      });
+
+      it('should handle step 1 with only about data', (done) => {
+        (component as any).createStepData(1).subscribe((result) => {
+          expect(result).toEqual({
+            $type: 'Type1',
+            providerId: 'test-provider-id',
+            about: 'test about'
+          });
+          done();
+        });
+      });
+
+      it('should handle step 2 with about and description data', (done) => {
+        (component as any).createStepData(2).subscribe((result) => {
+          expect(result).toEqual({
+            $type: 'Type2',
+            providerId: 'test-provider-id',
+            about: 'test about',
+            description: 'test description'
+          });
+          done();
+        });
+      });
+
+      it('should handle step 3 with all data including contacts', (done) => {
+        (component as any).createStepData(3).subscribe((result) => {
+          expect(result).toEqual({
+            $type: 'Type3',
+            providerId: 'test-provider-id',
+            about: 'test about',
+            description: 'test description',
+            contacts: [{ id: 1, name: 'Test Contact' }]
+          });
+
+          expect(ProviderUtils.createUnfinishedAbout).toHaveBeenCalledTimes(1);
+          expect(ProviderUtils.createUnfinishedDescription).toHaveBeenCalledTimes(1);
+          expect((component as any).createContactsWithCodeficator).toHaveBeenCalledTimes(1);
+
+          done();
+        });
+      });
+
+      it('should merge overlapping properties correctly', (done) => {
+        jest.spyOn(ProviderUtils, 'createUnfinishedAbout').mockReturnValue(
+          of({
+            name: 'from about',
+            shared: 'about value'
+          })
+        );
+
+        (component as any).createStepData(2).subscribe((result) => {
+          expect(result).toEqual({
+            $type: 'Type2',
+            providerId: 'test-provider-id',
+            name: 'from about',
+            shared: 'about value',
+            description: 'test description'
+          });
+          done();
+        });
+      });
     });
   });
 

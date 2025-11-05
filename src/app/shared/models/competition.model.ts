@@ -87,10 +87,6 @@ export abstract class CompetitionBase {
     if (description.subDirectionIds) {
       this.subDirectionIds = description.subDirectionIds;
     }
-    if (description.formOfLearning) {
-      this.plannedFormatOfClasses = description.formOfLearning;
-    }
-
     if (description.additionalDescription) {
       this.additionalDescription = description.additionalDescription;
     }
@@ -115,6 +111,12 @@ export abstract class CompetitionBase {
     if (description.competitiveSelectionDescription) {
       this.competitiveSelectionDescription = description.competitiveSelectionDescription;
     }
+    if (description.directionId && description.subDirectionIds.length) {
+      this.directionSubDirectionIds = [];
+      description.subDirectionIds.forEach((subDirectionId) => {
+        this.directionSubDirectionIds.push({ directionId: description.directionId, subDirectionId });
+      });
+    }
   }
 }
 
@@ -125,8 +127,10 @@ export class Competition extends CompetitionBase {
   state: CompetitionStatus;
   coverImageId?: string;
   coverImage?: File;
+  base64CoverImage?: string;
   imageIds?: string[];
   imageFiles?: File[];
+  base64ImageFiles?: string[];
 
   constructor(
     required: CompetitionRequired,
@@ -180,6 +184,7 @@ export interface CompetitionRequired {
   coverImage?: File;
   minimumAge: number;
   maximumAge: number;
+  base64CoverImage?: string;
 }
 
 export interface CompetitionBaseCard {
@@ -229,8 +234,9 @@ export class CompetitiveDescriptionItem extends SectionItem {
 export interface Description {
   directionId?: number;
   subDirectionIds: number[];
+  directionSubDirectionIds: { directionId: number; subDirectionId: number }[];
   coverageId: CompetitionCoverage;
-  formOfLearning?: FormOfLearning;
+  plannedFormatOfClasses?: FormOfLearning;
   additionalDescription?: string;
   descriptionOfTheEnrollmentProcedure?: string;
   price?: number;
@@ -266,4 +272,34 @@ export class EditCompetitionDraft {
   venueName?: string;
   termsOfParticipation?: string;
   benefits?: string;
+}
+
+export enum UnfinishedCompetitionType {
+  WithAboutProperties = 'withAboutProperties',
+  WithDescription = 'withDescription',
+  WithContacts = 'withContacts'
+}
+
+export type UnfinishedCompetitionRequired = CompetitionRequired & {
+  $type?: UnfinishedCompetitionType.WithAboutProperties;
+  base64CoverImage: string;
+  providerId?: string;
+};
+
+export type UnfinishedCompetitionDescription = Description &
+  UnfinishedCompetitionRequired & {
+    $type?: UnfinishedCompetitionType.WithDescription;
+    base64ImageFiles: string[];
+  };
+
+export type UnfinishedCompetitionContacts = Contacts &
+  UnfinishedCompetitionDescription & {
+    $type?: UnfinishedCompetitionType.WithContacts;
+  };
+
+export interface CompetitionDraftState {
+  step1?: UnfinishedCompetitionRequired;
+  step2?: UnfinishedCompetitionDescription;
+  step3?: UnfinishedCompetitionContacts;
+  competitionForLoading?: Competition;
 }
