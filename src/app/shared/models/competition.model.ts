@@ -87,10 +87,6 @@ export abstract class CompetitionBase {
     if (description.subDirectionIds) {
       this.subDirectionIds = description.subDirectionIds;
     }
-    if (description.formOfLearning) {
-      this.plannedFormatOfClasses = description.formOfLearning;
-    }
-
     if (description.additionalDescription) {
       this.additionalDescription = description.additionalDescription;
     }
@@ -240,7 +236,7 @@ export interface Description {
   subDirectionIds: number[];
   directionSubDirectionIds: { directionId: number; subDirectionId: number }[];
   coverageId: CompetitionCoverage;
-  formOfLearning?: FormOfLearning;
+  plannedFormatOfClasses?: FormOfLearning;
   additionalDescription?: string;
   descriptionOfTheEnrollmentProcedure?: string;
   price?: number;

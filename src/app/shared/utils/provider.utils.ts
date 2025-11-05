@@ -123,17 +123,12 @@ export function mapDescriptionInfo(descInfo: Description): any {
     delete item.competitiveEventId;
   });
 
-  const mapped = {
-    ...descInfo,
-    plannedFormatOfClasses: descInfo.formOfLearning
-  };
-
-  if (mapped.directionId && mapped.subDirectionIds?.length) {
-    mapped.directionSubDirectionIds = mapped.subDirectionIds.map((subDirectionId) => ({
-      directionId: mapped.directionId,
+  if (descInfo.directionId && descInfo.subDirectionIds?.length) {
+    descInfo.directionSubDirectionIds = descInfo.subDirectionIds.map((subDirectionId) => ({
+      directionId: descInfo.directionId,
       subDirectionId
     }));
   }
 
-  return Object.fromEntries(Object.entries(mapped).filter(([_, value]) => value));
+  return Object.fromEntries(Object.entries(descInfo).filter(([_, value]) => value));
 }

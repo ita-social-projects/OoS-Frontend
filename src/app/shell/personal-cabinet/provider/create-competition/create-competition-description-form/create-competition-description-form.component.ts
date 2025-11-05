@@ -265,7 +265,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       directionId: new FormControl(null, Validators.required),
       subDirectionIds: new FormControl(null, Validators.required),
       coverageId: new FormControl(null, Validators.required),
-      formOfLearning: new FormControl(FormOfLearning.Offline),
+      plannedFormatOfClasses: new FormControl(FormOfLearning.Offline),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),

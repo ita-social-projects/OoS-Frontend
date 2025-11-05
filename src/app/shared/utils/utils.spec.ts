@@ -316,7 +316,6 @@ describe('arraysEqualByValue', () => {
 describe('mapDescriptionInfo', () => {
   it('should map, clean and enrich description info correctly', () => {
     const mockDescription = {
-      formOfLearning: 'online',
       directionId: 1,
       subDirectionIds: [10, 20],
       competitiveEventDescriptionItems: [
@@ -328,10 +327,8 @@ describe('mapDescriptionInfo', () => {
     const result = mapDescriptionInfo(mockDescription as unknown as Description);
 
     expect(result).toEqual({
-      formOfLearning: 'online',
       directionId: 1,
       subDirectionIds: [10, 20],
-      plannedFormatOfClasses: 'online',
       competitiveEventDescriptionItems: [{ someSection: 'item1' }, { someSection: 'item2' }],
       directionSubDirectionIds: [
         { directionId: 1, subDirectionId: 10 },
