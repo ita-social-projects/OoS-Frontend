@@ -90,6 +90,7 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
 
   public ngOnInit(): void {
     this.initForm();
+    this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
 
     this.filterTypeOfCompetition(Boolean(this.parentCompetition));
 

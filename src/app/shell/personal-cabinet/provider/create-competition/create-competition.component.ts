@@ -215,7 +215,6 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
           this.editMode = false;
           return;
       }
-
       this.selectedCompetition$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((competition: Competition | CompetitionDraft) => {
         this.competition = Util.containsWorkshopOrCompetitionDetails(competition) ? competition.competitiveEventDetails : competition;
       });
@@ -247,6 +246,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     this.store.dispatch(new GetUnfinishedCompetition());
     this.unfinishedCompetition$.pipe(filter(Boolean), take(1)).subscribe((draft: Competition) => {
       this.competition = draft;
+      this.changeDetector.detectChanges();
       asyncScheduler.schedule(() => {
         const stepToGo = this.getFirstInvalidStep();
 
@@ -295,7 +295,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
    */
   public onReceiveRequiredFormGroup(form: FormGroup): void {
     this.RequiredFormGroup = form;
-    setTimeout(() => this.subscribeOnDirtyForm(form));
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -392,6 +392,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     if (this.competition?.base64CoverImage) {
       requiredInfo.base64CoverImage = this.competition.base64CoverImage;
     }
+
     return requiredInfo;
   }
 

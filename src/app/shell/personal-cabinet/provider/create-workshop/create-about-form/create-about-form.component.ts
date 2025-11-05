@@ -26,7 +26,6 @@ import { LanguageListItem } from 'shared/models/language-list.model';
 import { GetLanguageList } from 'shared/store/meta-data.actions';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
-import { base64ToFile } from 'ngx-image-cropper';
 import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
 import { Entities } from 'shared/enum/entities';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
@@ -137,11 +136,6 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
    */
   public activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-
-    if (this.workshop.base64CoverImage) {
-      const file = base64ToFile(this.workshop.base64CoverImage);
-      this.AboutFormGroup.get('coverImage')?.setValue([file]);
-    }
 
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });

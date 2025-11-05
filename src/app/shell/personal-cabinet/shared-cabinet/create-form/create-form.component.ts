@@ -50,10 +50,7 @@ export abstract class CreateFormComponent implements OnDestroy {
 
   protected determineRelease(): void {
     this.featuresList$
-      .pipe(
-        filter(Boolean),
-        takeWhile(() => this.isPristine)
-      )
+      .pipe(filter(Boolean), take(1))
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
@@ -78,8 +75,6 @@ export abstract class CreateFormComponent implements OnDestroy {
         pairwise()
       )
       .subscribe(([prev, curr]) => {
-        console.log(prev);
-        console.log(curr);
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
         this.isDirtyForm$.pipe(filter(Boolean), take(1), takeUntil(this.destroy$)).subscribe(() => {
