@@ -47,7 +47,7 @@ describe('MainComponent', () => {
     hasUnfinishedWorkshopData$ = new BehaviorSubject<boolean>(false);
     hasUnfinishedCompetitionData$ = new BehaviorSubject<boolean>(false);
     isModalShown$ = new BehaviorSubject<boolean>(false);
-    modalResponse$ = new BehaviorSubject<boolean>(false);
+    modalResponse$ = new BehaviorSubject<boolean | string>(false);
     await TestBed.configureTestingModule({
       imports: [
         MatSnackBarModule,
