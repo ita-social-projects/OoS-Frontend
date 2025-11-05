@@ -40,7 +40,6 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
   @Input() public deleteMode: boolean;
   // Delegates delete logic to parent component via deleteImage EventEmitter
   @Input() public moderatorDeleteFlow: boolean;
-  @Input() public base64Images: string[];
   // If true, confirmation window will be shown before image deletion
   @Input() public showConfirmationWindow: boolean;
   @Output() public deleteImage: EventEmitter<string> = new EventEmitter();
@@ -65,12 +64,6 @@ export class ImageFormControlComponent implements OnInit, ControlValueAccessor, 
     this.onResize(window);
     if (this.imageIdsFormControl?.value?.length) {
       this.activateEditMode();
-    }
-
-    if (this.base64Images?.length) {
-      this.base64Images.forEach((base64Image) => {
-        this.decodedImages.push(new DecodedImage(base64Image, null));
-      });
     }
 
     if (this.moderatorDeleteFlow) {

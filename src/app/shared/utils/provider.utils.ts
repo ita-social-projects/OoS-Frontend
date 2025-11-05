@@ -118,22 +118,15 @@ export function createUnfinishedDescription<T extends { imageFiles?: Blob[]; bas
   );
 }
 
-export function mapDescriptionInfo(competition: Competition, descInfo: Description): any {
+export function mapDescriptionInfo(descInfo: Description): any {
   descInfo.competitiveEventDescriptionItems.forEach((item) => {
     delete item.competitiveEventId;
   });
 
-  let mapped = {
+  const mapped = {
     ...descInfo,
     plannedFormatOfClasses: descInfo.formOfLearning
   };
-
-  if (competition?.base64ImageFiles?.length) {
-    mapped = {
-      ...mapped,
-      base64ImageFiles: competition.base64ImageFiles
-    } as any;
-  }
 
   if (mapped.directionId && mapped.subDirectionIds?.length) {
     mapped.directionSubDirectionIds = mapped.subDirectionIds.map((subDirectionId) => ({

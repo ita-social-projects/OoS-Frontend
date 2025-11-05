@@ -1,6 +1,7 @@
 import { firstValueFrom } from 'rxjs';
-import { base64ArrayToFiles, blobsToBase64, blobToBase64 } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles, blobsToBase64, blobToBase64, mapDescriptionInfo } from 'shared/utils/provider.utils';
 import { base64ToFile } from 'ngx-image-cropper';
+import { Description } from 'shared/models/competition.model';
 import { addBeforeUnloadProtection, arraysEqualByValue, Util } from './utils';
 
 describe('formatTimeString', () => {
@@ -309,5 +310,33 @@ describe('arraysEqualByValue', () => {
 
   it('should return true for arrays with the same values in different order', () => {
     expect(arraysEqualByValue([1, 2, 3], [3, 2, 1])).toBe(true);
+  });
+});
+
+describe('mapDescriptionInfo', () => {
+  it('should map, clean and enrich description info correctly', () => {
+    const mockDescription = {
+      formOfLearning: 'online',
+      directionId: 1,
+      subDirectionIds: [10, 20],
+      competitiveEventDescriptionItems: [
+        { someSection: 'item1', competitiveEventId: 5 },
+        { someSection: 'item2', competitiveEventId: 6 }
+      ]
+    };
+
+    const result = mapDescriptionInfo(mockDescription as unknown as Description);
+
+    expect(result).toEqual({
+      formOfLearning: 'online',
+      directionId: 1,
+      subDirectionIds: [10, 20],
+      plannedFormatOfClasses: 'online',
+      competitiveEventDescriptionItems: [{ someSection: 'item1' }, { someSection: 'item2' }],
+      directionSubDirectionIds: [
+        { directionId: 1, subDirectionId: 10 },
+        { directionId: 1, subDirectionId: 20 }
+      ]
+    });
   });
 });

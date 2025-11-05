@@ -22,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entities } from 'shared/enum/entities';
 import { ModeConstants } from 'shared/constants/constants';
+import { base64ArrayToFiles } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -160,6 +161,11 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    */
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.base64ImageFiles?.length) {
+      const files = base64ArrayToFiles(this.competition.base64ImageFiles);
+      this.DescriptionFormGroup.get('imageFiles')?.setValue(files);
+    }
 
     if (this.competition.directionSubDirectionIds?.length) {
       const direction = this.competition.directionSubDirectionIds[0].directionId;

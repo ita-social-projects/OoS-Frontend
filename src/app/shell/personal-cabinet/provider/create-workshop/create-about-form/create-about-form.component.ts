@@ -28,6 +28,7 @@ import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/a
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
 import { Entities } from 'shared/enum/entities';
+import { base64ToFile } from 'ngx-image-cropper';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -136,6 +137,11 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
    */
   public activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
+
+    if (this.workshop.base64CoverImage) {
+      const file = base64ToFile(this.workshop.base64CoverImage);
+      this.AboutFormGroup.get('coverImage')?.setValue([file]);
+    }
 
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });

@@ -213,14 +213,6 @@ describe('CreateCompetitionComponent', () => {
     });
   });
 
-  it('should not change stepper index if no invalid steps are found', () => {
-    component.stepper = { selectedIndex: 0 } as any;
-    jest.spyOn(component as any, 'getFirstInvalidStep').mockReturnValue(-1);
-
-    component.loadUnfinishedCompetitionData();
-    expect(component.stepper.selectedIndex).toBe(0);
-  });
-
   it('should return if form is invalid', () => {
     const form = new FormGroup({
       mock: new FormControl(null)

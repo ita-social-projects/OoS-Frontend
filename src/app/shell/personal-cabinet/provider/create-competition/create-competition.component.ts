@@ -462,7 +462,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     };
 
     const about$ = createUnfinishedAbout(this.createUnfinishedRequired());
-    const description$ = createUnfinishedDescription(mapDescriptionInfo(this.competition, this.createDescription()));
+    const description$ = createUnfinishedDescription(mapDescriptionInfo(this.createDescription()));
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([
       [1, [about$]],

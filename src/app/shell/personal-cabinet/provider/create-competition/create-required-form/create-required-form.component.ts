@@ -18,6 +18,7 @@ import { CopperConfig } from 'shared/configs/copper.config';
 import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Entities } from 'shared/enum/entities';
+import { base64ToFile } from 'ngx-image-cropper';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -119,6 +120,11 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
    */
   public activateEditMode(): void {
     this.RequiredFormGroup.patchValue(this.competition, { emitEvent: false });
+
+    if (this.competition.base64CoverImage) {
+      const file = base64ToFile(this.competition.base64CoverImage);
+      this.RequiredFormGroup.get('coverImage')?.setValue([file]);
+    }
 
     if (this.competition.coverImageId) {
       this.RequiredFormGroup.get('coverImageId').setValue([this.competition.coverImageId], { emitEvent: false });

@@ -468,10 +468,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     }
     const about$ = createUnfinishedAbout(about);
     const additional$ = of(this.createAdditionalAbout());
-    let descriptionInfo = { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() };
-    if (this.workshop?.base64ImageFiles?.length) {
-      descriptionInfo = { ...descriptionInfo, base64ImageFiles: this.workshop.base64ImageFiles };
-    }
+    const descriptionInfo = { ...this.AdditionalAboutGroup.getRawValue(), ...this.DescriptionFormGroup.getRawValue() };
     const description$ = createUnfinishedDescription(descriptionInfo);
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([

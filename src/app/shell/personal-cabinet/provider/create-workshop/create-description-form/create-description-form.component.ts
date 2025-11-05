@@ -31,6 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { Entities } from 'shared/enum/entities';
+import { base64ArrayToFiles } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -223,6 +224,11 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
    */
   public activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+
+    if (this.workshop.base64ImageFiles?.length) {
+      const files = base64ArrayToFiles(this.workshop.base64ImageFiles);
+      this.DescriptionFormGroup.get('imageFiles')?.setValue(files);
+    }
 
     this.workshop.keywords?.forEach((keyWord: string) => {
       this.keyWordsCtrl.setValue(keyWord);
