@@ -4,11 +4,16 @@
     <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
 
     <ng-template #isUnauthorized>
-      <div class="mobile-sidenav-header">
-        <button mat-stroked-button class="header-login" (click)="login()">{{ 'LOGIN' | translate }}</button>
-        <button mat-button class="button-close" (click)="changeView()">
-          <mat-icon>close</mat-icon>
-        </button>
+      <div class="flex flex-col">
+        <div class="mobile-sidenav-header">
+          <button mat-stroked-button class="header-login" (click)="login()">{{ 'LOGIN' | translate }}</button>
+          <button mat-button class="button-close" (click)="changeView()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="mobile-sidenav-theme">
+          <app-theme-switcher></app-theme-switcher>
+        </div>
       </div>
     </ng-template>
 
