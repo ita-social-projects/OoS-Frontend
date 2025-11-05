@@ -19,7 +19,7 @@ import { WorkshopType } from 'shared/enum/workshop';
 import * as ProviderUtils from 'shared/utils/provider.utils';
 import { shouldBeDraft } from 'shared/utils/provider.utils';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetUnfinishedCompetition, OnSaveWorkshopStep } from 'shared/store/provider.actions';
+import { GetUnfinishedCompetition, OnSaveCompetitionStep } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
 import { ModeConstants } from 'shared/constants/constants';
@@ -228,7 +228,7 @@ describe('CreateCompetitionComponent', () => {
     const extraData = { description: 'Test Description' };
     (component as any).dispatchUnfinishedData(step, extraData);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new OnSaveWorkshopStep({ data: expect.any(Object), step }));
+    expect(store.dispatch).toHaveBeenCalledWith(new OnSaveCompetitionStep({ data: expect.any(Object), step }));
   });
 
   it('should execute stepActions correctly', () => {
@@ -816,11 +816,10 @@ describe('CreateCompetitionComponent', () => {
           ])
         );
 
-        (component as any).unfinishedWorkshopTypeMap = {
+        (component as any).unfinishedCompetitionTypeMap = {
           1: 'Type1',
           2: 'Type2',
-          3: 'Type3',
-          4: 'Type4'
+          3: 'Type3'
         };
 
         (component as any).provider = { id: 'test-provider-id' };
@@ -839,7 +838,7 @@ describe('CreateCompetitionComponent', () => {
       it('should handle step 1 with only about data', (done) => {
         (component as any).createStepData(1).subscribe((result) => {
           expect(result).toEqual({
-            $type: 'withAboutProperties',
+            $type: 'Type1',
             providerId: 'test-provider-id',
             about: 'test about'
           });
@@ -850,7 +849,7 @@ describe('CreateCompetitionComponent', () => {
       it('should handle step 2 with about and description data', (done) => {
         (component as any).createStepData(2).subscribe((result) => {
           expect(result).toEqual({
-            $type: 'withDescription',
+            $type: 'Type2',
             providerId: 'test-provider-id',
             about: 'test about',
             description: 'test description'
@@ -862,7 +861,7 @@ describe('CreateCompetitionComponent', () => {
       it('should handle step 3 with all data including contacts', (done) => {
         (component as any).createStepData(3).subscribe((result) => {
           expect(result).toEqual({
-            $type: 'withContacts',
+            $type: 'Type3',
             providerId: 'test-provider-id',
             about: 'test about',
             description: 'test description',
@@ -887,7 +886,7 @@ describe('CreateCompetitionComponent', () => {
 
         (component as any).createStepData(2).subscribe((result) => {
           expect(result).toEqual({
-            $type: 'withDescription',
+            $type: 'Type2',
             providerId: 'test-provider-id',
             name: 'from about',
             shared: 'about value',
