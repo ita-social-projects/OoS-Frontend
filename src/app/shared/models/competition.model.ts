@@ -115,6 +115,12 @@ export abstract class CompetitionBase {
     if (description.competitiveSelectionDescription) {
       this.competitiveSelectionDescription = description.competitiveSelectionDescription;
     }
+    if (description.directionId && description.subDirectionIds.length) {
+      this.directionSubDirectionIds = [];
+      description.subDirectionIds.forEach((subDirectionId) => {
+        this.directionSubDirectionIds.push({ directionId: description.directionId, subDirectionId });
+      });
+    }
   }
 }
 
@@ -232,6 +238,7 @@ export class CompetitiveDescriptionItem extends SectionItem {
 export interface Description {
   directionId?: number;
   subDirectionIds: number[];
+  directionSubDirectionIds: { directionId: number; subDirectionId: number }[];
   coverageId: CompetitionCoverage;
   formOfLearning?: FormOfLearning;
   additionalDescription?: string;

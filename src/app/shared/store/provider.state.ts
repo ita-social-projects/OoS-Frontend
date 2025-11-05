@@ -1599,7 +1599,7 @@ export class ProviderState {
     ctx.dispatch(new ShowMessageBar({ message: SnackbarText.deleteDraftFail, type: 'error' }));
   }
 
-  @Action(providerActions.OnDeleteUnfinishedWorkshopSuccess)
+  @Action(providerActions.OnDeleteUnfinishedCompetitionSuccess)
   onDeleteUnfinishedCompetitionSuccess(ctx: StateContext<ProviderStateModel>): void {
     ctx.patchState({ unfinishedCompetition: null });
   }

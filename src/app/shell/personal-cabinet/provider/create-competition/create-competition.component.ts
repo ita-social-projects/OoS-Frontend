@@ -35,7 +35,13 @@ import { Contacts } from 'shared/models/workshop.model';
 import { Subdirection } from 'shared/models/category.model';
 import { WorkshopType } from 'shared/enum/workshop';
 import { Util } from 'shared/utils/utils';
-import { createUnfinishedAbout, createUnfinishedDescription, shouldBeDraft, submittingRealEntity } from 'shared/utils/provider.utils';
+import {
+  createUnfinishedAbout,
+  createUnfinishedDescription,
+  mapDescriptionInfo,
+  shouldBeDraft,
+  submittingRealEntity
+} from 'shared/utils/provider.utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { GetCodeficatorById } from 'shared/store/meta-data.actions';
@@ -456,13 +462,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     };
 
     const about$ = createUnfinishedAbout(this.createUnfinishedRequired());
-    const descInfo = this.createDescription();
-    descInfo.competitiveEventDescriptionItems.forEach((item) => delete item.competitiveEventId);
-    let mappedDescInfo = { ...descInfo, plannedFormatOfClasses: descInfo.formOfLearning };
-    if (this.competition?.base64ImageFiles?.length) {
-      mappedDescInfo = { ...mappedDescInfo, base64ImageFiles: this.competition.base64ImageFiles } as any;
-    }
-    const description$ = createUnfinishedDescription(mappedDescInfo);
+    const description$ = createUnfinishedDescription(mapDescriptionInfo(this.competition, this.createDescription()));
     const contacts$ = this.createContactsWithCodeficator().pipe(map((contacts) => ({ contacts })));
     const stepConfig = new Map<number, Observable<any>[]>([
       [1, [about$]],

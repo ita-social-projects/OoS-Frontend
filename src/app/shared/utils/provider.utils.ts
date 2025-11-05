@@ -1,7 +1,7 @@
 import { Role } from 'shared/enum/role';
 import { UnfinishedWorkshopAbout, Workshop, WorkshopAbout, WorkshopDraftState } from 'shared/models/workshop.model';
 import { forkJoin, Observable, of } from 'rxjs';
-import { Competition, CompetitionRequired, UnfinishedCompetitionRequired } from 'shared/models/competition.model';
+import { Competition, CompetitionRequired, Description, UnfinishedCompetitionRequired } from 'shared/models/competition.model';
 import { Util } from 'shared/utils/utils';
 import { WorkshopType } from 'shared/enum/workshop';
 import { map } from 'rxjs/operators';
@@ -116,4 +116,31 @@ export function createUnfinishedDescription<T extends { imageFiles?: Blob[]; bas
       base64ImageFiles: [...base64ImageFiles, ...(descriptionInfo.base64ImageFiles || [])]
     }))
   );
+}
+
+export function mapDescriptionInfo(competition: Competition, descInfo: Description): any {
+  descInfo.competitiveEventDescriptionItems.forEach((item) => {
+    delete item.competitiveEventId;
+  });
+
+  let mapped = {
+    ...descInfo,
+    plannedFormatOfClasses: descInfo.formOfLearning
+  };
+
+  if (competition?.base64ImageFiles?.length) {
+    mapped = {
+      ...mapped,
+      base64ImageFiles: competition.base64ImageFiles
+    } as any;
+  }
+
+  if (mapped.directionId && mapped.subDirectionIds?.length) {
+    mapped.directionSubDirectionIds = mapped.subDirectionIds.map((subDirectionId) => ({
+      directionId: mapped.directionId,
+      subDirectionId
+    }));
+  }
+
+  return Object.fromEntries(Object.entries(mapped).filter(([_, value]) => value));
 }
