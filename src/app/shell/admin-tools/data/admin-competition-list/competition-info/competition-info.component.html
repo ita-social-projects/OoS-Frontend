@@ -92,9 +92,6 @@
         {{ competition.descriptionOfTheEnrollmentProcedure }}
       </p>
 
-      <h5>{{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</h5>
-      <p *ngIf="competition.termsOfParticipation; else notSpecified">{{ competition.termsOfParticipation }}</p>
-
       <h5>{{ 'FORMS.LABELS.VENUE_NAME' | translate }}</h5>
       <p *ngIf="competition.venueName; else notSpecified">{{ competition.venueName }}</p>
 
