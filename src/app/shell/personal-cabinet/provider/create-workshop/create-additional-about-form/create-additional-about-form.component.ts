@@ -223,6 +223,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
       }
       this.priceControl.markAsUntouched();
       this.payRateControl.markAsUntouched();
+      this.markFormAsDirtyOnUserInteraction();
     });
   }
 
