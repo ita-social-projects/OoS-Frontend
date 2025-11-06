@@ -106,7 +106,8 @@
           </a>
           <span class="icon-text" *ngIf="competition.scheduledStartTime">
             <mat-icon class="icon">schedule</mat-icon>
-            {{ competition.scheduledStartTime | date: 'd MMMM, HH:mm' }}
+            {{ 'REGISTRATION' | translate }}:
+            {{ competition.scheduledStartTime | date: 'd MMMM' }}
           </span>
           <span class="icon-text" *ngIf="competition.registrationEndTime">
             <mat-icon class="icon">event_clock</mat-icon>
