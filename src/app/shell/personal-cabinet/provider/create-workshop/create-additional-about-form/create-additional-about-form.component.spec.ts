@@ -77,7 +77,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       component.priceRadioBtn.setValue(false);
 
       expect(component.priceControl.value).toBe(null);
-      expect(component.payRateControl.value).toBe(PayRateType.None);
+      expect(component.payRateControl.value).toBe(null);
     });
   });
 
@@ -109,22 +109,6 @@ describe('CreateAdditionalAboutFormComponent', () => {
     expect(component.AdditionalAboutGroup.get('educationalShift').value).toBe(mockWorkshop.educationalShift);
     expect(component.AdditionalAboutGroup.get('ageComposition').value).toBe(mockWorkshop.ageComposition);
     expect(component.AdditionalAboutGroup.get('workshopType').value).toBe(mockWorkshop.workshopType);
-  });
-
-  describe('price listener', () => {
-    it('should mark as touched if value entered', () => {
-      jest.spyOn(component.payRateControl, 'markAsTouched');
-      component.priceControl.setValue(100);
-
-      expect(component.payRateControl.markAsTouched).toHaveBeenCalled();
-    });
-
-    it('should mark as untouched if value is erased', () => {
-      jest.spyOn(component.payRateControl, 'markAsUntouched');
-      component.priceControl.setValue(null);
-
-      expect(component.payRateControl.markAsUntouched).toHaveBeenCalled();
-    });
   });
 
   describe('checkIfMinSport', () => {
@@ -233,7 +217,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       (component as any).handlePriceChange();
 
       expect(setPriceControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
-      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(PayRateType.None, 'disable', false);
+      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
     });
 
     it('should disable price and payRate controls when workshop price is 0', () => {
@@ -245,7 +229,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       (component as any).handlePriceChange();
 
       expect(setPriceControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
-      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(PayRateType.None, 'disable', false);
+      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
     });
 
     it('should disable price and payRate controls when workshop price is undefined', () => {
@@ -257,7 +241,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
       (component as any).handlePriceChange();
 
       expect(setPriceControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
-      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(PayRateType.None, 'disable', false);
+      expect(setPayRateControlValueSpy).toHaveBeenCalledWith(null, 'disable', false);
     });
   });
 
