@@ -413,8 +413,9 @@ input:focus {
   outline: none;
 }
 
+.disabled,
 input:disabled {
-  background-color: var(--bg-disabled);
+  opacity: 0.5;
 }
 
 input {
