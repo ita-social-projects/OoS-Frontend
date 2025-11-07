@@ -4,36 +4,34 @@
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
     <div class="container flex flex-row justify-between items-stretch">
       <div class="price flex flex-row justify-center items-center">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true">
-          <input
-            matInput
-            class="step-input price-input"
-            appDigitOnly
-            formControlName="price"
-            type="number"
-            [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE" />
-        </mat-radio-button>
-        <p class="step-text price-only-uah">{{ 'FORMS.UAH' | translate }}</p>
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
+        <input
+          matInput
+          class="step-input price-input"
+          appDigitOnly
+          formControlName="price"
+          type="number"
+          [min]="validationConstants.MIN_PRICE"
+          [max]="validationConstants.MAX_PRICE" />
       </div>
-      <div class="pay-type flex flex-row items-center justify-center box-border">
+      <div class="pay-type flex flex-row items-center justify-center box-border" [class.disabled]="priceControl.disabled">
         <div class="prices-texts flex flex-row">
           <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
           <p class="step-text for-only-text">{{ 'FORMS.FOR' | translate }}</p>
         </div>
-        <mat-select
-          disableOptionCentering
-          panelClass="dropdown-panel"
-          class="step-input payment-type-input"
-          formControlName="payRate"
-          name="payRate"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
-          <ng-container *ngFor="let type of PayRateType | keyvalue">
-            <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
-              {{ PayRateTypeEnum[type.key] | translate }}
-            </mat-option>
-          </ng-container>
-        </mat-select>
+        <mat-form-field appearance="fill" class="flex-grow">
+          <mat-select
+            class="step-input payment-type-input"
+            formControlName="payRate"
+            name="payRate"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
+            <ng-container *ngFor="let type of PayRateType | keyvalue">
+              <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+                {{ PayRateTypeEnum[type.key] | translate }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
     <div class="pay-type__error">

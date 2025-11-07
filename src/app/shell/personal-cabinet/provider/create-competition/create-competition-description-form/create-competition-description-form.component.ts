@@ -283,8 +283,9 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       descriptionOfTheEnrollmentProcedure: new FormControl('', [
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       areThereBenefits: this.benefitsOptionRadioBtn,
       benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { AgeComposition, EducationalShift, GroupType, PayRateType, SpecialNeedsType } from 'shared/enum/workshop';
 import {
   AgeCompositionEnum,
@@ -93,7 +93,6 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
     }
 
     this.priceControlListener();
-    this.priceValueListener();
     this.listenToBenefitsChanges();
   }
 
@@ -105,7 +104,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
         specialNeedsType: this.workshop.specialNeedsType || this.SpecialNeedsType.None,
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
         ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
-        payRate: this.workshop.payRate,
+        payRate: this.workshop.payRate === PayRateType.None ? null : this.workshop.payRate,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
         preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation,
@@ -137,7 +136,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
         Validators.min(ValidationConstants.MIN_PRICE),
         Validators.max(ValidationConstants.MAX_PRICE)
       ]),
-      payRate: new FormControl({ value: PayRateType.None, disabled: true }, [Validators.required]),
+      payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       areThereBenefits: new FormControl(false),
       preferentialTermsOfParticipation: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
@@ -161,10 +160,10 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
   }
 
   /**
-   * This method sets 0 as value for payRate when the price is 0,
-   * otherwise it sets either workshop value, or PayRateType.None for selecting new value
+   * This method sets null as value for payRate if price radio was recently
+   * otherwise it sets either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = false): void {
+  private setPayRateControlValue(payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = false): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
 
@@ -204,7 +203,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
       this.priceRadioBtn.setValue(true);
     } else {
       this.setPriceControlValue(null, 'disable', false);
-      this.setPayRateControlValue(PayRateType.None, 'disable', false);
+      this.setPayRateControlValue(null, 'disable', false);
     }
   }
 
@@ -224,16 +223,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
       }
       this.priceControl.markAsUntouched();
       this.payRateControl.markAsUntouched();
-    });
-  }
-
-  private priceValueListener(): void {
-    this.priceControl.valueChanges.pipe(takeUntil(this.destroy$), distinctUntilChanged()).subscribe((value) => {
-      if (value) {
-        this.payRateControl.markAsTouched();
-      } else {
-        this.payRateControl.markAsUntouched();
-      }
+      this.markFormAsDirtyOnUserInteraction();
     });
   }
 

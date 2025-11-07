@@ -148,7 +148,7 @@
               formControlName="numberOfSeats"
               type="number"
               [min]="minSeats"
-              [max]="Constants.UNLIMITED_SEATS" />
+              [max]="validationConstants.MAX_SEATS" />
           </mat-radio-button>
           <app-info-menu
             *ngIf="isShowHintAboutCompetitionAutoClosing"
@@ -158,7 +158,11 @@
           </app-info-menu>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl" [minNumberValue]="minSeats"></app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="availableSeatsControl"
+        [isNumberValue]="true"
+        [minValue]="minSeats"
+        [maxValue]="validationConstants.MAX_SEATS"></app-validation-hint>
     </mat-radio-group>
   </div>
 </form>

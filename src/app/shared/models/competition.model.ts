@@ -111,6 +111,9 @@ export abstract class CompetitionBase {
     if (description.competitiveSelectionDescription) {
       this.competitiveSelectionDescription = description.competitiveSelectionDescription;
     }
+    if (description.plannedFormatOfClasses) {
+      this.plannedFormatOfClasses = description.plannedFormatOfClasses;
+    }
     if (description.directionId && description.subDirectionIds.length) {
       this.directionSubDirectionIds = [];
       description.subDirectionIds.forEach((subDirectionId) => {

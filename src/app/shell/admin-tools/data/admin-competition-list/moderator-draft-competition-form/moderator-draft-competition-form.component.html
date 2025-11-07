@@ -134,28 +134,28 @@
 
           <div class="step-label-combined">
             <label class="step-label" for="descriptionOfTheEnrollmentProcedure">
-              {{ 'FORMS.LABELS.TERMS_OF_PARTICIPATION' | translate }}</label
+              {{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</label
             >
             <span class="step-characters-count">
               {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}
-              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
             </span>
           </div>
           <mat-form-field appearance="fill">
             <textarea
               matInput
               class="step-textarea"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="descriptionOfTheEnrollmentProcedure"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
               appTrimValue></textarea>
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('descriptionOfTheEnrollmentProcedure')"
-            [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
-            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+            [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
+            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
           </app-validation-hint>
 
           <ng-container *ngIf="selectedCompetition.competitiveEventDetails.areThereBenefits">

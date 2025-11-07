@@ -12,6 +12,10 @@
   }
 }
 
+:host ::ng-deep i.info-icon {
+  color: var(--secondary-light-text-color);
+}
+
 .container {
   background: var(--bg-specific-light);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
