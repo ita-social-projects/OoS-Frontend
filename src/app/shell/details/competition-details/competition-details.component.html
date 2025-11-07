@@ -45,11 +45,12 @@
   </div>
 
   <div
-    *ngIf="competition.draftStatus === WorkshopDraftStatus.Draft || competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+    *ngIf="competition.draftStatus"
     class="draft-panel flex items-center"
     [ngClass]="{
       'draft-panel-draft': competition.draftStatus === WorkshopDraftStatus.Draft,
-      'draft-panel-pending': competition.draftStatus === WorkshopDraftStatus.PendingModeration
+      'draft-panel-pending': competition.draftStatus === WorkshopDraftStatus.PendingModeration,
+      'draft-panel-edited': competition.draftStatus === WorkshopDraftStatus.EditedByModerator
     }">
     <ng-container [ngSwitch]="competition.draftStatus">
       <span *ngSwitchCase="WorkshopDraftStatus.Draft">
@@ -57,6 +58,9 @@
       </span>
       <span *ngSwitchCase="WorkshopDraftStatus.PendingModeration">
         {{ 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.EditedByModerator">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.EDITED_BY_MODERATOR' | translate | uppercase }}
       </span>
     </ng-container>
   </div>
@@ -161,7 +165,7 @@
     class="chip"
     [ngClass]="{
       'chip-color-close': competition.state === CompetitionStatus.Completed,
-      'chip-color-draft': competition.state === CompetitionStatus.Draft
+      'chip-color-draft': competition.draftStatus
     }">
     {{
       (competition.state === CompetitionStatus.Completed ? RecruitmentStatusEnum.RecruitmentStoped : RecruitmentStatusEnum.Draft)
