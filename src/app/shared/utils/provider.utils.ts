@@ -132,7 +132,7 @@ export function mapDescriptionInfo(descInfo: Description): any {
       subDirectionId
     }));
   }
-  console.error(descInfo);
+
   return Object.fromEntries(Object.entries(descInfo).filter(([_, value]) => value));
 }
 
