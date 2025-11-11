@@ -213,9 +213,9 @@
             matInput
             class="step-input price-input"
             appDigitOnly
-            required
             formControlName="price"
             type="number"
+            inputmode="decimal"
             [min]="validationConstants.MIN_PRICE"
             [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>

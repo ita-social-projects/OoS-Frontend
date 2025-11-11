@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ValidationConstants } from 'shared/constants/validation';
-import { SEARCHBAR_REGEX_REPLACE, SEARCHBAR_REGEX_VALID } from 'shared/constants/regex-constants';
+import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
 
 @Component({
   template: ''
@@ -11,10 +11,7 @@ import { SEARCHBAR_REGEX_REPLACE, SEARCHBAR_REGEX_VALID } from 'shared/constants
 export abstract class SearchComponent implements OnInit, OnDestroy {
   @Output() public outputSearchFormControl = new EventEmitter<FormControl>();
   public filteredResults: string[];
-  public searchValueFormControl = new FormControl('', [
-    Validators.maxLength(ValidationConstants.MAX_SEARCH_LENGTH_200),
-    Validators.pattern(SEARCHBAR_REGEX_VALID)
-  ]);
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(ValidationConstants.MAX_SEARCH_LENGTH_250)]);
   protected searchedText: string;
   protected readonly destroy$: Subject<boolean> = new Subject<boolean>();
   protected abstract searchQuery$: Observable<string>;

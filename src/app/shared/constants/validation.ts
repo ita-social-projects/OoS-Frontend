@@ -53,7 +53,7 @@ export class ValidationConstants {
 
   // Search
   static readonly MIN_SEARCH_LENGTH_0 = 0;
-  static readonly MAX_SEARCH_LENGTH_200 = 200;
+  static readonly MAX_SEARCH_LENGTH_250 = 250;
 
   // Traffic and Rate
   static readonly MAX_RATE = 1000000;
