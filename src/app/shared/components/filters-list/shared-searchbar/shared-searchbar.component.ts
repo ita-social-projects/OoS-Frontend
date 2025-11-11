@@ -63,8 +63,7 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
       this.searchedText = searchValue;
       this.saveSearchResults();
       this.store.dispatch(new SetEntitySearchQueryValue(this.searchedText || ''));
-
-      this.searchValueFormControl.setValue(searchValue, { emitEvent: false });
+      this.outputSearchFormControl.emit(this.searchValueFormControl);
     } else {
       this.searchValueFormControl.markAllAsTouched();
     }
