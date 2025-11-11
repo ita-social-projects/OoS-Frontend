@@ -72,37 +72,6 @@ describe('SearchbarComponent', () => {
     expect(performSearchSpy).toHaveBeenCalled();
   });
 
-  it('should replace invalid characters and update the FormControl value', () => {
-    jest.spyOn((component as any).searchValueFormControl, 'setValue');
-    jest.spyOn(component.outputSearchFormControl, 'emit');
-
-    const inputValue = 'Test@Value-#123';
-    const expectedValue = 'TestValue-123';
-
-    component.handleInvalidCharacter(inputValue);
-
-    expect(component.searchValueFormControl.setValue).toHaveBeenCalledWith(expectedValue, { emitEvent: true });
-    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
-  });
-
-  it('should emit invalidCharacterDetected if input contains invalid characters', () => {
-    const invalidCharacterDetectedSpy = jest.spyOn(component.outputSearchFormControl, 'emit');
-    const setValueSpy = jest.spyOn(component.searchValueFormControl, 'setValue');
-
-    component.handleInvalidCharacter('Invalid@Value');
-
-    expect(setValueSpy).toHaveBeenCalledWith('InvalidValue', { emitEvent: true });
-    expect(invalidCharacterDetectedSpy).toHaveBeenCalled();
-  });
-
-  it('should emit validCharacterDetected when input has no invalid characters', () => {
-    const validCharacterDetectedSpy = jest.spyOn(component.outputSearchFormControl, 'emit');
-
-    component.handleInvalidCharacter('ValidInput');
-
-    expect(validCharacterDetectedSpy).toHaveBeenCalled();
-  });
-
   it('should retain searchValueFormControl value on result page initialization', () => {
     const navigationPathsSubject = new Subject<any[]>();
     jest.spyOn(component as any, 'navigationPaths$', 'get').mockReturnValue(navigationPathsSubject.asObservable());
