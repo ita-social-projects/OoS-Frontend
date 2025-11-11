@@ -217,8 +217,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         registrationDateRangeGroup: this.formBuilder.group({
-          start: null,
-          end: null
+          start: [null, Validators.required],
+          end: [null, Validators.required]
         }),
         competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
         parentCompetitionControl: new FormControl(null),
