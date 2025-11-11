@@ -140,7 +140,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
       areThereBenefits: new FormControl(false),
       preferentialTermsOfParticipation: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       institutionHierarchyId: new FormControl('', Validators.required),

@@ -260,8 +260,9 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       imageIds: new FormControl(''),
       workshopDescriptionItems: this.SectionItemsFormArray,
       preferentialTermsOfParticipation: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       institutionHierarchyId: new FormControl(''),
       institutionId: new FormControl('')
