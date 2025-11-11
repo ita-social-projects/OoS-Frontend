@@ -127,12 +127,10 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     const control = this.DescriptionFormGroup.get(controlName);
     radioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isEnabled: boolean) => {
       if (isEnabled) {
-        control.enable();
+        control.enable({ emitEvent: false });
       } else {
         control.disable();
         control.reset();
-        console.error(radioBtn);
-        console.error(control);
       }
       this.markFormAsDirtyOnUserInteraction();
     });
@@ -182,10 +180,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       this.DescriptionFormGroup.get('competitiveSelectionDescription').enable({ emitEvent: false });
     }
 
-    if (this.competition.coverageId) {
-      this.coverageControl.setValue(String(this.competition.coverageId), { emitEvent: false });
-    }
-
     if (this.competition.competitiveEventDescriptionItems?.length) {
       this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
         const itemFrom = this.newForm(item);
@@ -195,6 +189,10 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       });
     } else {
       this.onAddForm();
+    }
+
+    if (this.competition.isPaid) {
+      this.priceControl.enable({ emitEvent: false });
     }
 
     if (this.competition.areThereBenefits) {
@@ -277,7 +275,11 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray,
       isPaid: new FormControl(false),
-      price: new FormControl({ value: '', disabled: true }, Validators.required),
+      price: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+        Validators.min(ValidationConstants.MIN_PRICE),
+        Validators.max(ValidationConstants.MAX_PRICE)
+      ]),
       venueName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)

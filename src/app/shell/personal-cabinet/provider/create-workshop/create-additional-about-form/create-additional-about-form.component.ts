@@ -202,7 +202,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
   }
 
   private handlePriceChange(): void {
-    if (this.workshop.price) {
+    if (this.workshop.isPaid) {
       this.setPriceControlValue(this.workshop.price as number, 'enable', false);
       this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
       this.priceRadioBtn.setValue(true);

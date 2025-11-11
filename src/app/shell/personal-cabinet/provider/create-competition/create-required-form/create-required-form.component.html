@@ -43,6 +43,7 @@
           type="number"
           formControlName="minimumAge"
           appIntegerOnly
+          [min]="ValidationConstants.AGE_MIN"
           [max]="
             (RequiredFormGroup.get('maximumAge').value !== null
               ? RequiredFormGroup.get('maximumAge').value
@@ -68,7 +69,9 @@
           formControlName="maximumAge"
           appIntegerOnly
           [max]="ValidationConstants.BIRTH_AGE_MAX"
-          [min]="RequiredFormGroup.get('minimumAge').value !== null ? RequiredFormGroup.get('minimumAge').value + 1 : null"
+          [min]="
+            RequiredFormGroup.get('minimumAge').value !== null ? RequiredFormGroup.get('minimumAge').value + 1 : ValidationConstants.AGE_MIN
+          "
           autocomplete="off" />
       </div>
       <app-validation-hint
@@ -140,16 +143,15 @@
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
-          <mat-radio-button [value]="false">
-            <input
-              matInput
-              class="step-input seat-input"
-              appIntegerOnly
-              formControlName="numberOfSeats"
-              type="number"
-              [min]="minSeats"
-              [max]="validationConstants.MAX_SEATS" />
-          </mat-radio-button>
+          <mat-radio-button [value]="false"></mat-radio-button>
+          <input
+            matInput
+            class="step-input seat-input"
+            appIntegerOnly
+            formControlName="numberOfSeats"
+            type="number"
+            [min]="minSeats"
+            [max]="validationConstants.MAX_SEATS" />
           <app-info-menu
             *ngIf="isShowHintAboutCompetitionAutoClosing"
             [type]="InfoMenuType.Text"

@@ -28,7 +28,7 @@ export abstract class CompetitionBase {
   maximumAge?: number;
   competitiveSelection?: boolean;
   isPaid: boolean;
-  price?: number;
+  price?: number | string;
   areThereBenefits: boolean;
   benefits?: string;
   judges: Judge[];
