@@ -194,7 +194,7 @@
         'FORMS.PLACEHOLDERS.SYMBOLS' | translate
       }}"
       formControlName="descriptionOfTheEnrollmentProcedure"
-      maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}"
+      [maxlength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
       appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint
@@ -245,7 +245,7 @@
           <label class="step-label" for="benefitsOptionsDesc"> {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
           <span class="step-characters-count">
             {{ DescriptionFormGroup.get('benefitsOptionsDesc').value?.length ?? 0 }}
-            /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+            /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
           </span>
         </div>
         <mat-form-field appearance="fill">

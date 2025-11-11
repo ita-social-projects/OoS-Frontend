@@ -192,14 +192,14 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
         coverImageId: new FormControl(''),
         title: new FormControl('', [
           Validators.required,
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_250),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         shortTitle: new FormControl('', [
           Validators.required,
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         competitionDateRangeGroup: this.formBuilder.group({

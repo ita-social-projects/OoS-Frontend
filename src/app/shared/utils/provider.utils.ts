@@ -5,6 +5,9 @@ import { Competition, CompetitionRequired, Description, UnfinishedCompetitionReq
 import { Util } from 'shared/utils/utils';
 import { WorkshopType } from 'shared/enum/workshop';
 import { map } from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
+import { ValidationConstants } from 'shared/constants/validation';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 export const ProviderRoles = [Role.provider, Role.providerDeputy, Role.employee];
 
@@ -131,4 +134,21 @@ export function mapDescriptionInfo(descInfo: Description): any {
   }
 
   return Object.fromEntries(Object.entries(descInfo).filter(([_, value]) => value));
+}
+
+export function createDescriptionItems(): object {
+  return {
+    sectionName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+      Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
+      Validators.pattern(MUST_CONTAIN_LETTERS)
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+      Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+      Validators.pattern(MUST_CONTAIN_LETTERS)
+    ])
+  };
 }

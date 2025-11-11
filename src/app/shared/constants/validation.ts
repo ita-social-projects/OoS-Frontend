@@ -63,6 +63,8 @@ export class ValidationConstants {
   static readonly MAX_SEATS = 100000;
   static readonly UNLIMITED_SEATS = 2147483647;
   static readonly MIN_SEATS = 1;
+
+  static readonly URL_INPUT_LENGTH = 2048;
 }
 
 export class FormValidators {
@@ -97,7 +99,7 @@ export class FormValidators {
     Validators.required,
     Validators.pattern(SECTION_NAME_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-    Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_120)
   ];
 
   static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>

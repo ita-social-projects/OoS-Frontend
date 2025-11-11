@@ -18,8 +18,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="RequiredFormGroup.get('title')"
-    [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_250">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label>
@@ -28,8 +28,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="RequiredFormGroup.get('shortTitle')"
-    [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_120">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>

@@ -22,7 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entities } from 'shared/enum/entities';
 import { ModeConstants } from 'shared/constants/constants';
-import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles, createDescriptionItems } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -309,20 +309,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    * This method creates new FormGroup
    */
   private newForm(item?: CompetitiveDescriptionItem): FormGroup {
-    this.EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
-    });
+    this.EditFormGroup = this.formBuilder.group(createDescriptionItems());
 
     if (this.competition) {
       this.EditFormGroup.addControl('competitiveEventId', this.formBuilder.control(this.competition.id));
