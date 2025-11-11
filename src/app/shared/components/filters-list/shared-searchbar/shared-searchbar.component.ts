@@ -25,8 +25,6 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   private readonly previousResults$: Observable<string[]>;
   public readonly WorkshopType = WorkshopType;
 
-  private tempSearchValue: string = '';
-
   constructor(protected readonly store: Store) {
     super(store);
   }
@@ -39,7 +37,6 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
         map((value: string) => value.trim()),
         withLatestFrom(this.previousResults$),
         tap(([value, results]: [string, string[]]) => {
-          this.tempSearchValue = value;
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
         }),
         takeUntil(this.destroy$)
@@ -61,8 +58,7 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   }
 
   protected performSearch(): void {
-    const searchValue = this.handleInvalidCharacter(this.tempSearchValue);
-
+    const searchValue = this.searchValueFormControl.value;
     if (this.searchValueFormControl.valid && searchValue) {
       this.searchedText = searchValue;
       this.saveSearchResults();

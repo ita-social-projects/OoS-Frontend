@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { distinctUntilChanged, map, Observable, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { distinctUntilChanged, Observable, startWith, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Navigation } from 'shared/models/navigation.model';
@@ -48,9 +48,9 @@ export class SearchbarComponent extends SearchComponent implements OnInit, OnDes
       .pipe(
         distinctUntilChanged(),
         startWith(''),
-        map((value: string) => this.handleInvalidCharacter(value).trim()),
         withLatestFrom(this.previousResults$),
         tap(([value, results]: [string, string[]]) => {
+          this.outputSearchFormControl.emit(this.searchValueFormControl);
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
         }),
         takeUntil(this.destroy$)

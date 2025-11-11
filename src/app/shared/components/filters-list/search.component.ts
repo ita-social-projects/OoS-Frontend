@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ValidationConstants } from 'shared/constants/validation';
-import { SEARCHBAR_REGEX_REPLACE } from 'shared/constants/regex-constants';
 
 @Component({
   template: ''
@@ -35,20 +34,6 @@ export abstract class SearchComponent implements OnInit, OnDestroy {
 
   public onValueSelect(): void {
     this.performSearch();
-  }
-
-  public handleInvalidCharacter(value: string): string {
-    const validValue = value?.replace(SEARCHBAR_REGEX_REPLACE, '');
-    if (validValue !== value) {
-      this.searchValueFormControl.setValue(validValue, { emitEvent: true });
-      this.searchValueFormControl.setErrors({ ...this.searchValueFormControl.errors, invalidSearch: true });
-    } else {
-      const currentErrors = { ...this.searchValueFormControl.errors };
-      delete currentErrors.invalidSearch;
-      this.searchValueFormControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
-    }
-    this.outputSearchFormControl.emit(this.searchValueFormControl);
-    return validValue;
   }
 
   protected abstract performSearch(): void;
