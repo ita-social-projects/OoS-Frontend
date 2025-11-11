@@ -187,7 +187,6 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
   private initForm(): void {
     this.RequiredFormGroup = this.formBuilder.group(
       {
-        image: new FormControl(''),
         coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
         coverImageId: new FormControl(''),
         title: new FormControl('', [

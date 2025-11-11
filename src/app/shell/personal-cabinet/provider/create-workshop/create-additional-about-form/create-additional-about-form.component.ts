@@ -32,7 +32,6 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
   @Output() public passAdditionalAboutGroup = new EventEmitter<FormGroup>();
   public showChampionsPathCheckbox = false;
   public AdditionalAboutGroup: FormGroup;
-  public priceRadioBtn: FormControl = new FormControl(false);
 
   public isMinSportSelected = false;
 
@@ -56,6 +55,10 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
     private readonly formBuilder: FormBuilder
   ) {
     super(store, translateService);
+  }
+
+  public get priceRadioBtn(): FormControl {
+    return this.AdditionalAboutGroup.get('isPaid') as FormControl;
   }
 
   public get priceControl(): FormControl {
@@ -105,6 +108,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
         educationalShift: this.workshop.educationalShift || EducationalShift.First,
         ageComposition: this.workshop.ageComposition || AgeComposition.SameAge,
         payRate: this.workshop.payRate === PayRateType.None ? null : this.workshop.payRate,
+        isPaid: this.workshop.isPaid || false,
         price: this.workshop.price,
         areThereBenefits: this.workshop.areThereBenefits || false,
         preferentialTermsOfParticipation: this.workshop.preferentialTermsOfParticipation,
@@ -131,6 +135,7 @@ export class CreateAdditionalAboutFormComponent extends FieldsListenerComponent 
       educationalShift: new FormControl(this.EducationalShift.First, Validators.required),
       ageComposition: new FormControl(this.AgeComposition.SameAge, Validators.required),
       workshopType: new FormControl(this.GroupType.Workshop, Validators.required),
+      isPaid: new FormControl(false),
       price: new FormControl({ value: null, disabled: true }, [
         Validators.required,
         Validators.min(ValidationConstants.MIN_PRICE),

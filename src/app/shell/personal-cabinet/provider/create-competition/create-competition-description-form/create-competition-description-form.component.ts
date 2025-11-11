@@ -54,7 +54,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public DescriptionFormGroup: FormGroup;
   public selectionOptionRadioBtn: FormControl = new FormControl(false);
   public benefitsOptionRadioBtn: FormControl = new FormControl(false);
-  public priceRadioBtn: FormControl = new FormControl(false);
 
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray: FormArray = new FormArray([]);
@@ -62,7 +61,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
   protected readonly fieldsToListen = [
     'imageFiles',
-    'description',
     'disabilityOptionsDesc',
     'competitiveSelectionDescription',
     'descriptionOfTheEnrollmentProcedure',
@@ -89,6 +87,10 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
   public get coverageControl(): FormControl {
     return this.DescriptionFormGroup.get('coverageId') as FormControl;
+  }
+
+  public get priceRadioBtn(): FormControl {
+    return this.DescriptionFormGroup.get('isPaid') as FormControl;
   }
 
   public get priceControl(): FormControl {
@@ -129,6 +131,8 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       } else {
         control.disable();
         control.reset();
+        console.error(radioBtn);
+        console.error(control);
       }
       this.markFormAsDirtyOnUserInteraction();
     });
@@ -176,11 +180,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     if (this.competition.competitiveSelection) {
       this.selectionOptionRadioBtn.setValue(this.competition.competitiveSelection, { emitEvent: false });
       this.DescriptionFormGroup.get('competitiveSelectionDescription').enable({ emitEvent: false });
-    }
-
-    if (this.competition.price) {
-      this.priceRadioBtn.setValue(!!this.competition.price, { emitEvent: false });
-      this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
     }
 
     if (this.competition.coverageId) {
@@ -277,7 +276,8 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray,
-      price: new FormControl({ value: 0, disabled: true }),
+      isPaid: new FormControl(false),
+      price: new FormControl({ value: '', disabled: true }, Validators.required),
       venueName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)

@@ -27,6 +27,7 @@ export abstract class CompetitionBase {
   minimumAge?: number;
   maximumAge?: number;
   competitiveSelection?: boolean;
+  isPaid: boolean;
   price?: number;
   areThereBenefits: boolean;
   benefits?: string;
@@ -62,6 +63,7 @@ export abstract class CompetitionBase {
     this.organizerOfTheEventId = provider.id;
     this.contacts = contacts;
     this.coverageId = description.coverageId;
+    this.isPaid = description.isPaid;
 
     this.competitiveSelection = Boolean(description.competitiveSelectionDescription);
     this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
@@ -242,6 +244,7 @@ export interface Description {
   plannedFormatOfClasses?: FormOfLearning;
   additionalDescription?: string;
   descriptionOfTheEnrollmentProcedure?: string;
+  isPaid: boolean;
   price?: number;
   benefitsOptionsDesc?: string;
   benefits?: string;
