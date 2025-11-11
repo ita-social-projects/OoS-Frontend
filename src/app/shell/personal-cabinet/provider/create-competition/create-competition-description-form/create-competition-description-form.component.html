@@ -126,7 +126,7 @@
         <label class="step-label" for="competitiveSelectionDescription"> {{ 'INFO_ABOUT_SELECTION' | translate }}</label>
         <span class="step-characters-count">
           {{ DescriptionFormGroup.get('competitiveSelectionDescription').value?.length ?? 0 }}/{{
-            validationConstants.MAX_DESCRIPTION_LENGTH_500
+            validationConstants.MAX_DESCRIPTION_LENGTH_2000
           }}
         </span>
       </div>
@@ -135,11 +135,11 @@
           matInput
           class="step-textarea"
           [ngClass]="{ 'disabled-field': !selectionOptionRadioBtn.value }"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
             'FORMS.PLACEHOLDERS.SYMBOLS' | translate
           }}"
           formControlName="competitiveSelectionDescription"
-          maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+          maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}"
           appTrimValue
           (focusout)="onFocusOut('competitiveSelectionDescription')"
           id="competitiveSelectionDescription"></textarea>
@@ -147,7 +147,7 @@
       <app-validation-hint
         [validationFormControl]="DescriptionFormGroup.get('competitiveSelectionDescription')"
         [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
-        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
       </app-validation-hint>
     </ng-container>
   </mat-radio-group>

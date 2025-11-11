@@ -91,27 +91,24 @@
                 <span class="step-required">*</span>
               </label>
               <label for="competitiveSelectionDescription" class="step-characters-count">
-                <ng-container *ngIf="form.get('competitiveSelectionDescription').value; else elseBlock">
-                  {{ form.get('competitiveSelectionDescription').value?.length }}
-                  /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
-                </ng-container>
-                <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
+                {{ form.get('competitiveSelectionDescription').value?.length || '0' }}
+                /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
               </label>
             </div>
             <textarea
               matInput
               required
               class="step-textarea step-textarea-short"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="competitiveSelectionDescription"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
             </textarea>
             <app-validation-hint
               [validationFormControl]="form.get('competitiveSelectionDescription')"
-              [minCharacters]="validationConstants.INPUT_LENGTH_1"
-              [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+              [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
+              [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
             </app-validation-hint>
           </ng-container>
 

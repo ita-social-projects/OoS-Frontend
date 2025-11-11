@@ -108,6 +108,8 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
         competitiveSelection: new FormControl(false),
         competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
           Validators.required,
+          Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+          Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         enrollmentProcedureDescription: new FormControl('', [
