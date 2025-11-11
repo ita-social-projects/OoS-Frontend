@@ -95,7 +95,7 @@
           {{ subDirection }}
         </div>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row mt-3">
         <div class="flex flex-col">
           <span class="icon-text">
             <mat-icon class="icon">star</mat-icon>
@@ -162,6 +162,7 @@
 </div>
 <ng-template #ClosedWorkshopStatus>
   <div
+    *ngIf="competition.state === CompetitionStatus.Completed || competition.draftStatus"
     class="chip"
     [ngClass]="{
       'chip-color-close': competition.state === CompetitionStatus.Completed,
