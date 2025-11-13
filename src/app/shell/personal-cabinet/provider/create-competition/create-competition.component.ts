@@ -103,7 +103,7 @@ export class CreateCompetitionComponent extends CreateFormComponent implements O
     'additionalDescription',
     'descriptionOfTheEnrollmentProcedure',
     'competitiveEventDescriptionItems',
-    'benefitsOptionsDesc'
+    'benefits'
   ];
 
   private readonly stepActions = {

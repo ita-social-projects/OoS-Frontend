@@ -129,22 +129,22 @@ describe('CreateCompetitionDescriptionFormComponent', () => {
       component.priceRadioBtn.setValue(true);
       component.priceControl.setValue(1, { emitEvent: false });
       component.benefitsOptionRadioBtn.setValue(true);
-      component.DescriptionFormGroup.get('benefitsOptionsDesc').setValue('some val');
+      component.DescriptionFormGroup.get('benefits').setValue('some val');
       component.priceRadioBtn.setValue(false);
 
       expect(component.benefitsOptionRadioBtn.value).toBe(false);
-      expect(component.DescriptionFormGroup.get('benefitsOptionsDesc').value).toBeFalsy();
+      expect(component.DescriptionFormGroup.get('benefits').value).toBeFalsy();
     });
 
     it('should not touch benefits radio if price was changed', () => {
       component.priceRadioBtn.setValue(true);
       component.priceControl.setValue(1);
       component.benefitsOptionRadioBtn.setValue(true);
-      component.DescriptionFormGroup.get('benefitsOptionsDesc').setValue('some val');
+      component.DescriptionFormGroup.get('benefits').setValue('some val');
       component.priceControl.setValue(12);
 
       expect(component.benefitsOptionRadioBtn.value).toBe(true);
-      expect(component.DescriptionFormGroup.get('benefitsOptionsDesc').value).toEqual('some val');
+      expect(component.DescriptionFormGroup.get('benefits').value).toEqual('some val');
     });
   });
 

@@ -65,7 +65,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     'competitiveSelectionDescription',
     'descriptionOfTheEnrollmentProcedure',
     'competitiveEventDescriptionItems',
-    'benefitsOptionsDesc'
+    'benefits'
   ];
 
   constructor(
@@ -142,7 +142,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public initializeFormControls(): void {
     const controls = [
       { name: 'competitiveSelectionDescription', radioBtn: this.selectionOptionRadioBtn },
-      { name: 'benefitsOptionsDesc', radioBtn: this.benefitsOptionRadioBtn },
+      { name: 'benefits', radioBtn: this.benefitsOptionRadioBtn },
       { name: 'price', radioBtn: this.priceRadioBtn }
     ];
 
@@ -197,7 +197,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
     if (this.competition.areThereBenefits) {
       this.benefitsOptionRadioBtn.setValue(this.competition.areThereBenefits, { emitEvent: false });
-      const benefitsControl = this.DescriptionFormGroup.get('benefitsOptionsDesc');
+      const benefitsControl = this.DescriptionFormGroup.get('benefits');
       benefitsControl.setValue(this.competition.benefits);
       benefitsControl.enable({ emitEvent: false });
     }
@@ -290,7 +290,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       areThereBenefits: this.benefitsOptionRadioBtn,
-      benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
+      benefits: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)

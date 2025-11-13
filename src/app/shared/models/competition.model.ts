@@ -66,7 +66,7 @@ export abstract class CompetitionBase {
     this.isPaid = description.isPaid;
 
     this.competitiveSelection = Boolean(description.competitiveSelectionDescription);
-    this.areThereBenefits = Boolean(description.benefitsOptionsDesc);
+    this.areThereBenefits = Boolean(description.benefits);
 
     if (id) {
       this.id = id;
@@ -104,8 +104,8 @@ export abstract class CompetitionBase {
     if (description.price) {
       this.price = description.price;
     }
-    if (description.benefitsOptionsDesc) {
-      this.benefits = description.benefitsOptionsDesc;
+    if (description.benefits) {
+      this.benefits = description.benefits;
     }
     if (description.competitiveEventDescriptionItems) {
       this.competitiveEventDescriptionItems = description.competitiveEventDescriptionItems;
@@ -246,7 +246,6 @@ export interface Description {
   descriptionOfTheEnrollmentProcedure?: string;
   isPaid: boolean;
   price?: number;
-  benefitsOptionsDesc?: string;
   benefits?: string;
   venueName?: string;
   termsOfParticipation?: string;

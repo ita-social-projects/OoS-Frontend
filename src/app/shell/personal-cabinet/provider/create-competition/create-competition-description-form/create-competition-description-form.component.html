@@ -241,9 +241,9 @@
       </mat-radio-button>
       <ng-container *ngIf="benefitsOptionRadioBtn.value">
         <div class="step-label-combined">
-          <label class="step-label" for="benefitsOptionsDesc"> {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
+          <label class="step-label" for="benefits"> {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
           <span class="step-characters-count">
-            {{ DescriptionFormGroup.get('benefitsOptionsDesc').value?.length ?? 0 }}
+            {{ DescriptionFormGroup.get('benefits').value?.length ?? 0 }}
             /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
           </span>
         </div>
@@ -255,14 +255,14 @@
             placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
               'FORMS.PLACEHOLDERS.SYMBOLS' | translate
             }}"
-            formControlName="benefitsOptionsDesc"
+            formControlName="benefits"
             maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
             appTrimValue
-            (focusout)="onFocusOut('benefitsOptionsDesc')"
-            id="benefitsOptionsDesc"></textarea>
+            (focusout)="onFocusOut('benefits')"
+            id="benefits"></textarea>
         </mat-form-field>
         <app-validation-hint
-          [validationFormControl]="DescriptionFormGroup.get('benefitsOptionsDesc')"
+          [validationFormControl]="DescriptionFormGroup.get('benefits')"
           [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
           [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
         </app-validation-hint>
