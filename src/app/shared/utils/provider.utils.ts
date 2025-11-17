@@ -136,7 +136,7 @@ export function mapDescriptionInfo(descInfo: Description): any {
   return Object.fromEntries(Object.entries(descInfo).filter(([_, value]) => value));
 }
 
-export function createDescriptionItems(): object {
+export function createDescriptionItems(): Record<string, FormControl> {
   return {
     sectionName: new FormControl('', [
       Validators.required,
