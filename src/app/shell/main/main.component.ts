@@ -152,7 +152,7 @@ export class MainComponent implements OnInit, OnDestroy {
           maxWidth: incompleteBoth ? Constants.MODAL_MEDIUM : Constants.MODAL_SMALL
         })
         .afterClosed()
-        .subscribe((result: boolean | string) => {
+        .subscribe((result: boolean | string | undefined) => {
           const isWorkshop = (result === true && !incompleteCompetition) || (result === true && incompleteBoth);
           const isCompetition = (result === 'secondOption' && incompleteBoth) || (result === true && incompleteCompetition);
 
@@ -160,7 +160,7 @@ export class MainComponent implements OnInit, OnDestroy {
             this.continueUnfinishedCreation('workshop');
           } else if (isCompetition) {
             this.continueUnfinishedCreation('competition');
-          } else if (!result) {
+          } else if (result === false) {
             const target = incompleteBoth ? null : incompleteCompetition ? 'competition' : 'workshop';
 
             if (target) {

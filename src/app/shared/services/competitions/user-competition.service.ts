@@ -179,6 +179,10 @@ export class UserCompetitionService {
     const formNames = ['contacts', 'competitiveEventDescriptionItems', 'judges', 'subDirectionIds', 'imageIds'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
+    if (competition.price) {
+      competition.price = competition.price.toString().replace('.', ',');
+    }
+
     Object.keys(competition).forEach((key: string) => {
       if (competition[key] !== null && competition[key] !== undefined) {
         if (imageFiles.includes(key)) {

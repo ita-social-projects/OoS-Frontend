@@ -226,7 +226,6 @@ export class CreateAboutFormComponent extends FieldsListenerComponent implements
           startDate: new FormControl<Date | null>(null, Validators.required),
           endDate: new FormControl<Date | null>(null, Validators.required)
         }),
-        image: new FormControl(''),
         dateTimeRanges: this.dateTimeRangesArray,
         languageOfEducationId: new FormControl(null, Validators.required),
         formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),

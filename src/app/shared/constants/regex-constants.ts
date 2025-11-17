@@ -35,19 +35,13 @@ export const STREET_REGEX: RegExp = /^(?=.*[А-Яа-яЇїІіЄєЁёҐґ])[А-
 // Regex for house number
 export const HOUSE_REGEX: RegExp =
   // eslint-disable-next-line max-len
-  /^(?=.*\d)(?!.*[\/\-.]$)(?!\d+.*\/.*\/)(?!\d+.*-.*-)(?!\d+.*\..*\.)\d+(?:[А-Яа-яЇїІіЄєЁёҐґ]*)?(?:(?:[\/\-.])?(?:[\dА-Яа-яЇїІіЄєЁёҐґ]+(?:[А-Яа-яЇїІіЄєЁёҐґ]+)*)?)*(?:\s+[А-Яа-яЇїІіЄєЁёҐґ]*\.\s*[0-9А-Яа-яЇїІіЄєЁёҐґ]+\s*)?$/;
+  /^(?=.*\d)(?!.*[\/\-.]$)(?!\d+.*\/.*\/)(?!\d+.*-.*-)(?!\d+.*\..*\.)\d+(?:[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]*)?(?:(?:[\/\-.])?(?:[\dA-Za-zА-Яа-яЇїІіЄєЁёҐґ]+(?:[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]+)*)?)*(?:\s+[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]*\.\s*[0-9A-Za-zА-Яа-яЇїІіЄєЁёҐґ]+\s*)?$/;
 
 // Regex for section name, it checks that the first char is a letter
 export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z].+/;
 
 // Regex for checking if string has a letter
 export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;
-
-// Regex for searchbar validation
-export const SEARCHBAR_REGEX_VALID: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\-\s]*$/;
-
-// Regex for searchbar replace invalid characters
-export const SEARCHBAR_REGEX_REPLACE: RegExp = /[^A-Za-zА-Яа-яІіЇїЄєҐґ0-9`.,№"'\\-\s]/g;
 
 // Regex for time format validation
 export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;

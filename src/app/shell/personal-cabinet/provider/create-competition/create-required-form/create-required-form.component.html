@@ -18,8 +18,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="RequiredFormGroup.get('title')"
-    [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_250">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label>
@@ -28,8 +28,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="RequiredFormGroup.get('shortTitle')"
-    [minCharacters]="ValidationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="ValidationConstants.INPUT_LENGTH_60">
+    [minCharacters]="ValidationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="ValidationConstants.INPUT_LENGTH_120">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
@@ -43,6 +43,7 @@
           type="number"
           formControlName="minimumAge"
           appIntegerOnly
+          [min]="ValidationConstants.AGE_MIN"
           [max]="
             (RequiredFormGroup.get('maximumAge').value !== null
               ? RequiredFormGroup.get('maximumAge').value
@@ -68,7 +69,9 @@
           formControlName="maximumAge"
           appIntegerOnly
           [max]="ValidationConstants.BIRTH_AGE_MAX"
-          [min]="RequiredFormGroup.get('minimumAge').value !== null ? RequiredFormGroup.get('minimumAge').value + 1 : null"
+          [min]="
+            RequiredFormGroup.get('minimumAge').value !== null ? RequiredFormGroup.get('minimumAge').value + 1 : ValidationConstants.AGE_MIN
+          "
           autocomplete="off" />
       </div>
       <app-validation-hint
@@ -98,7 +101,7 @@
   </mat-form-field>
   <app-validation-hint [validationFormControl]="RequiredFormGroup.get('competitionDateRangeGroup')"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}</label>
+  <label class="step-label">{{ 'FORMS.LABELS.REGISTRATION_RANGE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date-range" floatLabel="never">
     <mat-date-range-input
       [rangePicker]="registrationPicker"
@@ -140,16 +143,15 @@
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
       <div class="container flex flex-row justify-between items-center">
         <div class="radio-button-wrap flex flex-row justify-center items-center">
-          <mat-radio-button [value]="false">
-            <input
-              matInput
-              class="step-input seat-input"
-              appIntegerOnly
-              formControlName="numberOfSeats"
-              type="number"
-              [min]="minSeats"
-              [max]="validationConstants.MAX_SEATS" />
-          </mat-radio-button>
+          <mat-radio-button [value]="false"></mat-radio-button>
+          <input
+            matInput
+            class="step-input seat-input"
+            appIntegerOnly
+            formControlName="numberOfSeats"
+            type="number"
+            [min]="minSeats"
+            [max]="validationConstants.MAX_SEATS" />
           <app-info-menu
             *ngIf="isShowHintAboutCompetitionAutoClosing"
             [type]="InfoMenuType.Text"

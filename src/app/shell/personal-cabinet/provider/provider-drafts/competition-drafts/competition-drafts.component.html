@@ -1,8 +1,12 @@
 <div class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_COMPETITION' | translate }}</p>
-  <a [routerLink]="['/create/competition', ModeConstants.NEW]">
-    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_COMPETITION' | translate }}</button>
-  </a>
+  <button
+    class="btn"
+    mat-raised-button
+    [disabled]="hasUnfinishedCompetitionData$ | async"
+    [routerLink]="['/create/competition', ModeConstants.NEW]">
+    {{ 'BUTTONS.ADD_COMPETITION' | translate }}
+  </button>
 </div>
 <div class="flex flex-col gap-4">
   <app-provider-status-banner

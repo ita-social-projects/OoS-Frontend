@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { AddPreviousResult, RemovePreviousResult, SetEntitySearchQueryValue, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -53,8 +53,6 @@ describe('SharedSearchbarComponent', () => {
     component.searchValueFormControl.setValue('SearchValue');
     (component as any).tempSearchValue = 'SearchValue';
 
-    jest.spyOn(component, 'handleInvalidCharacter').mockReturnValue('SearchValue');
-
     (component as any).performSearch();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
   });
@@ -62,8 +60,6 @@ describe('SharedSearchbarComponent', () => {
   it('should save search results by dispatching AddPreviousResult', () => {
     component.searchValueFormControl.setValue('NewSearch');
     (component as any).tempSearchValue = 'NewSearch';
-
-    jest.spyOn(component, 'handleInvalidCharacter').mockReturnValue('NewSearch');
 
     (component as any).performSearch();
     expect(mockStore.dispatch).toHaveBeenCalledWith(new AddPreviousResult('NewSearch'));
@@ -79,34 +75,5 @@ describe('SharedSearchbarComponent', () => {
     expect(event.stopPropagation).toHaveBeenCalled();
     expect(component.filteredResults).toEqual([]);
     expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('OldSearch'));
-  });
-
-  it('should perform search', () => {
-    (component as any).tempSearchValue = 'SearchValue';
-    jest.spyOn(component, 'handleInvalidCharacter');
-    component.onValueSelect();
-    expect(component.searchValueFormControl.value).toEqual('SearchValue');
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetEntitySearchQueryValue('SearchValue'));
-
-    jest.spyOn(component.searchValueFormControl, 'markAllAsTouched');
-    (component as any).tempSearchValue = '???';
-    component.onValueEnter();
-    expect(component.searchValueFormControl.markAllAsTouched).toHaveBeenCalled();
-  });
-
-  it('should handle invalid characters correctly', () => {
-    jest.spyOn(component.outputSearchFormControl, 'emit');
-    const val = component.handleInvalidCharacter('???');
-    expect(component.searchValueFormControl.errors).toBeTruthy();
-    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
-    expect(val).toEqual('');
-  });
-
-  it('should handle valid characters correctly', () => {
-    jest.spyOn(component.outputSearchFormControl, 'emit');
-    const val = component.handleInvalidCharacter('aaa');
-    expect(component.searchValueFormControl.errors).toBeFalsy();
-    expect(component.outputSearchFormControl.emit).toHaveBeenCalled();
-    expect(val).toEqual('aaa');
   });
 });

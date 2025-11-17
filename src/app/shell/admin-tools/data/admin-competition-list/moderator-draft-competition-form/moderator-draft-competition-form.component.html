@@ -35,8 +35,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('title')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_250">
           </app-validation-hint>
 
           <div class="flex flex-row justify-between items-center">
@@ -54,8 +54,8 @@
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('shortTitle')"
-            [minCharacters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+            [minCharacters]="validationConstants.INPUT_LENGTH_3"
+            [maxCharacters]="validationConstants.INPUT_LENGTH_120">
           </app-validation-hint>
 
           <app-image-form-control
@@ -88,24 +88,24 @@
             <label for="competitiveSelectionDescription" class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}</label>
             <label for="competitiveSelectionDescription" class="step-characters-count">
               {{ form.get('competitiveSelectionDescription').value?.length ?? 0 }}
-              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+              /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
             </label>
           </div>
           <mat-form-field appearance="fill">
             <textarea
               matInput
               class="step-textarea"
-              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+              placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
                 'FORMS.PLACEHOLDERS.SYMBOLS' | translate
               }}"
               formControlName="competitiveSelectionDescription"
-              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+              [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
             </textarea>
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="form.get('competitiveSelectionDescription')"
             [minCharacters]="validationConstants.INPUT_LENGTH_3"
-            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+            [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
           </app-validation-hint>
 
           <div class="step-label-combined">
@@ -159,34 +159,28 @@
           </app-validation-hint>
 
           <ng-container *ngIf="selectedCompetition.competitiveEventDetails.areThereBenefits">
-            <div class="flex flex-row justify-between">
-              <label for="benefits" class="step-label">
-                {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}
-                <span class="step-required">*</span>
-              </label>
-              <label for="benefits" class="step-characters-count">
-                <ng-container *ngIf="form.get('benefits').value; else elseBlock">
-                  {{ form.get('benefits').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
-                </ng-container>
-                <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</ng-template>
-              </label>
+            <div class="step-label-combined">
+              <label class="step-label" for="benefits"> {{ 'FORMS.LABELS.PREFERENTIAL_TERMS_OF_PARTICIPATION' | translate }}</label>
+              <span class="step-characters-count">
+                {{ DescriptionFormGroup.get('benefits').value?.length ?? 0 }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
+              </span>
             </div>
             <mat-form-field appearance="fill">
               <textarea
                 matInput
                 required
                 class="step-textarea step-textarea-short"
-                placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+                placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
                   'FORMS.PLACEHOLDERS.SYMBOLS' | translate
                 }}"
                 formControlName="benefits"
-                [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+                [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
               </textarea>
             </mat-form-field>
             <app-validation-hint
               [validationFormControl]="form.get('benefits')"
-              [minCharacters]="validationConstants.INPUT_LENGTH_1"
-              [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+              [minCharacters]="validationConstants.INPUT_LENGTH_3"
+              [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
             </app-validation-hint>
           </ng-container>
         </form>

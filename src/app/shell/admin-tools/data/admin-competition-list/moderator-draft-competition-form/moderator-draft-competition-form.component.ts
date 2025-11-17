@@ -25,6 +25,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
 import { CompetitionDraft, CompetitiveDescriptionItem } from 'shared/models/competition.model';
 import { Entities } from 'shared/enum/entities';
+import { createDescriptionItems } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -238,19 +239,19 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
       imageFiles: new FormControl([]),
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_250),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       shortTitle: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_250),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveSelectionDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       venueName: new FormControl('', [
@@ -264,7 +265,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
       ]),
       benefits: new FormControl('', [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray
@@ -275,20 +276,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
    * This method creates new FormGroup
    */
   private newForm(item?: CompetitiveDescriptionItem): FormGroup {
-    this.EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
-    });
+    this.EditFormGroup = this.formBuilder.group(createDescriptionItems());
 
     if (this.selectedCompetition) {
       this.EditFormGroup.addControl('competitiveEventId', this.formBuilder.control(this.selectedCompetition.competitiveEventDraftId));

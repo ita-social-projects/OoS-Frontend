@@ -195,6 +195,7 @@ describe('CreateAdditionalAboutFormComponent', () => {
     });
 
     it('should enable price and payRate controls when workshop has price', () => {
+      component.workshop.isPaid = true;
       component.workshop.price = 150;
       component.workshop.payRate = PayRateType.Class;
 

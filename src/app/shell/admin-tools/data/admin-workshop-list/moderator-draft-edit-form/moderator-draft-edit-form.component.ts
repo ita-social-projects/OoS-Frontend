@@ -25,6 +25,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { RegistrationState } from 'shared/store/registration.state';
 import { User } from 'shared/models/user.model';
 import { Entities } from 'shared/enum/entities';
+import { createDescriptionItems } from 'shared/utils/provider.utils';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -246,7 +247,11 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
-      competitiveSelectionDescription: new FormControl('', [Validators.pattern(MUST_CONTAIN_LETTERS)]),
+      competitiveSelectionDescription: new FormControl('', [
+        Validators.pattern(MUST_CONTAIN_LETTERS),
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ]),
       enrollmentProcedureDescription: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
@@ -255,8 +260,9 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
       imageIds: new FormControl(''),
       workshopDescriptionItems: this.SectionItemsFormArray,
       preferentialTermsOfParticipation: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_500)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       institutionHierarchyId: new FormControl(''),
       institutionId: new FormControl('')
@@ -267,20 +273,7 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
    * This method creates new FormGroup
    */
   private newForm(item?: WorkshopDescriptionItem): FormGroup {
-    this.EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
-    });
+    this.EditFormGroup = this.formBuilder.group(createDescriptionItems());
 
     if (this.selectedWorkshop) {
       this.EditFormGroup.addControl('workshopId', this.formBuilder.control(this.selectedWorkshop.workshopDraftId));

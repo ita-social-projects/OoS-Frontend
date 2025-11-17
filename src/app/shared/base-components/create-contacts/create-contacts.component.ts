@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { MUST_CONTAIN_LETTERS, SOCIAL_NETWORK_LINK_REGEX } from 'shared/constants/regex-constants';
@@ -206,7 +206,8 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         type: new FormControl('', [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         number: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
       })
@@ -219,7 +220,8 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         type: new FormControl('', [
           Validators.required,
           Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         address: new FormControl('', [
           Validators.required,
@@ -238,7 +240,7 @@ export class CreateContactsComponent implements OnInit, OnDestroy {
         url: new FormControl('', [
           Validators.required,
           Validators.pattern(SOCIAL_NETWORK_LINK_REGEX),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+          Validators.maxLength(ValidationConstants.URL_INPUT_LENGTH)
         ])
       })
     );

@@ -22,7 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entities } from 'shared/enum/entities';
 import { ModeConstants } from 'shared/constants/constants';
-import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles, createDescriptionItems } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -54,7 +54,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public DescriptionFormGroup: FormGroup;
   public selectionOptionRadioBtn: FormControl = new FormControl(false);
   public benefitsOptionRadioBtn: FormControl = new FormControl(false);
-  public priceRadioBtn: FormControl = new FormControl(false);
 
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray: FormArray = new FormArray([]);
@@ -62,12 +61,11 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
   protected readonly fieldsToListen = [
     'imageFiles',
-    'description',
     'disabilityOptionsDesc',
     'competitiveSelectionDescription',
     'descriptionOfTheEnrollmentProcedure',
     'competitiveEventDescriptionItems',
-    'benefitsOptionsDesc'
+    'benefits'
   ];
 
   constructor(
@@ -89,6 +87,10 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
 
   public get coverageControl(): FormControl {
     return this.DescriptionFormGroup.get('coverageId') as FormControl;
+  }
+
+  public get priceRadioBtn(): FormControl {
+    return this.DescriptionFormGroup.get('isPaid') as FormControl;
   }
 
   public get priceControl(): FormControl {
@@ -125,7 +127,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
     const control = this.DescriptionFormGroup.get(controlName);
     radioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isEnabled: boolean) => {
       if (isEnabled) {
-        control.enable();
+        control.enable({ emitEvent: false });
       } else {
         control.disable();
         control.reset();
@@ -140,7 +142,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
   public initializeFormControls(): void {
     const controls = [
       { name: 'competitiveSelectionDescription', radioBtn: this.selectionOptionRadioBtn },
-      { name: 'benefitsOptionsDesc', radioBtn: this.benefitsOptionRadioBtn },
+      { name: 'benefits', radioBtn: this.benefitsOptionRadioBtn },
       { name: 'price', radioBtn: this.priceRadioBtn }
     ];
 
@@ -178,15 +180,6 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       this.DescriptionFormGroup.get('competitiveSelectionDescription').enable({ emitEvent: false });
     }
 
-    if (this.competition.price) {
-      this.priceRadioBtn.setValue(!!this.competition.price, { emitEvent: false });
-      this.DescriptionFormGroup.get('price').enable({ emitEvent: false });
-    }
-
-    if (this.competition.coverageId) {
-      this.coverageControl.setValue(String(this.competition.coverageId), { emitEvent: false });
-    }
-
     if (this.competition.competitiveEventDescriptionItems?.length) {
       this.competition.competitiveEventDescriptionItems.forEach((item: CompetitiveDescriptionItem) => {
         const itemFrom = this.newForm(item);
@@ -198,9 +191,13 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       this.onAddForm();
     }
 
+    if (this.competition.isPaid) {
+      this.priceControl.enable({ emitEvent: false });
+    }
+
     if (this.competition.areThereBenefits) {
       this.benefitsOptionRadioBtn.setValue(this.competition.areThereBenefits, { emitEvent: false });
-      const benefitsControl = this.DescriptionFormGroup.get('benefitsOptionsDesc');
+      const benefitsControl = this.DescriptionFormGroup.get('benefits');
       benefitsControl.setValue(this.competition.benefits);
       benefitsControl.enable({ emitEvent: false });
     }
@@ -273,11 +270,16 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
       ]),
       competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       competitiveEventDescriptionItems: this.SectionItemsFormArray,
-      price: new FormControl({ value: 0, disabled: true }),
+      isPaid: new FormControl(false),
+      price: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+        Validators.min(ValidationConstants.MIN_PRICE),
+        Validators.max(ValidationConstants.MAX_PRICE)
+      ]),
       venueName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
@@ -288,7 +290,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       areThereBenefits: this.benefitsOptionRadioBtn,
-      benefitsOptionsDesc: new FormControl({ value: '', disabled: true }, [
+      benefits: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
         Validators.pattern(MUST_CONTAIN_LETTERS)
@@ -309,20 +311,7 @@ export class CreateCompetitionDescriptionFormComponent extends FieldsListenerCom
    * This method creates new FormGroup
    */
   private newForm(item?: CompetitiveDescriptionItem): FormGroup {
-    this.EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
-    });
+    this.EditFormGroup = this.formBuilder.group(createDescriptionItems());
 
     if (this.competition) {
       this.EditFormGroup.addControl('competitiveEventId', this.formBuilder.control(this.competition.id));

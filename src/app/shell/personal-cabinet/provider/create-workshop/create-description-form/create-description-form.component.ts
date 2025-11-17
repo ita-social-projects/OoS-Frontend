@@ -31,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { ImageControlValidator } from 'shared/validators/image-control-validator';
 import { Entities } from 'shared/enum/entities';
-import { base64ArrayToFiles } from 'shared/utils/provider.utils';
+import { base64ArrayToFiles, createDescriptionItems } from 'shared/utils/provider.utils';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -108,6 +108,8 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
         competitiveSelection: new FormControl(false),
         competitiveSelectionDescription: new FormControl({ value: '', disabled: true }, [
           Validators.required,
+          Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
+          Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         enrollmentProcedureDescription: new FormControl('', [
@@ -284,20 +286,7 @@ export class CreateDescriptionFormComponent extends FieldsListenerComponent impl
    * This method creates new FormGroup
    */
   private newForm(item?: WorkshopDescriptionItem): FormGroup {
-    this.EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ]),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-        Validators.pattern(MUST_CONTAIN_LETTERS)
-      ])
-    });
+    this.EditFormGroup = this.formBuilder.group(createDescriptionItems());
 
     if (this.workshop) {
       this.EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id));

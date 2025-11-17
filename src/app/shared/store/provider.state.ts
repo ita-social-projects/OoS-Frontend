@@ -1435,17 +1435,9 @@ export class ProviderState {
 
   @Action(OnSaveWorkshopStep)
   onSaveWorkshopStep(ctx: StateContext<ProviderStateModel>, action: OnSaveWorkshopStep): Observable<string | void> {
-    const currentState = ctx.getState().unfinishedWorkshop || {};
     const { step, data } = action.payload;
-    const combinedPayload = {
-      ...currentState.step1,
-      ...currentState.step2,
-      ...currentState.step3,
-      ...currentState.step4,
-      ...data
-    };
 
-    return this.userWorkshopService.saveWorkshopStep(combinedPayload).pipe(
+    return this.userWorkshopService.saveWorkshopStep(data).pipe(
       tap(() => ctx.dispatch(new OnSaveWorkshopStepSuccess({ step, data }))),
       catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveWorkshopStepFail(error)))
     );
@@ -1548,16 +1540,9 @@ export class ProviderState {
 
   @Action(OnSaveCompetitionStep)
   onSaveCompetitionStep(ctx: StateContext<ProviderStateModel>, action: OnSaveCompetitionStep): Observable<string | void> {
-    const currentState = ctx.getState().unfinishedCompetition || {};
     const { step, data } = action.payload;
-    const combinedPayload = {
-      ...currentState.step1,
-      ...currentState.step2,
-      ...currentState.step3,
-      ...data
-    };
 
-    return this.userCompetitionService.saveCompetitionStep(combinedPayload).pipe(
+    return this.userCompetitionService.saveCompetitionStep(data).pipe(
       tap(() => ctx.dispatch(new OnSaveCompetitionStepSuccess({ step, data }))),
       catchError((error: HttpErrorResponse) => ctx.dispatch(new OnSaveCompetitionStepFail(error)))
     );

@@ -119,6 +119,12 @@
     background-color: orange;
   }
 
+  &-edited {
+    color: var(--specific-light-text-color);
+    border: 1px solid rgba(208, 141, 8, 1);
+    background-color: rgba(208, 141, 8, 1);
+  }
+
   &-action-row {
     padding-bottom: 0;
   }

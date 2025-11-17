@@ -187,19 +187,18 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
   private initForm(): void {
     this.RequiredFormGroup = this.formBuilder.group(
       {
-        image: new FormControl(''),
         coverImage: new FormControl('', [Validators.required, minArrayLength(1), maxArrayLength(1)]),
         coverImageId: new FormControl(''),
         title: new FormControl('', [
           Validators.required,
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_250),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         shortTitle: new FormControl('', [
           Validators.required,
-          Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-          Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+          Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+          Validators.maxLength(ValidationConstants.INPUT_LENGTH_120),
           Validators.pattern(MUST_CONTAIN_LETTERS)
         ]),
         competitionDateRangeGroup: this.formBuilder.group({
@@ -217,8 +216,8 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
           Validators.min(ValidationConstants.AGE_MIN)
         ]),
         registrationDateRangeGroup: this.formBuilder.group({
-          start: null,
-          end: null
+          start: [null, Validators.required],
+          end: [null, Validators.required]
         }),
         competitiveEventAccountingTypeId: new FormControl<number | null>(null, Validators.required),
         parentCompetitionControl: new FormControl(null),
