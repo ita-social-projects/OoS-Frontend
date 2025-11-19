@@ -16,6 +16,7 @@ import { DecimalNumberPipe } from 'shared/pipes/decimal-number.pipe';
 import { NumberArrowsDirective } from 'shared/directives/number-arrows/number-arrows.directive';
 import { SharedSearchbarComponent } from 'shared/components/filters-list/shared-searchbar/shared-searchbar.component';
 import { MonthOnlyHeaderComponent } from 'shared/components/calendar-month-header/month-only-header.component';
+import { NormalizeCrlfDirective } from 'shared/directives/normalize-crlf/normalize-crlf.directive';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
@@ -189,7 +190,8 @@ import { DirectionTreeComponent } from './components/filters-list/direction-tree
     ContactsCardComponent,
     NumberArrowsDirective,
     DraftFiltersComponent,
-    MonthOnlyHeaderComponent
+    MonthOnlyHeaderComponent,
+    NormalizeCrlfDirective
   ],
 
   imports: [
@@ -288,7 +290,8 @@ import { DirectionTreeComponent } from './components/filters-list/direction-tree
     ContactsCardComponent,
     NumberArrowsDirective,
     DraftFiltersComponent,
-    MonthOnlyHeaderComponent
+    MonthOnlyHeaderComponent,
+    NormalizeCrlfDirective
   ]
 })
 export class SharedModule {}

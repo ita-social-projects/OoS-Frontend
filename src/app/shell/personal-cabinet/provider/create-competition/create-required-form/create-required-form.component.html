@@ -122,11 +122,9 @@
     <mat-select
       formControlName="competitiveEventAccountingTypeId"
       placeholder="{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}"
-      disableOptionCentering
-      panelClass="dropdown-panel"
       class="step-input">
-      <mat-option *ngFor="let competitionType of filteredTypeOfCompetition" [value]="competitionType.key">
-        {{ TypeOfCompetitionEnum[competitionType.value] | translate }}
+      <mat-option *ngFor="let competitionType of typesOfCompetition" [value]="competitionType.id" class="dropdown-panel">
+        {{ competitionType.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>

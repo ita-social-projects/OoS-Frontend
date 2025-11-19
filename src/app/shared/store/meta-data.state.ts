@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -23,6 +23,8 @@ import { ProviderService } from 'shared/services/provider/provider.service';
 import { RatingService } from 'shared/services/rating/rating.service';
 import { LanguageListItem } from 'shared/models/language-list.model';
 import { LanguageListService } from 'shared/services/language-list/language-list.service';
+import { CompetitiveEventAccountingType } from 'shared/models/competitive-event-accounting-type.model';
+import { AccountingTypeService } from 'shared/services/accounting-type/accounting-type.service';
 import {
   ClearCodeficatorSearch,
   ClearRatings,
@@ -43,6 +45,7 @@ import {
   GetRateByEntityId,
   GetSocialGroup,
   GetSubDirections,
+  GetTypesOfCompetition,
   ResetInstitutionHierarchy,
   UpdateInstitutionHierarchy
 } from './meta-data.actions';
@@ -66,6 +69,7 @@ export interface MetaDataStateModel {
   codeficatorSearch: Codeficator[];
   codeficator: Codeficator;
   languageList: LanguageListItem[];
+  typesOfCompetition: CompetitiveEventAccountingType[];
 }
 
 @State<MetaDataStateModel>({
@@ -88,21 +92,23 @@ export interface MetaDataStateModel {
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
     codeficator: null,
-    languageList: null
+    languageList: null,
+    typesOfCompetition: null
   }
 })
 @Injectable()
 export class MetaDataState {
   constructor(
-    private categoriesService: DirectionsService,
-    private childrenService: ChildrenService,
-    private providerService: ProviderService,
-    private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService,
-    private institutionsService: InstitutionsService,
-    private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService,
-    private readonly languageListService: LanguageListService
+    private readonly categoriesService: DirectionsService,
+    private readonly childrenService: ChildrenService,
+    private readonly providerService: ProviderService,
+    private readonly ratingService: RatingService,
+    private readonly featureManagementService: FeatureManagementService,
+    private readonly institutionsService: InstitutionsService,
+    private readonly achievementService: AchievementsService,
+    private readonly codeficatorService: CodeficatorService,
+    private readonly languageListService: LanguageListService,
+    private readonly accountingTypeService: AccountingTypeService
   ) {}
 
   @Selector()
@@ -193,6 +199,11 @@ export class MetaDataState {
   @Selector()
   static languageList(state: MetaDataStateModel): LanguageListItem[] {
     return state.languageList;
+  }
+
+  @Selector()
+  static typesOfCompetition(state: MetaDataStateModel): CompetitiveEventAccountingType[] {
+    return state.typesOfCompetition;
   }
 
   @Action(GetDirections)
@@ -422,6 +433,23 @@ export class MetaDataState {
     patchState({ isLoading: true });
     return this.languageListService.getLanguageList().pipe(
       tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })),
+      catchError(() => {
+        patchState({ isLoading: false });
+        return EMPTY;
+      })
+    );
+  }
+
+  @Action(GetTypesOfCompetition)
+  getTypesOfCompetition({ patchState }: StateContext<MetaDataStateModel>): Observable<CompetitiveEventAccountingType[]> {
+    patchState({ isLoading: true });
+    return this.accountingTypeService.getCompetitiveEventAccountingTypes().pipe(
+      tap((accountingTypes: CompetitiveEventAccountingType[]) =>
+        patchState({
+          typesOfCompetition: accountingTypes,
+          isLoading: false
+        })
+      ),
       catchError(() => {
         patchState({ isLoading: false });
         return EMPTY;

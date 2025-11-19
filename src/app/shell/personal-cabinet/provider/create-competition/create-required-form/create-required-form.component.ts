@@ -3,13 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TranslateService } from '@ngx-translate/core';
-import { takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
-import { TypeOfCompetition } from 'shared/enum/competition';
-import { TypeOfCompetitionEnum } from 'shared/enum/enumUA/competition';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Competition } from 'shared/models/competition.model';
@@ -19,6 +17,9 @@ import { AgeRangeValidator } from 'shared/validators/age-range-validator';
 import { maxArrayLength, minArrayLength } from 'shared/validators/array-length/array-length-validator';
 import { Entities } from 'shared/enum/entities';
 import { base64ToFile } from 'ngx-image-cropper';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { CompetitiveEventAccountingType } from 'shared/models/competitive-event-accounting-type.model';
+import { GetTypesOfCompetition } from 'shared/store/meta-data.actions';
 import { FieldsListenerComponent } from '../../../shared-cabinet/create-form/fields-listener.component';
 
 @Component({
@@ -37,14 +38,13 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
   public readonly ValidationConstants = ValidationConstants;
   public readonly Constants = Constants;
   public readonly UNLIMITED_SEATS = Constants.UNLIMITED_SEATS;
-  public readonly TypeOfCompetitionEnum = TypeOfCompetitionEnum;
 
   public readonly cropperConfig = CopperConfig;
   public readonly Entities = Entities;
   public RequiredFormGroup: FormGroup;
   public isShowHintAboutCompetitionAutoClosing: boolean = false;
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-  public filteredTypeOfCompetition: { key: string; value: string }[] = [];
+  public typesOfCompetition: CompetitiveEventAccountingType[];
 
   protected minDate: Date = new Date(new Date().setMonth(new Date().getMonth() - 12));
   protected maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
@@ -93,16 +93,16 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
     this.initForm();
     this.PassRequiredFormGroup.emit(this.RequiredFormGroup);
 
-    this.filterTypeOfCompetition(Boolean(this.parentCompetition));
-
     if (this.competition) {
       this.activateEditMode();
     }
-    if (this.parentCompetition) {
-      this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage, { emitEvent: false });
-      this.competitiveEventAccountingTypeIdControl.disable();
-    }
+    // TODO: temporarily parents competition functionality is disabled
+    // if (this.parentCompetition) {
+    //   this.competitiveEventAccountingTypeIdControl.setValue(TypeOfCompetition.CompetitionStage, { emitEvent: false });
+    //   this.competitiveEventAccountingTypeIdControl.disable();
+    // }
 
+    this.setCompetitiveDefaultEventAccountingType();
     this.initListeners();
   }
 
@@ -270,9 +270,19 @@ export class CreateRequiredFormComponent extends FieldsListenerComponent impleme
     });
   }
 
-  private filterTypeOfCompetition(stage?: boolean): void {
-    this.filteredTypeOfCompetition = Object.entries(TypeOfCompetition)
-      .filter(([key, value]) => !isNaN(Number(key)) && (stage || value !== 'CompetitionStage'))
-      .map(([key, value]) => ({ key, value: value as string }));
+  private setCompetitiveDefaultEventAccountingType(): void {
+    const setDefault = (types: CompetitiveEventAccountingType[]): void => {
+      this.typesOfCompetition = types;
+      this.competitiveEventAccountingTypeIdControl?.setValue(this.competition?.competitiveEventAccountingTypeId || 2, { emitEvent: false });
+    };
+
+    const snapshot = this.store.selectSnapshot(MetaDataState.typesOfCompetition);
+
+    if (snapshot) {
+      setDefault(snapshot);
+    } else {
+      this.store.dispatch(new GetTypesOfCompetition());
+      this.store.select(MetaDataState.typesOfCompetition).pipe(filter(Boolean), take(1)).subscribe(setDefault);
+    }
   }
 }

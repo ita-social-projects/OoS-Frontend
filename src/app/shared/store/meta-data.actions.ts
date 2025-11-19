@@ -116,3 +116,7 @@ export class ClearCodeficatorSearch {
 export class GetLanguageList {
   static readonly type = '[meta-data] get language list';
 }
+
+export class GetTypesOfCompetition {
+  static readonly type = '[meta-data] Get competition accounting types';
+}
