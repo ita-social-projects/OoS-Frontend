@@ -250,11 +250,11 @@
             matInput
             class="step-textarea"
             [ngClass]="{ 'disabled-field': !benefitsOptionRadioBtn.value }"
-            placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+            placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }} {{
               'FORMS.PLACEHOLDERS.SYMBOLS' | translate
             }}"
             formControlName="benefits"
-            maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}"
+            maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}"
             appTrimValue
             (focusout)="onFocusOut('benefits')"
             id="benefits"></textarea>
@@ -262,7 +262,7 @@
         <app-validation-hint
           [validationFormControl]="DescriptionFormGroup.get('benefits')"
           [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_3"
-          [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+          [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
         </app-validation-hint>
       </ng-container>
     </mat-radio-group>
