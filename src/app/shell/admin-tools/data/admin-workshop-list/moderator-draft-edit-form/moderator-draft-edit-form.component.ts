@@ -253,8 +253,10 @@ export class ModeratorDraftEditFormComponent extends CreateFormComponent impleme
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
       enrollmentProcedureDescription: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000)
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),

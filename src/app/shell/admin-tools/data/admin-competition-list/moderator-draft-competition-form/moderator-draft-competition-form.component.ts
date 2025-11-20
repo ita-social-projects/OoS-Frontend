@@ -259,6 +259,7 @@ export class ModeratorDraftCompetitionFormComponent extends CreateFormComponent 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       descriptionOfTheEnrollmentProcedure: new FormControl('', [
+        Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
         Validators.pattern(MUST_CONTAIN_LETTERS)

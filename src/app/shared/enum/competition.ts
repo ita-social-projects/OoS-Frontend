@@ -5,13 +5,6 @@ export enum CompetitionStatus {
   Archived = 'Archived'
 }
 
-export enum TypeOfCompetition {
-  EducationalProject = 1,
-  Competition = 2,
-  ParentCompetition = 3,
-  CompetitionStage = 4
-}
-
 export enum CompetitionCoverage {
   Local = 1,
   City = 2,

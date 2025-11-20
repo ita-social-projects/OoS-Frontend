@@ -134,8 +134,9 @@
 
           <div class="step-label-combined">
             <label class="step-label" for="descriptionOfTheEnrollmentProcedure">
-              {{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}</label
-            >
+              {{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}
+              <span class="step-required">*</span>
+            </label>
             <span class="step-characters-count">
               {{ form.get('descriptionOfTheEnrollmentProcedure').value?.length ?? 0 }}
               /{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}

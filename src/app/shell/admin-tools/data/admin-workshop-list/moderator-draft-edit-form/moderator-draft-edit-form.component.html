@@ -113,9 +113,10 @@
           </ng-container>
 
           <div class="step-label-combined">
-            <label for="enrollmentProcedureDescription" class="step-label">{{
-              'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate
-            }}</label>
+            <label for="enrollmentProcedureDescription" class="step-label">
+              {{ 'FORMS.LABELS.ENROLLMENT_PROCEDURE_DESCRIPTION' | translate }}
+              <span class="step-required">*</span>
+            </label>
             <label for="enrollmentProcedureDescription" class="step-characters-count">
               <ng-container *ngIf="form.get('enrollmentProcedureDescription').value; else emptyState">
                 {{ form.get('enrollmentProcedureDescription').value?.length }}
