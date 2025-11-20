@@ -10,7 +10,7 @@ export class ValidationConstants {
   static readonly BIRTH_AGE_MAX = 120;
 
   // Price
-  static readonly MIN_PRICE = 0.01;
+  static readonly MIN_PRICE = 1;
   static readonly MAX_PRICE = 100000;
   static readonly MAX_PRICE_LENGTH = 4;
 
