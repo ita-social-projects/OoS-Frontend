@@ -1,49 +1,73 @@
-import { ElementRef } from '@angular/core';
-import { fakeAsync, tick } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { By } from '@angular/platform-browser';
 import { MinMaxDirective } from './min-max.directive';
 
-describe('MinMaxDirective', () => {
-  let mockElementRef: ElementRef;
-  let directive: MinMaxDirective;
+@Component({
+  template: '<input type="number" appMinMax [minValue]="minValue" [maxValue]="maxValue" />'
+})
+class TestComponent {
+  minValue = 1;
+  maxValue = 10;
+}
 
-  beforeEach(() => {
-    mockElementRef = { nativeElement: document.createElement('input') };
-    mockElementRef.nativeElement.value = '5';
-    directive = new MinMaxDirective(mockElementRef);
-    directive.min = 0;
-    directive.max = 100;
-    directive.directiveFormControl = new FormControl();
+describe('MinMaxDirective (Jest)', () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let inputEl: DebugElement;
+  let input: HTMLInputElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [TestComponent, MinMaxDirective]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+
+    inputEl = fixture.debugElement.query(By.directive(MinMaxDirective));
+    input = inputEl.nativeElement;
   });
 
-  it('should create an instance', () => {
-    expect(directive).toBeTruthy();
+  function setValueAndDispatch(val: string) {
+    input.value = val;
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+  }
+
+  it('should keep value if in range', () => {
+    setValueAndDispatch('5');
+    expect(input.value).toBe('5');
   });
 
-  describe('validate method', () => {
-    it('should set max value if input is bigger', fakeAsync(() => {
-      jest.spyOn(directive.directiveFormControl, 'setValue');
-      mockElementRef.nativeElement.value = '200';
+  it('should set value to maxValue when above max', () => {
+    setValueAndDispatch('20');
+    expect(input.value).toBe('10');
+  });
 
-      directive.ngOnInit();
-      directive.onInput(null);
-      tick(1000);
+  it('should set value to minValue when below min', () => {
+    setValueAndDispatch('-2');
+    expect(input.value).toBe('1');
+  });
 
-      expect(directive.directiveFormControl.setValue).toHaveBeenCalledWith(directive.max);
-      expect(directive.directiveFormControl.value).toEqual(directive.max);
-    }));
+  it('should ignore non-numeric input', () => {
+    setValueAndDispatch('abc');
+    expect(input.value).toBe('');
+  });
 
-    it('should set min value if input is smaller', fakeAsync(() => {
-      jest.spyOn(directive.directiveFormControl, 'setValue');
-      mockElementRef.nativeElement.value = '-200';
+  it('should work without maxValue', () => {
+    fixture.componentInstance.maxValue = null as any;
+    fixture.detectChanges();
 
-      directive.ngOnInit();
-      directive.onInput(null);
-      tick(1000);
+    setValueAndDispatch('500');
+    expect(input.value).toBe('500');
+  });
 
-      expect(directive.directiveFormControl.setValue).toHaveBeenCalledWith(directive.min);
-      expect(directive.directiveFormControl.value).toEqual(directive.min);
-    }));
+  it('should work without minValue', () => {
+    fixture.componentInstance.minValue = null as any;
+    fixture.detectChanges();
+
+    setValueAndDispatch('-100');
+    expect(input.value).toBe('-100');
   });
 });

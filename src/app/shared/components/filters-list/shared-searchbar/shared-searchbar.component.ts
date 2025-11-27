@@ -25,7 +25,6 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   @Select(FilterState.entityPreviousResults)
   private readonly previousResults$: Observable<string[]>;
   public readonly WorkshopType = WorkshopType;
-  private searchText: string;
 
   constructor(protected readonly store: Store) {
     super(store);
@@ -41,12 +40,12 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
         tap(([value, results]: [string, string[]]) => {
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
         }),
-        takeUntil(this.destroy$),
-        skip(1)
+        skip(1),
+        takeUntil(this.destroy$)
       )
       .subscribe((val) => {
         // avoid multiple calls if search was not previously applied
-        if (!val[0] && val[0] !== this.searchText) {
+        if (!val[0] && val[0] !== this.searchedText) {
           this.performSearch();
         }
       });
@@ -67,9 +66,9 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
 
   protected performSearch(): void {
     if (this.searchValueFormControl.valid) {
-      this.searchText = this.searchValueFormControl.value;
+      this.searchedText = this.searchValueFormControl.value;
       this.saveSearchResults();
-      this.store.dispatch(new SetEntitySearchQueryValue(this.searchText || ''));
+      this.store.dispatch(new SetEntitySearchQueryValue(this.searchedText || ''));
       this.outputSearchFormControl.emit(this.searchValueFormControl);
     } else {
       this.searchValueFormControl.markAllAsTouched();

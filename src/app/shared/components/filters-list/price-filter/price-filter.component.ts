@@ -123,9 +123,13 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   public onPriceBlur(type: 'min' | 'max'): void {
     if (type === 'min' && !this.minPriceControl.value) {
-      this.minPriceControl.setValue(this.limitMinMaxPrice.minPrice);
+      const effectiveMin =
+        !this.limitMinMaxPrice?.minPrice || this.limitMinMaxPrice.minPrice === 0
+          ? this.validationConstants.MIN_PRICE
+          : this.limitMinMaxPrice.minPrice;
+      this.minPriceControl.setValue(effectiveMin);
     } else if (type === 'max' && !this.maxPriceControl.value) {
-      this.maxPriceControl.setValue(this.limitMinMaxPrice.maxPrice);
+      this.maxPriceControl.setValue(this.limitMinMaxPrice?.maxPrice || this.validationConstants.MAX_PRICE);
     }
     this.minPriceControl.markAsUntouched();
     this.maxPriceControl.markAsUntouched();
