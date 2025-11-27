@@ -23,7 +23,9 @@
           type="number"
           [useArrows]="false"
           appDigitOnly
-          maxlength="6"
+          appMinMax
+          [minValue]="validationConstants.MIN_PRICE"
+          [maxValue]="validationConstants.MAX_PRICE"
           [formControl]="minPriceControl"
           autocomplete="off"
           (blur)="onPriceBlur('min')" />
@@ -41,8 +43,10 @@
           type="number"
           [useArrows]="false"
           appDigitOnly
-          maxlength="6"
           [formControl]="maxPriceControl"
+          appMinMax
+          [minValue]="validationConstants.MIN_PRICE"
+          [maxValue]="validationConstants.MAX_PRICE"
           autocomplete="off"
           (blur)="onPriceBlur('max')" />
         <mat-icon *ngIf="!maxPriceControl.disabled" class="clear-price" (keydown.enter)="clearMax()" (click)="clearMax()">clear</mat-icon>
