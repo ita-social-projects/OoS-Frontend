@@ -10,6 +10,7 @@ import {
 import { FilterState } from 'shared/store/filter.state';
 import { WorkshopType } from 'shared/enum/workshop';
 import { SearchComponent } from 'shared/components/filters-list/search.component';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shared-searchbar',
@@ -24,6 +25,7 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   @Select(FilterState.entityPreviousResults)
   private readonly previousResults$: Observable<string[]>;
   public readonly WorkshopType = WorkshopType;
+  private searchText: string;
 
   constructor(protected readonly store: Store) {
     super(store);
@@ -39,9 +41,15 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
         tap(([value, results]: [string, string[]]) => {
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
         }),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        skip(1)
       )
-      .subscribe();
+      .subscribe((val) => {
+        // avoid multiple calls if search was not previously applied
+        if (!val[0] && val[0] !== this.searchText) {
+          this.performSearch();
+        }
+      });
 
     super.ngOnInit();
   }
@@ -58,11 +66,10 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   }
 
   protected performSearch(): void {
-    const searchValue = this.searchValueFormControl.value;
-    if (this.searchValueFormControl.valid && searchValue) {
-      this.searchedText = searchValue;
+    if (this.searchValueFormControl.valid) {
+      this.searchText = this.searchValueFormControl.value;
       this.saveSearchResults();
-      this.store.dispatch(new SetEntitySearchQueryValue(this.searchedText || ''));
+      this.store.dispatch(new SetEntitySearchQueryValue(this.searchText || ''));
       this.outputSearchFormControl.emit(this.searchValueFormControl);
     } else {
       this.searchValueFormControl.markAllAsTouched();
