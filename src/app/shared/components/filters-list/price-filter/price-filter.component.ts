@@ -1,6 +1,6 @@
 import { ChangeContext, Options } from '@angular-slider/ngx-slider';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice, SetPayRate } from 'shar
 import { PayRateType } from 'shared/enum/workshop';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { FilterState } from 'shared/store/filter.state';
-import { MinMaxPriceValidator } from 'shared/validators/filter-min-max-price-validator';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-price-filter',
@@ -65,15 +65,16 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       this.payRateControl.disable();
     }
 
-    this.limitMinMaxPrice$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((limitMinMaxPrice: MinMaxPriceFilter) => {
-      this.limitMinMaxPrice = limitMinMaxPrice;
-      this.options = this.getSliderOptions(!this.isPaidControl.value);
-      this.updateMinMaxPrice();
-      this.minPriceControl.setValidators(MinMaxPriceValidator('min', this.limitMinMaxPrice, this.maxValue));
-      this.maxPriceControl.setValidators(MinMaxPriceValidator('max', this.limitMinMaxPrice, this.minValue));
-      this.minPriceControl.updateValueAndValidity({ emitEvent: false });
-      this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
-      this.cdr.markForCheck();
+    this.limitMinMaxPrice$.pipe(takeUntil(this.destroy$)).subscribe((limitMinMaxPrice: MinMaxPriceFilter) => {
+      if (limitMinMaxPrice && !Util.deepEqual(this.limitMinMaxPrice, limitMinMaxPrice)) {
+        this.limitMinMaxPrice = limitMinMaxPrice;
+        const minPrice = this.limitMinMaxPrice.minPrice === 0 ? 1 : this.limitMinMaxPrice.minPrice;
+        const maxPrice = this.limitMinMaxPrice.maxPrice;
+        this.updatePriceControls(minPrice, maxPrice, !this.isPaidControl.value);
+      } else if (!limitMinMaxPrice) {
+        this.limitMinMaxPrice = null;
+        this.updatePriceControls(this.validationConstants.MIN_PRICE, this.validationConstants.MAX_PRICE, true);
+      }
     });
 
     this.isFreeControl.valueChanges
@@ -102,49 +103,65 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.minPriceControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((val: number) => {
-        this.store.dispatch(new SetMinPrice(val));
-        this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
+        if (this.minPriceControl.valid) {
+          this.store.dispatch(new SetMinPrice(val));
+          this.maxPriceControl.updateValueAndValidity({ emitEvent: false });
+        }
+        this.minPriceControl.markAsUntouched();
       });
 
     this.maxPriceControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((val: number) => {
-        this.store.dispatch(new SetMaxPrice(val));
-        this.minPriceControl.updateValueAndValidity({ emitEvent: false });
+        if (this.maxPriceControl.valid) {
+          this.store.dispatch(new SetMaxPrice(val));
+          this.minPriceControl.updateValueAndValidity({ emitEvent: false });
+        }
+        this.maxPriceControl.markAsUntouched();
       });
   }
 
   public onPriceBlur(type: 'min' | 'max'): void {
     if (type === 'min' && !this.minPriceControl.value) {
-      this.minPriceControl.setValue(this.validationConstants.MIN_PRICE);
+      const effectiveMin =
+        !this.limitMinMaxPrice?.minPrice || this.limitMinMaxPrice.minPrice === 0
+          ? this.validationConstants.MIN_PRICE
+          : this.limitMinMaxPrice.minPrice;
+      this.minPriceControl.setValue(effectiveMin);
     } else if (type === 'max' && !this.maxPriceControl.value) {
-      this.maxPriceControl.setValue(this.validationConstants.MAX_PRICE);
+      this.maxPriceControl.setValue(this.limitMinMaxPrice?.maxPrice || this.validationConstants.MAX_PRICE);
     }
+    this.minPriceControl.markAsUntouched();
+    this.maxPriceControl.markAsUntouched();
   }
 
   public getSliderOptions(disabled: boolean): Options {
-    const sliderOptions = {
-      ...(this.options ?? {
-        floor: ValidationConstants.MIN_PRICE,
-        ceil: ValidationConstants.MAX_PRICE
-      })
+    const options: Options = {
+      floor: ValidationConstants.MIN_PRICE,
+      ceil: ValidationConstants.MAX_PRICE,
+      ...this.options,
+      disabled: disabled
     };
 
-    if (this.limitMinMaxPrice?.isActiveLimitation) {
-      sliderOptions.floor = this.limitMinMaxPrice.minPrice;
-      sliderOptions.ceil = this.limitMinMaxPrice.maxPrice;
+    if (this.limitMinMaxPrice) {
+      options.floor = this.limitMinMaxPrice?.minPrice === 0 ? 1 : this.limitMinMaxPrice?.minPrice;
+      options.ceil = this.limitMinMaxPrice?.maxPrice;
     }
 
-    return { ...sliderOptions, disabled: disabled };
+    return { ...options };
   }
 
   public clearMin(): void {
-    const minPrice: number = this.limitMinMaxPrice.isActiveLimitation ? this.limitMinMaxPrice.minPrice : ValidationConstants.MIN_PRICE;
+    const minPrice: number = this.limitMinMaxPrice?.minPrice
+      ? this.limitMinMaxPrice.minPrice === 0
+        ? 1
+        : this.limitMinMaxPrice.minPrice
+      : ValidationConstants.MIN_PRICE;
     this.minPriceControl.setValue(minPrice);
   }
 
   public clearMax(): void {
-    const maxPrice: number = this.limitMinMaxPrice.isActiveLimitation ? this.limitMinMaxPrice.maxPrice : ValidationConstants.MAX_PRICE;
+    const maxPrice: number = this.limitMinMaxPrice?.maxPrice ? this.limitMinMaxPrice.maxPrice : ValidationConstants.MAX_PRICE;
     this.maxPriceControl.setValue(maxPrice);
   }
 
@@ -161,15 +178,15 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  private updateMinMaxPrice(): void {
-    if (this.minValue < this.options.floor || this.minValue > this.options.ceil) {
-      this.minValue = this.options.floor;
-      this.minPriceControl.setValue(this.minValue, { emitEvent: false });
-    }
+  private updatePriceControls(minPrice: number, maxPrice: number, sliderDisabled: boolean): void {
+    this.minPriceControl.setValue(minPrice, { emitEvent: false });
+    this.maxPriceControl.setValue(maxPrice, { emitEvent: false });
 
-    if (this.maxValue > this.options.ceil || this.maxValue < this.options.floor) {
-      this.maxValue = this.options.ceil;
-      this.maxPriceControl.setValue(this.maxValue, { emitEvent: false });
-    }
+    this.minPriceControl.setValidators([Validators.min(minPrice), Validators.max(maxPrice)]);
+    this.maxPriceControl.setValidators([Validators.min(minPrice), Validators.max(maxPrice)]);
+
+    this.options = this.getSliderOptions(sliderDisabled);
+
+    this.cdr.markForCheck();
   }
 }

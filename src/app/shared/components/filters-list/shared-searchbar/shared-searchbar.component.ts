@@ -10,6 +10,7 @@ import {
 import { FilterState } from 'shared/store/filter.state';
 import { WorkshopType } from 'shared/enum/workshop';
 import { SearchComponent } from 'shared/components/filters-list/search.component';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shared-searchbar',
@@ -39,9 +40,15 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
         tap(([value, results]: [string, string[]]) => {
           this.filteredResults = results.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
         }),
+        skip(1),
         takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe((val) => {
+        // avoid multiple calls if search was not previously applied
+        if (!val[0] && val[0] !== this.searchedText) {
+          this.performSearch();
+        }
+      });
 
     super.ngOnInit();
   }
@@ -58,9 +65,8 @@ export class SharedSearchbarComponent extends SearchComponent implements OnInit,
   }
 
   protected performSearch(): void {
-    const searchValue = this.searchValueFormControl.value;
-    if (this.searchValueFormControl.valid && searchValue) {
-      this.searchedText = searchValue;
+    if (this.searchValueFormControl.valid) {
+      this.searchedText = this.searchValueFormControl.value;
       this.saveSearchResults();
       this.store.dispatch(new SetEntitySearchQueryValue(this.searchedText || ''));
       this.outputSearchFormControl.emit(this.searchValueFormControl);

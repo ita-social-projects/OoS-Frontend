@@ -1,39 +1,27 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[appMinMax]'
 })
-export class MinMaxDirective implements OnInit, OnDestroy {
-  @Input() public min: number;
-  @Input() public max: number;
-  @Input() public directiveFormControl: AbstractControl;
+export class MinMaxDirective {
+  @Input() public maxValue!: number;
+  @Input() public minValue!: number;
 
-  private debounce$: Subject<number> = new Subject<number>();
-
-  constructor(private ref: ElementRef) {}
+  constructor(private el: ElementRef<HTMLInputElement>) {}
 
   @HostListener('input', ['$event'])
-  public onInput(event: InputEvent): void {
-    const value: number = this.ref.nativeElement.value;
-    this.debounce$.next(value);
-  }
+  public onInput(event: Event): void {
+    const input = this.el.nativeElement;
+    const value = parseFloat(input.value);
 
-  public ngOnInit(): void {
-    this.debounce$.pipe(debounceTime(500)).subscribe((value: number) => this.validate(value));
-  }
-
-  public ngOnDestroy(): void {
-    this.debounce$.unsubscribe();
-  }
-
-  private validate(value: number): void {
-    if (this.max !== null && this.max !== undefined && value >= this.max) {
-      this.directiveFormControl.setValue(this.max);
-    } else if (this.min !== null && this.min !== undefined && value <= this.min) {
-      this.directiveFormControl.setValue(this.min);
+    if (isNaN(value)) {
+      return;
+    }
+    if (this.maxValue != null && value > this.maxValue) {
+      input.value = this.maxValue.toString();
+    }
+    if (this.minValue != null && value < this.minValue) {
+      input.value = this.minValue.toString();
     }
   }
 }

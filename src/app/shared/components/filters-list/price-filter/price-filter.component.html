@@ -23,7 +23,9 @@
           type="number"
           [useArrows]="false"
           appDigitOnly
-          maxlength="6"
+          appMinMax
+          [minValue]="options.floor"
+          [maxValue]="options.ceil"
           [formControl]="minPriceControl"
           autocomplete="off"
           (blur)="onPriceBlur('min')" />
@@ -41,25 +43,15 @@
           type="number"
           [useArrows]="false"
           appDigitOnly
-          maxlength="6"
           [formControl]="maxPriceControl"
+          appMinMax
+          [minValue]="options.floor"
+          [maxValue]="options.ceil"
           autocomplete="off"
           (blur)="onPriceBlur('max')" />
         <mat-icon *ngIf="!maxPriceControl.disabled" class="clear-price" (keydown.enter)="clearMax()" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
-  </div>
-  <div *ngIf="limitMinMaxPrice.isActiveLimitation">
-    <app-validation-hint
-      [validationFormControl]="minPriceControl"
-      [minValue]="limitMinMaxPrice.minPrice"
-      [maxValue]="limitMinMaxPrice.maxPrice">
-    </app-validation-hint>
-    <app-validation-hint
-      [validationFormControl]="maxPriceControl"
-      [minValue]="limitMinMaxPrice.minPrice"
-      [maxValue]="limitMinMaxPrice.maxPrice">
-    </app-validation-hint>
   </div>
   <div class="filter-slider flex flex-col justify-between gap-4" [class.input-wrapper-disable]="!isPaidControl.value">
     <ngx-slider (userChange)="priceHandler($event)" [value]="minPriceControl.value" [highValue]="maxPriceControl.value" [options]="options">

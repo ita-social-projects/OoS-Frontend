@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { AddPreviousResult, RemovePreviousResult, SetSearchQueryValue } from 'shared/store/filter.actions';
+import { AddEntityPreviousResult, RemoveEntityPreviousResult, SetEntitySearchQueryValue } from 'shared/store/filter.actions';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -51,18 +51,16 @@ describe('SharedSearchbarComponent', () => {
 
   it('should dispatch SetSearchQueryValue on performSearch', () => {
     component.searchValueFormControl.setValue('SearchValue');
-    (component as any).tempSearchValue = 'SearchValue';
 
     (component as any).performSearch();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetSearchQueryValue('SearchValue'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new SetEntitySearchQueryValue('SearchValue'));
   });
 
   it('should save search results by dispatching AddPreviousResult', () => {
     component.searchValueFormControl.setValue('NewSearch');
-    (component as any).tempSearchValue = 'NewSearch';
 
     (component as any).performSearch();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new AddPreviousResult('NewSearch'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new AddEntityPreviousResult('NewSearch'));
   });
 
   it('should remove previous search value when onDeletePreviousSearchValue is called', () => {
@@ -74,6 +72,6 @@ describe('SharedSearchbarComponent', () => {
 
     expect(event.stopPropagation).toHaveBeenCalled();
     expect(component.filteredResults).toEqual([]);
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new RemovePreviousResult('OldSearch'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new RemoveEntityPreviousResult('OldSearch'));
   });
 });
