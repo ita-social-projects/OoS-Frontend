@@ -5,7 +5,6 @@ import { Store } from '@ngxs/store';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Direction } from 'shared/models/category.model';
-import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { SetDirections } from 'shared/store/filter.actions';
 
 @Component({
@@ -36,7 +35,9 @@ export class CategoryCardComponent {
 
   public selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction.id]));
-    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
-    this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+    this.router.navigate(['result/List'], {
+      queryParams: { filter: `directionIds=${direction.id}` },
+      replaceUrl: true
+    });
   }
 }
