@@ -16,7 +16,7 @@
 }
 
 :host ::ng-deep .mdc-text-field {
-  padding: 0px;
+  padding: 0;
 }
 
 .input-wrapper {
@@ -28,6 +28,7 @@
   line-height: 22px;
   color: var(--primary-dark-text-color) !important;
   text-overflow: ellipsis;
+  caret-color: var(--primary-dark-text-color) !important;
 
   &::placeholder {
     color: var(--primary-dark-text-color) !important;
@@ -60,7 +61,7 @@
 
   .close-icon {
     position: static;
-    margin: 0px;
+    margin: 0;
     font-size: 1rem;
     width: 1rem;
     height: 1rem;
