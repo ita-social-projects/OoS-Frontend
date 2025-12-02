@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { RatingService } from './rating.service';
 import { NgxsModule } from '@ngxs/store';
+import { RatingService } from './rating.service';
 
 describe('RatingService', () => {
   let service: RatingService;

@@ -1,6 +1,10 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
+
+:host {
+  margin: 5px 0;
+}
 
 :host ::ng-deep .mat-form-field-wrapper,
 :host ::ng-deep .mat-form-field-infix {
@@ -15,12 +19,14 @@
 }
 
 .address-wrapper-border {
-  border-bottom: 2px solid #e3e3e3;
+  border-bottom: 2px solid var(--input-light-color);
 }
 
 .additional-text {
   opacity: 0.5;
   margin-left: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 h4 {
@@ -28,23 +34,26 @@ h4 {
 }
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
+  margin-top: 5px;
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
-}
-
-.redBorder {
-  outline: none;
-  border: 1px solid #c72a21;
+  height: 36px;
+  margin-bottom: 10px;
 }
 
 .input-wrapper {
   padding: 0.5rem 0;
 }
 
+.redBorder {
+  outline: none;
+  border: 1px solid var(--error-color);
+}
+
 .option-sub-text {
-  color: #161414;
+  color: var(--primary-light-text-color);
   opacity: 0.6;
   font-size: 14px;
   &:hover {

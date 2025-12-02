@@ -1,16 +1,20 @@
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../shared/enum/role';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
-import { FilterState } from '../../../shared/store/filter.state';
-import { SearchResponse } from '../../../shared/models/search.model';
-import { PaginationParameters } from '../../../shared/models/queryParameters.model';
-import { Util } from '../../../shared/utils/utils';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { SetFilterPagination } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { Util } from 'shared/utils/utils';
+import { WINDOW } from 'ngx-window-token';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -18,50 +22,67 @@ import { Util } from '../../../shared/utils/utils';
   styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
-  readonly noResultWorkshops = NoResultsTitle.noResult;
-  readonly Role = Role;
-
-  @Input() workshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() paginationParameters: PaginationParameters;
-  @Input() role: string;
-  @Input() currentPage: PaginationElement;
+  @Input() public workshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() public role: string;
 
   @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
+  public isLoadingResultPage$: Observable<boolean>;
 
-  isVisible = false;
-  parent: boolean;
-  workshops: SearchResponse<WorkshopCard[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
+  public paginationParameters: PaginationParameters = { size: PaginationConstants.WORKSHOPS_PER_PAGE, from: 0 };
+  public readonly noResultWorkshops = NoResultsTitle.noResult;
+  public readonly Role = Role;
 
-  constructor(public store: Store) {}
+  public parent: boolean;
+  public workshops: SearchResponse<WorkshopCard[]>;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {
+  constructor(
+    public store: Store,
+    private readonly route: ActivatedRoute,
+    @Inject(WINDOW) private readonly window: Window
+  ) {}
+
+  public ngOnInit(): void {
     this.workshops$
       .pipe(
         takeUntil(this.destroy$),
         filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
       )
-      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
+      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => {
+        this.workshops = workshops;
+      });
+
+    this.setInitialPage();
   }
 
-  onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
+  public onPageChange(page: PaginationElement): void {
+    this.currentPage = { ...page };
     this.getWorkshops();
+    Util.scrollToTop(this.window);
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
   private getWorkshops(): void {
     Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
-    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
+  }
+
+  private setInitialPage(): void {
+    const filterFromQuery = Util.parseFilterStateQuery(this.route.snapshot.queryParams.filter || null);
+    const from = filterFromQuery.from ?? 0;
+    const size = filterFromQuery.size ?? PaginationConstants.WORKSHOPS_PER_PAGE;
+
+    this.paginationParameters.from = from;
+    this.currentPage.element = Math.floor(from / size) + 1;
   }
 }

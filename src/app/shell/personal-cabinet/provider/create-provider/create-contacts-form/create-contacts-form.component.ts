@@ -18,12 +18,12 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   @Output() public passActualAddressFormGroup = new EventEmitter();
   @Output() public passLegalAddressFormGroup = new EventEmitter();
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public legalAddressFormGroup: FormGroup;
   public actualAddressFormGroup: FormGroup;
   public searchFormGroup: FormGroup;
   public isSameAddressControl: FormControl = new FormControl(false);
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}
 
@@ -84,9 +84,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   private initData(): void {
     this.initFormGroups();
     this.initListeners();
-    if (this.provider) {
-      this.activateEditMode();
-    }
     this.passLegalAddressFormGroup.emit(this.legalAddressFormGroup);
     this.passActualAddressFormGroup.emit(this.actualAddressFormGroup);
   }
@@ -131,36 +128,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    */
   private sameAddressListener(): void {
     this.isSameAddressControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isSame: boolean) => this.handleSameAddress(isSame));
-  }
-
-  /**
-   * This method handle edit state for the formGroup
-   */
-  private activateEditMode(): void {
-    const legalAddress = this.provider?.legalAddress;
-    const actualAddress = this.provider?.actualAddress;
-    const legalCodeficatorAddress = legalAddress?.codeficatorAddressDto;
-    const actualCodeficatorAddress = actualAddress?.codeficatorAddressDto;
-
-    // Setup Legal Address form controls
-    this.legalAddressFormGroup.patchValue(legalAddress, { emitEvent: false });
-    this.settlementLegalSearchFormControl.patchValue(legalCodeficatorAddress.settlement, {
-      emitEvent: false,
-      onlySelf: true
-    });
-    this.settlementLegalFormControl.patchValue(legalCodeficatorAddress, { emitEvent: false, onlySelf: true });
-
-    // Setup Actual Address form controls
-    if (actualAddress) {
-      this.actualAddressFormGroup.patchValue(actualAddress, { emitEvent: false });
-      this.settlementActualSearchFormControl.patchValue(actualCodeficatorAddress.settlement, {
-        emitEvent: false,
-        onlySelf: true
-      });
-      this.settlementActualFormControl.patchValue(actualCodeficatorAddress, { emitEvent: false, onlySelf: true });
-    }
-
-    this.isSameAddressControl.setValue(!Boolean(this.provider.actualAddress));
   }
 
   /**
@@ -220,10 +187,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       controlsConfigList.forEach((config: { control: AbstractControl; validators: ValidatorFn | ValidatorFn[] }) => {
         this.setValidators(config.control, config.validators);
       });
-
-      if (this.provider?.actualAddress) {
-        this.codeficatorIdActualFormControl.setValue(this.provider.actualAddress.catottgId);
-      }
     }
   }
 }

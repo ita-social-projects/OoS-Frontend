@@ -1,62 +1,104 @@
 .wrapper {
   margin-top: 16px;
 }
+
 .filter-text {
   margin: 0 1rem 0 0;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--primary-light-text-color);
 }
+
 .title {
   margin-top: 24px;
   margin-bottom: 0;
 }
+
 .age-input {
-  border: 1px solid #e3e3e3;
-  background-color: #ffffff;
+  border: 1px solid var(--input-light-color);
+  background-color: var(--primary-light-bg-color);
+  color: var(--primary-light-text-color);
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
+  width: 114px;
   max-height: 34px;
+  max-width: 114px;
   text-align: center;
 }
 
-.age-input::-webkit-outer-spin-button,
-.age-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
+.disabled {
+  opacity: 0.5;
 }
 
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0 !important;
 }
 
 :host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
+
 :host ::ng-deep .mat-form-field {
   max-width: 150px !important;
 }
-.age-input:hover + .clear-age {
+
+.age-input:focus + .clear-age {
   visibility: visible;
 }
+
 .clear-age {
   cursor: pointer;
   visibility: hidden;
   position: absolute;
   font-size: 18px;
-  color: #adadad;
+  color: var(--secondary-light-text-color);
   top: 8px;
-  left: 114px;
+  left: 85px;
 }
+
 .clear-age:hover {
   visibility: visible;
 }
+
 .check-boxes {
   margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column !important;
+  }
+
+  .filter-text {
+    min-width: 20px;
+  }
+
+  .from-filter-text {
+    margin-bottom: 10px;
+  }
+}
+
+.age-input.ng-invalid.ng-touched,
+.redBorder {
+  outline: none;
+  border: 1px solid var(--error-color);
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: var(--error-color);
+}
+
+mat-error {
+  margin-top: 8px;
 }

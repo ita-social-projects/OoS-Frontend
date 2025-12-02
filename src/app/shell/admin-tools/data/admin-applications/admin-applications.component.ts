@@ -1,38 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { GetAllApplications } from '../../../../shared/store/shared-user.actions';
-import { ApplicationEntityType } from '../../../../shared/enum/applications';
-import { ApplicationFilterParameters } from '../../../../shared/models/application.model';
-import { CabinetDataComponent } from '../../../../shell/personal-cabinet/shared-cabinet/cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { PaginationConstants } from '../../../../shared/constants/constants';
+import { Store } from '@ngxs/store';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ApplicationFilterParameters } from 'shared/models/application.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { GetAllApplications } from 'shared/store/shared-user.actions';
+import { CabinetDataComponent } from '../../../personal-cabinet/shared-cabinet/cabinet-data.component';
 
 @Component({
   selector: 'app-admin-applications',
-  templateUrl: './admin-applications.component.html',
-  styleUrls: ['./admin-applications.component.scss']
+  templateUrl: './admin-applications.component.html'
 })
 export class AdminApplicationsComponent extends CabinetDataComponent implements OnInit {
-  applicationParams: ApplicationFilterParameters = {
+  public applicationParams: ApplicationFilterParameters = {
     property: ApplicationEntityType.provider,
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
+    show: ApplicationShowParams.All,
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 
-  init(): void {}
-
-  onGetApplications(): void {
+  public onGetApplications(): void {
     this.store.dispatch(new GetAllApplications(this.applicationParams));
+  }
+
+  protected init(): void {
+    // No additional initialization
   }
 
   protected addNavPath(): void {

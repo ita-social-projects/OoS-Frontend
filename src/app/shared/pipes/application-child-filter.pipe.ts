@@ -6,7 +6,7 @@ import { Child } from '../models/child.model';
   name: 'applicationChildFilter'
 })
 export class ApplicationChildFilterPipe implements PipeTransform {
-  transform(applications: Application[], child: Child): Application[] {
+  public transform(applications: Application[], child: Child): Application[] {
     return applications.filter((application) => application.childId === child.id);
   }
 }

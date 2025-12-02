@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/create-form.scss';
+@use 'create-form';
 
 .form-wrapper {
   width: 100%;
@@ -6,19 +6,22 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .photo-header {
   font-weight: bold;
   font-size: 0.813rem;
   line-height: 0.938rem;
-  color: #333333;
+  color: var(--primary-light-text-color);
 }
+
 .photo-subheader {
   font-weight: normal;
   font-size: 0.813rem;
   line-height: 1.125rem;
   margin-bottom: 0.3rem;
-  color: #aaaaaa;
+  color: var(--primary-light-text-color);
 }
+
 .logo {
   &_cancel {
     position: absolute;
@@ -28,9 +31,11 @@
     z-index: 10;
     display: none;
   }
+
   &_button {
     width: 100%;
     max-width: 95px;
+
     label {
       position: absolute;
       left: 0;
@@ -38,7 +43,7 @@
       width: 95px;
       height: 58px;
       background: rgba(56, 73, 249, 0.1);
-      border: 0.063rem dashed #3849f9;
+      border: 0.063rem dashed var(--primary-accent-color);
       box-sizing: border-box;
       border-radius: 0.313rem;
       display: flex;
@@ -46,32 +51,52 @@
       align-items: center;
       cursor: pointer;
     }
+
     label:hover {
       transition: all 0.3s ease-out;
       background: rgba(56, 73, 249, 0.3);
     }
+
     input {
       display: none;
     }
   }
+
   &_images {
     width: 95px;
     height: 58px;
-    background: #ffffff;
-    img {
+    border-radius: 5px;
+    background: var(--primary-light-bg-color);
+    img,
+    .fallback {
       object-fit: cover;
       width: 95px;
       height: 58px;
       border-radius: 5px;
     }
+
+    .fallback {
+      box-sizing: border-box;
+      border: 2px solid var(--error-color);
+      color: var(--error-color);
+      font-weight: bold;
+      user-select: none;
+    }
   }
 }
-mat-grid-tile img:hover + .logo_cancel {
+
+mat-grid-tile img:hover + .logo_cancel,
+mat-grid-tile .fallback:hover + .logo_cancel {
   display: block;
 }
+
 .logo_cancel:hover {
   display: block;
 }
 mat-icon:hover {
-  color: red;
+  color: var(--error-color);
+}
+
+.step-label {
+  color: var(--primary-light-text-color);
 }

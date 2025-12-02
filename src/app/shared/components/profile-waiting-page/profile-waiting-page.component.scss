@@ -1,0 +1,41 @@
+:host {
+  height: 100vh;
+  background-color: var(--primary-light-bg-color);
+}
+
+.waiting-container {
+  width: 716px;
+  background-color: #fafcff;
+  border-radius: 8px;
+  padding: 36px 24px;
+  box-shadow: 0 6px 16px 0 #00000014;
+  gap: 10px;
+  margin-top: 100px;
+}
+
+.waiting-content {
+  gap: 18px;
+}
+
+.waiting-title-main {
+  font-size: 24px;
+  font-weight: 800;
+  color: #444444;
+}
+
+.waiting-title-secondary {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444444;
+}
+
+.waiting-duration-text {
+  font-size: 13px;
+  color: #888888;
+  line-height: 16px;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-mdc-progress-spinner svg {
+  stroke: var(--specific-text-color) !important;
+}

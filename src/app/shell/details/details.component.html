@@ -1,21 +1,13 @@
-<div
-  class="wrapper"
-  fxLayoutGap="0px"
-  fxLayoutGap.gt-md="2rem"
-  fxLayoutAlign="center space-between"
-  [fxLayout]="isMobileScreen ? 'column' : 'row'"
-  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row wrap'"
->
-  <ng-container *ngIf="entity === entityType.workshop; then WorkshopDetails; else ProviderDetails"></ng-container>
-
+<div class="details-container flex flex-col gap-0 justify-start items-stretch box-border">
+  <ng-container *ngIf="workshop; then WorkshopDetails; else CompetitionDetails"></ng-container>
   <app-side-menu
-    *ngIf="provider"
+    *ngIf="provider && displayActionCard"
     [workshop]="workshop"
     [provider]="provider"
+    [competition]="competition"
     [role]="role"
     [isMobileScreen]="isMobileScreen"
-    [displayActionCard]="displayActionCard"
-  >
+    [displayActionCard]="displayActionCard">
   </app-side-menu>
 </div>
 
@@ -27,8 +19,21 @@
     [provider]="provider"
     [role]="role"
     [isMobileScreen]="isMobileScreen"
-    [displayActionCard]="displayActionCard"
-  ></app-workshop-details>
+    [currentProvider]="currentProvider$ | async"
+    [displayActionCard]="displayActionCard"></app-workshop-details>
+</ng-template>
+
+<ng-template #CompetitionDetails>
+  <ng-container *ngIf="competition; else ProviderDetails">
+    <app-competition-details
+      class="workshop-page-wrap"
+      [competition]="competition"
+      [provider]="provider"
+      [role]="role"
+      [isMobileScreen]="isMobileScreen"
+      [currentProvider]="currentProvider$ | async"
+      [displayActionCard]="displayActionCard"></app-competition-details>
+  </ng-container>
 </ng-template>
 
 <ng-template #ProviderDetails>

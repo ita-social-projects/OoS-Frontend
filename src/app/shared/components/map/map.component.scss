@@ -1,8 +1,29 @@
-#map {
+.map {
   height: 100%;
   width: 100%;
 }
 
 .leaflet-interactive {
   cursor: grab !important;
+}
+
+.geolocation-button {
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  padding: 2px 0 0;
+  top: 100px;
+  left: 10px;
+  z-index: 1000;
+  cursor: pointer;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  &:hover {
+    background-color: darken($color: #d6cece, $amount: 3);
+  }
+
+  @media (max-width: 750px) {
+    top: calc(100vh - 250px);
+  }
 }

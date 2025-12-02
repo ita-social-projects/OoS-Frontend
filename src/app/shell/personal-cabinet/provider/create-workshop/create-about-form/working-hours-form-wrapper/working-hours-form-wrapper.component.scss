@@ -1,7 +1,14 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'buttons';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .btn-add {
-  padding: 2px 0;
+  padding: 2px 10px;
+  color: var(--primary-light-text-color) !important;
 }
 
 @media (max-width: 750px) {

@@ -1,0 +1,78 @@
+:host ::ng-deep {
+  .mdc-tab {
+    height: 36px !important;
+  }
+
+  .mat-mdc-tab-group {
+    --mat-tab-header-inactive-label-text-color: var(--specific-light-text-color);
+    --mat-tab-header-inactive-hover-label-text-color: var(--specific-light-text-color);
+    --mat-tab-header-inactive-focus-label-text-color: var(--specific-light-text-color);
+
+    &:hover,
+    &-nav-bar:hover {
+      --mat-tab-header-active-ripple-color: transparent;
+    }
+  }
+
+  .mat-mdc-tab-ripple {
+    border-radius: 20px;
+  }
+
+  .mdc-tab__ripple::before {
+    border-radius: 20px;
+  }
+
+  .mdc-tab-indicator--active {
+    .mat-ripple {
+      color: var(--primary-accent-color);
+      background: rgba(56, 73, 249, 0.07);
+      --mat-tab-header-active-ripple-color: var(--primary-accent-color);
+      border: 2px solid var(--primary-accent-color);
+      box-sizing: border-box;
+      border-radius: 20px;
+      opacity: 1;
+    }
+
+    .mat-mdc-ripple {
+      box-sizing: border-box;
+    }
+
+    .mdc-tab-indicator {
+      display: none;
+    }
+  }
+
+  .mat-mdc-tab,
+  .mdc-tab__content {
+    max-height: 40px;
+  }
+
+  .mdc-tab__text-label {
+    font-weight: 600;
+  }
+
+  .mat-mdc-tab-header {
+    border: none;
+    margin-bottom: 1rem;
+  }
+
+  .application-wrapper {
+    .mat-mdc-tab-header {
+      width: 80%;
+    }
+  }
+
+  .mat-tab-label {
+    min-width: min-content;
+  }
+}
+
+@media (max-width: 1200px) {
+  :host ::ng-deep {
+    .application-wrapper {
+      .mat-tab-header {
+        width: 100%;
+      }
+    }
+  }
+}

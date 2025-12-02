@@ -1,0 +1,17 @@
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 10px 2rem;
+}
+
+@media (max-width: 1070px) {
+  .card-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}

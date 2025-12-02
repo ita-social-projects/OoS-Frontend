@@ -1,23 +1,16 @@
 export enum Role {
-  provider = 'provider',
-  parent = 'parent',
+  all = 'all',
   unauthorized = 'unauthorized',
+  provider = 'provider',
+  // TODO: Remove providerDeputy when position will be implemented, adjust checks
+  providerDeputy = 'providerdeputy',
+  employee = 'employee',
+  parent = 'parent',
   techAdmin = 'techadmin',
   ministryAdmin = 'ministryadmin',
   regionAdmin = 'regionadmin',
-  ProviderDeputy = 'ProviderDeputy',
-  ProviderAdmin = 'ProviderAdmin',
-  all = 'all',
-  child = 'child',
-  None = 'None'
-}
-
-export enum EntityType {
-  provider = 'provider',
-  workshop = 'workshop',
-  ProviderAdmin = 'provideradmin',
-  ProviderDeputy = 'provider',
-  None = 'provider'
+  areaAdmin = 'areaadmin',
+  moderator = 'moderator'
 }
 
 export enum UserTabParams {

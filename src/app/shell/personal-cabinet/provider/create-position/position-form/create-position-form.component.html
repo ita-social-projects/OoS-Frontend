@@ -1,0 +1,168 @@
+<form [formGroup]="PositionFormGroup" class="step flex flex-col justify-between items-stretch">
+  <label for="fullName" class="step-label">{{ 'FORMS.LABELS.FULL_TITLE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input matInput formControlName="fullName" class="step-input" placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_FULL_TITLE' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('fullName')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <label for="shortName" class="step-label">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input matInput formControlName="shortName" class="step-input" placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_SHORT_TITLE' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('shortName')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <label for="genetiveName" class="step-label">
+    {{ 'FORMS.LABELS.NAME_IN_GENITIVE_CASE' | translate }}<span class="step-required">*</span>
+  </label>
+  <mat-form-field appearance="fill">
+    <input
+      matInput
+      formControlName="genitiveName"
+      class="step-input"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_NAME_IN_GENITIVE_CASE' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('genitiveName')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <label for="language" class="step-label">{{ 'FORMS.LABELS.LANGUAGE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input matInput formControlName="language" class="step-input" placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_LANGUAGE' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('language')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <div class="step-label-combined">
+    <label for="description" class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
+    <label for="description" class="step-characters-count">
+      {{ PositionFormGroup.get('description').value.length }}/{{ validationConstants.INPUT_LENGTH_500 }}
+    </label>
+  </div>
+  <textarea
+    matInput
+    formControlName="description"
+    class="step-textarea step-textarea-long"
+    placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_DESCRIPTION' | translate }}"></textarea>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('description')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_500">
+  </app-validation-hint>
+
+  <mat-checkbox class="step-label" color="primary" formControlName="isForRuralAreas">
+    {{ 'FORMS.LABELS.FOR_RURAL_AREAS' | translate }}
+  </mat-checkbox>
+
+  <label for="department" class="step-label">
+    {{ 'FORMS.LABELS.OPENED_IN_DEPARTMENT' | translate }}<span class="step-required">*</span>
+  </label>
+  <mat-form-field appearance="fill">
+    <input
+      matInput
+      formControlName="department"
+      class="step-input"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_DEPARTMENT_NAME' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('department')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <div class="flex flex-col justify-between items-stretch">
+    <div class="flex flex-row justify-between items-start">
+      <label for="seatsAmount" class="step-label">
+        {{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span>
+      </label>
+    </div>
+    <mat-radio-group formControlName="seatsAmountRadioBtnControl" color="primary">
+      <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
+      <div class="container flex flex-row justify-between items-center">
+        <div class="radio-button-wrap flex flex-row justify-center items-center">
+          <mat-radio-button [value]="false">
+            <input
+              matInput
+              class="step-input price-input"
+              appDigitOnly
+              formControlName="seatsAmount"
+              type="number"
+              [min]="validationConstants.MIN_SEATS"
+              [max]="validationConstants.MAX_SEATS" />
+          </mat-radio-button>
+        </div>
+      </div>
+      <app-validation-hint
+        [isNumberValue]="true"
+        [validationFormControl]="PositionFormGroup.get('seatsAmount')"
+        [minValue]="validationConstants.MIN_SEATS"
+        [maxValue]="validationConstants.MAX_SEATS"></app-validation-hint>
+    </mat-radio-group>
+  </div>
+
+  <mat-checkbox class="step-label" color="primary" formControlName="isTeachingPosition">
+    {{ 'FORMS.LABELS.TEACHING_POSITION' | translate }}
+  </mat-checkbox>
+
+  <label for="rate" class="step-label">{{ 'FORMS.LABELS.RATE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input
+      matInput
+      formControlName="rate"
+      class="step-input"
+      type="number"
+      appDigitOnly
+      placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_RATE' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [isNumberValue]="true"
+    [validationFormControl]="PositionFormGroup.get('rate')"
+    [maxValue]="validationConstants.MAX_RATE"
+    [minValue]="validationConstants.MIN_RATE">
+  </app-validation-hint>
+
+  <label for="tariff" class="step-label">{{ 'FORMS.LABELS.TARIFF' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <input
+      matInput
+      formControlName="tariff"
+      class="step-input"
+      type="number"
+      appDigitOnly
+      placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_TARIFF' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [isNumberValue]="true"
+    [validationFormControl]="PositionFormGroup.get('tariff')"
+    [maxValue]="validationConstants.MAX_RATE"
+    [minValue]="validationConstants.MIN_RATE">
+  </app-validation-hint>
+
+  <label for="classifierType" class="step-label">
+    {{ 'FORMS.LABELS.TYPE_BY_CLASSIFIER' | translate }}<span class="step-required">*</span>
+  </label>
+  <mat-form-field appearance="fill">
+    <input
+      matInput
+      formControlName="classifierType"
+      class="step-input"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.ENTER_TYPE_BY_CLASSIFIER' | translate }}" />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PositionFormGroup.get('classifierType')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_100">
+  </app-validation-hint>
+</form>

@@ -1,39 +1,43 @@
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import localeUk from '@angular/common/locales/uk';
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { APP_INITIALIZER, inject, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsModule } from '@ngxs/store';
+import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
+import { NgxsModule, Store } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
 
+import { ErrorHandleInterceptor } from 'shared/interceptors/error-handle.interceptor';
+import { RegistrationModule } from 'shared/modules/registration.module';
+import { SharedModule } from 'shared/shared.module';
+import { AdminState } from 'shared/store/admin.state';
+import { AppState } from 'shared/store/app.state';
+import { ChatState } from 'shared/store/chat.state';
+import { FilterState } from 'shared/store/filter.state';
+import { MainPageState } from 'shared/store/main-page.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { NavigationState } from 'shared/store/navigation.state';
+import { NotificationState } from 'shared/store/notification.state';
+import { ParentState } from 'shared/store/parent.state';
+import { ProviderState } from 'shared/store/provider.state';
+import { CheckAuth } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
-import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
-import { RegistrationModule } from './shared/modules/registration.module';
-import { SharedModule } from './shared/shared.module';
-import { AdminState } from './shared/store/admin.state';
-import { AppState } from './shared/store/app.state';
-import { ChatState } from './shared/store/chat.state';
-import { FilterState } from './shared/store/filter.state';
-import { MainPageState } from './shared/store/main-page.state';
-import { MetaDataState } from './shared/store/meta-data.state';
-import { NavigationState } from './shared/store/navigation.state';
-import { NotificationsState } from './shared/store/notifications.state';
-import { ParentState } from './shared/store/parent.state.';
-import { ProviderState } from './shared/store/provider.state';
-import { RegistrationState } from './shared/store/registration.state';
-import { SharedUserState } from './shared/store/shared-user.state';
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
 
@@ -55,20 +59,31 @@ registerLocaleData(localeUk);
       SharedUserState,
       AdminState,
       NavigationState,
-      NotificationsState,
+      NotificationState,
       MainPageState,
       ProviderState,
       ParentState,
       ChatState
     ]),
 
+    NgxsStoragePluginModule.forRoot({
+      key: [
+        {
+          key: AppState,
+          engine: SESSION_STORAGE_ENGINE
+        },
+        {
+          key: 'filter.previousResults',
+          engine: LOCAL_STORAGE_ENGINE
+        }
+      ]
+    }),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production
     }),
-    FlexLayoutModule,
     ShellModule,
     RegistrationModule,
     HttpClientModule,
@@ -83,8 +98,30 @@ registerLocaleData(localeUk);
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
     {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'custom-overlay-panel' }
+      provide: APP_INITIALIZER,
+      useFactory: () => {
+        const store = inject(Store);
+        const router = inject(Router);
+
+        return (): Observable<unknown> => {
+          const queryParams = new URLSearchParams(window.location.search);
+          const error = queryParams.get('error');
+
+          if (error === 'access_denied') {
+            router.navigate(['']);
+            store.dispatch(
+              new ShowMessageBar({
+                message: SnackbarText.accessIsDenied,
+                type: 'warningYellow'
+              })
+            );
+            return of(null);
+          }
+
+          return store.dispatch(new CheckAuth());
+        };
+      },
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -96,6 +133,6 @@ registerLocaleData(localeUk);
 })
 export class AppModule {}
 
-export function createTranslateLoader(http: HttpClient) {
+export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

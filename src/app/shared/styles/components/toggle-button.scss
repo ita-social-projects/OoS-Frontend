@@ -1,0 +1,50 @@
+mat-button-toggle {
+  font-size: 13px;
+  font-weight: 700;
+  --mat-standard-button-toggle-height: 1;
+}
+
+.mat-button-toggle-button :active {
+  color: var(--primary-accent-color);
+}
+
+.mat-button-toggle-checked {
+  background-color: var(--button-toggle-color);
+  color: var(--primary-accent-color);
+  border: 2px solid var(--primary-accent-color);
+}
+
+.btn {
+  &-left {
+    border-top-left-radius: 1.2rem;
+    border-bottom-left-radius: 1.2rem;
+  }
+
+  &-right {
+    border-top-right-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+  }
+}
+
+.mat-button-toggle-group {
+  align-items: center;
+  background: var(--button-toggle-color) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 1;
+}
+
+.mat-button-toggle-group .mat-button-toggle:nth-child(2) {
+  &.mat-button-toggle-checked {
+    border-left: 2px solid var(--primary-accent-color);
+  }
+}
+
+::ng-deep .mat-button-toggle .mat-button-toggle-button .mat-button-toggle-label-content {
+  display: flex;
+  align-items: center;
+}

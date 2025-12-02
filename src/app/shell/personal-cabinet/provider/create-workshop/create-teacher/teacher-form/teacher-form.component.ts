@@ -1,16 +1,26 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { debounceTime, filter } from 'rxjs';
 
-import { CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../../shared/constants/validation';
-import { Util } from '../../../../../../shared/utils/utils';
+import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Util } from 'shared/utils/utils';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-teacher-form',
   templateUrl: './teacher-form.component.html',
   styleUrls: ['./teacher-form.component.scss']
 })
-export class TeacherFormComponent {
+export class TeacherFormComponent implements OnInit {
+  @ViewChild('DateInput') public dateInput: ElementRef;
+  @Input() public index: number;
+  @Input() public TeacherFormGroup: AbstractControl;
+  @Input() public teacherAmount: number;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public deleteForm = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -26,16 +36,44 @@ export class TeacherFormComponent {
   public today: Date = new Date();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  @Input() public index: number;
-  @Input() public TeacherFormGroup: FormGroup;
-  @Input() public teacherAmount: number;
-  @Input() public isImagesFeature: boolean;
+  protected readonly dateFilter = DATE_REGEX;
 
-  @Output() public deleteForm = new EventEmitter();
+  private readonly defaultDebounceTime: number = 300;
 
   constructor() {}
 
+  public get TeacherForm(): FormGroup {
+    return this.TeacherFormGroup as FormGroup;
+  }
+
+  public ngOnInit(): void {
+    this.TeacherForm.get('defaultTeacher')
+      ?.valueChanges.pipe(debounceTime(this.defaultDebounceTime), filter(Boolean))
+      .subscribe(() => {
+        // take form array from create-teacher component
+        const parentArray = this.TeacherForm.parent as FormArray;
+
+        if (parentArray) {
+          parentArray.controls
+            .filter((control) => control !== this.TeacherForm)
+            .forEach((control) => {
+              control.get('defaultTeacher')?.setValue(false, { emitEvent: false });
+            });
+        }
+      });
+  }
+
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  public onFocusOut(formControlName: string): void {
+    if (this.TeacherFormGroup.get(formControlName).pristine && !this.TeacherFormGroup.get(formControlName).value) {
+      this.TeacherFormGroup.get(formControlName).setValue(null);
+    }
+  }
+
+  public focusDateInput(): void {
+    this.dateInput.nativeElement.focus();
   }
 }

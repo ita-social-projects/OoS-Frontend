@@ -1,0 +1,141 @@
+<ng-container *ngIf="provider">
+  <div class="create-form" *ngIf="(editMode && competition) || !editMode">
+    <div class="wrapper">
+      <div class="create-form-header flex flex-col items-center justify-center">
+        <h3 class="wrapper-title">
+          {{
+            (editMode
+              ? entity === WorkshopType.Competition
+                ? 'FORMS.HEADERS.EDIT_COMPETITION'
+                : 'FORMS.HEADERS.EDIT_COMPETITION_DRAFT'
+              : 'FORMS.HEADERS.NEW_COMPETITION'
+            ) | translate
+          }}
+        </h3>
+        <p class="wrapper-text">
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_DESCRIPTION_PATH') | translate }}
+          {{ 'FORMS.HEADERS.COMPETITION_FORM_DESCRIPTION' | translate }}
+        </p>
+      </div>
+
+      <mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="RequiredFormGroup">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_COMPETITION' | translate }}</p>
+          </ng-template>
+          <app-create-required-form
+            class="flex flex-row items-center justify-center"
+            [competition]="competition"
+            [parentCompetition]="parentCompetition"
+            [isImagesFeature]="isImagesFeature"
+            [provider]="provider"
+            (PassRequiredFormGroup)="onReceiveRequiredFormGroup($event)">
+          </app-create-required-form>
+          <div class="flex flex-row items-center justify-center footer">
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="RequiredFormGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(RequiredFormGroup)">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!RequiredFormGroup.invalid && DescriptionFormGroup?.valid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
+          </ng-template>
+          <app-create-competition-description-form
+            class="flex flex-row items-center justify-center"
+            [competition]="competition"
+            [isImagesFeature]="isImagesFeature"
+            [provider]="provider"
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+          </app-create-competition-description-form>
+          <div class="flex flex-row items-center justify-center footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="DescriptionFormGroup"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(DescriptionFormGroup)">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="ContactsFormArray"
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && ContactsFormArray?.valid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
+          </ng-template>
+          <app-create-contacts [contacts]="competition?.contacts" (passContactsFormArray)="onReceiveContactsFormArray($event)">
+          </app-create-contacts>
+          <div class="flex flex-row items-center justify-center footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button
+              class="btn"
+              mat-raised-button
+              appStepperNext
+              [form]="ContactsFormArray"
+              [stepper]="stepper"
+              (click)="saveUnfinishedData(ContactsFormArray)">
+              {{ 'BUTTONS.NEXT' | translate }}
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="JudgeFormArray"
+          [completed]="!RequiredFormGroup.invalid && !DescriptionFormGroup.invalid && !ContactsFormArray.invalid">
+          <ng-template matStepLabel>
+            <p class="step-name">{{ 'TITLES.JUDGES' | translate }}</p>
+          </ng-template>
+          <app-create-judge
+            [chiefJudge]="competition?.chiefJudge"
+            [judges]="competition?.judges"
+            (passJudgeFormArray)="onReceiveJudgeFormArray($event)">
+          </app-create-judge>
+
+          <div class="flex flex-row items-center justify-center footer">
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
+            <button
+              class="btn"
+              mat-raised-button
+              type="button"
+              [disabled]="(isLoading$ | async) || (IsAllFormsNotDirtyAndInvalid && !isUnfinished)"
+              [appStepperNext]="onSubmit.bind(this)"
+              [form]="JudgeFormArray"
+              [stepper]="stepper">
+              {{ 'BUTTONS.SAVE' | translate }}
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</ng-container>

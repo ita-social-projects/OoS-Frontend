@@ -9,15 +9,17 @@ export class User implements Person {
   lastName: string;
   middleName?: string;
   firstName: string;
-  gender?: number;
+  gender?: string;
   id: string;
   userName?: string;
   email?: string;
   phoneNumber?: string;
   role: string;
   dateOfBirth: string;
+  isBlocked: boolean;
+  emailConfirmed: boolean;
 
-  constructor(info, id: string) {
+  constructor(info: Partial<User>, id: string) {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;

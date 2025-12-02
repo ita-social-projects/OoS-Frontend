@@ -1,14 +1,58 @@
 /**
  * RegExp Constants
  */
-export const TEXT_REGEX: RegExp = /^\S[А-Яа-яЇїІіЄєЁёҐґ'’` \s-]*$/;
-// Regex for lastName, firstName, middleName, fullName
-export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ''’` \s-]*$/;
+
+// Regex for text
+export const TEXT_REGEX: RegExp = /^\S[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]*$/;
+
+// Regex for lastName, firstName, middleName
+export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
+
+// Regex for fullName
+export const FULL_NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ\s'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
+
+// Regex for email
+export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
+
+// Regex for EDRPOU
+export const EDRPOU_REGEX: RegExp = /^\d{8}$/;
+
+// RegEx for RNOKPP/drfocode from Diya
+export const RNOKPP_DRFOCODE: RegExp = /^\d{10}$|^\d{9}$|^[А-Яа-яЄєІіЇїҐґ]{2}\d{6}$/;
+
+// Regex for RNOKPP
+export const RNOKPP_REGEX: RegExp = /^(\d{10})$/;
+
 // Regex for non-latin characters
-export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_ \-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
+export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_\s\-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
+
 // Regex for date
 export const DATE_REGEX: RegExp = /[^0-9./-]*/g;
+
 // Regex for street name
-export const STREET_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`.\s-]*$/;
+export const STREET_REGEX: RegExp = /^(?=.*[А-Яа-яЇїІіЄєЁёҐґ])[А-Яа-яЇїІіЄєЁёҐґ0-9'’`.\s-]*(?:\s*\([^()]+\))?\s*$/;
+
 // Regex for house number
-export const HOUSE_REGEX: RegExp = /^[0-9]+ *[А-Яа-яЇїІіЄєЁёҐґ]* *$/;
+export const HOUSE_REGEX: RegExp =
+  // eslint-disable-next-line max-len
+  /^(?=.*\d)(?!.*[\/\-.]$)(?!\d+.*\/.*\/)(?!\d+.*-.*-)(?!\d+.*\..*\.)\d+(?:[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]*)?(?:(?:[\/\-.])?(?:[\dA-Za-zА-Яа-яЇїІіЄєЁёҐґ]+(?:[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]+)*)?)*(?:\s+[A-Za-zА-Яа-яЇїІіЄєЁёҐґ]*\.\s*[0-9A-Za-zА-Яа-яЇїІіЄєЁёҐґ]+\s*)?$/;
+
+// Regex for section name, it checks that the first char is a letter
+export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z].+/;
+
+// Regex for checking if string has a letter
+export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;
+
+// Regex for time format validation
+export const TIME_FORMAT_REGEX: RegExp = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+// Regex for time input replace invalid characters
+export const TIME_REGEX_REPLACE: RegExp = /[^0-9:]/g;
+
+export const WORD_SPLIT_REGEX: RegExp = /[ ,/]+/;
+
+// Regex for social network link
+export const SOCIAL_NETWORK_LINK_REGEX: RegExp = /^https?:\/\/[\w\d\.-]+\.[a-z]{2,}(?:\/.*)?$/;
+
+//  Regex for keywords
+export const KEYWORDS_REGEX: RegExp = /^[A-Za-zА-Яа-яІіЇїЄєҐґ0-9 '/-]+$/u;

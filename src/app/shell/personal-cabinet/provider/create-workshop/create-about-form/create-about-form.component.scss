@@ -1,51 +1,72 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/toggle-button.scss';
-@import 'src/app/shared/styles/info-hint.scss';
-
-.pay-type {
-  flex-grow: 1;
-}
-
-.price-text {
-  width: 65px;
-}
-
-.price-input {
-  max-width: 100px;
-  text-align: center;
-}
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
+@use 'toggle-button';
+@use 'info-hint';
+@use 'calendar';
 
 ::ng-deep .dropdown-panel {
   max-height: 150px !important;
 }
 
 @media (max-width: 750px) {
-  .conteiner {
+  .container {
     flex-direction: column !important;
     align-items: initial !important;
   }
 
-  .price::after {
-    content: 'грн';
-    font-weight: 700;
-    color: #aaaaaa;
-    padding: 5px;
-    line-height: initial;
-    width: 65px;
-  }
-
-  .price,
-  .radio-button-wrap {
-    place-content: flex-start !important;
-  }
   .step-input-age {
     max-width: 100%;
     height: 40px;
   }
 }
 
+@media (max-width: 410px) {
+  .payment-type-input {
+    width: 90%;
+  }
+}
+
 :host ::ng-deep .mat-form-field-infix {
   width: auto !important;
+}
+
+:host ::ng-deep input.mat-mdc-input-element::placeholder {
+  color: var(--mat-select-placeholder-text-color) !important;
+}
+
+.step-input-age {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+  width: 85px;
+}
+
+.price-input {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+}
+
+::ng-deep .age-radio-btn {
+  .mdc-label {
+    padding: 0;
+    padding-left: 8px;
+  }
+}
+
+.study-period-group {
+  align-items: flex-start;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.sublabel {
+  font-size: 0.813rem;
+  margin: 0;
 }

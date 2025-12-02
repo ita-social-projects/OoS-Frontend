@@ -1,0 +1,41 @@
+@use 'dropdown';
+@use 'search';
+
+.search-input {
+  font-weight: normal;
+  line-height: 22px;
+  color: var(--primary-dark-text-color);
+  text-overflow: ellipsis;
+
+  &::placeholder {
+    color: var(--cancel-text-color) !important;
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+.search-dropdown-option {
+  .option-value {
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  ::ng-deep .mdc-list-item__primary-text {
+    width: 100%;
+  }
+
+  .close-icon {
+    position: static;
+    margin: 0;
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    color: var(--secondary-light-text-color);
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

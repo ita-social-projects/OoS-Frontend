@@ -9,7 +9,7 @@ import { Login } from '../../store/registration.actions';
 export class LoginComponent implements OnInit {
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new Login(false));
   }
 }

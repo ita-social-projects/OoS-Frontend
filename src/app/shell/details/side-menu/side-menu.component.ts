@@ -1,45 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Role } from '../../../shared/enum/role';
-import { Address } from '../../../shared/models/address.model';
-import { Provider } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { Component, Input } from '@angular/core';
+import { Competition } from 'shared/models/competition.model';
+import { Role } from 'shared/enum/role';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
-  templateUrl: './side-menu.component.html'
+  templateUrl: './side-menu.component.html',
+  styleUrls: ['./side-menu.component.scss']
 })
-export class SideMenuComponent implements OnInit {
-  readonly Role: typeof Role = Role;
+export class SideMenuComponent {
+  @Input() public workshop: Workshop | WorkshopDraft;
+  @Input() public competition: Competition;
+  @Input() public isMobileScreen: boolean;
+  @Input() public role: string;
+  @Input() public displayActionCard: boolean;
 
-  @Input() provider: Provider;
-  @Input() workshop: Workshop;
-  @Input() role: string;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
-
-  address: Address;
-  contactsData: {
-    phone: string;
-    email: string;
-    facebook: string;
-    instagram: string;
-    website: string;
-  };
+  public readonly Role: typeof Role = Role;
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.getContactsData();
-  }
-
-  private getContactsData(): void {
-    this.contactsData = {
-      phone: this.workshop?.phone || this.provider.phoneNumber,
-      email: this.workshop?.email || this.provider.email,
-      facebook: this.workshop?.facebook || this.provider.facebook,
-      instagram: this.workshop?.instagram || this.provider.instagram,
-      website: this.workshop?.website || this.provider.website
-    };
-    this.address = { ...(this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress) };
-  }
 }

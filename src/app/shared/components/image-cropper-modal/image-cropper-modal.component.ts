@@ -1,7 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
-import { Cropper } from '../../models/cropper';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { Store } from '@ngxs/store';
+
+import { Cropper } from 'shared/models/cropper';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 
 @Component({
   selector: 'app-image-cropper-modal',
@@ -9,38 +13,31 @@ import { Cropper } from '../../models/cropper';
   styleUrls: ['./image-cropper-modal.component.scss']
 })
 export class ImageCropperModalComponent {
-  imageChangedEvent = '';
-  croppedImage = '';
-  imageFile: Blob;
-  invalidMinRequirements = false;
+  public croppedImage = '';
+  public imageFile: Blob;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      image: string;
+      image: Event;
       cropperConfig: Cropper;
     },
-    public dialogRef: MatDialogRef<ImageCropperModalComponent>
+    public dialogRef: MatDialogRef<ImageCropperModalComponent>,
+    private readonly store: Store
   ) {}
 
-  onConfirm(): void {
+  public onConfirm(): void {
     this.dialogRef.close(this.imageFile);
   }
 
-  fileChangeEvent(event: string): void {
-    this.imageChangedEvent = event;
+  public imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.objectUrl;
+    this.imageFile = event.blob;
   }
 
-  imageCropped(event: ImageCroppedEvent): void {
-    this.imageFile = base64ToFile(event.base64);
-    this.croppedImage = event.base64;
+  public loadImageFailed(): void {
+    this.store.dispatch(new ShowMessageBar({ message: SnackbarText.errorToLoadImg, type: 'error' }));
   }
 
-  imageLoaded(image: LoadedImage): void {
-    const { height, width } = image.original.size;
-    this.invalidMinRequirements = height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth;
-  }
-
-  loadImageFailed(): void {}
-  cropperReady(): void {}
+  public cropperReady(): void {}
 }

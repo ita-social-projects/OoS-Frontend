@@ -1,4 +1,5 @@
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
+import { TechAdmin } from './tech-admin.model';
 import { User } from './user.model';
 
 export interface ProviderHistory {
@@ -13,9 +14,9 @@ export interface ProviderHistory {
   providerCity: string;
 }
 
-export interface ProviderAdminHistory {
-  providerAdminId: string;
-  providerAdminFullName: string;
+export interface EmployeeHistory {
+  employeeId: string;
+  employeeFullName: string;
   providerTitle: string;
   workshopTitle: string;
   workshopCity: string;
@@ -38,13 +39,30 @@ export interface ApplicationHistory {
   providerTitle: string;
 }
 
+export interface ParentsBlockingByAdminHistory {
+  parentFullName: string;
+  operationDate: Date;
+  isBlocked: string;
+  reason: string;
+  parentId: string;
+  user: TechAdmin;
+}
+
 export interface FilterData extends PaginationParameters {
   dateFrom: string;
   dateTo: string;
-  options: string;
+  PropertyName?: string;
+  ShowParents?: string;
+  AdminType?: string;
+  OperationType?: string;
 }
 
 export interface DropdownData {
   value: string;
   label: string;
+}
+
+export interface DateFilters {
+  dateFrom: string;
+  dateTo: string;
 }

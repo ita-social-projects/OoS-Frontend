@@ -1,7 +1,7 @@
 .star-icon-modal,
 .grey-star-list,
 .star-icon-list {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .yellow-star-list {
   color: #ffbd00;
@@ -12,20 +12,19 @@
   border: none;
   background-color: transparent;
 }
-.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+.mat-button-toggle-group-appearance-standard .mat-button-toggle {
   border: none;
-  background-color: white;
+  background-color: transparent;
 }
 .selected-star {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 ::ng-deep .mat-button-toggle-checked {
   .star-icon {
-    color: #3849f9;
+    color: var(--primary-accent-color);
   }
 }
-::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay,
-.mat-button-toggle-checked {
+::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay {
   display: none;
 }
 ::ng-deep .stars-toggle-group .mat-ripple:not(:empty) {

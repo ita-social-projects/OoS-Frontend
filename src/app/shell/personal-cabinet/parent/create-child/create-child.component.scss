@@ -1,12 +1,21 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use 'create-form-wrapper';
+@use 'create-form';
+@use 'buttons';
 
 .agreement {
   margin-left: 1rem;
   display: inline-block;
 }
+
 .hidden {
   visibility: hidden;
   height: 0;
+}
+
+.addChild {
+  margin-bottom: 1rem;
+}
+
+.removeChild {
+  margin: 1rem 0;
 }

@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ValidationConstants } from 'shared/constants/validation';
 
 @Component({
   selector: 'app-full-search-bar',
@@ -6,5 +8,12 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./full-search-bar.component.scss']
 })
 export class FullSearchBarComponent {
-  @Input() styleClass: string;
+  @Input() public styleClass: string;
+  public displayErrorFormControl: FormControl = new FormControl();
+
+  public readonly validationConstants = ValidationConstants;
+
+  public setErrorFormControl(searchBarFormControl: FormControl): void {
+    this.displayErrorFormControl = searchBarFormControl;
+  }
 }

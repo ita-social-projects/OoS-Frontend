@@ -1,0 +1,154 @@
+<div class="filters-wrapper flex flex-row flex-wrap justify-between items-center mb-6" [formGroup]="filterForm">
+  <div class="search-wrapper flex justify-start static max-h-10">
+    <div class="search-bar flex flex-row justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        formControlName="filterFormControl"
+        matInput
+        type="text"
+        maxlength="200"
+        class="search pl-4"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_STUDY_SUBJECT' | translate }}" />
+    </div>
+  </div>
+
+  <div class="flex flex-row gap-x-4 flex-wrap gap-y-2.5">
+    <div class="flex justify-end items-center gap-1">
+      <div class="flex items-center">
+        <span class="filters-period font-innerspace font-bold self-center mr-2.5 text">{{
+          'HISTORY_LOG.CREATION_PERIOD' | translate
+        }}</span>
+        <div class="relative">
+          <mat-form-field appPlaceholderStyling class="date w-full font-normal box-border items-center">
+            <mat-label class="text-[13px]">{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
+            <mat-date-range-input
+              [formGroup]="datesGroup"
+              [rangePicker]="picker"
+              [comparisonStart]="datesGroup.get('dateFrom').value"
+              [comparisonEnd]="datesGroup.get('dateTo').value">
+              <input
+                matStartDate
+                [errorStateMatcher]="matcher"
+                placeholder="{{ 'FROM' | translate }}"
+                formControlName="dateFrom"
+                appDateInput />
+              <input matEndDate [errorStateMatcher]="matcher" placeholder="{{ 'TO' | translate }}" formControlName="dateTo" appDateInput />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-date-range-picker-actions>
+                <div class="flex justify-between w-full">
+                  <button class="btn !m-0" mat-raised-button matDatepickerApply (click)="getStudySubjects()">
+                    {{ 'HISTORY_LOG.SHOW' | translate }}
+                  </button>
+                  <button class="btn btn-cancel bg-transparent !m-0" mat-raised-button matDatepickerCancel (click)="closeDatePicker()">
+                    {{ 'BUTTONS.CANCEL' | translate }}
+                  </button>
+                </div>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+          <app-validation-hint
+            class="absolute top-full left-0 mt-1"
+            [validationFormControl]="datesGroup"
+            [formLevelValidation]="true"></app-validation-hint>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex items-center justify-center gap-2 cursor-pointer ml-2"
+      (click)="onResetFilters()"
+      tabindex="0"
+      (keydown.enter)="onResetFilters()"
+      [matTooltip]="'HISTORY_LOG.RESET_FILTERS' | translate">
+      <mat-icon class="!flex items-center reset-icon overflow-visible">refresh</mat-icon>
+    </div>
+
+    <a [routerLink]="['/create-study-subject', ModeConstants.NEW]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_SUBJECT' | translate }}</button>
+    </a>
+  </div>
+</div>
+
+<div class="wrapper">
+  <ng-container *ngIf="dataSource.data.length; else isEmptyList">
+    <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container">
+      <table mat-table [dataSource]="dataSource" matSort aria-describedby="subjects-table" appStretchTable>
+        <ng-container matColumnDef="nameInUkrainian" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.SUBJECT_NAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nameInUkrainian }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nameInInstructionLanguage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.TEACHING_LANGUAGE_SUBJECT_NAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nameInInstructionLanguage }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="language">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.language.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="activeFrom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.CREATED_AT' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.activeFrom | date: 'shortDate' }}</td>
+        </ng-container>
+
+        <!-- TODO: Should show date of last connection with workshop -->
+        <ng-container matColumnDef="activeTo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.LAST_REFERRED' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.activeTo === '9999-12-31' ? '-' : (element.activeTo | date: 'shortDate') }}</td>
+        </ng-container>
+
+        <!-- TODO: Study subject connection with workshop(number of connections) -->
+        <ng-container matColumnDef="workshopId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'FORMS.LABELS.USED_IN' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ '0' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="icon-button" [routerLink]="['/create-study-subject', element.id]">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="icon-button" (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-template #isEmptyList>
+    <div *ngIf="isLoaded" class="table-wrapper">
+      <app-no-result-card [title]="noStudySubjects"></app-no-result-card>
+    </div>
+  </ng-template>
+</div>
+<ng-container *ngIf="totalElements">
+  <app-paginator
+    [totalEntities]="totalElements"
+    [currentPage]="currentPage"
+    [itemsPerPage]="subjectParameters.size"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
+</ng-container>

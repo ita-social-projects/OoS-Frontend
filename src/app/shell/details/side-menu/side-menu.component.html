@@ -1,16 +1,12 @@
 <div
-  fxLayout="column"
-  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row'"
-  [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
-  fxLayoutGap="2rem"
->
+  [ngClass]="{
+    'flex flex-row gap-5': isMobileScreen,
+    'flex flex-col items-start justify-start gap-5 box-border md:flex-row lg:flex-col': !isMobileScreen
+  }">
   <app-actions
-    *ngIf="workshop && displayActionCard && !isMobileScreen"
+    *ngIf="!competition && workshop && displayActionCard && !isMobileScreen"
     [role]="role"
     [workshop]="workshop"
-    [isMobileScreen]="isMobileScreen"
-  >
+    [isMobileScreen]="isMobileScreen">
   </app-actions>
-
-  <app-contacts [address]="address" [contactsData]="contactsData"></app-contacts>
 </div>

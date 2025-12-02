@@ -1,5 +1,6 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
 
 .keywords {
   min-height: 100px;
@@ -8,12 +9,14 @@
 
 .keyWordChip.keyWordChip.keyWordChip {
   width: fit-content;
+  white-space: normal !important;
   max-width: 100%;
 }
 
 .chip-text {
   width: calc(100%);
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -25,4 +28,45 @@
 .keywords-input {
   position: absolute;
   top: 5px;
+  color: var(--primary-light-text-color);
+}
+
+input:disabled {
+  background: transparent !important;
+}
+
+.expanded-field {
+  height: auto !important;
+}
+
+.step-label-title {
+  padding-top: 5px;
+}
+
+.step-input {
+  background: transparent;
+  color: var(--primary-light-text-color);
+}
+
+.min-logo {
+  width: 20px;
+  height: 20px;
+}
+
+.step-textarea,
+.step-textarea-short {
+  background-color: transparent !important;
+  color: var(--primary-light-text-color);
+}
+
+.fieldset {
+  &-additional-desc {
+    border-radius: 21px;
+    border: 2px solid var(--input-light-color);
+    margin: 10px 0;
+
+    legend {
+      padding: 0;
+    }
+  }
 }

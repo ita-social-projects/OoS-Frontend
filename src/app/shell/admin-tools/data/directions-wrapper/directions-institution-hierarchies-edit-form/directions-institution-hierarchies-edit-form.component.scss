@@ -1,12 +1,12 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use 'create-form-wrapper';
+@use 'create-form';
+@use 'buttons';
+@use 'validation-form';
+@use 'dropdown';
 
 .warning-box {
   width: 410px;
-  height: 50px; 
+  height: 50px;
   padding: 5px;
   border-radius: 5px;
   background-color: #ffdab9;

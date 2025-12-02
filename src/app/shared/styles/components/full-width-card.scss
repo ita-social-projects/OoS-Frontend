@@ -1,0 +1,91 @@
+@use 'dropdown';
+
+p {
+  margin: 0;
+}
+
+.card {
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  width: inherit;
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+
+  &-new {
+    border-left: 5px solid var(--primary-light-text-color);
+  }
+  &-blocked {
+    border-left: 5px solid var(--error-color);
+  }
+}
+
+.title {
+  font-family: 'Innerspace', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--primary-light-text-color);
+}
+
+.text {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 0px;
+  color: var(--primary-light-text-color);
+
+  &-bold {
+    font-weight: 700;
+  }
+  &-link {
+    &:hover {
+      color: var(--primary-light-text-color);
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+  &_icon {
+    color: var(--primary-light-text-color);
+    width: 16px;
+    height: 16px;
+    padding-right: 10px;
+  }
+}
+
+.card-block {
+  margin: 0px;
+
+  &:not(:first-child) {
+    padding-left: 5px;
+  }
+  &__actions {
+    max-width: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.material-icons {
+  font-size: 16px;
+  color: var(--primary-light-text-color);
+  height: 16px;
+  width: 16px;
+  overflow: visible;
+  margin-top: 2px;
+  &__actions {
+    margin: 0 8px;
+  }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}

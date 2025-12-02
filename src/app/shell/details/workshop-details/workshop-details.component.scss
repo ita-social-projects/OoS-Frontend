@@ -1,3 +1,47 @@
-@import 'src/app/shared/styles/side-menu-cards.scss';
-@import 'src/app/shared/styles/details.scss';
-@import 'src/app/shared/styles/workshop-status.scss';
+@use 'side-menu-cards';
+@use 'details';
+@use 'workshop-status';
+@use 'buttons';
+@use 'drafts';
+
+.workshop-title {
+  margin-bottom: 0;
+}
+
+.icon {
+  min-width: 24px;
+}
+
+.chip {
+  font-family: Innerspace, sans-serif;
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+.title {
+  margin-right: 16px;
+}
+
+.details-link {
+  margin-bottom: 1rem;
+}
+
+.action-buttons-wrapper {
+  padding-top: 2.4rem;
+
+  @media screen and (min-width: 1024px) and (max-width: 1083px), screen and (max-width: 575px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  @media screen and (max-width: 380px) {
+    div {
+      display: contents;
+
+      button {
+        padding: 2px 22px;
+      }
+    }
+  }
+}

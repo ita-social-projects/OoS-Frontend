@@ -1,10 +1,10 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Navigation } from '../../models/navigation.model';
 import { Store, NgxsModule } from '@ngxs/store';
-import { NavigationBarComponent } from './navigation-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { Navigation } from '../../models/navigation.model';
+import { NavigationBarComponent } from './navigation-bar.component';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;

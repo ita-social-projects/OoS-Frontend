@@ -1,52 +1,79 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Subject, takeUntil } from 'rxjs';
-import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
-import { Role, EntityType } from '../../../shared/enum/role';
-import { ImgPath } from '../../../shared/models/carousel.model';
-import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
-import { ImagesService } from '../../../shared/services/images/images.service';
-import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
-import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
-import { AddNavPath } from '../../../shared/store/navigation.actions';
-import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
-import { DetailsTabTitlesEnum } from '../../../shared/enum/enumUA/workshop';
-import { PaginationConstants } from '../../../shared/constants/constants';
+import { WINDOW } from 'ngx-window-token';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { DetailsTabTitlesEnum } from 'shared/enum/enumUA/workshop';
+import { Role } from 'shared/enum/role';
+import { Provider, ProviderParameters } from 'shared/models/provider.model';
+import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-provider-details',
   templateUrl: './provider-details.component.html',
   styleUrls: ['./provider-details.component.scss']
 })
-export class ProviderDetailsComponent implements OnInit, OnDestroy {
-  readonly tabTitles = DetailsTabTitlesEnum;
-  @Input() role: Role;
-  @Input() provider: Provider;
+export class ProviderDetailsComponent extends TabParamsComponent implements OnInit {
+  @Input() public role: Role;
+  @Input() public provider: Provider;
 
-  selectedIndex: number;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  images: ImgPath[] = [];
-  providerParameters: ProviderParameters = {
+  public readonly tabTitles = DetailsTabTitlesEnum;
+  public providerParameters: ProviderParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  constructor(
-    private route: ActivatedRoute,
-    private imagesService: ImagesService,
-    private store: Store,
-    private navigationBarService: NavigationBarService
-  ) {}
+  public coverImage: string;
 
-  ngOnInit(): void {
+  constructor(
+    @Inject(WINDOW) protected window: Window,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    private readonly imagesService: ImagesService,
+    private readonly store: Store,
+    private readonly navigationBarService: NavigationBarService
+  ) {
+    super(window, route, router);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
     this.providerParameters.providerId = this.provider.id;
     this.getProviderData();
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
+  }
+
+  protected initTabs(): void {
+    this.tabs = [
+      {
+        alias: 'AboutProvider',
+        labelKey: this.tabTitles.AboutProvider,
+        visible: true
+      },
+      {
+        alias: 'ProviderWorkshops',
+        labelKey: this.tabTitles.Workshops,
+        visible: true
+      },
+      {
+        alias: 'Contacts',
+        labelKey: this.tabTitles.Contacts,
+        visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.tabTitles.Images,
+        visible: true
+      }
+    ].filter((tab) => tab.visible);
   }
 
   private getProviderData(): void {
-    this.images = this.imagesService.setCarouselImages(this.provider);
+    this.coverImage = this.imagesService.getCoverImage(this.provider);
     this.store.dispatch([
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -55,10 +82,5 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
         )
       )
     ]);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

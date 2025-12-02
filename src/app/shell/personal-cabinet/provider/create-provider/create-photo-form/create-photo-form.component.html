@@ -1,46 +1,18 @@
-<form [formGroup]="PhotoFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<form [formGroup]="PhotoFormGroup" class="step flex flex-col justify-between items-stretch">
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="4"
+    [entity]="Entities.Provider"
     [cropperConfig]="cropperConfig"
-    [label]="'Фото'"
+    [label]="'FORMS.LABELS.PHOTOS' | translate"
     formControlName="imageFiles"
     [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('website')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Facebook</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('facebook')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Instagram</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="PhotoFormGroup.get('instagram')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
-    [InfoEditFormGroup]="form"
+    [entity]="'provider'"
+    [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"

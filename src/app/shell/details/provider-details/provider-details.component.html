@@ -1,9 +1,10 @@
 <div class="container" *ngIf="provider">
-  <app-image-carousel [images]="images"></app-image-carousel>
-
+  <div class="img-wrapper flex justify-center">
+    <img class="coverImage" [src]="coverImage" [alt]="'ALT.IMG_COVER' | translate" />
+  </div>
   <div class="details-wrapper">
-    <div fxLayout="column" fxLayoutAlign="space-between space-between">
-      <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
+    <div class="flex flex-col justify-between content-between">
+      <div class="flex flex-row flex-wrap justify-start items-center">
         <h1 class="title">{{ provider.fullTitle }}</h1>
       </div>
       <p class="icon-text">
@@ -12,12 +13,21 @@
       </p>
     </div>
 
-    <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
-      <mat-tab class="label" label="{{ tabTitles.AboutProvider | translate }}">
-        <app-provider-about [provider]="provider"></app-provider-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ tabTitles.OtherWorkshops | translate }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
+    <mat-tab-group
+      class="nav"
+      [mat-stretch-tabs]="false"
+      [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
+      (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
+        <ng-container [ngSwitch]="tab.alias">
+          <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
+          <app-all-provider-workshops
+            *ngSwitchCase="'ProviderWorkshops'"
+            [providerParameters]="providerParameters"></app-all-provider-workshops>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="provider"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="provider"></app-workshop-images>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>

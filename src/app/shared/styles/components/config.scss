@@ -1,0 +1,35 @@
+.config {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 6px 16px rgb(0 0 0 / 8%);
+  position: relative;
+  padding: 20px 25px;
+  background-color: var(--primary-light-bg-color);
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+
+  &_edit-icon {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    z-index: 2;
+    color: var(--primary-accent-color);
+  }
+
+  .important {
+    color: var(--error-color);
+  }
+
+  .link {
+    color: var(--primary-accent-color);
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 750px) {
+  .config {
+    margin: 0 0 1rem 0;
+  }
+}

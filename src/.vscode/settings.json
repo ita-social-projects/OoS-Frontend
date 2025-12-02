@@ -1,8 +1,8 @@
 {
-    "launch": {
-        "configurations": [],
-        "compounds": [],
-        "editor.tabSize": 2,
-        "editor.detectIndentation": false
-    }
+  "launch": {
+    "configurations": [],
+    "compounds": [],
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false
+  }
 }

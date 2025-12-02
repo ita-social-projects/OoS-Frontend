@@ -1,6 +1,6 @@
-import { ShowTooltipIfTruncatedDirective } from './show-tooltip-if-truncated.directive';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ElementRef } from '@angular/core';
+import { ShowTooltipIfTruncatedDirective } from './show-tooltip-if-truncated.directive';
 
 const elementRef = {} as ElementRef;
 const matToolTip = MatTooltip.prototype;

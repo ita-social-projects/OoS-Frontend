@@ -1,0 +1,7 @@
+@use 'list-wrappers';
+@use 'card-wrapper';
+@use 'buttons';
+
+.unfinished-banner {
+  background-color: var(--bg-specific-light);
+}

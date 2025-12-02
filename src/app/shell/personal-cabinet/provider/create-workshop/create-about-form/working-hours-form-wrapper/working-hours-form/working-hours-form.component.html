@@ -1,79 +1,93 @@
-<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutAlign.xs="center start">
-  <form fxLayout="row" fxLayoutAlign="start center" class="step">
-    <div class="days">
-      <div
-        fxLayout="row"
-        fxLayoutAlign="space-between"
-        [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'"
-      >
+<form class="step">
+  <div class="flex flex-col">
+    <div class="flex flex-col gap-2">
+      <div class="days">
         <div
-          *ngFor="let day of days"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          (click)="onToggleDays(day)"
-          [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'"
-        >
-          {{ day.value | translate }}
+          class="flex flex-row justify-between"
+          [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
+          <div
+            tabIndex="0"
+            *ngFor="let day of days"
+            class="day flex flex-row justify-center items-center"
+            (click)="onToggleDays(day)"
+            [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'">
+            {{ day.value | translate }}
+          </div>
         </div>
+        <app-validation-hint [validationFormControl]="workdaysFormControl"></app-validation-hint>
       </div>
 
-      <app-validation-hint [validationFormControl]="workdaysFormControl"> </app-validation-hint>
+      <div class="time-input-wrapper">
+        <div
+          *ngIf="!startTimeFormControl.enabled"
+          class="disabled"
+          (click)="markWorkDaysAsTouched()"
+          (keydown.Enter)="markWorkDaysAsTouched()"></div>
+        <div class="flex flex-col justify-start items-start">
+          <ng-container class="flex flex-col">
+            <div class="time-input flex flex-row justify-start items-center">
+              <p class="text">{{ 'FROM' | translate }}</p>
+              <input
+                class="input step-input start-time-input"
+                matInput
+                [formControl]="startTimeFormControl"
+                required
+                maxlength="5"
+                autocomplete="off" />
+              <button mat-icon-button [disabled]="!startTimeFormControl.enabled" (click)="timepickerStart.open()">
+                <mat-icon>access_time</mat-icon>
+              </button>
+            </div>
+            <app-validation-hint [validationFormControl]="startTimeFormControl"></app-validation-hint>
+            <app-validation-hint [validationFormControl]="workingHoursForm" [formLevelValidation]="true"></app-validation-hint>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-col justify-start items-start">
+          <ng-container class="flex flex-col">
+            <div class="time-input flex flex-row justify-start items-center">
+              <p class="text">{{ 'TO' | translate }}</p>
+              <input
+                class="input step-input start-time-input"
+                matInput
+                [formControl]="endTimeFormControl"
+                required
+                maxlength="5"
+                autocomplete="off" />
+              <button mat-icon-button [disabled]="!endTimeFormControl.enabled" (click)="timepickerEnd.open()">
+                <mat-icon>access_time</mat-icon>
+              </button>
+              <div class="delete-block flex flex-row justify-start items-start" *ngIf="workingHoursAmount > 1">
+                <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+              </div>
+            </div>
+            <app-validation-hint [validationFormControl]="endTimeFormControl"></app-validation-hint>
+          </ng-container>
+        </div>
+      </div>
     </div>
+  </div>
+</form>
 
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <div fxLayout="column" fxLayoutAlign="start start">
-        <div fxLayout="row " fxLayoutAlign="start center">
-          <p class="text">{{ 'FROM' | translate }}</p>
-          <input
-            class="input step-input start-time-input"
-            type="text"
-            [disabled]="!workingDays.length"
-            matInput
-            [ngxMatTimepicker]="timepickerStart"
-            format="24"
-            required
-            [formControl]="startTimeFormControl"
-            autocomplete="none"
-          />
-        </div>
-        <app-validation-hint [validationFormControl]="startTimeFormControl"> </app-validation-hint>
-      </div>
-
-      <div fxLayout="column" fxLayoutAlign="start start">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <p class="text">{{ 'TO' | translate }}</p>
-          <input
-            class="input step-input finish-time-input"
-            type="text"
-            [disabled]="!workingDays.length"
-            matInput
-            [ngxMatTimepicker]="timepickerEnd"
-            format="24"
-            required
-            [formControl]="endTimeFormControl"
-            [min]="getMinTime()"
-            autocomplete="none"
-          />
-        </div>
-        <app-validation-hint [validationFormControl]="endTimeFormControl"> </app-validation-hint>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="start start" *ngIf="workingHoursAmount > 1">
-        <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
-      </div>
-    </div>
-  </form>
-</div>
-
-<ng-template #ValidationHintTmpl>
-  <small appValidationMessageStyling> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }} <br /> </small>
-</ng-template>
-
-<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass=""> </ngx-mat-timepicker>
-<ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
+<ngx-material-timepicker
+  #timepickerStart
+  [format]="24"
+  [defaultTime]="startTimeFormControl.value"
+  (timeSet)="onTimeSet($event, startTimeFormControl)"
+  [cancelBtnTmpl]="btnCancel"
+  [confirmBtnTmpl]="btnConfirm"></ngx-material-timepicker>
+<ngx-material-timepicker
+  #timepickerEnd
+  [format]="24"
+  [defaultTime]="endTimeFormControl.value"
+  (timeSet)="onTimeSet($event, endTimeFormControl)"
+  [cancelBtnTmpl]="btnCancel"
+  [confirmBtnTmpl]="btnConfirm">
+</ngx-material-timepicker>
 
 <ng-template #btnCancel>
   <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
 </ng-template>
 <ng-template #btnConfirm>
-  <button class="btn" mat-raised-button>{{ 'BUTTONS.SAVE' | translate }}</button>
+  <button class="btn btn-confirm" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
 </ng-template>

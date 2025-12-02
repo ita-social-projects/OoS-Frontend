@@ -7,16 +7,16 @@ export enum ApplicationIcons {
   Rejected = 'fas fa-user-slash',
   Left = 'fas fa-user-slash',
   Blocked = 'fas fa-user-lock',
-  Editing = 'fas fa-user-clock'
+  Editing = 'fas fa-user-clock',
+  Banned = 'fas fa-user-lock'
 }
 
 export enum ApplicationEntityType {
-  parent = 'parents',
   provider = 'providers',
   workshop = 'workshops',
-  ProviderAdmin = 'provideradmins',
-  ProviderDeputy = 'providers',
-  None = 'providers'
+  ProviderDeputy = 'providerdeputies',
+  Employee = 'employees',
+  parent = 'parents'
 }
 
 export enum ApplicationStatusTabParams {
@@ -28,5 +28,11 @@ export enum ApplicationStatusTabParams {
   AcceptedForSelection,
   StudyingForYears,
   Completed,
-  Blocked,
+  Blocked
+}
+
+export enum ApplicationShowParams {
+  All = 'All',
+  Blocked = 'Blocked',
+  Unblocked = 'Unblocked'
 }

@@ -1,0 +1,50 @@
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
+@use 'toggle-button';
+@use 'info-hint';
+@use 'calendar';
+
+.seat-input {
+  width: 100px;
+  text-align: center;
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+}
+
+.step-input-age {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+  width: 85px;
+}
+
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
+}
+
+@media (max-width: 750px) {
+  .container {
+    flex-direction: column !important;
+    align-items: initial !important;
+  }
+
+  .seat::after {
+    font-weight: 700;
+    color: var(--primary-light-text-color);
+    padding: 5px;
+    line-height: initial;
+    width: 65px;
+  }
+
+  .radio-button-wrap {
+    place-content: flex-start !important;
+  }
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
+:host ::ng-deep .mat-date-range-input-separator {
+  color: currentColor;
+}

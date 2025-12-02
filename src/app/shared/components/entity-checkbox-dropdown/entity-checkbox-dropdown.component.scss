@@ -1,43 +1,65 @@
-@import 'src/app/shared/styles/dropdown.scss';
+@use 'dropdown';
+@use 'create-form';
 
 .dropdown {
-  max-width: 200px;
-  background: #ffffff;
+  max-width: 125px;
+  display: flex;
+  background: var(--primary-light-bg-color);
   font-weight: 500;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.8rem;
-  color: #333333;
+  color: var(--cancel-text-color);
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+  max-width: 125px;
 }
 
 .dropdown-wrapper {
   z-index: 3;
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0;
+  }
 }
 
 .label {
-  padding: 1rem;
+  padding: 0.85rem;
 }
 
 mat-form-field mat-label {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   font-weight: 800;
   font-size: 0.8rem;
-  color: #333333;
+  color: var(--cancel-text-color);
 }
 
 ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   display: none;
-}
-::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
-  background: #3849f9;
 }
 
 :host ::ng-deep .mat-form-field-underline {
   height: 0;
 }
 
-::ng-deep .custom-overlay-panel .application-dropdown {
-  max-width: 180px;
+.workshops-amount {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--primary-light-text-color);
+}
+
+::ng-deep {
+  .cdk-overlay-container {
+    .checkbox-dropdown-panel.application-dropdown {
+      left: calc(100% - 330px);
+    }
+  }
+}
+
+::ng-deep .checkbox-dropdown-panel {
+  min-width: 350px;
+  top: -35px !important;
 }

@@ -1,9 +1,9 @@
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/calendar.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/tables';
+@use 'dropdown';
+@use 'calendar';
+@use 'buttons';
+@use 'tables';
 
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0;
 }
 
@@ -14,28 +14,24 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 25px;
-
     padding: 25px;
-
-    background: #ffffff;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    background: var(--primary-light-bg-color);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 5px;
 
     .btn {
       align-self: flex-end;
-      text-transform: uppercase;
       height: 40px;
       margin-bottom: 10px;
     }
   }
+
   &-result {
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 40px;
-
     padding: 64px 0;
-
     font-size: 13px;
     font-family: 'Open Sans', sans-serif;
 
@@ -43,7 +39,7 @@
       font-weight: 700;
       line-height: 18px;
       text-align: center;
-      color: #aaaaaa;
+      color: var(--primary-light-text-color);
     }
 
     .btn {
@@ -68,13 +64,10 @@
 
 .control {
   padding: 0.5rem 1rem;
-
   box-sizing: border-box;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   border-radius: 24px;
-
   height: 40px;
-
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 13px;
@@ -92,6 +85,7 @@
   font-weight: 700;
   font-size: 13px;
   line-height: 18px;
+  color: var(--primary-light-text-color);
 }
 
 .table-wrapper {

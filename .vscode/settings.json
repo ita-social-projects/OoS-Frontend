@@ -1,4 +1,19 @@
 {
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
+  "cSpell.language": "en,uk",
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "sonarlint.connectedMode.project": {
+    "projectKey": "ita-social-projects-oos-frontend"
+  },
+  "cSpell.words": [
+    "catottg",
+    "Codeficator",
+    "Codeficators",
+    "edrpou",
+    "Ngxs",
+    "settelment",
+    "signalr",
+    "subrole"
+  ]
 }

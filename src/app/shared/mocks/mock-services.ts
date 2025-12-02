@@ -1,23 +1,21 @@
 import { Observable } from 'rxjs';
 
 export const MockOidcSecurityService = {
-  authorize: () => {},
-  logoff: () => {},
-  getToken: () => {
+  authorize: (): void => {},
+  logoff: (): void => {},
+  getToken: (): void => {
     'some_token_eVbnasdQ324';
   },
-  getAccessToken: () => {
-    return new Observable((subscriber) => {
+  getAccessToken: (): Observable<any> =>
+    new Observable((subscriber) => {
       subscriber.next(true);
       subscriber.complete();
-    });
-  },
-  checkAuth: () => {
-    return new Observable((subscriber) => {
+    }),
+  checkAuth: (): Observable<any> =>
+    new Observable((subscriber) => {
       setTimeout(() => {
         subscriber.next(true);
         subscriber.complete();
       }, 1);
-    });
-  }
+    })
 };

@@ -10,5 +10,9 @@ export enum NoResultsTitle {
   noHistory = 'EMPTY_BANNERS.NO_HISTORY',
   noInfo = 'EMPTY_BANNERS.NO_INFO',
   noMessages = 'EMPTY_BANNERS.NO_MESSAGES',
-  noNotifications = 'EMPTY_BANNERS.NO_NOTIFICATIONS'
+  noNotifications = 'EMPTY_BANNERS.NO_NOTIFICATIONS',
+  noStudySubjects = 'EMPTY_BANNERS.NO_STUDY_SUBJECTS',
+  noJudges = 'EMPTY_BANNERS.NO_JUDGES',
+  noFeature = 'EMPTY_BANNERS.NO_FEATURE',
+  noImages = 'EMPTY_BANNERS.NO_IMAGES'
 }

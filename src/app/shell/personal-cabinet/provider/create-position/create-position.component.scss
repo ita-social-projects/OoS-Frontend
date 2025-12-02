@@ -1,0 +1,6 @@
+@use 'create-form-wrapper';
+@use 'dropdown';
+
+:host .wrapper ::ng-deep form {
+  width: 100%;
+}

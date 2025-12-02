@@ -1,10 +1,9 @@
-@import 'src/app/shared/styles/create-form-wrapper.scss';
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/navigation-tabs.scss';
-
+@use 'create-form-wrapper';
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
+@use 'buttons';
+@use 'navigation-tabs';
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
@@ -23,10 +22,6 @@
 .application-wrapper {
   padding-right: 3rem;
   padding-left: 3rem;
-
-  .mat-tab-group{
-    align-items: center !important;
-  }
 }
 
 @media (max-width: 750px) {
@@ -41,33 +36,46 @@
 }
 
 .line {
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
 }
 .warning {
   margin-bottom: 1rem;
 }
 
 .background-text {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 18px;
-  color: #333333;
+  color: var(--cancel-text-color);
   text-align: center;
   margin-bottom: 1rem !important;
 }
 
 small.warning {
   display: block;
-  color: red;
+  color: var(--error-color);
   font-size: 10px;
 }
 .redBorder {
   outline: none;
-  border: 1px solid #c72a21;
+  border: 1px solid var(--error-color);
 }
 
 .checkbox-label {
   margin-left: 1rem;
+}
+
+.disabled-anchor {
+  pointer-events: none;
+  cursor: default;
+}
+
+:host ::ng-deep {
+  .application-wrapper {
+    .mat-mdc-tab-header {
+      width: 100%;
+    }
+  }
 }

@@ -1,30 +1,64 @@
 <p class="filter-text title">
-  {{"SELECT_AGE" | translate}}
+  {{ 'SELECT_AGE' | translate }}
 </p>
-<div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
-    {{"EXACT_MATCH"| translate}}
+<div class="check-boxes flex flex-col items-start gap-[0.8rem]">
+  <mat-checkbox color="primary" [formControl]="noRestrictionControl">
+    {{ 'UNLIMITED' | translate }}
+  </mat-checkbox>
+  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl" [class.disabled]="noRestrictionControl.value">
+    {{ 'EXACT_MATCH' | translate }}
   </mat-checkbox>
 </div>
-<div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
-  <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
+<div class="wrapper flex flex-col justify-between gap-4" [class.disabled]="noRestrictionControl.value">
+  <div class="flex flex-col gap-1">
+    <div class="from-filter-text flex flex-row items-center">
       <p class="filter-text">
-        {{"FROM"| translate}}
+        {{ 'FROM' | translate }}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
-        autocomplete="off" />
-      <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
+      <div class="relative">
+        <input
+          matInput
+          class="age-input"
+          type="number"
+          [useArrows]="false"
+          [min]="validationConstants.AGE_MIN"
+          [max]="validationConstants.BIRTH_AGE_MAX"
+          [formControl]="minAgeFormControl"
+          appIntegerOnly
+          autocomplete="off" />
+        <mat-icon class="clear-age" (click)="clearMin()" (keydown.enter)="clearMin()">clear</mat-icon>
+      </div>
     </div>
-  </mat-form-field>
-  <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <app-validation-hint
+      [validationFormControl]="minAgeFormControl"
+      [isNumberValue]="true"
+      [minValue]="validationConstants.AGE_MIN"
+      [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+  </div>
+  <div class="flex flex-col gap-1">
+    <div class="flex flex-row items-center">
       <p class="filter-text">
-        {{"TO"| translate}}
+        {{ 'TO' | translate }}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
-        autocomplete="off" />
-      <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
+      <div class="relative">
+        <input
+          matInput
+          class="age-input"
+          type="number"
+          [useArrows]="false"
+          [min]="validationConstants.AGE_MIN"
+          [max]="validationConstants.BIRTH_AGE_MAX"
+          [formControl]="maxAgeFormControl"
+          appIntegerOnly
+          autocomplete="off" />
+        <mat-icon class="clear-age" (click)="clearMax()" (keydown.enter)="clearMax()">clear</mat-icon>
+      </div>
     </div>
-  </mat-form-field>
+    <app-validation-hint
+      [validationFormControl]="maxAgeFormControl"
+      [isNumberValue]="true"
+      [minValue]="validationConstants.AGE_MIN"
+      [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+  </div>
 </div>
+<app-validation-hint [formLevelValidation]="true" [validationFormControl]="ageFormGroup"></app-validation-hint>

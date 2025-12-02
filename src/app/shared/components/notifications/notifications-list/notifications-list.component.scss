@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: space-between;
 
-    border-bottom: 1px solid #e3e3e3;
+    border-bottom: 1px solid var(--input-light-color);
   }
 
   &__title {
@@ -36,7 +36,7 @@
 
   overflow: visible;
 
-  color: #888888;
+  color: var(--primary-light-text-color);
 }
 
 .accordions-wrapper {
@@ -45,9 +45,10 @@
 
   cdk-accordion {
     .notification__wrapper {
-      border-bottom: 1px solid #e3e3e3;
+      border-bottom: 1px solid var(--input-light-color);
+      background-color: var(--primary-light-bg-color);
       &:hover {
-        background-color: darken($color: #ffffff, $amount: 3.8);
+        background-color: var(--body-color);
       }
     }
 
@@ -60,8 +61,8 @@
 }
 
 .new {
-  border-left: 5px solid #3849f9;
-  background-color: #f8f8f8;
+  border-left: 5px solid var(--primary-accent-color);
+  background-color: var(--body-color);
 }
 
 .header-notification {
@@ -100,14 +101,14 @@
     font-size: inherit;
     font-weight: 400;
     line-height: 1.125rem;
-    color: #aaaaaa;
+    color: var(--primary-light-text-color);
   }
 
   &__link {
     transition: color 0.1s ease;
 
     &:active {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
   }
 }
@@ -124,6 +125,7 @@
     align-items: center;
     cursor: pointer;
     padding: 0.75rem 1rem 0.5rem;
+    background-color: var(--primary-light-bg-color);
 
     > .icon {
       opacity: 0;
@@ -137,7 +139,7 @@
 
       > .info__link,
       > .icon__link {
-        color: #3849f9;
+        color: var(--primary-accent-color);
       }
     }
   }
@@ -156,6 +158,7 @@
 
 .no-message {
   padding: 0.75rem 1rem;
+  color: var(--primary-light-text-color);
 }
 
 @media (max-width: 750px) {
@@ -168,4 +171,15 @@
       opacity: 1;
     }
   }
+}
+
+:host {
+  ::ng-deep .mat-mdc-menu-content {
+    padding: 0px !important;
+  }
+}
+
+.read-all-btn,
+.read-all-btn:disabled {
+  color: var(--primary-light-text-color) !important;
 }

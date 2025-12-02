@@ -1,15 +1,43 @@
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/working-hours.scss';
+@use 'validation-form';
+@use 'buttons';
+@use 'working-hours';
+@use 'timepicker';
+
+.day,
+.text {
+  font-family: Innerspace, sans-serif;
+  font-weight: bold;
+}
+
+.step {
+  gap: 10px;
+}
+
+.days-toggle,
+.time-input {
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}
 
 .days-toggle {
   min-width: 200px;
   &-invalid {
+    margin: -1px;
+
     border-radius: 21px;
     outline: none;
-    border: 1px solid #c72a21;
+    border: 1px solid var(--error-color);
   }
 }
+
+.time-input-wrapper {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .toggle {
   &:hover {
     cursor: pointer;
@@ -17,38 +45,84 @@
   }
 }
 
+.delete-block {
+  align-self: center;
+  z-index: 1;
+}
+
 .mat-icon-delete {
-  color: #3849f9;
+  color: var(--primary-light-text-color);
   &:hover {
     opacity: 0.5;
     cursor: pointer;
   }
 }
 
-.btn {
-  min-width: 150px;
+::ng-deep .mat-toolbar.mat-primary {
+  background-color: var(--primary-accent-color) !important;
 }
 
-::ng-deep .mat-toolbar.mat-primary {
-  background-color: #3849f9 !important;
-}
 ::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
-::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog > mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
-  justify-content: center;
-  flex-flow: wrap-reverse;
-  row-gap: 1rem;
+::ng-deep div.ngx-material-timepicker-dialog .mat-mdc-dialog-surface {
+  padding: 0;
+
+  div[mat-dialog-actions] {
+    justify-content: center !important;
+    flex-flow: wrap-reverse;
+    row-gap: 1rem;
+  }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 830px) {
   .step {
     flex-direction: column !important;
+    align-items: center;
   }
 
   .days {
     width: 100%;
   }
+
+  .time {
+    gap: 5px;
+  }
+}
+
+.btn {
+  min-width: 150px;
+
+  &-confirm {
+    background-color: var(--specific-text-color);
+    color: var(--light-text-button);
+    border: 1px solid var(--light-text-button);
+  }
+
+  &-cancel {
+    color: var(--specific-text-color);
+    background-color: transparent;
+    border: 1px solid var(--specific-text-color);
+  }
+}
+
+.disabled {
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+button:disabled,
+button {
+  border: none;
+  background-color: transparent;
+}
+
+.start-time-input {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
 }

@@ -1,26 +1,30 @@
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Util } from 'shared/utils/utils';
 
-import { Constants, EMPTY_RESULT } from '../constants/constants';
-import { AchievementType } from '../models/achievement.model';
-import { Direction } from '../models/category.model';
-import { Codeficator } from '../models/codeficator.model';
-import { FeaturesList } from '../models/featuresList.model';
-import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../models/institution.model';
-import { DataItem } from '../models/item.model';
-import { Rate } from '../models/rating';
-import { SearchResponse } from '../models/search.model';
-import { AchievementsService } from '../services/achievements/achievements.service';
-import { ChildrenService } from '../services/children/children.service';
-import { CodeficatorService } from '../services/codeficator/codeficator.service';
-import { DirectionsService } from '../services/directions/directions.service';
-import { FeatureManagementService } from '../services/feature-management/feature-management.service';
-import { InstitutionsService } from '../services/institutions/institutions.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { RatingService } from '../services/rating/rating.service';
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
+import { AchievementType } from 'shared/models/achievement.model';
+import { Direction, Subdirection } from 'shared/models/category.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
+import { DataItem } from 'shared/models/item.model';
+import { Rate } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
+import { AchievementsService } from 'shared/services/achievements/achievements.service';
+import { ChildrenService } from 'shared/services/children/children.service';
+import { CodeficatorService } from 'shared/services/codeficator/codeficator.service';
+import { DirectionsService } from 'shared/services/directions/directions.service';
+import { FeatureManagementService } from 'shared/services/feature-management/feature-management.service';
+import { InstitutionsService } from 'shared/services/institutions/institutions.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { RatingService } from 'shared/services/rating/rating.service';
+import { LanguageListItem } from 'shared/models/language-list.model';
+import { LanguageListService } from 'shared/services/language-list/language-list.service';
+import { CompetitiveEventAccountingType } from 'shared/models/competitive-event-accounting-type.model';
+import { AccountingTypeService } from 'shared/services/accounting-type/accounting-type.service';
 import {
   ClearCodeficatorSearch,
   ClearRatings,
@@ -36,15 +40,20 @@ import {
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById,
   GetInstitutionStatuses,
+  GetLanguageList,
   GetProviderTypes,
   GetRateByEntityId,
   GetSocialGroup,
+  GetSubDirections,
+  GetTypesOfCompetition,
   ResetInstitutionHierarchy,
   UpdateInstitutionHierarchy
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
+  subDirections: Subdirection[];
+  subdirectionsByDirection: Record<number, Subdirection[]>;
   socialGroups: DataItem[];
   institutionStatuses: DataItem[];
   providerTypes: DataItem[];
@@ -59,11 +68,16 @@ export interface MetaDataStateModel {
   editInstituitionsHierarchy: InstituitionHierarchy[];
   codeficatorSearch: Codeficator[];
   codeficator: Codeficator;
+  languageList: LanguageListItem[];
+  typesOfCompetition: CompetitiveEventAccountingType[];
 }
+
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
     directions: null,
+    subDirections: null,
+    subdirectionsByDirection: {},
     socialGroups: [],
     institutionStatuses: null,
     providerTypes: null,
@@ -77,14 +91,39 @@ export interface MetaDataStateModel {
     instituitionsHierarchy: null,
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
-    codeficator: null
+    codeficator: null,
+    languageList: null,
+    typesOfCompetition: null
   }
 })
 @Injectable()
 export class MetaDataState {
+  constructor(
+    private readonly categoriesService: DirectionsService,
+    private readonly childrenService: ChildrenService,
+    private readonly providerService: ProviderService,
+    private readonly ratingService: RatingService,
+    private readonly featureManagementService: FeatureManagementService,
+    private readonly institutionsService: InstitutionsService,
+    private readonly achievementService: AchievementsService,
+    private readonly codeficatorService: CodeficatorService,
+    private readonly languageListService: LanguageListService,
+    private readonly accountingTypeService: AccountingTypeService
+  ) {}
+
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] {
     return state.directions;
+  }
+
+  @Selector()
+  static subDirections(state: MetaDataStateModel): Subdirection[] {
+    return state.subDirections;
+  }
+
+  @Selector()
+  static subdirectionsByDirection(state: MetaDataStateModel): Record<number, Subdirection[]> {
+    return state.subdirectionsByDirection;
   }
 
   @Selector()
@@ -157,27 +196,54 @@ export class MetaDataState {
     return state.codeficator;
   }
 
-  constructor(
-    private categoriesService: DirectionsService,
-    private childrenService: ChildrenService,
-    private providerService: ProviderService,
-    private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService,
-    private institutionsService: InstitutionsService,
-    private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService
-  ) {}
+  @Selector()
+  static languageList(state: MetaDataStateModel): LanguageListItem[] {
+    return state.languageList;
+  }
+
+  @Selector()
+  static typesOfCompetition(state: MetaDataStateModel): CompetitiveEventAccountingType[] {
+    return state.typesOfCompetition;
+  }
 
   @Action(GetDirections)
-  getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {
+  getDirections({ patchState }: StateContext<MetaDataStateModel>): Observable<Direction[]> {
     patchState({ isLoading: true });
-    return this.categoriesService.getDirections().pipe(tap((directions: Direction[]) => patchState({ directions, isLoading: false })));
+    return this.categoriesService.getDirections().pipe(
+      map((searchResponse) => searchResponse.entities),
+      tap((directions: Direction[]) =>
+        patchState({
+          directions,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetSubDirections)
+  getSubDirections(
+    { getState, patchState }: StateContext<MetaDataStateModel>,
+    { directionId }: GetSubDirections
+  ): Observable<Subdirection[]> {
+    patchState({ subDirections: null, isLoading: true });
+    return this.categoriesService.getSubdirections(directionId).pipe(
+      map((searchResponse) => searchResponse.entities),
+      tap((subDirections: Subdirection[]) => {
+        patchState({
+          subDirections,
+          subdirectionsByDirection: { ...getState().subdirectionsByDirection, [directionId]: subDirections },
+          isLoading: false
+        });
+      })
+    );
   }
 
   @Action(GetSocialGroup)
-  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<DataItem[]> {
+  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { locale }: GetSocialGroup): Observable<DataItem[]> {
     patchState({ isLoading: true });
-    return this.childrenService.getSocialGroup().pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
+    return this.childrenService
+      .getSocialGroup(Util.getCurrentLocalization(locale))
+      .pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
   }
 
   @Action(GetInstitutionStatuses)
@@ -208,7 +274,7 @@ export class MetaDataState {
   ): Observable<SearchResponse<Rate[]>> {
     patchState({ isLoading: true });
     return this.ratingService
-      .getRateByEntityId(rateParameters)
+      .getWorkshopRateByEntityId(rateParameters)
       .pipe(tap((rating: SearchResponse<Rate[]>) => patchState({ rating: rating ?? EMPTY_RESULT, isLoading: false })));
   }
 
@@ -234,9 +300,14 @@ export class MetaDataState {
     {}: GetAllInstitutionsHierarchy
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getAllInstitutionHierarchies()
-      .pipe(tap((instituitionsHierarchyAll: InstituitionHierarchy[]) => patchState({ instituitionsHierarchyAll, isLoading: false })));
+    return this.institutionsService.getAllInstitutionHierarchies().pipe(
+      tap((instituitionsHierarchyAll: InstituitionHierarchy[]) =>
+        patchState({
+          instituitionsHierarchyAll,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetAchievementsType)
@@ -253,9 +324,14 @@ export class MetaDataState {
     { payload }: GetFieldDescriptionByInstitutionId
   ): Observable<InstitutionFieldDescription[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getFieldDescriptionByInstitutionId(payload)
-      .pipe(tap((institutionFieldDesc: InstitutionFieldDescription[]) => patchState({ institutionFieldDesc, isLoading: false })));
+    return this.institutionsService.getFieldDescriptionByInstitutionId(payload).pipe(
+      tap((institutionFieldDesc: InstitutionFieldDescription[]) =>
+        patchState({
+          institutionFieldDesc,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetAllByInstitutionAndLevel)
@@ -264,9 +340,14 @@ export class MetaDataState {
     { institutionId, level }: GetAllByInstitutionAndLevel
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getAllByInstitutionAndLevel(institutionId, level)
-      .pipe(tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy, isLoading: false })));
+    return this.institutionsService.getAllByInstitutionAndLevel(institutionId, level).pipe(
+      tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+        patchState({
+          instituitionsHierarchy,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetInstitutionHierarchyChildrenById)
@@ -275,9 +356,14 @@ export class MetaDataState {
     { id }: GetInstitutionHierarchyChildrenById
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getInstitutionHierarchyChildrenById(id)
-      .pipe(tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy, isLoading: false })));
+    return this.institutionsService.getInstitutionHierarchyChildrenById(id).pipe(
+      tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+        patchState({
+          instituitionsHierarchy,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetInstitutionHierarchyParentsById)
@@ -286,9 +372,14 @@ export class MetaDataState {
     { id }: GetInstitutionHierarchyParentsById
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getInstitutionHierarchyParentsId(id)
-      .pipe(tap((editInstituitionsHierarchy: InstituitionHierarchy[]) => patchState({ editInstituitionsHierarchy, isLoading: false })));
+    return this.institutionsService.getInstitutionHierarchyParentsId(id).pipe(
+      tap((editInstituitionsHierarchy: InstituitionHierarchy[]) =>
+        patchState({
+          editInstituitionsHierarchy,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(ResetInstitutionHierarchy)
@@ -301,17 +392,20 @@ export class MetaDataState {
   }
 
   @Action(UpdateInstitutionHierarchy)
-  updateInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, { payload }: UpdateInstitutionHierarchy): Observable<InstituitionHierarchy | Observable<void>> {
+  updateInstitutionHierarchy(
+    { patchState }: StateContext<MetaDataStateModel>,
+    { payload }: UpdateInstitutionHierarchy
+  ): Observable<InstituitionHierarchy | Observable<void>> {
     return this.institutionsService.editInstitutionHierarchy(payload).pipe();
   }
 
   @Action(GetCodeficatorSearch)
   getCodeficatorSearch(
     { patchState }: StateContext<MetaDataStateModel>,
-    { name, categories }: GetCodeficatorSearch
+    { name, categories, parentId }: GetCodeficatorSearch
   ): Observable<Codeficator[]> {
     patchState({ isLoading: true });
-    return this.codeficatorService.searchCodeficator(name, categories).pipe(
+    return this.codeficatorService.searchCodeficator(name, categories, parentId).pipe(
       tap((codeficatorSearch: Codeficator[]) => {
         patchState({
           codeficatorSearch: codeficatorSearch ?? [{ settlement: Constants.NO_SETTLEMENT } as Codeficator],
@@ -332,5 +426,34 @@ export class MetaDataState {
   @Action(ClearCodeficatorSearch)
   clearCodeficatorSearch({ patchState }: StateContext<MetaDataStateModel>, {}: ClearCodeficatorSearch): void {
     patchState({ codeficatorSearch: [] });
+  }
+
+  @Action(GetLanguageList)
+  getLanguageList({ patchState }: StateContext<MetaDataStateModel>): Observable<LanguageListItem[]> {
+    patchState({ isLoading: true });
+    return this.languageListService.getLanguageList().pipe(
+      tap((languageList: LanguageListItem[]) => patchState({ languageList, isLoading: false })),
+      catchError(() => {
+        patchState({ isLoading: false });
+        return EMPTY;
+      })
+    );
+  }
+
+  @Action(GetTypesOfCompetition)
+  getTypesOfCompetition({ patchState }: StateContext<MetaDataStateModel>): Observable<CompetitiveEventAccountingType[]> {
+    patchState({ isLoading: true });
+    return this.accountingTypeService.getCompetitiveEventAccountingTypes().pipe(
+      tap((accountingTypes: CompetitiveEventAccountingType[]) =>
+        patchState({
+          typesOfCompetition: accountingTypes,
+          isLoading: false
+        })
+      ),
+      catchError(() => {
+        patchState({ isLoading: false });
+        return EMPTY;
+      })
+    );
   }
 }

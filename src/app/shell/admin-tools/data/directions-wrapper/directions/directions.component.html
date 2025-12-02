@@ -1,12 +1,20 @@
-<div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+<div class="header-wrapper flex flex-row flex-wrap justify-between items-center">
   <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input [formControl]="filterFormControl" matInput type="text" maxlength="200" class="search" placeholder="Введіть назву напрямку" />
+    <div class="search-bar flex flex-row justify-start items-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        maxlength="200"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_DIRECTIONS' | translate }}" />
     </div>
   </div>
 
-  <a [routerLink]="['./create', ModeConstants.NEW]"><button class="btn" mat-raised-button>Додати напрямок</button></a>
+  <a *ngIf="featuresList?.directionManagement" [routerLink]="['./create', ModeConstants.NEW]"
+    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_DIRECTION' | translate }}</button></a
+  >
 </div>
 <ng-container *ngIf="filteredDirections$ | async; else isEmptyList">
   <div class="card-wrapper">
@@ -15,8 +23,7 @@
       *ngFor="let direction of (filteredDirections$ | async)?.entities"
       [direction]="direction"
       (deleteDirection)="onDelete($event)"
-      [isEditMode]="true"
-    >
+      [isEditMode]="featuresList?.directionManagement">
     </app-category-card>
   </div>
   <app-paginator
@@ -24,8 +31,7 @@
     [currentPage]="currentPage"
     [itemsPerPage]="directionsParameters.size"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)"
-  >
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
 </ng-container>
 

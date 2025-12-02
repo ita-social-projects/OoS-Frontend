@@ -1,0 +1,23 @@
+<div *ngIf="!consentGiven" class="cookie-modal" role="banner" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+  <div class="cookie-content">
+    <mat-icon>cookie</mat-icon>
+    <h3 id="cookie-title" class="cookies-header">{{ 'COOKIES.COOKIE_CONSENT' | translate }}</h3>
+    <p id="cookie-description">
+      {{ 'COOKIES.COOKIE_DESCRIPTION' | translate }}
+    </p>
+    <div class="button-group">
+      <button mat-stroked-button (click)="openPreferences()" type="button" aria-label="Відкрити налаштування cookies">
+        {{ 'BUTTONS.MANAGE_PARAMETERS' | translate }}
+      </button>
+      <button mat-stroked-button (click)="acceptCookies()" type="button" aria-label="Прийняти всі cookies">
+        {{ 'BUTTONS.CONFIRM_ALL' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-cookie-preferences
+  *ngIf="showPreferences"
+  [preferences]="preferences"
+  (save)="handlePreferencesSave($event)"
+  (cancel)="closePreferences()"></app-cookie-preferences>

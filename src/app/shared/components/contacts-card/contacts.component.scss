@@ -1,0 +1,96 @@
+a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--primary-light-text-color);
+  word-break: break-all;
+  font-family: 'Open Sans', sans-serif;
+
+  &.map {
+    font-size: 11px;
+    font-weight: bold;
+  }
+}
+
+.description-width {
+  width: 45%;
+}
+
+.address-block {
+  display: flex;
+  align-items: center;
+  width: 60%;
+
+  .contact-info {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--primary-light-text-color);
+    max-width: 100%;
+  }
+}
+
+.address-type-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--primary-light-text-color) !important;
+
+  .title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 50%;
+
+    .contact-title {
+      display: block;
+      flex: 1 1 100%;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+  }
+
+  .contact-content {
+    width: 50%;
+  }
+}
+
+.contact-info {
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.card_icon {
+  width: 16px;
+  height: 16px;
+  overflow: unset;
+  color: var(--primary-light-text-color);
+  font-size: 16px;
+}
+
+.address {
+  &-city {
+    width: 100%;
+  }
+
+  &-street {
+    max-width: 205px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 750px) {
+      max-width: 100%;
+    }
+  }
+}

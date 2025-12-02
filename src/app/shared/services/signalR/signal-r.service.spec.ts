@@ -7,7 +7,7 @@ import { SignalRService } from './signal-r.service';
 
 describe('SignalRService', () => {
   let service: SignalRService;
-
+  const CHAT_URL: string = '/hubs/chat';
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([])],
@@ -18,5 +18,9 @@ describe('SignalRService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should create hub connection', () => {
+    expect(service.startConnection(CHAT_URL)).toBeTruthy();
   });
 });

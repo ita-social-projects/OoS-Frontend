@@ -1,20 +1,20 @@
 {
   "id": "mockId",
-    "parentId": "mockParentId",
-    "workshopId": "mockWorkShopId",
-    "parent": {
-      "id": "mockParentId",
-      "userId": "mockUserId",
-      "firstName": "FName",
-      "lastName": "LName",
-      "middleName": "MName",
-      "email": "mockEmail",
-      "phoneNumber": "mockNumber"
-    },
-    "workshop": {
-      "id": "mockWorkshopId",
-      "providerTitle": "mockProviderTitle",
-      "title": "Спляча Красуня Фан-Клаб",
-      "providerId": "mockProviderId"
-    }
+  "parentId": "mockParentId",
+  "workshopId": "mockWorkShopId",
+  "parent": {
+    "id": "mockParentId",
+    "userId": "mockUserId",
+    "firstName": "FName",
+    "lastName": "LName",
+    "middleName": "MName",
+    "email": "mockEmail",
+    "phoneNumber": "mockNumber"
+  },
+  "workshop": {
+    "id": "mockWorkshopId",
+    "providerTitle": "mockProviderTitle",
+    "title": "Спляча Красуня Фан-Клаб",
+    "providerId": "mockProviderId"
+  }
 }

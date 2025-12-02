@@ -1,36 +1,31 @@
-import { takeUntil } from 'rxjs/operators';
-
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import {
-  AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild
-} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { CreateProviderSteps } from '../../../../shared/enum/provider';
-import { Role } from '../../../../shared/enum/role';
-import { Address } from '../../../../shared/models/address.model';
-import { FeaturesList } from '../../../../shared/models/featuresList.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { User } from '../../../../shared/models/user.model';
-import {
-  NavigationBarService
-} from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';
-import { Logout } from '../../../../shared/store/registration.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { Util } from '../../../../shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { NavBarName, PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { CreateProviderSteps } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { Provider } from 'shared/models/provider.model';
+import { User } from 'shared/models/user.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
+import { AppState } from 'shared/store/app.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Contacts } from 'shared/models/workshop.model';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -44,17 +39,23 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
     }
   ]
 })
-export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('stepper') public stepper: MatStepper;
+
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
+
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
 
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
+  public isEditMode: boolean = false;
 
   public InfoFormGroup: FormGroup;
-  public ActualAddressFormGroup: FormGroup;
-  public LegalAddressFormGroup: FormGroup;
   public PhotoFormGroup: FormGroup;
+  public ContactsFormArray: FormArray;
 
   public ContactsFormGroup: FormGroup = new FormGroup({});
   public RobotFormControl = new FormControl(false);
@@ -73,18 +74,24 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
-    this.determineEditMode();
+    this.isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
+    if (this.isEditMode) {
+      this.setEditMode();
+    }
+
+    this.featuresList$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((featuresList) => (this.isImagesFeature = featuresList.images));
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
-
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
   public ngAfterViewInit(): void {
-    if (this.editMode) {
-      this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
-      });
+    if (this.isEditMode) {
+      this.route.params.subscribe((params: Params) => (this.stepper.selectedIndex = +CreateProviderSteps[params.param]));
+    } else {
+      this.store.dispatch(new ClearMessageBar());
     }
   }
 
@@ -92,8 +99,27 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.changeDetector.detectChanges();
   }
 
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (!this.isEditMode && !isRegistered) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.completeRegistration,
+          type: 'warningYellow',
+          verticalPosition: 'bottom',
+          infinityDuration: true,
+          unclosable: true
+        })
+      );
+    }
+  }
+
   public setEditMode(): void {
-    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
+    });
+
     this.addNavPath();
     this.isAgreed = true;
     this.isNotRobot = true;
@@ -101,8 +127,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const personalCabinetTitle = PersonalCabinetTitle[userRole];
 
     this.store.dispatch(
       new AddNavPath(
@@ -122,22 +147,16 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-      this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
-      let legalAddress: Address;
-      let actulaAdress: Address;
       let provider: Provider;
+      let contacts: Contacts[];
 
-      if (this.editMode) {
-        legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
-        actulaAdress = this.ActualAddressFormGroup.disabled
-          ? null
-          : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
+      if (this.isEditMode) {
+        contacts = this.createContacts();
+        provider = new Provider(this.InfoFormGroup.value, contacts, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider, this.isImagesFeature));
       } else {
-        legalAddress = new Address(this.LegalAddressFormGroup.value);
-        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
+        contacts = this.createContacts();
+        provider = new Provider(this.InfoFormGroup.value, contacts, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider, this.isImagesFeature));
       }
     }
@@ -145,32 +164,21 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-info child component and assigns to the Info FormGroup
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
 
-  /**
-   * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
-   * @param FormGroup form
-   */
-  public onReceiveActualAddressFormGroup(form: FormGroup): void {
-    this.ActualAddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
-    this.ContactsFormGroup.addControl('actual', form);
-  }
-
-  public onReceiveLegalAddressFormGroup(form: FormGroup): void {
-    this.LegalAddressFormGroup = form;
-    this.subscribeOnDirtyForm(form);
-    this.ContactsFormGroup.addControl('legal', form);
+  public onReceiveContactsFormArray(array: FormArray): void {
+    this.ContactsFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
-   * This method receives a from from create-photo child component and assigns to the Info FormGroup
-   * @param FormGroup form
+   * This method receives a form from create-photo child component and assigns to the Info FormGroup
+   * @param form FormGroup
    */
   public onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
@@ -179,7 +187,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form and marks each control of this form as touched
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {
@@ -191,32 +199,37 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
   public checkValidationContacts(): void {
-    Object.keys(this.ContactsFormGroup.controls).forEach((key) => {
-      if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
-        this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
+    Object.keys(this.ContactsFormArray.controls).forEach((key) => {
+      if ((this.ContactsFormArray.get(key) as FormGroup).enabled) {
+        this.checkValidation(this.ContactsFormArray.get(key) as FormGroup);
       }
     });
   }
 
   public onCancel(): void {
-    const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
 
     if (!isRegistered) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.leaveRegistration,
-          property: ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.store.dispatch(new Logout());
-        }
-      });
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.leaveRegistration,
+            property: ''
+          }
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() => this.store.dispatch(new MarkFormDirty(false)))
+        )
+        .subscribe(() => this.router.navigate(['']));
     } else {
       this.router.navigate(['/personal-cabinet/provider/info']);
     }
+  }
+
+  private createContacts(): Contacts[] {
+    return this.ContactsFormArray?.controls.map((form: FormGroup) => new Contacts(form.value)) || [];
   }
 }

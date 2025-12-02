@@ -1,0 +1,91 @@
+.btn {
+  color: var(--specific-text-button);
+  background-color: var(--bg-button);
+  border: 1px solid var(--bg-button);
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &-reset,
+  &-add {
+    padding: 2px 30px;
+    border-radius: 20px;
+  }
+
+  .btn-add {
+    color: var(--specific-text-button);
+    .mat-icon-add {
+      vertical-align: middle;
+      height: 26px;
+      color: var(--specific-text-color);
+    }
+  }
+
+  &-cancel {
+    color: var(--primary-light-text-color);
+    background-color: transparent;
+    border-color: var(--primary-light-text-color);
+  }
+
+  &-rejected {
+    background-color: var(--error-color);
+    border-color: var(--primary-light-color);
+    color: var(--primary-light-color);
+  }
+
+  &-transparent {
+    padding: 0.75rem 1rem;
+    color: var(--primary-dark-text-color);
+    font-weight: 700;
+    gap: 0.5rem;
+
+    background-color: transparent;
+    border-color: var(--secondary-light-text-color);
+
+    .download-icon {
+      font-size: 1rem;
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.button {
+  box-sizing: border-box;
+  border-radius: 20px;
+
+  &-application {
+    background: var(--bg-button);
+    border: 1px solid var(--bg-button);
+    color: var(--specific-text-color);
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--bg-disabled-button);
+  background-color: var(--bg-disabled-button);
+  pointer-events: none;
+  color: var(--disabled-btn-color);
+}
+
+.status-info-icon {
+  cursor: pointer;
+  margin: auto 0.5rem;
+  font-size: 16px;
+}

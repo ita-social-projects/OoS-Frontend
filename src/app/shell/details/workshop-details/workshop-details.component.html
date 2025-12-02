@@ -1,53 +1,180 @@
 <div class="container" *ngIf="provider">
-  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"> </app-actions>
-  <app-image-carousel [images]="images"></app-image-carousel>
+  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
+  <div class="img-wrapper relative flex justify-center">
+    <img class="coverImage" [src]="coverImage" (error)="onImageError()" [alt]="'ALT.IMG_COVER' | translate" />
+    <ng-container *ngIf="isImageBroken && providerParameters?.providerId === currentProvider?.id">
+      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error </mat-icon>
+    </ng-container>
+  </div>
+  <div
+    class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
+    [class.draft-panel-action-row]="workshop.draftStatus"
+    *ngIf="providerParameters?.providerId === currentProvider?.id">
+    <button
+      mat-button
+      class="btn btn-cancel"
+      *ngIf="workshop.draftStatus !== WorkshopDraftStatus.PendingModeration"
+      (click)="onActionButtonClick(workshop.draftStatus ? modalType.deleteDraft : modalType.archiveWorkshop)">
+      {{ workshop.draftStatus ? ('BUTTONS.DELETE' | translate) : ('BUTTONS.ARCHIVE' | translate) }}
+    </button>
+    <div class="flex ml-auto">
+      <span
+        [matTooltip]="
+          workshop.draftStatus === WorkshopDraftStatus.PendingModeration
+            ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate)
+            : null
+        ">
+        <button
+          class="btn btn-cancel"
+          [class.btn-rejected]="workshop.draftStatus === WorkshopDraftStatus.Rejected"
+          [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
+          mat-button
+          (click)="onEdit()">
+          {{ 'BUTTONS.EDIT' | translate }}
+        </button>
+      </span>
+      <button
+        *ngIf="workshop.workshopDraftId"
+        class="btn btn-publish"
+        [disabled]="workshop.draftStatus === WorkshopDraftStatus.PendingModeration"
+        (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
+        mat-button>
+        {{ 'BUTTONS.PUBLISH' | translate }}
+      </button>
+    </div>
+  </div>
 
-  <div class="details-wrapper">
-    <div fxLayout="column" fxLayoutAlign="space-between space-between" fxLayoutGap="1rem">
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
-          <h1 class="title">{{ workshop.title }}</h1>
-          <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-            <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
-          </ng-container>
+  <div
+    *ngIf="workshop.draftStatus"
+    class="draft-panel flex items-center"
+    [ngClass]="{
+      'draft-panel-draft': workshop.draftStatus === WorkshopDraftStatus.Draft,
+      'draft-panel-pending': workshop.draftStatus === WorkshopDraftStatus.PendingModeration,
+      'draft-panel-edited': workshop.draftStatus === WorkshopDraftStatus.EditedByModerator
+    }">
+    <ng-container [ngSwitch]="workshop.draftStatus">
+      <span *ngSwitchCase="WorkshopDraftStatus.Draft">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.PendingModeration">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.EditedByModerator">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.EDITED_BY_MODERATOR' | translate | uppercase }}
+      </span>
+    </ng-container>
+  </div>
+  <div class="expansion-wrapper" *ngIf="workshop.rejectionMessage">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="reject-block-moderator-message">
+          {{ 'MODERATOR_MESSAGE' | translate | uppercase }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        {{ workshop.rejectionMessage }}
+      </p>
+    </mat-expansion-panel>
+  </div>
+
+  <div class="details-wrapper" [class.margin-top]="!workshop.draftStatus">
+    <div class="flex flex-col justify-between">
+      <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-col items-start sm:flex-wrap">
+          <div class="flex flex-row items-center">
+            <h1 class="title">{{ workshop.title }}</h1>
+            <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
+              <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+            </ng-container>
+          </div>
+          <h3 class="short-title" *ngIf="workshop.shortTitle">{{ workshop.shortTitle }}</h3>
         </div>
-        <div *ngFor="let direction of workshop.directions">
-          <img class="details-icon" [src]="categoryIcons[direction.id]" alt="{{ workshop.title }}" />
+        <div *ngFor="let directionId of workshop.directionIds">
+          <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
         </div>
       </div>
-      <span class="icon-text">
-        <mat-icon class="icon">star</mat-icon>
-        {{ workshop.rating }}
-      </span>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <a [routerLink]="['/details/provider', workshop.providerId]">
-          <span class="icon-text details-link"> <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }} </span>
-        </a>
+
+      <div class="flex flex-row">
+        <div class="flex flex-col">
+          <span *ngIf="!workshop.workshopDraftId" class="icon-text">
+            <mat-icon class="icon">star</mat-icon>
+            {{ workshop.rating }}&nbsp;
+            <span class="rating-number">({{ workshop.numberOfRatings }})</span>
+          </span>
+          <a [routerLink]="['/details/provider', workshop.providerId]">
+            <span class="icon-text details-link" [ngClass]="{ 'workshop-title': workshop.competitiveSelection }">
+              <mat-icon class="icon">home</mat-icon>
+              {{ workshop.providerTitle }}
+            </span>
+          </a>
+          <span class="icon-text" *ngIf="!workshop.competitiveSelection">
+            <mat-icon class="icon">school</mat-icon>
+            {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
+          </span>
+          <span *ngIf="isAgeRestricted" class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ workshop.minAge }} - {{ workshop.maxAge }}
+            {{ 'YEARS' | translate }}
+          </span>
+          <span *ngIf="!isAgeRestricted" class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ 'UNLIMITED' | translate }}
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">language</mat-icon>
+            {{ workshop.languageOfEducationName }}
+          </span>
+        </div>
+        <div class="flex flex-col" *ngIf="workshop.competitiveSelection">
+          <span class="flex flex-row items-center">
+            <span class="icon-text">
+              <mat-icon class="icon">person_add</mat-icon>
+              {{ 'COMPETITIVE_SELECTION' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ workshop.competitiveSelectionDescription }}
+              </app-info-menu>
+            </span>
+            <span class="icon-text">
+              <mat-icon class="icon">school</mat-icon>
+              {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
+            </span>
+          </span>
+        </div>
       </div>
     </div>
 
-    <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
-        <app-workshop-about [workshop]="workshop"></app-workshop-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate | uppercase }}">
-        <app-provider-about [provider]="provider"></app-provider-about>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
-        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"> </app-all-provider-workshops>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
-        <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
-      </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
-        <app-achievements [workshop]="workshop"></app-achievements>
+    <mat-tab-group
+      class="nav"
+      dynamicHeight="true"
+      [mat-stretch-tabs]="false"
+      [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
+      (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
+        <ng-container [ngSwitch]="tab.alias">
+          <app-workshop-about *ngSwitchCase="'AboutWorkshop'" [workshop]="workshop"></app-workshop-about>
+          <app-provider-about *ngSwitchCase="'AboutProvider'" [provider]="provider"></app-provider-about>
+          <app-workshop-teachers *ngSwitchCase="'Teachers'" [teachers]="workshop.teachers"></app-workshop-teachers>
+          <app-all-provider-workshops
+            *ngSwitchCase="'OtherWorkshops'"
+            [providerParameters]="providerParameters"></app-all-provider-workshops>
+          <app-reviews *ngSwitchCase="'Reviews'" [workshop]="workshop" [role]="role"></app-reviews>
+          <app-achievements *ngSwitchCase="'Achievements'" [workshop]="workshop"></app-achievements>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="workshop"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="workshop"></app-workshop-images>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
+
 <ng-template #ClosedWorkshopStatus>
-  <div class="chip chip-color-close">{{ recruitmentStatusEnum.RecruitmentStoped | translate }}</div>
+  <div
+    class="chip"
+    [ngClass]="{
+      'chip-color-close': workshop.status === workshopStatus.Closed,
+      'chip-color-draft': workshop.draftStatus
+    }">
+    {{ (workshop.status === workshopStatus.Closed ? recruitmentStatusEnum.RecruitmentStoped : recruitmentStatusEnum.Draft) | translate }}
+  </div>
 </ng-template>

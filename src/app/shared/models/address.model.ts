@@ -1,27 +1,26 @@
 import { Codeficator } from './codeficator.model';
 
 export class Address {
-  id?: number;
+  id = 0;
   street: string;
   buildingNumber: string;
-  // Codeficator
-  catottgId?: number;
-  codeficatorAddressDto?: Codeficator;
-  latitude?: number;
-  longitude?: number;
+  venue?: string;
+  latitude: number;
+  longitude: number;
+  catottgId: number;
+  codeficatorAddress?: Codeficator;
 
-  constructor(info, address?: Address) {
-    this.street = info.street;
-    this.buildingNumber = info.buildingNumber;
-    this.catottgId = info.catottgId ?? address.catottgId;
+  constructor(info?: Address, address?: Address) {
+    this.street = info?.street;
+    this.buildingNumber = info?.buildingNumber;
+    this.venue = info?.venue;
+    this.latitude = info?.latitude;
+    this.longitude = info?.longitude;
+    this.catottgId = info?.catottgId ?? address?.catottgId;
+    this.codeficatorAddress = info?.codeficatorAddress;
+
     if (address) {
       this.id = address.id;
-    }
-    if (info.lat) {
-      this.latitude = info.lat;
-    }
-    if (info.lat) {
-      this.longitude = info.lon;
     }
   }
 }

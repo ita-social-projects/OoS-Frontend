@@ -1,0 +1,39 @@
+@use '../variables/variables';
+
+@keyframes loader {
+  0% {
+    box-shadow:
+      10px 0 #3849f9,
+      -10px 0 #3849f933;
+    background: #3849f9;
+  }
+  33% {
+    box-shadow:
+      10px 0 #3849f9,
+      -10px 0 #3849f933;
+    background: #3849f933;
+  }
+  66% {
+    box-shadow:
+      10px 0 #3849f933,
+      -10px 0 #3849f9;
+    background: #3849f933;
+  }
+  100% {
+    box-shadow:
+      10px 0 #3849f933,
+      -10px 0 #3849f9;
+    background: #3849f9;
+  }
+}
+@keyframes pulse {
+  0% {
+    color: var(--length-warning-message);
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    color: var(--length-warning-message);
+  }
+}

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FeaturesList } from '../../models/featuresList.model';
+
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class FeatureManagementService {
   /**
    * This method get features flags depending on releases
    */
-  getFeaturesList(): Observable<FeaturesList> {
+  public getFeaturesList(): Observable<FeaturesList> {
     return this.http.get<FeaturesList>('/api/v1/FeatureManagement/Get');
   }
 }

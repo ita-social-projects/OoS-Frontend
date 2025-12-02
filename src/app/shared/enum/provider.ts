@@ -1,13 +1,13 @@
 export enum OwnershipTypes {
   State = 'State',
   Common = 'Common',
-  Private = 'Private',
+  Private = 'Private'
 }
 
-//TODO: temporary removed for 1st release
+// TODO: temporary removed for 1st release
 export enum SelectableOwnershipTypes {
   State = 'State',
-  Common = 'Common',
+  Common = 'Common'
 }
 
 export enum InstitutionTypes {
@@ -20,7 +20,7 @@ export enum InstitutionTypes {
 export enum CreateProviderSteps {
   'info',
   'contacts',
-  'description',
+  'description'
 }
 
 export enum ProviderWorkshopSameValues {
@@ -28,5 +28,5 @@ export enum ProviderWorkshopSameValues {
   phone = 'phoneNumber',
   website = 'website',
   facebook = 'facebook',
-  instagram = 'instagram',
+  instagram = 'instagram'
 }

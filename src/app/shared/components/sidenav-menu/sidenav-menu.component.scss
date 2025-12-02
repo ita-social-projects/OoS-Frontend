@@ -1,15 +1,8 @@
-.app-wrapper {
-  min-height: 100%;
-  position: relative;
-  box-sizing: border-box;
-}
-
 ::ng-deep .lang-option .mat-select-value {
-  color: white !important;
-  width: 25px !important;
+  color: var(--primary-light-text-color) !important;
   overflow: visible;
-  padding-right: 0px !important;
-  font-family: 'Innerspace';
+  padding-right: 0 !important;
+  font-family: 'Innerspace', sans-serif;
 }
 
 ::ng-deep .lang-option-text .mat-option-text {
@@ -19,37 +12,42 @@
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
-  background-color: white !important;
+  background-color: var(--primary-light-text-color) !important;
 
   &:hover {
     background-color: transparent !important;
   }
 }
 
-@media (max-width: 750px) {
-  .header_login {
-    position: relative;
-    bottom: 5px;
+@media (max-width: 800px) {
+  .mat-mdc-outlined-button.header-login {
+    color: var(--primary-light-text-color);
+    border-color: var(--primary-light-text-color);
     border-radius: 20px;
-    border-color: white;
-    color: white;
-    font-size: 13px;
-    margin-left: 10px;
+  }
 
-    ::ng-deep span.mat-button-wrapper {
-      position: relative;
-      top: 3px;
-      padding: 0 12px;
-    }
+  .mat-mdc-button.button-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-light-text-color);
+  }
+
+  mat-icon.mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    margin: 0;
   }
 
   .mobile-sidenav {
     width: 100%;
     position: fixed;
     z-index: 10001;
+    background-color: var(--primary-light-bg-color);
 
     &-header {
-      font-family: Innerspace;
+      font-family: Innerspace, sans-serif;
       font-style: normal;
       font-weight: bold;
       font-size: 13px;
@@ -62,8 +60,8 @@
       height: 92px;
       box-sizing: border-box;
       padding: 40px 0 7px 8px;
-      background-color: #3849f9;
-      color: white;
+      background-color: var(--primary-light-bg-color);
+      color: var(--primary-light-text-color);
 
       &-not-auth {
         padding-left: 15px;
@@ -73,25 +71,38 @@
     &-shell {
       display: flex;
       flex-direction: column;
-      font-family: Innerspace;
+      font-family: Innerspace, sans-serif;
       font-size: 13px;
       font-weight: bold;
-      color: black;
+      color: var(--primary-light-text-color);
     }
 
     &-icon {
-      color: gray;
+      color: var(--disabled-text-color);
       font-size: 22px;
       vertical-align: middle;
     }
 
     &-account {
-      vertical-align: middle;
+      height: 40px;
+      width: 40px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &-language {
       ::ng-deep .mat-select-value-text {
-        color: black !important;
+        color: var(--primary-light-text-color) !important;
+      }
+    }
+
+    &-theme {
+      padding: 7px 16px;
+
+      ::ng-deep .mdc-switch__track {
+        box-shadow: 0 0 0 1px var(--secondary-light-text-color);
       }
     }
 
@@ -100,6 +111,12 @@
       flex-direction: column;
       align-items: flex-start;
       padding: 0 1rem;
+      color: var(--primary-light-text-color);
+
+      &-notification {
+        padding: 0;
+      }
+
       & > a {
         padding: 0.5rem 0;
       }
@@ -110,7 +127,7 @@
   }
 
   .hr-grey {
-    color: grey;
+    color: var(--disabled-text-color);
     height: 1px;
     background-color: rgba(133, 133, 133, 0.521);
     border-top: 2px;
@@ -121,4 +138,12 @@
 }
 .full-width {
   width: 100%;
+}
+.lang-option .mat-mdc-select-min-line {
+  color: var(--primary-light-text-color);
+}
+
+.mat-mdc-unelevated-button {
+  background: transparent !important;
+  color: var(--primary-light-text-color) !important;
 }

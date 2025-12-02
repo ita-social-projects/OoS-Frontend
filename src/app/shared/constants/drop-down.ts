@@ -1,11 +1,13 @@
+import { CustomFormControlNames } from 'shared/enum/history.log';
+
 export const ProviderOptions = [
   {
     value: 'FullTitle',
     label: 'FORMS.LABELS.PROVIDER_TITLE'
   },
   {
-    value: 'EdrpouIpn',
-    label: 'FORMS.LABELS.EDRPO_IPN'
+    value: 'Edrpou',
+    label: 'FORMS.LABELS.EDRPOU'
   },
   {
     value: 'Director',
@@ -21,14 +23,44 @@ export const ProviderOptions = [
   }
 ];
 
-export const ProviderAdminOptions = [
+export const EmployeeOptions = [
   {
-    value: 'delete',
-    label: 'HISTORY_LOG.REMOVE_ADMIN_OPTION'
+    value: 'All',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ALL',
+    default: true
   },
   {
-    value: 'create',
-    label: 'HISTORY_LOG.ADD_ADMIN_OPTION'
+    value: 'Deputies',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.DEPUTIES'
+  },
+  {
+    value: 'Assistants',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ASSISTANTS'
+  }
+];
+
+export const EmployeeOperationOptions = [
+  {
+    value: 'Create',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.ADD_ADMIN_OPTION',
+    type: ['Assistants']
+  },
+  {
+    value: 'Delete',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.REMOVE_ADMIN_OPTION',
+    type: ['Assistants']
+  },
+  {
+    value: 'Block',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.BLOCK_ADMIN_OPTION'
+  },
+  {
+    value: 'Update',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.UPDATE_ADMIN_OPTION'
+  },
+  {
+    value: 'Reinvite',
+    label: 'HISTORY_LOG.EMPLOYEE_FILTERS.REINVITE_ADMIN_OPTION'
   }
 ];
 
@@ -38,3 +70,27 @@ export const ApplicationOptions = [
     label: 'FORMS.LABELS.STATUS'
   }
 ];
+
+export const ParentsBlockingByAdminOptions = [
+  {
+    value: 'All',
+    label: 'HISTORY_LOG.USERS_FILTERS.ALL',
+    default: true
+  },
+  {
+    value: 'Blocked',
+    label: 'HISTORY_LOG.USERS_FILTERS.BLOCKED'
+  },
+  {
+    value: 'Unblocked',
+    label: 'HISTORY_LOG.USERS_FILTERS.UNBLOCKED'
+  }
+];
+
+export const DropdownOptionsConfig = {
+  [CustomFormControlNames.ProvidersPropertyName]: ProviderOptions,
+  [CustomFormControlNames.AdminType]: EmployeeOptions,
+  [CustomFormControlNames.OperationType]: EmployeeOperationOptions,
+  [CustomFormControlNames.ApplicationsPropertyName]: ApplicationOptions,
+  [CustomFormControlNames.ShowParents]: ParentsBlockingByAdminOptions
+};

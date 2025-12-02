@@ -1,5 +1,6 @@
-@import 'src/app/shared/styles/status-themes.scss';
-@import 'src/app/shared/styles/hide-aside-animation.scss';
+@use 'status-themes';
+@use 'hide-aside-animation';
+@use 'buttons';
 
 p {
   margin: 0;
@@ -28,7 +29,7 @@ p {
   &-details {
     font-size: 0.875rem;
 
-    color: #272425;
+    color: var(--list-text-color);
 
     &:not(:last-child) {
       margin-bottom: 1rem;
@@ -40,7 +41,7 @@ p {
     font-weight: 700;
     line-height: 0.9375rem;
 
-    color: #3849f9;
+    color: var(--primary-accent-color);
     cursor: pointer;
 
     &:hover {
@@ -68,11 +69,27 @@ p {
   width: 1rem;
   height: 1rem;
 
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 
   cursor: pointer;
 
   &:hover {
     opacity: 0.5;
   }
+}
+
+.draft-content p {
+  color: var(--primary-dark-text-color);
+}
+
+.btn {
+  background-color: var(--specific-text-color);
+  color: var(--light-text-button);
+  border: 1px solid var(--light-text-button);
+}
+
+.btn-container button:nth-child(2) {
+  color: var(--specific-text-color);
+  background-color: transparent;
+  border: 1px solid var(--specific-text-color);
 }

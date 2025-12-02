@@ -1,0 +1,69 @@
+.wrapper {
+  margin: 2rem 1rem;
+}
+
+.line-break {
+  white-space: pre-line;
+}
+
+.title {
+  font-family: 'Innerspace', sans-serif;
+  line-height: 14.6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-dark-text-color);
+  margin: 1.5rem 0 1rem 0;
+}
+
+.section-title {
+  margin: 1.5rem 0 1rem 0;
+  color: var(--primary-dark-text-color);
+}
+
+.txt {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  line-height: 17.7px;
+  font-weight: 400;
+  color: var(--primary-dark-text-color);
+  overflow-wrap: break-word;
+}
+
+.toggle {
+  font-family:
+    Open Sans,
+    sans-serif;
+  font-weight: 300;
+  height: 40px;
+  padding: 5px;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid var(--input-light-color);
+  background: var(--primary-light-bg-color);
+  color: var(--secondary-light-text-color);
+  &-selected {
+    color: var(--cancel-text-color);
+    background: rgba(56, 73, 249, 0.07);
+    border: 1px solid rgb(170, 170, 170, 0.1);
+  }
+  &:first-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  &:last-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+}
+
+.text {
+  font-family:
+    Open Sans,
+    sans-serif;
+  font-weight: 700;
+  color: var(--primary-dark-text-color);
+  padding: 5px;
+  &:last-child {
+    padding: 5px 5px 5px 0px;
+  }
+}

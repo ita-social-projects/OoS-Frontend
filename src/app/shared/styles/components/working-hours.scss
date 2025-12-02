@@ -1,0 +1,47 @@
+@use 'timepicker';
+
+.toggle {
+  height: 40px;
+  padding: 5px;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid var(--input-light-color);
+  background: var(--primary-light-bg-color);
+  &-selected {
+    background: var(--selected-working-hours-toggle);
+    border: 1px solid var(--input-light-color);
+  }
+  &:first-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  &:last-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+}
+
+.text {
+  font-family:
+    Open Sans,
+    sans-serif;
+  font-weight: 700;
+  color: var(--primary-light-text-color);
+  margin: 0;
+  padding: 5px;
+}
+
+.input {
+  font-family:
+    Open Sans,
+    sans-serif;
+  border: 1px solid var(--input-light-color);
+  box-sizing: border-box;
+  border-radius: 21px;
+  margin: 0;
+  padding: 0.25em 1.5em;
+  max-width: max-content;
+  height: 40px;
+  align-items: center;
+  text-align: center;
+}

@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/application-statuses.scss';
+@use 'application-statuses';
 
 .application-popup-status,
 .application-menu,
@@ -6,10 +6,12 @@
   i {
     padding-right: 5px;
   }
-  width: max-content;
+  width: auto;
   max-width: max-content;
   font-size: 13px;
-  font: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: normal;
 }
 .application-popup-status {
@@ -18,7 +20,7 @@
   font-size: 13px;
 }
 .application-info-description-card {
-  color: #aaaaaa;
+  color: var(--primary-light-text-color);
 }
 .application-info-menu {
   width: 90vw;
@@ -26,6 +28,7 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
+  color: var(--primary-light-text-color);
 }
 
 .menu-wrapper {
@@ -37,11 +40,13 @@
 .application-info-menu {
   display: flex;
   flex-direction: row;
-  max-width: 600px;
+  max-width: 590px;
   font-size: 13px;
   line-height: 17px;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
+  white-space: break-spaces;
+  text-align: justify;
 }
 
 .card-block {
@@ -56,7 +61,7 @@
 .material-icons {
   font-size: 16px;
   line-height: 14.6px;
-  color: #888;
+  color: var(--primary-light-text-color);
   cursor: pointer;
 }
 
@@ -126,8 +131,15 @@
   font-size: 16px;
 }
 .activeInfoBtn {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
 .inactiveInfoBtn {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
+}
+
+@media (max-width: 530px) {
+  .application-popup-status {
+    text-align: left;
+    max-width: 210px;
+  }
 }

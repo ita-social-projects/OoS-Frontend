@@ -1,6 +1,6 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/application-list.scss';
-@import 'src/app/shared/styles/search.scss';
+@use 'navigation-tabs';
+@use 'application-list';
+@use 'search';
 
 .search-area {
   flex: 1;
@@ -10,12 +10,17 @@
   width: 100%;
 }
 
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
+}
+
 :host .mat-tab-header {
   border: none;
   margin-bottom: 1rem;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
   .dropdown {
     width: auto;
   }

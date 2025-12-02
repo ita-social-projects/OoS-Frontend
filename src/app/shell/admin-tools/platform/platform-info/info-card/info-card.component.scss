@@ -1,9 +1,24 @@
-@import 'src/app/shared/styles/config.scss';
+@use 'config';
+
 .config {
+  color: var(--primary-light-text-color);
+  background-color: var(--secondary-light-bg-color);
+  .edit-button {
+    color: var(--primary-light-text-color);
+    padding: 0 16px;
+    line-height: normal;
+
+    .mat-icon {
+      margin-right: 4px;
+    }
+  }
+
   min-height: 15rem;
+
   h3 {
     padding-top: 0.5rem;
   }
+
   &-wrapper {
     padding-top: 1rem;
   }

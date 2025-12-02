@@ -1,10 +1,10 @@
 <div [ngClass]="{ 'wrapper-full-width': (isMobileScreen$ | async) }">
   <p class="filter-text">{{ 'DIRECTIONS' | translate }}</p>
-  <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
+  <div class="search-bar flex flex-row justify-evenly items-center">
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
     </button>
-    <mat-form-field floatLabel="never" appearance="none">
+    <mat-form-field appearance="fill">
       <input
         matInput
         type="text"
@@ -13,15 +13,10 @@
         class="search"
         matInput
         placeholder="{{ 'SEARCH_BY_DIRECTIONS' | translate }}"
-        autocomplete="off"
-      />
+        autocomplete="off" />
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>
-    <li class="list" *ngFor="let direction of filteredDirections">
-      <mat-checkbox color="primary" (change)="onDirectionCheck(direction, $event)" [checked]="onSelectCheck(direction)">
-        {{ direction.title }}
-      </mat-checkbox>
-    </li>
+    <app-direction-tree [initialDirectionIds]="directionsSelected" [searchInput]="directionSearchFormControl.value"></app-direction-tree>
   </div>
 </div>

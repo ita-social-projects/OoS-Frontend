@@ -1,21 +1,32 @@
-.scroll-up {
-  position: fixed;
-  bottom: 25px;
-  left: 45%;
-  border: 1px solid #3849f9;
+.to-top-btn {
+  position: absolute;
+  margin-bottom: 2rem;
+  animation: fadeIn 0.3s ease-out;
   border-radius: 50%;
-  outline: none;
-  padding: 0 !important;
-  background-color: #3849f9;
-  color: white;
+  min-width: 70px;
+  height: 70px;
+  right: 2rem;
+  font-size: 1rem;
+  color: var(--specific-light-text-color);
+  background-color: var(--secondary-light-bg-color);
 
-  &.mat-button {
-    min-width: 44px;
-    min-height: 44px;
+  .mat-icon {
+    margin: 0;
+  }
+}
 
-    ::ng-deep .material-icons {
-      font-size: 18px;
-      padding-top: 10px;
-    }
+.sticky {
+  position: fixed;
+  bottom: 2rem;
+  margin: 0;
+  z-index: 999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

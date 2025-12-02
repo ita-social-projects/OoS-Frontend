@@ -14,7 +14,7 @@ export class NavigationBarService {
    * @returns array of Object for navigation :Nav[]
    *
    */
-  createOneNavPath(navPath: Navigation): Navigation[] {
+  public createOneNavPath(navPath: Navigation): Navigation[] {
     return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, navPath];
   }
 
@@ -24,12 +24,10 @@ export class NavigationBarService {
    * @returns array of two Objects for navigation :Nav[]
    *
    */
-  createNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
+  public createNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
     if (thirdNavPath !== undefined) {
       return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, firstNavPath, secondNavPath, thirdNavPath];
     }
     return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, firstNavPath, secondNavPath];
   }
-
-  constructor() {}
 }

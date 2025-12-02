@@ -1,13 +1,13 @@
-import { ApplicationStatuses } from './../enum/statuses';
-import { ApplicationEntityType } from '../enum/applications';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
+import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Workshop, WorkshopCard } from './workshop.model';
-import { PaginationParameters } from './queryParameters.model';
 
 export class Application {
   id: string;
-  status: string;
+  status: ApplicationStatuses;
   creationTime: Date;
   approvedTime: Date;
   workshopId: string;
@@ -17,7 +17,7 @@ export class Application {
   child: Child;
   parent: ParentWithContactInfo;
   rejectionMessage: string;
-  isBlocked: boolean;
+  isBlockedByProvider: boolean;
 
   constructor(child: Child, workshop: Workshop, parent: ParentWithContactInfo) {
     this.childId = child.id;
@@ -46,7 +46,7 @@ export interface ApplicationFilterParameters extends PaginationParameters {
   searchString?: string;
   property?: ApplicationEntityType;
   statuses: ApplicationStatuses[];
-  showBlocked: boolean;
+  show: ApplicationShowParams;
   orderByDateAscending?: boolean;
   orderByAlphabetically?: boolean;
   orderByStatus?: boolean;

@@ -1,0 +1,13 @@
+@use 'create-form';
+@use 'validation-form';
+
+.step-textarea {
+  margin-top: 0;
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+}
+
+.price-input {
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+}

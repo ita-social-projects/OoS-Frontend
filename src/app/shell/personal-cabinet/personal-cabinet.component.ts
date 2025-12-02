@@ -1,13 +1,24 @@
-import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { PersonalCabinetTitle } from '../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../shared/enum/role';
-import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { Util } from '../../shared/utils/utils';
-import { ApplicationStatuses } from '../../shared/enum/statuses';
-import { RoleLinks } from '../../shared/enum/enumUA/user';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable, take } from 'rxjs';
+
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Role } from 'shared/enum/role';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application } from 'shared/models/application.model';
+import { Provider } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { ChatState } from 'shared/store/chat.state';
+import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
+import { GetPendingApplicationsByProviderId } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -15,20 +26,32 @@ import { RoleLinks } from '../../shared/enum/enumUA/user';
   styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  readonly ApplicationStatuses = ApplicationStatuses;
-  readonly roles = RoleLinks;
-  readonly Role = Role;
-  
-  personalCabinetTitle: PersonalCabinetTitle;
-  userRole: Role;
-  subRole: Role;
+  @Select(ProviderState.pendingApplications)
+  public pendingApplications$: Observable<SearchResponse<Application[]>>;
+  @Select(ChatState.unreadMessagesCount)
+  public unreadMessagesCount$: Observable<number>;
+  @Select(MetaDataState.featuresList)
+  public featuresList$: Observable<FeaturesList>;
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly RoleLinks = RoleLinks;
+  public readonly Role = Role;
+  public readonly isRoleAdmin = isRoleAdmin;
+  public readonly isRoleProvider = isRoleProvider;
 
-  ngOnInit(): void {
+  public personalCabinetTitle: PersonalCabinetTitle;
+  public userRole: Role;
+
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService
+  ) {}
+
+  public ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
+    this.personalCabinetTitle = PersonalCabinetTitle[this.userRole];
 
     this.store.dispatch(
       new AddNavPath(
@@ -40,9 +63,12 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
-  }
 
-  ngOnDestroy(): void {
+    if (isRoleProvider(this.userRole)) {
+      this.provider$.pipe(take(1)).subscribe((provider) => this.store.dispatch(new GetPendingApplicationsByProviderId(provider.id)));
+    }
+  }
+  public ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
 }

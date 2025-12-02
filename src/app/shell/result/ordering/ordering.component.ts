@@ -1,42 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Ordering } from '../../../shared/enum/ordering';
-import { FilterList } from '../../../shared/models/filterList.model';
-import { SetOrder } from '../../../shared/store/filter.actions';
-import { FilterState } from '../../../shared/store/filter.state';
+import { Observable } from 'rxjs';
+
+import { Ordering } from 'shared/enum/ordering';
+import { FilterList } from 'shared/models/filter-list.model';
+import { SetOrder } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss']
 })
-export class OrderingComponent implements OnInit, OnDestroy {
-  readonly ordering = Ordering;
-
+export class OrderingComponent {
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
+  protected filterList$: Observable<FilterList>;
 
-  orderFormControl = new FormControl();
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly Ordering = Ordering;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    protected translateService: TranslateService
+  ) {}
 
-  ngOnInit(): void {
-    this.filterList$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filters) => this.orderFormControl.setValue(filters.order, { emitEvent: false }));
-  }
-
-  OnSelectOption(event: MatSelectChange): void {
+  public onSelectOption(event: MatSelectChange): void {
     this.store.dispatch(new SetOrder(event.value));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

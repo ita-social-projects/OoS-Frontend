@@ -1,0 +1,176 @@
+<div class="container" *ngIf="provider">
+  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [competition]="competition"></app-actions>
+  <div class="img-wrapper relative flex justify-center">
+    <img class="coverImage" [src]="coverImage" (error)="onImageError()" [alt]="'ALT.IMG_COVER' | translate" />
+    <ng-container *ngIf="isImageBroken && providerParameters?.providerId === currentProvider?.id">
+      <mat-icon class="error-message absolute left-2 top-2" matTooltip="{{ 'IMAGE.CHANGE_IMAGE' | translate }}">error </mat-icon>
+    </ng-container>
+  </div>
+
+  <div
+    class="flex flex-row flex-wrap box-border !justify-between items-center action-buttons-wrapper"
+    *ngIf="providerParameters?.providerId === currentProvider?.id">
+    <button
+      mat-button
+      class="btn btn-cancel"
+      (click)="onActionButtonClick(competition.draftStatus ? ModalConfirmationType.deleteDraft : ModalConfirmationType.archiveCompetition)"
+      *ngIf="competition.draftStatus !== WorkshopDraftStatus.PendingModeration">
+      {{ competition.draftStatus ? ('BUTTONS.DELETE' | translate) : ('BUTTONS.ARCHIVE' | translate) }}
+    </button>
+    <div class="flex ml-auto">
+      <span
+        [matTooltip]="
+          competition.draftStatus === WorkshopDraftStatus.PendingModeration
+            ? ('TOOLTIP.CANNOT_EDIT_WORKSHOP_PENDING_MODERATION' | translate)
+            : null
+        ">
+        <button
+          class="btn btn-cancel"
+          [class.btn-rejected]="competition.draftStatus === WorkshopDraftStatus.Rejected"
+          [disabled]="competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+          mat-button
+          (click)="onEdit()">
+          {{ 'BUTTONS.EDIT' | translate }}
+        </button>
+      </span>
+      <button
+        *ngIf="competition.competitiveEventDraftId"
+        class="btn btn-publish"
+        [disabled]="competition.draftStatus === WorkshopDraftStatus.PendingModeration"
+        (click)="onActionButtonClick(ModalConfirmationType.draftSet)"
+        mat-button>
+        {{ 'BUTTONS.PUBLISH' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="competition.draftStatus"
+    class="draft-panel flex items-center"
+    [ngClass]="{
+      'draft-panel-draft': competition.draftStatus === WorkshopDraftStatus.Draft,
+      'draft-panel-pending': competition.draftStatus === WorkshopDraftStatus.PendingModeration,
+      'draft-panel-edited': competition.draftStatus === WorkshopDraftStatus.EditedByModerator
+    }">
+    <ng-container [ngSwitch]="competition.draftStatus">
+      <span *ngSwitchCase="WorkshopDraftStatus.Draft">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.DRAFT' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.PendingModeration">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.PENDING' | translate | uppercase }}
+      </span>
+      <span *ngSwitchCase="WorkshopDraftStatus.EditedByModerator">
+        {{ 'ENUM.WORKSHOP_DRAFT.STATUS.EDITED_BY_MODERATOR' | translate | uppercase }}
+      </span>
+    </ng-container>
+  </div>
+  <div class="expansion-wrapper" *ngIf="competition.rejectionMessage">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="reject-block-moderator-message">
+          {{ 'MODERATOR_MESSAGE' | translate | uppercase }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        {{ competition.rejectionMessage }}
+      </p>
+    </mat-expansion-panel>
+  </div>
+
+  <div class="details-wrapper" [class.margin-top]="!competition.draftStatus">
+    <div class="flex flex-col justify-between">
+      <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-col items-start sm:flex-wrap">
+          <div class="flex flex-row items-center">
+            <h1 class="title">{{ competition.title }}</h1>
+            <ng-container *ngIf="competitionStatusOpen; else ClosedWorkshopStatus">
+              <div class="chip chip-color-open">{{ RecruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+            </ng-container>
+          </div>
+          <h3 class="short-title" *ngIf="competition.shortTitle">{{ competition.shortTitle }}</h3>
+        </div>
+      </div>
+      <div *ngIf="competitionSubdirections?.length" class="flex flex-row gap-2 my-2">
+        <div *ngFor="let subDirection of competitionSubdirections" class="chip chip-color-tag">
+          {{ subDirection }}
+        </div>
+      </div>
+      <div class="flex flex-row mt-3">
+        <div class="flex flex-col">
+          <span class="icon-text">
+            <mat-icon class="icon">star</mat-icon>
+            {{ competition.rating }}&nbsp;
+            <span class="rating-number">({{ competition.numberOfRatings }})</span>
+          </span>
+          <a [routerLink]="['/details/provider', competition.organizerOfTheEventId]">
+            <span class="icon-text details-link" [ngClass]="{ 'workshop-title': competition.competitiveSelection }">
+              <mat-icon class="icon">home</mat-icon>
+              {{ competition.title }}
+            </span>
+          </a>
+          <span class="icon-text" *ngIf="competition.scheduledStartTime">
+            <mat-icon class="icon">schedule</mat-icon>
+            {{ 'REGISTRATION' | translate }}:
+            {{ competition.scheduledStartTime | date: 'd MMMM' }}
+          </span>
+          <span class="icon-text" *ngIf="competition.registrationEndTime">
+            <mat-icon class="icon">event_clock</mat-icon>
+            {{ 'DEADLINE' | translate }}:
+            {{ competition.registrationEndTime | date: 'd MMMM' }}
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">person</mat-icon>
+            {{ competition.minimumAge }} - {{ competition.maximumAge }}
+            {{ 'YEARS' | translate }}
+          </span>
+        </div>
+        <div class="flex flex-col">
+          <span class="flex flex-row items-center" *ngIf="competition.competitiveSelection">
+            <span class="icon-text">
+              <mat-icon class="icon">person_add</mat-icon>
+              {{ 'COMPETITIVE_SELECTION' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ competition.competitiveSelectionDescription }}
+              </app-info-menu>
+            </span>
+          </span>
+          <span class="icon-text">
+            <mat-icon class="icon">school</mat-icon>
+            {{ FormOfLearningEnum[competition.plannedFormatOfClasses] | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <mat-tab-group
+      class="nav"
+      [dynamicHeight]="true"
+      [mat-stretch-tabs]="false"
+      [selectedIndex]="selectedIndex"
+      (animationDone)="onAnimationDone()"
+      (selectedTabChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of tabs" class="label" [label]="tab.labelKey | translate | uppercase">
+        <ng-container [ngSwitch]="tab.alias">
+          <app-competition-about *ngSwitchCase="'AboutCompetition'" [competition]="competition"></app-competition-about>
+          <app-competition-judges *ngSwitchCase="'Judges'" [teachers]="competition.judges"></app-competition-judges>
+          <app-contacts-card *ngSwitchCase="'Contacts'" [entity]="competition"></app-contacts-card>
+          <app-workshop-images *ngSwitchCase="'Images'" [entity]="competition"></app-workshop-images>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<ng-template #ClosedWorkshopStatus>
+  <div
+    *ngIf="competition.state === CompetitionStatus.Completed || competition.draftStatus"
+    class="chip"
+    [ngClass]="{
+      'chip-color-close': competition.state === CompetitionStatus.Completed,
+      'chip-color-draft': competition.draftStatus
+    }">
+    {{
+      (competition.state === CompetitionStatus.Completed ? RecruitmentStatusEnum.RecruitmentStoped : RecruitmentStatusEnum.Draft)
+        | translate
+    }}
+  </div>
+</ng-template>

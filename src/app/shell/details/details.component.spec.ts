@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsComponent } from './details.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { Workshop } from '../../shared/models/workshop.model';
-import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { of } from 'rxjs';
+import { User } from '../../shared/models/user.model';
+import { Workshop } from '../../shared/models/workshop.model';
 import { Provider } from '../../shared/models/provider.model';
 import { Role } from '../../shared/enum/role';
+import { DetailsComponent } from './details.component';
 
 const MockUser = {
   role: ''
@@ -22,7 +21,7 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([]), FlexLayoutModule],
+      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([])],
       declarations: [DetailsComponent, MockSideMenuComponent, MockDetailsWorkshopComponent, MockDetailsProviderComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     }).compileComponents();
@@ -32,6 +31,8 @@ describe('DetailsComponent', () => {
     store = TestBed.inject(Store);
     jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of(MockUser as User));
 
+    window.scrollTo = jest.fn();
+
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -40,6 +41,10 @@ describe('DetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
 });
 
 @Component({
@@ -47,31 +52,31 @@ describe('DetailsComponent', () => {
   template: ''
 })
 class MockDetailsWorkshopComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }
 @Component({
   selector: 'app-provider-details',
   template: ''
 })
 class MockDetailsProviderComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }
 @Component({
   selector: 'app-side-menu',
   template: ''
 })
 class MockSideMenuComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }

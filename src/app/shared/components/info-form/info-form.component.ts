@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ValidationConstants } from '../../constants/validation';
+import { AbstractControl, FormGroup } from '@angular/forms';
+
+import { ValidationConstants } from 'shared/constants/validation';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { Entities } from 'shared/enum/entities';
 
 @Component({
   selector: 'app-info-form',
@@ -8,18 +11,28 @@ import { ValidationConstants } from '../../constants/validation';
   styleUrls: ['./info-form.component.scss']
 })
 export class InfoFormComponent {
-  readonly validationConstants = ValidationConstants;
+  @Input() public index: number;
+  @Input() public formAmount: number;
+  @Input() public infoEditFormGroup: AbstractControl;
+  @Input() public maxDescriptionLength: number;
+  @Input() public entity: Entities;
 
-  @Input() InfoEditFormGroup: FormGroup;
-  @Input() index: number;
-  @Input() formAmount: number;
-  @Input() maxDescriptionLength: number;
+  @Output() public deleteForm = new EventEmitter();
 
-  @Output() deleteForm = new EventEmitter();
+  public readonly ValidationConstants = ValidationConstants;
+  protected readonly InfoMenuType = InfoMenuType;
 
-  constructor() {}
+  public get infoEditForm(): FormGroup {
+    return this.infoEditFormGroup as FormGroup;
+  }
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  public onFocusOut(formControlName: string): void {
+    if (this.infoEditFormGroup.get(formControlName).pristine && !this.infoEditFormGroup.get(formControlName).value) {
+      this.infoEditFormGroup.get(formControlName).setValue(null);
+    }
   }
 }

@@ -1,17 +1,13 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appDigitOnly]'
 })
 export class DigitOnlyDirective {
-  constructor(private el: ElementRef) {}
-
-  @HostListener('input', ['$event']) onInputChange(event: InputEvent): void {
-    const initValue = this.el.nativeElement.value;
-
-    this.el.nativeElement.value = initValue.replace(/[^0-9]*/g, '');
-    if (initValue !== this.el.nativeElement.value) {
-      event.stopPropagation();
+  @HostListener('beforeinput', ['$event'])
+  public onInputChange(event: InputEvent): void {
+    if (event.data && !/^\d*(?:[.,]\d{0,2})?$/.test((event.target as HTMLInputElement).value + event.data)) {
+      event.preventDefault();
     }
   }
 }

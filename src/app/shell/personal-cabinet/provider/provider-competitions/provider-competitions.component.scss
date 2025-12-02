@@ -1,0 +1,13 @@
+@use 'list-wrappers';
+@use 'card-wrapper';
+@use 'buttons';
+
+.unfinished-banner {
+  background-color: var(--bg-specific-light);
+}
+
+@media (max-width: 800px) {
+  .searchbar {
+    justify-content: center;
+  }
+}

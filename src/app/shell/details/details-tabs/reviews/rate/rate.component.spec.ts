@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Rate } from '../../../../../shared/models/rating';
+import { Rate } from 'shared/models/rating';
 import { RateComponent } from './rate.component';
 
 describe('RateComponent', () => {
@@ -12,12 +12,7 @@ describe('RateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        RouterTestingModule,
-        TranslateModule.forRoot()
-      ],
+      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule, TranslateModule.forRoot()],
       declarations: [RateComponent]
     }).compileComponents();
   });

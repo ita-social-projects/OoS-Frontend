@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { DirectionsService } from './directions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DirectionsService } from './directions.service';
 
 describe('DirectionsService', () => {
   let service: DirectionsService;

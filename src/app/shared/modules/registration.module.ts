@@ -1,26 +1,27 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AbstractSecurityStorage, AuthModule, LogLevel } from 'angular-auth-oidc-client';
-import { HttpClientModule } from '@angular/common/http';
-import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
+
 import { environment } from '../../../environments/environment';
+import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
 
 @NgModule({
   declarations: [],
   imports: [
     BrowserModule,
     AuthModule.forRoot({
-      storage: LocalSessionManagerService,
       config: {
-        useRefreshToken: true,
-        silentRenew: true,
-        silentRenewTimeoutInSeconds: 300,
-        clientId: 'angular',
         authority: environment.stsServer,
-        responseType: 'code',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
-        scope: 'openid outofschoolapi.read offline_access',
+        clientId: 'angular',
+        scope: 'openid profile roles outofschoolapi offline_access',
+        responseType: 'code',
+        silentRenew: true,
+        useRefreshToken: true,
+        silentRenewTimeoutInSeconds: 300,
+        ignoreNonceAfterRefresh: true,
         logLevel: LogLevel.Error,
         // @ts-ignore: Object is possibly 'null'
         secureRoutes: [environment.stsServer]

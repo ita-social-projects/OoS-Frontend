@@ -1,0 +1,180 @@
+@use 'cards';
+@use 'application-statuses';
+@use 'workshop-status';
+
+.error-message {
+  color: orange;
+
+  &:hover {
+    color: darkorange;
+  }
+}
+
+.card-img-mobile {
+  width: 100%;
+}
+
+.horizontal {
+  margin: 0;
+}
+
+.provider-content {
+  min-height: 2rem;
+}
+
+.workshop-title-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  margin: 0.3rem 0 0.3rem;
+}
+
+.action-icon {
+  color: var(--primary-light-text-color);
+}
+
+.favorite-icon {
+  color: #ffbd00;
+}
+
+.provider-link {
+  color: var(--primary-accent-color);
+  margin: 0.3rem 0;
+}
+
+.provider-link:hover {
+  opacity: 0.5;
+  color: var(--primary-accent-color);
+}
+
+.competition-default {
+  background: #3849f9;
+}
+
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  background: var(--primary-light-bg-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+
+  .card-img {
+    display: flex;
+    max-width: 100% !important;
+    min-width: inherit;
+    height: min-content;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  .wrap-for-details .mat-mdc-card-header {
+    margin-bottom: 1rem;
+  }
+
+  .hide {
+    display: block;
+  }
+}
+
+.wrap-for-details,
+.mat-mdc-card-content {
+  flex: 1;
+}
+
+.more-details {
+  width: fit-content;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.icon_launch {
+  color: var(--primary-accent-color);
+  font-size: 18px !important;
+  width: 14px !important;
+  height: 14px !important;
+  overflow: visible !important;
+  margin-right: 5px;
+  margin-top: 5px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+::ng-deep .mat-mdc-card-header .mat-mdc-card-title {
+  height: 30px !important;
+}
+
+@media (max-width: 750px) {
+  :host.application-workshop .horizontal {
+    width: auto;
+  }
+  .horizontal-card {
+    max-width: 100%;
+    width: 90vw;
+
+    .card-img {
+      flex: 1;
+    }
+
+    .wrap-for-details {
+      flex: 2;
+      width: 50%;
+    }
+
+    .wrap-for-details-map {
+      padding: 0.75rem;
+
+      .mat-mdc-card-content {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .card_text {
+      margin: 0;
+    }
+
+    .mat-mdc-card-image {
+      height: 150px;
+      width: 150px;
+    }
+
+    .mat-mdc-card-header img {
+      width: 21px;
+      height: 21px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    ::ng-deep .mat-mdc-card-header-text {
+      margin: 0;
+    }
+
+    .card-title,
+    .mat-mdc-card-header {
+      font-size: 15px;
+    }
+  }
+}

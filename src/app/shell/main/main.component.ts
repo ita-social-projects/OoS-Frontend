@@ -1,19 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { WorkshopCard } from '../../shared/models/workshop.model';
-import { filter, take, takeUntil } from 'rxjs/operators';
-import { Direction } from '../../shared/models/category.model';
-import { Role } from '../../shared/enum/role';
-import { Codeficator } from '../../shared/models/codeficator.model';
-import { Favorite } from '../../shared/models/favorite.model';
-import { AppState } from '../../shared/store/app.state';
-import { FilterState } from '../../shared/store/filter.state';
-import { GetTopWorkshops, GetTopDirections } from '../../shared/store/main-page.actions';
-import { MainPageState } from '../../shared/store/main-page.state';
-import { ParentState } from '../../shared/store/parent.state.';
-import { Login } from '../../shared/store/registration.actions';
+import { asyncScheduler, combineLatest, Observable, Subject, withLatestFrom } from 'rxjs';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
+
+import { Role } from 'shared/enum/role';
+import { Direction } from 'shared/models/category.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Favorite } from 'shared/models/favorite.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { AppState } from 'shared/store/app.state';
+import { FilterState } from 'shared/store/filter.state';
+import { GetTopDirections, GetTopWorkshops } from 'shared/store/main-page.actions';
+import { MainPageState } from 'shared/store/main-page.state';
+import { ParentState } from 'shared/store/parent.state';
+import { Login } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  GetUnfinishedCompetition,
+  GetUnfinishedWorkshop,
+  OnDeleteUnfinishedCompetition,
+  OnDeleteUnfinishedWorkshop,
+  SetUnfinishedModalShown
+} from 'shared/store/provider.actions';
+import { Router } from '@angular/router';
+import { ProviderState } from 'shared/store/provider.state';
 
 @Component({
   selector: 'app-main',
@@ -21,33 +35,50 @@ import { Login } from '../../shared/store/registration.actions';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  Role = Role;
-
   @Select(MainPageState.topWorkshops)
-  topWorkshops$: Observable<WorkshopCard[]>;
-  topWorkshops: WorkshopCard[];
+  public topWorkshops$: Observable<WorkshopCard[]>;
   @Select(MainPageState.topDirections)
-  topDirections$: Observable<Direction[]>;
-  topDirections: Direction[];
+  public topDirections$: Observable<Direction[]>;
   @Select(MainPageState.isLoadingData)
-  isLoadingData$: Observable<boolean>;
-  isLoadingData: boolean;
+  public isLoadingData$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+  public role$: Observable<Role>;
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+  public favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
-  settlement: Codeficator;
+  public settlement$: Observable<Codeficator>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
-  isMobile: boolean;
+  public isMobileScreen$: Observable<boolean>;
+  @Select(ProviderState.fetchedUnfinishedWorkshop)
+  public fetchedWorkshop$: Observable<boolean>;
+  @Select(ProviderState.fetchedUnfinishedCompetition)
+  public fetchedCompetition$: Observable<boolean>;
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
+  @Select(ProviderState.hasUnfinishedCompetitionData)
+  public hasUnfinishedCompetitionData$: Observable<boolean>;
+  @Select(ProviderState.isModalShown)
+  public isModalShown$: Observable<boolean>;
+  public topDirectionsLimited$: Observable<Direction[]>;
+  public topWorkshopsLimited$: Observable<WorkshopCard[]>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly Role = Role;
 
-  constructor(private store: Store) {}
+  public settlement: Codeficator;
+  public isMobile: boolean;
 
-  ngOnInit(): void {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog,
+    private router: Router
+  ) {}
+
+  public ngOnInit(): void {
+    this.topDirectionsLimited$ = this.topDirections$.pipe(map((directions) => directions?.slice(0, 6)));
+    this.topWorkshopsLimited$ = this.topWorkshops$.pipe(map((workshops) => workshops?.slice(0, 4)));
+
     combineLatest([this.role$, this.settlement$])
       .pipe(
         filter(([role, settlement]: [Role, Codeficator]) => !!(role && settlement)),
@@ -58,16 +89,87 @@ export class MainComponent implements OnInit, OnDestroy {
         this.getData(role);
       });
 
+    combineLatest([this.fetchedWorkshop$, this.fetchedCompetition$, this.isModalShown$])
+      .pipe(
+        filter(([fetchedWorkshop, fetchedCompetition, modalShown]) => fetchedWorkshop && fetchedCompetition && !modalShown),
+        withLatestFrom(this.hasUnfinishedWorkshopData$, this.hasUnfinishedCompetitionData$),
+        map(([[fetchedWorkshop, fetchedCompetition, modalShown], hasWorkshop, hasCompetition]) => {
+          if (hasWorkshop && hasCompetition) {
+            return ModalConfirmationType.incompleteWorkshopAndCompetition;
+          }
+          if (hasWorkshop) {
+            return ModalConfirmationType.incompleteWorkshop;
+          }
+          if (hasCompetition) {
+            return ModalConfirmationType.incompleteCompetition;
+          }
+          return null;
+        }),
+        filter(Boolean),
+        take(1)
+      )
+      .subscribe((type) => {
+        this.showDialog(type);
+      });
+
     this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobile: boolean) => (this.isMobile = isMobile));
   }
 
-  ngOnDestroy(): void {
+  public onRegister(): void {
+    this.store.dispatch(new Login(false));
+  }
+
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  onRegister(): void {
-    this.store.dispatch(new Login(true));
+  public continueUnfinishedCreation(entity: 'workshop' | 'competition'): void {
+    this.router.navigate([`/create/${entity}`, 'unfinished']);
+  }
+
+  public cancelUnfinishedCreation(entity: 'workshop' | 'competition' | 'both'): void {
+    if (entity === 'workshop') {
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+    } else if (entity === 'competition') {
+      this.store.dispatch(new OnDeleteUnfinishedCompetition());
+    } else {
+      this.store.dispatch(new OnDeleteUnfinishedWorkshop());
+      this.store.dispatch(new OnDeleteUnfinishedCompetition());
+    }
+  }
+
+  public showDialog(type: ModalConfirmationType): void {
+    const incompleteCompetition = type === ModalConfirmationType.incompleteCompetition;
+    const incompleteBoth = type === ModalConfirmationType.incompleteWorkshopAndCompetition;
+    asyncScheduler.schedule(() => {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          data: {
+            type,
+            showCloseButton: true
+          },
+          maxWidth: incompleteBoth ? Constants.MODAL_MEDIUM : Constants.MODAL_SMALL
+        })
+        .afterClosed()
+        .subscribe((result: boolean | string | undefined) => {
+          const isWorkshop = (result === true && !incompleteCompetition) || (result === true && incompleteBoth);
+          const isCompetition = (result === 'secondOption' && incompleteBoth) || (result === true && incompleteCompetition);
+
+          if (isWorkshop) {
+            this.continueUnfinishedCreation('workshop');
+          } else if (isCompetition) {
+            this.continueUnfinishedCreation('competition');
+          } else if (result === false) {
+            const target = incompleteBoth ? null : incompleteCompetition ? 'competition' : 'workshop';
+
+            if (target) {
+              this.cancelUnfinishedCreation(target);
+            }
+          }
+          this.store.dispatch(new SetUnfinishedModalShown(true));
+        });
+    }, 2000);
   }
 
   private getData(role: Role): void {
@@ -77,10 +179,13 @@ export class MainComponent implements OnInit, OnDestroy {
           take(1),
           filter((favorite: Favorite[]) => !!favorite?.length || favorite === null)
         )
-        .subscribe((favorite: Favorite[]) => this.getMainPageData());
-    } else {
-      this.getMainPageData();
+        .subscribe(() => this.getMainPageData());
+
+      return;
+    } else if (role === Role.provider) {
+      this.store.dispatch([new GetUnfinishedWorkshop(), new GetUnfinishedCompetition()]);
     }
+    this.getMainPageData();
   }
 
   private getMainPageData(): void {

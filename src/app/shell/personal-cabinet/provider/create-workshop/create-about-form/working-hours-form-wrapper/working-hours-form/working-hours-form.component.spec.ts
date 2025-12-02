@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { WorkingHoursFormComponent } from './working-hours-form.component';
-import { MaterialModule } from '../../../../../../../shared/modules/material.module';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
+import { MaterialModule } from 'shared/modules/material.module';
+import { WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -23,7 +24,7 @@ describe('WorkingHoursFormComponent', () => {
         BrowserAnimationsModule,
         MatDatepickerModule,
         MatInputModule,
-        NgxMatTimepickerModule,
+        NgxMaterialTimepickerModule,
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
@@ -49,14 +50,51 @@ describe('WorkingHoursFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be valid startTime and endTime', () => {
+    const startTime = component.workingHoursForm.get('startTime');
+    const endTime = component.workingHoursForm.get('endTime');
+
+    startTime?.setValue('08:00');
+    endTime?.setValue('18:00');
+    expect(component.workingHoursForm.valid).toBeTruthy();
+
+    endTime?.setValue('07:00');
+    expect(component.workingHoursForm.errors).toEqual({ invalidTimeRange: true });
+  });
+
+  it('should set time via timePicker', () => {
+    component.startTimeFormControl.setValue('');
+    component.endTimeFormControl.setValue('');
+
+    component.onTimeSet('12:30', component.startTimeFormControl);
+    component.onTimeSet('14:30', component.endTimeFormControl);
+
+    expect(component.startTimeFormControl.value).toBe('12:30');
+    expect(component.endTimeFormControl.value).toBe('14:30');
+  });
+
+  it('should place ":" automatically', () => {
+    component.startTimeFormControl.setValue('1230');
+
+    expect(component.startTimeFormControl.value).toBe('12:30');
+  });
+
+  it('should emit event if touched', () => {
+    const mockFunction = jest.fn();
+    component.workdaysFormControl.statusChanges.pipe(take(1)).subscribe(mockFunction);
+    component.workdaysFormControl.markAsTouched();
+    expect(mockFunction).toHaveBeenCalled();
+  });
 });
+
 @Component({
   selector: 'app-validation-hint',
   template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl; // required for validation
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
 }

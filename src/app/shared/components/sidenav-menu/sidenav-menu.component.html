@@ -1,15 +1,20 @@
+<!-- TODO: Make links correspondive like in header component -->
 <mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
   <div class="mobile-sidenav-content" *ngIf="isMobileView">
     <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
 
     <ng-template #isUnauthorized>
-      <div class="mobile-sidenav-header">
-        <button mat-stroked-button class="header_login" (click)="login()">{{ 'LOGIN' | translate }}</button>
-        <button mat-button (click)="changeView()">
-          <mat-icon>close</mat-icon>
-        </button>
+      <div class="flex flex-col">
+        <div class="mobile-sidenav-header">
+          <button mat-stroked-button class="header-login" (click)="login()">{{ 'LOGIN' | translate }}</button>
+          <button mat-button class="button-close" (click)="changeView()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="mobile-sidenav-theme">
+          <app-theme-switcher></app-theme-switcher>
+        </div>
       </div>
-      <ng-container *ngTemplateOutlet="Language"> </ng-container>
     </ng-template>
 
     <ng-template #isAuthorized>
@@ -18,7 +23,7 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <ng-container>{{ user.firstName }} {{ user.lastName }}</ng-container>
-        <button mat-button (click)="changeView()">
+        <button mat-button class="button-close" (click)="changeView()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -26,9 +31,13 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
-        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async)?.release2">
+        <div class="mobile-sidenav-theme">
+          <app-theme-switcher></app-theme-switcher>
+        </div>
+
+        <div class="mobile-sidenav-menu-notification full-width" *ngIf="featuresList?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
-            <app-notifications fxLayout="row" fxLayoutAlign="space-between center"> </app-notifications>
+            <app-notifications class="flex flex-row justify-between content-center items-center"> </app-notifications>
           </a>
         </div>
 
@@ -43,15 +52,20 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">
               {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</a
             >
-            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
+            <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate
+            }}</a>
+            <a *ngIf="isRoleProvider(user.role)" [routerLink]="'./personal-cabinet/provider/competitions'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.MY_COMPETITIONS' | translate
             }}</a>
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>
-            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}</a>
+            <a *ngIf="featuresList?.messagingFeature" [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.MESSAGES' | translate
+            }}</a>
             <a
-              *ngIf="user.role === Role.provider && (subrole$ | async) !== Role.ProviderAdmin"
+              *ngIf="user.role === Role.provider && user.role === Role.providerDeputy"
               [routerLink]="'./personal-cabinet/provider/administration'"
               (click)="changeView()"
               >{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}</a
@@ -105,7 +119,7 @@
 </mat-drawer>
 
 <ng-template #Language>
-  <div class="mobile-sidenav-language">
+  <div *ngIf="!featuresList?.onlyUkrainianLanguage" class="mobile-sidenav-language">
     <button mat-flat-button (click)="lngSelect.open()">
       <mat-icon>language</mat-icon>
       <mat-select
@@ -113,8 +127,10 @@
         (selectionChange)="setLanguage()"
         [(value)]="selectedLanguage"
         class="lang-option"
+        hideSingleSelectionIndicator="true"
+        panelWidth="64"
         disableOptionCentering
-        panelClass="dropdown-panel">
+        panelClass="dropdown-panel lang-panel">
         <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
         <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
       </mat-select>

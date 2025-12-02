@@ -2,10 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics",
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics", "@angular-eslint/schematics", "@schematics/angular", "@cypress/schematic"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -22,7 +19,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/out-of-school",
             "index": "src/index.html",
@@ -39,12 +36,20 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
-              "./node_modules/leaflet/dist/leaflet.css"
+              "./node_modules/leaflet/dist/leaflet.css",
+              "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "./node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
+              "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/shared/styles/components",
+                "src/app/shared/styles/theme",
+                "src/app/shared/styles/utils/animations",
+                "src/app/shared/styles/utils/variables"
+              ]
+            },
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
@@ -64,7 +69,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -74,8 +78,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "12kb"
                 }
               ]
             },
@@ -91,7 +95,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -101,8 +104,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "12kb"
                 }
               ]
             }
@@ -112,18 +115,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "out-of-school:build:production"
+              "buildTarget": "out-of-school:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "out-of-school:build"
+            "buildTarget": "out-of-school:build"
           }
         },
         "test": {
@@ -140,10 +143,15 @@
             ]
           }
         },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
             "devServerTarget": "out-of-school:serve"
           },
           "configurations": {
@@ -152,13 +160,38 @@
             }
           }
         },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "out-of-school:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "out-of-school:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "out-of-school:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "out-of-school:serve:production"
+            }
           }
         }
       }

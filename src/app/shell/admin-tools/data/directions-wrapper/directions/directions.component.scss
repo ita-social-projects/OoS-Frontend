@@ -1,12 +1,14 @@
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/pagination.scss';
-@import 'src/app/shared/styles/search.scss';
+@use 'card-wrapper';
+@use 'list-wrappers';
+@use 'buttons';
+@use 'pagination';
+@use 'search';
 
 .wrapper {
   p {
-    font-family: Open Sans;
+    font-family:
+      Open Sans,
+      sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -15,7 +17,7 @@
 }
 
 .link {
-  color: blue;
+  color: var(--primary-accent-color);
   font-weight: 300 !important;
 }
 
@@ -25,7 +27,9 @@
 
 .config-button {
   font-weight: 300;
-  font-family: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
 }
 
 .config-support p {
@@ -33,7 +37,7 @@
 }
 
 .header-wrapper {
-  margin-bottom: 2rem;
+  margin: 10px 0 2rem 0;
 }
 
 .title {
@@ -44,4 +48,9 @@
   .header-wrapper {
     gap: 10px;
   }
+}
+
+.search {
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }

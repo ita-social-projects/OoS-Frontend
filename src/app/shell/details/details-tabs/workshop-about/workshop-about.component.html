@@ -3,7 +3,7 @@
     <h5 class="title">{{ 'TITLES.ABOUT_THE_WORKSHOP' | translate }}</h5>
     <div *ngFor="let item of workshop.workshopDescriptionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
-      <p>{{ item.description }}</p>
+      <p class="line-break">{{ item.description }}</p>
     </div>
   </ng-container>
   <h5 class="title">{{ 'FORMS.LABELS.PRICE' | translate }}</h5>
@@ -11,27 +11,34 @@
   <p *ngIf="workshop.price" class="txt">
     {{ workshop.price }} {{ 'UAH' | translate }}/ {{ PayRateTypeEnum[workshop.payRate] | translate }}
   </p>
-  <h5 class="title">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</h5>
-  <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : ('NOT_AVAILABLE' | translate) }}</p>
 
-  <h5 class="title">{{ 'FORMS.LABELS.DAYS_HOURS' | translate }}</h5>
+  <h5 class="title">{{ 'FORMS.LABELS.STUDY_PERIOD' | translate }}</h5>
+  <p class="txt">
+    {{ workshop.studyPeriodDates?.startDate | date: 'd MMMM' : currentLang }} -
+    {{ workshop.studyPeriodDates?.endDate | date: 'd MMMM' : currentLang }}
+  </p>
+
+  <h5 class="title">{{ 'FORMS.LABELS.LESSONS_SCHEDULE' | translate }}</h5>
   <div *ngFor="let timeRange of workshop.dateTimeRanges">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutAlign.xs="center start">
-      <div fxLayout="row" fxLayoutAlign="space-between">
+    <div class="flex flex-row justify-start items-center gap-4 xs:flex-col xs:justify-center xs:items-start">
+      <div class="flex flex-row justify-between">
         <div
           *ngFor="let day of days"
-          class="toggle"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }"
-        >
+          class="toggle flex flex-row justify-center items-center"
+          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
           {{ day.value | translate }}
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="center center">
+      <div class="flex flex-row justify-center items-center">
         <p class="text">{{ timeRange.startTime }}</p>
         <p class="text">- {{ timeRange.endTime }}</p>
       </div>
     </div>
   </div>
+  <ng-container *ngIf="workshop.enrollmentProcedureDescription">
+    <h5 class="title">{{ 'FORMS.LABELS.DESCRIPTION_SELECTION' | translate }}</h5>
+    <p class="line-break">
+      {{ workshop.enrollmentProcedureDescription }}
+    </p>
+  </ng-container>
 </div>

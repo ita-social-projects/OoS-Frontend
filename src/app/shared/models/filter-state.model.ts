@@ -1,0 +1,45 @@
+import { FormOfLearning, WorkshopOpenStatus, PayRateType } from 'shared/enum/workshop';
+import { MinMaxPriceFilter } from 'shared/models/filter-list.model';
+import { Codeficator } from './codeficator.model';
+import { Coords } from './coords.model';
+import { SearchResponse } from './search.model';
+import { WorkshopCard } from './workshop.model';
+
+export interface FilterStateModel {
+  directionIds: number[];
+  subdirectionIds: number[];
+  indeterminateDirectionIds: number[];
+  maxAge: number;
+  minAge: number;
+  noAgeRestriction: boolean;
+  isAppropriateAge: boolean;
+  workingDays: string[];
+  startTime: string;
+  endTime: string;
+  formsOfLearning: FormOfLearning[];
+  isFree: boolean;
+  isPaid: boolean;
+  payRate: PayRateType;
+  maxPrice: number;
+  minPrice: number;
+  limitMinMaxPrice: MinMaxPriceFilter;
+  settlement: Codeficator;
+  searchQuery: string;
+  order: string;
+  filteredWorkshops: SearchResponse<WorkshopCard[]>;
+  withDisabilityOption: boolean;
+  isStrictWorkdays: boolean;
+  isAppropriateHours: boolean;
+  isLoading: boolean;
+  isConfirmCity: boolean;
+  statuses: WorkshopOpenStatus[];
+  mapViewCoords: Coords | null;
+  userRadiusSize: number | null;
+  isMapView: boolean;
+  from: number;
+  size: number;
+  previousResults: string[];
+  entitySearchQuery: string;
+  entityPreviousResults: string[];
+  languageOfEducationId: number | null;
+}

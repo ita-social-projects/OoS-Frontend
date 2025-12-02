@@ -1,14 +1,40 @@
-@import 'src/app/shared/styles/config.scss';
+@use 'config';
 
 .config {
+  background-color: var(--secondary-light-bg-color);
+  color: var(--primary-light-text-color);
+  border-radius: 10px;
+
+  .edit-button {
+    color: var(--primary-light-text-color);
+    padding: 0 16px;
+    line-height: normal;
+
+    .mat-icon {
+      height: 24px;
+      font-size: 24px;
+      width: 24px;
+      margin-right: 4px;
+    }
+  }
+
   p {
     &.important {
-      margin-bottom: 0;
-      color: red;
+      color: var(--error-color);
 
       mat-icon {
         overflow: visible;
       }
+
+      &.label {
+        margin-bottom: 0;
+      }
+    }
+    &.disabled {
+      color: var(--disabled-text-color);
+      pointer-events: none;
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }

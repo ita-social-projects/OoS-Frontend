@@ -1,0 +1,76 @@
+.phone-input-wrapper {
+  width: 100%;
+  margin: 4px 0 !important;
+  border: 1px solid var(--input-light-color);
+  border-radius: 21px;
+  line-height: initial;
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+
+  ::ng-deep .ngx-mat-tel-input-container {
+    .country-selector {
+      opacity: unset;
+      border-radius: 21px;
+      font-family: 'Open Sans', sans-serif;
+      padding-bottom: 2.75px;
+    }
+
+    .country-selector-code {
+      color: var(--primary-light-text-color);
+    }
+
+    .phone-number-input {
+      margin-left: 5px;
+    }
+  }
+}
+
+::ng-deep .ngx-mat-tel-input-mat-menu-panel {
+  max-width: none !important;
+  width: auto !important;
+  min-width: 400px !important;
+  max-height: 500px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  border-radius: 5px !important;
+  .mat-mdc-menu-content {
+    padding: 0;
+  }
+
+  .country-search {
+    outline: none !important;
+    padding-left: 13px !important;
+    margin: 4px !important;
+    font-size: 13px !important;
+    font-family: 'Open Sans', sans-serif !important;
+    width: calc(100% - 20px) !important;
+    box-sizing: border-box;
+  }
+
+  .label-wrapper {
+    font-family: var(--mat-menu-item-label-text-font);
+    line-height: var(--mat-menu-item-label-text-line-height);
+    font-size: var(--mat-menu-item-label-text-size);
+    letter-spacing: var(--mat-menu-item-label-text-tracking);
+    font-weight: var(--mat-menu-item-label-text-weight);
+  }
+
+  .country-list-button {
+    font-size: 13px !important;
+    font-family: 'Open Sans', sans-serif !important;
+  }
+
+  .mat-mdc-menu-item {
+    padding: 14px 24px !important;
+  }
+}
+
+:host ::ng-deep .mat-mdc-input-element {
+  margin-left: 0 !important;
+  color: var(--primary-light-text-color) !important;
+}
+
+.phone-invalid {
+  outline: none;
+  border: 1px solid var(--error-color);
+}

@@ -14,15 +14,17 @@ export class CodeficatorService {
   /**
    * This method to get all Codeficators from the database
    * @param settlement string
+   * @param categories CodeficatorCategories[]
+   * @param parentId string
    */
-  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[]): Observable<Codeficator[]> {
-    if(!categories){
-      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
-    } else {
-      const categoriesParam = categories?.join("");
-  
-      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}&Categories=${categoriesParam}`);
-    }
+  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[], parentId?: number): Observable<Codeficator[]> {
+    return this.http.get<Codeficator[]>('/api/v1/Codeficator/search', {
+      params: {
+        Name: settlement,
+        ...(categories && { Categories: categories.join('') }),
+        ...(parentId && { ParentId: parentId })
+      }
+    });
   }
 
   /**
@@ -42,12 +44,12 @@ export class CodeficatorService {
   }
 
   /**
-   * This method to get teh nearst settlemnt by coordinates
+   * This method to get the nearest settlement by coordinates
    * @param lat number
    * @param lon number
    */
   public getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
-    let params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
+    const params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
 
     return this.http.get<Codeficator>('/api/v1/Codeficator/NearestByCoordinates', { params });
   }

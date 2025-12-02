@@ -1,54 +1,80 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../shared/enum/role';
-import { ProviderWorkshopCard, WorkshopCardParameters } from '../../../../shared/models/workshop.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { filter, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { WINDOW } from 'ngx-window-token';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopBaseCard, WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
 import {
-  OnUpdateWorkshopStatusSuccess,
+  ArchiveWorkshopById,
+  GetEmployeeWorkshops,
   GetProviderViewWorkshops,
-  GetProviderAdminWorkshops,
-  DeleteWorkshopById
-} from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
+  GetUnfinishedWorkshop,
+  OnUpdateWorkshopStatusSuccess
+} from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { Util } from 'shared/utils/utils';
+import { BannerMode } from 'shared/enum/bannerMode';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ProviderComponent } from '../provider.component';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-workshops',
   templateUrl: './provider-workshops.component.html',
-  styleUrls: ['./provider-workshops.component.scss']
+  styleUrls: ['./provider-workshops.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-  readonly ModeConstants = ModeConstants;
-
   @Select(ProviderState.providerWorkshops)
-  workshops$: Observable<SearchResponse<ProviderWorkshopCard[]>>;
-  workshops: SearchResponse<ProviderWorkshopCard[]>;
+  public workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
+  @Select(ProviderState.hasUnfinishedWorkshopData)
+  public hasUnfinishedWorkshopData$: Observable<boolean>;
 
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  workshopCardParameters: WorkshopCardParameters = {
+  public readonly BannerMode = BannerMode;
+  public readonly constants: typeof Constants = Constants;
+  public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
+
+  public workshops: SearchResponse<WorkshopProviderViewCard[]>;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
+  public workshopCardParameters: WorkshopCardParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private actions$: Actions,
+    @Inject(WINDOW) private window: Window,
+    private cdr: ChangeDetectorRef
+  ) {
     super(store, matDialog);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    if (!this.store.selectSnapshot(ProviderState.hasUnfinishedWorkshopData)) {
+      this.store.dispatch(new GetUnfinishedWorkshop());
+    }
   }
 
   /**
    * This method set navigation path
    */
-  addNavPath(): void {
+  public addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Workshops,
@@ -59,55 +85,72 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   /**
-   * This method get provider workshop according to the subrole
+   * This method get provider workshop according to the role
    */
-  initProviderData(): void {
+  public initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderWorkshops();
 
-    this.workshops$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((workshops: SearchResponse<ProviderWorkshopCard[]>) => (this.workshops = workshops));
-    this.actions$
-      .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.getProviderWorkshops());
+    this.workshops$.pipe(takeUntil(this.destroy$)).subscribe((workshops: SearchResponse<WorkshopProviderViewCard[]>) => {
+      this.workshops = workshops;
+      this.cdr.markForCheck();
+    });
+    this.actions$.pipe(ofAction(OnUpdateWorkshopStatusSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderWorkshops());
   }
 
   /**
-   * This method delete workshop By Workshop Id
-   * @param workshop: ProviderWorkshopCard
+   * This method deletes (archives) workshop By Workshop Id
+   * @param workshop
    */
-  onDelete(workshop: ProviderWorkshopCard): void {
+  public onArchive(workshop: WorkshopBaseCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.archiveWorkshop,
         property: workshop.title
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new ArchiveWorkshopById(workshop.id, this.workshopCardParameters));
+      });
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.workshopCardParameters = {
+      ...this.workshopCardParameters,
+      searchText
+    };
+
+    this.getProviderWorkshops();
+  }
+
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviderWorkshops();
+    Util.scrollToTop(this.window);
   }
 
-  onItemsPerPageChange(itemsPerPage: number) {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.workshopCardParameters.size = itemsPerPage;
-    this.getProviderWorkshops();
+    this.onPageChange({ ...PaginationConstants.firstPage });
+  }
+
+  public trackById(index: number, item: WorkshopProviderViewCard): string {
+    return item.id;
   }
 
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
-    if (this.subRole === Role.None) {
+    if (this.role === Role.provider || this.role === Role.providerDeputy) {
       this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
     } else {
-      this.store.dispatch(new GetProviderAdminWorkshops(this.workshopCardParameters));
+      this.store.dispatch(new GetEmployeeWorkshops(this.workshopCardParameters));
     }
   }
 }

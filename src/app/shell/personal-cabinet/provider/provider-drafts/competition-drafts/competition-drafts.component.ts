@@ -1,0 +1,132 @@
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { ProviderState } from 'shared/store/provider.state';
+import { filter, Observable, Subject } from 'rxjs';
+import { SearchResponse } from 'shared/models/search.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { MatDialog } from '@angular/material/dialog';
+import { WINDOW } from 'ngx-window-token';
+import {
+  DeleteCompetitionDraftById,
+  GetProviderViewCompetitionDrafts,
+  OnDraftSendForModerationSuccess
+} from 'shared/store/provider.actions';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Util } from 'shared/utils/utils';
+import { Role } from 'shared/enum/role';
+import { CompetitionCardParameters, CompetitionDraftCard } from 'shared/models/competition.model';
+import { Provider } from 'shared/models/provider.model';
+import { takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { WorkshopType } from 'shared/enum/workshop';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { BannerMode } from 'shared/enum/bannerMode';
+
+@Component({
+  selector: 'app-competition-drafts',
+  templateUrl: './competition-drafts.component.html',
+  styleUrls: ['./competition-drafts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CompetitionDraftsComponent implements OnInit, OnDestroy {
+  @Input() public role: Role;
+  @Input() public provider: Provider;
+  @Select(ProviderState.providerCompetitionDrafts)
+  public competitionDrafts$: Observable<SearchResponse<CompetitionDraftCard[]>>;
+  @Select(ProviderState.hasUnfinishedCompetitionData)
+  public hasUnfinishedCompetitionData$: Observable<boolean>;
+
+  public readonly constants: typeof Constants = Constants;
+  public readonly ModeConstants = ModeConstants;
+  public readonly WorkshopType = WorkshopType;
+  public readonly NoResultsTitle = NoResultsTitle;
+  public readonly BannerMode = BannerMode;
+
+  public competitionDrafts: SearchResponse<CompetitionDraftCard[]>;
+  public currentPage: PaginationElement = { ...PaginationConstants.firstPage };
+  public competitionCardParameters: CompetitionCardParameters = {
+    providerId: '',
+    size: PaginationConstants.WORKSHOPS_PER_PAGE
+  };
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    protected readonly store: Store,
+    protected readonly matDialog: MatDialog,
+    private readonly actions$: Actions,
+    @Inject(WINDOW) private window: Window,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
+
+  public ngOnInit(): void {
+    this.competitionCardParameters.providerId = this.provider.id;
+    this.getProviderDrafts();
+    this.competitionDrafts$.pipe(takeUntil(this.destroy$)).subscribe((competitionDrafts: SearchResponse<CompetitionDraftCard[]>) => {
+      this.competitionDrafts = competitionDrafts;
+      this.cdr.markForCheck();
+    });
+    this.actions$.pipe(ofAction(OnDraftSendForModerationSuccess), takeUntil(this.destroy$)).subscribe(() => this.getProviderDrafts());
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  /**
+   * This method delete workshop By Workshop Id
+   * @param competition
+   */
+  public onDelete(competition: CompetitionDraftCard): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteDraft,
+        property: competition.title
+      }
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new DeleteCompetitionDraftById(competition.competitiveEventDraftId, this.competitionCardParameters));
+      });
+  }
+
+  public onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.getProviderDrafts();
+    Util.scrollToTop(this.window);
+  }
+
+  public onItemsPerPageChange(itemsPerPage: number): void {
+    this.competitionCardParameters.size = itemsPerPage;
+    this.onPageChange({ ...PaginationConstants.firstPage });
+  }
+
+  public trackByDraft(index: number, item: CompetitionDraftCard): string {
+    return `${item.competitiveEventDraftId}_${item.draftStatus}_${item.title}_${item.rejectionMessage}_${item.coverImageId}`;
+  }
+
+  public onSearch(searchFormControl: FormControl): void {
+    const searchText = searchFormControl.value;
+
+    this.competitionCardParameters = {
+      ...this.competitionCardParameters,
+      searchText
+    };
+
+    this.getProviderDrafts();
+  }
+
+  private getProviderDrafts(): void {
+    Util.setFromPaginationParam(this.competitionCardParameters, this.currentPage, this.competitionDrafts?.totalAmount);
+    if (this.role === Role.provider || this.role === Role.providerDeputy) {
+      this.store.dispatch(new GetProviderViewCompetitionDrafts(this.competitionCardParameters));
+    }
+  }
+}

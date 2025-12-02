@@ -1,40 +1,51 @@
-import { LoginComponent } from './../shared/components/login/login.component';
-import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
-import { MainComponent } from './main/main.component';
-import { ResultComponent } from './result/result.component';
-import { Routes, RouterModule } from '@angular/router';
-import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
-import { CreateWorkshopComponent } from './personal-cabinet/provider/create-workshop/create-workshop.component';
-import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
-import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
-import { ParentGuard } from './personal-cabinet/parent/parent.guard';
-import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
-import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
-import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
-import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component';
-import { CreateGuard } from './personal-cabinet/shared-cabinet/create-form/create.guard';
-import { AllCategoriesComponent } from './all-categories/all-categories.component';
-import { AboutComponent } from './info/about/about.component';
-import { SupportComponent } from './info/support/support.component';
-import { InfoComponent } from './info/info.component';
+import { RouterModule, Routes } from '@angular/router';
+
+import { ErrorPageComponent } from 'shared/components/error-page/error-page.component';
+import { ForbiddenPageComponent } from 'shared/components/forbidden-page/forbidden-page.component';
+import { LoginComponent } from 'shared/components/login/login.component';
+import { NotificationsListComponent } from 'shared/components/notifications/notifications-list/notifications-list.component';
+import { ServerErrorPageComponent } from 'shared/components/server-error-page/server-error-page.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
-import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
-import { IsMobileGuard } from './is-mobile.guard';
-import { RulesComponent } from './info/rules/rules.component';
-import { DetailsComponent } from './details/details.component';
-import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
-import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
 import { CreateAdminComponent } from './admin-tools/data/admins/create-admin/create-admin.component';
-import { CreateDirectionComponent } from './admin-tools/data/directions-wrapper/directions/create-direction/create-direction.component';
 import { CreateAdminGuard } from './admin-tools/data/admins/create-admin/create-admin.guard';
+import { CreateDirectionComponent } from './admin-tools/data/directions-wrapper/directions/create-direction/create-direction.component';
+import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
+import { AllCategoriesComponent } from './all-categories/all-categories.component';
+import { DetailsComponent } from './details/details.component';
+import { AboutComponent } from './info/about/about.component';
+import { InfoComponent } from './info/info.component';
+import { RulesComponent } from './info/rules/rules.component';
+import { SupportComponent } from './info/support/support.component';
+import { IsMobileGuard } from './is-mobile.guard';
+import { MainComponent } from './main/main.component';
+import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
+import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
+import { ParentGuard } from './personal-cabinet/parent/parent.guard';
+import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
+import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
+import { CreateEmployeeComponent } from './personal-cabinet/provider/create-employee/create-employee.component';
+import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
+import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
+import { CreateWorkshopComponent } from './personal-cabinet/provider/create-workshop/create-workshop.component';
+import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
+import { CreateGuard } from './personal-cabinet/shared-cabinet/create-form/create.guard';
+import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component';
+import { ResultComponent } from './result/result.component';
+import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
+import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
+import { CreatePositionComponent } from './personal-cabinet/provider/create-position/create-position.component';
+import { CreateStudySubjectComponent } from './personal-cabinet/provider/create-study-subject/create-study-subject.component';
+import { CreateCompetitionComponent } from './personal-cabinet/provider/create-competition/create-competition.component';
+import { ModeratorDraftEditFormComponent } from './admin-tools/data/admin-workshop-list/moderator-draft-edit-form/moderator-draft-edit-form.component';
+import { ModeratorDraftCompetitionFormComponent } from './admin-tools/data/admin-competition-list/moderator-draft-competition-form/moderator-draft-competition-form.component';
+import { AdminsGuard } from './admin-tools/data/admins/admins.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
+  { path: 'result', redirectTo: 'result/List', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
@@ -52,8 +63,7 @@ const routes: Routes = [
     path: 'personal-cabinet',
     component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then((m) => m.PersonalCabinetModule),
-    canLoad: [PersonalCabinetGuard],
-    canActivate: [PersonalCabinetGuard]
+    canLoad: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools',
@@ -84,8 +94,29 @@ const routes: Routes = [
     loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
   {
-    path: 'create-workshop/:param',
+    path: 'create/workshop/:param',
     component: CreateWorkshopComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create/workshop/:entity/:param',
+    component: CreateWorkshopComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-study-subject/:param',
+    component: CreateStudySubjectComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-position/:param',
+    component: CreatePositionComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
@@ -102,6 +133,18 @@ const routes: Routes = [
     loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule)
   },
   {
+    path: 'admin-tools/data/moderate/draft/:id',
+    component: ModeratorDraftEditFormComponent,
+    canDeactivate: [CreateGuard],
+    canLoad: [AdminsGuard]
+  },
+  {
+    path: 'admin-tools/data/moderate/competition-draft/:id',
+    component: ModeratorDraftCompetitionFormComponent,
+    canDeactivate: [CreateGuard],
+    canLoad: [AdminsGuard]
+  },
+  {
     path: 'create-provider/:param',
     component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
@@ -109,15 +152,15 @@ const routes: Routes = [
     canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
-    path: 'create-provider-admin/:param',
-    component: CreateProviderAdminComponent,
+    path: 'create-employee/:param',
+    component: CreateEmployeeComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'update-provider-admin/:param/:id',
-    component: CreateProviderAdminComponent,
+    path: 'update-employee/:param/:id',
+    component: CreateEmployeeComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
@@ -159,6 +202,39 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-parent/:param',
+    component: CreateParentComponent,
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
+    canDeactivate: [CreateGuard],
+    canLoad: [CreateParentGuard]
+  },
+  { path: 'server-error', component: ServerErrorPageComponent },
+  {
+    path: 'create/competition/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create/competition/:entity/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create/competition/:entity/:id/:param',
+    component: CreateCompetitionComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenPageComponent
   },
   { path: '**', component: ErrorPageComponent }
 ];

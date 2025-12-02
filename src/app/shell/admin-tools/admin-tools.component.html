@@ -1,30 +1,42 @@
-<div class="container">
+<div class="cabinet-container">
   <h1 class="title">{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}</h1>
-  <nav class="nav" mat-tab-nav-bar>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">{{
-      'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">{{
-      'ENUM.NAV_BAR_NAME.ADMINS' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/directions']">{{
-      'ENUM.NAV_BAR_NAME.DIRECTIONS' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">{{
-      'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase
-    }}</a>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">{{
-      'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/applications'">{{
-      'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/history-log']">{{
-      'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES' | translate | uppercase
-    }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/statistics']">{{
-      'ENUM.NAV_BAR_NAME.STATISTICS' | translate | uppercase
-    }}</a>
+  <nav class="nav" mat-tab-nav-bar [tabPanel]="tabPanel" [mat-stretch-tabs]="false">
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./platform/'">
+      {{ 'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase }}
+    </a>
+    <a *ngIf="canManageRegion(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/admins'">
+      {{ 'ENUM.NAV_BAR_NAME.ADMINS' | translate | uppercase }}
+    </a>
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/directions'">
+      {{ 'ENUM.NAV_BAR_NAME.DIRECTIONS' | translate | uppercase }}
+    </a>
+    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/provider-list'">
+      {{ 'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase }}
+    </a>
+    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/competition-list'">
+      {{ 'ENUM.NAV_BAR_NAME.COMPETITION_DRAFTS' | translate | uppercase }}
+    </a>
+    <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/workshop-list'">
+      {{ 'ENUM.NAV_BAR_NAME.WORKSHOP_DRAFTS' | translate | uppercase }}
+    </a>
+    <a
+      *ngIf="canManageInstitution(role) && (featuresList$ | async)?.AdminsChildernParentsManagement"
+      mat-tab-link
+      [routerLinkActive]="'active'"
+      [routerLink]="'./data/users'">
+      {{ 'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase }}
+    </a>
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/applications'">
+      {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
+    </a>
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/history-log'">
+      {{ 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES' | translate | uppercase }}
+    </a>
+    <a *ngIf="role !== Role.moderator" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/statistics'">
+      {{ 'ENUM.NAV_BAR_NAME.STATISTICS' | translate | uppercase }}
+    </a>
   </nav>
 </div>
-<router-outlet></router-outlet>
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>

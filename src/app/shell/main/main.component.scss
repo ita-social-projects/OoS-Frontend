@@ -1,17 +1,29 @@
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
+@use 'list-wrappers';
+@use 'card-wrapper';
+
+$breakpoint-xl: 1535px;
+$breakpoint-lg: 1310px;
+$breakpoint-md: 1180px;
+$breakpoint-sm: 960px;
+$breakpoint-xs: 785px;
+$breakpoint-mobile: 500px;
+
 .main {
   width: 100%;
   min-height: 500px;
 
-  &_registration {
+  .main-button {
+    letter-spacing: 0.5px;
+  }
+
+  &-registration {
     padding: 32px 40px;
-    background: #3849f9;
+    background: var(--bg-specific-light);
     border-radius: 5px;
     position: relative;
     height: 125px;
-    margin-top: 4rem;
     margin-bottom: 4rem;
+
     &::before {
       content: '';
       display: block;
@@ -23,32 +35,40 @@
       top: 0;
     }
   }
-  &_button {
+
+  &-button {
     border-radius: 20px;
     padding: 10px 30px;
     font-size: 13px;
     line-height: 13px;
-    border-color: white;
-    color: white;
+    border-color: var(--primary-light-bg-color);
+    background-color: var(--primary-light-bg-color);
+    color: var(--primary-light-text-color);
+    height: 35px !important;
   }
-  &_question {
-    color: #ffffff;
+
+  &-question {
+    color: var(--specific-text-color);
   }
-  &_hint {
+
+  &-hint {
     margin-top: 16px;
-    color: #ffffff;
+    color: var(--specific-text-color);
   }
-  &_link {
+
+  &-link {
     display: flex;
     font-weight: bold;
-    color: #3849f9;
+    color: var(--specific-light-text-color);
     align-items: center;
+
     .arrow {
       margin-left: 8px;
       font-size: 15px;
       line-height: 24px;
     }
   }
+
   &-header {
     display: flex;
     flex-direction: row;
@@ -63,14 +83,22 @@ app-footer {
   position: absolute;
 }
 
+.direction-card {
+  min-width: 190px;
+}
+
+.workshop-card {
+  min-width: 300px;
+}
+
 @media (max-width: 675px) {
-  .main_registration {
+  .main-registration {
     padding: 20px;
     height: inherit;
     margin: 24px 16px;
     display: block !important;
 
-    .main_button-wrapper {
+    .main-button-wrapper {
       text-align: center;
       margin-top: 10px;
     }
@@ -82,30 +110,77 @@ app-footer {
     visibility: visible;
     position: static;
   }
-  .main_title {
+
+  .main-title {
     font-size: 16px !important;
   }
+
   .main-header {
     padding: 0 1rem;
+
     h3 {
       font-size: 14px;
     }
-    .main_link {
+
+    .main-link {
       font-size: 13px;
     }
   }
+
   .card-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
     justify-content: flex-start;
     scroll-snap-type: x mandatory;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .card {
       margin-right: 8px;
       scroll-snap-align: center;
     }
+  }
+}
+
+@media (max-width: $breakpoint-xl) {
+  .direction-card:nth-child(n + 7) {
+    display: none;
+  }
+  .workshop-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-lg) {
+  .direction-card:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .workshop-card:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .direction-card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .workshop-card:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .direction-card,
+  .workshop-card {
+    display: block !important;
   }
 }

@@ -5,9 +5,13 @@ import { NgControl } from '@angular/forms';
   selector: '[appTrimValue]'
 })
 export class TrimValueDirective {
-  constructor(private ngControl: NgControl, private el: ElementRef) {}
+  constructor(
+    private ngControl: NgControl,
+    private el: ElementRef
+  ) {}
 
-  @HostListener('blur') onBlur(): void {
+  @HostListener('blur')
+  public onBlur(): void {
     this.ngControl.control.setValue(this.el.nativeElement.value.trim(), { emitEvent: false });
   }
 }

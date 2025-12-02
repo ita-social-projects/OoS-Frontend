@@ -1,5 +1,4 @@
-import { EntityType } from '../enum/role';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 
 export interface Rate {
   id?: number;
@@ -13,6 +12,5 @@ export interface Rate {
 }
 
 export interface RateParameters extends PaginationParameters {
-  entityType: EntityType;
   entityId: string;
 }

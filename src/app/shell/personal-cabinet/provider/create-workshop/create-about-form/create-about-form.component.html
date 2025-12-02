@@ -1,220 +1,224 @@
-<form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl"
-    >{{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
-  </mat-checkbox>
-
+<form [formGroup]="AboutFormGroup" class="step flex flex-col justify-between items-stretch">
   <app-image-form-control
     *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
+    [entity]="Entities.Workshop"
     [cropperConfig]="cropperConfig"
-    [label]="'Фонове зображення'"
+    [label]="'FORMS.LABELS.COVER_IMAGE' | translate"
     formControlName="coverImage"
-    [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
+    [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"
+    (deleteImage)="onDeleteImage()">
+  </app-image-form-control>
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup"
+    [formLevelValidation]="true"
+    [isImage]="true"
+    [minImages]="1"
+    [maxImages]="1">
+  </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.TITLE' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('title')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_250">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
+  <div class="flex flex-row justify-between items-center">
+    <label class="step-label">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}<span class="step-required">*</span></label>
+    <app-info-menu [type]="InfoMenuType.Text">
+      {{ 'INFO_MENU.SHORT_TITLE_DESCRIPTION' | translate }}
+    </app-info-menu>
+  </div>
+
   <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <span class="step-text">{{ phonePrefix }}</span>
-      <input
-        matInput
-        class="step-input"
-        type="tel"
-        formControlName="phone"
-        appDigitOnly
-        appTrimValue
-        ui-number-mask
-        ui-hide-group-sep
-        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
-    </div>
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('phone')"
-    [minCharachters]="validationConstants.PHONE_LENGTH"
-    [isPhoneNumber]="true">
+    [validationFormControl]="AboutFormGroup.get('shortTitle')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_120">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
-  <mat-form-field appearance="none">
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
-  </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"> </app-validation-hint>
+  <label for="age" class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
+  <mat-radio-group color="primary" formControlName="noAgeRestrictions" class="flex flex-col justify-between items-stretch">
+    <mat-radio-button [value]="true">
+      <span class="font-sans">
+        {{ 'UNLIMITED' | translate }}
+      </span>
+    </mat-radio-button>
+    <div>
+      <div class="flex items-center">
+        <mat-radio-button [value]="false" class="age-radio-btn"> </mat-radio-button>
+        <div class="flex flex-row justify-start">
+          <div class="flex flex-col justify-start items-start">
+            <div class="flex flex-row justify-start items-center">
+              <p class="step-text font-sans !font-normal !pl-0">{{ 'FROM' | translate }}</p>
+              <input
+                matInput
+                class="step-input step-input-age"
+                type="number"
+                [min]="validationConstants.AGE_MIN"
+                [max]="validationConstants.BIRTH_AGE_MAX"
+                formControlName="minAge"
+                appIntegerOnly />
+            </div>
+          </div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('website')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Facebook</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('facebook')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Instagram</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('instagram')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <div class="border-bottom"></div>
-
-  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
-  <div fxLayout="row" fxLayoutAlign="start">
-    <div fxLayout="column" fxLayoutAlign="start start">
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="step-text">{{ 'FROM' | translate }}</p>
-        <mat-form-field>
-          <input
-            matInput
-            class="step-input step-input-age"
-            type="number"
-            formControlName="minAge"
-            appDigitOnly
-            maxlength="2"
-            appMinMax
-            [directiveFormControl]="AboutFormGroup.get('minAge')"
-            [min]="validationConstants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
-            autocomplete="none" />
-        </mat-form-field>
+          <div class="flex flex-col justify-start items-start">
+            <div class="flex flex-row justify-start items-center">
+              <p class="step-text font-sans !font-normal">{{ 'TO' | translate }}</p>
+              <input
+                matInput
+                class="step-input step-input-age"
+                type="number"
+                [min]="validationConstants.AGE_MIN"
+                [max]="validationConstants.BIRTH_AGE_MAX"
+                formControlName="maxAge"
+                appIntegerOnly />
+            </div>
+          </div>
+        </div>
       </div>
-      <app-validation-hint [validationFormControl]="AboutFormGroup.get('minAge')"> </app-validation-hint>
-    </div>
-
-    <div fxLayout="column" fxLayoutAlign="start start">
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="step-text">{{ 'TO' | translate }}</p>
-        <mat-form-field>
-          <input
-            matInput
-            class="step-input step-input-age"
-            type="number"
-            formControlName="maxAge"
-            appDigitOnly
-            maxlength="2"
-            [directiveFormControl]="AboutFormGroup.get('maxAge')"
-            appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
-            autocomplete="none" />
-        </mat-form-field>
+      <div class="pl-[33px] flex">
+        <app-validation-hint
+          class="block max-w-[150px] break-words"
+          [validationFormControl]="AboutFormGroup.get('minAge')"
+          [isNumberValue]="true"
+          [minValue]="validationConstants.AGE_MIN"
+          [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
+        <app-validation-hint [isAge]="true" [formLevelValidation]="true" [validationFormControl]="AboutFormGroup"></app-validation-hint>
+        <app-validation-hint
+          class="ml-4"
+          [validationFormControl]="AboutFormGroup.get('maxAge')"
+          [isNumberValue]="true"
+          [minValue]="validationConstants.AGE_MIN"
+          [maxValue]="validationConstants.BIRTH_AGE_MAX"></app-validation-hint>
       </div>
-      <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"> </app-validation-hint>
+    </div>
+  </mat-radio-group>
+
+  <div class="flex flex-row justify-between items-center">
+    <label class="step-label">{{ 'FORMS.LABELS.STUDY_PERIOD' | translate }}<span class="step-required">*</span></label>
+    <app-info-menu [type]="InfoMenuType.Text">
+      {{ 'INFO_MENU.STUDY_PERIOD_RANGE' | translate }}
+    </app-info-menu>
+  </div>
+  <div class="study-period-group flex flex-row justify-start" [formGroupName]="'studyPeriodDates'">
+    <div class="flex flex-row justify-start">
+      <div class="input-column mr-4">
+        <div class="flex flex-row justify-start items-center">
+          <p class="step-text">{{ 'FROM' | translate }}</p>
+          <mat-form-field
+            class="step-input step-input-date"
+            [ngClass]="{ redBorder: studyPeriodDates.errors?.invalidDateRange && studyPeriodDates.touched }">
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              formControlName="startDate"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker [calendarHeaderComponent]="MonthOnlyHeaderComponent" #startPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('startDate')" [errorMessagesMap]="errorMap">
+        </app-validation-hint>
+      </div>
+
+      <div class="input-column">
+        <div class="flex flex-row justify-start items-center">
+          <p class="step-text">{{ 'TO' | translate }}</p>
+          <mat-form-field
+            class="step-input step-input-date"
+            [ngClass]="{ redBorder: studyPeriodDates.errors?.invalidDateRange && studyPeriodDates.touched }">
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              formControlName="endDate"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.STUDY_PERIOD_DATE_FORMAT' | translate }}"
+              class="text-center" />
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker [calendarHeaderComponent]="MonthOnlyHeaderComponent" #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <app-validation-hint [validationFormControl]="studyPeriodDates.get('endDate')" [errorMessagesMap]="errorMap"></app-validation-hint>
+      </div>
     </div>
   </div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
-  <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
+  <div class="flex flex-row justify-between items-center">
+    <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
+    <app-info-menu [type]="InfoMenuType.Text">
+      {{ 'INFO_MENU.WORKING_HOURS' | translate }}
+    </app-info-menu>
+  </div>
+  <app-working-hours-form-wrapper
+    [workingHoursFormArray]="dateTimeRangesArray"
+    [workshop]="workshop"
+    (dataChangedInChild)="markFormAsDirtyOnUserInteraction()">
+  </app-working-hours-form-wrapper>
 
-  <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
-  <mat-radio-group [formControl]="priceRadioBtn" color="primary">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
-    <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
-      <div fxLayout="row" fxLayoutAlign="center center" class="price">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"
-          ><input
-            matInput
-            class="step-input price-input"
-            appDigitOnly
-            appMinMax
-            formControlName="price"
-            type="number"
-            [directiveFormControl]="priceControl"
-            [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE" />
-        </mat-radio-button>
-      </div>
-      <div fxLayoutAlign="center center" class="pay-type">
-        <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
-        <mat-select
-          disableOptionCentering
-          panelClass="dropdown-panel"
-          class="step-input"
-          formControlName="payRate"
-          name="payRate"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
-          <ng-container *ngFor="let type of PayRateType | keyvalue">
-            <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
-              {{ PayRateTypeEnum[type.key] | translate }}
-            </mat-option>
-          </ng-container>
-        </mat-select>
-      </div>
-    </div>
-    <app-validation-hint [validationFormControl]="payRateControl"> </app-validation-hint>
+  <label class="step-label"> {{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}<span class="step-required">*</span></label>
+  <mat-form-field appearance="fill">
+    <mat-select
+      formControlName="languageOfEducationId"
+      class="step-input"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_LANGUAGE_OF_INSTRUCTION' | translate }}">
+      <mat-option *ngFor="let lang of languageList$ | async" [value]="lang.id" class="dropdown-option">
+        {{ lang.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint [validationFormControl]="AboutFormGroup.get('languageOfEducationId')"></app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}<span class="step-required">*</span></label>
+  <mat-radio-group formControlName="formOfLearning" color="primary" class="flex flex-col justify-between items-stretch">
+    <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
+      <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
+        {{ FormOfLearningEnum[formOfLearning.key] | translate }}
+      </mat-radio-button>
+    </ng-container>
   </mat-radio-group>
 
-  <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
-    <div fxLayout="row" fxLayoutAlign="left space-between">
+  <div *ngIf="provider.ownership !== ownershipType.State" class="flex flex-col justify-between items-stretch">
+    <div class="flex flex-row justify-between items-center">
       <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label>
-      <i
-        [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
-        [matMenuTriggerFor]="unlimitedInfo"
-        #childTrigger="matMenuTrigger"
-        (menuOpened)="opened = childTrigger.menuOpen"
-        (menuClosed)="opened = childTrigger.menuOpen"
-        >info_outline</i
-      >
-      <mat-menu class="hint-menu" #unlimitedInfo="matMenu" [overlapTrigger]="false">
+      <app-info-menu [type]="InfoMenuType.Text">
         {{ 'INFO_MENU.UNLIMITED' | translate }}
-      </mat-menu>
+      </app-info-menu>
     </div>
+    <p class="sublabel">{{ 'FORMS.LABELS.AVAILABLE_PLACES_DESCRIPTION' | translate }}</p>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
-      <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
-        <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
+      <div class="container flex flex-row justify-between items-center">
+        <div class="radio-button-wrap flex flex-row justify-start items-center">
           <mat-radio-button [value]="false">
             <input
               matInput
-              class="step-input price-input"
-              appDigitOnly
-              appMinMax
+              class="step-input price-input text-center"
+              appIntegerOnly
               formControlName="availableSeats"
               type="number"
-              [directiveFormControl]="availableSeatsControl"
-              [min]="MIN_SEATS"
-              [max]="UNLIMITED_SEATS" />
+              [min]="minSeats"
+              [max]="validationConstants.MAX_SEATS" />
           </mat-radio-button>
+          <app-info-menu
+            *ngIf="isShowHintAboutWorkshopAutoClosing"
+            [type]="InfoMenuType.Text"
+            [isOpenByDefault]="isShowHintAboutWorkshopAutoClosing">
+            {{ 'FORMS.WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP' | translate }}
+          </app-info-menu>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl"> </app-validation-hint>
+      <app-validation-hint
+        [validationFormControl]="availableSeatsControl"
+        [isNumberValue]="true"
+        [minValue]="minSeats"
+        [maxValue]="validationConstants.MAX_SEATS"></app-validation-hint>
     </mat-radio-group>
   </div>
-
-  <!-- <label class="step-label"> Конкурсний відбір </label>
-  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
-    fxLayoutAlign='center space-between'>
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Є конкурсний відбір</mat-radio-button>
-    <div class="step-label-combined">
-      <label class="step-label"> Інформація про відбір<span class="step-required">*</span></label>
-      <label class="step-characters-count">
-        {{AboutFormGroup.get('competitiveSelectionDescription').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
-    </div>
-    <textarea matInput class="step-textarea step-textarea-short"
-      placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
-  </mat-radio-group> -->
 </form>

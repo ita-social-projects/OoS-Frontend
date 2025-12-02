@@ -1,38 +1,48 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import { HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
+import { EDRPOU_REGEX, EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from './regex-constants';
 
 export class ValidationConstants {
   // Age
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
+  static readonly MAX_AGE_LENGTH = 3;
   static readonly BIRTH_AGE_MAX = 120;
-  static readonly MAX_AGE_LENGTH = 2;
 
   // Price
-  static readonly MIN_PRICE = 1;
+  static readonly MIN_PRICE = 0.01;
   static readonly MAX_PRICE = 100000;
   static readonly MAX_PRICE_LENGTH = 4;
 
   // Description length
   static readonly MIN_DESCRIPTION_LENGTH_1 = 1;
-  static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
+  static readonly MIN_DESCRIPTION_LENGTH_3 = 3;
   static readonly MAX_DESCRIPTION_LENGTH_300 = 300;
+  static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
   static readonly MAX_DESCRIPTION_LENGTH_2000 = 2000;
 
   // Input Length
-  static readonly INPUT_LENGTH_256 = 256;
-  static readonly INPUT_LENGTH_100 = 100;
-  static readonly INPUT_LENGTH_60 = 60;
-  static readonly INPUT_LENGTH_30 = 30;
-  static readonly INPUT_LENGTH_15 = 15;
-  static readonly INPUT_LENGTH_10 = 10;
-  static readonly INPUT_LENGTH_8 = 8;
-  static readonly INPUT_LENGTH_3 = 3;
   static readonly INPUT_LENGTH_1 = 1;
+  static readonly INPUT_LENGTH_3 = 3;
+  static readonly INPUT_LENGTH_8 = 8;
+  static readonly INPUT_LENGTH_10 = 10;
+  static readonly INPUT_LENGTH_15 = 15;
+  static readonly INPUT_LENGTH_30 = 30;
+  static readonly INPUT_LENGTH_60 = 60;
+  static readonly INPUT_LENGTH_100 = 100;
+  static readonly INPUT_LENGTH_120 = 120;
+  static readonly INPUT_LENGTH_250 = 250;
+  static readonly INPUT_LENGTH_254 = 254;
+  static readonly INPUT_LENGTH_256 = 256;
+  static readonly INPUT_LENGTH_500 = 500;
+  static readonly INPUT_LENGTH_2000 = 2000;
 
+  static readonly MIN_TAGS_LENGTH = 3;
+  static readonly MAX_TAGS_LENGTH = 15;
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly PHONE_LENGTH = 9;
+  static readonly EDRPOU_LENGTH = 8;
+  static readonly IPN_LENGTH = 10;
 
   // Entity Amount
   static readonly CHILDREN_AMOUNT_MAX = 20;
@@ -42,7 +52,19 @@ export class ValidationConstants {
   static readonly MAX_TIME = '23:59';
 
   // Search
-  static readonly MAX_SEARCH_LENGTH_200 = 200;
+  static readonly MIN_SEARCH_LENGTH_0 = 0;
+  static readonly MAX_SEARCH_LENGTH_250 = 250;
+
+  // Traffic and Rate
+  static readonly MAX_RATE = 1000000;
+  static readonly MIN_RATE = 1;
+
+  // Max available seats
+  static readonly MAX_SEATS = 100000;
+  static readonly UNLIMITED_SEATS = 2147483647;
+  static readonly MIN_SEATS = 1;
+
+  static readonly URL_INPUT_LENGTH = 2048;
 }
 
 export class FormValidators {
@@ -60,10 +82,29 @@ export class FormValidators {
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
   ];
 
+  static readonly defaultVenueValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+  ];
+
   static readonly defaultSearchValidators: ValidatorFn[] = [
     Validators.required,
     Validators.pattern(NO_LATIN_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
+
+  static readonly defaultSectionNameValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(SECTION_NAME_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_120)
+  ];
+
+  static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EMAIL_REGEX.test(control.value) ? null : { email: true };
+
+  static readonly edrpou: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EDRPOU_REGEX.test(control.value) ? null : { edrpou: true };
 }

@@ -1,7 +1,7 @@
 <p class="filter-text title">
   {{ 'FORMS.LABELS.PRICE' | translate }}
 </p>
-<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
+<div class="wrapper flex flex-col justify-center content-between">
   <div class="checkboxes">
     <mat-checkbox class="checkbox" color="primary" [formControl]="isFreeControl">
       {{ 'FOR_FREE' | translate }}
@@ -11,37 +11,69 @@
     </mat-checkbox>
   </div>
 
-  <div
-    class="wrapper"
-    [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
-    fxLayout="row"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem">
-    <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="filter-text">
+  <div class="wrapper flex flex-col justify-between" [class.input-wrapper-disable]="!isPaidControl.value">
+    <mat-form-field class="price-filter">
+      <div class="flex p-0 flex-row w-[150px] items-center">
+        <p class="filter-text w-[20px]">
           {{ 'FROM' | translate }}
         </p>
-        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off" />
-        <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
+        <input
+          matInput
+          class="price-input"
+          type="number"
+          [useArrows]="false"
+          appDigitOnly
+          appMinMax
+          [minValue]="options.floor"
+          [maxValue]="options.ceil"
+          [formControl]="minPriceControl"
+          autocomplete="off"
+          (blur)="onPriceBlur('min')" />
+        <mat-icon *ngIf="!minPriceControl.disabled" class="clear-price" (keydown.enter)="clearMin()" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
-    <mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="filter-text">
+    <mat-form-field class="price-filter">
+      <div class="flex flex-row w-[150px] items-center">
+        <p class="filter-text w-[20px]">
           {{ 'TO' | translate }}
         </p>
-        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="maxPriceControl" autocomplete="off" />
-        <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
+        <input
+          matInput
+          class="price-input"
+          type="number"
+          [useArrows]="false"
+          appDigitOnly
+          [formControl]="maxPriceControl"
+          appMinMax
+          [minValue]="options.floor"
+          [maxValue]="options.ceil"
+          autocomplete="off"
+          (blur)="onPriceBlur('max')" />
+        <mat-icon *ngIf="!maxPriceControl.disabled" class="clear-price" (keydown.enter)="clearMax()" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
   </div>
-  <div
-    class="filter-slider"
-    [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
-    fxLayout="column"
-    fxLayoutAlign="space-between"
-    fxLayoutGap="1rem">
-    <ngx-slider (userChange)="priceHandler($event)" [value]="minValue" [highValue]="maxValue" [options]="options"> </ngx-slider>
+  <div class="filter-slider flex flex-col justify-between gap-4" [class.input-wrapper-disable]="!isPaidControl.value">
+    <ngx-slider (userChange)="priceHandler($event)" [value]="minPriceControl.value" [highValue]="maxPriceControl.value" [options]="options">
+    </ngx-slider>
+  </div>
+  <div [class.input-wrapper-disable]="!isPaidControl.value">
+    <p class="filter-text title">
+      {{ 'FORMS.LABELS.PAYMENT_UNIT' | translate }}
+    </p>
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-select
+        [disableOptionCentering]="true"
+        panelClass="dropdown-panel select-with-form-field"
+        class="step-input"
+        [formControl]="payRateControl"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
+        <ng-container *ngFor="let type of PayRateType | keyvalue">
+          <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+            {{ PayRateTypeEnum[type.key] | translate }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>

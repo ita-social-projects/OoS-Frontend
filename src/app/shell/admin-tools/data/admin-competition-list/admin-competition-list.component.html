@@ -1,0 +1,150 @@
+<app-draft-filters (getDraftsByFilter)="getCompetitions($event)" [currentPage]="currentPage"> </app-draft-filters>
+
+<ng-container>
+  <ng-container *ngIf="totalEntities; else isEmptyList">
+    <div class="wrapper-workshop-list">
+      <div class="font-innerspace text-[14px] font-bold text-white flex mb-2">
+        {{ 'TOTAL_DRAFTS' | translate: { count: totalEntities } }}
+      </div>
+      <div class="wrapper wrapper-workshop-list-container">
+        <div class="table-container mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" appStretchTable #table>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by workshop title">
+                {{ 'FORMS.LABELS.COMPETITION_TITLE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="element.competitiveEventDetails.title"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ element.competitiveEventDetails.title | emptyValueTransform | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="directorPosition">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorPosition">
+                {{ 'FORMS.LABELS.DIRECTOR_POSITION' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.directorPosition }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="directorFullName">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by directorFullName">
+                {{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.directorFullName }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="providerEdrpou">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by providerEdrpou">
+                {{ 'FORMS.LABELS.EDRPO' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="tab-text">
+                  {{ element.providerEdrpou }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isPaid">
+              <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by isPaid">
+                {{ 'FORMS.LABELS.COST' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div
+                  [matTooltip]="(element.competitiveEventDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate"
+                  showTooltipIfTruncated
+                  matTooltipClass="tooltip"
+                  [matTooltipPosition]="tooltipPosition"
+                  class="tab-text">
+                  {{ (element.competitiveEventDetails.isPaid ? 'IS_PAID' : 'IS_FREE') | translate }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status" stickyEnd>
+              <th class="status-title" mat-header-cell *matHeaderCellDef sortActionDescription="Sort by status">
+                {{ 'FORMS.LABELS.STATUS' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container
+                  *ngTemplateOutlet="WorkshopStatusTmpl; context: { $implicit: element.draftStatus, titles: workshopDraftStatusTitles }">
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td class="p-0" mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="actions">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onViewCompetitionInfo(element)">
+                  <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['/details/competition-draft/', element.competitiveEventDraftId]">
+                  <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['../moderate/competition-draft', element.competitiveEventDraftId]">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <mat-menu #actions="matMenu" class="header_menu">
+                  <button mat-menu-item (click)="onRejectDraft(element)">
+                    {{ 'BUTTONS.REQUEST_CHANGES' | translate }}
+                  </button>
+                  <button mat-menu-item (click)="onApproveDraft(element)">
+                    {{ 'BUTTONS.CONFIRM' | translate }}
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              [ngClass]="{ 'selected-row': selectedCompetitionDraftId === row.competitiveEventDraftId }"
+              *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <div *ngIf="isInfoDisplayed" class="container">
+          <app-competition-info
+            [setCompetition]="competition"
+            [competitionDraftId]="selectedCompetitionDraftId"
+            (closeInfo)="closeInfo()"></app-competition-info>
+        </div>
+      </div>
+    </div>
+    <div class="paginator">
+      <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="competitionParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noCompetitions"></app-no-result-card>
+</ng-template>
+
+<ng-template #WorkshopStatusTmpl let-status let-titles="titles">
+  <div [ngClass]="['workshop-list-status', status]">
+    <span> <i class="status-icon" [ngClass]="statusIcons[status]"></i></span>
+    <span>{{ titles[status] | translate }}</span>
+  </div>
+</ng-template>

@@ -1,0 +1,22 @@
+export enum TypeOfCompetitionEnum {
+  EducationalProject = 'ENUM.TYPE_OF_COMPETITION.EDUCATIONAL_PROJECT',
+  Competition = 'ENUM.TYPE_OF_COMPETITION.COMPETITION',
+  ParentCompetition = 'ENUM.TYPE_OF_COMPETITION.PARENT_COMPETITION',
+  CompetitionStage = 'ENUM.TYPE_OF_COMPETITION.COMPETITION_STAGE'
+}
+
+export enum CompetitionCoverageEnum {
+  Local = 'ENUM.COMPETITION_COVERAGE.LOCAL',
+  City = 'ENUM.COMPETITION_COVERAGE.CITY',
+  District = 'ENUM.COMPETITION_COVERAGE.DISTRICT',
+  Regional = 'ENUM.COMPETITION_COVERAGE.REGIONAL',
+  National = 'ENUM.COMPETITION_COVERAGE.NATIONAL',
+  International = 'ENUM.COMPETITION_COVERAGE.INTERNATIONAL'
+}
+
+export enum CompetitionDetailsTabTitlesEnum {
+  AboutCompetition = 'TITLES.ABOUT_THE_COMPETITION',
+  Contacts = 'TITLES.CONTACTS',
+  Judges = 'TITLES.JUDGES',
+  Images = 'TITLES.IMAGES'
+}

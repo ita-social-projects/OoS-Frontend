@@ -1,19 +1,24 @@
 <mat-form-field style="margin-left: 1em">
-  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select"
-    (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
-    <mat-option value="{{ ordering.rating }}" class="dropdown-option">
-      {{"BY_RATING" | translate}}
+  <mat-select
+    disableOptionCentering
+    panelClass="dropdown-panel select-with-form-field"
+    class="select"
+    [value]="(filterList$ | async).order"
+    (selectionChange)="onSelectOption($event)">
+    <mat-option value="{{ Ordering.rating }}" class="dropdown-option">
+      {{ ('BY_RATING' | translate) || Ordering.rating }}
     </mat-option>
-    <mat-option value="{{ ordering.priceAsc }}" class="dropdown-option">
-      {{("BY_PRICE_INCREASE" | translate) + (" &#8593;")}}
+    <mat-option value="{{ Ordering.priceAsc }}" class="dropdown-option">
+      {{ ('BY_PRICE_INCREASE' | translate) + ' &#8593;' || Ordering.priceAsc }}
     </mat-option>
-    <mat-option value="{{ ordering.priceDesc }}" class="dropdown-option">
-      {{("BY_PRICE_DECREASE" | translate) + (" &#8595;")}}
+    <mat-option value="{{ Ordering.priceDesc }}" class="dropdown-option">
+      {{ ('BY_PRICE_DECREASE' | translate) + ' &#8595;' || Ordering.priceDesc }}
     </mat-option>
-    <mat-option value="{{ ordering.alphabet }}" class="dropdown-option">
-      {{"BY_ALPHABET" | translate}}
+    <mat-option value="{{ Ordering.alphabet }}" class="dropdown-option">
+      {{ ('BY_ALPHABET' | translate) || Ordering.alphabet }}
     </mat-option>
-    <mat-option value="{{ ordering.nearest }}" class="dropdown-option"> {{"NEAREST" | translate}}
+    <mat-option value="{{ Ordering.nearest }}" class="dropdown-option">
+      {{ ('NEAREST' | translate) || Ordering.nearest }}
     </mat-option>
   </mat-select>
 </mat-form-field>

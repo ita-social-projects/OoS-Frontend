@@ -1,0 +1,61 @@
+@use 'create-form';
+@use 'validation-form';
+
+.pay-type {
+  flex-grow: 1;
+
+  &__error {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.price-text {
+  width: 65px;
+  display: block;
+}
+
+.price-only-uah,
+.for-only-text {
+  display: none;
+}
+
+.price-input {
+  width: 100px;
+  text-align: center;
+  background-color: transparent;
+  color: var(--primary-light-text-color);
+}
+
+.step-textarea {
+  background: transparent;
+  color: var(--primary-light-text-color);
+}
+
+.champions-path-wrapper {
+  margin-top: 10px;
+}
+
+@media (max-width: 750px) {
+  .price::after {
+    font-weight: 700;
+    color: var(--secondary-light-text-color);
+    padding: 5px;
+    line-height: initial;
+    width: 65px;
+  }
+
+  .price-text {
+    display: none;
+  }
+
+  .price-only-uah,
+  .for-only-text {
+    display: block;
+  }
+
+  .price,
+  .radio-button-wrap {
+    place-content: flex-start !important;
+  }
+}

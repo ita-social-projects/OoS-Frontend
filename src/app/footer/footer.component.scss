@@ -4,22 +4,30 @@
 
   .trial-message {
     font-size: 0.9rem;
-    font-family: 'Innerspace';
+    font-family: 'Innerspace', sans-serif;
     text-align: center;
 
     margin-top: 1.5rem;
   }
 }
-
 .footer {
   //TODO: Uncomment after removing trial-message
   //background-color: #ebebeb;
   padding: 2.375rem 5rem;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box;
 
   .min-logo {
     height: 41px;
+  }
+
+  .min-molodi-mobile {
+    display: none;
+  }
+
+  .min-molodi-full {
+    display: block;
   }
 
   @media (max-width: 1000px) {
@@ -61,4 +69,28 @@
       height: 12px;
     }
   }
+
+  @media (max-width: 450px) {
+    .min-molodi-mobile {
+      display: block;
+      margin-right: 105px;
+    }
+
+    & > div {
+      margin-right: 0 !important;
+      justify-content: space-between !important;
+    }
+
+    .min-molodi-full {
+      display: none;
+    }
+
+    .mincult {
+      margin-right: 0 !important;
+    }
+  }
+}
+
+span {
+  color: var(--secondary-dark-text-color);
 }

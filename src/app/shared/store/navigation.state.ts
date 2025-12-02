@@ -1,6 +1,6 @@
-import { Navigation } from './../models/navigation.model';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
+import { Navigation } from './../models/navigation.model';
 import {
   AddNavPath,
   SidenavToggle,
@@ -10,6 +10,7 @@ import {
   PushNavPath,
   PopNavPath
 } from './navigation.actions';
+
 export interface NavStateModel {
   navigation: Navigation[];
   sidenavOpen: boolean;

@@ -1,11 +1,17 @@
 <mat-drawer-container>
-  <div fxLayout="column">
-    <div class="content" [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
-      <app-sidenav-menu [isMobileView]="isMobileView"></app-sidenav-menu>
-      <app-sidenav-filters [isMobileView]="isMobileView"></app-sidenav-filters>
-      <app-header></app-header>
-      <app-shell></app-shell>
-    </div>
-    <app-footer></app-footer>
+  <app-cookies-banner></app-cookies-banner>
+  <div class="flex flex-col">
+    <ng-container *ngIf="isAuthorizationLoading$ | async; else content">
+      <app-profile-waiting-page></app-profile-waiting-page>
+    </ng-container>
+
+    <ng-template #content>
+      <div class="content">
+        <app-sidenav-menu [isMobileView]="isMobileView"></app-sidenav-menu>
+        <app-header></app-header>
+        <app-shell></app-shell>
+      </div>
+      <app-footer></app-footer>
+    </ng-template>
   </div>
 </mat-drawer-container>

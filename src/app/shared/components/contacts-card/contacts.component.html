@@ -1,0 +1,64 @@
+<div class="py-[50px] px-0">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let contact of contacts; let i = index" [expanded]="i === 0">
+      <mat-expansion-panel-header class="!h-max">
+        <mat-panel-title class="gap-2">
+          <mat-icon class="card_icon">location_on</mat-icon>
+          <mat-icon class="card_icon">call</mat-icon>
+          <mat-icon class="card_icon">mail</mat-icon>
+          <mat-icon class="card_icon">language</mat-icon>
+        </mat-panel-title>
+        <mat-panel-title class="address-type-title">
+          <h4 class="card-title">{{ contact.title }}</h4>
+        </mat-panel-title>
+        <mat-panel-description class="description-width">
+          <div class="address-block">
+            <p class="contact-info">
+              <span class="address-full-name" [matTooltip]="fullAddress" matTooltipPosition="right" showTooltipIfTruncated>
+                {{ getFullAddress(contact.address) }}
+              </span>
+            </p>
+          </div>
+          <a (click)="mapLink(contact.address)" target="_blank" class="map">
+            {{ 'SHOW_ON_THE_MAP' | translate }}
+          </a>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="container">
+          <div class="flex flex-col flex-grow gap-1">
+            <div class="flex justify-between" *ngFor="let phone of contact.phones">
+              <div class="title-wrapper">
+                <mat-icon class="card_icon">call</mat-icon>
+                <span class="contact-title">{{ phone.type }}</span>
+              </div>
+              <div class="contact-content">
+                <a [href]="'tel:' + phone.number" rel="noopener">{{ phone.number }}</a>
+              </div>
+            </div>
+            <mat-divider *ngIf="contact.emails?.length && contact.phones.length"></mat-divider>
+            <div class="flex justify-between" *ngFor="let email of contact.emails">
+              <div class="title-wrapper">
+                <mat-icon class="card_icon">mail</mat-icon>
+                <span class="contact-title">{{ email.type }}</span>
+              </div>
+              <div class="contact-content">
+                <a [href]="'mailto:' + email.address" target="_blank">{{ email.address }}</a>
+              </div>
+            </div>
+            <mat-divider *ngIf="contact.socialNetworks?.length && contact.emails?.length"></mat-divider>
+            <div class="flex justify-between" *ngFor="let social of contact.socialNetworks">
+              <div class="title-wrapper">
+                <mat-icon class="card_icon">language</mat-icon>
+                <span class="contact-title">{{ social.type }}</span>
+              </div>
+              <div class="contact-content">
+                <a [href]="social.url" target="_blank" rel="noopener">{{ social.url }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,22 +1,63 @@
-import { EmailConfirmationStatuses } from './../enum/statuses';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { Role } from '../enum/role';
-import { Child } from '../models/child.model';
-import { Person } from '../models/user.model';
-import { UsersTable } from '../models/usersTable';
-import { UserStatuses } from '../enum/statuses';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { UserTabsTitles } from '../enum/enumUA/user';
+import { KeyValue } from '@angular/common';
+
+import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
+import { Localization } from 'shared/enum/enumUA/localization';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
+import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
+import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Child } from 'shared/models/child.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Notification } from 'shared/models/notification.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Person } from 'shared/models/user.model';
+import { AdminsTableData, OfficialEmployeeTableData, UsersTableData } from 'shared/models/users-table';
+import { Workshop } from 'shared/models/workshop.model';
+import { ValidationConstants } from 'shared/constants/validation';
+import { TIME_REGEX_REPLACE } from 'shared/constants/regex-constants';
+import { OfficialEmployee } from 'shared/models/official-employee.model';
+import { Competition } from 'shared/models/competition.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
  */
 export class Util {
+  /**
+   * This method returns current localization as a number for backend requests
+   * <br>
+   * Locale string can be passed as param or by default it is taken from local storage,
+   * but it is required to provide locale if calling from a language change event
+   * because storage gives the previous locale
+   * <br>
+   * Ukrainian locale is 0 and English is 1
+   * @param locale Locale string (uk, en)
+   */
+  public static getCurrentLocalization(locale: string = localStorage.getItem('ui-culture') || 'uk'): number {
+    return Localization[locale];
+  }
+
+  /**
+   * This method scrolls page to top
+   * @param window
+   */
+  public static scrollToTop(window: Window): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  public static containsWorkshopOrCompetitionDetails(
+    entity: object
+  ): entity is { workshopDetails: Workshop } | { competitiveEventDetails: Competition } {
+    return !!entity && ('workshopDetails' in entity || 'competitiveEventDetails' in entity);
+  }
+
   /**
    * This method returns child age
    * @param child Child
@@ -54,10 +95,17 @@ export class Util {
    * This method returns max birth date
    * @returns Date
    */
-  public static getMaxBirthDate(): Date {
+  public static getMaxBirthDate(minAge: number): Date {
     const today = new Date();
+    const maxBirthDate = new Date();
 
-    return today;
+    maxBirthDate.setFullYear(today.getFullYear() - minAge);
+
+    return maxBirthDate;
+  }
+
+  public static getTodayBirthDate(): Date {
+    return new Date();
   }
 
   /**
@@ -65,7 +113,7 @@ export class Util {
    * @param users Users array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTable(users): UsersTable[] {
+  public static updateStructureForTheTable(users: Child[]): UsersTableData[] {
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
@@ -74,7 +122,10 @@ export class Util {
         email: user.parent.email,
         phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? UserTabsTitles.parent : UserTabsTitles.child,
-        status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending
+        status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
+        isBlocked: user.parent.isBlocked,
+        parentId: user.parentId,
+        parentFullName: this.getFullName(user.parent)
       });
     });
     return updatedUsers;
@@ -85,33 +136,56 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): AdminsTableData[] {
     const updatedAdmins = [];
-    admins.forEach((admin: MinistryAdmin) => {
+    admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
         id: admin.id,
         pib: this.getFullName(admin),
         email: admin.email,
         phoneNumber: admin.phoneNumber,
         institutionTitle: admin.institutionTitle,
-        status: admin.accountStatus || UserStatuses.Accepted
+        status: admin.accountStatus || UserStatuses.Accepted,
+        catottgName: admin.catottgName,
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName,
+        isAdmin: true
       });
     });
     return updatedAdmins;
   }
 
   /**
-   * This method returns union message for the workshop updating
+   * This method returns updated array structure for the Official Employees table
+   * @param admins OfficialEmployee[]
+   * @returns array of objects
+   */
+  public static updateStructureForTheTableOfficialEmployees(admins: OfficialEmployee[]): OfficialEmployeeTableData[] {
+    const updatedOfficialEmployees: OfficialEmployeeTableData[] = [];
+    admins.forEach((admin: OfficialEmployee) => {
+      updatedOfficialEmployees.push({
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
+        role: admin.position,
+        rnokpp: admin.rnokpp
+      });
+    });
+    return updatedOfficialEmployees;
+  }
+
+  /**
+   * This method returns union message for the workshop.competition updating
    * @param payload Object
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
-    const finalMessage = { text: '', type: 'success' };
+  // TODO: Update type for payload
+  public static getWorkshopMessage(payload: (Workshop | Competition) & any, message: string): MessageBarData {
+    const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
-    let isInvalidGaleryImages = false;
-    let statuses, invalidImages;
+    let isInvalidGalleryImages = false;
+    let statuses;
+    let invalidImages;
 
     if (payload.uploadingCoverImageResult) {
       isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded;
@@ -119,8 +193,8 @@ export class Util {
 
     if (payload.uploadingImagesResults?.results) {
       statuses = Object.entries(payload.uploadingImagesResults.results);
-      invalidImages = statuses.filter((result) => !result[1]['succeeded']);
-      isInvalidGaleryImages = !!invalidImages.length;
+      invalidImages = statuses.filter((result) => !result[1].succeeded);
+      isInvalidGalleryImages = !!invalidImages.length;
     }
 
     messageArr.push(message);
@@ -134,9 +208,9 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    if (isInvalidGaleryImages) {
+    if (isInvalidGalleryImages) {
       const errorCodes = new Set();
-      invalidImages.map((img) => img[1]).forEach((img) => img['errors'].forEach((error) => errorCodes.add(error.code)));
+      invalidImages.map((img) => img[1]).forEach((img) => img.errors.forEach((error) => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map((img) => img[0]);
       const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
@@ -145,13 +219,9 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    finalMessage.text = messageArr.join(';\n');
+    finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
-  }
-
-  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
-    return userRole !== Role.provider ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
   public static getFullName(person: Person): string {
@@ -165,22 +235,38 @@ export class Util {
    * @return Query string
    */
   public static getFilterStateQuery(filterState: FilterStateModel): string {
-    let filterStateDiff: Partial<DefaultFilterState> = {};
+    const filterStateDiff: Partial<DefaultFilterState> = {};
     let serializedFilters = '';
     const defaultFilterState = new DefaultFilterState();
 
     // Compare current filter state and default
-    for (let [key, value] of Object.entries(defaultFilterState)) {
+    for (const [key, value] of Object.entries(defaultFilterState)) {
       if (Array.isArray(filterState[key])) {
         if (filterState[key].length > 0) {
           filterStateDiff[key] = filterState[key].join();
         }
         continue;
       }
-      if (value !== filterState[key]) {
+      if (key === 'limitMinMaxPrice') {
+        continue;
+      }
+      if (!Util.deepEqual(value, filterState[key])) {
         filterStateDiff[key] = filterState[key];
       }
     }
+
+    // To avoid min/max price query param
+    if (!filterState.isPaid && (filterState.minPrice || filterState.maxPrice)) {
+      delete filterStateDiff.minPrice;
+      delete filterStateDiff.maxPrice;
+      delete filterStateDiff.payRate;
+    }
+
+    if (filterStateDiff.noAgeRestriction) {
+      delete filterStateDiff.minAge;
+      delete filterStateDiff.maxAge;
+    }
+
     // Create query string from filterStateDiff object
     Object.keys(filterStateDiff).forEach((key, index, keyArray) => {
       // Shouldn't add semicolon on last iteration
@@ -201,7 +287,7 @@ export class Util {
    * @returns parsed string into Filter state object or empty object
    */
   public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
-    let filterState: Partial<DefaultFilterState> = {};
+    const filterState: Partial<DefaultFilterState> = {};
 
     if (!params) {
       return filterState;
@@ -209,10 +295,13 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
+      const arrayKeys = ['directionIds', 'subdirectionIds', 'indeterminateDirectionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
-        filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
+        filterState[key] =
+          key !== 'directionIds' && key !== 'subdirectionIds' && key !== 'indeterminateDirectionIds'
+            ? value.split(',')
+            : value.split(',').map(Number);
       } else {
         filterState[key] = this.parseToPrimitive(value);
       }
@@ -221,13 +310,143 @@ export class Util {
   }
 
   public static setFromPaginationParam(params: PaginationParameters, currentPage: PaginationElement, totalAmount: number): void {
-    let from = this.calculateFromParameter(currentPage, params.size);
+    const from = this.calculateFromParameter(currentPage, params.size);
     if (!totalAmount || totalAmount >= from) {
       params.from = from;
     } else {
       currentPage.element = Math.ceil(totalAmount / params.size);
       params.from = this.calculateFromParameter(currentPage, params.size);
     }
+  }
+
+  /**
+   * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
+   */
+  public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
+    if (a.key > b.key) {
+      return -1;
+    } else if (b.key > a.key) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {
+    switch (notification.type) {
+      case NotificationType.Workshop:
+        return notification.data.Title;
+      case NotificationType.Parent:
+        return descriptionType === NotificationDescriptionType.Short
+          ? notification.data.ProviderShortTitle
+          : notification.data.ProviderFullTitle;
+    }
+  }
+
+  /**
+   * Formats a age value by limiting the length to 3 characters
+   * Removing non-numeric characters implemented by DigitOnly directive
+   * @param value
+   */
+  public static formatAgeString(value: number | null | undefined): number | null {
+    if (isNaN(value) || value === null || value === undefined) {
+      return null;
+    }
+    const integerValue = Math.floor(Math.abs(value));
+    const stringValue = integerValue.toString();
+    return stringValue.length > ValidationConstants.MAX_AGE_LENGTH ? parseInt(stringValue.slice(0, 3), 10) : integerValue;
+  }
+
+  /**
+   * Formats a time string by removing non-numeric characters and adding a colon separator
+   * @param value
+   */
+  public static formatTimeString(value: string): string {
+    value = value?.replace(TIME_REGEX_REPLACE, '');
+    if (value?.length > 2 && !value?.includes(':')) {
+      value = value?.slice(0, 2) + ':' + value?.slice(2);
+    }
+    return value;
+  }
+
+  public static deepEqual(obj1: object, obj2: object): boolean {
+    if (obj1 === obj2) {
+      return true;
+    }
+
+    if (typeof obj1 !== 'object' && typeof obj2 !== 'object' && obj1 !== obj2) {
+      return false;
+    }
+
+    if (obj1 instanceof File && obj2 instanceof File) {
+      return obj1.name === obj2.name && obj1.type === obj2.type && obj1.size === obj2.size;
+    }
+
+    if ((this.isEmpty(obj1) && !this.isEmpty(obj2)) || (this.isEmpty(obj2) && !this.isEmpty(obj1))) {
+      return false;
+    }
+
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+      if (obj1.length !== obj2.length) {
+        return false;
+      }
+
+      const safeStringify = (v: unknown): string => {
+        try {
+          const str = JSON.stringify(v);
+          return str === undefined ? String(v) : str;
+        } catch {
+          return String(v);
+        }
+      };
+
+      const sorted1 = [...obj1].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
+      const sorted2 = [...obj2].sort((a, b) => safeStringify(a).localeCompare(safeStringify(b)));
+
+      return sorted1.every((el, idx) => this.deepEqual(el, sorted2[idx]));
+    }
+
+    if (!this.isEmpty(obj1) && !this.isEmpty(obj2)) {
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
+
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
+
+      for (const key of keys1) {
+        const val1 = obj1[key];
+        const val2 = obj2[key];
+        if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+          if (!Util.deepEqual(val1, val2)) {
+            return false;
+          }
+        } else if (val1 !== val2) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public static isEmpty(field: any): boolean {
+    if (field instanceof Blob) {
+      return false;
+    }
+
+    return (
+      field === undefined ||
+      field === null ||
+      field === '' ||
+      (Array.isArray(field) && (field.length === 0 || field.every((el) => this.isEmpty(el)))) ||
+      (typeof field === 'object' && Object.keys(field).length === 0)
+    );
+  }
+
+  public static isEmptyUUID(id: string): boolean {
+    return this.isEmpty(id) || id === '00000000-0000-0000-0000-000000000000';
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
@@ -238,11 +457,36 @@ export class Util {
    * Parse string to the primitive value
    * @param value
    */
-  private static parseToPrimitive(value) {
+  private static parseToPrimitive(value: string): string {
     try {
       return JSON.parse(value);
     } catch (e) {
       return value.toString();
     }
   }
+}
+
+export function addBeforeUnloadProtection(shouldBlock: () => boolean): () => void {
+  const handler = (event: BeforeUnloadEvent): void => {
+    if (shouldBlock()) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  };
+
+  window.addEventListener('beforeunload', handler);
+  return (): void => window.removeEventListener('beforeunload', handler);
+}
+
+export function arraysEqualByValue(a: number[], b: number[]): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  const setA = new Set(a);
+  for (const v of b) {
+    if (!setA.has(v)) {
+      return false;
+    }
+  }
+  return true;
 }

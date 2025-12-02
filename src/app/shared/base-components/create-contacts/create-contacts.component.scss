@@ -1,0 +1,101 @@
+@use 'create-form';
+@use 'validation-form';
+
+mat-expansion-panel {
+  padding: 10px;
+}
+
+.map {
+  height: 500px;
+}
+
+.text {
+  text-align: center;
+  font-family:
+    Open Sans,
+    sans-serif;
+  font-weight: 600;
+  color: var(--primary-dark-text-color);
+}
+
+.address-wrapper-border {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--input-light-color);
+}
+
+.warning {
+  margin: 1rem;
+  text-align: center;
+  display: block;
+  color: var(--input-light-color);
+  font-size: 10px;
+}
+
+.accordion-title {
+  margin-left: 5px;
+}
+
+.contacts-wrapper {
+  border: 0;
+  border-top: 2px solid var(--input-light-color);
+  border-bottom: 2px solid var(--input-light-color);
+}
+
+.contacts-title {
+  text-align: center;
+}
+
+.accordion-item {
+  overflow: visible !important;
+  background-color: var(--bg-light-additional) !important;
+  ::ng-deep .mat-expansion-panel-body,
+  .mat-expansion-panel-header {
+    padding: 0;
+  }
+  ::ng-deep .mat-expansion-panel {
+    border-radius: 0;
+  }
+  ::ng-deep .mat-expansion-indicator {
+    margin-right: 5px;
+  }
+}
+
+.mat-icon-delete {
+  margin: 0;
+  color: var(--primary-accent-color);
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.btn-add {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0;
+}
+
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
+}
+
+.step-input {
+  margin-top: 0;
+}
+
+.spacer {
+  width: 64px;
+}
+
+button.mdc-button {
+  .mat-icon {
+    margin: 0;
+  }
+}
+
+:host ::ng-deep {
+  .mat-expansion-panel-content {
+    font-size: 13px;
+  }
+}

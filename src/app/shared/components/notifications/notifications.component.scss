@@ -1,25 +1,58 @@
-:host::ng-deep mat-icon {
-  position: relative;
-  font-size: 30px;
-  .mat-badge-content {
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    display: block;
-    background-color: #f5bc4a;
-  }
-  top: -1px;
-  overflow: visible;
+.mat-mdc-icon-button.mat-mdc-button-base {
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }
 
 button {
-  height: auto;
-  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.icon-mobile {
-  top: 10px;
+:host::ng-deep .mat-icon {
+  overflow: visible;
+  font-size: 30px;
+
+  @media (min-width: 750px) {
+    height: auto;
+    width: auto;
+  }
+
+  .mat-badge-content {
+    top: -4px;
+    left: 25px;
+    background-color: #f5bc4a;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    line-height: 15px;
+    z-index: 10;
+  }
 }
+
+.btn-notifications {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 13px;
+  line-height: normal;
+
+  .notifications-icon {
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    margin: 0 9px 0 0;
+  }
+
+  ::ng-deep {
+    .mat-badge-content {
+      top: 1.5px;
+    }
+  }
+}
+
 .full-width {
   width: 100%;
 }

@@ -1,0 +1,47 @@
+<div class="add-wrapper">
+  <p class="text">{{ 'BANNERS.ADD_COMPETITION' | translate }}</p>
+  <button
+    class="btn"
+    mat-raised-button
+    [disabled]="hasUnfinishedCompetitionData$ | async"
+    [routerLink]="['/create/competition', ModeConstants.NEW]">
+    {{ 'BUTTONS.ADD_COMPETITION' | translate }}
+  </button>
+</div>
+<div class="flex flex-col gap-4">
+  <app-provider-status-banner
+    *ngIf="hasUnfinishedCompetitionData$ | async"
+    [provider]="provider"
+    [mode]="BannerMode.UnfinishedCompetition"
+    class="unfinished-banner">
+  </app-provider-status-banner>
+  <div class="flex justify-end">
+    <app-shared-searchbar [for]="WorkshopType.Competition" (outputSearchFormControl)="onSearch($event)"></app-shared-searchbar>
+  </div>
+  <div>
+    <ng-container *ngIf="competitionDrafts">
+      <div class="card-wrapper" *ngIf="competitionDrafts?.totalAmount; else emptyResult">
+        <app-competition-card
+          class="card"
+          *ngFor="let competitionDraft of competitionDrafts.entities; trackBy: trackByDraft"
+          [isCabinet]="true"
+          [competition]="competitionDraft"
+          (deleteCompetition)="onDelete($event)">
+        </app-competition-card>
+      </div>
+      <ng-container *ngIf="competitionDrafts.totalAmount">
+        <app-paginator
+          [totalEntities]="competitionDrafts.totalAmount"
+          [currentPage]="currentPage"
+          [itemsPerPage]="competitionCardParameters.size"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
+        </app-paginator>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #emptyResult>
+  <app-no-result-card [title]="NoResultsTitle.noResult"></app-no-result-card>
+</ng-template>

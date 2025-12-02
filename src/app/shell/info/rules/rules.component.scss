@@ -1,1 +1,5 @@
-@import 'src/app/shared/styles/info.scss';
+@use 'info';
+
+.info-title {
+  line-height: 2.4rem;
+}

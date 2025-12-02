@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/toggle-button.scss';
+@use 'toggle-button';
 
 .shadow {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -32,7 +32,7 @@
 
 .workshops-map-filters {
   .shell-search {
-    background: white;
+    background: var(--primary-light-bg-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,7 +48,7 @@
     }
 
     .shell-city {
-      border-right: 1px solid #e3e3e3;
+      border-right: 1px solid var(--input-light-color);
       width: 30%;
     }
   }
@@ -56,11 +56,13 @@
   .view-toggle {
     height: 30px;
     align-items: center;
-    background: #ffffff;
+    background: var(--primary-light-bg-color);
   }
 }
+
 .mat-button-toggle-group {
   height: 2rem;
+
   .mat-button-toggle {
     height: 100%;
     min-width: 100px;
@@ -75,20 +77,21 @@
   box-sizing: border-box;
   padding: 1rem;
 }
+
 .mat-drawer-container {
-  min-height: 80vh;
   background-color: inherit;
   color: inherit;
+  min-height: 140vh;
 
   .mat-drawer {
     background-color: inherit;
-    overflow: hidden;
+    overflow: unset;
   }
 
   .mat-drawer-content {
     background-color: inherit;
     color: inherit;
-    overflow: hidden;
+    overflow: unset;
     margin-top: 2rem;
   }
 }
@@ -116,13 +119,12 @@
   padding: 0;
 
   &.visible {
-    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #ffffff;
-    border: 1px solid #3849f9;
-    color: #3849f9;
+    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #fafcff;
+    border: 1px solid var(--primary-accent-color);
   }
 
   &.hidden {
-    background: #ffffff;
+    background: var(--input-light-color);
   }
 }
 
@@ -135,7 +137,7 @@
 
 .mat-drawer-side {
   border: none;
-  color: #444444;
+  color: var(--cancel-text-color);
 }
 
 :host ::ng-deep app-full-search-bar {
@@ -290,5 +292,16 @@
 
   :host-context(app-footer) {
     display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .mobile-sidenav {
+    width: 100%;
+    padding: 2rem 1rem;
+    position: fixed;
+    z-index: 10001;
+    top: 0;
+    left: 0;
   }
 }

@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
 import { Observable, of } from 'rxjs';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { Workshop, WorkshopFilterCard } from '../../../shared/models/workshop.model';
+
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
 
 describe('WorkshopMapViewListComponent', () => {
   let component: WorkshopMapViewListComponent;
@@ -17,7 +17,7 @@ describe('WorkshopMapViewListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FlexLayoutModule, CommonModule, RouterTestingModule, MatCardModule, NgxsModule.forRoot([])],
+      imports: [CommonModule, RouterTestingModule, MatCardModule, NgxsModule.forRoot([])],
       declarations: [
         WorkshopMapViewListComponent,
         MockMapListWorkshopCardComponent,
@@ -54,7 +54,7 @@ class MockMapListWorkshopCardComponent {
 class MockResultMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<WorkshopCard[]>;
 }
 @Component({
   selector: 'app-paginator',

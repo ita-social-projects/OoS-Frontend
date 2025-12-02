@@ -1,4 +1,9 @@
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/cards.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
+@use 'list-wrappers';
+@use 'buttons';
+@use 'cards';
+@use 'card-wrapper';
+
+.disabled-anchor {
+  pointer-events: none;
+  cursor: default;
+}

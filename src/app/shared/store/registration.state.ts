@@ -1,90 +1,105 @@
-import { MinistryAdmin } from './../models/ministryAdmin.model';
+import { Location } from '@angular/common';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Router } from '@angular/router';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+
+import { ModeConstants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { Role } from 'shared/enum/role';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Employee } from 'shared/models/employee.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { TechAdmin } from 'shared/models/tech-admin.model';
+import { User } from 'shared/models/user.model';
+import { UserService } from 'shared/services/user/user.service';
+import { UserProfileService } from 'shared/services/user/user-profile.service';
+import { ClearPersonalInfo, ClearProfile, MarkFormDirty, SetPersonalInfo, SetProfile, ShowMessageBar } from './app.actions';
 import {
-  Login,
-  Logout,
   CheckAuth,
-  OnAuthFail,
   CheckRegistration,
   GetProfile,
-  OnUpdateUserSuccess,
-  UpdateUser,
-  OnUpdateUserFail,
   GetUserPersonalInfo,
+  Login,
+  Logout,
+  OnAuthFail,
+  OnUpdateUserFail,
+  OnUpdateUserSuccess,
+  UpdateUser
 } from './registration.actions';
-import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
-import jwt_decode from 'jwt-decode';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from '../models/user.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { ParentService } from '../services/parent/parent.service';
-import { Parent } from '../models/parent.model';
-import { catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Role } from '../enum/role';
-import { UserService } from '../services/user/user.service';
-import { Observable, of } from 'rxjs';
-import { TechAdminService } from '../services/tech-admin/tech-admin.service';
-import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TechAdmin } from '../models/techAdmin.model';
-import { Provider } from '../models/provider.model';
-import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
-import { ModeConstants } from '../constants/constants';
-import { Location } from '@angular/common';
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { RegionAdminService } from '../services/region-admin/region-admin.service';
-import { RegionAdmin } from '../models/regionAdmin.model';
+import { AppState } from './app.state';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
-  isAutorizationLoading: boolean;
+  isAuthorizationLoading: boolean;
   user: User;
   provider: Provider;
+  employee: Employee;
   parent: Parent;
   techAdmin: TechAdmin;
-  regionAdmin: RegionAdmin;
   ministryAdmin: MinistryAdmin;
+  regionAdmin: RegionAdmin;
+  areaAdmin: AreaAdmin;
   role: Role;
-  subrole: Role;
 }
 
 @State<RegistrationStateModel>({
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    isAutorizationLoading: true,
+    isAuthorizationLoading: true,
     isLoading: false,
     user: undefined,
     provider: undefined,
+    employee: undefined,
     parent: undefined,
     techAdmin: undefined,
     regionAdmin: undefined,
     ministryAdmin: undefined,
-    role: Role.unauthorized,
-    subrole: null,
-  },
+    areaAdmin: undefined,
+    role: Role.unauthorized
+  }
 })
 @Injectable()
 export class RegistrationState {
+  private firstLogin: boolean = false;
+
+  constructor(
+    private store: Store,
+    private router: Router,
+    private location: Location,
+    private oidcSecurityService: OidcSecurityService,
+    private userService: UserService,
+    private userProfileService: UserProfileService
+  ) {}
+
   @Selector()
   static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
   }
+
   @Selector()
-  static isAutorizationLoading(state: RegistrationStateModel): boolean {
-    return state.isAutorizationLoading;
+  static isAuthorizationLoading(state: RegistrationStateModel): boolean {
+    return state.isAuthorizationLoading;
   }
+
   @Selector()
   static isLoading(state: RegistrationStateModel): boolean {
     return state.isLoading;
   }
+
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
     return state.user.isRegistered;
   }
+
   @Selector()
   static user(state: RegistrationStateModel): User {
     return state.user;
@@ -93,6 +108,11 @@ export class RegistrationState {
   @Selector()
   static provider(state: RegistrationStateModel): Provider {
     return state.provider;
+  }
+
+  @Selector()
+  static employee(state: RegistrationStateModel): Employee {
+    return state.employee;
   }
 
   @Selector()
@@ -105,140 +125,145 @@ export class RegistrationState {
     return state.role;
   }
 
-  @Selector()
-  static subrole(state: RegistrationStateModel): Role | undefined {
-    return state.subrole;
-  }
-
-  constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private snackBar: MatSnackBar,
-    private userService: UserService,
-    private providerService: ProviderService,
-    private parentService: ParentService,
-    private techAdminService: TechAdminService,
-    private regionAdminService: RegionAdminService,
-    private router: Router,
-    private ministryAdminService: MinistryAdminService,
-    private location: Location
-  ) {}
-
   @Action(Login)
-  Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
+  login(_ctx: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
     this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
-        ProviderRegistration: payload,
-      },
-    });
-  }
-
-  @Action(Logout)
-  Logout({}: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.logoff();
-  }
-
-  @Action(CheckAuth)
-  CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth: LoginResponse) => {
-      patchState({ isAuthorized: auth.isAuthenticated });
-      if (auth.isAuthenticated) {
-        this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
-          const token = jwt_decode(value);
-          const subrole = token['subrole'];
-          const role = token['role'];
-          patchState({ subrole, role });
-          dispatch(new GetUserPersonalInfo()).subscribe(() => dispatch(new CheckRegistration()));
-        });
-      } else {
-        patchState({ role: Role.unauthorized, isAutorizationLoading: false });
+        ProviderRegistration: payload
       }
     });
   }
 
+  @Action(Logout)
+  logout(_ctx: StateContext<RegistrationStateModel>): Observable<unknown> {
+    return this.oidcSecurityService.logoff();
+  }
+
+  @Action(CheckAuth)
+  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<void> {
+    this.firstLogin = Boolean(new URLSearchParams(window.location.search).size);
+    return this.oidcSecurityService.checkAuth().pipe(
+      switchMap((auth: LoginResponse) => {
+        patchState({ isAuthorized: auth.isAuthenticated });
+        if (auth.isAuthenticated) {
+          return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
+        } else {
+          dispatch(new ClearProfile());
+          dispatch(new ClearPersonalInfo());
+          patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
+          return of(null);
+        }
+      })
+    );
+  }
+
   @Action(OnAuthFail)
-  onAuthFail(): void {
-    this.snackBar.open("Упс! Перевірте з'єднання", '', {
-      duration: 5000,
-      panelClass: ['red-snackbar'],
-    });
+  onAuthFail({ dispatch }: StateContext<RegistrationStateModel>): void {
+    // eslint-disable-next-line @typescript-eslint/quotes
+    dispatch(new ShowMessageBar({ message: "Упс! Перевірте з'єднання", type: 'error' }));
   }
 
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-
+    const providerRoles = [Role.provider, Role.providerDeputy, Role.employee];
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
-      patchState({ isAutorizationLoading: false });
+      if (this.firstLogin && providerRoles.includes(state.user.role as Role)) {
+        this.router.navigate(['/personal-cabinet/config']);
+      }
     } else {
       this.router
-        .navigate(['/create-provider', ModeConstants.NEW])
-        .finally(() => patchState({ isAutorizationLoading: false }));
+        .navigate([state.user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
+        .finally(() => patchState({ isAuthorizationLoading: false }));
     }
   }
 
   @Action(GetProfile)
-  getProfile(
-    { patchState, getState }: StateContext<RegistrationStateModel>,
-    {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> | Observable<MinistryAdmin> {
+  getProfile({
+    dispatch,
+    patchState,
+    getState
+  }: StateContext<RegistrationStateModel>): Observable<Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin> {
     const state = getState();
-    patchState({ role: state.user.role as Role });
+    const role = state.user.role as Role;
+    const profileKey = this.userProfileService.getStateKeyByRole(role);
 
-    switch (state.user.role) {
-      case Role.parent:
-        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
-      case Role.techAdmin:
-        return this.techAdminService
-          .getProfile()
-          .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
-      case Role.regionAdmin:
-        return this.regionAdminService
-          .getAdminProfile()
-          .pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
-      case Role.ministryAdmin:
-        return this.ministryAdminService
-          .getAdminProfile()
-          .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
-      default:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
+    patchState({ isAuthorizationLoading: true, role });
+
+    const cachedProfile = this.store.selectSnapshot(AppState.profile);
+
+    // if there is cached user profile
+    if (cachedProfile) {
+      patchState({ [profileKey]: cachedProfile, isAuthorizationLoading: false });
+      return;
     }
+
+    const profileObservable = this.userProfileService.getProfileObservableByRole(role, state.user.id);
+    if (!profileObservable) {
+      patchState({ isAuthorizationLoading: false });
+      return;
+    }
+
+    return profileObservable.pipe(
+      tap((profile: Parent | Provider | Employee | MinistryAdmin | RegionAdmin | AreaAdmin) => {
+        dispatch(new SetProfile(profile));
+        patchState({ [profileKey]: profile });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === HttpStatusCode.Unauthorized || error.status === HttpStatusCode.Forbidden) {
+          this.router.navigate(['/forbidden']);
+        }
+        return throwError(() => error);
+      }),
+      finalize(() => patchState({ isAuthorizationLoading: false }))
+    );
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>, {}: GetUserPersonalInfo): Observable<User> {
+  getUserPersonalInfo({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<User> | void {
     patchState({ isLoading: true });
-    return this.userService.getPersonalInfo().pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+
+    const cachedPersonalInfo = this.store.selectSnapshot(AppState.personalInfo);
+
+    if (cachedPersonalInfo) {
+      patchState({ user: cachedPersonalInfo, role: cachedPersonalInfo.role as Role, isLoading: false });
+      return;
+    }
+
+    return this.userService.getPersonalInfo().pipe(
+      tap((user: User) => {
+        dispatch(new SetPersonalInfo(user));
+        patchState({ user, role: user.role as Role, isLoading: false });
+      })
+    );
   }
 
   @Action(UpdateUser)
-  updateUser(
-    { dispatch }: StateContext<RegistrationStateModel>,
-    { user }: UpdateUser
-  ): Observable<User | Observable<void>> {
+  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { user }: UpdateUser): Observable<User | void> {
     return this.userService.updatePersonalInfo(user).pipe(
       tap(() => dispatch(new OnUpdateUserSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateUserFail(error)))
     );
   }
 
   @Action(OnUpdateUserFail)
-  onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, {}: OnUpdateUserFail): void {
+  onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateUserSuccess)
-  onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>, {}: OnUpdateUserSuccess): void {
+  onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>): void {
     dispatch([
       new MarkFormDirty(false),
       new GetUserPersonalInfo(),
       new ShowMessageBar({
         message: SnackbarText.updateUser,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     this.location.back();
   }

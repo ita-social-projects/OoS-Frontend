@@ -1,7 +1,15 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use 'create-form';
+@use 'validation-form';
+@use 'buttons';
 
 .step {
   padding: 0 !important;
+}
+
+.error-wrapper {
+  max-width: 478px;
+}
+
+.multiline {
+  white-space: pre-line;
 }

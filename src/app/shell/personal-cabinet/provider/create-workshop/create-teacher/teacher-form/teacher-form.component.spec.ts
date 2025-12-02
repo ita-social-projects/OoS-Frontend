@@ -1,17 +1,19 @@
-import { MatIconModule } from '@angular/material/icon';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TeacherFormComponent } from './teacher-form.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TeacherFormComponent } from './teacher-form.component';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -31,6 +33,7 @@ describe('TeacherFormComponent', () => {
         MatIconModule,
         MatGridListModule,
         MatRadioModule,
+        MatCheckboxModule,
         TranslateModule.forRoot()
       ],
       declarations: [ImageFormControlComponent, TeacherFormComponent, MockValidationHintForInputComponent]
@@ -47,13 +50,37 @@ describe('TeacherFormComponent', () => {
       middleName: new FormControl(''),
       gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
+      defaultTeacher: new FormControl(false)
     });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit delete when onDeleteTeacher is called', () => {
+    const mockIndex = 1;
+    jest.spyOn(component.deleteForm, 'emit');
+
+    component.index = mockIndex;
+    component.onDeleteTeacher();
+
+    expect(component.deleteForm.emit).toHaveBeenCalledWith(mockIndex);
+  });
+
+  it('should set value is equal to NULL in form control on focus out event if current form control is pristine', () => {
+    const mockedFormControlName = 'lastName';
+    const setValueSpy = jest.spyOn(component.TeacherFormGroup.controls.lastName, 'setValue');
+    const getFormControlSpy = jest.spyOn(component.TeacherFormGroup, 'get');
+
+    component.onFocusOut(mockedFormControlName);
+
+    expect(getFormControlSpy).toHaveBeenCalledWith(mockedFormControlName);
+    expect(setValueSpy).toHaveBeenCalledWith(null);
   });
 });
 
@@ -63,8 +90,8 @@ describe('TeacherFormComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
 }

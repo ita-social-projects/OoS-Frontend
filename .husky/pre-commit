@@ -1,0 +1,5 @@
+npx lint-staged
+if [ $? -ne 0 ]; then
+  echo "Lint-staged failed, commit aborted."
+  exit 1
+fi

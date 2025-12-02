@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/application-statuses.scss';
+@use 'application-statuses';
 
 .mat-application-menu,
 .application-info-menu {
@@ -8,50 +8,37 @@
   width: max-content;
   max-width: max-content;
   font-size: 13px;
-  font: Open Sans;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-weight: normal;
 }
 .application-info-description-card {
-  color: #aaaaaa;
+  color: var(--secondary-light-text-color);
 }
 .application-info-menu,
 ::ng-deep .mat-application-menu {
   width: 60vw;
   max-width: fit-content;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 .application-info-menu {
-  display: flex;
-  flex-direction: row;
   max-width: max-content;
-  font-size: 13px;
-  line-height: 17px;
 }
 
 .application-info-description,
 .application-info-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-start;
   max-width: max-content;
-  font-size: 13px;
-  font-weight: normal;
   line-height: 17px;
-  font: Open Sans;
-  font-style: normal;
-  color: black;
+  color: var(--primary-light-text-color);
 
   span {
     padding: 8px;
   }
-  i {
-    padding-right: 5px;
-  }
 }
-
+.application-info-title {
+  max-width: 30%;
+}
 .application-info-description {
   .Approved,
   .Pending,
@@ -61,8 +48,13 @@
   .Completed,
   .Left,
   .Blocked {
-    color: black;
+    color: var(--primary-light-text-color);
   }
+  max-width: 70%;
+}
+
+.AcceptedForSelection {
+  max-width: max-content !important;
 }
 
 .application-info-menu-title {
@@ -75,9 +67,4 @@
   ::ng-deep .mat-application-menu {
     width: 100vw;
   }
-}
-.application-status,
-.title,
-.btn-gray {
-  margin-top: 1rem;
 }

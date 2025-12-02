@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { EMPTY_RESULT } from '../constants/constants';
-import { Codeficator } from '../models/codeficator.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { FilterList } from '../models/filterList.model';
-import { SearchResponse } from '../models/search.model';
-import { WorkshopCard } from '../models/workshop.model';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterList, MinMaxPriceFilter } from 'shared/models/filter-list.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
+import { ValidationConstants } from 'shared/constants/validation';
 import {
+  AddEntityPreviousResult,
+  AddPreviousResult,
   CleanCity,
   ClearCoordsByMap,
   ClearRadiusSize,
@@ -18,29 +22,39 @@ import {
   FilterChange,
   FilterClear,
   GetFilteredWorkshops,
+  RemoveEntityPreviousResult,
+  RemovePreviousResult,
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
   SetCoordsByMap,
   SetDirections,
   SetEndTime,
+  SetEntitySearchQueryValue,
+  ClearEntitySearchQueryValue,
   SetFilterFromURL,
+  SetFilterPagination,
+  SetFormsOfLearning,
+  SetIndeterminates,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
   SetIsPaid,
   SetIsStrictWorkdays,
+  SetLanguageOfEducation,
   SetMapView,
   SetMaxAge,
   SetMaxPrice,
   SetMinAge,
   SetMinPrice,
+  SetNoRestrictionAge,
   SetOpenRecruitment,
   SetOrder,
+  SetPayRate,
   SetRadiusSize,
   SetSearchQueryValue,
-  SetFilterPagination,
   SetStartTime,
+  SetSubdirections,
   SetWithDisabilityOption,
   SetWorkingDays
 } from './filter.actions';
@@ -56,12 +70,15 @@ import {
     mapViewCoords: null,
     userRadiusSize: null,
     isMapView: false,
-    from: null,
-    size: null
+    previousResults: [],
+    entitySearchQuery: '',
+    entityPreviousResults: []
   }
 })
 @Injectable()
 export class FilterState {
+  constructor(private appWorkshopsService: AppWorkshopsService) {}
+
   @Selector()
   static FilterState(state: FilterStateModel): FilterStateModel {
     return state;
@@ -75,6 +92,16 @@ export class FilterState {
   @Selector()
   static directions(state: FilterStateModel): number[] {
     return state.directionIds;
+  }
+
+  @Selector()
+  static subdirections(state: FilterStateModel): number[] {
+    return state.subdirectionIds;
+  }
+
+  @Selector()
+  static indeterminateDirections(state: FilterStateModel): number[] {
+    return state.indeterminateDirectionIds;
   }
 
   @Selector()
@@ -98,18 +125,33 @@ export class FilterState {
   }
 
   @Selector()
+  static entitySearchQuery(state: FilterStateModel): string {
+    return state.entitySearchQuery;
+  }
+
+  @Selector()
+  static previousResults(state: FilterStateModel): string[] {
+    return state.previousResults;
+  }
+
+  @Selector()
+  static entityPreviousResults(state: FilterStateModel): string[] {
+    return state.entityPreviousResults;
+  }
+
+  @Selector()
   static order(state: FilterStateModel): {} {
     return state.order;
   }
 
   @Selector()
-  static userRadiusSize(state: FilterStateModel) {
+  static userRadiusSize(state: FilterStateModel): number {
     const meterInKilometer = 1000;
     return state.userRadiusSize * meterInKilometer;
   }
 
   @Selector()
-  static isMapView(state: FilterStateModel) {
+  static isMapView(state: FilterStateModel): boolean {
     return state.isMapView;
   }
 
@@ -124,6 +166,11 @@ export class FilterState {
   }
 
   @Selector()
+  static limitMinMaxPrice(state: FilterStateModel): MinMaxPriceFilter {
+    return state.limitMinMaxPrice;
+  }
+
+  @Selector()
   static filterList(state: FilterStateModel): FilterList {
     const {
       withDisabilityOption,
@@ -132,27 +179,39 @@ export class FilterState {
       isAppropriateAge,
       minAge,
       maxAge,
+      noAgeRestriction,
       directionIds,
+      subdirectionIds,
+      indeterminateDirectionIds,
       minPrice,
       maxPrice,
+      limitMinMaxPrice,
+      formsOfLearning,
       isFree,
       isPaid,
+      payRate,
       workingDays,
       startTime,
       endTime,
       statuses,
-      order
+      order,
+      languageOfEducationId
     } = state;
     return {
       withDisabilityOption,
       statuses,
+      formsOfLearning,
       directionIds,
-      ageFilter: { minAge, maxAge, isAppropriateAge },
+      subdirectionIds,
+      indeterminateDirectionIds,
+      ageFilter: { minAge, maxAge, noAgeRestriction, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
         isFree,
-        isPaid
+        isPaid,
+        payRate,
+        limitMinMaxPrice
       },
       workingHours: {
         workingDays,
@@ -161,11 +220,10 @@ export class FilterState {
         isStrictWorkdays,
         isAppropriateHours
       },
-      order
+      order,
+      languageOfEducationId
     };
   }
-
-  constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
   setCity({ patchState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
@@ -195,6 +253,16 @@ export class FilterState {
     patchState({ directionIds: payload, from: 0 });
   }
 
+  @Action(SetSubdirections)
+  setSubdirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetSubdirections): void {
+    patchState({ subdirectionIds: payload, from: 0 });
+  }
+
+  @Action(SetIndeterminates)
+  setIndeterminates({ patchState }: StateContext<FilterStateModel>, { payload }: SetIndeterminates): void {
+    patchState({ indeterminateDirectionIds: payload, from: 0 });
+  }
+
   @Action(SetWorkingDays)
   setWorkingDays({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays): void {
     patchState({ workingDays: payload, from: 0 });
@@ -204,18 +272,30 @@ export class FilterState {
   setStartTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
     patchState({ startTime: payload, from: 0 });
   }
+
   @Action(SetEndTime)
   setEndTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
     patchState({ endTime: payload, from: 0 });
+  }
+
+  @Action(SetFormsOfLearning)
+  setFormsOfLearning({ patchState }: StateContext<FilterStateModel>, { payload }: SetFormsOfLearning): void {
+    patchState({ formsOfLearning: payload, from: 0 });
   }
 
   @Action(SetIsFree)
   setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
     patchState({ isFree: payload, from: 0 });
   }
+
   @Action(SetIsPaid)
   setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
     patchState({ isPaid: payload, from: 0 });
+  }
+
+  @Action(SetPayRate)
+  setPayRate({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetPayRate): void {
+    patchState({ payRate: payload, from: 0 });
   }
 
   @Action(SetMinPrice)
@@ -231,6 +311,58 @@ export class FilterState {
   @Action(SetSearchQueryValue)
   setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
     patchState({ searchQuery: payload, from: 0 });
+  }
+
+  @Action(SetEntitySearchQueryValue)
+  setEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetEntitySearchQueryValue): void {
+    patchState({ entitySearchQuery: payload, from: 0 });
+  }
+
+  @Action(ClearEntitySearchQueryValue)
+  clearEntitySearchQueryValue({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ entitySearchQuery: '', from: 0 });
+  }
+
+  @Action(AddPreviousResult)
+  addPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddPreviousResult): void {
+    const trimmedResult = result.trim();
+    if (!trimmedResult) {
+      return;
+    }
+    const state = ctx.getState();
+    const updatedResults = [
+      trimmedResult,
+      ...state.previousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
+    ].slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS);
+
+    ctx.patchState({ previousResults: updatedResults });
+  }
+
+  @Action(AddEntityPreviousResult)
+  addWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { result }: AddEntityPreviousResult): void {
+    const trimmedResult = result.trim();
+    if (!trimmedResult) {
+      return;
+    }
+    const state = ctx.getState();
+    const updatedResults = [
+      trimmedResult,
+      ...state.entityPreviousResults.filter((res) => res.toLowerCase() !== trimmedResult.toLowerCase())
+    ].slice(0, Constants.MAX_PREVIOUS_SEARCH_RESULTS);
+
+    ctx.patchState({ entityPreviousResults: updatedResults });
+  }
+
+  @Action(RemovePreviousResult)
+  removePreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemovePreviousResult): void {
+    const updatedResults = ctx.getState().previousResults.filter((result) => result !== previousResult);
+    ctx.patchState({ previousResults: updatedResults });
+  }
+
+  @Action(RemoveEntityPreviousResult)
+  removeWorkshopPreviousResult(ctx: StateContext<FilterStateModel>, { previousResult }: RemoveEntityPreviousResult): void {
+    const updatedResults = ctx.getState().entityPreviousResults.filter((result) => result !== previousResult);
+    ctx.patchState({ entityPreviousResults: updatedResults });
   }
 
   @Action(SetOpenRecruitment)
@@ -251,16 +383,34 @@ export class FilterState {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
-    return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
-      tap((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
-        patchState({ filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT, isLoading: false });
-      })
+    return forkJoin({
+      filteredWorkshops: this.appWorkshopsService.getFilteredWorkshops(state, payload),
+      minMaxPriceFilter: state.isPaid ? this.appWorkshopsService.getLimitMinMaxPriceFilter(state, payload) : of(null)
+    }).pipe(
+      tap(({ filteredWorkshops, minMaxPriceFilter }) => {
+        if (!filteredWorkshops?.entities?.length && state.from !== 0) {
+          patchState({ from: 0 });
+          return;
+        }
+
+        patchState({
+          filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT,
+          limitMinMaxPrice: minMaxPriceFilter,
+          isLoading: false
+        });
+      }),
+      map(({ filteredWorkshops }) => filteredWorkshops)
     );
   }
 
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
     patchState({ withDisabilityOption: payload, from: 0 });
+  }
+
+  @Action(SetLanguageOfEducation)
+  setLanguageOfEducation({ patchState }: StateContext<FilterStateModel>, { payload }: SetLanguageOfEducation): void {
+    patchState({ languageOfEducationId: payload, from: 0 });
   }
 
   @Action(SetIsStrictWorkdays)
@@ -286,6 +436,15 @@ export class FilterState {
   @Action(SetIsAppropriateAge)
   setIsAppropriateAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
     patchState({ isAppropriateAge: payload, from: 0 });
+  }
+
+  @Action(SetNoRestrictionAge)
+  setNoRestrictionAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetNoRestrictionAge): void {
+    if (payload) {
+      patchState({ noAgeRestriction: true, minAge: ValidationConstants.AGE_MIN, maxAge: ValidationConstants.BIRTH_AGE_MAX, from: 0 });
+    } else {
+      patchState({ noAgeRestriction: false, minAge: null, maxAge: null, from: 0 });
+    }
   }
 
   @Action(ResetFilteredWorkshops)

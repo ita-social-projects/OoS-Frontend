@@ -1,0 +1,72 @@
+@use '@angular/material' as mat;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$primary-light-palette: mat.define-palette(
+  (
+    50: #eaeaff,
+    100: #cacafe,
+    200: #a4a8fe,
+    300: #7b85fe,
+    400: #5b67fd,
+    500: var(--primary-accent-color),
+    600: #333fed,
+    700: #2832e0,
+    800: #1d24d5,
+    900: #0000c5,
+    A100: #d8bffc,
+    A200: #bd93fb,
+    A400: #8838f9,
+    A700: #4c00e8,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$accent-palette: mat.define-palette(mat.$deep-orange-palette);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-light-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+@include mat.all-component-themes($light-theme);
+.light-theme {
+  --mat-datepicker-calendar-date-in-range-state-background-color: rgba(0, 0, 255, 0.2) !important;
+  --mat-sidenav-content-background-color: var(--primary-light-bg-color) !important;
+  --mdc-elevated-card-container-color: var(--secondary-light-bg-color) !important;
+  --mat-select-placeholder-text-color: var(--primary-light-text-color) !important;
+  --mat-menu-container-color: var(--bg-light-additional) !important;
+  --mdc-text-button-label-text-color: var(--primary-light-text-color) !important;
+  --mdc-filled-button-container-color: none !important;
+  --mat-stepper-container-color: var(--secondary-light-bg-color) !important;
+  --mat-datepicker-toggle-icon-color: var(--primary-light-text-color) !important;
+  --mdc-dialog-container-color: var(--bg-specific-light) !important;
+  --mdc-filled-text-field-input-text-color: var(--primary-light-text-color) !important;
+  --mdc-checkbox-unselected-icon-color: var(--primary-light-text-color) !important;
+  --mat-option-selected-state-label-text-color: var(--specific-light-text-color) !important;
+  --mdc-chip-elevated-container-color: var(--bg-specific-light) !important;
+  --mdc-filled-text-field-input-text-placeholder-color: var(--primary-light-text-color) !important;
+  --mat-expansion-header-indicator-color: var(--primary-light-text-color) !important;
+}

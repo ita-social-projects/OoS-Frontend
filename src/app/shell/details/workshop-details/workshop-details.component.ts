@@ -1,80 +1,238 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from '../../../shared/constants/constants';
-import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { DetailsTabTitlesEnum, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
-import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
-import { Role, EntityType } from '../../../shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus } from '../../../shared/enum/workshop';
-import { ImgPath } from '../../../shared/models/carousel.model';
-import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
-import { ImagesService } from '../../../shared/services/images/images.service';
-import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
-import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
-import { AddNavPath } from '../../../shared/store/navigation.actions';
-import { ResetAchievements } from '../../../shared/store/provider.actions';
-import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { Actions, ofAction, Store } from '@ngxs/store';
+import { EMPTY } from 'rxjs';
+import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { WINDOW } from 'ngx-window-token';
+
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { CategoryIcons } from 'shared/enum/category-icons';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { Role } from 'shared/enum/role';
+import { WorkshopDraftStatus, WorkshopOpenStatus, WorkshopType } from 'shared/enum/workshop';
+import { Provider, ProviderParameters } from 'shared/models/provider.model';
+import { Workshop, WorkshopDraft } from 'shared/models/workshop.model';
+import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import {
+  ArchiveWorkshopById,
+  DeleteWorkshopDraftById,
+  GetWorkshopDraftIdByWorkshopId,
+  OnArchiveWorkshopFail,
+  OnArchiveWorkshopSuccess,
+  OnDeleteDraftFail,
+  OnDeleteWorkshopDraftSuccess,
+  OnDraftSendForModerationFail,
+  OnDraftSendForModerationSuccess,
+  ResetAchievements,
+  WorkshopDraftSendForModeration
+} from 'shared/store/provider.actions';
+import { GetProviderById, GetWorkshopDraftById } from 'shared/store/shared-user.actions';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Util } from 'shared/utils/utils';
+import { isRoleProvider } from 'shared/utils/provider.utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { TabParamsComponent } from '../details-tabs/tab-params.component';
 
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
   styleUrls: ['./workshop-details.component.scss']
 })
-export class WorkshopDetailsComponent implements OnInit, OnDestroy {
-  readonly categoryIcons = CategoryIcons;
-  readonly recruitmentStatusEnum = RecruitmentStatusEnum;
-  readonly workshopStatus = WorkshopOpenStatus;
-  readonly workshopTitles = DetailsTabTitlesEnum;
+export class WorkshopDetailsComponent extends TabParamsComponent implements OnInit, OnDestroy {
+  @Input()
+  public role: Role;
+  @Input()
+  public workshop: Workshop | WorkshopDraft;
+  @Input()
+  public provider: Provider;
+  @Input()
+  public isMobileScreen: boolean;
+  @Input()
+  public displayActionCard: boolean;
+  @Input()
+  public currentProvider: Provider;
 
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  public readonly categoryIcons = CategoryIcons;
+  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly workshopTitles = DetailsTabTitlesEnum;
+  public readonly WorkshopDraftStatus = WorkshopDraftStatus;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Role = Role;
+  public readonly InfoMenuType = InfoMenuType;
+  public readonly modalType = ModalConfirmationType;
 
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
-
-  workshopStatusOpen: boolean;
-  selectedIndex: number;
-  tabIndex: number;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  images: ImgPath[] = [];
-  providerParameters: ProviderParameters = {
+  public providerParameters: ProviderParameters = {
     providerId: '',
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private imagesService: ImagesService,
-    private store: Store,
-    private navigationBarService: NavigationBarService
-  ) {}
+  public isImageBroken: boolean = false;
+  public workshopStatusOpen: boolean;
+  public coverImage: string;
+  public isAgeRestricted: boolean;
 
-  ngOnInit(): void {
-    this.providerParameters.excludedWorkshopId = this.workshop.id;
+  protected readonly Util = Util;
+  protected readonly ModalConfirmationType = ModalConfirmationType;
+  protected readonly isRoleProvider = isRoleProvider;
+
+  constructor(
+    @Inject(WINDOW) protected window: Window,
+    protected readonly route: ActivatedRoute,
+    protected readonly router: Router,
+    private readonly imagesService: ImagesService,
+    private readonly store: Store,
+    private readonly navigationBarService: NavigationBarService,
+    private readonly dialog: MatDialog,
+    private readonly actions$: Actions
+  ) {
+    super(window, route, router);
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+    this.providerParameters.excludedWorkshopId = this.workshop.id ? this.workshop.id : '';
     this.providerParameters.providerId = this.workshop.providerId;
     this.getWorkshopData();
 
-    this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
+    this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open && !(this.workshop as WorkshopDraft).draftStatus;
 
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params['status']);
-      this.selectedIndex = this.tabIndex;
+    this.isAgeRestricted = !(this.workshop.minAge === 0 && this.workshop.maxAge === 120);
+  }
+
+  public onImageError(): void {
+    this.isImageBroken = true;
+    this.coverImage = this.imagesService.getDefaultCoverImage();
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetAchievements());
+  }
+
+  public onActionButtonClick(type: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type
+      }
     });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          if (type === ModalConfirmationType.draftSet) {
+            this.store.dispatch(new WorkshopDraftSendForModeration((this.workshop as WorkshopDraft).workshopDraftId));
+
+            return this.actions$.pipe(
+              ofAction(OnDraftSendForModerationSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnDraftSendForModerationFail))),
+              tap(() => this.store.dispatch(new GetWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId)))
+            );
+          }
+
+          if (type === ModalConfirmationType.archiveWorkshop) {
+            this.store.dispatch(new ArchiveWorkshopById((this.workshop as Workshop).id));
+            return this.actions$.pipe(
+              ofAction(OnArchiveWorkshopSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnArchiveWorkshopFail))),
+              tap(() => this.router.navigate(['/personal-cabinet/provider/workshops']))
+            );
+          }
+
+          if (type === ModalConfirmationType.deleteDraft) {
+            this.store.dispatch(new DeleteWorkshopDraftById((this.workshop as WorkshopDraft).workshopDraftId));
+            return this.actions$.pipe(
+              ofAction(OnDeleteWorkshopDraftSuccess),
+              take(1),
+              takeUntil(this.actions$.pipe(ofAction(OnDeleteDraftFail))),
+              tap(() =>
+                this.router.navigate(['/personal-cabinet/provider/drafts'], {
+                  queryParams: {
+                    tab: 'workshops'
+                  }
+                })
+              )
+            );
+          }
+
+          return EMPTY;
+        })
+      )
+      .subscribe();
+  }
+
+  public onEdit(): void {
+    const workshopId = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.paramMap.get('entity') === WorkshopType.WorkshopDraft) {
+      this.router.navigate(['/create/workshop/draft', workshopId]);
+    } else {
+      this.store.dispatch(new GetWorkshopDraftIdByWorkshopId(workshopId));
+    }
+  }
+
+  protected initTabs(): void {
+    this.tabs = [
+      {
+        alias: 'AboutWorkshop',
+        labelKey: this.workshopTitles.AboutWorkshop,
+        visible: true
+      },
+      {
+        alias: 'AboutProvider',
+        labelKey: this.workshopTitles.AboutProvider,
+        visible: true
+      },
+      {
+        alias: 'Teachers',
+        labelKey: this.workshopTitles.Teachers,
+        visible: true
+      },
+      {
+        alias: 'OtherWorkshops',
+        labelKey: this.workshopTitles.OtherWorkshops,
+        visible: true
+      },
+      {
+        alias: 'Reviews',
+        labelKey: this.workshopTitles.Reviews,
+        visible: this.role !== Role.unauthorized && this.workshop instanceof Workshop
+      },
+      {
+        alias: 'Achievements',
+        labelKey: this.workshopTitles.Achievements,
+        visible: this.store.selectSnapshot(MetaDataState.featuresList).achievementManagement
+      },
+      {
+        alias: 'Contacts',
+        labelKey: this.workshopTitles.Contacts,
+        visible: true
+      },
+      {
+        alias: 'Images',
+        labelKey: this.workshopTitles.Images,
+        visible: true
+      }
+    ].filter((tab) => tab.visible);
   }
 
   private getWorkshopData(): void {
-    this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.coverImage = this.imagesService.getCoverImage(this.workshop);
     this.store.dispatch([
-      new GetProviderById(this.workshop.providerId),
+      new GetProviderById(
+        Util.containsWorkshopOrCompetitionDetails(this.workshop) ? this.workshop.workshopDetails.providerId : this.workshop.providerId
+      ),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
@@ -87,18 +245,5 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         )
       )
     ]);
-  }
-
-  onTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesParams[event.index] }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new ResetAchievements());
   }
 }

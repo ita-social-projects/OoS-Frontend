@@ -1,0 +1,105 @@
+@use '@angular/material' as mat;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$custom-dark-palette: mat.define-palette(
+  (
+    50: #fafcff,
+    100: #f5f8ff,
+    200: #eaeff7,
+    300: #c0c0c0,
+    400: #b8b5b5,
+    500: #eaeaff,
+    600: #575757,
+    700: #0c0c10,
+    800: #0e0b0b,
+    900: #0c0c10,
+    A100: #333fed,
+    A200: #2832e0,
+    A400: #1d24d5,
+    A700: #0000c5,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$primary-dark-palette: mat.define-palette($custom-dark-palette, 500, 100, 900);
+$accent-palette: mat.define-palette(mat.$deep-orange-palette);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $custom-dark-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+  )
+);
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+  --mat-sidenav-content-background-color: var(--primary-light-bg-color) !important;
+  --mdc-elevated-card-container-color: var(--secondary-light-bg-color) !important;
+  --mat-standard-button-toggle-background-color: var(--bg-light-additional) !important;
+  --mat-table-background-color: var(--secondary-light-bg-color) !important;
+  --mat-table-row-item-label-text-color: var(--specific-light-text-color) !important;
+  --mat-menu-container-color: var(--bg-light-additional) !important;
+  --mat-stepper-container-color: var(--secondary-light-bg-color) !important;
+  --mdc-dialog-container-color: var(--bg-specific-light) !important;
+  --mat-select-panel-background-color: var(--bg-specific-light) !important;
+  --mdc-filled-text-field-input-text-placeholder-color: var(--primary-light-text-color) !important;
+
+  --primary-light-bg-color: #02164e;
+  --secondary-light-bg-color: #032480;
+  --bg-specific-light: #244a99;
+  --bg-light-additional: #244a99;
+  --specific-bg-button: #fafcff;
+  --specific-text-color: #fafcff;
+  --secondary-light-text-color: #ece5e5;
+  --primary-dark-text-color: #fafcff;
+  --light-text-button: #1a69f3;
+  --list-text-color: #494545;
+  --body-color: #02164e;
+  --primary-accent-color: #4786f5;
+  --autofill-text-color: #5f5f61;
+  --bg-disabled-button: #7e7b7b;
+  --error-color: #ff3125;
+  --disabled-btn-color: #fafcff;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--specific-light-text-color);
+  }
+
+  .unfinished-banner {
+    background-color: var(--banner-color);
+  }
+
+  .chip {
+    &-color {
+      &-draft {
+        color: var(--specific-light-text-color) !important;
+      }
+    }
+  }
+}

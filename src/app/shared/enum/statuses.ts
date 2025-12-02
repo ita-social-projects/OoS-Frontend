@@ -21,7 +21,7 @@ export enum UserStatuses {
   Blocked = 'Blocked'
 }
 
-// Statuses for Applications
+// Statuses for Provider Applications
 export enum ApplicationStatuses {
   Pending = 'Pending',
   AcceptedForSelection = 'AcceptedForSelection',
@@ -29,7 +29,9 @@ export enum ApplicationStatuses {
   StudyingForYears = 'StudyingForYears',
   Completed = 'Completed',
   Rejected = 'Rejected',
-  Left = 'Left'
+  Left = 'Left',
+  Banned = 'Banned',
+  PendingModeration = 'PendingModeration'
 }
 
 // Statuses for user Email Confirmation
@@ -47,5 +49,7 @@ export enum UserStatusIcons {
   Confrimed = 'fas fa-user-check',
   Blocked = 'fas fa-user-times',
   Editing = 'fas fa-user-edit',
-  Recheck = 'fas fa-user-edit'
+  Recheck = 'fas fa-user-edit',
+  PendingModeration = 'fas fa-user-clock',
+  EditedByModerator = 'fas fa-user-edit'
 }

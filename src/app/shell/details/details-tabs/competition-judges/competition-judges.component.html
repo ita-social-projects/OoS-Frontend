@@ -1,0 +1,6 @@
+<div class="card-wrapper" *ngIf="judges?.length; else isEmptyList">
+  <app-judge-card class="card" *ngFor="let judge of judges" [judge]="judge"> </app-judge-card>
+</div>
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noResultJudges"></app-no-result-card>
+</ng-template>

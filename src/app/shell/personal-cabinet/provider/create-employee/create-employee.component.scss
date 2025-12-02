@@ -1,0 +1,24 @@
+@use 'create-form-wrapper';
+@use 'create-form';
+@use 'buttons';
+@use 'validation-form';
+
+::ng-deep .dropdown-panel.create-admin {
+  max-height: 216px;
+}
+
+.wrapper-check-box {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.about-link {
+  color: var(--primary-accent-color);
+  font-weight: 300;
+}
+
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
+}

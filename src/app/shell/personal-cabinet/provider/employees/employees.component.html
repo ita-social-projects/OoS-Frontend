@@ -1,0 +1,93 @@
+<div class="users-wrapper">
+  <div class="search-container items-center">
+    <div class="search-bar flex flex-row box-border items-center justify-start content-center">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        #input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
+        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_RNOKPP_POSITION' | translate }}"
+        [matTooltipDisabled]="!isSmallMobileView" />
+    </div>
+
+    <ng-container *ngIf="role === Role.provider; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
+  </div>
+  <div class="tab-wrapper">
+    <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
+  </div>
+</div>
+
+<ng-template #UsersList let-users>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!officialEmployees">
+    <ng-container *ngIf="users?.length; else isEmptyList">
+      <div class="table-wrapper">
+        <app-users-list
+          [statusesTitles]="statusesTitles"
+          [users]="users"
+          [isEdit]="true"
+          [displayedColumns]="displayedColumns"
+          (delete)="onDelete($event)"
+          (block)="onBlockUnblock($event)"
+          (unblock)="onBlockUnblock($event)"
+          (update)="onUpdate($event)"
+          (sendInvitation)="onSendInvitation($event)">
+        </app-users-list>
+      </div>
+      <app-paginator
+        [totalEntities]="officialEmployees.totalAmount"
+        [currentPage]="currentPage"
+        [itemsPerPage]="filterParams.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noEmployees"></app-no-result-card>
+</ng-template>
+
+<ng-template #DeputyBtnViewTmpl>
+  <a [routerLink]="['/create-employee', employeeRole.admin]">
+    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+  </a>
+</ng-template>
+
+<ng-template #DeputyTableViewTmpl>
+  <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
+    <mat-tab label="{{ EmployeeTitles.Admin | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: officialEmployeesData }"></ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #ProviderViewBtnTmpl [ngSwitch]="tabIndex">
+  <ng-container *ngSwitchCase="0">
+    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
+      {{ 'BUTTONS.ADD' | translate }}
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #add="matMenu" class="header_menu">
+      <a [routerLink]="['/create-employee', employeeRole.deputy]">
+        <button mat-menu-item>{{ 'ENUM.EMPLOYEES_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
+      </a>
+      <a [routerLink]="['/create-employee', employeeRole.admin]">
+        <button mat-menu-item>{{ 'ENUM.EMPLOYEES_DECLINATION.EMPLOYEE_GENETIVE' | translate }}</button>
+      </a>
+    </mat-menu>
+  </ng-container>
+  <ng-container *ngSwitchCase="1">
+    <a [routerLink]="['/create-employee', employeeRole.deputy]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+    </a>
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
+    <a [routerLink]="['/create-employee', employeeRole.admin]">
+      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+    </a>
+  </ng-container>
+</ng-template>

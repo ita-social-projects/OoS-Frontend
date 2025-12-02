@@ -1,22 +1,25 @@
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChildFormComponent } from './child-form.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSelectModule } from '@angular/material/select';
 import { Component, Input } from '@angular/core';
-import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
-import { TranslateModule } from '@ngx-translate/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { ChildFormComponent } from './child-form.component';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
   let fixture: ComponentFixture<ChildFormComponent>;
+  let translate: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -33,6 +36,7 @@ describe('ChildFormComponent', () => {
         MatSelectModule,
         MatIconModule,
         MatChipsModule,
+        NgxsModule.forRoot([]),
         TranslateModule.forRoot()
       ],
       declarations: [ChildFormComponent, MockValidationHintForInputComponent, KeyFilterDirective]
@@ -53,12 +57,22 @@ describe('ChildFormComponent', () => {
       placeOfLiving: new FormControl(''),
       certificateOfBirth: new FormControl('')
     });
-
+    translate = TestBed.inject(TranslateService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should remove all chips when language changes', () => {
+    const mockChip = { remove: jest.fn() };
+
+    (component as any).chipSet = { _chips: [mockChip] };
+
+    translate.use('uk');
+
+    expect(mockChip.remove).toHaveBeenCalled();
   });
 });
 
@@ -68,8 +82,8 @@ describe('ChildFormComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
 }

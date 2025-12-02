@@ -1,23 +1,39 @@
-@import 'src/app/shared/styles/create-form.scss';
-@import 'src/app/shared/styles/validation-form.scss';
-@import 'src/app/shared/styles/dropdown.scss';
+@use 'create-form';
+@use 'validation-form';
+@use 'dropdown';
 
-:host ::ng-deep .mat-form-field-wrapper,
-:host ::ng-deep .mat-form-field-infix {
+:host ::ng-deep .mat-mdc-form-field-wrapper {
   padding: 0;
   border: none;
   vertical-align: sub;
-  padding: 0.2rem;
+  height: 40px;
   width: auto;
 }
+
+:host ::ng-deep .mdc-text-field {
+  padding: 0.2rem;
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding: 0.2rem !important;
+  border: none;
+  vertical-align: sub;
+  width: auto;
+  .additional-text {
+    height: 14px;
+    line-height: 14px;
+  }
+}
+
 .input-filter {
   text-transform: capitalize;
-  font-family: 'Innerspace';
-  color: #000000;
-  font-size: 1.125rem;
+  font-family: 'Innerspace', sans-serif;
+  color: var(--primary-dark-text-color) !important;
+  font-size: 1.125rem !important;
   line-height: 1.25rem;
-  font-weight: 500;
+  font-weight: 500 !important;
 }
+
 .additional-text {
   opacity: 0.5;
   margin: 0;
@@ -27,22 +43,24 @@
 h4 {
   margin-bottom: 1rem;
 }
+
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--input-light-color);
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
 }
 
 .input-wrapper {
-  padding: 0.5rem 0;
+  padding: 3px 0;
 }
 
 .option-sub-text {
-  color: #161414;
+  color: var(--primary-dark-text-color);
   opacity: 0.6;
   font-size: 14px;
+
   &:hover {
     background-color: transparent;
   }
@@ -59,20 +77,22 @@ h4 {
 
 .city-confirmation {
   position: absolute;
-  color: #444444;
+  color: var(--primary-dark-text-color);
   width: 300px;
   min-height: 130px;
   border-radius: 10px;
   box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
-  background: #fff;
+  background: var(--bg-specific-light);
   padding: 10px;
   z-index: 1000;
   top: 20px;
+
   p {
     text-align: center;
     font-size: 19px;
     margin-bottom: 0;
     line-height: 1.3rem;
+
     span {
       font-weight: 700;
     }
@@ -80,48 +100,58 @@ h4 {
 
   .mat-icon {
     cursor: pointer;
+
     &:hover {
-      color: #3849f9;
+      color: var(--primary-accent-color);
     }
   }
+
   &_button {
     width: auto;
     margin-top: 25px;
+
     .button {
-      color: white;
-      background-color: #3849f9;
-      border: 1px solid #3849f9;
+      color: var(--specific-light-text-color);
+      background-color: var(--primary-light-bg-color);
+      border: 1px solid var(--primary-light-bg-color);
       box-sizing: border-box;
       border-radius: 20px;
       padding: 0 30px;
       margin: 0 auto;
+
       &-change {
-        color: #444444 !important;
+        color: var(--primary-dark-text-color) !important;
         background-color: transparent !important;
-        border-color: #444444 !important;
+        border-color: var(--primary-dark-text-color) !important;
       }
     }
   }
+
+  @media (max-width: 930px) {
+    margin-left: 30px;
+  }
 }
+
 .city-confirmation::before {
   content: '';
   position: absolute;
   left: 46%;
   width: 32px;
   height: 15px;
-  background: #fff;
+  background: var(--primary-light-bg-color);
   top: -14px;
   clip-path: polygon(50% 0, 0 100%, 100% 100%);
 }
+
 // TO DO mobile view ...
 @media (max-width: 750px) {
   .confirmation {
     position: absolute;
     width: 100%;
     display: flex;
-    justify-content: center;
     right: 0;
   }
+
   .city-confirmation::before {
     left: 10%;
   }
@@ -136,5 +166,18 @@ h4 {
 @media (max-width: 375px) {
   .city-confirmation::before {
     left: 25%;
+  }
+}
+
+::ng-deep .city-filter-option {
+  .mdc-list-item__primary-text {
+    font-size: 16px !important;
+  }
+  .option-sub-text {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
 }

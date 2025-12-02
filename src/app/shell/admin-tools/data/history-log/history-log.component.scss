@@ -1,7 +1,7 @@
-@import 'src/app/shared/styles/navigation-tabs.scss';
-@import 'src/app/shared/styles/buttons.scss';
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/search.scss';
+@use 'navigation-tabs';
+@use 'buttons';
+@use 'list-wrappers';
+@use 'search';
 
 .users-wrapper {
   position: relative;
@@ -17,11 +17,14 @@
 
 .search {
   padding-left: 10px;
+  background-color: transparent;
+  color: var(--primary-dark-text-color);
 }
 
 .search-area {
   position: static;
   display: flex;
+  max-height: 40px;
 }
 
 .filters-wrapper {
@@ -38,6 +41,7 @@
     margin-bottom: 1rem;
     justify-content: space-between;
   }
+
   .filters-wrapper {
     margin-bottom: 20px;
   }

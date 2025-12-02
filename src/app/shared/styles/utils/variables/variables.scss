@@ -1,0 +1,116 @@
+// To see how colors change in dark mode, go to the `.dark-theme` file.
+// also there are some redefinitions for built-in variables .light-theme` file
+
+:root {
+  // Primary accent color for buttons, links, etc. – changes
+  --primary-accent-color: #fafcff;
+
+  // Error color for validation messages, etc. – changes
+  --error-color: #cf3636;
+
+  // Background color for the body – changes in dark theme
+  --body-color: #1a69f3;
+
+  // Main text color on dark backgrounds – changes in dark theme
+  --primary-light-text-color: #fafcff;
+
+  // Secondary text color – doesn't change in dark theme
+  --secondary-light-text-color: #aaaaaa;
+
+  // Secondary text color – changes
+  --specific-text-color: #1a69f3;
+
+  // Additional lighter text color – doesn't change in dark theme
+  --additional-light-text-color: #d5d5d5;
+
+  // Static light text color - doesn’t change in dark theme
+  --specific-light-text-color: #fafcff;
+
+  // Primary grey color for text/buttons – doesn't change in dark theme
+  --cancel-text-color: #444444;
+
+  // Secondary grey color for text/buttons  – doesn't change in dark theme
+  --secondary-cancel-text-color: #494545b9;
+
+  // Disabled grey color for text/buttons – doesn't change in dark theme
+  --disabled-text-color: #6e6e6e;
+
+  // Background color autofilled inputs – changes in dark theme
+  --autofill-text-color: #e8f0fe;
+
+  // Text color for text/list – changes in dark theme
+  --list-text-color: #272425;
+
+  // Border/text/bg color for input fields – doesn't change in dark theme
+  --input-light-color: #e3e3e3;
+
+  // Primary dark text color – changes in dark theme
+  --primary-dark-text-color: #000000;
+
+  // Secondary dark text color – doesn't change in dark theme
+  --secondary-dark-text-color: #000000;
+
+  // Background color for dark theme – doesn't change in dark theme
+  --primary-dark-bg-color: #000000;
+
+  // Background color for light theme – changes in dark theme
+  --primary-light-bg-color: #1a69f3;
+
+  // Secondary background color in light theme – doesn't change in dark theme
+  --secondary-light-bg-color: rgba(49, 120, 244, 1);
+
+  // Additional light background – changes in dark theme
+  --bg-light-additional: #228bff;
+
+  // Color used for info banners – doesn't change in dark theme
+  --banner-color: #e5e6f1;
+
+  // Background for disabled components – doesn't change in dark theme
+  --bg-disabled: #c1c1c1;
+
+  // Background for cancel buttons/texts – doesn't change in dark theme
+  --bg-cancel-color: #444444;
+
+  // Specific white background – changes in dark theme
+  --bg-specific-light: #fafcff;
+
+  // Background for primary buttons - doesn't change in dark theme
+  --bg-button: #fafcff;
+
+  // Color for disabled button - changes
+  --disabled-btn-color: #1a69f3;
+
+  // Background for specific buttons – changes in dark theme
+  --specific-bg-button: #1a69f3;
+
+  // White text color for spesific buttons – changes
+  --light-text-button: #fafcff;
+
+  // Text color for specific buttons – doesn't change in dark theme
+  --specific-text-button: #1a69f3;
+
+  // Background for disabled buttons – doesn't change in dark theme
+  --bg-disabled-button: #dddcdc;
+
+  --selected-working-hours-toggle: rgba(64, 70, 133, 0.7);
+
+  --button-toggle-color: lighten(#1a69f3, 25%);
+
+  // upload-excel.component styles
+  --duplicated-value: #fd0707b3;
+  --empty-field: #fd07071a;
+  --wrong-length: #0d138980;
+  --wrong-language: #22b01280;
+  --wrong-format: #ffff0080;
+  --length-warning-message: #ff0000;
+
+  // applications statuses colors
+  --status-approved: #2aff8a;
+  --status-pending: #ffd048;
+  --status-recheck: #ff8000;
+  --status-blocked: #ff3125;
+  --status-not-provided: #2a2525;
+  --status-accepted-for-selection: #fafcff;
+
+  --chip-color: #e0e0e0;
+}

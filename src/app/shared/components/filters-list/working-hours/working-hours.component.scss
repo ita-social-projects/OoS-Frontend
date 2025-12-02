@@ -1,11 +1,13 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'buttons';
+@use 'validation-form';
+@use 'working-hours';
 
 .filter-text {
   margin: 0 1rem 0 0;
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-weight: 700;
   line-height: 14.6px;
-  color: #444444;
+  color: var(--primary-light-text-color);
 }
 .title {
   margin-top: 24px;
@@ -22,26 +24,40 @@
   margin-bottom: 0;
 }
 
+.time-input-wrapper {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .time-input {
-  border: 1px solid #e3e3e3;
-  background-color: #ffffff;
+  border: 1px solid var(--input-light-color);
+  background-color: var(--primary-light-bg-color);
+  color: var(--primary-light-text-color);
   box-sizing: border-box;
+  position: relative;
   border-radius: 21px;
   padding: 0.5rem;
   max-height: 34px;
+  max-width: 114px;
   text-align: center;
 }
+
 :host ::ng-deep .mat-form-field {
   max-width: 150px !important;
 }
+
 :host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+
+:host ::ng-deep .mat-form-field-appearance .mat-form-field-infix {
   padding: 0 !important;
 }
 
@@ -49,11 +65,12 @@
   height: 40px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #ebebeb;
-  background: #ffffff;
+  border: 1px solid var(--input-light-color);
+  color: var(--primary-light-text-color);
+  background: var(--primary-light-bg-color);
   &-selected {
-    background: rgba(56, 73, 249, 0.07);
-    border: 1px solid #3849f9;
+    background: rgba(162, 169, 195, 0.7);
+    border: 1px solid var(--primary-accent-color);
   }
   &:first-child {
     border-top-left-radius: 25px;
@@ -68,39 +85,92 @@
     opacity: 0.8;
   }
 }
-::ng-deep.mat-dialog-container {
+
+::ng-deep .mat-mdc-dialog-container {
   [mat-dialog-actions] {
     display: flex;
     justify-content: center !important;
   }
 }
+
 .btn {
   min-width: 150px;
-  margin: 0 0 0.5rem 0;
 }
+
+.btn-cancel {
+  color: var(--specific-text-color) !important;
+  border: 1px solid var(--specific-text-color) !important;
+  background: transparent;
+}
+
+.btn-add {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+}
+
 ::ng-deep .mat-toolbar.mat-primary {
-  background-color: #3849f9 !important;
+  background-color: var(--primary-accent-color) !important;
 }
+
 ::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
 }
 
-.time-input:hover + .clear-time {
+.time-input:focus + .clear-time {
   visibility: visible;
 }
+
 .clear-time {
   cursor: pointer;
   visibility: hidden;
   position: absolute;
   font-size: 18px;
-  color: #adadad;
+  color: var(--secondary-light-text-color);
   top: 8px;
-  left: 114px;
+  left: 85px;
 }
+
 .clear-time:hover {
   visibility: visible;
 }
+
 .check-boxes {
   margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    flex-direction: column !important;
+  }
+
+  .filter-text {
+    min-width: 20px;
+  }
+
+  .from-filter-text {
+    margin-bottom: 10px;
+  }
+}
+
+.time-input.ng-invalid.ng-touched,
+.redBorder {
+  outline: none;
+  border: 1px solid var(--error-color);
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: var(--error-color);
+}
+
+mat-error {
+  margin-top: 8px;
+}
+
+.datepicker-icon {
+  color: var(--primary-light-text-color);
 }

@@ -1,16 +1,25 @@
-@import 'src/app/shared/styles/buttons.scss';
+@use 'buttons';
 
 .cropped-image {
   max-width: 100%;
 }
 small.warning {
   display: block;
-  color: red;
+  color: var(--error-color);
   font-size: 10px;
 }
 .image-cropper-wrapper {
   min-height: 50vh;
 }
-.btn-wrapper {
-  padding-bottom: 2rem;
+
+.btn-wrapper .btn {
+  background-color: var(--specific-bg-button) !important;
+  color: var(--light-text-button) !important;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-wrapper .btn:last-child {
+  border: 1px solid var(--primary-dark-text-color) !important;
+  color: var(--primary-dark-text-color) !important;
+  background-color: transparent !important;
 }

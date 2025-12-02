@@ -1,24 +1,35 @@
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateInfoFormComponent } from './create-info-form.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Component, Input } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
-import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, State, Store } from '@ngxs/store';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { ValidationConstants } from 'shared/constants/validation';
+import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { ProviderStatuses } from 'shared/enum/statuses';
+import { Institution } from 'shared/models/institution.model';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
+import { MetaDataStateModel } from 'shared/store/meta-data.state';
+import { CreateInfoFormComponent } from './create-info-form.component';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
   let fixture: ComponentFixture<CreateInfoFormComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -34,7 +45,7 @@ describe('CreateInfoFormComponent', () => {
         MatGridListModule,
         MatIconModule,
         BrowserAnimationsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockMetaDataState]),
         TranslateModule.forRoot(),
         MatDialogModule
       ],
@@ -45,39 +56,173 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
-    component.InfoFormGroup = new FormGroup({
-      fullTitle: new FormControl(''),
-      shortTitle: new FormControl(''),
-      edrpouIpn: new FormControl(''),
-      director: new FormControl(''),
-      directorDateOfBirth: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      email: new FormControl(''),
-      typeId: new FormControl(null),
-      ownership: new FormControl(null),
-      institution: new FormControl(''),
-      institutionType: new FormControl(''),
-      license: new FormControl(''),
-      founder: new FormControl(''),
-      institutionStatusId: new FormControl(''),
-    });
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('getters', () => {
+    it('should return correct ownership type control', () => {
+      expect(component.ownershipTypeControl).toEqual(component.infoFormGroup.get('ownership'));
+    });
+
+    it('should return correct edrpou/ipn type control', () => {
+      expect(component.edrpouTypeControl).toEqual(component.infoFormGroup.get('edrpou'));
+    });
+
+    it('should return correct edrpou/ipn label', () => {
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
+      expect(component.edrpouLabel).toEqual('FORMS.LABELS.EDRPO');
+
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Private);
+      expect(component.edrpouLabel).toEqual('FORMS.LABELS.IPN');
+    });
+
+    it('should return correct edrpou/ipn length', () => {
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
+      expect(component.edrpouLength).toEqual(ValidationConstants.EDRPOU_LENGTH);
+
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Private);
+      expect(component.edrpouLength).toEqual(ValidationConstants.IPN_LENGTH);
+    });
+  });
+
+  describe('ownershipTypeControl valueChanges subscription', () => {
+    const mockEdrpou = '123456789012345678901234567890123';
+
+    it('should update edrpouTypeControl value if ownership type is state or common', () => {
+      component.ngOnInit();
+      component.edrpouTypeControl.setValue(mockEdrpou, { emitEvent: false });
+      jest.spyOn(component.edrpouTypeControl, 'setValue');
+
+      component.ownershipTypeControl.setValue(OwnershipTypes.State);
+      component.ownershipTypeControl.setValue(OwnershipTypes.Common);
+
+      expect(component.edrpouTypeControl.setValue).toHaveBeenCalled();
+      expect(component.edrpouTypeControl.value).toEqual(mockEdrpou.substring(0, ValidationConstants.EDRPOU_LENGTH));
+    });
+
+    it('should not update edrpouTypeControl value if ownership type is not state or common', () => {
+      component.ngOnInit();
+      component.edrpouTypeControl.setValue('1234567890', { emitEvent: false });
+      jest.spyOn(component.edrpouTypeControl, 'setValue');
+
+      component.ownershipTypeControl.setValue('anything else');
+
+      expect(component.edrpouTypeControl.setValue).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('compareInstitutions', () => {
+    let institution1: Institution;
+    let institution2: Institution;
+
+    beforeEach(() => {
+      institution1 = { id: '1', title: 'Institution 1', numberOfHierarchyLevels: 0 };
+      institution2 = { id: '1', title: 'Institution 1', numberOfHierarchyLevels: 0 };
+    });
+
+    it('should return true if institutions have the same id', () => {
+      const result = component.compareInstitutions(institution1, institution2);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if institutions have different ids', () => {
+      institution2.id = '2';
+
+      const result = component.compareInstitutions(institution1, institution2);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('initData', () => {
+    let mockProvider: Provider;
+
+    beforeEach(() => {
+      mockProvider = {
+        ownership: OwnershipTypes.State,
+        fullTitle: '',
+        shortTitle: '',
+        email: '',
+        edrpou: '',
+        director: '',
+        directorDateOfBirth: '',
+        phoneNumber: '',
+        founder: '',
+        status: ProviderStatuses.Approved,
+        userId: '',
+        legalAddress: null,
+        institution: null,
+        institutionType: InstitutionTypes.Complex,
+        providerSectionItems: [],
+        coverImage: null,
+        coverImageId: ''
+      };
+    });
+
+    it('should initialize institution statuses', () => {
+      jest.spyOn(store, 'dispatch');
+
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
+      expect(component.infoFormGroup.get('institutionStatusId').value).toEqual(mockInstitutionStatuses[0].id);
+    });
+
+    it('should activate edit mode if provider is provided', () => {
+      component.provider = mockProvider;
+      jest.spyOn(store, 'dispatch');
+
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith(new ActivateEditMode(true));
+    });
+  });
 });
+
+const mockInstitutionStatuses = [
+  { id: 1, name: 'Status 1' },
+  { id: 2, name: 'Status 2' }
+];
 
 @Component({
   selector: 'app-validation-hint',
   template: ''
 })
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() minMaxDate: boolean;
-  @Input() isTouched: boolean;
-  @Input() isPhoneNumber: boolean;
+  @Input() public validationFormControl: FormControl;
+  @Input() public minCharacters: number;
+  @Input() public maxCharacters: number;
+  @Input() public minMaxDate: boolean;
+  @Input() public isTouched: boolean;
+  @Input() public isPhoneNumber: boolean;
+  @Input() public isEdrpou: boolean;
 }
+
+@State<MetaDataStateModel>({
+  name: 'metaDataState',
+  defaults: {
+    directions: [],
+    socialGroups: [],
+    institutionStatuses: mockInstitutionStatuses,
+    providerTypes: [],
+    achievementsTypes: [],
+    rating: undefined,
+    isLoading: false,
+    featuresList: undefined,
+    institutions: [],
+    institutionFieldDesc: [],
+    instituitionsHierarchyAll: [],
+    instituitionsHierarchy: [],
+    editInstituitionsHierarchy: [],
+    codeficatorSearch: [],
+    codeficator: undefined
+  }
+})
+@Injectable()
+class MockMetaDataState {}

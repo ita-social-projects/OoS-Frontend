@@ -1,3 +1,5 @@
+# Trigger extracts the commit timestamp as _COMMIT_DATE_RAW from $(commit.commit.committer.date) event payload
+# and uses bash variable expansion to convert it to _COMMIT_DATE as ${_COMMIT_DATE_RAW//:/-}
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'sh'
@@ -9,19 +11,20 @@ steps:
           production: true,
           stsServer: '$_STS_SERVER',
           serverUrl: '$_API_SERVER',
-          storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
+          storageUrl: '$_IMAGE_URL'
         };
         EOF
   # Build the container image
-  - name: 'gcr.io/k8s-skaffold/pack'
+  - name: 'buildpacksio/pack'
     entrypoint: 'pack'
     args:
       - build
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA
+      - --tag=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA-${_COMMIT_DATE}
       - --cache-image=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-cache:front
-      - --builder=paketobuildpacks/builder:base
-      - --buildpack=paketo-buildpacks/web-servers
-      - --buildpack=gcr.io/paketo-buildpacks/environment-variables
+      - --builder=paketobuildpacks/builder-jammy-base:latest
+      - --buildpack=docker.io/paketobuildpacks/web-servers
+      - --buildpack=docker.io/paketobuildpacks/environment-variables
       - --env=BP_NODE_RUN_SCRIPTS=build:qa
       - --env=BPE_APP_ROOT=/workspace
       - --env=BP_INCLUDE_FILES=dist/out-of-school/*:nginx.conf:includes/*
@@ -96,3 +99,6 @@ availableSecrets:
   secretManager:
   - versionName: $_GITHUB_DEPLOY
     env: 'SSH'
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true

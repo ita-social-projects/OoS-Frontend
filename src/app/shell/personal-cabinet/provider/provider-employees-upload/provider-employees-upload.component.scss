@@ -1,0 +1,12 @@
+@use 'src/app/shared/base-components/upload-excel/upload-excel.component.scss';
+@use 'list-wrappers';
+@use 'buttons';
+
+.add-wrapper {
+  margin: 0;
+}
+
+.errors-menu {
+  width: 100%;
+  margin-top: 2rem;
+}

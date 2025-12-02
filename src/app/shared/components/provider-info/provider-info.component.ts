@@ -1,75 +1,97 @@
-import { LicenseStatuses } from './../../enum/statuses';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
-import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
-import { GetInstitutionStatuses } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { Constants } from '../../constants/constants';
-import { ActivateEditMode } from '../../store/app.actions';
-import { DataItem } from '../../models/item.model';
+
+import { Constants } from 'shared/constants/constants';
+import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { LicenseStatuses } from 'shared/enum/statuses';
+import { DataItem } from 'shared/models/item.model';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { GetInstitutionStatuses } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
-  styleUrls: ['./provider-info.component.scss'],
+  styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-  
-  readonly ownershipTypes = OwnershipTypes;
-  readonly ownershipTypesEnum = OwnershipTypesEnum;
-  readonly institutionTypes = InstitutionTypes;
-  readonly institutionTypesEnum = InstitutionTypesEnum;
-  readonly licenseStatusEnum = LicenseStatusEnum;
-  readonly licenseStatuses = LicenseStatuses;
+  @Input() public isProviderView: boolean;
 
-  editLink: string = CreateProviderSteps[0];
-
-  @Input() provider: Provider;
-  @Input() isProviderView: boolean;
-
-  @Output() tabChanged = new EventEmitter();
-  @Output() closeInfo = new EventEmitter();
+  @Output() public tabChanged = new EventEmitter();
+  @Output() public closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<DataItem[]>;
-  institutionStatusName: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public institutionStatuses$: Observable<DataItem[]>;
+  @Select(RegistrationState.role)
+  public role$: Observable<Role>;
 
-  constructor(private store: Store) {}
+  public readonly constants = Constants;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
+  public readonly licenseStatusEnum = LicenseStatusEnum;
+  public readonly licenseStatuses = LicenseStatuses;
+  public readonly Role = Role;
 
-  ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatuses());
-    this.institutionStatuses$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(
-        (institutionStatuses: DataItem[]) =>
-          (this.institutionStatusName = institutionStatuses.find(
-            (item: DataItem) => item.id === this.provider.institutionStatusId
-          ).name)
-      );
+  public role: Role;
+  public institutionStatusName: string;
+  public editLink: string = CreateProviderSteps[0];
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public _provider: Provider;
+  private lastInstitutionStatuses: DataItem[] = [];
+
+  constructor(private readonly store: Store) {}
+
+  public get provider(): Provider {
+    return this._provider;
   }
 
-  onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  @Input()
+  public set provider(value: Provider) {
+    this._provider = value;
+    this.updateInstitutionStatusName();
+  }
+
+  public ngOnInit(): void {
+    this.store.dispatch(new GetInstitutionStatuses());
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
+    this.institutionStatuses$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((statuses) => {
+      this.lastInstitutionStatuses = statuses;
+      this.updateInstitutionStatusName();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.editLink = CreateProviderSteps[tabChangeEvent.index];
     this.tabChanged.emit(tabChangeEvent);
   }
 
-  onCloseInfo(): void {
+  public onCloseInfo(): void {
     this.closeInfo.emit();
   }
 
-  onActivateEditMode(): void {
+  public onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  private updateInstitutionStatusName(): void {
+    if (!this._provider || !this.lastInstitutionStatuses?.length) {
+      return;
+    }
+    const status = this.lastInstitutionStatuses.find((s) => s.id === this._provider.institutionStatusId);
+    this.institutionStatusName = status?.name ?? '';
   }
 }

@@ -1,0 +1,51 @@
+[class^='chip-'] {
+  font-family: Innerspace, sans-serif;
+  font-size: 11px;
+}
+
+.chip {
+  margin-left: 1rem;
+
+  &-color {
+    &-open,
+    &-close,
+    &-draft,
+    &-pending,
+    &-rejected,
+    &-edited,
+    &-tag {
+      font-family: Innerspace, sans-serif;
+      font-weight: bold;
+      color: var(--specific-light-text-color);
+      padding: 7px;
+      border-radius: 16px;
+    }
+
+    &-open {
+      background-color: #99cd56;
+    }
+
+    &-close,
+    &-rejected {
+      background-color: var(--error-color);
+    }
+
+    &-draft {
+      background-color: var(--primary-light-bg-color);
+      color: var(--specific-light-text-color);
+    }
+
+    &-pending {
+      background-color: orange;
+    }
+
+    &-edited {
+      background-color: rgba(208, 141, 8, 1);
+    }
+
+    &-tag {
+      color: black;
+      background-color: var(--chip-color);
+    }
+  }
+}

@@ -1,12 +1,13 @@
-@import 'src/app/shared/styles/dropdown.scss';
-@import 'src/app/shared/styles/calendar.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use 'dropdown';
+@use 'calendar';
+@use 'buttons';
+@use 'create-form';
 
 .form-wrapper {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+  align-items: center;
   row-gap: 10px;
-
   flex-wrap: wrap;
 }
 
@@ -26,9 +27,14 @@
     font-size: 14px;
     align-self: center;
     line-height: 14.6px;
-    color: #444444;
+    color: var(--primary-light-text-color);
     font-weight: 700;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
+  }
+
+  mat-datepicker-toggle {
+    pointer-events: all;
+    color: var(--primary-dark-text-color);
   }
 }
 
@@ -40,16 +46,41 @@
 .select,
 .date {
   min-width: 100px;
-  background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  background: var(--bg-specific-light);
+  color: var(--primary-dark-text-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
+  align-items: center;
+
+  ::ng-deep {
+    .mat-mdc-button-touch-target {
+      width: 40px;
+      height: 40px;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      padding-left: 16px;
+    }
+
+    .mat-date-range-input-container {
+      margin-top: 10px;
+    }
+
+    .mdc-floating-label {
+      top: 18px;
+      width: 100%;
+      &--float-above {
+        transform: translateY(-90%) scale(0.75);
+      }
+    }
+  }
 }
 
 :host ::ng-deep .date {
   width: 100%;
   max-width: 250px;
-  padding: 0.35rem 1rem 0.35rem;
+  padding: 0 16px 0 3px;
 
   .mat-form-field-flex {
     background-color: transparent;
@@ -67,6 +98,10 @@
   height: 40px;
 }
 
+.date-range {
+  color: var(--primary-dark-text-color) !important;
+}
+
 .select,
 .options {
   padding: 0.5rem 1rem;
@@ -77,12 +112,18 @@
   border: 0;
 }
 
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix {
   padding: 0;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
+}
+
+:host ::ng-deep .select-form-field {
+  .mat-form-field-infix {
+    padding: 0;
+  }
 }
 
 .btn {
@@ -102,9 +143,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   cursor: pointer;
-
   margin-left: 15px;
 
   &:hover {
@@ -114,12 +153,13 @@
   &__icon {
     transform: rotateY(180deg) rotate(45deg);
     overflow: visible;
+    color: var(--primary-light-text-color);
   }
+
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-
-    color: #444444;
+    color: var(--primary-light-text-color);
   }
 }
 
@@ -133,7 +173,7 @@
 
 @media (max-width: 1300px) {
   .filters-wrapper {
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
     row-gap: 10px;
   }
@@ -143,6 +183,7 @@
   .form-wrapper {
     justify-content: center;
   }
+
   .filters-wrapper {
     justify-content: center;
   }
@@ -156,6 +197,7 @@
       margin: 0 0 5px 10px;
     }
   }
+
   .separate-line {
     position: relative;
     top: 10px;

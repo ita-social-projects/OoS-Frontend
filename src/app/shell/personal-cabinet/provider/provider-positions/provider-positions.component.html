@@ -1,0 +1,158 @@
+<div class="users-wrapper">
+  <div class="search-area">
+    <div class="search-bar flex flex-row box-border items-center justify-start content-center">
+      <mat-icon class="search-icon mt-2" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_TITLE' | translate }}" />
+    </div>
+    <div class="select-create-container">
+      <a [routerLink]="['/create-position', ModeConstants.NEW]">
+        <button class="btn !mx-0" mat-raised-button>{{ 'BUTTONS.ADD_POSITION' | translate }}</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="mt-[20px]">
+  <ng-container *ngIf="dataSource.data.length; else emptyResult">
+    <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort appStretchTable (matSortChange)="sortData($event)">
+        <ng-container matColumnDef="fullName" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="fullName">{{ 'FORMS.LABELS.FULL_TITLE' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.fullName"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.fullName }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>{{ 'TITLES.DESCRIPTION' | translate }}</th>
+          <td mat-cell class="overflow" *matCellDef="let element">
+            <div
+              [matTooltip]="element.description"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.description }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="shortName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.shortName"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.shortName }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="rate">{{ 'FORMS.LABELS.RATE' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.rate"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.rate | decimal }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tariff">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="tariff">{{ 'FORMS.LABELS.TARIFF' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.tariff"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.tariff | decimal }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="seatsAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="seatsAmount">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.seatsAmount === validationConstants.UNLIMITED_SEATS ? ('UNLIMITED' | translate) : element.seatsAmount"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.seatsAmount === validationConstants.UNLIMITED_SEATS ? ('UNLIMITED' | translate) : element.seatsAmount }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">{{ 'FORMS.LABELS.CREATED_AT' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [matTooltip]="element.createdAt | date: 'dd.MM.yy HH:mm'"
+              showTooltipIfTruncated
+              matTooltipClass="tooltip"
+              [matTooltipPosition]="tooltipPosition"
+              class="tab-text">
+              {{ element.createdAt | date: 'dd.MM.yy HH:mm' }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="icon-button" [matMenuTriggerFor]="actions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #actions="matMenu" class="header_menu">
+              <button mat-menu-item (click)="onDelete(element)">{{ 'BUTTONS.DELETE' | translate }}</button>
+              <a [routerLink]="['/create-position', element.id]">
+                <button mat-menu-item>{{ 'BUTTONS.EDIT' | translate }}</button>
+              </a>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div class="paginator">
+      <app-paginator
+        [totalEntities]="totalElements"
+        [currentPage]="currentPage"
+        [itemsPerPage]="positionParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #emptyResult>
+  <div class="table-wrapper">
+    <app-no-result-card [title]="NoResultsTitle.noResult"></app-no-result-card>
+  </div>
+</ng-template>

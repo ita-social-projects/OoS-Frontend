@@ -1,3 +1,14 @@
-@import 'src/app/shared/styles/list-wrappers.scss';
-@import 'src/app/shared/styles/card-wrapper.scss';
-@import 'src/app/shared/styles/buttons.scss';
+@use 'list-wrappers';
+@use 'card-wrapper';
+@use 'buttons';
+@use 'create-form';
+
+.unfinished-banner {
+  background-color: var(--bg-specific-light);
+}
+
+@media (max-width: 800px) {
+  .searchbar {
+    justify-content: center;
+  }
+}

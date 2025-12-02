@@ -1,0 +1,8 @@
+<mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false" [selectedIndex]="selectedTab" (selectedTabChange)="onTabChange($event)">
+  <mat-tab [label]="'ENUM.NAV_BAR_NAME.WORKSHOPS' | translate">
+    <app-workshop-drafts [role]="role" [provider]="provider"></app-workshop-drafts>
+  </mat-tab>
+  <mat-tab [label]="'ENUM.NAV_BAR_NAME.COMPETITIONS' | translate">
+    <app-competition-drafts [role]="role" [provider]="provider"></app-competition-drafts>
+  </mat-tab>
+</mat-tab-group>

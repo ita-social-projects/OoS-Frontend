@@ -1,52 +1,61 @@
 .paginator {
   margin-bottom: 2rem;
 }
+
 .page {
-  font-family: Innerspace;
+  font-family: Innerspace, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  color: #444444;
   pointer-events: none;
   padding: 1rem;
   min-width: 20px !important;
 
+  .mat-icon {
+    margin: 0;
+  }
+
   &-selected {
-    color: #3849f9;
+    color: var(--selected-working-hours-toggle);
   }
 }
+
 .arrow,
 .page-selected,
 .page-unselected {
   pointer-events: all;
 }
+
 .arrow:hover {
-  color: #3849f9;
+  color: var(--primary-accent-color);
 }
+
 .page-selected:hover,
 .page-unselected:hover,
 .arrow:hover {
   cursor: pointer;
   opacity: 0.5;
 }
+
 .step-input {
   max-width: 50px;
   max-height: 100px;
   overflow: visible;
   text-align: center;
+  display: flex;
 }
-:host::ng-deep .mat-select-placeholder,
+
+:host::ng-deep .mat-mdc-select-placeholder,
 .dropdown-option {
-  font-weight: 500;
   text-align: center;
   max-width: 100px;
   height: 2.1rem;
-  color: rgba(0, 0, 0, 0.87);
 }
+
 :host::ng-deep .mat-select-arrow:hover {
-  opacity: 0, 5;
-  color: #3849f9;
+  opacity: 0.5;
+  color: var(--primary-accent-color);
 }
 
 @media (max-width: 750px) {
@@ -54,6 +63,16 @@
     flex-direction: column;
   }
 }
-::ng-deep .custom-overlay-panel {
-  transform: translate(-1rem, 1.5rem) !important;
+
+::ng-deep .paginator-panel {
+  min-width: 65px !important;
+  text-align: center;
+
+  .mdc-list-item__primary-text {
+    margin: 0;
+    padding: 0 !important;
+    width: 100%;
+    font-weight: 400;
+    color: var(--primary-light-text-color);
+  }
 }

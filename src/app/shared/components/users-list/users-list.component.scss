@@ -1,4 +1,4 @@
-@import 'src/app/shared/styles/tables.scss';
+@use 'tables';
 .statuses {
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
@@ -17,6 +17,10 @@
   color: #c72a21;
 }
 
+.right-border {
+  border-right: 1px solid #e0e0e0;
+}
+
 .tab-text {
   white-space: nowrap;
   overflow: hidden;
@@ -26,6 +30,10 @@
   max-width: 50px;
 }
 
-:host ::ng-deep .mat-icon-button{
+:host ::ng-deep .mat-icon-button {
   width: auto !important;
+}
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 8px 0;
 }

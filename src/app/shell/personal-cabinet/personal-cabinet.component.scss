@@ -1,1 +1,23 @@
-@import 'src/app/shared/styles/cabinet.scss';
+@use 'cabinet';
+
+:host::ng-deep {
+  .mat-mdc-tab-link-container {
+    padding-top: 12px;
+  }
+
+  .mat-badge-overlap.mat-badge-after .mat-badge-content {
+    background-color: #f5bc4a;
+    margin: 0;
+    bottom: 22px;
+    right: 0;
+    left: auto;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    line-height: 15px;
+  }
+}
+
+::ng-deep .mat-mdc-tab-link .mdc-tab__content .mdc-tab__text-label {
+  color: var(--cancel-text-color);
+}

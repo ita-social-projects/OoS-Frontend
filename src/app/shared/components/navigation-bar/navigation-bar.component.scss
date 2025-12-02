@@ -16,12 +16,14 @@
 
     li {
       list-style: none;
+      color: var(--additional-light-text-color);
     }
   }
 
   .is_active {
-    color: #888888;
+    color: var(--specific-light-text-color);
     pointer-events: none;
+    font-weight: bolder;
   }
 
   .hide {
@@ -29,10 +31,8 @@
   }
 
   .pathLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    line-height: 1;
+    font-family: 'Innerspace', serif;
     .mat-icon {
       transform: translateY(10%);
     }

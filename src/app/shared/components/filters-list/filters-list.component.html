@@ -1,21 +1,46 @@
 <div [ngClass]="isMobileView ? 'side-nav-filter' : 'filters-wrapper'">
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
-      <mat-icon class="matFilter">delete_forever</mat-icon>
-      {{ 'CLEAR_FILTERS' | translate }}
+  <div class="flex flex-row justify-between">
+    <button mat-raised-button class="reset-filter" (click)="onFilterReset()">
+      <div class="flex">
+        <i class="mat-filter"></i>
+        <span>{{ 'CLEAR_FILTERS' | translate }}</span>
+      </div>
     </button>
     <ng-container *ngIf="isMobileView">
-      <button mat-button (click)="changeView()">
+      <button mat-icon-button (click)="changeView()">
         <mat-icon>close</mat-icon>
       </button>
     </ng-container>
   </div>
   <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
-  <app-category-check-box [slectedDirectionIds]="filterList.directionIds"></app-category-check-box>
+  <app-category-check-box [directionsSelected]="formDirectionData()"></app-category-check-box>
   <app-age-filter [ageFilter]="filterList.ageFilter"></app-age-filter>
   <app-working-hours [workingHours]="filterList.workingHours"></app-working-hours>
   <app-price-filter [priceFilter]="filterList.priceFilter"></app-price-filter>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
+    <p class="filter-text">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</p>
+    <ng-container *ngFor="let formControl of formOfLearningControls | keyvalue: Util.keyValueNumericSorting">
+      <mat-checkbox class="check-boxes__item" color="primary" [formControl]="formControl.value">
+        {{ FormOfLearningEnum[formControl.key] | translate }}
+      </mat-checkbox>
+    </ng-container>
+  </div>
+  <div>
+    <p class="filter-text title">{{ 'FORMS.LABELS.TEACHING_LANGUAGE' | translate }}</p>
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-select
+        [formControl]="LanguageOfEducationControl"
+        panelClass="dropdown-panel select-with-form-field"
+        class="step-input"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_LANGUAGE_OF_INSTRUCTION' | translate }}">
+        <mat-option [value]="null" class="dropdown-option"> {{ 'ALL' | translate }}</mat-option>
+        <mat-option *ngFor="let lang of languageList$ | async" [value]="lang.id" class="dropdown-option">
+          {{ lang.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'RECRUITMENT' | translate }}</p>
     <mat-checkbox class="check-boxes__item" color="primary" [formControl]="OpenRecruitmentControl">
       {{ 'OPEN_RECRUITMENT_ONLY' | translate }}
@@ -24,7 +49,7 @@
       {{ 'CLOSE_RECRUITMENT' | translate }}
     </mat-checkbox>
   </div>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <div class="check-boxes flex flex-col justify-start">
     <p class="filter-text">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</p>
     <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> {{ 'AVAILABLE' | translate }} </mat-checkbox>
   </div>
