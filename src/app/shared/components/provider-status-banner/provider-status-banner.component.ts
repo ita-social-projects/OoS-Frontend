@@ -10,7 +10,12 @@ import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/
 import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
-import { OnDeleteUnfinishedCompetition, OnDeleteUnfinishedWorkshop } from 'shared/store/provider.actions';
+import {
+  GetUnfinishedCompetitionTimeToLive,
+  GetUnfinishedWorkshopTimeToLive,
+  OnDeleteUnfinishedCompetition,
+  OnDeleteUnfinishedWorkshop
+} from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 
 @Component({
@@ -49,9 +54,11 @@ export class ProviderStatusBannerComponent implements OnInit, OnDestroy {
     this.setBannerOptions();
     if (this.mode === BannerMode.UnfinishedWorkshop) {
       this.hasUnfinishedEntityData$ = this.store.select(ProviderState.hasUnfinishedWorkshopData);
+      this.store.dispatch(new GetUnfinishedWorkshopTimeToLive());
       this.timeToLiveUnfinishedEntity$ = this.store.select(ProviderState.getTimeToLiveUnfinishedWorkshop);
     } else if (this.mode === BannerMode.UnfinishedCompetition) {
       this.hasUnfinishedEntityData$ = this.store.select(ProviderState.hasUnfinishedCompetitionData);
+      this.store.dispatch(new GetUnfinishedCompetitionTimeToLive());
       this.timeToLiveUnfinishedEntity$ = this.store.select(ProviderState.getTimeToLiveUnfinishedCompetition);
     }
   }

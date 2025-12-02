@@ -2,6 +2,10 @@
 @use 'create-form';
 @use 'validation-form';
 
+.reason-area {
+  caret-color: var(--primary-dark-text-color) !important;
+}
+
 form.reject-form {
   width: 100%;
 }
